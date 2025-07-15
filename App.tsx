@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import type { QuizQuestion, ConfigOptions, PracticeType, AppView, VocabularyItem } from './types';
 import { LEVELS, TOPICS, WORD_COUNTS, QUESTION_COUNTS } from './constants';
@@ -6,7 +5,7 @@ import { generateStoryAndQuiz } from './services/geminiService';
 import Configurator from './components/Configurator';
 import Loader from './components/Loader';
 import BookOpenIcon from './components/icons/BookOpenIcon';
-import SoundWaveIcon from './components/icons/SoundWaveIcon';
+import HeadphonesIcon from './components/icons/HeadphonesIcon';
 import CheckCircleIcon from './components/icons/CheckCircleIcon';
 import XCircleIcon from './components/icons/XCircleIcon';
 import HomeIcon from './components/icons/HomeIcon';
@@ -102,14 +101,11 @@ const App: React.FC = () => {
             utterance.lang = 'en-US';
             utterance.onend = () => setIsSpeaking(false);
             utterance.onerror = (e: SpeechSynthesisErrorEvent) => {
-                // 'interrupted' is not a user-facing error. It happens when we programmatically call .cancel().
-                // We should not log it as an error or show an error message to the user.
                 if (e.error === 'interrupted') {
-                    setIsSpeaking(false); // Make sure state is updated
+                    setIsSpeaking(false);
                     return;
                 }
                 
-                // For all other errors, log them and show a user-friendly message.
                 console.error(`Speech synthesis error: ${e.error}`);
 
                 let userMessage = 'Could not play audio. Your browser may not support this feature.';
@@ -166,7 +162,7 @@ const App: React.FC = () => {
     const HomeButton = () => (
         <button
             onClick={resetApp}
-            className="absolute top-4 right-4 text-slate-500 hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-400 transition-colors z-10 p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-700"
+            className="absolute top-4 right-4 bg-red-600 hover:bg-red-700 text-white border-2 border-blue-500 hover:border-blue-400 transition-all z-10 p-2 rounded-full shadow-lg"
             aria-label="Go to home screen"
         >
             <HomeIcon className="w-6 h-6" />
@@ -187,7 +183,7 @@ const App: React.FC = () => {
                     onClick={() => setPracticeType('listening')}
                     className={`flex flex-col items-center justify-center p-5 rounded-lg border-2 transition-all duration-200 ${practiceType === 'listening' ? 'bg-blue-100 dark:bg-blue-900 border-blue-500' : 'bg-white dark:bg-slate-800 border-transparent hover:border-blue-400'}`}
                 >
-                    <SoundWaveIcon className="w-8 h-8 mb-2 text-blue-500" />
+                    <HeadphonesIcon className="w-8 h-8 mb-2 text-blue-500" />
                     <span className="font-semibold text-slate-800 dark:text-slate-200">Listening</span>
                 </button>
             </div>
@@ -308,7 +304,7 @@ const App: React.FC = () => {
             {isLoading && <Loader />}
             <header className="w-full max-w-4xl mx-auto mb-6 text-center">
                  <div className="flex justify-center items-center gap-4 mb-4">
-                    <UKFlagIcon className="w-20 h-20 rounded-lg shadow-md" />
+                    <UKFlagIcon className="w-28 h-28 rounded-lg shadow-md" />
                     <h1 className="text-4xl font-fun tracking-wide">
                         <span className="text-blue-800 dark:text-blue-400">Your daily </span>
                         <span className="text-red-600 dark:text-red-500">English Test!</span>
