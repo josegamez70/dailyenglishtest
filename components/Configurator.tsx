@@ -1,7 +1,6 @@
-
 import React from 'react';
 import type { ConfigOptions } from '../types';
-import { LEVELS, TOPICS, WORD_COUNTS, QUESTION_COUNTS } from '../constants';
+import { TOPICS, QUESTION_COUNTS } from '../constants'; // quitamos LEVELS y WORD_COUNTS
 
 interface ConfiguratorProps {
     config: ConfigOptions;
@@ -35,6 +34,21 @@ const Configurator: React.FC<ConfiguratorProps> = ({ config, setConfig, onGenera
         setConfig(prev => ({ ...prev, [field]: value }));
     };
 
+    // Opciones de dificultad forzadas
+    const LEVELS_FIXED = [
+        { value: 'basic', label: 'Basic' },
+        { value: 'beginner', label: 'Beginner' },
+        { value: 'intermediate', label: 'Intermediate' },
+        { value: 'advanced', label: 'Advanced' },
+    ];
+
+    // Opciones de Story Length forzadas
+    const WORD_COUNTS_FIXED = [
+        { value: 100, label: '100' },
+        { value: 150, label: '150' },
+        { value: 200, label: '200' },
+    ];
+
     return (
         <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -42,7 +56,7 @@ const Configurator: React.FC<ConfiguratorProps> = ({ config, setConfig, onGenera
                     label="Difficulty Level"
                     value={config.level}
                     onChange={(e) => handleConfigChange('level', e.target.value)}
-                    options={LEVELS}
+                    options={LEVELS_FIXED}
                 />
                 <SelectInput 
                     label="Story Topic"
@@ -54,7 +68,7 @@ const Configurator: React.FC<ConfiguratorProps> = ({ config, setConfig, onGenera
                     label="Story Length"
                     value={config.wordCount}
                     onChange={(e) => handleConfigChange('wordCount', parseInt(e.target.value))}
-                    options={WORD_COUNTS}
+                    options={WORD_COUNTS_FIXED}
                 />
                 <SelectInput 
                     label="Number of Questions"

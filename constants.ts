@@ -1,30 +1,25 @@
-// Archivo: constants.ts
-
 export const LEVELS = [
-    { value: 'Basic', label: 'Básico' },
-    { value: 'Beginner', label: 'Beginner' },
-    { value: 'Intermediate', label: 'Intermediate' },
-    { value: 'Advanced', label: 'Advanced' },
+    { value: 'basic', label: 'Basic' },
+    { value: 'beginner', label: 'Beginner' },
+    { value: 'intermediate', label: 'Intermediate' },
+    { value: 'advanced', label: 'Advanced' },
 ];
 
 export const TOPICS = [
-    { value: 'Fantasy', label: 'Fantasy' },
-    { value: 'Daily Life', label: 'Daily Life' },
-    { value: 'Travel', label: 'Travel' },
-    { value: 'School/College', label: 'School/College' },
-    { value: 'Science', label: 'Science' },
-    { value: 'Mystery', label: 'Mystery' },
-    { value: 'Adventure', label: 'Adventure' },
+    { value: 'fantasy', label: 'Fantasy' },
+    { value: 'science', label: 'Science' },
+    { value: 'history', label: 'History' },
+    { value: 'mystery', label: 'Mystery' },
 ];
 
 export const WORD_COUNTS = [
-    { value: 200, label: 'Short (~200 words)' },
-    { value: 400, label: 'Medium (~400 words)' },
-    { value: 600, label: 'Long (~600 words)' },
+    { value: 100, label: '100' },
+    { value: 150, label: '150' },
+    { value: 200, label: '200' },
 ];
 
 export const QUESTION_COUNTS = [
     { value: 5, label: '5 Questions' },
-    { value: 8, label: '8 Questions' },
     { value: 10, label: '10 Questions' },
+    { value: 15, label: '15 Questions' },
 ];
