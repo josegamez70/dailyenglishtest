@@ -142,7 +142,6 @@ const App: React.FC = () => {
         };
     }, [isSpeaking]);
 
-
     const renderContent = () => {
         switch (view) {
             case 'config':
@@ -242,8 +241,124 @@ const App: React.FC = () => {
         </>
     );
 
-    // QuizScreen y ResultsScreen no cambian
-    // ... (mantenemos igual el resto del código, como en tu archivo original)
+    const QuizScreen = () => {
+        const question = quiz[currentQuestionIndex];
+        return (
+            <div className="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-xl shadow-lg w-full max-w-2xl mx-auto relative">
+                <HomeButton />
+                <h2 className="text-2xl font-bold text-center mb-6 text-slate-800 dark:text-slate-100">
+                    {practiceType === 'reading' ? 'Reading Comprehension Quiz' : 'Listening Comprehension Quiz'}
+                </h2>
+                <div className="mb-4">
+                    <p className="text-sm text-slate-500 dark:text-slate-400">
+                        Question {currentQuestionIndex + 1} of {quiz.length}
+                    </p>
+                    <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2.5 mt-1">
+                        <div
+                            className="bg-blue-600 h-2.5 rounded-full transition-all"
+                            style={{ width: `${((currentQuestionIndex + 1) / quiz.length) * 100}%` }}
+                        ></div>
+                    </div>
+                </div>
+                <h3 className="text-xl md:text-2xl font-semibold mb-6 text-slate-800 dark:text-slate-100">{question.question}</h3>
+                <div className="space-y-3">
+                    {question.options.map((option, index) => (
+                        <button
+                            key={index}
+                            onClick={() => handleAnswerSelect(option)}
+                            className={`w-full text-left p-4 rounded-lg border-2 transition-colors ${
+                                userAnswers[currentQuestionIndex] === option
+                                    ? 'bg-blue-100 dark:bg-blue-900 border-blue-500'
+                                    : 'bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-600'
+                            }`}
+                        >
+                            {option}
+                        </button>
+                    ))}
+                </div>
+                <button
+                    onClick={handleNextQuestion}
+                    disabled={!userAnswers[currentQuestionIndex]}
+                    className="mt-8 w-full bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white font-bold py-3 px-4 rounded-lg text-lg"
+                >
+                    {currentQuestionIndex < quiz.length - 1 ? 'Next Question' : 'Finish Quiz'}
+                </button>
+            </div>
+        );
+    };
+
+    const ResultsScreen = () => {
+        const score = quiz.reduce(
+            (acc, question, index) => acc + (question.correctAnswer === userAnswers[index] ? 1 : 0),
+            0
+        );
+        const percentage = Math.round((score / quiz.length) * 100);
+
+        let feedback = 'Keep practicing!';
+        if (percentage >= 80) feedback = 'Excellent job!';
+        else if (percentage >= 50) feedback = 'Good effort!';
+
+        return (
+            <div className="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-xl shadow-lg w-full max-w-3xl mx-auto relative">
+                <HomeButton />
+                <h2 className="text-3xl font-bold text-center mb-2 text-slate-800 dark:text-slate-100">Quiz Complete!</h2>
+                <p className="text-center text-xl text-slate-600 dark:text-slate-300 mb-2">
+                    You scored {score} out of {quiz.length} ({percentage}%)
+                </p>
+                <p className="text-center text-lg font-semibold text-blue-600 dark:text-blue-400 mb-6">{feedback}</p>
+                <div className="space-y-4">
+                    {quiz.map((question, index) => {
+                        const userAnswer = userAnswers[index];
+                        const isCorrect = question.correctAnswer === userAnswer;
+                        return (
+                            <div
+                                key={index}
+                                className={`p-4 rounded-lg border ${
+                                    isCorrect
+                                        ? 'border-green-300 bg-green-50 dark:bg-green-900/50 dark:border-green-700'
+                                        : 'border-red-300 bg-red-50 dark:bg-red-900/50 dark:border-red-700'
+                                }`}
+                            >
+                                <p className="font-semibold text-slate-800 dark:text-slate-100 mb-2">
+                                    {index + 1}. {question.question}
+                                </p>
+                                <div className="flex items-center">
+                                    {isCorrect ? (
+                                        <CheckCircleIcon className="w-5 h-5 text-green-600 mr-2 flex-shrink-0" />
+                                    ) : (
+                                        <XCircleIcon className="w-5 h-5 text-red-600 mr-2 flex-shrink-0" />
+                                    )}
+                                    <p className="text-sm text-slate-700 dark:text-slate-300">Your answer: {userAnswer}</p>
+                                </div>
+                                {!isCorrect && (
+                                    <div className="flex items-center mt-1">
+                                        <CheckCircleIcon className="w-5 h-5 text-green-600 mr-2 flex-shrink-0" />
+                                        <p className="text-sm text-slate-700 dark:text-slate-300">
+                                            Correct answer: {question.correctAnswer}
+                                        </p>
+                                    </div>
+                                )}
+                            </div>
+                        );
+                    })}
+                </div>
+                <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
+                    <button
+                        onClick={resetApp}
+                        className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg text-xl transition-transform hover:scale-105"
+                    >
+                        Try Another
+                    </button>
+                    <button
+                        onClick={() => setView('story')}
+                        className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-8 rounded-lg text-xl transition-transform hover:scale-105"
+                    >
+                        Review Story
+                    </button>
+                </div>
+            </div>
+        );
+    };
 
     return (
         <div className="min-h-screen text-slate-800 dark:text-slate-200 flex flex-col items-center justify-center p-4 sm:p-6 lg:p-8 transition-colors duration-300">

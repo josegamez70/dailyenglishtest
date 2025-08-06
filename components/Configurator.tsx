@@ -1,6 +1,6 @@
 import React from 'react';
 import type { ConfigOptions } from '../types';
-import { TOPICS, QUESTION_COUNTS } from '../constants'; // quitamos LEVELS y WORD_COUNTS
+import { QUESTION_COUNTS } from '../constants'; // usamos solo question counts de constants
 
 interface ConfiguratorProps {
     config: ConfigOptions;
@@ -34,7 +34,7 @@ const Configurator: React.FC<ConfiguratorProps> = ({ config, setConfig, onGenera
         setConfig(prev => ({ ...prev, [field]: value }));
     };
 
-    // Opciones de dificultad forzadas
+    // Opciones fijas para Difficulty Level
     const LEVELS_FIXED = [
         { value: 'basic', label: 'Basic' },
         { value: 'beginner', label: 'Beginner' },
@@ -42,11 +42,22 @@ const Configurator: React.FC<ConfiguratorProps> = ({ config, setConfig, onGenera
         { value: 'advanced', label: 'Advanced' },
     ];
 
-    // Opciones de Story Length forzadas
+    // Opciones fijas para Topics
+    const TOPICS_FIXED = [
+        { value: 'fantasy', label: 'Fantasy' },
+        { value: 'daily_life', label: 'Daily Life' },
+        { value: 'school_college', label: 'School / College' },
+        { value: 'mystery', label: 'Mystery' },
+        { value: 'adventure', label: 'Adventure' },
+        { value: 'science', label: 'Science' },
+        { value: 'economy_finance', label: 'Economy / Finance' },
+    ];
+
+    // Opciones fijas para Story Length
     const WORD_COUNTS_FIXED = [
-        { value: 100, label: '100' },
-        { value: 150, label: '150' },
-        { value: 200, label: '200' },
+        { value: 100, label: '100 words' },
+        { value: 150, label: '150 words' },
+        { value: 200, label: '200 words' },
     ];
 
     return (
@@ -62,7 +73,7 @@ const Configurator: React.FC<ConfiguratorProps> = ({ config, setConfig, onGenera
                     label="Story Topic"
                     value={config.topic}
                     onChange={(e) => handleConfigChange('topic', e.target.value)}
-                    options={TOPICS}
+                    options={TOPICS_FIXED}
                 />
                 <SelectInput 
                     label="Story Length"
