@@ -13,6 +13,8 @@ export const TOPICS = [
     { value: 'adventure', label: 'Adventure' },
     { value: 'science', label: 'Science' },
     { value: 'economy_finance', label: 'Economy / Finance' },
+    { value: 'travel', label: 'Travel' },
+    { value: 'sports', label: 'Sports' },
 ];
 
 export const WORD_COUNTS = [

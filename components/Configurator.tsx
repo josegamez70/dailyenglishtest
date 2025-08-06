@@ -42,7 +42,7 @@ const Configurator: React.FC<ConfiguratorProps> = ({ config, setConfig, onGenera
         { value: 'advanced', label: 'Advanced' },
     ];
 
-    // Opciones fijas para Topics
+    // Opciones fijas para Topics (incluyendo Travel y Sports)
     const TOPICS_FIXED = [
         { value: 'fantasy', label: 'Fantasy' },
         { value: 'daily_life', label: 'Daily Life' },
@@ -51,6 +51,8 @@ const Configurator: React.FC<ConfiguratorProps> = ({ config, setConfig, onGenera
         { value: 'adventure', label: 'Adventure' },
         { value: 'science', label: 'Science' },
         { value: 'economy_finance', label: 'Economy / Finance' },
+        { value: 'travel', label: 'Travel' },
+        { value: 'sports', label: 'Sports' },
     ];
 
     // Opciones fijas para Story Length
