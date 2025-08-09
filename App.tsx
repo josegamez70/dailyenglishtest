@@ -99,7 +99,7 @@ const App: React.FC = () => {
         } else {
             const utterance = new SpeechSynthesisUtterance(story);
             utterance.lang = 'en-US';
-            utterance.rate = rate; // velocidad personalizada
+            utterance.rate = rate;
             utterance.onend = () => setIsSpeaking(false);
             utterance.onerror = (e: SpeechSynthesisErrorEvent) => {
                 if (e.error === 'interrupted') {
@@ -193,7 +193,9 @@ const App: React.FC = () => {
         <>
             <div className="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-xl shadow-lg w-full max-w-3xl mx-auto relative">
                 <HomeButton />
-                <h2 className="text-2xl font-bold mb-4 text-center text-slate-800 dark:text-slate-100">{practiceType === 'reading' ? 'Read the Story' : 'Listen to the Story'}</h2>
+                <h2 className="text-xl sm:text-2xl font-bold mb-4 text-center text-slate-800 dark:text-slate-100 leading-tight break-words whitespace-pre-line">
+                    {practiceType === 'reading' ? 'Read the\nStory' : 'Listen to the\nStory'}
+                </h2>
                 
                 {practiceType === 'listening' && (
                     <div className="mb-6 flex flex-col sm:flex-row gap-4 justify-center">
