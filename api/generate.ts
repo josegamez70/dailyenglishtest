@@ -1,8 +1,4 @@
 import type { Handler } from '@netlify/functions';
-import { GoogleGenerativeAI } from '@google/genai';
-
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY || '';
-const MODEL_NAME = 'gemini-1.5-flash'; // rápido y suficiente para este caso
 
 type GenResponse = {
   story: string;
@@ -24,14 +20,14 @@ function trimToMaxWords(text: string, maxWords: number): string {
 
 export const handler: Handler = async (event) => {
   try {
-    if (!GEMINI_API_KEY) {
-      throw new Error('Missing GEMINI_API_KEY in environment');
-    }
+    const API_KEY = process.env.API_KEY;
+    if (!API_KEY) throw new Error('Missing GEMINI_API_KEY in environment');
 
+    // Body desde el frontend: { prompt: JSON.stringify({ level, topic, wordCount, questionCount, vocabularyCount:10 }) }
     const body = JSON.parse(event.body || '{}');
     const promptStr = body.prompt || '{}';
 
-    // Los parámetros vienen como string JSON desde el frontend
+    // Parámetros
     let params: {
       level?: string;
       topic?: string;
@@ -42,33 +38,29 @@ export const handler: Handler = async (event) => {
     try {
       params = JSON.parse(promptStr);
     } catch {
-      // si viniera malformado, usamos defaults
       params = {};
     }
 
     const level = params.level || 'intermediate';
     const topic = params.topic || 'daily_life';
-    const target = Number(params.wordCount) || 150; // 100/150/200
+    const target = Number(params.wordCount) || 150; // 100 | 150 | 200
     const questionCount = Number(params.questionCount) || 5;
     const vocabularyCount = Number(params.vocabularyCount) || 10;
 
-    // Tolerancia ±10%
+    // Tolerancia ±10% (o mínimo 10 palabras)
     const tolerance = Math.max(10, Math.round(target * 0.1));
     const minWords = target - tolerance;
     const maxWords = target + tolerance;
 
-    const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
-    const model = genAI.getGenerativeModel({ model: MODEL_NAME });
-
-    // Prompt con requisitos claros y salida JSON estricta
+    // Prompt claro + salida JSON estricta
     const sysPrompt = `
 You are an English teacher. Create content for a ${level} student about "${topic}".
 Requirements:
-- Story length: BETWEEN ${minWords} AND ${maxWords} words (inclusive). Stay in range.
+- Story length: BETWEEN ${minWords} AND ${maxWords} words (inclusive). Stay within range.
 - Questions: exactly ${questionCount}, multiple choice with 4 options, include "correctAnswer".
-- Vocabulary: exactly ${vocabularyCount} keywords from the story with definitions.
-- Language: English, clear and level-appropriate.
-Output: ONLY JSON (no markdown fences, no commentary) with this schema:
+- Vocabulary: exactly ${vocabularyCount} keywords from the story with short definitions.
+- Language: English only.
+Output: ONLY JSON (no markdown fences) with this schema:
 {
   "story": "string",
   "quiz": [
@@ -78,17 +70,27 @@ Output: ONLY JSON (no markdown fences, no commentary) with this schema:
     { "word": "string", "definition": "string" }
   ]
 }
-If you cannot follow the constraints, rewrite and try again—do not refuse, just comply.
+If the story is out of range, rewrite and try again—do not refuse.
     `.trim();
 
-    const result = await model.generateContent({
-      contents: [{ role: 'user', parts: [{ text: sysPrompt }] }],
-      generationConfig: {
-        responseMimeType: 'application/json' // fuerza JSON plano
-      }
+    const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=' + API_KEY;
+
+    const resp = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ role: 'user', parts: [{ text: sysPrompt }] }],
+        generationConfig: { responseMimeType: 'application/json' } // fuerza JSON plano
+      })
     });
 
-    const text = result.response.text() || '{}';
+    if (!resp.ok) {
+      const t = await resp.text();
+      throw new Error(`Gemini API error: ${resp.status} ${resp.statusText} – ${t}`);
+    }
+
+    const data = await resp.json();
+    const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
 
     // Parse robusto
     let parsed: GenResponse;
@@ -96,23 +98,21 @@ If you cannot follow the constraints, rewrite and try again—do not refuse, jus
       parsed = JSON.parse(text);
     } catch {
       const match = text.match(/\{[\s\S]*\}$/);
-      if (!match) {
-        throw new Error('Model did not return valid JSON');
-      }
+      if (!match) throw new Error('Model did not return valid JSON');
       parsed = JSON.parse(match[0]);
     }
 
-    // Saneamos story y vocabulario por si se pasa del máximo
+    // Saneos:
+    // 1) Longitud de historia (si excede, recortamos al máximo permitido)
     if (parsed.story) {
       const wc = wordCountOf(parsed.story);
-      // Si excede el máximo, recortamos al máximo permitido
-      if (wc > maxWords) {
-        parsed.story = trimToMaxWords(parsed.story, maxWords);
-      }
-      // Si está por debajo del mínimo, lo aceptamos (el usuario pidió "más o menos"),
-      // pero podrías reintentar aquí si quisieras reforzar el mínimo.
+      if (wc > maxWords) parsed.story = trimToMaxWords(parsed.story, maxWords);
+      // si queda por debajo del mínimo, lo aceptamos como “más o menos”
+    } else {
+      parsed.story = '';
     }
 
+    // 2) Vocabulario: exactamente vocabularyCount
     if (Array.isArray(parsed.vocabulary)) {
       if (parsed.vocabulary.length > vocabularyCount) {
         parsed.vocabulary = parsed.vocabulary.slice(0, vocabularyCount);
@@ -121,9 +121,13 @@ If you cannot follow the constraints, rewrite and try again—do not refuse, jus
       parsed.vocabulary = [];
     }
 
-    // Aseguramos que hay exactamente questionCount preguntas (si se pasa, cortamos)
-    if (Array.isArray(parsed.quiz) && parsed.quiz.length > questionCount) {
-      parsed.quiz = parsed.quiz.slice(0, questionCount);
+    // 3) Quiz: asegurar número de preguntas máximo = questionCount
+    if (Array.isArray(parsed.quiz)) {
+      if (parsed.quiz.length > questionCount) {
+        parsed.quiz = parsed.quiz.slice(0, questionCount);
+      }
+    } else {
+      parsed.quiz = [];
     }
 
     return {
