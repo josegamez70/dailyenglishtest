@@ -6,11 +6,10 @@ type GenResponse = {
   vocabulary: { word: string; definition: string }[];
 };
 
-function wordCountOf(text: string): number {
+function wc(text: string): number {
   return text.trim().split(/\s+/).filter(Boolean).length;
 }
-
-function trimToMaxWords(text: string, maxWords: number): string {
+function trimTo(text: string, maxWords: number): string {
   const words = text.trim().split(/\s+/);
   if (words.length <= maxWords) return text.trim();
   let trimmed = words.slice(0, maxWords).join(' ').trim();
@@ -57,29 +56,27 @@ export const handler: Handler = async (event) => {
     const body = JSON.parse(event.body || '{}');
     const promptStr = body.prompt || '{}';
 
+    // params vienen como string JSON desde el frontend
     let params: {
       level?: string;
       topic?: string;
-      wordCount?: number;
+      wordCount?: number;         // 100 | 150 | 200 (no tocar Configurator)
       questionCount?: number;
-      vocabularyCount?: number;
+      vocabularyCount?: number;   // 10
     } = {};
-    try {
-      params = JSON.parse(promptStr);
-    } catch { params = {}; }
+    try { params = JSON.parse(promptStr); } catch { params = {}; }
 
     const level = params.level || 'intermediate';
     const topic = params.topic || 'daily_life';
-    const target = Number(params.wordCount) || 150;           // 100 | 150 | 200
+    const target = Number(params.wordCount) || 100;      // 100/150/200
     const questionCount = Number(params.questionCount) || 5;
     const vocabularyCount = Number(params.vocabularyCount) || 10;
 
-    // Rango permitido ±10% (mínimo 10 palabras)
-    const tolerance = Math.max(10, Math.round(target * 0.1));
-    const minWords = target - tolerance;
-    const maxWords = target + tolerance;
+    // margen estricto ±5 palabras
+    const minWords = target - 5;
+    const maxWords = target + 5;
 
-    const baseSchema = `
+    const schema = `
 {
   "story": "string",
   "quiz": [
@@ -92,63 +89,48 @@ export const handler: Handler = async (event) => {
 
     const basePrompt = `
 You are an English teacher. Create content for a ${level} student about "${topic}".
-Requirements:
-- Story length: BETWEEN ${minWords} AND ${maxWords} words (inclusive).
+HARD CONSTRAINTS:
+- Story length: target ${target} words (ACCEPTABLE RANGE: ${minWords}-${maxWords}). Count words strictly.
 - Questions: exactly ${questionCount}, multiple choice with 4 options, include "correctAnswer".
 - Vocabulary: exactly ${vocabularyCount} keywords from the story with short definitions.
-- Language: English only.
-Output: ONLY JSON (no markdown fences) with this schema:
-${baseSchema}
-If the story is out of range, rewrite and try again—do not refuse.
+OUTPUT: ONLY JSON (no markdown fences), matching this schema:
+${schema}
+If the story is out of range, adjust length and return JSON again (do not refuse).
 `.trim();
 
-    // 1º intento
+    // 1) primer intento
     let parsed: GenResponse = await callGeminiJSON(API_KEY, basePrompt);
 
-    // Longitud: si excede, recortamos; si es corta, reintentamos hasta 2 veces
-    let wc = wordCountOf(parsed.story || '');
-    let attempts = 0;
+    // 2) si queda fuera por abajo, reintenta hasta 4 veces; si se pasa por arriba, recorta
+    let count = wc(parsed.story || '');
+    let tries = 0;
 
-    while (wc < minWords && attempts < 2) {
-      // Reescritura para alcanzar el rango
+    while (count < minWords && tries < 4) {
       const rewritePrompt = `
-Rewrite the following story so that its length is BETWEEN ${minWords} AND ${maxWords} words (inclusive).
-Keep the same topic and level. Return ONLY JSON with the same schema as before.
-
-Original JSON:
-${JSON.stringify(parsed, null, 2)}
+Expand the story so its length is within ${minWords}-${maxWords} words (current: ${count}).
+Keep topic "${topic}" and ${level} level. Return FULL JSON (story, ${questionCount} questions, ${vocabularyCount} vocabulary items) with the same schema, no markdown.
+Current JSON:
+${JSON.stringify(parsed)}
 `.trim();
 
       parsed = await callGeminiJSON(API_KEY, rewritePrompt);
-      wc = wordCountOf(parsed.story || '');
-      attempts++;
+      count = wc(parsed.story || '');
+      tries++;
     }
 
-    if (wc > maxWords) {
-      parsed.story = trimToMaxWords(parsed.story || '', maxWords);
+    if (count > maxWords) {
+      parsed.story = trimTo(parsed.story || '', maxWords);
     }
 
-    // Normalizamos arrays
+    // normalización y cortes por arriba
     if (!Array.isArray(parsed.quiz)) parsed.quiz = [];
     if (!Array.isArray(parsed.vocabulary)) parsed.vocabulary = [];
+    if (parsed.quiz.length > questionCount) parsed.quiz = parsed.quiz.slice(0, questionCount);
+    if (parsed.vocabulary.length > vocabularyCount) parsed.vocabulary = parsed.vocabulary.slice(0, vocabularyCount);
 
-    // Cortes finales por arriba
-    if (parsed.quiz.length > questionCount) {
-      parsed.quiz = parsed.quiz.slice(0, questionCount);
-    }
-    if (parsed.vocabulary.length > vocabularyCount) {
-      parsed.vocabulary = parsed.vocabulary.slice(0, vocabularyCount);
-    }
-
-    return {
-      statusCode: 200,
-      body: JSON.stringify(parsed)
-    };
+    return { statusCode: 200, body: JSON.stringify(parsed) };
   } catch (err: any) {
     console.error('generate.ts error:', err?.message || err);
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: err?.message || 'Unknown error' })
-    };
+    return { statusCode: 500, body: JSON.stringify({ error: err?.message || 'Unknown error' }) };
   }
 };
