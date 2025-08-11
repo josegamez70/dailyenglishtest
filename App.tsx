@@ -122,7 +122,7 @@ const App: React.FC = () => {
    * - Limpieza de cola previa (cancel()).
    * - Desktop/laptop: onboundary (preciso) y fallback si no llega.
    * - Android: forzar fallback por tiempo (onboundary es poco fiable).
-   * - Fallback ajustado: 10% más rápido y pausas solo en . ! ? cerca de 1x.
+   * - Fallback ajustado: un poco MÁS RÁPIDO y pausas solo en . ! ?
    */
   const playSpeak = useCallback((rate: number = 1) => {
     if (!story) return;
@@ -145,28 +145,23 @@ const App: React.FC = () => {
       rate < 1.1 ? 190 :
       230;
 
-    // Afinado por velocidad: hace el fallback ligeramente más rápido
+    // Afinado por velocidad: hacemos el fallback un pelín MÁS rápido
     //  - a 0.5x: 0.92 (acelera ~8%)
     //  - a 1x:   0.98 (acelera ~2%)
-    //  - >1x:    1.00
+    //  - >1x:    1.00 (neutral)
     const tune =
       rate <= 0.6 ? 0.92 :
       rate < 1.1 ? 0.98 :
       1.0;
 
-    // --- Fallback por tiempo (10% más rápido respecto a la versión anterior) ---
+    // --- Fallback por tiempo (AJUSTADO) ---
     const startFallback = () => {
       let i = 0;
       setCurrentWordIndex(0);
 
-      const msPerWordBase = 60_000 / baseWpm;
+      const msPerWord = (60_000 / baseWpm) * tune;
 
-      // ⚡ 10% más rápido
-      const speedBoost = 0.90;
-
-      const msPerWord = msPerWordBase * tune * speedBoost;
-
-      // Mini-pausas SOLO al final de frase (. ! ?) cerca de 1x
+      // Mini-pausas SOLO al final de frase (. ! ?), y solo ~1x
       let extraHold = 0;
       highlightTimerRef.current = window.setInterval(() => {
         if (!isSpeakingRef.current) return;
@@ -185,7 +180,7 @@ const App: React.FC = () => {
 
         const lastChar = words[i - 1]?.slice(-1);
         if (rate >= 0.95 && rate <= 1.05 && /[.!?]/.test(lastChar || '')) {
-          extraHold = 1; // una pausa corta ≈ msPerWord
+          extraHold = 1; // una sola pausa corta
         }
       }, msPerWord) as unknown as number;
     };
@@ -206,7 +201,7 @@ const App: React.FC = () => {
         utterance.onerror = (e: any) => {
           clearHighlightTimer();
           const err = e?.error || '';
-          if (stoppedByUserRef.current || err === 'interrupted' || err === 'canceled') {
+          if (stoppedByUserRef.current || err === 'interrupted' || 'canceled') {
             setIsSpeaking(false);
             setCurrentWordIndex(null);
             return;
