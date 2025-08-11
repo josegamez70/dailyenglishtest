@@ -40,6 +40,11 @@ const App: React.FC = () => {
   const stoppedByUserRef = useRef(false);
   const highlightTimerRef = useRef<number | null>(null);
   const firstBoundaryHeardRef = useRef(false);
+  const isSpeakingRef = useRef(false);
+
+  useEffect(() => {
+    isSpeakingRef.current = isSpeaking;
+  }, [isSpeaking]);
 
   const handleGenerate = async () => {
     setIsLoading(true);
@@ -88,7 +93,7 @@ const App: React.FC = () => {
     setCurrentWordIndex(null);
     setError(null);
     utteranceRef.current = null;
-    // ventana corta para ignorar errores "interrupted/canceled"
+    // pequeña ventana para ignorar errores "interrupted/canceled"
     setTimeout(() => (stoppedByUserRef.current = false), 120);
   }, []);
 
@@ -115,7 +120,8 @@ const App: React.FC = () => {
   /**
    * Reproduce con:
    * - Limpieza de cola previa (cancel()).
-   * - Detección de onboundary. Si no llega en 900 ms, fallback por tiempo (WPM).
+   * - Desktop/laptop: onboundary (preciso) y fallback si no llega.
+   * - Android: forzar fallback por tiempo (onboundary es poco fiable).
    */
   const playSpeak = useCallback((rate: number = 1) => {
     if (!story) return;
@@ -132,22 +138,66 @@ const App: React.FC = () => {
     const words = story.split(/\s+/);
     // Heurística de velocidad (palabras/min) para fallback
     const wpm = rate <= 0.6 ? 110 : rate < 1.1 ? 180 : 220;
+    const isAndroid = /android/i.test(navigator.userAgent);
 
-    // Si no recibimos boundary en 900ms, activamos fallback por tiempo
-    const fallbackTimer = window.setTimeout(() => {
-      if (!firstBoundaryHeardRef.current) {
-        let i = 0;
-        setCurrentWordIndex(0);
-        const msPerWord = 60_000 / wpm;
-        highlightTimerRef.current = window.setInterval(() => {
-          if (!isSpeaking) return;
-          i++;
-          if (i >= words.length) {
-            clearHighlightTimer();
+    const startFallback = () => {
+      let i = 0;
+      setCurrentWordIndex(0);
+      const msPerWord = 60_000 / wpm;
+      highlightTimerRef.current = window.setInterval(() => {
+        if (!isSpeakingRef.current) return; // usamos ref para no capturar estado obsoleto
+        i++;
+        if (i >= words.length) {
+          clearHighlightTimer();
+          return;
+        }
+        setCurrentWordIndex(i);
+      }, msPerWord) as unknown as number;
+    };
+
+    // En Android: siempre modo fallback por tiempo
+    if (isAndroid) {
+      setTimeout(() => {
+        const utterance = new SpeechSynthesisUtterance(story);
+        utterance.lang = 'en-US';
+        utterance.rate = rate;
+
+        utterance.onend = () => {
+          clearHighlightTimer();
+          setIsSpeaking(false);
+          setCurrentWordIndex(null);
+        };
+
+        utterance.onerror = (e: any) => {
+          clearHighlightTimer();
+          const err = e?.error || '';
+          if (stoppedByUserRef.current || err === 'interrupted' || err === 'canceled') {
+            setIsSpeaking(false);
+            setCurrentWordIndex(null);
             return;
           }
-          setCurrentWordIndex(i);
-        }, msPerWord) as unknown as number;
+          setError('Could not play audio. Your browser may not support this feature.');
+          setIsSpeaking(false);
+          setCurrentWordIndex(null);
+        };
+
+        utteranceRef.current = utterance;
+        try {
+          window.speechSynthesis.speak(utterance);
+          setIsSpeaking(true);
+          startFallback();
+        } catch {
+          setError('Audio could not be generated. Please try again.');
+          setIsSpeaking(false);
+        }
+      }, 60);
+      return;
+    }
+
+    // Desktop/laptop → onboundary + fallback si no hay evento
+    const fallbackTimer = window.setTimeout(() => {
+      if (!firstBoundaryHeardRef.current) {
+        startFallback();
       }
     }, 900);
 
@@ -205,7 +255,7 @@ const App: React.FC = () => {
         setIsSpeaking(false);
       }
     }, 60);
-  }, [story, isSpeaking]);
+  }, [story]);
 
   useEffect(() => {
     return () => {
