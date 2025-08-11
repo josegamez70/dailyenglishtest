@@ -122,6 +122,7 @@ const App: React.FC = () => {
    * - Limpieza de cola previa (cancel()).
    * - Desktop/laptop: onboundary (preciso) y fallback si no llega.
    * - Android: forzar fallback por tiempo (onboundary es poco fiable).
+   * - Fallback con ralentización (~15%) y pausas en puntuación para 1x.
    */
   const playSpeak = useCallback((rate: number = 1) => {
     if (!story) return;
@@ -140,18 +141,41 @@ const App: React.FC = () => {
     const wpm = rate <= 0.6 ? 110 : rate < 1.1 ? 180 : 220;
     const isAndroid = /android/i.test(navigator.userAgent);
 
+    // --- Fallback por tiempo (AJUSTADO) ---
     const startFallback = () => {
       let i = 0;
       setCurrentWordIndex(0);
-      const msPerWord = 60_000 / wpm;
+
+      // Base ms por palabra según WPM
+      const baseMsPerWord = 60_000 / wpm;
+
+      // Ralentizar un poco para que no se adelante (ajusta 1.12–1.18 si hace falta)
+      const slowdown = rate >= 1 ? 1.15 : 1.0;
+      const msPerWord = baseMsPerWord * slowdown;
+
+      // Mini-pausas en puntuación para 1x
+      let extraHold = 0; // nº de ticks extra a esperar
       highlightTimerRef.current = window.setInterval(() => {
-        if (!isSpeakingRef.current) return; // usamos ref para no capturar estado obsoleto
+        if (!isSpeakingRef.current) return;
+
+        // si debemos “aguantar” un tick extra, lo hacemos sin avanzar palabra
+        if (extraHold > 0) {
+          extraHold--;
+          return;
+        }
+
         i++;
         if (i >= words.length) {
           clearHighlightTimer();
           return;
         }
         setCurrentWordIndex(i);
+
+        // si la palabra anterior termina en signo, metemos una mini-pausa (1 tick)
+        const lastChar = words[i - 1]?.slice(-1);
+        if (rate >= 1 && /[.,!?;:]/.test(lastChar || '')) {
+          extraHold = 1; // pausa ≈ msPerWord
+        }
       }, msPerWord) as unknown as number;
     };
 
