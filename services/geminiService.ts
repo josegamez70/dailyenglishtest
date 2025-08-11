@@ -6,16 +6,14 @@ export async function generateStoryAndQuiz(config: ConfigOptions): Promise<{
   vocabulary: VocabularyItem[];
 }> {
   try {
-    // Vocabulario fijo = 10
     const vocabularyCount = 10;
 
-    // Enviamos parámetros claros al backend
     const payload = {
       level: config.level,
       topic: config.topic,
       wordCount: config.wordCount,          // 100 | 150 | 200
-      questionCount: config.questionCount,  // nº preguntas
-      vocabularyCount                       // 10
+      questionCount: config.questionCount,  // nº de preguntas
+      vocabularyCount                        // 10 fijas
     };
 
     const response = await fetch('/api/generate', {

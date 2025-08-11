@@ -34,6 +34,10 @@ const App: React.FC = () => {
     const [isSpeaking, setIsSpeaking] = useState(false);
     const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
 
+    // Nuevo: transcript y resaltado
+    const [showTranscript, setShowTranscript] = useState(false);
+    const [currentWordIndex, setCurrentWordIndex] = useState<number | null>(null);
+
     const handleGenerate = async () => {
         setIsLoading(true);
         setError(null);
@@ -65,15 +69,15 @@ const App: React.FC = () => {
             setView('results');
         }
     };
-    
+
     const startQuiz = () => {
         setCurrentQuestionIndex(0);
         setView('quiz');
-         if (isSpeaking) {
+        if (isSpeaking) {
             window.speechSynthesis.cancel();
             setIsSpeaking(false);
         }
-    }
+    };
 
     const resetApp = () => {
         setView('config');
@@ -84,6 +88,8 @@ const App: React.FC = () => {
         setCurrentQuestionIndex(0);
         setError(null);
         setIsVocabularyModalOpen(false);
+        setShowTranscript(false);
+        setCurrentWordIndex(null);
         if (isSpeaking) {
             window.speechSynthesis.cancel();
             setIsSpeaking(false);
@@ -96,38 +102,40 @@ const App: React.FC = () => {
         if (isSpeaking) {
             window.speechSynthesis.cancel();
             setIsSpeaking(false);
+            setCurrentWordIndex(null);
         } else {
             const utterance = new SpeechSynthesisUtterance(story);
             utterance.lang = 'en-US';
             utterance.rate = rate;
-            utterance.onend = () => setIsSpeaking(false);
-            utterance.onerror = (e: SpeechSynthesisErrorEvent) => {
-                if (e.error === 'interrupted') {
-                    setIsSpeaking(false);
-                    return;
+
+            const words = story.split(/\s+/);
+
+            utterance.onboundary = (event) => {
+                if (event.name === 'word' || event.name === undefined) {
+                    const charIndex = event.charIndex;
+                    let count = 0;
+                    for (let i = 0; i < words.length; i++) {
+                        count += words[i].length + 1; // +1 por espacio
+                        if (count > charIndex) {
+                            setCurrentWordIndex(i);
+                            break;
+                        }
+                    }
                 }
-                console.error(`Speech synthesis error: ${e.error}`);
-                let userMessage = 'Could not play audio. Your browser may not support this feature.';
-                switch (e.error) {
-                    case 'not-allowed':
-                        userMessage = 'Audio permission denied. Please enable speech synthesis in your browser settings.';
-                        break;
-                    case 'language-unavailable':
-                        userMessage = 'The English (US) voice is not available on your device.';
-                        break;
-                    case 'synthesis-failed':
-                        userMessage = 'Audio could not be generated. Please try again.';
-                        break;
-                    case 'network':
-                        userMessage = 'A network error prevented audio from playing.';
-                        break;
-                    case 'audio-busy':
-                        userMessage = 'The audio device is busy. Please try again in a moment.';
-                        break;
-                }
-                setError(userMessage);
-                setIsSpeaking(false);
             };
+
+            utterance.onend = () => {
+                setIsSpeaking(false);
+                setCurrentWordIndex(null);
+            };
+
+            utterance.onerror = (e: SpeechSynthesisErrorEvent) => {
+                console.error(`Speech synthesis error: ${e.error}`);
+                setError('Could not play audio. Your browser may not support this feature.');
+                setIsSpeaking(false);
+                setCurrentWordIndex(null);
+            };
+
             utteranceRef.current = utterance;
             window.speechSynthesis.speak(utterance);
             setIsSpeaking(true);
@@ -156,7 +164,7 @@ const App: React.FC = () => {
                 return <ConfigScreen />;
         }
     };
-    
+
     const HomeButton = () => (
         <button
             onClick={resetApp}
@@ -188,7 +196,7 @@ const App: React.FC = () => {
             <Configurator config={config} setConfig={setConfig} onGenerate={handleGenerate} isLoading={isLoading} />
         </div>
     );
-    
+
     const StoryScreen = () => (
         <>
             <div className="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-xl shadow-lg w-full max-w-3xl mx-auto relative">
@@ -196,7 +204,7 @@ const App: React.FC = () => {
                 <h2 className="text-xl sm:text-2xl font-bold mb-4 text-center text-slate-800 dark:text-slate-100 leading-tight break-words whitespace-pre-line">
                     {practiceType === 'reading' ? 'Read the\nStory' : 'Listen to the\nStory'}
                 </h2>
-                
+
                 {practiceType === 'listening' && (
                     <div className="mb-6 flex flex-col sm:flex-row gap-4 justify-center">
                         <button 
@@ -211,12 +219,34 @@ const App: React.FC = () => {
                         >
                             Play at 0.5x
                         </button>
+                        <button
+                            onClick={() => setShowTranscript(!showTranscript)}
+                            className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-lg text-lg"
+                        >
+                            {showTranscript ? 'Hide Transcript' : 'Show Transcript'}
+                        </button>
                     </div>
                 )}
 
-                <div className={`prose prose-lg dark:prose-invert max-w-none text-slate-700 dark:text-slate-300 ${practiceType === 'listening' ? 'text-center italic' : 'text-left'}`}>
-                    {practiceType === 'reading' ? <p className="whitespace-pre-wrap">{story}</p> : <p>"{story.substring(0, 100)}..."</p>}
-                </div>
+                {/* Texto mostrado */}
+                {practiceType === 'reading' && (
+                    <p className="whitespace-pre-wrap">{story}</p>
+                )}
+                {practiceType === 'listening' && showTranscript && (
+                    <div className="mt-4">
+                        {story.split(' ').map((word, idx) => (
+                            <span
+                                key={idx}
+                                style={{
+                                    color: idx === currentWordIndex ? 'red' : 'inherit',
+                                    fontWeight: idx === currentWordIndex ? 'bold' : 'normal',
+                                }}
+                            >
+                                {word}{' '}
+                            </span>
+                        ))}
+                    </div>
+                )}
 
                 <div className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row-reverse justify-center items-center gap-4">
                     <button 
@@ -366,7 +396,7 @@ const App: React.FC = () => {
         <div className="min-h-screen text-slate-800 dark:text-slate-200 flex flex-col items-center justify-center p-4 sm:p-6 lg:p-8 transition-colors duration-300">
             {isLoading && <Loader />}
             <header className="w-full max-w-4xl mx-auto mb-6 text-center">
-                 <div className="flex justify-center items-center gap-4 mb-4">
+                <div className="flex justify-center items-center gap-4 mb-4">
                     <UKFlagIcon className="w-28 h-28 rounded-lg shadow-md" />
                     <h1 className="text-4xl font-fun tracking-wide">
                         <span className="text-blue-800 dark:text-blue-400">Your daily </span>
@@ -380,7 +410,7 @@ const App: React.FC = () => {
                     Hone your skills with AI-powered stories and quizzes.
                 </p>
             </header>
-            
+
             <main className="w-full">
                 {error && (
                     <div className="w-full max-w-2xl mx-auto bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg relative mb-6" role="alert">
