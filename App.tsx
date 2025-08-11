@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
-import Configurator from "./Configurator";
-import Loader from "./Loader";
-import VocabularyModal from "./VocabularyModal";
+import Configurator from "./components/Configurator";
+import Loader from "./components/Loader";
+import VocabularyModal from "./components/VocabularyModal";
 import { generateStoryAndQuiz } from "./services/geminiService";
 import type { ConfigOptions, QuizQuestion, VocabularyItem } from "./types";
 
