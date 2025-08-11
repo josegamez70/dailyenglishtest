@@ -34,7 +34,7 @@ const App: React.FC = () => {
     const [isSpeaking, setIsSpeaking] = useState(false);
     const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
 
-    // Nuevo: transcript y resaltado
+    // Transcript y resaltado
     const [showTranscript, setShowTranscript] = useState(false);
     const [currentWordIndex, setCurrentWordIndex] = useState<number | null>(null);
 
@@ -70,12 +70,20 @@ const App: React.FC = () => {
         }
     };
 
+    const stopSpeaking = useCallback(() => {
+        try {
+            window.speechSynthesis.cancel();
+        } catch {}
+        setIsSpeaking(false);
+        setCurrentWordIndex(null);
+        utteranceRef.current = null;
+    }, []);
+
     const startQuiz = () => {
         setCurrentQuestionIndex(0);
         setView('quiz');
         if (isSpeaking) {
-            window.speechSynthesis.cancel();
-            setIsSpeaking(false);
+            stopSpeaking();
         }
     };
 
@@ -91,35 +99,36 @@ const App: React.FC = () => {
         setShowTranscript(false);
         setCurrentWordIndex(null);
         if (isSpeaking) {
-            window.speechSynthesis.cancel();
-            setIsSpeaking(false);
+            stopSpeaking();
         }
     };
 
-    const handleSpeak = useCallback((rate: number = 1) => {
+    // Play con limpieza previa de la cola para que STOP sea fiable
+    const playSpeak = useCallback((rate: number = 1) => {
         if (!story) return;
 
-        if (isSpeaking) {
-            window.speechSynthesis.cancel();
-            setIsSpeaking(false);
-            setCurrentWordIndex(null);
-        } else {
+        // Limpia cualquier síntesis previa
+        window.speechSynthesis.cancel();
+        setIsSpeaking(false);
+        setCurrentWordIndex(null);
+
+        // Pequeño retardo para asegurar que la cola queda limpia en todos los navegadores
+        setTimeout(() => {
             const utterance = new SpeechSynthesisUtterance(story);
             utterance.lang = 'en-US';
             utterance.rate = rate;
 
             const words = story.split(/\s+/);
 
-            utterance.onboundary = (event) => {
-                if (event.name === 'word' || event.name === undefined) {
-                    const charIndex = event.charIndex;
-                    let count = 0;
-                    for (let i = 0; i < words.length; i++) {
-                        count += words[i].length + 1; // +1 por espacio
-                        if (count > charIndex) {
-                            setCurrentWordIndex(i);
-                            break;
-                        }
+            utterance.onboundary = (event: SpeechSynthesisEvent) => {
+                // event.charIndex indica el índice del carácter donde empieza el fragmento
+                const charIndex = (event as any).charIndex ?? 0;
+                let count = 0;
+                for (let i = 0; i < words.length; i++) {
+                    count += words[i].length + 1; // +1 por el espacio
+                    if (count > charIndex) {
+                        setCurrentWordIndex(i);
+                        break;
                     }
                 }
             };
@@ -129,26 +138,30 @@ const App: React.FC = () => {
                 setCurrentWordIndex(null);
             };
 
-            utterance.onerror = (e: SpeechSynthesisErrorEvent) => {
-                console.error(`Speech synthesis error: ${e.error}`);
+            utterance.onerror = () => {
                 setError('Could not play audio. Your browser may not support this feature.');
                 setIsSpeaking(false);
                 setCurrentWordIndex(null);
             };
 
             utteranceRef.current = utterance;
-            window.speechSynthesis.speak(utterance);
-            setIsSpeaking(true);
-        }
-    }, [story, isSpeaking]);
+            try {
+                window.speechSynthesis.speak(utterance);
+                setIsSpeaking(true);
+            } catch {
+                setError('Audio could not be generated. Please try again.');
+                setIsSpeaking(false);
+            }
+        }, 60);
+    }, [story]);
 
     useEffect(() => {
         return () => {
             if (isSpeaking) {
-                window.speechSynthesis.cancel();
+                stopSpeaking();
             }
         };
-    }, [isSpeaking]);
+    }, [isSpeaking, stopSpeaking]);
 
     const renderContent = () => {
         switch (view) {
@@ -206,22 +219,28 @@ const App: React.FC = () => {
                 </h2>
 
                 {practiceType === 'listening' && (
-                    <div className="mb-6 flex flex-col sm:flex-row gap-4 justify-center">
+                    <div className="mb-6 flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 justify-center">
                         <button 
-                            onClick={() => handleSpeak(1)} 
+                            onClick={() => playSpeak(1)} 
                             className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg text-lg"
                         >
-                            {isSpeaking ? 'Stop Audio' : 'Play Audio'}
+                            Play 1x
                         </button>
                         <button 
-                            onClick={() => handleSpeak(0.5)} 
+                            onClick={() => playSpeak(0.5)} 
                             className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-lg text-lg"
                         >
-                            Play at 0.5x
+                            Play 0.5x
+                        </button>
+                        <button
+                            onClick={stopSpeaking}
+                            className="bg-slate-700 hover:bg-slate-800 text-white font-bold py-3 px-6 rounded-lg text-lg"
+                        >
+                            Stop
                         </button>
                         <button
                             onClick={() => setShowTranscript(!showTranscript)}
-                            className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-lg text-lg"
+                            className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg text-lg"
                         >
                             {showTranscript ? 'Hide Transcript' : 'Show Transcript'}
                         </button>
