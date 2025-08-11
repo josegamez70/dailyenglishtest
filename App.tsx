@@ -30,14 +30,16 @@ const App: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [isVocabularyModalOpen, setIsVocabularyModalOpen] = useState(false);
 
-  // Audio
+  // Audio / transcript
   const [isSpeaking, setIsSpeaking] = useState(false);
-  const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
-  const stoppedByUserRef = useRef(false); // <-- NUEVO
-
-  // Transcript + resaltado
   const [showTranscript, setShowTranscript] = useState(false);
   const [currentWordIndex, setCurrentWordIndex] = useState<number | null>(null);
+
+  // Refs para controlar síntesis y fallbacks
+  const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
+  const stoppedByUserRef = useRef(false);
+  const highlightTimerRef = useRef<number | null>(null);
+  const firstBoundaryHeardRef = useRef(false);
 
   const handleGenerate = async () => {
     setIsLoading(true);
@@ -71,25 +73,29 @@ const App: React.FC = () => {
     }
   };
 
+  const clearHighlightTimer = () => {
+    if (highlightTimerRef.current) {
+      clearInterval(highlightTimerRef.current);
+      highlightTimerRef.current = null;
+    }
+  };
+
   const stopSpeaking = useCallback(() => {
-    stoppedByUserRef.current = true; // <-- marcamos parada voluntaria
-    try {
-      window.speechSynthesis.cancel();
-    } catch {}
+    stoppedByUserRef.current = true;
+    try { window.speechSynthesis.cancel(); } catch {}
+    clearHighlightTimer();
     setIsSpeaking(false);
     setCurrentWordIndex(null);
-    setError(null); // <-- limpiamos banner
+    setError(null);
     utteranceRef.current = null;
-    // Después de un instante, dejamos de ignorar errores
+    // ventana corta para ignorar errores "interrupted/canceled"
     setTimeout(() => (stoppedByUserRef.current = false), 120);
   }, []);
 
   const startQuiz = () => {
     setCurrentQuestionIndex(0);
     setView('quiz');
-    if (isSpeaking) {
-      stopSpeaking();
-    }
+    if (isSpeaking) stopSpeaking();
   };
 
   const resetApp = () => {
@@ -103,33 +109,64 @@ const App: React.FC = () => {
     setIsVocabularyModalOpen(false);
     setShowTranscript(false);
     setCurrentWordIndex(null);
-    if (isSpeaking) {
-      stopSpeaking();
-    }
+    if (isSpeaking) stopSpeaking();
   };
 
-  // Play con limpieza previa
+  /**
+   * Reproduce con:
+   * - Limpieza de cola previa (cancel()).
+   * - Detección de onboundary. Si no llega en 900 ms, fallback por tiempo (WPM).
+   */
   const playSpeak = useCallback((rate: number = 1) => {
     if (!story) return;
-    setError(null); // <-- limpiamos cualquier error previo
+    setError(null);
     stoppedByUserRef.current = false;
 
+    // limpiar síntesis y timers anteriores
     window.speechSynthesis.cancel();
+    clearHighlightTimer();
     setIsSpeaking(false);
     setCurrentWordIndex(null);
+    firstBoundaryHeardRef.current = false;
 
+    const words = story.split(/\s+/);
+    // Heurística de velocidad (palabras/min) para fallback
+    const wpm = rate <= 0.6 ? 110 : rate < 1.1 ? 180 : 220;
+
+    // Si no recibimos boundary en 900ms, activamos fallback por tiempo
+    const fallbackTimer = window.setTimeout(() => {
+      if (!firstBoundaryHeardRef.current) {
+        let i = 0;
+        setCurrentWordIndex(0);
+        const msPerWord = 60_000 / wpm;
+        highlightTimerRef.current = window.setInterval(() => {
+          if (!isSpeaking) return;
+          i++;
+          if (i >= words.length) {
+            clearHighlightTimer();
+            return;
+          }
+          setCurrentWordIndex(i);
+        }, msPerWord) as unknown as number;
+      }
+    }, 900);
+
+    // Pequeño retardo para asegurar cola limpia en todos los navegadores
     setTimeout(() => {
       const utterance = new SpeechSynthesisUtterance(story);
       utterance.lang = 'en-US';
       utterance.rate = rate;
 
-      const words = story.split(/\s+/);
-
-      utterance.onboundary = (event: SpeechSynthesisEvent) => {
-        const charIndex = (event as any).charIndex ?? 0;
+      utterance.onboundary = (e: any) => {
+        // llegó al menos un boundary -> cancelar fallback por tiempo
+        if (!firstBoundaryHeardRef.current) {
+          firstBoundaryHeardRef.current = true;
+          clearHighlightTimer();
+        }
+        const charIndex = e?.charIndex ?? 0;
         let count = 0;
         for (let i = 0; i < words.length; i++) {
-          count += words[i].length + 1;
+          count += words[i].length + 1; // +1 por espacio
           if (count > charIndex) {
             setCurrentWordIndex(i);
             break;
@@ -138,17 +175,20 @@ const App: React.FC = () => {
       };
 
       utterance.onend = () => {
+        clearTimeout(fallbackTimer);
+        clearHighlightTimer();
         setIsSpeaking(false);
         setCurrentWordIndex(null);
       };
 
       utterance.onerror = (e: any) => {
-        // <-- FIX: ignorar errores normales al pulsar Stop
+        clearTimeout(fallbackTimer);
+        clearHighlightTimer();
         const err = e?.error || '';
         if (stoppedByUserRef.current || err === 'interrupted' || err === 'canceled') {
           setIsSpeaking(false);
           setCurrentWordIndex(null);
-          return; // no mostramos banner
+          return;
         }
         setError('Could not play audio. Your browser may not support this feature.');
         setIsSpeaking(false);
@@ -160,17 +200,16 @@ const App: React.FC = () => {
         window.speechSynthesis.speak(utterance);
         setIsSpeaking(true);
       } catch {
+        clearTimeout(fallbackTimer);
         setError('Audio could not be generated. Please try again.');
         setIsSpeaking(false);
       }
     }, 60);
-  }, [story]);
+  }, [story, isSpeaking]);
 
   useEffect(() => {
     return () => {
-      if (isSpeaking) {
-        stopSpeaking();
-      }
+      if (isSpeaking) stopSpeaking();
     };
   }, [isSpeaking, stopSpeaking]);
 
