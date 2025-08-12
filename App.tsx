@@ -191,12 +191,22 @@ const msPerWord = msPerWordBase * tune * speedFactor;
         }
         setCurrentWordIndex(i);
 
-        const lastChar = words[i - 1]?.slice(-1);
-        // En 1x hacemos la pausa doble (2 ticks) en fin de frase
-        if (rate >= 0.95 && rate <= 1.05 && /[.!?]/.test(lastChar || '')) {
-          extraHold = 2; // antes 1 → ahora 2 para "más lentas"
-        }
-      }, msPerWord) as unknown as number;
+
+      // --- justo antes del setInterval, define los “ticks” de pausa ---
+const PAUSE_TICKS_SENTENCE = rate <= 0.6 ? 5 : 3; // ⬅️ sube/baja estos números
+const PAUSE_TICKS_COMMA    = rate <= 0.6 ? 2 : 1; // ⬅️ opcional: pausa en coma/;/: 
+
+// --- dentro del setInterval, tras setCurrentWordIndex(i) ---
+const lastChar = words[i - 1]?.slice(-1);
+if (/[.!?]/.test(lastChar || '')) {
+  extraHold = PAUSE_TICKS_SENTENCE;   // fin de frase → pausa larga
+} else if (/[,:;]/.test(lastChar || '')) {
+  extraHold = PAUSE_TICKS_COMMA;      // coma/;/: → pausa corta (opcional)
+}
+
+      
+
+	}, msPerWord) as unknown as number;
     };
 
     // En Android: siempre modo fallback por tiempo
