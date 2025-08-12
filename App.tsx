@@ -122,7 +122,7 @@ const App: React.FC = () => {
    * - Limpieza de cola previa (cancel()).
    * - Desktop/laptop: onboundary (preciso) y fallback si no llega.
    * - Android: forzar fallback por tiempo (onboundary es poco fiable).
-   * - Fallback ajustado: 13% más lento que el anterior + pausas más largas en . ! ?
+   * - Fallback ajustado: 4% más rápido (1x y 0.5x) y pausas más cortas.
    */
   const playSpeak = useCallback((rate: number = 1) => {
     if (!story) return;
@@ -139,43 +139,44 @@ const App: React.FC = () => {
     const words = story.split(/\s+/);
     const isAndroid = /android/i.test(navigator.userAgent);
 
-    // WPM calibrado por velocidad
+    // WPM calibrado por velocidad (base)
     const baseWpm =
       rate <= 0.6 ? 140 :
       rate < 1.1 ? 190 :
       230;
 
-    // Afinado por velocidad (ligero ajuste)
+    // Ajuste fino por velocidad
     const tune =
       rate <= 0.6 ? 0.92 :
       rate < 1.1 ? 0.98 :
       1.0;
 
-    // --- Fallback por tiempo (13% más lento que la versión previa) ---
+    // --- Fallback por tiempo (4% más rápido que la versión anterior en 1x y 0.5x) ---
     const startFallback = () => {
       let i = 0;
       setCurrentWordIndex(0);
-      
-const msPerWordBase = 60_000 / baseWpm;
 
-// base de la versión actual
-const speedFactorBase = 1.017;
+      const msPerWordBase = 60_000 / baseWpm;
 
-// ✅ ajustes pedidos:
-// - 0.5x  → 4% más lento  (×1.04)
-// - 1x    → 2% más rápido (×0.98)
-// - otros → igual que antes
-const speedFactor =
-  rate <= 0.6
-    ? speedFactorBase * 1.04
-    : (rate >= 0.95 && rate <= 1.05)
-      ? speedFactorBase * 0.98
-      : speedFactorBase;
+      // base previa (≈1.7% más lento que base*tune)
+      const speedFactorBase = 1.017;
 
-const msPerWord = msPerWordBase * tune * speedFactor;
+      // aplicar +4% de rapidez en 0.5x y 1x
+      const speedFactor =
+        rate <= 0.6
+          ? speedFactorBase * 0.96
+          : (rate >= 0.95 && rate <= 1.05)
+            ? speedFactorBase * 0.96
+            : speedFactorBase;
 
-      // Pausas más lentas al final de frase (. ! ?) alrededor de 1x
+      const msPerWord = msPerWordBase * tune * speedFactor;
+
+      // Pausas (en ticks = msPerWord). Más cortas para acompasar el +4%
+      const PAUSE_TICKS_SENTENCE = rate <= 0.6 ? 4 : 2; // fin de frase (. ! ?)
+      const PAUSE_TICKS_COMMA    = rate <= 0.6 ? 1 : 0; // coma/;/: (opcional)
+
       let extraHold = 0;
+
       highlightTimerRef.current = window.setInterval(() => {
         if (!isSpeakingRef.current) return;
 
@@ -191,22 +192,13 @@ const msPerWord = msPerWordBase * tune * speedFactor;
         }
         setCurrentWordIndex(i);
 
-
-      // --- justo antes del setInterval, define los “ticks” de pausa ---
-const PAUSE_TICKS_SENTENCE = rate <= 0.6 ? 5 : 3; // ⬅️ sube/baja estos números
-const PAUSE_TICKS_COMMA    = rate <= 0.6 ? 2 : 1; // ⬅️ opcional: pausa en coma/;/: 
-
-// --- dentro del setInterval, tras setCurrentWordIndex(i) ---
-const lastChar = words[i - 1]?.slice(-1);
-if (/[.!?]/.test(lastChar || '')) {
-  extraHold = PAUSE_TICKS_SENTENCE;   // fin de frase → pausa larga
-} else if (/[,:;]/.test(lastChar || '')) {
-  extraHold = PAUSE_TICKS_COMMA;      // coma/;/: → pausa corta (opcional)
-}
-
-      
-
-	}, msPerWord) as unknown as number;
+        const lastChar = words[i - 1]?.slice(-1);
+        if (/[.!?]/.test(lastChar || '')) {
+          extraHold = PAUSE_TICKS_SENTENCE;
+        } else if (/[,:;]/.test(lastChar || '')) {
+          extraHold = PAUSE_TICKS_COMMA;
+        }
+      }, msPerWord) as unknown as number;
     };
 
     // En Android: siempre modo fallback por tiempo
@@ -225,7 +217,7 @@ if (/[.!?]/.test(lastChar || '')) {
         utterance.onerror = (e: any) => {
           clearHighlightTimer();
           const err = e?.error || '';
-          if (stoppedByUserRef.current || err === 'interrupted' || 'canceled') {
+          if (stoppedByUserRef.current || err === 'interrupted' || err === 'canceled') {
             setIsSpeaking(false);
             setCurrentWordIndex(null);
             return;
