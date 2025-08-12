@@ -1,4 +1,3 @@
-// App.tsx
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import type { QuizQuestion, ConfigOptions, PracticeType, AppView, VocabularyItem } from './types';
 import { LEVELS, TOPICS, WORD_COUNTS, QUESTION_COUNTS } from './constants';
@@ -12,6 +11,47 @@ import XCircleIcon from './components/icons/XCircleIcon';
 import HomeIcon from './components/icons/HomeIcon';
 import UKFlagIcon from './components/icons/UKFlagIcon';
 import VocabularyModal from './components/VocabularyModal';
+
+// ---------- Normalizador de quiz (A/B/C/D → texto de opción) ----------
+type AnyQuiz = {
+  question: string;
+  options: string[];
+  correctAnswer?: string;
+  correct?: string;
+  answer?: string;
+  correctAnswerIndex?: number;
+};
+
+const stripLabel = (s: string) =>
+  s.replace(/^\s*[A-Z]\s*[\)\.\:\-]?\s*/i, '').trim();
+
+const normalizeQuizData = (raw: AnyQuiz[]): QuizQuestion[] => {
+  return raw.map((q) => {
+    const options = (q.options || []).map(o => stripLabel(String(o || '')));
+    const rawAns = (q.correctAnswer ?? q.correct ?? q.answer ?? '').toString().trim();
+
+    // 1) índice numérico explícito
+    if (typeof q.correctAnswerIndex === 'number' && options[q.correctAnswerIndex]) {
+      return { question: q.question, options, correctAnswer: options[q.correctAnswerIndex] };
+    }
+
+    // 2) letra A/B/C/D
+    const letter = rawAns.match(/^[A-Z]/i)?.[0];
+    if (letter) {
+      const idx = letter.toUpperCase().charCodeAt(0) - 65;
+      const pick = options[idx] ?? options[0] ?? '';
+      return { question: q.question, options, correctAnswer: pick };
+    }
+
+    // 3) texto: busca coincidencia exacta o parcial
+    const norm = stripLabel(rawAns);
+    let idx = options.findIndex(o => o.toLowerCase() === norm.toLowerCase());
+    if (idx === -1) idx = options.findIndex(o => o.toLowerCase().includes(norm.toLowerCase()));
+    const pick = idx >= 0 ? options[idx] : (options[0] ?? '');
+    return { question: q.question, options, correctAnswer: pick };
+  });
+};
+// ----------------------------------------------------------------------
 
 const App: React.FC = () => {
   const [view, setView] = useState<AppView>('config');
@@ -47,37 +87,29 @@ const App: React.FC = () => {
     isSpeakingRef.current = isSpeaking;
   }, [isSpeaking]);
 
- // === handleGenerate (sin bucle y con apagado seguro del loader) ===
-const handleGenerate = async () => {
-  setIsLoading(true);
-  setError(null);
-  try {
-    const result = await generateStoryAndQuiz({
-      ...config,
-      practiceType // <- le pasamos el modo actual
-    });
-    setStory(result.story);
-    setQuiz(result.quiz);
-    setVocabulary(result.vocabulary);
-    setUserAnswers(new Array(result.quiz.length).fill(''));
-    setView('story');
-  } catch (err: any) {
-    const msg = String(err?.message || '');
-    if (/MODEL_UNAVAILABLE|UNAVAILABLE|overloaded|try again|503|502|504|429/i.test(msg)) {
-      setError('El servicio está saturado. Inténtalo de nuevo en unos segundos.');
-    } else if (/NO_API_KEY|Missing API key/i.test(msg)) {
-      setError('Falta la clave de la API en el servidor.');
-    } else if (/BAD_MODEL_OUTPUT/i.test(msg)) {
-      setError('La respuesta del modelo no es válida. Prueba otra vez.');
-    } else {
-      setError(msg || 'Ha ocurrido un error desconocido.');
-    }
-    setView('config');
-  } finally {
-    setIsLoading(false); // ⚠️ SIEMPRE apagamos el loader
-  }
-};
+  const getLetter = (idx: number) => String.fromCharCode(65 + idx); // A, B, C...
 
+  const handleGenerate = async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const result = await generateStoryAndQuiz(config);
+      setStory(result.story);
+
+      // Normaliza el quiz para que correctAnswer sea SIEMPRE el texto de una opción:
+      const normalizedQuiz = normalizeQuizData(result.quiz as any);
+      setQuiz(normalizedQuiz);
+
+      setVocabulary(result.vocabulary);
+      setUserAnswers(new Array(normalizedQuiz.length).fill(''));
+      setView('story');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An unknown error occurred.');
+      setView('config');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleAnswerSelect = (answer: string) => {
     const newAnswers = [...userAnswers];
@@ -176,18 +208,18 @@ const handleGenerate = async () => {
       // base previa (≈1.7% más lento que base*tune)
       const speedFactorBase = 1.017;
 
-      // aplicar +4% de rapidez en 0.5x y 1x
+      // 0.5x y 1x un 4% más rápido (ajusta SOLO aquí si necesitas)
       const speedFactor =
         rate <= 0.6
-          ? speedFactorBase * 0.95
+          ? speedFactorBase * 0.96
           : (rate >= 0.95 && rate <= 1.05)
-            ? speedFactorBase * 0.97
+            ? speedFactorBase * 0.96
             : speedFactorBase;
 
       const msPerWord = msPerWordBase * tune * speedFactor;
 
       // Pausas (en ticks = msPerWord). Más cortas para acompasar el +4%
-      const PAUSE_TICKS_SENTENCE = rate <= 0.6 ? 3 : 1; // fin de frase (. ! ?)
+      const PAUSE_TICKS_SENTENCE = rate <= 0.6 ? 4 : 2; // fin de frase (. ! ?)
       const PAUSE_TICKS_COMMA    = rate <= 0.6 ? 1 : 0; // coma/;/: (opcional)
 
       let extraHold = 0;
@@ -473,19 +505,22 @@ const handleGenerate = async () => {
         </div>
         <h3 className="text-xl md:text-2xl font-semibold mb-6 text-slate-800 dark:text-slate-100">{question.question}</h3>
         <div className="space-y-3">
-          {question.options.map((option, index) => (
-            <button
-              key={index}
-              onClick={() => handleAnswerSelect(option)}
-              className={`w-full text-left p-4 rounded-lg border-2 transition-colors ${
-                userAnswers[currentQuestionIndex] === option
-                  ? 'bg-blue-100 dark:bg-blue-900 border-blue-500'
-                  : 'bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-600'
-              }`}
-            >
-              {option}
-            </button>
-          ))}
+          {question.options.map((option, index) => {
+            const letter = getLetter(index);
+            return (
+              <button
+                key={index}
+                onClick={() => handleAnswerSelect(option)}
+                className={`w-full text-left p-4 rounded-lg border-2 transition-colors ${
+                  userAnswers[currentQuestionIndex] === option
+                    ? 'bg-blue-100 dark:bg-blue-900 border-blue-500'
+                    : 'bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-600'
+                }`}
+              >
+                <span className="font-semibold mr-2">{letter}.</span> {option}
+              </button>
+            );
+          })}
         </div>
         <button
           onClick={handleNextQuestion}
@@ -520,7 +555,16 @@ const handleGenerate = async () => {
         <div className="space-y-4">
           {quiz.map((question, index) => {
             const userAnswer = userAnswers[index];
-            const isCorrect = question.correctAnswer === userAnswer;
+            const correctText = question.correctAnswer;
+
+            // calcular letras para user y correct
+            const userIdx = question.options.findIndex(o => o === userAnswer);
+            const correctIdx = question.options.findIndex(o => o === correctText);
+            const userLetter = userIdx >= 0 ? getLetter(userIdx) : null;
+            const correctLetter = correctIdx >= 0 ? getLetter(correctIdx) : null;
+
+            const isCorrect = correctText === userAnswer;
+
             return (
               <div
                 key={index}
@@ -539,13 +583,15 @@ const handleGenerate = async () => {
                   ) : (
                     <XCircleIcon className="w-5 h-5 text-red-600 mr-2 flex-shrink-0" />
                   )}
-                  <p className="text-sm text-slate-700 dark:text-slate-300">Your answer: {userAnswer}</p>
+                  <p className="text-sm text-slate-700 dark:text-slate-300">
+                    Your answer: {userLetter ? `${userLetter}. ` : ''}{userAnswer || '—'}
+                  </p>
                 </div>
                 {!isCorrect && (
                   <div className="flex items-center mt-1">
                     <CheckCircleIcon className="w-5 h-5 text-green-600 mr-2 flex-shrink-0" />
                     <p className="text-sm text-slate-700 dark:text-slate-300">
-                      Correct answer: {question.correctAnswer}
+                      Correct answer: {correctLetter ? `${correctLetter}. ` : ''}{correctText}
                     </p>
                   </div>
                 )}
