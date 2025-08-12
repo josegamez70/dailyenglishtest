@@ -172,8 +172,8 @@ const App: React.FC = () => {
       const msPerWord = msPerWordBase * tune * speedFactor;
 
       // Pausas (en ticks = msPerWord). Más cortas para acompasar el +4%
-      const PAUSE_TICKS_SENTENCE = rate <= 0.6 ? 4 : 2; // fin de frase (. ! ?)
-      const PAUSE_TICKS_COMMA    = rate <= 0.6 ? 1 : 0; // coma/;/: (opcional)
+      const PAUSE_TICKS_SENTENCE = rate <= 0.6 ? 6 : 3; // fin de frase (. ! ?)
+      const PAUSE_TICKS_COMMA    = rate <= 0.6 ? 2 : 1; // coma/;/: (opcional)
 
       let extraHold = 0;
 
