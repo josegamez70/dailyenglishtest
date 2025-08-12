@@ -40,7 +40,7 @@ const App: React.FC = () => {
   const stoppedByUserRef = useRef(false);
   const highlightTimerRef = useRef<number | null>(null);
   const firstBoundaryHeardRef = useRef(false);
-  const isSpeakingRef = useRef(false);
+  const isSpeakingRef = useRef(false); // Para que el setInterval lea el estado actualizado
 
   useEffect(() => {
     isSpeakingRef.current = isSpeaking;
@@ -136,48 +136,61 @@ const App: React.FC = () => {
     setCurrentWordIndex(null);
     firstBoundaryHeardRef.current = false;
 
-    const words = story.split(/\s+/);
+    const words = story.split(/(\s+)/).filter(s => s.length > 0); // Mantener espacios para calcular el índice correctamente
+    let displayWords: string[] = []; // Solo las palabras, sin espacios
+    let spaceIndices: number[] = []; // Para reconstruir el story de cara a los charIndex
+
+    let tempStory = story;
+    let match;
+    const regex = /(\b\w+\b|[^\s])/g; // Coincide con palabras o cualquier caracter no espacio (puntuación, etc.)
+
+    while ((match = regex.exec(tempStory)) !== null) {
+      displayWords.push(match[0]);
+    }
+
     const isAndroid = /android/i.test(navigator.userAgent);
 
-    // WPM calibrado por velocidad
+    // WPM (Words Per Minute) calibrado por velocidad
     const baseWpm =
       rate <= 0.6 ? 140 :
       rate < 1.1 ? 190 :
       230;
 
     // Afinado por velocidad (ligero ajuste)
+    // Estos valores pueden requerir ajuste fino en diferentes dispositivos/navegadores
     const tune =
       rate <= 0.6 ? 0.92 :
       rate < 1.1 ? 0.98 :
       1.0;
 
-    // --- Fallback por tiempo (13% más lento que la versión previa) ---
+    // Ajuste adicional para la velocidad del setInterval (msPerWord)
+    const speedFactorBase = 1.017;
+    const speedFactor =
+      rate <= 0.6
+        ? speedFactorBase * 1.04 // 4% más lento
+        : (rate >= 0.95 && rate <= 1.05)
+          ? speedFactorBase * 0.98 // 2% más rápido
+          : speedFactorBase;
+
+    const msPerWord = (60_000 / baseWpm) * tune * speedFactor;
+
+    // Pausas en ticks (cuántos intervalos de msPerWord mantener la palabra actual)
+    // Estos valores pueden necesitar ajuste fino para sentirlo natural
+    const PAUSE_TICKS_SENTENCE = rate <= 0.6 ? 7 : 4; // Más largo para velocidades lentas
+    const PAUSE_TICKS_COMMA    = rate <= 0.6 ? 3 : 1; // Más largo para velocidades lentas
+
+    // --- Fallback por tiempo ---
     const startFallback = () => {
       let i = 0;
-      setCurrentWordIndex(0);
-      
-const msPerWordBase = 60_000 / baseWpm;
-
-// base de la versión actual
-const speedFactorBase = 1.017;
-
-// ✅ ajustes pedidos:
-// - 0.5x  → 4% más lento  (×1.04)
-// - 1x    → 2% más rápido (×0.98)
-// - otros → igual que antes
-const speedFactor =
-  rate <= 0.6
-    ? speedFactorBase * 1.04
-    : (rate >= 0.95 && rate <= 1.05)
-      ? speedFactorBase * 0.98
-      : speedFactorBase;
-
-const msPerWord = msPerWordBase * tune * speedFactor;
-
-      // Pausas más lentas al final de frase (. ! ?) alrededor de 1x
       let extraHold = 0;
+      setCurrentWordIndex(0); // Inicia destacando la primera palabra
+
       highlightTimerRef.current = window.setInterval(() => {
-        if (!isSpeakingRef.current) return;
+        if (!isSpeakingRef.current || stoppedByUserRef.current) { // Asegúrate de detener si ya no estamos hablando
+          clearHighlightTimer();
+          setCurrentWordIndex(null);
+          return;
+        }
 
         if (extraHold > 0) {
           extraHold--;
@@ -185,131 +198,102 @@ const msPerWord = msPerWordBase * tune * speedFactor;
         }
 
         i++;
-        if (i >= words.length) {
+        if (i >= displayWords.length) {
           clearHighlightTimer();
+          setCurrentWordIndex(null);
+          setIsSpeaking(false); // Detener el speaking al finalizar
           return;
         }
         setCurrentWordIndex(i);
 
+        // Aplicar pausas
+        const currentWord = displayWords[i - 1]; // La palabra que acaba de pasar
+        if (currentWord) {
+          const lastChar = currentWord.slice(-1);
+          if (/[.!?]/.test(lastChar)) {
+            extraHold = PAUSE_TICKS_SENTENCE;
+          } else if (/[,:;]/.test(lastChar)) {
+            extraHold = PAUSE_TICKS_COMMA;
+          }
+        }
 
-      // --- justo antes del setInterval, define los “ticks” de pausa ---
-const PAUSE_TICKS_SENTENCE = rate <= 0.6 ? 5 : 3; // ⬅️ sube/baja estos números
-const PAUSE_TICKS_COMMA    = rate <= 0.6 ? 2 : 1; // ⬅️ opcional: pausa en coma/;/: 
-
-// --- dentro del setInterval, tras setCurrentWordIndex(i) ---
-const lastChar = words[i - 1]?.slice(-1);
-if (/[.!?]/.test(lastChar || '')) {
-  extraHold = PAUSE_TICKS_SENTENCE;   // fin de frase → pausa larga
-} else if (/[,:;]/.test(lastChar || '')) {
-  extraHold = PAUSE_TICKS_COMMA;      // coma/;/: → pausa corta (opcional)
-}
-
-      
-
-	}, msPerWord) as unknown as number;
+      }, msPerWord) as unknown as number;
     };
 
-    // En Android: siempre modo fallback por tiempo
-    if (isAndroid) {
-      setTimeout(() => {
-        const utterance = new SpeechSynthesisUtterance(story);
-        utterance.lang = 'en-US';
-        utterance.rate = rate;
+    const utterance = new SpeechSynthesisUtterance(story);
+    utterance.lang = 'en-US';
+    utterance.rate = rate;
 
-        utterance.onend = () => {
-          clearHighlightTimer();
-          setIsSpeaking(false);
-          setCurrentWordIndex(null);
-        };
+    utterance.onend = () => {
+      clearHighlightTimer();
+      setIsSpeaking(false);
+      setCurrentWordIndex(null);
+    };
 
-        utterance.onerror = (e: any) => {
-          clearHighlightTimer();
-          const err = e?.error || '';
-          if (stoppedByUserRef.current || err === 'interrupted' || 'canceled') {
-            setIsSpeaking(false);
-            setCurrentWordIndex(null);
-            return;
-          }
-          setError('Could not play audio. Your browser may not support this feature.');
-          setIsSpeaking(false);
-          setCurrentWordIndex(null);
-        };
-
-        utteranceRef.current = utterance;
-        try {
-          window.speechSynthesis.speak(utterance);
-          setIsSpeaking(true);
-          startFallback();
-        } catch {
-          setError('Audio could not be generated. Please try again.');
-          setIsSpeaking(false);
-        }
-      }, 60);
-      return;
-    }
-
-    // Desktop/laptop → onboundary + fallback si no hay evento
-    const fallbackTimer = window.setTimeout(() => {
-      if (!firstBoundaryHeardRef.current) {
-        startFallback();
+    utterance.onerror = (e: any) => {
+      clearHighlightTimer();
+      const err = e?.error || '';
+      if (stoppedByUserRef.current || err === 'interrupted' || err === 'canceled') {
+        setIsSpeaking(false);
+        setCurrentWordIndex(null);
+        return;
       }
-    }, 900);
+      setError('Could not play audio. Your browser may not support this feature.');
+      setIsSpeaking(false);
+      setCurrentWordIndex(null);
+    };
 
     // Pequeño retardo para asegurar cola limpia en todos los navegadores
     setTimeout(() => {
-      const utterance = new SpeechSynthesisUtterance(story);
-      utterance.lang = 'en-US';
-      utterance.rate = rate;
-
-      utterance.onboundary = (e: any) => {
-        // llegó al menos un boundary -> cancelar fallback por tiempo
-        if (!firstBoundaryHeardRef.current) {
-          firstBoundaryHeardRef.current = true;
-          clearHighlightTimer();
-        }
-        const charIndex = e?.charIndex ?? 0;
-        let count = 0;
-        for (let i = 0; i < words.length; i++) {
-          count += words[i].length + 1; // +1 por espacio
-          if (count > charIndex) {
-            setCurrentWordIndex(i);
-            break;
-          }
-        }
-      };
-
-      utterance.onend = () => {
-        clearTimeout(fallbackTimer);
-        clearHighlightTimer();
-        setIsSpeaking(false);
-        setCurrentWordIndex(null);
-      };
-
-      utterance.onerror = (e: any) => {
-        clearTimeout(fallbackTimer);
-        clearHighlightTimer();
-        const err = e?.error || '';
-        if (stoppedByUserRef.current || err === 'interrupted' || err === 'canceled') {
-          setIsSpeaking(false);
-          setCurrentWordIndex(null);
-          return;
-        }
-        setError('Could not play audio. Your browser may not support this feature.');
-        setIsSpeaking(false);
-        setCurrentWordIndex(null);
-      };
-
       utteranceRef.current = utterance;
       try {
         window.speechSynthesis.speak(utterance);
         setIsSpeaking(true);
-      } catch {
-        clearTimeout(fallbackTimer);
+
+        if (isAndroid) {
+          // En Android, siempre inicia el fallback basado en tiempo
+          startFallback();
+        } else {
+          // En Desktop/iOS: Intenta usar onboundary. Si no se dispara en un tiempo, usa el fallback.
+          let charIndexOffset = 0;
+          let currentDisplayWordIndex = 0;
+          utterance.onboundary = (e: any) => {
+            if (!firstBoundaryHeardRef.current) {
+              firstBoundaryHeardRef.current = true;
+              clearTimeout(fallbackTimer); // Cancelar el timer de fallback
+              clearHighlightTimer(); // Asegurarse de que el timer del fallback no se active si ya lo hizo el boundary
+            }
+
+            const charIndex = e?.charIndex ?? 0;
+            // Ajustar el currentWordIndex basado en charIndex para displayWords
+            let tempCharCounter = 0;
+            for (let i = 0; i < displayWords.length; i++) {
+                // Sumar la longitud de la palabra + un espacio (si no es la última palabra)
+                const wordLength = displayWords[i].length;
+                const spaceLength = (i < displayWords.length - 1 && /\s/.test(story.charAt(story.indexOf(displayWords[i], tempCharCounter) + wordLength))) ? 1 : 0;
+                
+                if (tempCharCounter + wordLength + spaceLength > charIndex && tempCharCounter <= charIndex) {
+                    setCurrentWordIndex(i);
+                    break;
+                }
+                tempCharCounter += wordLength + spaceLength;
+            }
+          };
+
+          const fallbackTimer = window.setTimeout(() => {
+            if (!firstBoundaryHeardRef.current) {
+              // onboundary no se disparó a tiempo, activar el fallback
+              startFallback();
+            }
+          }, 900); // Dar un poco menos de 1 segundo para que onboundary se dispare
+        }
+      } catch (err) {
+        clearTimeout(fallbackTimer); // Asegurarse de limpiar si hay un error al iniciar
         setError('Audio could not be generated. Please try again.');
         setIsSpeaking(false);
       }
-    }, 60);
-  }, [story]);
+    }, 60); // Pequeño retardo para dar tiempo a que `cancel()` funcione
+  }, [story, stopSpeaking]); // Añadir stopSpeaking a las dependencias si se usa useCallback
 
   useEffect(() => {
     return () => {
@@ -405,18 +389,23 @@ if (/[.!?]/.test(lastChar || '')) {
           <p className="whitespace-pre-wrap">{story}</p>
         )}
         {practiceType === 'listening' && showTranscript && (
-          <div className="mt-4">
-            {story.split(' ').map((word, idx) => (
-              <span
-                key={idx}
-                style={{
-                  color: idx === currentWordIndex ? 'red' : 'inherit',
-                  fontWeight: idx === currentWordIndex ? 'bold' : 'normal',
-                }}
-              >
-                {word}{' '}
-              </span>
-            ))}
+          <div className="mt-4 text-lg leading-relaxed">
+            {/* Aquí usamos displayWords para el resaltado */}
+            {story.split(/(\b\w+\b|[^\s])/g).filter(s => s.length > 0).map((part, idx) => {
+              // Encuentra el índice de la palabra en displayWords
+              const displayWordIdx = displayWords.indexOf(part);
+              return (
+                <span
+                  key={idx}
+                  style={{
+                    color: displayWordIdx !== -1 && displayWordIdx === currentWordIndex ? 'red' : 'inherit',
+                    fontWeight: displayWordIdx !== -1 && displayWordIdx === currentWordIndex ? 'bold' : 'normal',
+                  }}
+                >
+                  {part}
+                </span>
+              );
+            })}
           </div>
         )}
 
