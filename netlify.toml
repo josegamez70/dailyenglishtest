@@ -14,3 +14,7 @@
 # pero no especificamos el puerto para evitar conflictos.
 [dev]
   command = "vite"
+
+[functions]
+  node_bundler = "esbuild"
+  timeout = 26

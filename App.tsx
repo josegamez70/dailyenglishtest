@@ -1,3 +1,4 @@
+// App.tsx
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import type { QuizQuestion, ConfigOptions, PracticeType, AppView, VocabularyItem } from './types';
 import { LEVELS, TOPICS, WORD_COUNTS, QUESTION_COUNTS } from './constants';
@@ -46,21 +47,55 @@ const App: React.FC = () => {
     isSpeakingRef.current = isSpeaking;
   }, [isSpeaking]);
 
+  // === handleGenerate con reintento y mensajes amables ===
   const handleGenerate = async () => {
     setIsLoading(true);
     setError(null);
-    try {
-      const result = await generateStoryAndQuiz(config);
-      setStory(result.story);
-      setQuiz(result.quiz);
-      setVocabulary(result.vocabulary);
-      setUserAnswers(new Array(result.quiz.length).fill(''));
-      setView('story');
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An unknown error occurred.');
-      setView('config');
-    } finally {
-      setIsLoading(false);
+
+    const MAX_TRIES = 2; // 1 intento + 1 reintento rápido
+    for (let attempt = 1; attempt <= MAX_TRIES; attempt++) {
+      try {
+        const result = await generateStoryAndQuiz(config);
+        setStory(result.story);
+        setQuiz(result.quiz);
+        setVocabulary(result.vocabulary);
+        setUserAnswers(new Array(result.quiz.length).fill(''));
+        setView('story');
+        return; // éxito → salir de la función
+      } catch (err: any) {
+        const msg = String(err?.message || '');
+        const retryable =
+          /MODEL_UNAVAILABLE|UNAVAILABLE|overloaded|temporarily|try again|503|502|504|429/i.test(msg);
+
+        if (retryable && attempt < MAX_TRIES) {
+          // backoff corto (0.6s, luego 1.2s)
+          const wait = 600 * attempt;
+          await new Promise((r) => setTimeout(r, wait));
+          continue; // reintentar
+        }
+
+        // Mensaje claro para el usuario
+        if (retryable) {
+          setError('El servicio de generación está saturado ahora mismo. Inténtalo de nuevo en unos segundos.');
+        } else if (/NO_API_KEY|Missing API key/i.test(msg)) {
+          setError('Falta la clave de la API en el servidor.');
+        } else if (/BAD_REQUEST|Invalid prompt/i.test(msg)) {
+          setError('La petición no es válida. Revisa los parámetros e inténtalo de nuevo.');
+        } else if (/BAD_MODEL_OUTPUT|Invalid JSON/i.test(msg)) {
+          setError('Se ha recibido un formato inesperado del modelo. Prueba otra vez.');
+        } else {
+          setError(msg || 'Ha ocurrido un error desconocido.');
+        }
+
+        setView('config');
+        break; // no más reintentos
+      } finally {
+        // El finally solo se ejecuta cuando salimos del try/catch del bucle;
+        // no apagamos el loading si vamos a reintentar.
+        if (attempt === MAX_TRIES || error) {
+          setIsLoading(false);
+        }
+      }
     }
   };
 
@@ -172,8 +207,8 @@ const App: React.FC = () => {
       const msPerWord = msPerWordBase * tune * speedFactor;
 
       // Pausas (en ticks = msPerWord). Más cortas para acompasar el +4%
-      const PAUSE_TICKS_SENTENCE = rate <= 0.6 ? 6 : 3; // fin de frase (. ! ?)
-      const PAUSE_TICKS_COMMA    = rate <= 0.6 ? 2 : 1; // coma/;/: (opcional)
+      const PAUSE_TICKS_SENTENCE = rate <= 0.6 ? 3 : 1; // fin de frase (. ! ?)
+      const PAUSE_TICKS_COMMA    = rate <= 0.6 ? 1 : 0; // coma/;/: (opcional)
 
       let extraHold = 0;
 
