@@ -35,6 +35,10 @@ const App: React.FC = () => {
   const [showTranscript, setShowTranscript] = useState(false);
   const [currentWordIndex, setCurrentWordIndex] = useState<number | null>(null);
 
+  // NEW: States for tokenized story for consistent rendering and highlighting
+  const [storyRenderTokens, setStoryRenderTokens] = useState<string[]>([]);
+  const [highlightableTokens, setHighlightableTokens] = useState<string[]>([]);
+
   // Refs para controlar síntesis y fallbacks
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
   const stoppedByUserRef = useRef(false);
@@ -42,9 +46,24 @@ const App: React.FC = () => {
   const firstBoundaryHeardRef = useRef(false);
   const isSpeakingRef = useRef(false); // Para que el setInterval lea el estado actualizado
 
+  // Update ref when isSpeaking state changes
   useEffect(() => {
     isSpeakingRef.current = isSpeaking;
   }, [isSpeaking]);
+
+  // NEW: Process story into tokens when it changes
+  useEffect(() => {
+    if (story) {
+      // Regex to split by words (\b\w+\b) or non-space characters ([^\s]) while keeping spaces
+      // Example: "Hello, world!" -> ["Hello", ",", " ", "world", "!"]
+      const tokens = story.split(/(\b\w+\b|[^\s])/g).filter(token => token !== '');
+      setStoryRenderTokens(tokens);
+      setHighlightableTokens(tokens.filter(token => !/\s/.test(token)));
+    } else {
+      setStoryRenderTokens([]);
+      setHighlightableTokens([]);
+    }
+  }, [story]);
 
   const handleGenerate = async () => {
     setIsLoading(true);
@@ -93,7 +112,7 @@ const App: React.FC = () => {
     setCurrentWordIndex(null);
     setError(null);
     utteranceRef.current = null;
-    // pequeña ventana para ignorar errores "interrupted/canceled"
+    // Small window to ignore "interrupted/canceled" errors
     setTimeout(() => (stoppedByUserRef.current = false), 120);
   }, []);
 
@@ -118,77 +137,69 @@ const App: React.FC = () => {
   };
 
   /**
-   * Reproduce con:
-   * - Limpieza de cola previa (cancel()).
-   * - Desktop/laptop: onboundary (preciso) y fallback si no llega.
-   * - Android: forzar fallback por tiempo (onboundary es poco fiable).
-   * - Fallback ajustado: 13% más lento que el anterior + pausas más largas en . ! ?
+   * Reproduces audio with:
+   * - Previous queue clearing (cancel()).
+   * - Desktop/laptop: onboundary (precise) and fallback if it doesn't arrive.
+   * - Android: force time-based fallback (onboundary is unreliable).
+   * - Adjusted fallback: calibrated for speed + longer pauses at . ! ?
    */
   const playSpeak = useCallback((rate: number = 1) => {
-    if (!story) return;
+    // Ensure story and processed tokens are available
+    if (!story || highlightableTokens.length === 0) {
+      setError('Story or tokens not ready for playback.');
+      return;
+    }
     setError(null);
     stoppedByUserRef.current = false;
 
-    // limpiar síntesis y timers anteriores
+    // Clear previous synthesis and timers
     window.speechSynthesis.cancel();
     clearHighlightTimer();
     setIsSpeaking(false);
     setCurrentWordIndex(null);
     firstBoundaryHeardRef.current = false;
 
-    const words = story.split(/(\s+)/).filter(s => s.length > 0); // Mantener espacios para calcular el índice correctamente
-    let displayWords: string[] = []; // Solo las palabras, sin espacios
-    let spaceIndices: number[] = []; // Para reconstruir el story de cara a los charIndex
-
-    let tempStory = story;
-    let match;
-    const regex = /(\b\w+\b|[^\s])/g; // Coincide con palabras o cualquier caracter no espacio (puntuación, etc.)
-
-    while ((match = regex.exec(tempStory)) !== null) {
-      displayWords.push(match[0]);
-    }
-
     const isAndroid = /android/i.test(navigator.userAgent);
 
-    // WPM (Words Per Minute) calibrado por velocidad
+    // WPM (Words Per Minute) calibrated by speed
     const baseWpm =
       rate <= 0.6 ? 140 :
       rate < 1.1 ? 190 :
       230;
 
-    // Afinado por velocidad (ligero ajuste)
-    // Estos valores pueden requerir ajuste fino en diferentes dispositivos/navegadores
+    // Fine-tuning by speed (slight adjustment)
     const tune =
       rate <= 0.6 ? 0.92 :
       rate < 1.1 ? 0.98 :
       1.0;
 
-    // Ajuste adicional para la velocidad del setInterval (msPerWord)
+    // Additional adjustment for setInterval speed (msPerWord)
     const speedFactorBase = 1.017;
     const speedFactor =
       rate <= 0.6
-        ? speedFactorBase * 1.04 // 4% más lento
+        ? speedFactorBase * 1.04 // 4% slower
         : (rate >= 0.95 && rate <= 1.05)
-          ? speedFactorBase * 0.98 // 2% más rápido
+          ? speedFactorBase * 0.98 // 2% faster
           : speedFactorBase;
 
     const msPerWord = (60_000 / baseWpm) * tune * speedFactor;
 
-    // Pausas en ticks (cuántos intervalos de msPerWord mantener la palabra actual)
-    // Estos valores pueden necesitar ajuste fino para sentirlo natural
-    const PAUSE_TICKS_SENTENCE = rate <= 0.6 ? 7 : 4; // Más largo para velocidades lentas
-    const PAUSE_TICKS_COMMA    = rate <= 0.6 ? 3 : 1; // Más largo para velocidades lentas
+    // Pause ticks (how many msPerWord intervals to hold the current word)
+    const PAUSE_TICKS_SENTENCE = rate <= 0.6 ? 7 : 4;
+    const PAUSE_TICKS_COMMA    = rate <= 0.6 ? 3 : 1;
 
-    // --- Fallback por tiempo ---
+    // --- Time-based Fallback ---
     const startFallback = () => {
-      let i = 0;
+      let i = 0; // This is the index for highlightableTokens
       let extraHold = 0;
-      setCurrentWordIndex(0); // Inicia destacando la primera palabra
+      setCurrentWordIndex(0); // Highlight the first word immediately
 
       highlightTimerRef.current = window.setInterval(() => {
-        if (!isSpeakingRef.current || stoppedByUserRef.current) { // Asegúrate de detener si ya no estamos hablando
+        // Stop if not speaking or explicitly stopped by user
+        if (!isSpeakingRef.current || stoppedByUserRef.current) {
           clearHighlightTimer();
           setCurrentWordIndex(null);
+          setIsSpeaking(false); // Ensure isSpeaking is false on stop/end
           return;
         }
 
@@ -198,25 +209,24 @@ const App: React.FC = () => {
         }
 
         i++;
-        if (i >= displayWords.length) {
+        if (i >= highlightableTokens.length) {
           clearHighlightTimer();
           setCurrentWordIndex(null);
-          setIsSpeaking(false); // Detener el speaking al finalizar
+          setIsSpeaking(false); // Stop speaking state when all words are highlighted
           return;
         }
         setCurrentWordIndex(i);
 
-        // Aplicar pausas
-        const currentWord = displayWords[i - 1]; // La palabra que acaba de pasar
-        if (currentWord) {
-          const lastChar = currentWord.slice(-1);
+        // Apply pauses based on the last character of the word that just passed
+        const currentToken = highlightableTokens[i - 1];
+        if (currentToken) {
+          const lastChar = currentToken.slice(-1);
           if (/[.!?]/.test(lastChar)) {
             extraHold = PAUSE_TICKS_SENTENCE;
           } else if (/[,:;]/.test(lastChar)) {
             extraHold = PAUSE_TICKS_COMMA;
           }
         }
-
       }, msPerWord) as unknown as number;
     };
 
@@ -233,6 +243,7 @@ const App: React.FC = () => {
     utterance.onerror = (e: any) => {
       clearHighlightTimer();
       const err = e?.error || '';
+      // Ignore "interrupted" or "canceled" errors if user stopped playback
       if (stoppedByUserRef.current || err === 'interrupted' || err === 'canceled') {
         setIsSpeaking(false);
         setCurrentWordIndex(null);
@@ -243,7 +254,7 @@ const App: React.FC = () => {
       setCurrentWordIndex(null);
     };
 
-    // Pequeño retardo para asegurar cola limpia en todos los navegadores
+    // Small delay to ensure previous `cancel()` has taken effect in all browsers
     setTimeout(() => {
       utteranceRef.current = utterance;
       try {
@@ -251,55 +262,63 @@ const App: React.FC = () => {
         setIsSpeaking(true);
 
         if (isAndroid) {
-          // En Android, siempre inicia el fallback basado en tiempo
+          // On Android, always start the time-based fallback
           startFallback();
         } else {
-          // En Desktop/iOS: Intenta usar onboundary. Si no se dispara en un tiempo, usa el fallback.
-          let charIndexOffset = 0;
-          let currentDisplayWordIndex = 0;
+          // Desktop/laptop: try using onboundary. If no boundary event after a delay, use fallback.
+          const fallbackTimer = window.setTimeout(() => {
+            if (!firstBoundaryHeardRef.current) {
+              startFallback();
+            }
+          }, 900); // Give it some time (e.g., 900ms) for onboundary to fire
+
+          let tempOverallCharIndex = 0;
+          let tempHighlightableIndex = 0;
+
           utterance.onboundary = (e: any) => {
+            // Once a boundary event is received, cancel the fallback timer
             if (!firstBoundaryHeardRef.current) {
               firstBoundaryHeardRef.current = true;
-              clearTimeout(fallbackTimer); // Cancelar el timer de fallback
-              clearHighlightTimer(); // Asegurarse de que el timer del fallback no se active si ya lo hizo el boundary
+              clearTimeout(fallbackTimer);
+              clearHighlightTimer(); // Ensure fallback timer is not active
             }
 
             const charIndex = e?.charIndex ?? 0;
-            // Ajustar el currentWordIndex basado en charIndex para displayWords
-            let tempCharCounter = 0;
-            for (let i = 0; i < displayWords.length; i++) {
-                // Sumar la longitud de la palabra + un espacio (si no es la última palabra)
-                const wordLength = displayWords[i].length;
-                const spaceLength = (i < displayWords.length - 1 && /\s/.test(story.charAt(story.indexOf(displayWords[i], tempCharCounter) + wordLength))) ? 1 : 0;
-                
-                if (tempCharCounter + wordLength + spaceLength > charIndex && tempCharCounter <= charIndex) {
-                    setCurrentWordIndex(i);
-                    break;
+
+            // Find the corresponding word in highlightableTokens based on charIndex
+            // Iterate through `storyRenderTokens` to accurately calculate character positions
+            tempOverallCharIndex = 0;
+            tempHighlightableIndex = 0;
+            for (let i = 0; i < storyRenderTokens.length; i++) {
+                const token = storyRenderTokens[i];
+                if (!/\s/.test(token)) { // If it's a highlightable token (not a space)
+                    // If the synthesis charIndex falls within this token, set it as current
+                    if (charIndex >= tempOverallCharIndex && charIndex < tempOverallCharIndex + token.length) {
+                        setCurrentWordIndex(tempHighlightableIndex);
+                        break; // Found the current token
+                    }
+                    tempHighlightableIndex++; // Advance highlightable token index
                 }
-                tempCharCounter += wordLength + spaceLength;
+                tempOverallCharIndex += token.length; // Advance overall character index
             }
           };
-
-          const fallbackTimer = window.setTimeout(() => {
-            if (!firstBoundaryHeardRef.current) {
-              // onboundary no se disparó a tiempo, activar el fallback
-              startFallback();
-            }
-          }, 900); // Dar un poco menos de 1 segundo para que onboundary se dispare
         }
       } catch (err) {
-        clearTimeout(fallbackTimer); // Asegurarse de limpiar si hay un error al iniciar
+        // Clear fallback timer if an error occurs immediately when speaking
+        // (e.g., no voices available or invalid parameters)
+        if (!isAndroid && fallbackTimer) clearTimeout(fallbackTimer);
         setError('Audio could not be generated. Please try again.');
         setIsSpeaking(false);
       }
-    }, 60); // Pequeño retardo para dar tiempo a que `cancel()` funcione
-  }, [story, stopSpeaking]); // Añadir stopSpeaking a las dependencias si se usa useCallback
+    }, 60); // Small delay to allow cancel() to fully process
+  }, [story, highlightableTokens, storyRenderTokens, stopSpeaking]);
 
+  // Cleanup on unmount
   useEffect(() => {
     return () => {
       if (isSpeaking) stopSpeaking();
     };
-  }, [isSpeaking, stopSpeaking]);
+  }, [isSpeaking, stopSpeaking]); // Dependencies for useEffect
 
   const renderContent = () => {
     switch (view) {
@@ -348,91 +367,102 @@ const App: React.FC = () => {
     </div>
   );
 
-  const StoryScreen = () => (
-    <>
-      <div className="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-xl shadow-lg w-full max-w-3xl mx-auto relative">
-        <HomeButton />
-        <h2 className="text-xl sm:text-2xl font-bold mb-4 text-center text-slate-800 dark:text-slate-100 leading-tight break-words whitespace-pre-line">
-          {practiceType === 'reading' ? 'Read the\nStory' : 'Listen to the\nStory'}
-        </h2>
+  const StoryScreen = () => {
+    let currentHighlightableTokenIndex = 0; // Counter for mapping `storyRenderTokens` to `highlightableTokens`
+    return (
+      <>
+        <div className="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-xl shadow-lg w-full max-w-3xl mx-auto relative">
+          <HomeButton />
+          <h2 className="text-xl sm:text-2xl font-bold mb-4 text-center text-slate-800 dark:text-slate-100 leading-tight break-words whitespace-pre-line">
+            {practiceType === 'reading' ? 'Read the\nStory' : 'Listen to the\nStory'}
+          </h2>
 
-        {practiceType === 'listening' && (
-          <div className="mb-6 flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 justify-center">
-            <button
-              onClick={() => playSpeak(1)}
-              className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg text-lg"
-            >
-              Play 1x
-            </button>
-            <button
-              onClick={() => playSpeak(0.5)}
-              className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-lg text-lg"
-            >
-              Play 0.5x
-            </button>
-            <button
-              onClick={stopSpeaking}
-              className="bg-slate-700 hover:bg-slate-800 text-white font-bold py-3 px-6 rounded-lg text-lg"
-            >
-              Stop
-            </button>
-            <button
-              onClick={() => setShowTranscript(!showTranscript)}
-              className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg text-lg"
-            >
-              {showTranscript ? 'Hide Transcript' : 'Show Transcript'}
-            </button>
-          </div>
-        )}
-
-        {practiceType === 'reading' && (
-          <p className="whitespace-pre-wrap">{story}</p>
-        )}
-        {practiceType === 'listening' && showTranscript && (
-          <div className="mt-4 text-lg leading-relaxed">
-            {/* Aquí usamos displayWords para el resaltado */}
-            {story.split(/(\b\w+\b|[^\s])/g).filter(s => s.length > 0).map((part, idx) => {
-              // Encuentra el índice de la palabra en displayWords
-              const displayWordIdx = displayWords.indexOf(part);
-              return (
-                <span
-                  key={idx}
-                  style={{
-                    color: displayWordIdx !== -1 && displayWordIdx === currentWordIndex ? 'red' : 'inherit',
-                    fontWeight: displayWordIdx !== -1 && displayWordIdx === currentWordIndex ? 'bold' : 'normal',
-                  }}
-                >
-                  {part}
-                </span>
-              );
-            })}
-          </div>
-        )}
-
-        <div className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row-reverse justify-center items-center gap-4">
-          <button
-            onClick={startQuiz}
-            className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors"
-          >
-            Start Quiz
-          </button>
-          {vocabulary.length > 0 && (
-            <button
-              onClick={() => setIsVocabularyModalOpen(true)}
-              className="w-full sm:w-auto bg-transparent border-2 border-slate-400 text-slate-700 dark:text-slate-300 hover:bg-slate-400 hover:text-white dark:border-slate-500 dark:hover:bg-slate-500 dark:hover:text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors"
-            >
-              View Vocabulary
-            </button>
+          {practiceType === 'listening' && (
+            <div className="mb-6 flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 justify-center">
+              <button
+                onClick={() => playSpeak(1)}
+                className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg text-lg"
+              >
+                Play 1x
+              </button>
+              <button
+                onClick={() => playSpeak(0.5)}
+                className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-lg text-lg"
+              >
+                Play 0.5x
+              </button>
+              <button
+                onClick={stopSpeaking}
+                className="bg-slate-700 hover:bg-slate-800 text-white font-bold py-3 px-6 rounded-lg text-lg"
+              >
+                Stop
+              </button>
+              <button
+                onClick={() => setShowTranscript(!showTranscript)}
+                className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg text-lg"
+              >
+                {showTranscript ? 'Hide Transcript' : 'Show Transcript'}
+              </button>
+            </div>
           )}
+
+          {practiceType === 'reading' && (
+            <p className="whitespace-pre-wrap">{story}</p>
+          )}
+          {practiceType === 'listening' && showTranscript && (
+            <div className="mt-4 text-lg leading-relaxed">
+              {storyRenderTokens.map((token, idx) => {
+                const isSpace = /\s/.test(token);
+                let shouldHighlight = false;
+
+                // Only consider highlighting if it's not a space
+                if (!isSpace) {
+                  if (currentHighlightableTokenIndex === currentWordIndex) {
+                    shouldHighlight = true;
+                  }
+                  currentHighlightableTokenIndex++; // Increment for the next highlightable token
+                }
+
+                return (
+                  <span
+                    key={idx} // Using token index from storyRenderTokens for unique keys
+                    style={{
+                      color: shouldHighlight ? 'red' : 'inherit',
+                      fontWeight: shouldHighlight ? 'bold' : 'normal',
+                    }}
+                  >
+                    {token}
+                  </span>
+                );
+              })}
+            </div>
+          )}
+
+          <div className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row-reverse justify-center items-center gap-4">
+            <button
+              onClick={startQuiz}
+              className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors"
+            >
+              Start Quiz
+            </button>
+            {vocabulary.length > 0 && (
+              <button
+                onClick={() => setIsVocabularyModalOpen(true)}
+                className="w-full sm:w-auto bg-transparent border-2 border-slate-400 text-slate-700 dark:text-slate-300 hover:bg-slate-400 hover:text-white dark:border-slate-500 dark:hover:bg-slate-500 dark:hover:text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors"
+              >
+                View Vocabulary
+              </button>
+            )}
+          </div>
         </div>
-      </div>
-      <VocabularyModal
-        isOpen={isVocabularyModalOpen}
-        onClose={() => setIsVocabularyModalOpen(false)}
-        vocabulary={vocabulary}
-      />
-    </>
-  );
+        <VocabularyModal
+          isOpen={isVocabularyModalOpen}
+          onClose={() => setIsVocabularyModalOpen(false)}
+          vocabulary={vocabulary}
+        />
+      </>
+    );
+  };
 
   const QuizScreen = () => {
     const question = quiz[currentQuestionIndex];
