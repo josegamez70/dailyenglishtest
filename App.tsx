@@ -122,7 +122,7 @@ const App: React.FC = () => {
    * - Limpieza de cola previa (cancel()).
    * - Desktop/laptop: onboundary (preciso) y fallback si no llega.
    * - Android: forzar fallback por tiempo (onboundary es poco fiable).
-   * - Fallback ajustado: un poco MÁS RÁPIDO y pausas solo en . ! ?
+   * - Fallback ajustado: 13% más lento que el anterior + pausas más largas en . ! ?
    */
   const playSpeak = useCallback((rate: number = 1) => {
     if (!story) return;
@@ -139,29 +139,32 @@ const App: React.FC = () => {
     const words = story.split(/\s+/);
     const isAndroid = /android/i.test(navigator.userAgent);
 
-    // WPM calibrado por velocidad (más realista en Android)
+    // WPM calibrado por velocidad
     const baseWpm =
       rate <= 0.6 ? 140 :
       rate < 1.1 ? 190 :
       230;
 
-    // Afinado por velocidad: hacemos el fallback un pelín MÁS rápido
-    //  - a 0.5x: 0.92 (acelera ~8%)
-    //  - a 1x:   0.98 (acelera ~2%)
-    //  - >1x:    1.00 (neutral)
+    // Afinado por velocidad (ligero ajuste)
     const tune =
       rate <= 0.6 ? 0.92 :
       rate < 1.1 ? 0.98 :
       1.0;
 
-    // --- Fallback por tiempo (AJUSTADO) ---
+    // --- Fallback por tiempo (13% más lento que la versión previa) ---
     const startFallback = () => {
       let i = 0;
       setCurrentWordIndex(0);
 
-      const msPerWord = (60_000 / baseWpm) * tune;
+      const msPerWordBase = 60_000 / baseWpm;
 
-      // Mini-pausas SOLO al final de frase (. ! ?), y solo ~1x
+      // En la versión anterior usamos *tune* * 0.90 (10% más rápido).
+      // Ahora aplicamos +13% sobre aquello: 0.90 * 1.13 = 1.017 (≈1.7% más lento que base*tune)
+      const speedFactor = 1.017;
+
+      const msPerWord = msPerWordBase * tune * speedFactor;
+
+      // Pausas más lentas al final de frase (. ! ?) alrededor de 1x
       let extraHold = 0;
       highlightTimerRef.current = window.setInterval(() => {
         if (!isSpeakingRef.current) return;
@@ -179,8 +182,9 @@ const App: React.FC = () => {
         setCurrentWordIndex(i);
 
         const lastChar = words[i - 1]?.slice(-1);
+        // En 1x hacemos la pausa doble (2 ticks) en fin de frase
         if (rate >= 0.95 && rate <= 1.05 && /[.!?]/.test(lastChar || '')) {
-          extraHold = 1; // una sola pausa corta
+          extraHold = 2; // antes 1 → ahora 2 para "más lentas"
         }
       }, msPerWord) as unknown as number;
     };
