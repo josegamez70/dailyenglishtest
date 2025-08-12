@@ -160,7 +160,7 @@ const App: React.FC = () => {
 
       // En la versión anterior usamos *tune* * 0.90 (10% más rápido).
       // Ahora aplicamos +13% sobre aquello: 0.90 * 1.13 = 1.017 (≈1.7% más lento que base*tune)
-      const speedFactor = 1.017;
+      const speedFactor = 1.058; // +4% más lento que 1.017 (1.017 * 1.04 ≈ 1.058)
 
       const msPerWord = msPerWordBase * tune * speedFactor;
 
