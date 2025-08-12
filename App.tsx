@@ -164,7 +164,7 @@ const App: React.FC = () => {
       // aplicar +4% de rapidez en 0.5x y 1x
       const speedFactor =
         rate <= 0.6
-          ? speedFactorBase * 0.99
+          ? speedFactorBase * 0.94
           : (rate >= 0.95 && rate <= 1.05)
             ? speedFactorBase * 0.97
             : speedFactorBase;
