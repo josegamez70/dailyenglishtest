@@ -22,8 +22,9 @@ type AnyQuiz = {
   correctAnswerIndex?: number;
 };
 
+// Solo quita etiquetas A-D seguidas de ) . : o -  (y espacios). No toca palabras normales.
 const stripLabel = (s: string) =>
-  s.replace(/^\s*[A-Z]\s*[\)\.\:\-]?\s*/i, '').trim();
+  s.replace(/^\s*[A-D]\s*(?:[\)\.\:\-]\s*|\-\s*)/i, '').trim();
 
 const normalizeQuizData = (raw: AnyQuiz[]): QuizQuestion[] => {
   return raw.map((q) => {
