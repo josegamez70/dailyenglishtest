@@ -155,14 +155,24 @@ const App: React.FC = () => {
     const startFallback = () => {
       let i = 0;
       setCurrentWordIndex(0);
+      
+const msPerWordBase = 60_000 / baseWpm;
 
-      const msPerWordBase = 60_000 / baseWpm;
+// base de la versión actual
+const speedFactorBase = 1.017;
 
-      // En la versión anterior usamos *tune* * 0.90 (10% más rápido).
-      // Ahora aplicamos +13% sobre aquello: 0.90 * 1.13 = 1.017 (≈1.7% más lento que base*tune)
-      const speedFactor = 1.058; // +4% más lento que 1.017 (1.017 * 1.04 ≈ 1.058)
+// ✅ ajustes pedidos:
+// - 0.5x  → 4% más lento  (×1.04)
+// - 1x    → 2% más rápido (×0.98)
+// - otros → igual que antes
+const speedFactor =
+  rate <= 0.6
+    ? speedFactorBase * 1.04
+    : (rate >= 0.95 && rate <= 1.05)
+      ? speedFactorBase * 0.98
+      : speedFactorBase;
 
-      const msPerWord = msPerWordBase * tune * speedFactor;
+const msPerWord = msPerWordBase * tune * speedFactor;
 
       // Pausas más lentas al final de frase (. ! ?) alrededor de 1x
       let extraHold = 0;
