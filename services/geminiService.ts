@@ -1,4 +1,3 @@
-// src/services/geminiService.ts
 import type { ConfigOptions, QuizQuestion, VocabularyItem } from '../types';
 
 type GenResponse = {
@@ -9,16 +8,23 @@ type GenResponse = {
 
 const API_URL = '/api/generate';
 
-// --- Helper para reintentos con backoff ---
+// --- Timeout helper ---
+function fetchWithTimeout(resource: RequestInfo, options: RequestInit = {}, ms = 25000) {
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), ms);
+  return fetch(resource, { ...options, signal: controller.signal })
+    .finally(() => clearTimeout(id));
+}
+
+// --- Reintentos básicos (la API ya reintenta en backend, aquí es backup) ---
 async function fetchWithRetry(input: RequestInfo, init: RequestInit, tries = 2) {
   let lastErr: any;
   for (let i = 0; i < tries; i++) {
     try {
-      const res = await fetch(input, init);
+      const res = await fetchWithTimeout(input, init, 25000);
       if (!res.ok) {
         const text = await res.text().catch(() => '');
-        const msg = text || `HTTP ${res.status}`;
-        const e = new Error(msg);
+        const e = new Error(text || `HTTP ${res.status}`);
         (e as any).status = res.status;
         throw e;
       }
@@ -27,23 +33,19 @@ async function fetchWithRetry(input: RequestInfo, init: RequestInit, tries = 2) 
       lastErr = e;
       const status = Number(e?.status || 0);
       const retryable =
+        e?.name === 'AbortError' ||
         [429, 502, 503, 504].includes(status) ||
         /temporarily|overloaded|try again/i.test(e?.message || '');
       if (!retryable || i === tries - 1) throw e;
-      await new Promise((r) => setTimeout(r, 600 * (i + 1))); // backoff corto
+      await new Promise((r) => setTimeout(r, 600 * (i + 1)));
     }
   }
   throw lastErr;
 }
 
-// --- Función principal ---
 export async function generateStoryAndQuiz(
   config: ConfigOptions
-): Promise<{
-  story: string;
-  quiz: QuizQuestion[];
-  vocabulary: VocabularyItem[];
-}> {
+): Promise<{ story: string; quiz: QuizQuestion[]; vocabulary: VocabularyItem[] }> {
   const payload = {
     prompt: JSON.stringify({
       level: config.level,
@@ -61,18 +63,16 @@ export async function generateStoryAndQuiz(
     body: JSON.stringify(payload),
   });
 
-  // Limpiar y parsear JSON
   const raw = await res.text();
   const clean = raw.replace(/^```json\s*|\s*```$/g, '').trim();
 
   let data: GenResponse;
   try {
     data = JSON.parse(clean);
-  } catch (e) {
+  } catch {
     throw new Error('BAD_MODEL_OUTPUT: invalid JSON from server');
   }
 
-  // Validaciones mínimas
   if (
     !data ||
     typeof data.story !== 'string' ||
@@ -82,7 +82,6 @@ export async function generateStoryAndQuiz(
     throw new Error('BAD_MODEL_OUTPUT: missing fields');
   }
 
-  // Tipado seguro
   const story = data.story.trim();
   const quiz = data.quiz.map((q) => ({
     question: q.question,
