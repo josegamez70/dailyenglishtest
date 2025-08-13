@@ -449,7 +449,7 @@ const App: React.FC = () => {
     {practiceType === 'listening' && isMobile && isSpeaking && (
       <div className="fixed top-0 left-0 right-0 z-30">
         <div className="mx-auto max-w-3xl px-3">
-          {/* fuerza pequeño fade al cambiar de frase */}
+          {/* Fuerza pequeño fade al cambiar de frase */}
           <div
             key={currentPhraseIndex}
             className="rounded-2xl bg-black/70 backdrop-blur-sm text-white
@@ -465,7 +465,7 @@ const App: React.FC = () => {
     )}
 
     <div className="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-xl shadow-lg w-full max-w-3xl mx-auto relative">
-      {/* ...resto del contenido se queda igual... */}
+      {/* resto del código sin cambios */}
 
 
       <div className="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-xl shadow-lg w-full max-w-3xl mx-auto relative">
