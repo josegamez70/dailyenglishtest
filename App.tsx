@@ -21,18 +21,22 @@ type AnyQuiz = {
   answer?: string;
   correctAnswerIndex?: number;
 };
+
+// Quita etiquetas tipo "A) ", "B. " al inicio de cada opción
 const stripLabel = (s: string) =>
-  s.replace(/^\s*[A-D]\\s*(?:[\\)\\.\\:\\-]\\s*|\\-\\s*)/i, '').trim();
+  s.replace(/^\s*[A-D]\s*(?:[\)\.\:\-]\s*|\-\s*)/i, '').trim();
 
 const normalizeQuizData = (raw: AnyQuiz[]): QuizQuestion[] => {
   return raw.map((q) => {
     const options = (q.options || []).map(o => stripLabel(String(o || '')));
     const rawAns = (q.correctAnswer ?? q.correct ?? q.answer ?? '').toString().trim();
 
+    // 1) índice explícito
     if (typeof q.correctAnswerIndex === 'number' && options[q.correctAnswerIndex]) {
       return { question: q.question, options, correctAnswer: options[q.correctAnswerIndex] };
     }
 
+    // 2) letra A/B/C/D
     const letter = rawAns.match(/^[A-Z]/i)?.[0];
     if (letter) {
       const idx = letter.toUpperCase().charCodeAt(0) - 65;
@@ -40,6 +44,7 @@ const normalizeQuizData = (raw: AnyQuiz[]): QuizQuestion[] => {
       return { question: q.question, options, correctAnswer: pick };
     }
 
+    // 3) texto exacto o parcial
     const norm = stripLabel(rawAns);
     let idx = options.findIndex(o => o.toLowerCase() === norm.toLowerCase());
     if (idx === -1) idx = options.findIndex(o => o.toLowerCase().includes(norm.toLowerCase()));
@@ -51,7 +56,7 @@ const normalizeQuizData = (raw: AnyQuiz[]): QuizQuestion[] => {
 // --- Subtítulos: trocear historia en frases de ~6 palabras, cortando también al fin de frase ---
 const chunkStoryToPhrases = (text: string, target: number = 6): string[] => {
   if (!text) return [];
-  const tokens = text.split(/\\s+/).filter(Boolean);
+  const tokens = text.split(/\s+/).filter(Boolean);
   const out: string[] = [];
   let buf: string[] = [];
   for (let i = 0; i < tokens.length; i++) {
@@ -102,7 +107,7 @@ const App: React.FC = () => {
   const phrases = useMemo(() => chunkStoryToPhrases(story, 6), [story]);
   const currentPhraseIndex = useMemo(() => {
     if (!phrases.length || currentWordIndex == null) return -1;
-    const counts = phrases.map(p => p.split(/\\s+/).length);
+    const counts = phrases.map(p => p.split(/\s+/).length);
     let acc = 0;
     for (let i = 0; i < counts.length; i++) {
       acc += counts[i];
@@ -131,7 +136,7 @@ const App: React.FC = () => {
       const result = await generateStoryAndQuiz(config);
       setStory(result.story);
 
-      // Normaliza el quiz:
+      // Normaliza el quiz para que correctAnswer sea SIEMPRE el texto de una opción:
       const normalizedQuiz = normalizeQuizData(result.quiz as any);
       setQuiz(normalizedQuiz);
 
@@ -175,6 +180,7 @@ const App: React.FC = () => {
     setCurrentWordIndex(null);
     setError(null);
     utteranceRef.current = null;
+    // ventana para ignorar errores "interrupted/canceled"
     setTimeout(() => (stoppedByUserRef.current = false), 120);
   }, []);
 
@@ -210,32 +216,39 @@ const App: React.FC = () => {
     setError(null);
     stoppedByUserRef.current = false;
 
+    // limpiar síntesis y timers anteriores
     window.speechSynthesis.cancel();
     clearHighlightTimer();
     setIsSpeaking(false);
     setCurrentWordIndex(null);
     firstBoundaryHeardRef.current = false;
 
-    const words = story.split(/\\s+/);
+    const words = story.split(/\s+/);
     const isAndroid = /android/i.test(navigator.userAgent);
 
+    // WPM calibrado por velocidad (base)
     const baseWpm =
       rate <= 0.6 ? 140 :
       rate < 1.1 ? 190 :
       230;
 
+    // Ajuste fino por velocidad
     const tune =
       rate <= 0.6 ? 0.92 :
       rate < 1.1 ? 0.98 :
       1.0;
 
+    // --- Fallback por tiempo (4% más rápido que la versión anterior en 1x y 0.5x) ---
     const startFallback = () => {
       let i = 0;
       setCurrentWordIndex(0);
 
       const msPerWordBase = 60_000 / baseWpm;
 
+      // base previa (≈1.7% más lento que base*tune)
       const speedFactorBase = 1.017;
+
+      // 0.5x y 1x un 4% más rápido (ajusta SOLO aquí si necesitas)
       const speedFactor =
         rate <= 0.6
           ? speedFactorBase * 0.96
@@ -245,8 +258,9 @@ const App: React.FC = () => {
 
       const msPerWord = msPerWordBase * tune * speedFactor;
 
-      const PAUSE_TICKS_SENTENCE = rate <= 0.6 ? 4 : 2;
-      const PAUSE_TICKS_COMMA    = rate <= 0.6 ? 1 : 0;
+      // Pausas (en ticks = msPerWord). Más cortas para acompasar el +4%
+      const PAUSE_TICKS_SENTENCE = rate <= 0.6 ? 4 : 2; // fin de frase (. ! ?)
+      const PAUSE_TICKS_COMMA    = rate <= 0.6 ? 1 : 0; // coma/;/: (opcional)
 
       let extraHold = 0;
 
@@ -274,6 +288,7 @@ const App: React.FC = () => {
       }, msPerWord) as unknown as number;
     };
 
+    // En Android: siempre modo fallback por tiempo
     if (isAndroid) {
       setTimeout(() => {
         const utterance = new SpeechSynthesisUtterance(story);
@@ -312,18 +327,21 @@ const App: React.FC = () => {
       return;
     }
 
+    // Desktop/laptop → onboundary + fallback si no hay evento
     const fallbackTimer = window.setTimeout(() => {
       if (!firstBoundaryHeardRef.current) {
         startFallback();
       }
     }, 900);
 
+    // Pequeño retardo para asegurar cola limpia en todos los navegadores
     setTimeout(() => {
       const utterance = new SpeechSynthesisUtterance(story);
       utterance.lang = 'en-US';
       utterance.rate = rate;
 
       utterance.onboundary = (e: any) => {
+        // llegó al menos un boundary -> cancelar fallback por tiempo
         if (!firstBoundaryHeardRef.current) {
           firstBoundaryHeardRef.current = true;
           clearHighlightTimer();
@@ -331,7 +349,7 @@ const App: React.FC = () => {
         const charIndex = e?.charIndex ?? 0;
         let count = 0;
         for (let i = 0; i < words.length; i++) {
-          count += words[i].length + 1;
+          count += words[i].length + 1; // +1 por espacio
           if (count > charIndex) {
             setCurrentWordIndex(i);
             break;
@@ -378,16 +396,6 @@ const App: React.FC = () => {
     };
   }, [isSpeaking, stopSpeaking]);
 
-  const renderContent = () => {
-    switch (view) {
-      case 'config': return <ConfigScreen />;
-      case 'story':  return <StoryScreen />;
-      case 'quiz':   return <QuizScreen />;
-      case 'results':return <ResultsScreen />;
-      default:       return <ConfigScreen />;
-    }
-  };
-
   const HomeButton = () => (
     <button
       onClick={resetApp}
@@ -422,6 +430,7 @@ const App: React.FC = () => {
 
   const StoryScreen = () => (
     <>
+      {/* Barra de subtítulos SOLO en móvil y mientras suena el audio */}
       {practiceType === 'listening' && isMobile && isSpeaking && (
         <div className="fixed top-0 left-0 right-0 z-30">
           <div className="mx-auto max-w-3xl px-3">
@@ -443,15 +452,33 @@ const App: React.FC = () => {
       <div className="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-xl shadow-lg w-full max-w-3xl mx-auto relative">
         <HomeButton />
         <h2 className="text-xl sm:text-2xl font-bold mb-4 text-center text-slate-800 dark:text-slate-100 leading-tight break-words whitespace-pre-line">
-          {practiceType === 'reading' ? 'Read the\\nStory' : 'Listen to the\\nStory'}
+          {practiceType === 'reading' ? 'Read the\nStory' : 'Listen to the\nStory'}
         </h2>
 
         {practiceType === 'listening' && (
           <div className="mb-6 flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 justify-center">
-            <button onClick={() => playSpeak(1)} className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg text-lg">Play 1x</button>
-            <button onClick={() => playSpeak(0.5)} className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-lg text-lg">Play 0.5x</button>
-            <button onClick={stopSpeaking} className="bg-slate-700 hover:bg-slate-800 text-white font-bold py-3 px-6 rounded-lg text-lg">Stop</button>
-            <button onClick={() => setShowTranscript(!showTranscript)} className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg text-lg">
+            <button
+              onClick={() => playSpeak(1)}
+              className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg text-lg"
+            >
+              Play 1x
+            </button>
+            <button
+              onClick={() => playSpeak(0.5)}
+              className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-lg text-lg"
+            >
+              Play 0.5x
+            </button>
+            <button
+              onClick={stopSpeaking}
+              className="bg-slate-700 hover:bg-slate-800 text-white font-bold py-3 px-6 rounded-lg text-lg"
+            >
+              Stop
+            </button>
+            <button
+              onClick={() => setShowTranscript(!showTranscript)}
+              className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg text-lg"
+            >
               {showTranscript ? 'Hide Transcript' : 'Show Transcript'}
             </button>
           </div>
@@ -478,14 +505,28 @@ const App: React.FC = () => {
         )}
 
         <div className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row-reverse justify-center items-center gap-4">
-          <button onClick={startQuiz} className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors">Start Quiz</button>
+          <button
+            onClick={startQuiz}
+            className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors"
+          >
+            Start Quiz
+          </button>
           {vocabulary.length > 0 && (
-            <button onClick={() => setIsVocabularyModalOpen(true)} className="w-full sm:w-auto bg-transparent border-2 border-slate-400 text-slate-700 dark:text-slate-300 hover:bg-slate-400 hover:text-white dark:border-slate-500 dark:hover:bg-slate-500 dark:hover:text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors">View Vocabulary</button>
+            <button
+              onClick={() => setIsVocabularyModalOpen(true)}
+              className="w-full sm:w-auto bg-transparent border-2 border-slate-400 text-slate-700 dark:text-slate-300 hover:bg-slate-400 hover:text-white dark:border-slate-500 dark:hover:bg-slate-500 dark:hover:text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors"
+            >
+              View Vocabulary
+            </button>
           )}
         </div>
       </div>
 
-      <VocabularyModal isOpen={isVocabularyModalOpen} onClose={() => setIsVocabularyModalOpen(false)} vocabulary={vocabulary} />
+      <VocabularyModal
+        isOpen={isVocabularyModalOpen}
+        onClose={() => setIsVocabularyModalOpen(false)}
+        vocabulary={vocabulary}
+      />
     </>
   );
 
@@ -498,9 +539,14 @@ const App: React.FC = () => {
           {practiceType === 'reading' ? 'Reading Comprehension Quiz' : 'Listening Comprehension Quiz'}
         </h2>
         <div className="mb-4">
-          <p className="text-sm text-slate-500 dark:text-slate-400">Question {currentQuestionIndex + 1} of {quiz.length}</p>
+          <p className="text-sm text-slate-500 dark:text-slate-400">
+            Question {currentQuestionIndex + 1} of {quiz.length}
+          </p>
           <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2.5 mt-1">
-            <div className="bg-blue-600 h-2.5 rounded-full transition-all" style={{ width: `${((currentQuestionIndex + 1) / quiz.length) * 100}%` }}></div>
+            <div
+              className="bg-blue-600 h-2.5 rounded-full transition-all"
+              style={{ width: `${((currentQuestionIndex + 1) / quiz.length) * 100}%` }}
+            ></div>
           </div>
         </div>
         <h3 className="text-xl md:text-2xl font-semibold mb-6 text-slate-800 dark:text-slate-100">{question.question}</h3>
@@ -515,9 +561,12 @@ const App: React.FC = () => {
                   userAnswers[currentQuestionIndex] === option
                     ? 'bg-blue-100 dark:bg-blue-900 border-blue-500'
                     : 'bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-600'
-               
+                }`}
               >
-                <span className="font-semibold mr-2">{letter}.</span> {option}
+                {/* Envolver el contenido en un único nodo para evitar error JSX */}
+                <span>
+                  <span className="font-semibold mr-2">{letter}.</span> {option}
+                </span>
               </button>
             );
           })}
@@ -556,10 +605,13 @@ const App: React.FC = () => {
           {quiz.map((question, index) => {
             const userAnswer = userAnswers[index];
             const correctText = question.correctAnswer;
+
+            // calcular letras para user y correct
             const userIdx = question.options.findIndex(o => o === userAnswer);
             const correctIdx = question.options.findIndex(o => o === correctText);
             const userLetter = userIdx >= 0 ? getLetter(userIdx) : null;
             const correctLetter = correctIdx >= 0 ? getLetter(correctIdx) : null;
+
             const isCorrect = correctText === userAnswer;
 
             return (
@@ -612,6 +664,21 @@ const App: React.FC = () => {
         </div>
       </div>
     );
+  };
+
+  const renderContent = () => {
+    switch (view) {
+      case 'config':
+        return <ConfigScreen />;
+      case 'story':
+        return <StoryScreen />;
+      case 'quiz':
+        return <QuizScreen />;
+      case 'results':
+        return <ResultsScreen />;
+      default:
+        return <ConfigScreen />;
+    }
   };
 
   return (
