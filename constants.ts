@@ -6,6 +6,8 @@ export const LEVELS = [
 ];
 
 export const TOPICS = [
+  { label: "Daily Life", value: "daily life" },
+  { label: "Wildcard Topic (any subject)", value: "wildcard" },
     { value: 'fantasy', label: 'Fantasy' },
     { value: 'daily_life', label: 'Daily Life' },
     { value: 'school_college', label: 'School / College' },
