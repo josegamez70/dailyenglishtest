@@ -112,7 +112,7 @@ const App: React.FC = () => {
     const counts = phrases.map(p => p.split(/\s+/).length);
     const totalWords = counts.reduce((a, b) => a + b, 0);
 
-    const SPEEDUP = isMobile ? 1.07 : 1.0; // <- 7% más rápido en móvil
+    const SPEEDUP = isMobile ? 1.10 : 1.0; // <- 10% más rápido en móvil
     const effectiveWordIndex = Math.min(
       totalWords - 1,
       Math.max(0, Math.floor(currentWordIndex * SPEEDUP))
@@ -438,113 +438,118 @@ const App: React.FC = () => {
     </div>
   );
 
-  const StoryScreen = () => (
-    <>
-      {/* Barra de subtítulos SOLO en móvil y mientras suena el audio */}
-      {practiceType === 'listening' && isMobile && isSpeaking && (
-        <div className="fixed top-0 left-0 right-0 z-30">
-          <div className="mx-auto max-w-3xl px-3">
-            {/* fuerza pequeño fade al cambiar de frase */}
-            <div
-              key={currentPhraseIndex}
-              className="rounded-2xl bg-black/70 backdrop-blur-sm text-white
-                         px-5 py-4 text-lg sm:text-xl font-semibold tracking-wide
-                         shadow-2xl ring-1 ring-white/10
-                         transition-opacity duration-300 animate-pulse
-                         border border-red-500"
-              aria-live="polite"
-            >
-              {currentPhraseIndex >= 0 ? phrases[currentPhraseIndex] : '\u00A0'}
-            </div>
+ 
+
+const StoryScreen = () => (
+  <>
+    {practiceType === 'listening' && isMobile && isSpeaking && (
+      <div className="fixed top-[30%] left-0 right-0 z-30">
+        <div className="mx-auto max-w-3xl px-3">
+          {/* Barra de subtítulos */}
+          <div
+            key={currentPhraseIndex}
+            className="rounded-2xl bg-black/70 backdrop-blur-sm text-white
+                       px-5 py-4 text-lg sm:text-xl font-semibold tracking-wide
+                       shadow-2xl ring-1 ring-white/10
+                       transition-opacity duration-300 animate-pulse
+                       border border-red-500"
+            aria-live="polite"
+          >
+            {currentPhraseIndex >= 0 ? phrases[currentPhraseIndex] : '\u00A0'}
           </div>
+        </div>
+      </div>
+    )}
+
+    <div className="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-xl shadow-lg w-full max-w-3xl mx-auto relative">
+      <HomeButton />
+      <h2 className="text-xl sm:text-2xl font-bold mb-4 text-center text-slate-800 dark:text-slate-100 leading-tight break-words whitespace-pre-line">
+        {practiceType === 'reading' ? 'Read the\nStory' : 'Listen to the\nStory'}
+      </h2>
+
+      {practiceType === 'listening' && (
+        <div className="mb-6 flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 justify-center">
+          <button
+            onClick={() => playSpeak(1)}
+            className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg text-lg"
+          >
+            Play 1x
+          </button>
+          <button
+            onClick={() => playSpeak(0.5)}
+            className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-lg text-lg"
+          >
+            Play 0.5x
+          </button>
+          <button
+            onClick={stopSpeaking}
+            className="bg-slate-700 hover:bg-slate-800 text-white font-bold py-3 px-6 rounded-lg text-lg"
+          >
+            Stop
+          </button>
+          <button
+            onClick={() => setShowTranscript(!showTranscript)}
+            className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg text-lg"
+          >
+            {showTranscript ? 'Hide Transcript' : 'Show Transcript'}
+          </button>
         </div>
       )}
 
-      <div className="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-xl shadow-lg w-full max-w-3xl mx-auto relative">
-        <HomeButton />
-        <h2 className="text-xl sm:text-2xl font-bold mb-4 text-center text-slate-800 dark:text-slate-100 leading-tight break-words whitespace-pre-line">
-          {practiceType === 'reading' ? 'Read the\nStory' : 'Listen to the\nStory'}
-        </h2>
+      {practiceType === 'reading' && (
+        <p className="whitespace-pre-wrap">{story}</p>
+      )}
 
-        {practiceType === 'listening' && (
-          <div className="mb-6 flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 justify-center">
-            <button
-              onClick={() => playSpeak(1)}
-              className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg text-lg"
-            >
-              Play 1x
-            </button>
-            <button
-              onClick={() => playSpeak(0.5)}
-              className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-lg text-lg"
-            >
-              Play 0.5x
-            </button>
-            <button
-              onClick={stopSpeaking}
-              className="bg-slate-700 hover:bg-slate-800 text-white font-bold py-3 px-6 rounded-lg text-lg"
-            >
-              Stop
-            </button>
-            <button
-              onClick={() => setShowTranscript(!showTranscript)}
-              className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg text-lg"
-            >
-              {showTranscript ? 'Hide Transcript' : 'Show Transcript'}
-            </button>
+      {/* Transcripción */}
+      {practiceType === 'listening' && showTranscript && (
+        isMobile ? (
+          // Móvil: texto plano, sin resaltado
+          <p className="mt-4 whitespace-pre-wrap">{story}</p>
+        ) : (
+          // Desktop/laptop: con resaltado
+          <div className="mt-4">
+            {story.split(' ').map((word, idx) => (
+              <span
+                key={idx}
+                style={{
+                  color: idx === currentWordIndex ? 'red' : 'inherit',
+                  fontWeight: idx === currentWordIndex ? 'bold' : 'normal',
+                }}
+              >
+                {word}{' '}
+              </span>
+            ))}
           </div>
-        )}
+        )
+      )}
 
-        {/* Transcripción: en móvil SIN resaltado; en desktop con resaltado palabra a palabra */}
-        {practiceType === 'reading' && (
-          <p className="whitespace-pre-wrap">{story}</p>
-        )}
-
-        {practiceType === 'listening' && showTranscript && (
-          isMobile ? (
-            <p className="mt-4 whitespace-pre-wrap">{story}</p>
-          ) : (
-            <div className="mt-4">
-              {story.split(' ').map((word, idx) => (
-                <span
-                  key={idx}
-                  style={{
-                    color: idx === currentWordIndex ? 'red' : 'inherit',
-                    fontWeight: idx === currentWordIndex ? 'bold' : 'normal',
-                  }}
-                >
-                  {word}{' '}
-                </span>
-              ))}
-            </div>
-          )
-        )}
-
-        <div className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row-reverse justify-center items-center gap-4">
+      <div className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row-reverse justify-center items-center gap-4">
+        <button
+          onClick={startQuiz}
+          className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors"
+        >
+          Start Quiz
+        </button>
+        {vocabulary.length > 0 && (
           <button
-            onClick={startQuiz}
-            className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors"
+            onClick={() => setIsVocabularyModalOpen(true)}
+            className="w-full sm:w-auto bg-transparent border-2 border-slate-400 text-slate-700 dark:text-slate-300 hover:bg-slate-400 hover:text-white dark:border-slate-500 dark:hover:bg-slate-500 dark:hover:text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors"
           >
-            Start Quiz
+            View Vocabulary
           </button>
-          {vocabulary.length > 0 && (
-            <button
-              onClick={() => setIsVocabularyModalOpen(true)}
-              className="w-full sm:w-auto bg-transparent border-2 border-slate-400 text-slate-700 dark:text-slate-300 hover:bg-slate-400 hover:text-white dark:border-slate-500 dark:hover:bg-slate-500 dark:hover:text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors"
-            >
-              View Vocabulary
-            </button>
-          )}
-        </div>
+        )}
       </div>
+    </div>
+    <VocabularyModal
+      isOpen={isVocabularyModalOpen}
+      onClose={() => setIsVocabularyModalOpen(false)}
+      vocabulary={vocabulary}
+    />
+  </>
+);
 
-      <VocabularyModal
-        isOpen={isVocabularyModalOpen}
-        onClose={() => setIsVocabularyModalOpen(false)}
-        vocabulary={vocabulary}
-      />
-    </>
-  );
+
+
 
   const QuizScreen = () => {
     const question = quiz[currentQuestionIndex];
