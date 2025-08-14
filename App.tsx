@@ -105,16 +105,26 @@ const App: React.FC = () => {
 
   // Subtítulos: frases y frase actual (derivadas del índice de palabra)
   const phrases = useMemo(() => chunkStoryToPhrases(story, 6), [story]);
+
+  // (+7% en móvil) índice de frase actual para la barra de subtítulos
   const currentPhraseIndex = useMemo(() => {
     if (!phrases.length || currentWordIndex == null) return -1;
     const counts = phrases.map(p => p.split(/\s+/).length);
+    const totalWords = counts.reduce((a, b) => a + b, 0);
+
+    const SPEEDUP = isMobile ? 1.07 : 1.0; // <- 7% más rápido en móvil
+    const effectiveWordIndex = Math.min(
+      totalWords - 1,
+      Math.max(0, Math.floor(currentWordIndex * SPEEDUP))
+    );
+
     let acc = 0;
     for (let i = 0; i < counts.length; i++) {
       acc += counts[i];
-      if (currentWordIndex < acc) return i;
+      if (effectiveWordIndex < acc) return i;
     }
     return phrases.length - 1;
-  }, [phrases, currentWordIndex]);
+  }, [phrases, currentWordIndex, isMobile]);
 
   // Refs para controlar síntesis y fallbacks
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
@@ -440,7 +450,8 @@ const App: React.FC = () => {
               className="rounded-2xl bg-black/70 backdrop-blur-sm text-white
                          px-5 py-4 text-lg sm:text-xl font-semibold tracking-wide
                          shadow-2xl ring-1 ring-white/10
-                         transition-opacity duration-300 animate-pulse"
+                         transition-opacity duration-300 animate-pulse
+                         border border-red-500"
               aria-live="polite"
             >
               {currentPhraseIndex >= 0 ? phrases[currentPhraseIndex] : '\u00A0'}
@@ -484,24 +495,29 @@ const App: React.FC = () => {
           </div>
         )}
 
+        {/* Transcripción: en móvil SIN resaltado; en desktop con resaltado palabra a palabra */}
         {practiceType === 'reading' && (
           <p className="whitespace-pre-wrap">{story}</p>
         )}
 
         {practiceType === 'listening' && showTranscript && (
-          <div className="mt-4">
-            {story.split(' ').map((word, idx) => (
-              <span
-                key={idx}
-                style={{
-                  color: idx === currentWordIndex ? 'red' : 'inherit',
-                  fontWeight: idx === currentWordIndex ? 'bold' : 'normal',
-                }}
-              >
-                {word}{' '}
-              </span>
-            ))}
-          </div>
+          isMobile ? (
+            <p className="mt-4 whitespace-pre-wrap">{story}</p>
+          ) : (
+            <div className="mt-4">
+              {story.split(' ').map((word, idx) => (
+                <span
+                  key={idx}
+                  style={{
+                    color: idx === currentWordIndex ? 'red' : 'inherit',
+                    fontWeight: idx === currentWordIndex ? 'bold' : 'normal',
+                  }}
+                >
+                  {word}{' '}
+                </span>
+              ))}
+            </div>
+          )
         )}
 
         <div className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row-reverse justify-center items-center gap-4">
