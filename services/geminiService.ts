@@ -1,97 +1,101 @@
+// services/geminiService.ts
 import type { ConfigOptions, QuizQuestion, VocabularyItem } from '../types';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
-type GenResponse = {
-  story: string;
-  quiz: { question: string; options: string[]; correctAnswer: string }[];
-  vocabulary: { word: string; definition: string }[];
-};
+const MODEL_NAME = 'gemini-1.5-flash';
 
-const API_URL = '/api/generate';
+const getApiKey = () =>
+  (typeof import.meta !== 'undefined' && (import.meta as any).env?.VITE_GEMINI_API_KEY) ||
+  (typeof process !== 'undefined' && (process as any).env?.VITE_GEMINI_API_KEY);
 
-// --- Timeout helper ---
-function fetchWithTimeout(resource: RequestInfo, options: RequestInit = {}, ms = 25000) {
-  const controller = new AbortController();
-  const id = setTimeout(() => controller.abort(), ms);
-  return fetch(resource, { ...options, signal: controller.signal })
-    .finally(() => clearTimeout(id));
-}
-
-// --- Reintentos básicos (la API ya reintenta en backend, aquí es backup) ---
-async function fetchWithRetry(input: RequestInfo, init: RequestInit, tries = 2) {
-  let lastErr: any;
-  for (let i = 0; i < tries; i++) {
-    try {
-      const res = await fetchWithTimeout(input, init, 25000);
-      if (!res.ok) {
-        const text = await res.text().catch(() => '');
-        const e = new Error(text || `HTTP ${res.status}`);
-        (e as any).status = res.status;
-        throw e;
-      }
-      return res;
-    } catch (e: any) {
-      lastErr = e;
-      const status = Number(e?.status || 0);
-      const retryable =
-        e?.name === 'AbortError' ||
-        [429, 502, 503, 504].includes(status) ||
-        /temporarily|overloaded|try again/i.test(e?.message || '');
-      if (!retryable || i === tries - 1) throw e;
-      await new Promise((r) => setTimeout(r, 600 * (i + 1)));
-    }
-  }
-  throw lastErr;
+function extractJson(text: string): any {
+  if (!text) throw new Error('Empty response from model.');
+  const fenced = text.match(/```(?:json)?\s*([\s\S]*?)```/i);
+  const payload = fenced ? fenced[1] : text;
+  const first = payload.indexOf('{');
+  const last = payload.lastIndexOf('}');
+  const sliced = first >= 0 && last > first ? payload.slice(first, last + 1) : payload.trim();
+  const noTrailingCommas = sliced.replace(/,\s*([}\]])/g, '$1');
+  return JSON.parse(noTrailingCommas);
 }
 
 export async function generateStoryAndQuiz(
   config: ConfigOptions
 ): Promise<{ story: string; quiz: QuizQuestion[]; vocabulary: VocabularyItem[] }> {
-  const payload = {
-    prompt: JSON.stringify({
-      level: config.level,
-      topic: config.topic,
-      wordCount: config.wordCount,
-      questionCount: config.questionCount,
-      vocabularyCount: 8,
-      mode: config.practiceType || 'reading',
-    }),
-  };
+  const apiKey = getApiKey();
+  if (!apiKey) {
+    throw new Error(
+      'Missing VITE_GEMINI_API_KEY. Set it in your environment variables (e.g., Netlify env vars or .env.local).'
+    );
+  }
 
-  const res = await fetchWithRetry(API_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-  });
+  // Wildcard topic handling
+  const topicPrompt =
+    config.topic === 'wildcard'
+      ? 'any interesting or surprising topic'
+      : `the topic '${config.topic}'`;
 
-  const raw = await res.text();
-  const clean = raw.replace(/^```json\s*|\s*```$/g, '').trim();
+  // Rango ±10 palabras
+  const minWords = Math.max(20, (config.wordCount as number) - 10);
+  const maxWords = (config.wordCount as number) + 10;
 
-  let data: GenResponse;
+  const prompt = `
+Generate a story of about ${config.wordCount} words
+(minimum ${minWords} words, maximum ${maxWords} words)
+on ${topicPrompt}, suitable for ${config.level} learners.
+
+Constraints:
+- Use clear, CEFR-appropriate vocabulary for the selected level (${config.level}).
+- Keep the narrative coherent and engaging.
+- After the story, provide a quiz with ${config.questionCount} multiple-choice questions.
+- Each question must include 4 options.
+- "correctAnswer" must match exactly one of the options (not a letter or index).
+- Provide a "vocabulary" list with 6–10 words from the story and their definitions.
+Return only valid JSON with fields: "story", "quiz", "vocabulary".
+`.trim();
+
+  const genAI = new GoogleGenerativeAI(apiKey);
+  const model = genAI.getGenerativeModel({ model: MODEL_NAME });
+
+  let text: string;
   try {
-    data = JSON.parse(clean);
-  } catch {
-    throw new Error('BAD_MODEL_OUTPUT: invalid JSON from server');
+    const result = await model.generateContent(prompt);
+    text = await result.response.text();
+  } catch (err: any) {
+    console.error('Gemini API error:', err);
+    throw new Error('Could not generate content. Please try again.');
   }
 
-  if (
-    !data ||
-    typeof data.story !== 'string' ||
-    !Array.isArray(data.quiz) ||
-    !Array.isArray(data.vocabulary)
-  ) {
-    throw new Error('BAD_MODEL_OUTPUT: missing fields');
+  let data: any;
+  try {
+    data = extractJson(text);
+  } catch (err) {
+    console.error('JSON parse error:', err, '\nRAW TEXT:\n', text);
+    throw new Error('Model returned invalid JSON. Please try again.');
   }
 
-  const story = data.story.trim();
-  const quiz = data.quiz.map((q) => ({
-    question: q.question,
-    options: Array.isArray(q.options) ? q.options : [],
-    correctAnswer: q.correctAnswer,
-  }));
-  const vocabulary = data.vocabulary.map((v) => ({
-    word: v.word,
-    definition: v.definition,
+  if (!data.story || !Array.isArray(data.quiz) || data.quiz.length === 0) {
+    throw new Error('Generated content incomplete. Please try again.');
+  }
+
+  const quiz: QuizQuestion[] = data.quiz.map((q: any) => ({
+    question: String(q?.question || ''),
+    options: Array.isArray(q?.options) ? q.options.map((o: any) => String(o || '')) : [],
+    correctAnswer: String(q?.correctAnswer || q?.correct || q?.answer || ''),
+    correctAnswerIndex:
+      typeof q?.correctAnswerIndex === 'number' ? q.correctAnswerIndex : undefined,
   }));
 
-  return { story, quiz, vocabulary };
+  const vocabulary: VocabularyItem[] = (data.vocabulary || []).map((v: any) => ({
+    word: String(v?.word || ''),
+    definition: String(v?.definition || ''),
+  }));
+
+  return {
+    story: String(data.story || ''),
+    quiz,
+    vocabulary,
+  };
 }
+
+export default generateStoryAndQuiz;
