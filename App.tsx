@@ -112,7 +112,7 @@ const App: React.FC = () => {
     const counts = phrases.map(p => p.split(/\s+/).length);
     const totalWords = counts.reduce((a, b) => a + b, 0);
 
-    const SPEEDUP = isMobile ? 1.10 : 1.0; // <- 10% más rápido en móvil
+    const SPEEDUP = isMobile ? 1.08 : 1.0; // <- 08% más rápido en móvil
     const effectiveWordIndex = Math.min(
       totalWords - 1,
       Math.max(0, Math.floor(currentWordIndex * SPEEDUP))
