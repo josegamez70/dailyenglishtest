@@ -243,7 +243,7 @@ const App: React.FC = () => {
     // y ajustarlos si la sincronización no es perfecta.
     // Son los milisegundos que el temporizador esperará por CADA PALABRA.
     const getMsPerWord = (speechRate: number): number => {
-      if (speechRate <= 0.6) return 290 // Para 0.5x - Ajustado a 280ms
+      if (speechRate <= 0.6) return 300 // Para 0.5x - Ajustado a 280ms
       if (speechRate < 1.1) return 300// Para 1x - Ajustado a 180ms
       return 150; // Para velocidades más rápidas
     };
