@@ -1,0 +1,6 @@
+{
+  "name": "English Comprehension Practice",
+  "description": "An application to test and improve your English reading and listening skills. It uses AI to generate custom stories and quizzes based on your chosen level, topic, and length.",
+  "requestFramePermissions": [],
+  "prompt": ""
+}
