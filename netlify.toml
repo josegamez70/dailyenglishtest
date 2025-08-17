@@ -1,0 +1,23 @@
+# Archivo de configuración para Netlify
+
+[build]
+  # Indica a Netlify que tus funciones están en la carpeta "api"
+  functions = "api"
+
+# Esta regla es para que las llamadas a /api/loquesea funcionen correctamente
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+# Le decimos a Netlify que el comando para desarrollo es 'vite'
+[dev]
+  command = "vite"
+
+# Configuración global de funciones
+[functions]
+  node_bundler = "esbuild"
+
+# Aplica el timeout a TODAS las funciones
+[functions."*"]
+  timeout = 26
