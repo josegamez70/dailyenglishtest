@@ -173,7 +173,7 @@ export const handler: Handler = async (event) => {
         body: JSON.stringify({
           ok: false,
           code: 'MODEL_UNAVAILABLE',
-          message: 'El modelo está saturado. Intenta de nuevo en unos segundos.',
+          message: lastErr?.message || 'Error desconocido del servidor de Google.',
         }),
       };
     }
