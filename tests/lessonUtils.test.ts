@@ -2,9 +2,13 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { resolveTopic, selectableTopics, WILDCARD_TOPIC } from '../constants.ts';
 import {
+  advancedSkillsAreChallenging,
   closestStorySentence,
+  elapsedWholeSeconds,
+  hasNearSynonymDistractor,
   isWordCountWithinTolerance,
   optionsAreDistinct,
+  questionGivesAwayAnswer,
   scoreFeedback,
   sentenceInStory,
   wordCountBounds,
@@ -61,6 +65,61 @@ test('supporting sentences must come from the story', () => {
     closestStorySentence('The group won because the auditions were intense.', story),
     'The band won after intense auditions.'
   );
+});
+
+test('elapsed seconds follow the wall clock from the request start', () => {
+  const start = 1_000_000;
+  assert.equal(elapsedWholeSeconds(start, start + 0), 0);
+  assert.equal(elapsedWholeSeconds(start, start + 999), 0);
+  assert.equal(elapsedWholeSeconds(start, start + 1000), 1);
+  assert.equal(elapsedWholeSeconds(start, start + 1999), 1);
+  assert.equal(elapsedWholeSeconds(start, start + 3000), 3);
+  assert.equal(elapsedWholeSeconds(start, start + 6000), 6);
+  assert.equal(elapsedWholeSeconds(Number.NaN, start), 0);
+  assert.equal(elapsedWholeSeconds(start, Number.POSITIVE_INFINITY), 0);
+});
+
+test('a question must not repeat the correct answer', () => {
+  assert.equal(
+    questionGivesAwayAnswer(
+      'What specific field is mentioned as revolutionizing data analysis through artificial intelligence?',
+      'Artificial intelligence'
+    ),
+    true
+  );
+  assert.equal(
+    questionGivesAwayAnswer(
+      'Why does the writer mention the late train?',
+      'To show the town was unprepared'
+    ),
+    false
+  );
+});
+
+test('advanced quizzes need a majority of inference, vocabulary, or intent', () => {
+  assert.equal(advancedSkillsAreChallenging([
+    'inference', 'inference', 'vocabulary', 'detail', 'detail',
+  ]), true);
+  assert.equal(advancedSkillsAreChallenging([
+    'inference', 'vocabulary', 'detail', 'detail', 'detail',
+  ]), false);
+  assert.equal(advancedSkillsAreChallenging([]), false);
+  assert.equal(advancedSkillsAreChallenging([null, 'detail', 'inference']), false);
+});
+
+test('near-synonym distractors are rejected and different ideas are kept', () => {
+  assert.equal(hasNearSynonymDistractor([
+    'The food was shared equitably',
+    'The food was shared fairly',
+    'The shop closed early',
+    'A storm cancelled the trip',
+  ]), true);
+  assert.equal(hasNearSynonymDistractor([
+    'She left at dawn',
+    'She left at dusk',
+    'The shop was closed',
+    'A dog found the map',
+  ]), false);
 });
 
 test('near-identical options are rejected and different ones are kept', () => {

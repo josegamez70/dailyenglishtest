@@ -1,11 +1,16 @@
 import { GoogleGenerativeAI, SchemaType, type ResponseSchema } from '@google/generative-ai';
 import { TOPICS, WILDCARD_TOPIC } from '../constants';
 import {
+  advancedSkillsAreChallenging,
   closestStorySentence,
   countWords,
+  hasNearSynonymDistractor,
+  normalizeQuestionSkill,
   optionsAreDistinct,
+  questionGivesAwayAnswer,
   sentenceInStory,
   wordCountBounds,
+  type QuestionSkill,
 } from '../lessonUtils';
 import { normalizeQuiz, type NormalizedQuizQuestion } from '../quizNormalize';
 
@@ -78,8 +83,12 @@ const LESSON_SCHEMA: ResponseSchema = {
             type: SchemaType.STRING,
             description: 'One sentence copied exactly from the story that supports the answer.',
           },
+          skill: {
+            type: SchemaType.STRING,
+            description: 'detail, inference, vocabulary, or intent. Advanced quizzes are mostly inference, vocabulary, or intent.',
+          },
         },
-        required: ['question', 'options', 'correctAnswer', 'explanation', 'supportingSentence'],
+        required: ['question', 'options', 'correctAnswer', 'explanation', 'supportingSentence', 'skill'],
       },
     },
     vocabulary: {
@@ -116,20 +125,22 @@ function levelRules(level: string): string {
     return [
       'Level: Advanced.',
       'Use richer vocabulary and longer sentences, but stay clear.',
-      'Questions may ask about reasons, purpose, feelings, or what follows from the story.',
-      'Even so, each question must have exactly one answer that the story supports.',
-      'A careful reader must not be able to defend a second option.',
-      'Wrong answers must be clearly different ideas. Do not use small wording changes or near-synonyms of the correct answer.',
-      'Do not write trick questions, or questions where two options are both partly true.',
+      'A majority of the questions must require thinking, not copying a fact.',
+      'Most questions must use skill "inference" (a conclusion the story supports but does not say in one sentence), "vocabulary" (what a word or phrase means in THIS story), or "intent" (why the writer included a detail, or what the writer wants the reader to think).',
+      'Simple fact questions, skill "detail", must be the minority.',
+      'Each question still has exactly one answer. A careful reader must not be able to defend a second option.',
+      'Do not use a near-synonym of the right idea as a wrong answer. If the story supports "fairly", do not also offer "equitably" or any wording that could also be correct.',
+      'The question must not contain the correct answer or repeat its key words. Bad example: asking which field uses artificial intelligence and then answering "Artificial intelligence".',
     ].join(' ');
   }
   if (key.includes('intermediate')) {
     return [
       'Level: Intermediate.',
       'Use everyday English with some less common words.',
-      'Ask about important facts, reasons, and the main idea.',
-      'Each question has exactly one correct answer that the story states or makes obvious.',
-      'Wrong answers must be clearly different from the correct answer and from each other.',
+      'Mix fact questions (skill "detail") with some inference questions (skill "inference"). Do not make every question a line copied from the story.',
+      'Each question has exactly one correct answer that a careful reader can defend, and the other options cannot.',
+      'Do not use near-synonyms as distractors. Wrong answers must be clearly different ideas, not another wording of the right idea.',
+      'The question must not contain the correct answer or give it away.',
     ].join(' ');
   }
   if (key.includes('beginner')) {
@@ -202,10 +213,12 @@ QUIZ (required):
 - Option text must NOT start with a letter label. Never write "A.", "A)", "(A)", "A:", "A-", or a lone "A ", "B ", "C ", or "D " in front of an answer.
 - Write each option as plain answer text in sentence case.
 - correctAnswer must be the full text of the one correct option, copied exactly from options. Do not answer with only A, B, C, or D.
-- The story must support that one answer directly. The other three options are plausible but wrong.
-- Wrong answers must not overlap in meaning and must not be near-copies of the correct answer.
+- The story must support that one answer. The other three options are plausible but wrong, and none of them is also defensible.
+- Wrong answers must not overlap in meaning, must not be near-copies of the correct answer, and must not be near-synonyms of the correct idea.
+- The question text must NOT contain the correct answer or its key words. Read the question and the correct option together. If the question already says the answer, rewrite the question.
 - Do not use "all of the above" or "none of the above".
-- explanation: one or two short sentences in simple English saying why the correct option is right.
+- skill: "detail", "inference", "vocabulary", or "intent".
+- explanation: one or two short sentences in simple English saying why the correct option is right and why the other options are not.
 - supportingSentence: copy ONE full sentence from the story, exactly as written, that shows why the answer is correct. It must appear in the story.
 
 VOCABULARY:
@@ -246,6 +259,9 @@ function prepareLesson(parsed: Record<string, unknown>, params: LessonParams): P
     problems.push(`Write exactly ${params.questionCount} questions. You wrote ${quiz.length}.`);
   }
 
+  const rawQuiz = Array.isArray(parsed.quiz) ? parsed.quiz : [];
+  const skills: Array<QuestionSkill | null> = [];
+
   quiz.forEach((question, index) => {
     const number = index + 1;
     if (!question.question) problems.push(`Question ${number} is missing its question text.`);
@@ -283,7 +299,34 @@ function prepareLesson(parsed: Record<string, unknown>, params: LessonParams): P
         );
       }
     }
+    const rawItem = rawQuiz[index];
+    const rawRecord = rawItem && typeof rawItem === 'object' ? (rawItem as Record<string, unknown>) : {};
+    skills.push(normalizeQuestionSkill(rawRecord.skill));
+    if (
+      question.question &&
+      question.correctAnswer &&
+      questionGivesAwayAnswer(question.question, question.correctAnswer)
+    ) {
+      problems.push(
+        `Question ${number}: the question repeats the correct answer. Rewrite the question so it does not contain the answer or its key words.`
+      );
+    }
+    if (question.options.length >= 2 && hasNearSynonymDistractor(question.options)) {
+      problems.push(
+        `Question ${number}: two options mean almost the same thing. Replace the extra one with a clearly different idea.`
+      );
+    }
   });
+
+  if (
+    params.level.toLowerCase().includes('advanced') &&
+    quiz.length > 0 &&
+    !advancedSkillsAreChallenging(skills)
+  ) {
+    problems.push(
+      'Most Advanced questions must be inference, vocabulary, or intent. Detail questions must be the minority. Set skill on every question.'
+    );
+  }
 
   const vocabulary: VocabularyItem[] = Array.isArray(parsed.vocabulary)
     ? parsed.vocabulary
