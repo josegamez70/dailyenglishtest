@@ -1,107 +1,436 @@
-// api/generate.ts
-import type { Handler } from '@netlify/functions';
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { GoogleGenerativeAI, SchemaType, type ResponseSchema } from '@google/generative-ai';
+import { TOPICS, WILDCARD_TOPIC } from '../constants';
+import {
+  closestStorySentence,
+  countWords,
+  optionsAreDistinct,
+  sentenceInStory,
+  wordCountBounds,
+} from '../lessonUtils';
+import { normalizeQuiz, type NormalizedQuizQuestion } from '../quizNormalize';
 
-/* ===================== Utils ===================== */
-const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
+type HandlerEvent = {
+  httpMethod?: string;
+  body?: string | null;
+};
 
-async function withRetry<T>(fn: () => Promise<T>, tries = 3, base = 500) {
-  let lastErr: any;
-  for (let i = 0; i < tries; i++) {
-    try {
-      return await fn();
-    } catch (e: any) {
-      lastErr = e;
-      const status = Number(e?.status || e?.code);
-      const retryable = [429, 500, 502, 503, 504].includes(status);
-      if (!retryable || i === tries - 1) throw e;
-      const delay = Math.min(base * (2 ** i) + Math.random() * 150, 4000);
-      console.warn(`withRetry: try ${i + 1}/${tries} in ${delay}ms (status ${status})`);
-      await sleep(delay);
-    }
-  }
-  throw lastErr;
-}
+type HandlerResponse = {
+  statusCode: number;
+  headers?: Record<string, string>;
+  body: string;
+};
 
-async function withTimeout<T>(p: Promise<T>, ms = 23000): Promise<T> {
-  return Promise.race([
-    p,
-    new Promise<T>((_, rej) =>
-      setTimeout(() => rej(Object.assign(new Error('CLIENT_TIMEOUT'), { status: 504 })), ms)
-    )
-  ]);
-}
+type LessonParams = {
+  level: string;
+  topic: string;
+  wordCount: number;
+  questionCount: number;
+  vocabularyCount: number;
+  mode: 'reading' | 'listening';
+  surprise: boolean;
+};
+
+type VocabularyItem = { word: string; definition: string };
+
+type PreparedLesson = {
+  story: string;
+  quiz: NormalizedQuizQuestion[];
+  vocabulary: VocabularyItem[];
+  problems: string[];
+  wordCount: number;
+  wordCountOk: boolean;
+};
+
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const MODELS = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash'];
+
+const LESSON_SCHEMA: ResponseSchema = {
+  type: SchemaType.OBJECT,
+  properties: {
+    story: {
+      type: SchemaType.STRING,
+      description: 'The story only. No title and no word count.',
+    },
+    quiz: {
+      type: SchemaType.ARRAY,
+      description: 'Comprehension questions. Each has one clearly correct answer.',
+      items: {
+        type: SchemaType.OBJECT,
+        properties: {
+          question: { type: SchemaType.STRING },
+          options: {
+            type: SchemaType.ARRAY,
+            description: 'Exactly 4 plain answers. Do not prefix them with A., B), (C), or "A ".',
+            minItems: 4,
+            maxItems: 4,
+            items: { type: SchemaType.STRING },
+          },
+          correctAnswer: {
+            type: SchemaType.STRING,
+            description: 'The full text of the correct option, copied exactly. Not a letter.',
+          },
+          explanation: {
+            type: SchemaType.STRING,
+            description: 'One or two short sentences in simple English explaining why that option is correct.',
+          },
+          supportingSentence: {
+            type: SchemaType.STRING,
+            description: 'One sentence copied exactly from the story that supports the answer.',
+          },
+        },
+        required: ['question', 'options', 'correctAnswer', 'explanation', 'supportingSentence'],
+      },
+    },
+    vocabulary: {
+      type: SchemaType.ARRAY,
+      items: {
+        type: SchemaType.OBJECT,
+        properties: {
+          word: { type: SchemaType.STRING },
+          definition: { type: SchemaType.STRING, description: 'A short definition in simple English.' },
+        },
+        required: ['word', 'definition'],
+      },
+    },
+  },
+  required: ['story', 'quiz', 'vocabulary'],
+};
 
 function clamp(n: number, lo: number, hi: number) {
   return Math.max(lo, Math.min(hi, n));
 }
 
-function buildPrompt(opts: {
-  level?: string;
-  topic?: string;
-  wordCount?: number;
-  questionCount?: number;
-  vocabularyCount?: number;
-  mode?: 'reading' | 'listening';
-}) {
-  const {
-    level = 'Beginner',
-    topic = 'daily life',
-    wordCount = 150,
-    questionCount = 6,
-    vocabularyCount = 8,
-    mode = 'reading'
-  } = opts;
+function pickApiKey() {
+  return (
+    process.env.API_KEY ||
+    process.env.GOOGLE_API_KEY ||
+    process.env.VITE_API_KEY ||
+    process.env.GENAI_API_KEY
+  );
+}
 
-  const wcTarget = clamp(wordCount, 80, 300);
+function levelRules(level: string): string {
+  const key = level.toLowerCase();
+  if (key.includes('advanced')) {
+    return [
+      'Level: Advanced.',
+      'Use richer vocabulary and longer sentences, but stay clear.',
+      'Questions may ask about reasons, purpose, feelings, or what follows from the story.',
+      'Even so, each question must have exactly one answer that the story supports.',
+      'A careful reader must not be able to defend a second option.',
+      'Wrong answers must be clearly different ideas. Do not use small wording changes or near-synonyms of the correct answer.',
+      'Do not write trick questions, or questions where two options are both partly true.',
+    ].join(' ');
+  }
+  if (key.includes('intermediate')) {
+    return [
+      'Level: Intermediate.',
+      'Use everyday English with some less common words.',
+      'Ask about important facts, reasons, and the main idea.',
+      'Each question has exactly one correct answer that the story states or makes obvious.',
+      'Wrong answers must be clearly different from the correct answer and from each other.',
+    ].join(' ');
+  }
+  if (key.includes('beginner')) {
+    return [
+      'Level: Beginner.',
+      'Use short sentences and common words.',
+      'Ask simple questions about facts the story states: who, what, where, and when.',
+      'Each question has exactly one correct answer.',
+      'Wrong answers must be clearly different.',
+    ].join(' ');
+  }
+  return [
+    'Level: Basic.',
+    'Use very short sentences and very common words.',
+    'Ask very simple questions about facts the story states.',
+    'Each question has exactly one correct answer.',
+    'Wrong answers must be clearly different.',
+  ].join(' ');
+}
+
+function modeRules(mode: 'reading' | 'listening'): string {
+  if (mode === 'listening') {
+    return 'The learner will HEAR the story and will not see it during the quiz. Do not mention paragraphs, lines, pages, or spelling. Questions must be answerable from listening.';
+  }
+  return 'The learner will READ the story and then answer from memory. Questions must be answerable from the story alone. Do not mention paragraph numbers.';
+}
+
+function concreteTopic(raw: unknown): { label: string; surprise: boolean } {
+  const value = String(raw ?? '').trim();
+  const lower = value.toLowerCase();
+  if (!value || lower === WILDCARD_TOPIC || lower === 'any topic') {
+    const pool = TOPICS.filter((topic) => topic.value !== WILDCARD_TOPIC);
+    const pick = pool[Math.floor(Math.random() * pool.length)];
+    return { label: pick.label, surprise: true };
+  }
+  const byValue = TOPICS.find((topic) => topic.value === value);
+  if (byValue && byValue.value !== WILDCARD_TOPIC) return { label: byValue.label, surprise: false };
+  const byLabel = TOPICS.find((topic) => topic.label.toLowerCase() === lower);
+  if (byLabel && byLabel.value !== WILDCARD_TOPIC) return { label: byLabel.label, surprise: false };
+  return { label: value, surprise: false };
+}
+
+function buildPrompt(params: LessonParams, corrective?: string): string {
+  const { min, max } = wordCountBounds(params.wordCount);
+  const topic = params.topic.replace(/["\n\r]/g, ' ').trim();
+  const correction = corrective
+    ? `\n\nThe previous attempt was rejected. Fix every problem below, then return a new JSON object:\n${corrective}\n`
+    : '';
 
   return `
-You are an English learning assistant. Create content for ${mode} comprehension at level ${level}.
-Topic: "${topic}"
+You write English learning materials for students around the world. Use clear, natural English.
 
-Return ONLY strict JSON with this shape (no markdown, no extra text):
-{
-  "story": "string (~${wcTarget} words)",
-  "quiz": [
-    { "question": "string", "options": ["A","B","C","D"], "correctAnswer": "A" }
-  ],
-  "vocabulary": [
-    { "word": "string", "definition": "English explanation, short" }
-  ]
+Create one ${params.mode} lesson.
+Topic: ${topic}
+Do not write a story about the words "wildcard" or "any topic". The story topic is exactly: ${topic}.
+
+${levelRules(params.level)}
+${modeRules(params.mode)}
+
+STORY LENGTH (required):
+- The story must contain between ${min} and ${max} words.
+- Target: ${params.wordCount} words.
+- Count every word before you answer. A contraction such as "don't" is one word.
+- If the story is too long, delete whole sentences until it fits. If it is too short, add a sentence.
+- Use 1 to 3 short paragraphs. Do not add a title.
+
+QUIZ (required):
+- Exactly ${params.questionCount} questions.
+- Each question has exactly 4 options and exactly one correct answer.
+- Option text must NOT start with a letter label. Never write "A.", "A)", "(A)", "A:", "A-", or a lone "A ", "B ", "C ", or "D " in front of an answer.
+- Write each option as plain answer text in sentence case.
+- correctAnswer must be the full text of the one correct option, copied exactly from options. Do not answer with only A, B, C, or D.
+- The story must support that one answer directly. The other three options are plausible but wrong.
+- Wrong answers must not overlap in meaning and must not be near-copies of the correct answer.
+- Do not use "all of the above" or "none of the above".
+- explanation: one or two short sentences in simple English saying why the correct option is right.
+- supportingSentence: copy ONE full sentence from the story, exactly as written, that shows why the answer is correct. It must appear in the story.
+
+VOCABULARY:
+- Exactly ${params.vocabularyCount} useful words or short phrases that appear in the story.
+- definition: a short explanation in simple English.
+
+Return ONLY JSON. No markdown and no extra text.
+${correction}
+`.trim();
 }
 
-Rules:
-- Story ~${wcTarget} words, natural English, 1-3 short paragraphs.
-- Exactly ${questionCount} quiz items, each with 4 options and one correctAnswer.
-- Exactly ${vocabularyCount} vocabulary items from the story.
-- Output valid minified JSON. No markdown or extra commentary.
-  `.trim();
+function parseModelJson(rawText: string): Record<string, unknown> | null {
+  const clean = rawText.replace(/^```json\s*|\s*```$/g, '').trim();
+  try {
+    const parsed = JSON.parse(clean);
+    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return null;
+    return parsed as Record<string, unknown>;
+  } catch {
+    return null;
+  }
 }
 
-/* ===================== Config ===================== */
-const MODELS = [
-  'gemini-2.5-flash',
-  'gemini-2.0-flash',
-  'gemini-1.5-flash'
-];
+function prepareLesson(parsed: Record<string, unknown>, params: LessonParams): PreparedLesson {
+  const story = typeof parsed.story === 'string' ? parsed.story.trim() : '';
+  const quiz = normalizeQuiz(Array.isArray(parsed.quiz) ? parsed.quiz : []);
+  const problems: string[] = [];
+  const wordCount = countWords(story);
+  const { min, max } = wordCountBounds(params.wordCount);
+  const wordCountOk = wordCount >= min && wordCount <= max;
 
-function pickApiKey() {
-  return process.env.API_KEY
-    || process.env.GOOGLE_API_KEY
-    || process.env.VITE_API_KEY
-    || process.env.GENAI_API_KEY;
+  if (!story) problems.push('The story is missing.');
+  if (!wordCountOk) {
+    problems.push(
+      `The story is ${wordCount} words. Rewrite it so it is between ${min} and ${max} words (target ${params.wordCount}).`
+    );
+  }
+  if (quiz.length !== params.questionCount) {
+    problems.push(`Write exactly ${params.questionCount} questions. You wrote ${quiz.length}.`);
+  }
+
+  quiz.forEach((question, index) => {
+    const number = index + 1;
+    if (!question.question) problems.push(`Question ${number} is missing its question text.`);
+    if (question.options.length !== 4) {
+      problems.push(`Question ${number} must have exactly 4 options.`);
+    }
+    if (question.options.some((option) => !option)) {
+      problems.push(`Question ${number} has an empty option.`);
+    }
+    const unique = new Set(question.options.map((option) => option.toLowerCase()));
+    if (unique.size !== question.options.length) {
+      problems.push(`Question ${number} has two options that say the same thing.`);
+    }
+    if (!question.options.includes(question.correctAnswer)) {
+      problems.push(
+        `Question ${number}: correctAnswer must be copied exactly from one of the four options, with no letter prefix.`
+      );
+    }
+    if (question.options.length >= 2 && !optionsAreDistinct(question.options)) {
+      problems.push(
+        `Question ${number}: the options are too similar. Rewrite the wrong answers so each one is a clearly different idea, and only one can be correct.`
+      );
+    }
+    if (!question.explanation) {
+      problems.push(`Question ${number} needs a short explanation of why the answer is correct.`);
+    }
+    if (!question.supportingSentence) {
+      problems.push(`Question ${number} needs supportingSentence: one sentence copied from the story.`);
+    } else if (story && !sentenceInStory(question.supportingSentence, story)) {
+      const snapped = closestStorySentence(question.supportingSentence, story);
+      if (snapped) question.supportingSentence = snapped;
+      else {
+        problems.push(
+          `Question ${number}: supportingSentence must be copied exactly from the story.`
+        );
+      }
+    }
+  });
+
+  const vocabulary: VocabularyItem[] = Array.isArray(parsed.vocabulary)
+    ? parsed.vocabulary
+        .map((item) => {
+          const record = item && typeof item === 'object' ? (item as Record<string, unknown>) : {};
+          return {
+            word: String(record.word ?? '').trim(),
+            definition: String(record.definition ?? '').trim(),
+          };
+        })
+        .filter((item) => item.word && item.definition)
+    : [];
+
+  if (vocabulary.length < Math.min(4, params.vocabularyCount)) {
+    problems.push(`Include ${params.vocabularyCount} vocabulary items from the story.`);
+  }
+
+  return { story, quiz, vocabulary, problems, wordCount, wordCountOk };
 }
 
-/* ===================== Handler ===================== */
-export const handler: Handler = async (event) => {
+function lessonScore(lesson: PreparedLesson, params: LessonParams): number {
+  let score = lesson.problems.length === 0 ? 100 : 0;
+  score -= lesson.problems.length * 8;
+  if (lesson.wordCountOk) score += 40;
+  else score -= Math.min(30, Math.abs(lesson.wordCount - params.wordCount) / 2);
+  if (lesson.quiz.length === params.questionCount) score += 20;
+  const answered = lesson.quiz.filter(
+    (question) =>
+      question.options.length === 4 &&
+      question.options.includes(question.correctAnswer) &&
+      question.explanation &&
+      question.supportingSentence
+  ).length;
+  score += answered * 3;
+  return score;
+}
+
+function extractText(result: { response?: { text?: () => string; candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }> } }): string {
+  if (typeof result.response?.text === 'function') return result.response.text();
+  return result.response?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+}
+
+async function callModel(
+  apiKey: string,
+  modelName: string,
+  prompt: string,
+  timeoutMs: number,
+  useSchema: boolean
+): Promise<string> {
+  const genAI = new GoogleGenerativeAI(apiKey);
+  const model = genAI.getGenerativeModel({ model: modelName });
+  const generationConfig: {
+    temperature: number;
+    maxOutputTokens: number;
+    responseMimeType: string;
+    responseSchema?: ResponseSchema;
+  } = {
+    temperature: 0.7,
+    maxOutputTokens: 8192,
+    responseMimeType: 'application/json',
+  };
+  if (useSchema) generationConfig.responseSchema = LESSON_SCHEMA;
+
+  const request = model.generateContent({
+    contents: [{ role: 'user', parts: [{ text: prompt }] }],
+    generationConfig,
+  });
+
+  const result = await Promise.race([
+    request,
+    new Promise<never>((_, reject) =>
+      setTimeout(() => reject(Object.assign(new Error('CLIENT_TIMEOUT'), { status: 504 })), timeoutMs)
+    ),
+  ]);
+  return extractText(result).trim();
+}
+
+async function generateRaw(apiKey: string, prompt: string, deadline: number): Promise<string> {
+  let lastError: unknown;
+  for (const modelName of MODELS) {
+    const remaining = deadline - Date.now();
+    if (remaining < 5000) break;
+    const timeout = Math.min(20000, remaining - 400);
+    try {
+      console.log(JSON.stringify({ stage: 'gen_start', modelName }));
+      const text = await callModel(apiKey, modelName, prompt, timeout, true);
+      if (text) return text;
+    } catch (error) {
+      lastError = error;
+      const message = error instanceof Error ? error.message : String(error);
+      const status = Number((error as { status?: number; code?: number })?.status || (error as { code?: number })?.code);
+      console.error(JSON.stringify({ stage: 'gen_error', modelName, status, message }));
+      if (/schema|responseMimeType|INVALID_ARGUMENT|invalid argument/i.test(message)) {
+        try {
+          const retryTimeout = Math.min(timeout, deadline - Date.now() - 400);
+          if (retryTimeout > 4000) {
+            const text = await callModel(apiKey, modelName, prompt, retryTimeout, false);
+            if (text) return text;
+          }
+        } catch (schemaError) {
+          lastError = schemaError;
+        }
+      }
+      if (![404, 400, 429, 500, 502, 503, 504].includes(status) && status) break;
+    }
+  }
+  if (lastError instanceof Error) throw lastError;
+  throw new Error('The story service is busy. Please try again.');
+}
+
+function readParams(bodyText: string | null | undefined): LessonParams | null {
+  let body: { prompt?: string } = {};
+  try {
+    body = JSON.parse(bodyText || '{}');
+  } catch {
+    return null;
+  }
+  let raw: Record<string, unknown> = {};
+  try {
+    raw = JSON.parse(String(body.prompt || '{}'));
+  } catch {
+    return null;
+  }
+  const topic = concreteTopic(raw.topic);
+  const level = String(raw.level || 'Beginner');
+  const mode = raw.mode === 'listening' ? 'listening' : 'reading';
+  return {
+    level,
+    topic: topic.label,
+    surprise: topic.surprise,
+    wordCount: clamp(Number(raw.wordCount) || 150, 50, 400),
+    questionCount: clamp(Number(raw.questionCount) || 5, 1, 15),
+    vocabularyCount: clamp(Number(raw.vocabularyCount) || 8, 4, 12),
+    mode,
+  };
+}
+
+export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => {
   const corsHeaders = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers': 'Content-Type',
+    'Content-Type': 'application/json',
   };
 
   try {
-    const API_KEY = pickApiKey();
-    if (!API_KEY) {
+    const apiKey = pickApiKey();
+    if (!apiKey) {
       return {
         statusCode: 500,
         headers: corsHeaders,
@@ -113,11 +442,8 @@ export const handler: Handler = async (event) => {
       return { statusCode: 200, headers: corsHeaders, body: '' };
     }
 
-    const body = JSON.parse(event.body || '{}');
-    let params: any = {};
-    try {
-      params = JSON.parse(body.prompt || '{}');
-    } catch {
+    const params = readParams(event.body);
+    if (!params) {
       return {
         statusCode: 400,
         headers: corsHeaders,
@@ -125,93 +451,82 @@ export const handler: Handler = async (event) => {
       };
     }
 
-    const prompt = buildPrompt(params);
-    const genAI = new GoogleGenerativeAI(API_KEY);
+    const deadline = Date.now() + 23000;
+    let best: { lesson: PreparedLesson; score: number } | null = null;
+    let prompt = buildPrompt(params);
 
-    let lastErr: any;
-    let rawText = '';
-
-    for (const modelName of MODELS) {
+    for (let attempt = 0; attempt < 2; attempt++) {
+      if (deadline - Date.now() < 5000) break;
+      let raw = '';
       try {
-        console.log(JSON.stringify({ stage: 'gen_start', modelName }));
-        const model = genAI.getGenerativeModel({ model: modelName });
-
-        const result = await withRetry(
-          () => withTimeout(
-            model.generateContent({
-              contents: [{ role: 'user', parts: [{ text: prompt }] }],
-              generationConfig: {
-                temperature: 0.9,
-                maxOutputTokens: 2048,
-              },
-            }),
-            23000 // cortamos a 23s
-          ),
-          3,
-          500
-        );
-
-        const text = typeof result.response?.text === 'function'
-          ? result.response.text()
-          : (result.response as any)?.candidates?.[0]?.content?.parts?.[0]?.text || '';
-
-        rawText = (text || '').trim();
-        if (rawText) break; // éxito → salir
-      } catch (e: any) {
-        lastErr = e;
-        const status = Number(e?.status || e?.code);
-        console.error(JSON.stringify({ stage: 'gen_error', modelName, status, message: e?.message }));
-        if (![429, 500, 502, 503, 504].includes(status)) break;
+        raw = await generateRaw(apiKey, prompt, deadline);
+      } catch (error) {
+        if (!best) throw error;
+        break;
       }
+      const parsed = parseModelJson(raw);
+      if (!parsed) {
+        prompt = buildPrompt(params, 'Return only valid JSON. Do not use markdown.');
+        continue;
+      }
+      const lesson = prepareLesson(parsed, params);
+      const score = lessonScore(lesson, params);
+      console.log(JSON.stringify({
+        stage: 'validated',
+        attempt,
+        wordCount: lesson.wordCount,
+        wordCountOk: lesson.wordCountOk,
+        problems: lesson.problems.length,
+      }));
+      if (!best || score > best.score) best = { lesson, score };
+      if (lesson.problems.length === 0) break;
+      prompt = buildPrompt(params, lesson.problems.slice(0, 8).join('\n'));
+      // Give the network a beat before a second model call.
+      if (attempt === 0 && deadline - Date.now() > 8000) await sleep(200);
     }
 
-    if (!rawText) {
-      const status = Number(lastErr?.status || lastErr?.code || 503);
+    if (!best || !best.lesson.story || best.lesson.quiz.length === 0) {
       return {
-        statusCode: [400, 401, 403, 404, 413].includes(status) ? status : 503,
+        statusCode: 502,
         headers: corsHeaders,
         body: JSON.stringify({
           ok: false,
-          code: 'MODEL_UNAVAILABLE',
-          message: lastErr?.message || 'Error desconocido del servidor de Google.',
+          code: 'BAD_MODEL_OUTPUT',
+          message: 'The lesson could not be created. Please try again.',
         }),
-      };
-    }
-
-    // Limpiar y parsear JSON
-    let parsed: any;
-    try {
-      const clean = rawText.replace(/^```json\s*|\s*```$/g, '').trim();
-      parsed = JSON.parse(clean);
-    } catch {
-      return {
-        statusCode: 502,
-        headers: corsHeaders,
-        body: JSON.stringify({ ok: false, code: 'BAD_MODEL_OUTPUT', message: 'Invalid JSON from model' }),
-      };
-    }
-
-    // Validación mínima
-    if (typeof parsed.story !== 'string' || !Array.isArray(parsed.quiz) || !Array.isArray(parsed.vocabulary)) {
-      return {
-        statusCode: 502,
-        headers: corsHeaders,
-        body: JSON.stringify({ ok: false, code: 'BAD_MODEL_OUTPUT', message: 'Missing required fields' }),
       };
     }
 
     return {
       statusCode: 200,
-      headers: { 'Content-Type': 'application/json', ...corsHeaders },
-      body: JSON.stringify(parsed),
-    };
-
-  } catch (err: any) {
-    console.error('generate.ts fatal:', err?.message || err);
-    return {
-      statusCode: 500,
       headers: corsHeaders,
-      body: JSON.stringify({ ok: false, code: 'SERVER_ERROR', message: err?.message || 'Unknown error' }),
+      body: JSON.stringify({
+        story: best.lesson.story,
+        quiz: best.lesson.quiz,
+        vocabulary: best.lesson.vocabulary,
+        resolvedTopic: params.topic,
+        wordCount: best.lesson.wordCount,
+        wordCountOk: best.lesson.wordCountOk,
+      }),
+    };
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    console.error('generate.ts fatal:', message);
+    const status = Number((error as { status?: number })?.status || 500);
+    const safeStatus = [400, 401, 403, 404, 413, 429, 500, 502, 503, 504].includes(status) ? status : 500;
+    const publicMessage = message === 'CLIENT_TIMEOUT'
+      ? 'The story service took too long. Please try again.'
+      : message && message.length < 280 && !/api[_ ]?key/i.test(message)
+        ? message
+        : 'The story service is busy. Please try again.';
+    return {
+      statusCode: safeStatus === 401 || safeStatus === 403 ? safeStatus : safeStatus >= 500 ? 503 : safeStatus,
+      headers: corsHeaders,
+      body: JSON.stringify({
+        ok: false,
+        code: 'SERVER_ERROR',
+        message: publicMessage,
+      }),
     };
   }
 };

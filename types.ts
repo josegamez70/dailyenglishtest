@@ -1,8 +1,9 @@
-
 export interface QuizQuestion {
   question: string;
   options: string[];
   correctAnswer: string;
+  explanation: string;
+  supportingSentence: string;
 }
 
 export interface VocabularyItem {
@@ -15,6 +16,7 @@ export interface ConfigOptions {
   topic: string;
   wordCount: number;
   questionCount: number;
+  practiceType?: PracticeType;
 }
 
 export type PracticeType = 'reading' | 'listening';
