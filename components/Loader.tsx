@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { elapsedWholeSeconds } from '../lessonUtils';
 
 interface LoaderProps {
-  elapsedSeconds: number;
+  startedAt: number;
   estimateSeconds: number;
   note?: string | null;
   onCancel: () => void;
@@ -21,7 +22,18 @@ function phaseMessage(elapsedSeconds: number, estimateSeconds: number, note?: st
   return 'Almost ready...';
 }
 
-const Loader: React.FC<LoaderProps> = ({ elapsedSeconds, estimateSeconds, note, onCancel }) => {
+const Loader: React.FC<LoaderProps> = ({ startedAt, estimateSeconds, note, onCancel }) => {
+  const startedAtRef = useRef(startedAt);
+  startedAtRef.current = startedAt;
+  const [elapsedSeconds, setElapsedSeconds] = useState(() => elapsedWholeSeconds(startedAt, Date.now()));
+
+  useEffect(() => {
+    const tick = () => setElapsedSeconds(elapsedWholeSeconds(startedAtRef.current, Date.now()));
+    tick();
+    const id = window.setInterval(tick, 100);
+    return () => window.clearInterval(id);
+  }, [startedAt]);
+
   const low = Math.max(8, estimateSeconds - 5);
   const high = estimateSeconds + 5;
   const percent = progressPercent(elapsedSeconds, estimateSeconds);

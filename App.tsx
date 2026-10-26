@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import type { QuizQuestion, ConfigOptions, PracticeType, AppView, VocabularyItem } from './types';
 import { LEVELS, QUESTION_COUNTS, resolveTopic, TOPICS, WORD_COUNTS } from './constants';
+import { isAndroidUserAgent } from './device';
 import { countWords, estimateGenerationSeconds, isWordCountWithinTolerance, scoreFeedback } from './lessonUtils';
+import { withStoryReview } from './quizSession';
+import { resumeWordIndex, textFromWordIndex } from './speechPosition';
 import { generateStoryAndQuiz } from './services/geminiService';
 import Configurator from './components/Configurator';
 import Loader from './components/Loader';
@@ -77,7 +80,6 @@ const App: React.FC = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [loadingStartedAt, setLoadingStartedAt] = useState<number | null>(null);
-  const [loadingElapsed, setLoadingElapsed] = useState(0);
   const [loadingEstimate, setLoadingEstimate] = useState(20);
   const [loadingNote, setLoadingNote] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -86,11 +88,13 @@ const App: React.FC = () => {
   const [fontStep, setFontStep] = useState(readFontStep);
 
   const [isSpeaking, setIsSpeaking] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
   const [showTranscript, setShowTranscript] = useState(false);
   const [currentWordIndex, setCurrentWordIndex] = useState<number | null>(null);
   const [elapsedMs, setElapsedMs] = useState(0);
   const [durationMs, setDurationMs] = useState(0);
   const [playbackRate, setPlaybackRate] = useState<number | null>(null);
+  const [storyReviewOpen, setStoryReviewOpen] = useState(false);
 
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
   const stoppedByUserRef = useRef(false);
@@ -103,6 +107,10 @@ const App: React.FC = () => {
   const boundaryFallbackTimerRef = useRef<number | null>(null);
   const abortRef = useRef<AbortController | null>(null);
   const playIdRef = useRef(0);
+  const elapsedMsRef = useRef(0);
+  const pausedRef = useRef(false);
+  const pauseModeRef = useRef<'native' | 'restart' | null>(null);
+  const rateRef = useRef(1);
 
   useEffect(() => {
     isSpeakingRef.current = isSpeaking;
@@ -127,18 +135,13 @@ const App: React.FC = () => {
   }, [fontStep]);
 
   useEffect(() => {
-    if (!isLoading || loadingStartedAt == null) return;
-    const id = window.setInterval(() => {
-      setLoadingElapsed(Math.floor((Date.now() - loadingStartedAt) / 1000));
-    }, 250);
-    return () => clearInterval(id);
-  }, [isLoading, loadingStartedAt]);
-
-  useEffect(() => {
     return () => {
       stoppedByUserRef.current = true;
       playIdRef.current += 1;
-      try { window.speechSynthesis.cancel(); } catch { /* ignore */ }
+      try {
+        if (window.speechSynthesis.paused) window.speechSynthesis.resume();
+        window.speechSynthesis.cancel();
+      } catch { /* ignore */ }
       if (highlightTimerRef.current) clearInterval(highlightTimerRef.current);
       if (progressTimerRef.current) clearInterval(progressTimerRef.current);
       if (boundaryFallbackTimerRef.current) clearTimeout(boundaryFallbackTimerRef.current);
@@ -173,7 +176,6 @@ const App: React.FC = () => {
     setError(null);
     setLoadingNote(null);
     setLoadingStartedAt(Date.now());
-    setLoadingElapsed(0);
     setLoadingEstimate(estimateGenerationSeconds(config.wordCount, config.questionCount));
 
     try {
@@ -181,8 +183,6 @@ const App: React.FC = () => {
       if (controller.signal.aborted) return;
       if (!isWordCountWithinTolerance(result.story, config.wordCount)) {
         setLoadingNote('The first story was the wrong length. Writing another one...');
-        setLoadingStartedAt(Date.now());
-        setLoadingElapsed(0);
         try {
           const second = await generateStoryAndQuiz(requestConfig, { signal: controller.signal });
           if (!controller.signal.aborted) {
@@ -236,14 +236,27 @@ const App: React.FC = () => {
     if (currentQuestionIndex < quiz.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
+      stopSpeaking();
+      const next = withStoryReview(
+        { questionIndex: currentQuestionIndex, answers: userAnswers, reviewOpen: storyReviewOpen },
+        false
+      );
+      setCurrentQuestionIndex(next.questionIndex);
+      setUserAnswers(next.answers);
+      setStoryReviewOpen(next.reviewOpen);
       setView('results');
     }
   };
 
   const stopSpeaking = useCallback(() => {
     stoppedByUserRef.current = true;
+    pausedRef.current = false;
+    pauseModeRef.current = null;
     playIdRef.current += 1;
-    try { window.speechSynthesis.cancel(); } catch { /* ignore */ }
+    try {
+      if (window.speechSynthesis.paused) window.speechSynthesis.resume();
+      window.speechSynthesis.cancel();
+    } catch { /* ignore */ }
     if (highlightTimerRef.current) {
       clearInterval(highlightTimerRef.current);
       highlightTimerRef.current = null;
@@ -257,7 +270,9 @@ const App: React.FC = () => {
       boundaryFallbackTimerRef.current = null;
     }
     setIsSpeaking(false);
+    setIsPaused(false);
     setCurrentWordIndex(null);
+    elapsedMsRef.current = 0;
     setElapsedMs(0);
     setDurationMs(0);
     durationMsRef.current = 0;
@@ -267,10 +282,22 @@ const App: React.FC = () => {
     setTimeout(() => { stoppedByUserRef.current = false; }, 120);
   }, []);
 
+  const runProgressClock = useCallback(() => {
+    if (progressTimerRef.current) clearInterval(progressTimerRef.current);
+    progressTimerRef.current = window.setInterval(() => {
+      if (pausedRef.current) return;
+      const elapsed = Date.now() - playbackStartRef.current;
+      const next = Math.min(durationMsRef.current, Math.max(0, elapsed));
+      elapsedMsRef.current = next;
+      setElapsedMs(next);
+    }, 200);
+  }, []);
+
   const startQuiz = () => {
+    setStoryReviewOpen(false);
     setCurrentQuestionIndex(0);
     setView('quiz');
-    if (isSpeaking) stopSpeaking();
+    stopSpeaking();
   };
 
   const resetApp = () => {
@@ -281,6 +308,7 @@ const App: React.FC = () => {
     setStoryTopic(null);
     setUserAnswers([]);
     setCurrentQuestionIndex(0);
+    setStoryReviewOpen(false);
     setError(null);
     setIsVocabularyModalOpen(false);
     setShowTranscript(false);
@@ -289,13 +317,22 @@ const App: React.FC = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const playSpeak = useCallback((rate: number = 1) => {
-    if (!story) return;
+  const playSpeak = useCallback((rate: number = 1, options?: { text?: string; keepClock?: boolean }) => {
+    const spoken = (options?.text ?? story).trim();
+    if (!story || !spoken) return;
     const playId = ++playIdRef.current;
+    const keepClock = Boolean(options?.keepClock);
     setError(null);
     stoppedByUserRef.current = false;
+    pausedRef.current = false;
+    pauseModeRef.current = null;
+    setIsPaused(false);
+    rateRef.current = rate;
 
-    window.speechSynthesis.cancel();
+    try {
+      if (window.speechSynthesis.paused) window.speechSynthesis.resume();
+      window.speechSynthesis.cancel();
+    } catch { /* ignore */ }
     if (highlightTimerRef.current) {
       clearInterval(highlightTimerRef.current);
       highlightTimerRef.current = null;
@@ -304,29 +341,37 @@ const App: React.FC = () => {
       clearTimeout(boundaryFallbackTimerRef.current);
       boundaryFallbackTimerRef.current = null;
     }
-    setIsSpeaking(false);
-    setCurrentWordIndex(null);
+    if (keepClock) {
+      setIsSpeaking(true);
+      isSpeakingRef.current = true;
+    } else {
+      setIsSpeaking(false);
+    }
+    if (!keepClock) setCurrentWordIndex(null);
     firstBoundaryHeardRef.current = false;
 
     const words = story.split(/\s+/).filter(Boolean);
-    const isAndroid = /android/i.test(navigator.userAgent);
+    const isAndroid = isAndroidUserAgent(navigator.userAgent);
     const timing = speechTiming(rate);
-    const duration = estimateSpeechMs(story, rate);
-    durationMsRef.current = duration;
-    playbackStartRef.current = Date.now();
-    setDurationMs(duration);
-    setElapsedMs(0);
+    if (keepClock) {
+      playbackStartRef.current = Date.now() - elapsedMsRef.current;
+    } else {
+      const duration = estimateSpeechMs(story, rate);
+      durationMsRef.current = duration;
+      playbackStartRef.current = Date.now();
+      elapsedMsRef.current = 0;
+      setDurationMs(duration);
+      setElapsedMs(0);
+    }
     setPlaybackRate(rate);
-    if (progressTimerRef.current) clearInterval(progressTimerRef.current);
-    progressTimerRef.current = window.setInterval(() => {
-      const elapsed = Date.now() - playbackStartRef.current;
-      setElapsedMs(Math.min(durationMsRef.current, Math.max(0, elapsed)));
-    }, 200);
+    runProgressClock();
 
     const noteFraction = (fraction: number) => {
+      if (pausedRef.current) return;
       const elapsed = Math.max(0, Math.min(1, fraction)) * durationMsRef.current;
       playbackStartRef.current = Date.now() - elapsed;
-      setElapsedMs(Math.min(durationMsRef.current, elapsed));
+      elapsedMsRef.current = Math.min(durationMsRef.current, elapsed);
+      setElapsedMs(elapsedMsRef.current);
     };
 
     const clearHighlight = () => {
@@ -341,6 +386,7 @@ const App: React.FC = () => {
       setCurrentWordIndex(0);
       let remainingPauseMs = 0;
       highlightTimerRef.current = window.setInterval(() => {
+        if (pausedRef.current) return;
         if (!isSpeakingRef.current) {
           clearHighlight();
           return;
@@ -375,6 +421,7 @@ const App: React.FC = () => {
     };
 
     const finish = () => {
+      if (playId !== playIdRef.current || pausedRef.current) return;
       if (boundaryFallbackTimerRef.current) {
         clearTimeout(boundaryFallbackTimerRef.current);
         boundaryFallbackTimerRef.current = null;
@@ -384,12 +431,36 @@ const App: React.FC = () => {
         clearInterval(progressTimerRef.current);
         progressTimerRef.current = null;
       }
+      pauseModeRef.current = null;
       setIsSpeaking(false);
+      setIsPaused(false);
       setCurrentWordIndex(null);
+      elapsedMsRef.current = durationMsRef.current;
       setElapsedMs(durationMsRef.current);
     };
 
+    const failToStart = () => {
+      if (progressTimerRef.current) {
+        clearInterval(progressTimerRef.current);
+        progressTimerRef.current = null;
+      }
+      if (boundaryFallbackTimerRef.current) {
+        clearTimeout(boundaryFallbackTimerRef.current);
+        boundaryFallbackTimerRef.current = null;
+      }
+      pausedRef.current = false;
+      pauseModeRef.current = null;
+      durationMsRef.current = 0;
+      elapsedMsRef.current = 0;
+      setDurationMs(0);
+      setElapsedMs(0);
+      setIsPaused(false);
+      setIsSpeaking(false);
+      setError('Could not play audio. Your browser may not support this feature.');
+    };
+
     const handleError = (event: SpeechSynthesisErrorEvent) => {
+      if (playId !== playIdRef.current || pausedRef.current) return;
       if (boundaryFallbackTimerRef.current) {
         clearTimeout(boundaryFallbackTimerRef.current);
         boundaryFallbackTimerRef.current = null;
@@ -412,8 +483,8 @@ const App: React.FC = () => {
 
     if (isAndroid) {
       setTimeout(() => {
-        if (playId !== playIdRef.current) return;
-        const utterance = new SpeechSynthesisUtterance(story);
+        if (playId !== playIdRef.current || pausedRef.current) return;
+        const utterance = new SpeechSynthesisUtterance(spoken);
         utterance.lang = 'en-US';
         utterance.rate = rate;
         utterance.onend = finish;
@@ -422,25 +493,26 @@ const App: React.FC = () => {
         try {
           window.speechSynthesis.speak(utterance);
           setIsSpeaking(true);
-          startFallback();
         } catch {
-          setError('Audio could not be generated. Please try again.');
-          setIsSpeaking(false);
+          failToStart();
         }
       }, 60);
       return;
     }
 
-    boundaryFallbackTimerRef.current = window.setTimeout(() => {
-      if (!firstBoundaryHeardRef.current) startFallback();
-    }, 900);
+    if (!keepClock) {
+      boundaryFallbackTimerRef.current = window.setTimeout(() => {
+        if (!firstBoundaryHeardRef.current && !pausedRef.current) startFallback();
+      }, 900);
+    }
 
     setTimeout(() => {
-      if (playId !== playIdRef.current) return;
-      const utterance = new SpeechSynthesisUtterance(story);
+      if (playId !== playIdRef.current || pausedRef.current) return;
+      const utterance = new SpeechSynthesisUtterance(spoken);
       utterance.lang = 'en-US';
       utterance.rate = rate;
-      utterance.onboundary = (event: SpeechSynthesisEvent) => {
+      if (!keepClock) utterance.onboundary = (event: SpeechSynthesisEvent) => {
+        if (pausedRef.current) return;
         if (!firstBoundaryHeardRef.current) {
           firstBoundaryHeardRef.current = true;
           if (boundaryFallbackTimerRef.current) {
@@ -471,11 +543,92 @@ const App: React.FC = () => {
           clearTimeout(boundaryFallbackTimerRef.current);
           boundaryFallbackTimerRef.current = null;
         }
-        setError('Audio could not be generated. Please try again.');
-        setIsSpeaking(false);
+        failToStart();
       }
     }, 60);
-  }, [story]);
+  }, [story, runProgressClock]);
+
+  const pausePlayback = useCallback(() => {
+    if (pausedRef.current || !isSpeakingRef.current) return;
+    const frozen = Math.min(durationMsRef.current, Math.max(0, Date.now() - playbackStartRef.current));
+    elapsedMsRef.current = frozen;
+    setElapsedMs(frozen);
+    pausedRef.current = true;
+    setIsPaused(true);
+
+    const android = isAndroidUserAgent(navigator.userAgent);
+    let native = false;
+    if (!android && window.speechSynthesis.speaking) {
+      try {
+        window.speechSynthesis.pause();
+        native = window.speechSynthesis.paused === true && window.speechSynthesis.speaking === true;
+      } catch {
+        native = false;
+      }
+    }
+    if (native) {
+      pauseModeRef.current = 'native';
+      return;
+    }
+
+    pauseModeRef.current = 'restart';
+    playIdRef.current += 1;
+    try {
+      if (window.speechSynthesis.paused) window.speechSynthesis.resume();
+      window.speechSynthesis.cancel();
+    } catch { /* ignore */ }
+    setIsSpeaking(false);
+  }, []);
+
+  const resumePlayback = useCallback(() => {
+    if (!pausedRef.current) return;
+    const elapsed = elapsedMsRef.current;
+    const rate = rateRef.current || 1;
+    if (pauseModeRef.current === 'native') {
+      let resumed = false;
+      try {
+        window.speechSynthesis.resume();
+        resumed = window.speechSynthesis.paused === false && window.speechSynthesis.speaking === true;
+      } catch {
+        resumed = false;
+      }
+      if (resumed) {
+        pausedRef.current = false;
+        pauseModeRef.current = null;
+        setIsPaused(false);
+        setIsSpeaking(true);
+        playbackStartRef.current = Date.now() - elapsed;
+        runProgressClock();
+        return;
+      }
+    }
+    const words = story.split(/\s+/).filter(Boolean);
+    const index = resumeWordIndex(words, elapsed, durationMsRef.current);
+    const text = textFromWordIndex(words, index);
+    playbackStartRef.current = Date.now() - elapsed;
+    playSpeak(rate, { text: text || story, keepClock: true });
+  }, [playSpeak, runProgressClock, story]);
+
+  const openStoryReview = () => {
+    const next = withStoryReview(
+      { questionIndex: currentQuestionIndex, answers: userAnswers, reviewOpen: storyReviewOpen },
+      true
+    );
+    setCurrentQuestionIndex(next.questionIndex);
+    setUserAnswers(next.answers);
+    setStoryReviewOpen(next.reviewOpen);
+  };
+
+  const closeStoryReview = () => {
+    const next = withStoryReview(
+      { questionIndex: currentQuestionIndex, answers: userAnswers, reviewOpen: storyReviewOpen },
+      false
+    );
+    setCurrentQuestionIndex(next.questionIndex);
+    setUserAnswers(next.answers);
+    setStoryReviewOpen(next.reviewOpen);
+    stopSpeaking();
+  };
 
   const HomeButton = ({ widthClass = 'max-w-3xl' }: { widthClass?: string }) => (
     <div className={`w-full ${widthClass} mx-auto flex justify-end mb-3`}>
@@ -532,6 +685,146 @@ const App: React.FC = () => {
   );
 
   const fontClass = FONT_STEPS[fontStep].className;
+  const androidDevice = isAndroidUserAgent(typeof navigator === 'undefined' ? '' : navigator.userAgent);
+
+  const TextSizeControl = () => (
+    <div className="mt-4">
+      <p className="text-center text-base font-semibold text-slate-900 dark:text-slate-50 mb-2">
+        Text size: {FONT_STEPS[fontStep].label}
+      </p>
+      <div className="flex flex-wrap items-center justify-center gap-2" role="group" aria-label="Text size">
+        {FONT_STEPS.map((step, index) => {
+          const selected = index === fontStep;
+          return (
+            <button
+              key={step.label}
+              type="button"
+              aria-pressed={selected}
+              onClick={() => setFontStep(index)}
+              className={
+                selected
+                  ? 'bg-blue-700 text-white border-2 border-blue-800 font-bold text-base px-4 py-2 rounded-lg'
+                  : 'bg-white text-slate-900 border-2 border-slate-700 font-semibold text-base px-4 py-2 rounded-lg hover:bg-slate-100 dark:bg-slate-800 dark:text-slate-50 dark:border-slate-200 dark:hover:bg-slate-700'
+              }
+            >
+              {step.label}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+
+  const ListeningControls = () => (
+    <div className="mt-6">
+      <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 justify-center">
+        <button
+          type="button"
+          onClick={() => playSpeak(1)}
+          className="bg-green-700 hover:bg-green-800 text-white font-bold py-3 px-6 rounded-lg text-lg"
+        >
+          Play 1x
+        </button>
+        <button
+          type="button"
+          onClick={() => playSpeak(0.5)}
+          className="bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-6 rounded-lg text-lg"
+        >
+          Play 0.5x
+        </button>
+        <button
+          type="button"
+          onClick={stopSpeaking}
+          className="bg-slate-800 hover:bg-slate-900 text-white font-bold py-3 px-6 rounded-lg text-lg"
+        >
+          Stop
+        </button>
+        <button
+          type="button"
+          onClick={() => setShowTranscript(!showTranscript)}
+          className="bg-white hover:bg-slate-100 text-slate-900 border-2 border-slate-700 font-bold py-3 px-6 rounded-lg text-lg dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-white dark:border-slate-200"
+        >
+          {showTranscript ? 'Hide Transcript' : 'Show Transcript'}
+        </button>
+      </div>
+      {durationMs > 0 && (
+        <div className="mt-4 max-w-lg mx-auto flex w-full flex-col gap-3 sm:flex-row sm:items-center">
+          {(isSpeaking || isPaused) && (
+            <button
+              type="button"
+              onClick={isPaused ? resumePlayback : pausePlayback}
+              aria-pressed={isPaused}
+              className="shrink-0 bg-violet-700 hover:bg-violet-800 text-white font-bold py-3 px-5 rounded-lg text-lg"
+            >
+              {isPaused ? 'Resume' : 'Pause'}
+            </button>
+          )}
+          <div className="min-w-0 flex-1">
+            <div className="flex justify-between gap-3 text-base font-medium text-slate-900 dark:text-slate-50 mb-1">
+              <span>{formatClock(elapsedMs)}</span>
+              <span data-audio-state={isPaused ? 'paused' : isSpeaking ? 'playing' : 'finished'}>
+                {isPaused
+                  ? 'Paused'
+                  : isSpeaking
+                    ? playbackRate != null && playbackRate <= 0.6
+                      ? 'Playing at half speed'
+                      : 'Playing'
+                    : 'Finished'}
+              </span>
+              <span>{formatClock(durationMs)}</span>
+            </div>
+            <div
+              className="h-3 w-full rounded-full bg-slate-300 dark:bg-slate-600 overflow-hidden"
+              role="progressbar"
+              aria-label="Audio progress"
+              aria-valuemin={0}
+              aria-valuemax={Math.round(durationMs)}
+              aria-valuenow={Math.round(Math.min(durationMs, elapsedMs))}
+            >
+              <div
+                className="h-full bg-blue-700"
+                style={{ width: `${durationMs ? Math.min(100, (elapsedMs / durationMs) * 100) : 0}%` }}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+
+  const TranscriptText = () => {
+    if (!showTranscript) return null;
+    if (androidDevice) {
+      return (
+        <p
+          data-transcript="static"
+          className={`mt-4 whitespace-pre-wrap leading-relaxed text-slate-900 dark:text-slate-50 ${fontClass}`}
+        >
+          {story}
+        </p>
+      );
+    }
+    return (
+      <div
+        data-transcript="synced"
+        className={`mt-4 leading-relaxed text-slate-900 dark:text-slate-50 ${fontClass}`}
+      >
+        {story.split(/\s+/).filter(Boolean).map((word, idx) => (
+          <span
+            key={idx}
+            style={idx === currentWordIndex ? {
+              color: '#0f172a',
+              fontWeight: 700,
+              backgroundColor: '#fde68a',
+              borderRadius: '0.25rem',
+            } : undefined}
+          >
+            {word}{' '}
+          </span>
+        ))}
+      </div>
+    );
+  };
 
   const StoryScreen = () => (
     <>
@@ -546,93 +839,9 @@ const App: React.FC = () => {
           </p>
         )}
 
-        <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
-          <span className="text-base font-semibold text-slate-900 dark:text-slate-50">Text size</span>
-          <button
-            type="button"
-            onClick={() => setFontStep((step) => Math.max(0, step - 1))}
-            disabled={fontStep === 0}
-            aria-label="Smaller text"
-            className="bg-slate-800 text-white font-semibold text-base px-4 py-2 rounded-lg disabled:bg-slate-300 disabled:text-slate-700 dark:bg-slate-200 dark:text-slate-900 dark:disabled:bg-slate-600 dark:disabled:text-slate-300"
-          >
-            Smaller
-          </button>
-          <span className="text-base font-medium text-slate-900 dark:text-slate-50 min-w-[6.5rem] text-center">
-            {FONT_STEPS[fontStep].label}
-          </span>
-          <button
-            type="button"
-            onClick={() => setFontStep((step) => Math.min(FONT_STEPS.length - 1, step + 1))}
-            disabled={fontStep === FONT_STEPS.length - 1}
-            aria-label="Larger text"
-            className="bg-slate-800 text-white font-semibold text-base px-4 py-2 rounded-lg disabled:bg-slate-300 disabled:text-slate-700 dark:bg-slate-200 dark:text-slate-900 dark:disabled:bg-slate-600 dark:disabled:text-slate-300"
-          >
-            Larger
-          </button>
-        </div>
+        <TextSizeControl />
 
-        {practiceType === 'listening' && (
-          <div className="mt-6">
-            <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 justify-center">
-              <button
-                type="button"
-                onClick={() => playSpeak(1)}
-                className="bg-green-700 hover:bg-green-800 text-white font-bold py-3 px-6 rounded-lg text-lg"
-              >
-                Play 1x
-              </button>
-              <button
-                type="button"
-                onClick={() => playSpeak(0.5)}
-                className="bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-6 rounded-lg text-lg"
-              >
-                Play 0.5x
-              </button>
-              <button
-                type="button"
-                onClick={stopSpeaking}
-                className="bg-slate-800 hover:bg-slate-900 text-white font-bold py-3 px-6 rounded-lg text-lg"
-              >
-                Stop
-              </button>
-              <button
-                type="button"
-                onClick={() => setShowTranscript(!showTranscript)}
-                className="bg-white hover:bg-slate-100 text-slate-900 border-2 border-slate-700 font-bold py-3 px-6 rounded-lg text-lg dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-white dark:border-slate-200"
-              >
-                {showTranscript ? 'Hide Transcript' : 'Show Transcript'}
-              </button>
-            </div>
-            {durationMs > 0 && (
-              <div className="mt-4 max-w-lg mx-auto w-full">
-                <div className="flex justify-between gap-3 text-base font-medium text-slate-900 dark:text-slate-50 mb-1">
-                  <span>{formatClock(elapsedMs)}</span>
-                  <span>
-                    {isSpeaking
-                      ? playbackRate != null && playbackRate <= 0.6
-                        ? 'Playing at half speed'
-                        : 'Playing'
-                      : 'Finished'}
-                  </span>
-                  <span>{formatClock(durationMs)}</span>
-                </div>
-                <div
-                  className="h-3 w-full rounded-full bg-slate-300 dark:bg-slate-600 overflow-hidden"
-                  role="progressbar"
-                  aria-label="Audio progress"
-                  aria-valuemin={0}
-                  aria-valuemax={Math.round(durationMs)}
-                  aria-valuenow={Math.round(Math.min(durationMs, elapsedMs))}
-                >
-                  <div
-                    className="h-full bg-blue-700"
-                    style={{ width: `${durationMs ? Math.min(100, (elapsedMs / durationMs) * 100) : 0}%` }}
-                  />
-                </div>
-              </div>
-            )}
-          </div>
-        )}
+        {practiceType === 'listening' && <ListeningControls />}
 
         {practiceType === 'reading' && (
           <p className={`mt-6 whitespace-pre-wrap text-slate-900 dark:text-slate-50 leading-relaxed ${fontClass}`}>
@@ -640,23 +849,7 @@ const App: React.FC = () => {
           </p>
         )}
 
-        {practiceType === 'listening' && showTranscript && (
-          <div className={`mt-4 leading-relaxed text-slate-900 dark:text-slate-50 ${fontClass}`}>
-            {story.split(/\s+/).filter(Boolean).map((word, idx) => (
-              <span
-                key={idx}
-                style={idx === currentWordIndex ? {
-                  color: '#0f172a',
-                  fontWeight: 700,
-                  backgroundColor: '#fde68a',
-                  borderRadius: '0.25rem',
-                } : undefined}
-              >
-                {word}{' '}
-              </span>
-            ))}
-          </div>
-        )}
+        {practiceType === 'listening' && <TranscriptText />}
 
         <div className="mt-8 pt-6 border-t border-slate-300 dark:border-slate-600 flex flex-col sm:flex-row-reverse justify-center items-center gap-4">
           <button
@@ -691,9 +884,16 @@ const App: React.FC = () => {
       <>
         <HomeButton widthClass="max-w-2xl" />
         <div className="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-xl shadow-lg w-full max-w-2xl mx-auto">
-          <h2 className="text-2xl font-bold text-center mb-6 text-slate-900 dark:text-slate-50">
+          <h2 className="text-2xl font-bold text-center mb-4 text-slate-900 dark:text-slate-50">
             {practiceType === 'reading' ? 'Reading Comprehension Quiz' : 'Listening Comprehension Quiz'}
           </h2>
+          <button
+            type="button"
+            onClick={openStoryReview}
+            className="mb-6 w-full bg-indigo-700 hover:bg-indigo-800 text-white font-bold py-3 px-4 rounded-lg text-lg"
+          >
+            {practiceType === 'reading' ? 'Review story' : 'Listen again'}
+          </button>
           <div className="mb-4">
             <p className="text-base font-semibold text-slate-800 dark:text-slate-100">
               Question {currentQuestionIndex + 1} of {quiz.length}
@@ -852,13 +1052,56 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen text-slate-900 dark:text-slate-50 flex flex-col items-center p-4 sm:p-6 lg:p-8 transition-colors duration-300">
-      {isLoading && (
+      {isLoading && loadingStartedAt != null && (
         <Loader
-          elapsedSeconds={loadingElapsed}
+          startedAt={loadingStartedAt}
           estimateSeconds={loadingEstimate}
           note={loadingNote}
           onCancel={handleCancelGenerate}
         />
+      )}
+      {storyReviewOpen && view === 'quiz' && (
+        <div
+          className="fixed inset-0 z-40 overflow-y-auto bg-slate-100 dark:bg-slate-900"
+          role="dialog"
+          aria-modal="true"
+          aria-label={practiceType === 'reading' ? 'Review story' : 'Listen again'}
+        >
+          <div className="sticky top-0 z-10 border-b border-slate-300 bg-slate-100 px-4 py-4 dark:border-slate-600 dark:bg-slate-900">
+            <div className="mx-auto w-full max-w-3xl">
+              <button
+                type="button"
+                onClick={closeStoryReview}
+                className="w-full sm:w-auto bg-blue-700 hover:bg-blue-800 text-white font-bold text-lg py-3 px-6 rounded-lg"
+              >
+                Back to quiz
+              </button>
+              <p className="mt-3 text-base font-semibold text-slate-900 dark:text-slate-50">
+                You are on question {currentQuestionIndex + 1} of {quiz.length}. Your answers are saved.
+              </p>
+            </div>
+          </div>
+          <div className="mx-auto w-full max-w-3xl px-4 py-6">
+            <TextSizeControl />
+            {practiceType === 'listening' ? (
+              <>
+                <ListeningControls />
+                <TranscriptText />
+              </>
+            ) : (
+              <p className={`mt-6 whitespace-pre-wrap text-slate-900 dark:text-slate-50 leading-relaxed ${fontClass}`}>
+                {story}
+              </p>
+            )}
+            <button
+              type="button"
+              onClick={closeStoryReview}
+              className="mt-8 w-full bg-blue-700 hover:bg-blue-800 text-white font-bold text-lg py-3 px-6 rounded-lg"
+            >
+              Back to quiz
+            </button>
+          </div>
+        </div>
       )}
       <header className="w-full max-w-4xl mx-auto mb-6">
         <div className="flex justify-end mb-3">

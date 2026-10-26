@@ -42,6 +42,80 @@ export function scoreFeedback(percentage: number): string {
   return 'Keep practicing! Every story helps you improve.';
 }
 
+/** Whole seconds since a request started. Uses the clock, not a tick counter. */
+export function elapsedWholeSeconds(startedAt: number, now: number): number {
+  if (!Number.isFinite(startedAt) || !Number.isFinite(now)) return 0;
+  return Math.max(0, Math.floor((now - startedAt) / 1000));
+}
+
+export type QuestionSkill = 'detail' | 'inference' | 'vocabulary' | 'intent';
+
+export function normalizeQuestionSkill(value: unknown): QuestionSkill | null {
+  const text = String(value ?? '').toLowerCase().replace(/[_-]+/g, ' ').trim();
+  if (text === 'detail' || text === 'literal' || text === 'recall' || text === 'fact') return 'detail';
+  if (text === 'inference' || text === 'infer') return 'inference';
+  if (text === 'vocabulary' || text === 'vocab' || text === 'vocabulary in context') return 'vocabulary';
+  if (text === 'intent' || text === 'author intent' || text === 'purpose' || text === 'author purpose') return 'intent';
+  return null;
+}
+
+/** True when most questions are inference, vocabulary-in-context, or author intent. */
+export function advancedSkillsAreChallenging(skills: Array<QuestionSkill | null>): boolean {
+  if (skills.length === 0) return false;
+  const challenging = skills.filter((skill) => skill === 'inference' || skill === 'vocabulary' || skill === 'intent').length;
+  return challenging / skills.length > 0.5;
+}
+
+/** The question repeats the correct answer, as in a circular "artificial intelligence" item. */
+export function questionGivesAwayAnswer(question: string, correctAnswer: string): boolean {
+  const answerWords = contentWords(correctAnswer);
+  if (answerWords.length === 0) return false;
+  const questionWords = new Set(contentWords(question));
+  const overlap = answerWords.filter((word) => questionWords.has(word)).length;
+  if (answerWords.length === 1) return questionWords.has(answerWords[0]);
+  return overlap / answerWords.length >= 0.6;
+}
+
+const SYNONYM_GROUPS = [
+  ['fair', 'fairly', 'equitable', 'equitably', 'equally', 'justly', 'impartial', 'impartially'],
+  ['happy', 'glad', 'pleased', 'joyful', 'delighted'],
+  ['sad', 'unhappy', 'upset', 'miserable'],
+  ['big', 'large', 'huge', 'enormous'],
+  ['small', 'little', 'tiny'],
+  ['smart', 'clever', 'intelligent', 'bright'],
+  ['angry', 'mad', 'furious'],
+  ['quick', 'quickly', 'fast', 'rapid', 'rapidly'],
+  ['help', 'assist', 'aid'],
+  ['buy', 'purchase'],
+  ['start', 'begin', 'commence'],
+  ['end', 'finish', 'conclude'],
+];
+
+function synonymGroup(word: string): number {
+  return SYNONYM_GROUPS.findIndex((group) => group.includes(word));
+}
+
+/** Options that differ only by a near-synonym, so more than one can be defended. */
+export function hasNearSynonymDistractor(options: string[]): boolean {
+  for (let i = 0; i < options.length; i++) {
+    for (let j = i + 1; j < options.length; j++) {
+      const left = contentWords(options[i]);
+      const right = contentWords(options[j]);
+      const rightSet = new Set(right);
+      const leftSet = new Set(left);
+      const onlyLeft = left.filter((word) => !rightSet.has(word));
+      const onlyRight = right.filter((word) => !leftSet.has(word));
+      if (onlyLeft.length === 0 || onlyRight.length === 0 || onlyLeft.length > 2 || onlyRight.length > 2) continue;
+      const leftGroups = onlyLeft.map(synonymGroup);
+      const rightGroups = onlyRight.map(synonymGroup);
+      if (leftGroups.some((group) => group < 0) || rightGroups.some((group) => group < 0)) continue;
+      const shared = new Set(leftGroups);
+      if (rightGroups.every((group) => shared.has(group))) return true;
+    }
+  }
+  return false;
+}
+
 export function contentWords(text: string): string[] {
   return text
     .toLowerCase()
