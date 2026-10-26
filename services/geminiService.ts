@@ -1,51 +1,100 @@
 import type { ConfigOptions, QuizQuestion, VocabularyItem } from '../types';
+import { normalizeQuiz } from '../quizNormalize';
 
 type GenResponse = {
-  story: string;
-  quiz: { question: string; options: string[]; correctAnswer: string }[];
-  vocabulary: { word: string; definition: string }[];
+  story?: string;
+  quiz?: unknown[];
+  vocabulary?: { word?: string; definition?: string }[];
+  resolvedTopic?: string;
+  ok?: boolean;
+  message?: string;
 };
 
 const API_URL = '/api/generate';
 
-// --- Timeout helper ---
-function fetchWithTimeout(resource: RequestInfo, options: RequestInit = {}, ms = 25000) {
-  const controller = new AbortController();
-  const id = setTimeout(() => controller.abort(), ms);
-  return fetch(resource, { ...options, signal: controller.signal })
-    .finally(() => clearTimeout(id));
+class TimeoutError extends Error {
+  constructor() {
+    super('The request took too long. Please try again.');
+    this.name = 'TimeoutError';
+  }
 }
 
-// --- Reintentos básicos (la API ya reintenta en backend, aquí es backup) ---
-async function fetchWithRetry(input: RequestInfo, init: RequestInit, tries = 2) {
-  let lastErr: any;
+async function fetchWithTimeout(
+  resource: RequestInfo,
+  init: RequestInit,
+  ms: number,
+  external?: AbortSignal
+) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), ms);
+  const onAbort = () => controller.abort();
+  if (external) {
+    if (external.aborted) controller.abort();
+    else external.addEventListener('abort', onAbort);
+  }
+  try {
+    return await fetch(resource, { ...init, signal: controller.signal });
+  } catch (error) {
+    if (external?.aborted) {
+      const abortError = new Error('Cancelled');
+      abortError.name = 'AbortError';
+      throw abortError;
+    }
+    if (error instanceof Error && error.name === 'AbortError') throw new TimeoutError();
+    throw error;
+  } finally {
+    clearTimeout(timer);
+    external?.removeEventListener('abort', onAbort);
+  }
+}
+
+async function fetchWithRetry(
+  input: RequestInfo,
+  init: RequestInit,
+  external?: AbortSignal,
+  tries = 2
+) {
+  let lastErr: unknown;
   for (let i = 0; i < tries; i++) {
     try {
-      const res = await fetchWithTimeout(input, init, 25000);
+      const res = await fetchWithTimeout(input, init, 28000, external);
       if (!res.ok) {
         const text = await res.text().catch(() => '');
-        const e = new Error(text || `HTTP ${res.status}`);
-        (e as any).status = res.status;
-        throw e;
+        let message = text || `HTTP ${res.status}`;
+        try {
+          const parsed = JSON.parse(text) as { message?: string };
+          if (parsed?.message) message = String(parsed.message);
+        } catch {
+          /* keep the raw text */
+        }
+        const error = new Error(message);
+        (error as Error & { status?: number }).status = res.status;
+        throw error;
       }
       return res;
-    } catch (e: any) {
-      lastErr = e;
-      const status = Number(e?.status || 0);
+    } catch (error) {
+      lastErr = error;
+      if (external?.aborted || (error instanceof Error && error.name === 'AbortError')) throw error;
+      const status = Number((error as { status?: number })?.status || 0);
       const retryable =
-        e?.name === 'AbortError' ||
-        [429, 502, 503, 504].includes(status) ||
-        /temporarily|overloaded|try again/i.test(e?.message || '');
-      if (!retryable || i === tries - 1) throw e;
-      await new Promise((r) => setTimeout(r, 600 * (i + 1)));
+        (error instanceof Error && error.name === 'TimeoutError') ||
+        [429, 502, 503, 504].includes(status);
+      if (!retryable || i === tries - 1) throw error;
+      await new Promise((resolve) => setTimeout(resolve, 600 * (i + 1)));
     }
   }
   throw lastErr;
 }
 
 export async function generateStoryAndQuiz(
-  config: ConfigOptions
-): Promise<{ story: string; quiz: QuizQuestion[]; vocabulary: VocabularyItem[] }> {
+  config: ConfigOptions,
+  options?: { signal?: AbortSignal }
+): Promise<{
+  story: string;
+  quiz: QuizQuestion[];
+  vocabulary: VocabularyItem[];
+  resolvedTopic?: string;
+}> {
   const payload = {
     prompt: JSON.stringify({
       level: config.level,
@@ -53,15 +102,19 @@ export async function generateStoryAndQuiz(
       wordCount: config.wordCount,
       questionCount: config.questionCount,
       vocabularyCount: 8,
-      mode: config.practiceType || 'reading',
+      mode: config.practiceType === 'listening' ? 'listening' : 'reading',
     }),
   };
 
-  const res = await fetchWithRetry(API_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-  });
+  const res = await fetchWithRetry(
+    API_URL,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    },
+    options?.signal
+  );
 
   const raw = await res.text();
   const clean = raw.replace(/^```json\s*|\s*```$/g, '').trim();
@@ -70,28 +123,29 @@ export async function generateStoryAndQuiz(
   try {
     data = JSON.parse(clean);
   } catch {
-    throw new Error('BAD_MODEL_OUTPUT: invalid JSON from server');
+    throw new Error('The lesson could not be read. Please try again.');
   }
 
-  if (
-    !data ||
-    typeof data.story !== 'string' ||
-    !Array.isArray(data.quiz) ||
-    !Array.isArray(data.vocabulary)
-  ) {
-    throw new Error('BAD_MODEL_OUTPUT: missing fields');
+  if (data?.ok === false) {
+    throw new Error(data.message || 'The lesson could not be created. Please try again.');
   }
 
-  const story = data.story.trim();
-  const quiz = data.quiz.map((q) => ({
-    question: q.question,
-    options: Array.isArray(q.options) ? q.options : [],
-    correctAnswer: q.correctAnswer,
-  }));
-  const vocabulary = data.vocabulary.map((v) => ({
-    word: v.word,
-    definition: v.definition,
-  }));
+  if (!data || typeof data.story !== 'string' || !Array.isArray(data.quiz) || !Array.isArray(data.vocabulary)) {
+    throw new Error('The lesson was incomplete. Please try again.');
+  }
 
-  return { story, quiz, vocabulary };
+  const quiz = normalizeQuiz(data.quiz).filter((question) => question.question && question.options.length > 0);
+  const vocabulary = data.vocabulary
+    .map((item) => ({
+      word: String(item?.word ?? '').trim(),
+      definition: String(item?.definition ?? '').trim(),
+    }))
+    .filter((item) => item.word && item.definition);
+
+  return {
+    story: data.story.trim(),
+    quiz,
+    vocabulary,
+    resolvedTopic: data.resolvedTopic ? String(data.resolvedTopic) : undefined,
+  };
 }

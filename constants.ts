@@ -5,9 +5,11 @@ export const LEVELS = [
   { value: 'advanced', label: 'Advanced' },
 ];
 
+export const WILDCARD_TOPIC = 'wildcard';
+
 export const TOPICS = [
-  { label: 'Daily Life', value: 'daily life' },                  // 1º
-  { label: 'Wildcard Topic (any subject)', value: 'wildcard' },  // 2º
+  { label: 'Daily Life', value: 'daily life' },
+  { label: 'Any topic', value: WILDCARD_TOPIC },
   { value: 'fantasy', label: 'Fantasy' },
   { value: 'school_college', label: 'School / College' },
   { value: 'mystery', label: 'Mystery' },
@@ -15,13 +17,16 @@ export const TOPICS = [
   { value: 'science', label: 'Science' },
   { value: 'economy_finance', label: 'Economy / Finance' },
   { value: 'travel', label: 'Travel' },
-  { value: 'hobbies', label: 'Hobbies' },                        // ← sustituto de Sports
+  { value: 'hobbies', label: 'Hobbies' },
+  { value: 'health_sports', label: 'Health & Sports' },
+  { value: 'technology', label: 'Technology' },
+  { value: 'culture_food', label: 'Culture & Food' },
 ];
 
 export const WORD_COUNTS = [
-  { value: 120, label: '100 words' },
-  { value: 170, label: '150 words' },
-  { value: 220, label: '200 words' },
+  { value: 100, label: '100 words' },
+  { value: 150, label: '150 words' },
+  { value: 200, label: '200 words' },
 ];
 
 export const QUESTION_COUNTS = [
@@ -29,3 +34,29 @@ export const QUESTION_COUNTS = [
   { value: 10, label: '10 Questions' },
   { value: 15, label: '15 Questions' },
 ];
+
+export type TopicChoice = {
+  value: string;
+  label: string;
+  surprise: boolean;
+};
+
+export function selectableTopics() {
+  return TOPICS.filter((topic) => topic.value !== WILDCARD_TOPIC);
+}
+
+/** Wildcard becomes a random real topic. The model never sees the word "wildcard". */
+export function resolveTopic(topicValue: string, random: () => number = Math.random): TopicChoice {
+  if (topicValue !== WILDCARD_TOPIC) {
+    const found = TOPICS.find((topic) => topic.value === topicValue);
+    return {
+      value: found?.value ?? topicValue,
+      label: found?.label ?? topicValue,
+      surprise: false,
+    };
+  }
+  const pool = selectableTopics();
+  const index = Math.min(pool.length - 1, Math.max(0, Math.floor(random() * pool.length)));
+  const pick = pool[index];
+  return { value: pick.value, label: pick.label, surprise: true };
+}
