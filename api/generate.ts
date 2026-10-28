@@ -12,6 +12,15 @@ import {
   wordCountBounds,
   type QuestionSkill,
 } from '../lessonUtils';
+import {
+  dialogueSpeakers,
+  normalizeFormat,
+  parseDialogue,
+  renderDialogue,
+  spokenWordCount,
+  type ContentFormat,
+  type DialogueTurn,
+} from '../dialogue';
 import { normalizeQuiz, type NormalizedQuizQuestion } from '../quizNormalize';
 
 type HandlerEvent = {
@@ -32,6 +41,7 @@ type LessonParams = {
   questionCount: number;
   vocabularyCount: number;
   mode: 'reading' | 'listening';
+  format: ContentFormat;
   surprise: boolean;
 };
 
@@ -44,6 +54,7 @@ type PreparedLesson = {
   problems: string[];
   wordCount: number;
   wordCountOk: boolean;
+  dialogue: DialogueTurn[];
 };
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -55,7 +66,19 @@ const LESSON_SCHEMA: ResponseSchema = {
   properties: {
     story: {
       type: SchemaType.STRING,
-      description: 'The story only. No title and no word count.',
+      description: 'The text or the dialogue written as lines. No title and no word count.',
+    },
+    dialogue: {
+      type: SchemaType.ARRAY,
+      description: 'Dialogue turns. Empty for a Text lesson. Two speakers for a Dialogue lesson.',
+      items: {
+        type: SchemaType.OBJECT,
+        properties: {
+          speaker: { type: SchemaType.STRING, description: 'A short first name.' },
+          line: { type: SchemaType.STRING, description: 'What that person says. Do not include the name.' },
+        },
+        required: ['speaker', 'line'],
+      },
     },
     quiz: {
       type: SchemaType.ARRAY,
@@ -161,6 +184,25 @@ function levelRules(level: string): string {
   ].join(' ');
 }
 
+function formatRules(format: ContentFormat): string {
+  if (format === 'dialogue') {
+    return [
+      'FORMAT: Dialogue.',
+      'Write a conversation between exactly 2 people.',
+      'Return a dialogue array. Each item has speaker (a short first name) and line (what that person says).',
+      'Use the same two names every time. Do not put the name inside line.',
+      'Let the speakers take turns. Write at least 6 turns.',
+      'Also set story to the same dialogue, one turn per line, like "Ana: Hello."',
+      'Count only the words inside line. Do not count the speaker names.',
+    ].join(' ');
+  }
+  return [
+    'FORMAT: Text.',
+    'Write one narrative or one monologue. Do not write a dialogue and do not add speaker names.',
+    'Use 1 to 3 short paragraphs. Do not add a title.',
+  ].join(' ');
+}
+
 function modeRules(mode: 'reading' | 'listening'): string {
   if (mode === 'listening') {
     return 'The learner will HEAR the story and will not see it during the quiz. Do not mention paragraphs, lines, pages, or spelling. Questions must be answerable from listening.';
@@ -199,13 +241,14 @@ Do not write a story about the words "wildcard" or "any topic". The story topic 
 
 ${levelRules(params.level)}
 ${modeRules(params.mode)}
+${formatRules(params.format)}
 
-STORY LENGTH (required):
-- The story must contain between ${min} and ${max} words.
+LENGTH (required):
+- The ${params.format === 'dialogue' ? 'spoken lines' : 'text'} must contain between ${min} and ${max} words.
 - Target: ${params.wordCount} words.
 - Count every word before you answer. A contraction such as "don't" is one word.
-- If the story is too long, delete whole sentences until it fits. If it is too short, add a sentence.
-- Use 1 to 3 short paragraphs. Do not add a title.
+- ${params.format === 'dialogue' ? 'Do not count speaker names.' : 'Count every word in the text.'}
+- If it is too long, delete whole sentences until it fits. If it is too short, add a sentence.
 
 QUIZ (required):
 - Exactly ${params.questionCount} questions.
@@ -242,17 +285,35 @@ function parseModelJson(rawText: string): Record<string, unknown> | null {
 }
 
 function prepareLesson(parsed: Record<string, unknown>, params: LessonParams): PreparedLesson {
-  const story = typeof parsed.story === 'string' ? parsed.story.trim() : '';
+  let story = typeof parsed.story === 'string' ? parsed.story.trim() : '';
+  let dialogue: DialogueTurn[] = [];
+  if (params.format === 'dialogue') {
+    const fromField = parseDialogue(parsed.dialogue);
+    const fromStory = parseDialogue(story);
+    dialogue = fromField.length >= fromStory.length ? fromField : fromStory;
+    if (dialogue.length) story = renderDialogue(dialogue);
+  }
   const quiz = normalizeQuiz(Array.isArray(parsed.quiz) ? parsed.quiz : []);
   const problems: string[] = [];
-  const wordCount = countWords(story);
+  const wordCount = params.format === 'dialogue' ? spokenWordCount(dialogue) : countWords(story);
   const { min, max } = wordCountBounds(params.wordCount);
   const wordCountOk = wordCount >= min && wordCount <= max;
 
   if (!story) problems.push('The story is missing.');
+  if (params.format === 'dialogue') {
+    const speakers = dialogueSpeakers(dialogue);
+    if (speakers.length !== 2) {
+      problems.push('Use exactly 2 speakers. Give each speaker a short name and let both of them speak.');
+    }
+    if (dialogue.length < 4) {
+      problems.push('Write at least 4 dialogue turns. Each turn is one speaker and one line.');
+    }
+  }
   if (!wordCountOk) {
     problems.push(
-      `The story is ${wordCount} words. Rewrite it so it is between ${min} and ${max} words (target ${params.wordCount}).`
+      params.format === 'dialogue'
+        ? `The spoken lines are ${wordCount} words. Rewrite them so they are between ${min} and ${max} words (target ${params.wordCount}). Do not count the names.`
+        : `The story is ${wordCount} words. Rewrite it so it is between ${min} and ${max} words (target ${params.wordCount}).`
     );
   }
   if (quiz.length !== params.questionCount) {
@@ -344,7 +405,7 @@ function prepareLesson(parsed: Record<string, unknown>, params: LessonParams): P
     problems.push(`Include ${params.vocabularyCount} vocabulary items from the story.`);
   }
 
-  return { story, quiz, vocabulary, problems, wordCount, wordCountOk };
+  return { story, quiz, vocabulary, problems, wordCount, wordCountOk, dialogue };
 }
 
 function lessonScore(lesson: PreparedLesson, params: LessonParams): number {
@@ -461,6 +522,7 @@ function readParams(bodyText: string | null | undefined): LessonParams | null {
     questionCount: clamp(Number(raw.questionCount) || 5, 1, 15),
     vocabularyCount: clamp(Number(raw.vocabularyCount) || 8, 4, 12),
     mode,
+    format: normalizeFormat(raw.format),
   };
 }
 
@@ -550,6 +612,8 @@ export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => 
         resolvedTopic: params.topic,
         wordCount: best.lesson.wordCount,
         wordCountOk: best.lesson.wordCountOk,
+        format: params.format,
+        dialogue: best.lesson.dialogue,
       }),
     };
   } catch (error) {

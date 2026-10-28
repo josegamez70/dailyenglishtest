@@ -11,12 +11,15 @@ export interface VocabularyItem {
   definition: string;
 }
 
+export type ContentFormat = 'text' | 'dialogue';
+
 export interface ConfigOptions {
   level: string;
   topic: string;
   wordCount: number;
   questionCount: number;
   practiceType?: PracticeType;
+  format?: ContentFormat;
 }
 
 export type PracticeType = 'reading' | 'listening';
