@@ -13,8 +13,10 @@ import {
   type QuestionSkill,
 } from '../lessonUtils';
 import {
+  dialogueGendersConflict,
   dialogueSpeakers,
   normalizeFormat,
+  speakersWithGender,
   parseDialogue,
   renderDialogue,
   spokenWordCount,
@@ -75,9 +77,10 @@ const LESSON_SCHEMA: ResponseSchema = {
         type: SchemaType.OBJECT,
         properties: {
           speaker: { type: SchemaType.STRING, description: 'A short first name.' },
+          gender: { type: SchemaType.STRING, description: 'female or male. The same speaker always has the same gender.' },
           line: { type: SchemaType.STRING, description: 'What that person says. Do not include the name.' },
         },
-        required: ['speaker', 'line'],
+        required: ['speaker', 'gender', 'line'],
       },
     },
     quiz: {
@@ -189,8 +192,9 @@ function formatRules(format: ContentFormat): string {
     return [
       'FORMAT: Dialogue.',
       'Write a conversation between exactly 2 people.',
-      'Return a dialogue array. Each item has speaker (a short first name) and line (what that person says).',
-      'Use the same two names every time. Do not put the name inside line.',
+      'Return a dialogue array. Each item has speaker (a short first name), gender ("female" or "male"), and line (what that person says).',
+      'Use the same two names every time, and keep each speaker\'s gender the same on every turn. A woman is female. A man is male. For example Anna is female and Ben is male.',
+      'Do not put the name inside line.',
       'Let the speakers take turns. Write at least 6 turns.',
       'Also set story to the same dialogue, one turn per line, like "Ana: Hello."',
       'Count only the words inside line. Do not count the speaker names.',
@@ -290,7 +294,15 @@ function prepareLesson(parsed: Record<string, unknown>, params: LessonParams): P
   if (params.format === 'dialogue') {
     const fromField = parseDialogue(parsed.dialogue);
     const fromStory = parseDialogue(story);
-    dialogue = fromField.length >= fromStory.length ? fromField : fromStory;
+    const base = fromField.length >= fromStory.length ? fromField : fromStory;
+    const genders = new Map<string, DialogueTurn['gender']>();
+    for (const turn of [...fromStory, ...fromField]) {
+      if (turn.gender) genders.set(turn.speaker.toLowerCase(), turn.gender);
+    }
+    dialogue = base.map((turn) => ({
+      ...turn,
+      gender: genders.get(turn.speaker.toLowerCase()) ?? turn.gender,
+    }));
     if (dialogue.length) story = renderDialogue(dialogue);
   }
   const quiz = normalizeQuiz(Array.isArray(parsed.quiz) ? parsed.quiz : []);
@@ -307,6 +319,12 @@ function prepareLesson(parsed: Record<string, unknown>, params: LessonParams): P
     }
     if (dialogue.length < 4) {
       problems.push('Write at least 4 dialogue turns. Each turn is one speaker and one line.');
+    }
+    if (dialogueGendersConflict(parsed.dialogue)) {
+      problems.push('Each speaker must keep the same gender, female or male, on every turn.');
+    }
+    if (speakersWithGender(dialogue).some((speaker) => !speaker.gender)) {
+      problems.push('Set gender to female or male for every speaker, and use that same gender each time they speak.');
     }
   }
   if (!wordCountOk) {

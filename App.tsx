@@ -8,8 +8,9 @@ import {
   isContentLengthOk,
   parseDialogue,
   resumeTurnIndex,
-  speakerVoices,
+  speakersWithGender,
   speechLines,
+  voicesBySpeaker,
   type ContentFormat,
   type DialogueTurn,
 } from './dialogue';
@@ -84,6 +85,7 @@ const App: React.FC = () => {
   const [view, setView] = useState<AppView>('config');
   const [practiceType, setPracticeType] = useState<PracticeType>('reading');
   const [contentFormat, setContentFormat] = useState<ContentFormat>('text');
+  const [dialogueTurns, setDialogueTurns] = useState<DialogueTurn[]>([]);
   const [config, setConfig] = useState<ConfigOptions>({
     level: LEVELS[0].value,
     topic: TOPICS[0].value,
@@ -232,6 +234,7 @@ const App: React.FC = () => {
       if (!result.quiz.length) throw new Error('The quiz was empty. Please try again.');
 
       setStory(result.story);
+      setDialogueTurns(contentFormat === 'dialogue' ? result.dialogue : []);
       setQuiz(result.quiz);
       setVocabulary(result.vocabulary);
       setStoryTopic({
@@ -336,6 +339,7 @@ const App: React.FC = () => {
   const resetApp = () => {
     setView('config');
     setStory('');
+    setDialogueTurns([]);
     setQuiz([]);
     setVocabulary([]);
     setStoryTopic(null);
@@ -384,7 +388,8 @@ const App: React.FC = () => {
     firstBoundaryHeardRef.current = false;
 
     const words = story.split(/\s+/).filter(Boolean);
-    const dialogueLines = contentFormat === 'dialogue' ? speechLines(parseDialogue(story)) : [];
+    const lessonTurns = dialogueTurns.length ? dialogueTurns : parseDialogue(story);
+    const dialogueLines = contentFormat === 'dialogue' ? speechLines(lessonTurns) : [];
     const speakingDialogue = dialogueLines.length > 0 && options?.text == null;
     const startTurn = speakingDialogue ? Math.max(0, Math.min(dialogueLines.length - 1, options?.fromTurn ?? 0)) : 0;
     const isAndroid = isAndroidUserAgent(navigator.userAgent);
@@ -525,12 +530,12 @@ const App: React.FC = () => {
       const lines = dialogueLines.slice(startTurn);
       setTimeout(() => {
         if (playId !== playIdRef.current || pausedRef.current) return;
-        const voices = speakerVoices(readVoices());
+        const voices = voicesBySpeaker(speakersWithGender(lessonTurns), readVoices());
         const available = readVoices();
         try {
           lines.forEach((line, index) => {
             const utterance = new SpeechSynthesisUtterance(line.text);
-            const choice = voices[Math.min(line.speakerIndex, 1)] ?? voices[0];
+            const choice = voices[line.speaker.toLowerCase()] ?? Object.values(voices)[0];
             const match = available.find((voice) => voice.name === choice.name);
             const live = window.speechSynthesis.getVoices().find((voice) => voice.name === match?.name);
             if (live) utterance.voice = live;
@@ -625,7 +630,7 @@ const App: React.FC = () => {
         failToStart();
       }
     }, 60);
-  }, [contentFormat, story, runProgressClock]);
+  }, [contentFormat, dialogueTurns, story, runProgressClock]);
 
   const pausePlayback = useCallback(() => {
     if (pausedRef.current || !isSpeakingRef.current) return;
@@ -682,7 +687,7 @@ const App: React.FC = () => {
       }
     }
     if (contentFormat === 'dialogue') {
-      const lines = speechLines(parseDialogue(story));
+      const lines = speechLines(dialogueTurns.length ? dialogueTurns : parseDialogue(story));
       const durations = lines.map((line) => estimateSpeechMs(line.text, rate));
       const turn = resumeTurnIndex(durations, elapsed);
       playbackStartRef.current = Date.now() - elapsed;
@@ -694,7 +699,7 @@ const App: React.FC = () => {
     const text = textFromWordIndex(words, index);
     playbackStartRef.current = Date.now() - elapsed;
     playSpeak(rate, { text: text || story, keepClock: true });
-  }, [contentFormat, playSpeak, runProgressClock, story]);
+  }, [contentFormat, dialogueTurns, playSpeak, runProgressClock, story]);
 
   const openStoryReview = () => {
     const next = withStoryReview(

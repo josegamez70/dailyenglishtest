@@ -6,9 +6,9 @@ import {
   parseDialogue,
   renderDialogue,
   resumeTurnIndex,
-  speakerVoices,
   speechLines,
   spokenWordCount,
+  voicesBySpeaker,
 } from '../dialogue.ts';
 import { clampedFontStep } from '../fontStep.ts';
 
@@ -37,21 +37,55 @@ test('dialogue lines become spoken lines with a speaker index', () => {
   assert.equal(resumeTurnIndex([1000], 5000), 0);
 });
 
-test('two English voices stay distinct and one voice changes pitch', () => {
-  const pair = speakerVoices([
-    { name: 'UK Female', lang: 'en-GB' },
-    { name: 'US Male', lang: 'en-US' },
-    { name: 'French', lang: 'fr-FR' },
+test('voices follow speaker gender and stay the same for each name', () => {
+  const turns = parseDialogue([
+    { speaker: 'Anna', gender: 'female', line: 'I missed the train.' },
+    { speaker: 'Ben', gender: 'male', line: 'The river flooded the road.' },
+    { speaker: 'Anna', gender: 'female', line: 'We should stay uphill.' },
   ]);
-  assert.equal(pair[0].name, 'UK Female');
-  assert.equal(pair[1].name, 'US Male');
-  assert.equal(pair[0].pitch, 1);
-  assert.equal(pair[1].pitch, 1);
-  const single = speakerVoices([{ name: 'Only', lang: 'en-US' }]);
-  assert.equal(single[0].name, 'Only');
-  assert.equal(single[1].name, 'Only');
-  assert.equal(single[1].pitch, 0.75);
-  assert.ok(single[1].rateScale < 1);
+  assert.equal(turns[0].gender, 'female');
+  assert.equal(turns[1].gender, 'male');
+  assert.equal(turns[2].gender, 'female');
+  const voices = voicesBySpeaker(
+    [
+      { name: 'Anna', gender: 'female' },
+      { name: 'Ben', gender: 'male' },
+    ],
+    [
+      { name: 'Daniel', lang: 'en-GB' },
+      { name: 'Samantha', lang: 'en-US' },
+      { name: 'Amelie', lang: 'fr-FR' },
+    ]
+  );
+  assert.equal(voices.anna.name, 'Samantha');
+  assert.equal(voices.ben.name, 'Daniel');
+  assert.equal(voices.anna.pitch, 1);
+  assert.equal(voices.ben.pitch, 1);
+  const google = voicesBySpeaker(
+    [
+      { name: 'Anna', gender: 'female' },
+      { name: 'Ben', gender: 'male' },
+    ],
+    [
+      { name: 'Google UK English Male', lang: 'en-GB' },
+      { name: 'Google UK English Female', lang: 'en-GB' },
+    ]
+  );
+  assert.equal(google.anna.name, 'Google UK English Female');
+  assert.equal(google.ben.name, 'Google UK English Male');
+  const only = voicesBySpeaker(
+    [
+      { name: 'Anna', gender: 'female' },
+      { name: 'Ben', gender: 'male' },
+    ],
+    [{ name: 'Samantha', lang: 'en-US' }]
+  );
+  assert.equal(only.anna.name, 'Samantha');
+  assert.equal(only.ben.name, 'Samantha');
+  assert.ok(only.anna.pitch > 1);
+  assert.ok(only.ben.pitch < 1);
+  assert.equal(parseDialogue('Anna: Hello.\nBen: Hi.')[0].gender, 'female');
+  assert.equal(parseDialogue('Anna: Hello.\nBen: Hi.')[1].gender, 'male');
 });
 
 test('extra large text size becomes the largest remaining size', () => {
