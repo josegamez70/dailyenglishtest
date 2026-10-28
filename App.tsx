@@ -738,6 +738,13 @@ const App: React.FC = () => {
         : 'bg-white text-slate-900 border-slate-500 hover:border-blue-700 dark:bg-slate-800 dark:text-slate-50 dark:border-slate-300'
     }`;
 
+  const formatButtonClass = (active: boolean) =>
+    `flex flex-col items-center justify-center p-4 rounded-lg border-2 transition-all duration-200 ${
+      active
+        ? 'bg-blue-700 text-white border-blue-800 ring-4 ring-blue-300 shadow-md'
+        : 'bg-white text-slate-900 border-slate-500 hover:border-blue-700 dark:bg-slate-800 dark:text-slate-50 dark:border-slate-300'
+    }`;
+
   const ConfigScreen = () => (
     <div className="w-full max-w-2xl mx-auto">
       <div className="mb-4 text-center">
@@ -776,10 +783,10 @@ const App: React.FC = () => {
             type="button"
             onClick={() => setContentFormat('text')}
             aria-pressed={contentFormat === 'text'}
-            className={modeButtonClass(contentFormat === 'text')}
+            className={formatButtonClass(contentFormat === 'text')}
           >
-            <span className="font-semibold text-lg">Text</span>
-            <span className={`mt-1 text-base ${contentFormat === 'text' ? 'text-blue-50' : 'text-slate-700 dark:text-slate-200'}`}>
+            <span className="font-semibold text-base">Text</span>
+            <span className={`mt-0.5 text-sm ${contentFormat === 'text' ? 'text-blue-50' : 'text-slate-700 dark:text-slate-200'}`}>
               A story or monologue
             </span>
           </button>
@@ -787,10 +794,10 @@ const App: React.FC = () => {
             type="button"
             onClick={() => setContentFormat('dialogue')}
             aria-pressed={contentFormat === 'dialogue'}
-            className={modeButtonClass(contentFormat === 'dialogue')}
+            className={formatButtonClass(contentFormat === 'dialogue')}
           >
-            <span className="font-semibold text-lg">Dialogue</span>
-            <span className={`mt-1 text-base ${contentFormat === 'dialogue' ? 'text-blue-50' : 'text-slate-700 dark:text-slate-200'}`}>
+            <span className="font-semibold text-base">Dialogue</span>
+            <span className={`mt-0.5 text-sm ${contentFormat === 'dialogue' ? 'text-blue-50' : 'text-slate-700 dark:text-slate-200'}`}>
               Two speakers
             </span>
           </button>
@@ -851,7 +858,7 @@ const App: React.FC = () => {
         <button
           type="button"
           onClick={stopSpeaking}
-          className="bg-slate-800 hover:bg-slate-900 text-white font-bold py-3 px-6 rounded-lg text-lg"
+          className="bg-red-300 hover:bg-red-400 text-red-950 font-bold py-3 px-6 rounded-lg text-lg"
         >
           Stop
         </button>
@@ -1194,7 +1201,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className={`min-h-screen text-slate-900 dark:text-slate-50 flex flex-col items-center transition-colors duration-300 ${view === 'story' ? 'px-4 pt-3 pb-4 sm:px-6 sm:pb-6' : 'p-4 sm:p-6 lg:p-8'}`}>
+    <div className="min-h-screen text-slate-900 dark:text-slate-50 flex flex-col items-center px-3 pt-2 pb-4 sm:px-5 sm:pb-6 transition-colors duration-300">
       {isLoading && loadingStartedAt != null && (
         <Loader
           startedAt={loadingStartedAt}
@@ -1250,30 +1257,41 @@ const App: React.FC = () => {
           </div>
         </div>
       )}
-      <header className={`w-full max-w-4xl mx-auto ${view === 'story' ? 'mb-2' : 'mb-6'}`}>
-        <div className={`flex justify-end ${view === 'story' ? 'mb-1' : 'mb-3'}`}>
-          <button
-            type="button"
-            onClick={() => setIsDark((dark) => !dark)}
-            aria-pressed={isDark}
-            className="inline-flex items-center rounded-lg border-2 border-slate-900 bg-white px-4 py-2 text-base font-semibold text-slate-900 hover:bg-slate-100 dark:border-slate-100 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
-          >
-            {isDark ? 'Light mode' : 'Dark mode'}
-          </button>
-        </div>
-        {view !== 'story' && (
-          <div className="text-center">
-            <div className="flex justify-center items-center gap-4 mb-4">
-              <UKFlagIcon className="w-28 h-28 rounded-lg shadow-md" />
-              <h1 className="text-4xl font-fun tracking-wide">
-                <span className="text-blue-800 dark:text-blue-300">Your daily </span>
-                <span className="text-red-700 dark:text-red-400">English Test!</span>
-              </h1>
+      <header className={`w-full max-w-4xl mx-auto ${view === 'story' ? 'mb-2' : 'mb-3'}`}>
+        {view === 'story' ? (
+          <div className="flex justify-end">
+            <button
+              type="button"
+              onClick={() => setIsDark((dark) => !dark)}
+              aria-pressed={isDark}
+              className="inline-flex items-center rounded-lg border-2 border-slate-900 bg-white px-3 py-1.5 text-sm font-semibold text-slate-900 hover:bg-slate-100 sm:px-4 sm:py-2 sm:text-base dark:border-slate-100 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
+            >
+              {isDark ? 'Light mode' : 'Dark mode'}
+            </button>
+          </div>
+        ) : (
+          <div>
+            <div className="flex items-center gap-2 sm:gap-4">
+              <div className="flex min-w-0 flex-1 items-center justify-center gap-2 sm:gap-4">
+                <UKFlagIcon className="h-14 w-14 shrink-0 rounded-lg shadow-md sm:h-20 sm:w-20" />
+                <h1 className="text-left text-2xl font-fun leading-tight tracking-wide sm:text-4xl">
+                  <span className="text-blue-800 dark:text-blue-300">Your daily </span>
+                  <span className="text-red-700 dark:text-red-400">English Test!</span>
+                </h1>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsDark((dark) => !dark)}
+                aria-pressed={isDark}
+                className="inline-flex shrink-0 items-center rounded-lg border-2 border-slate-900 bg-white px-3 py-1.5 text-sm font-semibold text-slate-900 hover:bg-slate-100 sm:px-4 sm:py-2 sm:text-base dark:border-slate-100 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
+              >
+                {isDark ? 'Light mode' : 'Dark mode'}
+              </button>
             </div>
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-slate-900 dark:text-white">
+            <h2 className="mt-2 text-center text-lg font-bold text-slate-900 dark:text-white sm:text-2xl md:text-3xl">
               English Comprehension Practice
             </h2>
-            <p className="text-slate-800 dark:text-slate-100 mt-2 text-lg">
+            <p className="mt-1 text-center text-base text-slate-800 dark:text-slate-100 sm:text-lg">
               Practice reading and listening with short stories and quizzes.
             </p>
           </div>
