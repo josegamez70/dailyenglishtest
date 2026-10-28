@@ -974,13 +974,8 @@ const App: React.FC = () => {
         <h2 className="text-lg sm:text-3xl font-bold text-center text-slate-900 dark:text-slate-50 whitespace-nowrap">
           {practiceType === 'reading' ? 'Read the Story' : 'Listen to the Story'}
         </h2>
-        {storyTopic && (
-          <p className="mt-3 text-center text-base font-semibold text-slate-900 dark:text-slate-50">
-            {storyTopic.surprise ? `Topic picked for you: ${storyTopic.label}` : `Topic: ${storyTopic.label}`}
-          </p>
-        )}
-        <p className="mt-1 text-center text-base font-semibold text-slate-900 dark:text-slate-50">
-          Format: {contentFormat === 'dialogue' ? 'Dialogue' : 'Text'}
+        <p className="mt-2 text-center text-sm sm:text-base font-semibold leading-snug text-slate-900 dark:text-slate-50">
+          Topic: {storyTopic?.label ?? TOPICS.find((topic) => topic.value === config.topic)?.label ?? config.topic} · Level: {LEVELS.find((level) => level.value === config.level)?.label ?? config.level} · Format: {contentFormat === 'dialogue' ? 'Dialogue' : 'Text'}
         </p>
 
         <TextSizeControl />
