@@ -2,7 +2,18 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import type { QuizQuestion, ConfigOptions, PracticeType, AppView, VocabularyItem } from './types';
 import { LEVELS, QUESTION_COUNTS, resolveTopic, TOPICS, WORD_COUNTS } from './constants';
 import { isAndroidUserAgent } from './device';
-import { countWords, estimateGenerationSeconds, isWordCountWithinTolerance, scoreFeedback } from './lessonUtils';
+import { estimateGenerationSeconds, scoreFeedback } from './lessonUtils';
+import {
+  contentWordCount,
+  isContentLengthOk,
+  parseDialogue,
+  resumeTurnIndex,
+  speakerVoices,
+  speechLines,
+  type ContentFormat,
+  type DialogueTurn,
+} from './dialogue';
+import { clampedFontStep } from './fontStep';
 import { withStoryReview } from './quizSession';
 import { resumeWordIndex, textFromWordIndex } from './speechPosition';
 import { generateStoryAndQuiz } from './services/geminiService';
@@ -20,7 +31,6 @@ const FONT_STEPS = [
   { label: 'Small', className: 'text-base' },
   { label: 'Medium', className: 'text-lg' },
   { label: 'Large', className: 'text-xl' },
-  { label: 'Extra large', className: 'text-2xl' },
 ] as const;
 
 function formatClock(ms: number): string {
@@ -55,17 +65,25 @@ function readFontStep(): number {
   try {
     const raw = localStorage.getItem('storyFontStep');
     if (raw == null) return 1;
-    const saved = Number(raw);
-    if (Number.isInteger(saved) && saved >= 0 && saved < FONT_STEPS.length) return saved;
+    return clampedFontStep(Number(raw), FONT_STEPS.length);
   } catch {
     /* ignore blocked storage */
   }
   return 1;
 }
 
+function readVoices(): { name: string; lang: string }[] {
+  try {
+    return window.speechSynthesis.getVoices().map((voice) => ({ name: voice.name, lang: voice.lang }));
+  } catch {
+    return [];
+  }
+}
+
 const App: React.FC = () => {
   const [view, setView] = useState<AppView>('config');
   const [practiceType, setPracticeType] = useState<PracticeType>('reading');
+  const [contentFormat, setContentFormat] = useState<ContentFormat>('text');
   const [config, setConfig] = useState<ConfigOptions>({
     level: LEVELS[0].value,
     topic: TOPICS[0].value,
@@ -94,6 +112,7 @@ const App: React.FC = () => {
   const [elapsedMs, setElapsedMs] = useState(0);
   const [durationMs, setDurationMs] = useState(0);
   const [playbackRate, setPlaybackRate] = useState<number | null>(null);
+  const [activeTurn, setActiveTurn] = useState<number | null>(null);
   const [storyReviewOpen, setStoryReviewOpen] = useState(false);
 
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
@@ -135,6 +154,17 @@ const App: React.FC = () => {
   }, [fontStep]);
 
   useEffect(() => {
+    try {
+      window.speechSynthesis.getVoices();
+      const prime = () => window.speechSynthesis.getVoices();
+      window.speechSynthesis.addEventListener('voiceschanged', prime);
+      return () => window.speechSynthesis.removeEventListener('voiceschanged', prime);
+    } catch {
+      return undefined;
+    }
+  }, []);
+
+  useEffect(() => {
     return () => {
       stoppedByUserRef.current = true;
       playIdRef.current += 1;
@@ -170,6 +200,7 @@ const App: React.FC = () => {
       wordCount: config.wordCount,
       questionCount: config.questionCount,
       practiceType,
+      format: contentFormat,
     };
 
     setIsLoading(true);
@@ -181,13 +212,14 @@ const App: React.FC = () => {
     try {
       let result = await generateStoryAndQuiz(requestConfig, { signal: controller.signal });
       if (controller.signal.aborted) return;
-      if (!isWordCountWithinTolerance(result.story, config.wordCount)) {
+      if (!isContentLengthOk(result.story, contentFormat, config.wordCount)) {
         setLoadingNote('The first story was the wrong length. Writing another one...');
         try {
           const second = await generateStoryAndQuiz(requestConfig, { signal: controller.signal });
           if (!controller.signal.aborted) {
-            const firstDistance = Math.abs(countWords(result.story) - config.wordCount);
-            const secondDistance = Math.abs(countWords(second.story) - config.wordCount);
+            const lengthOf = (text: string) => contentWordCount(text, contentFormat);
+            const firstDistance = Math.abs(lengthOf(result.story) - config.wordCount);
+            const secondDistance = Math.abs(lengthOf(second.story) - config.wordCount);
             if (secondDistance <= firstDistance) result = second;
           }
         } catch (retryError) {
@@ -272,6 +304,7 @@ const App: React.FC = () => {
     setIsSpeaking(false);
     setIsPaused(false);
     setCurrentWordIndex(null);
+    setActiveTurn(null);
     elapsedMsRef.current = 0;
     setElapsedMs(0);
     setDurationMs(0);
@@ -317,7 +350,7 @@ const App: React.FC = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const playSpeak = useCallback((rate: number = 1, options?: { text?: string; keepClock?: boolean }) => {
+  const playSpeak = useCallback((rate: number = 1, options?: { text?: string; keepClock?: boolean; fromTurn?: number }) => {
     const spoken = (options?.text ?? story).trim();
     if (!story || !spoken) return;
     const playId = ++playIdRef.current;
@@ -351,17 +384,23 @@ const App: React.FC = () => {
     firstBoundaryHeardRef.current = false;
 
     const words = story.split(/\s+/).filter(Boolean);
+    const dialogueLines = contentFormat === 'dialogue' ? speechLines(parseDialogue(story)) : [];
+    const speakingDialogue = dialogueLines.length > 0 && options?.text == null;
+    const startTurn = speakingDialogue ? Math.max(0, Math.min(dialogueLines.length - 1, options?.fromTurn ?? 0)) : 0;
     const isAndroid = isAndroidUserAgent(navigator.userAgent);
     const timing = speechTiming(rate);
     if (keepClock) {
       playbackStartRef.current = Date.now() - elapsedMsRef.current;
     } else {
-      const duration = estimateSpeechMs(story, rate);
+      const duration = speakingDialogue
+        ? dialogueLines.reduce((sum, line) => sum + estimateSpeechMs(line.text, rate), 0)
+        : estimateSpeechMs(story, rate);
       durationMsRef.current = duration;
       playbackStartRef.current = Date.now();
       elapsedMsRef.current = 0;
       setDurationMs(duration);
       setElapsedMs(0);
+      setActiveTurn(null);
     }
     setPlaybackRate(rate);
     runProgressClock();
@@ -435,6 +474,7 @@ const App: React.FC = () => {
       setIsSpeaking(false);
       setIsPaused(false);
       setCurrentWordIndex(null);
+      setActiveTurn(null);
       elapsedMsRef.current = durationMsRef.current;
       setElapsedMs(durationMsRef.current);
     };
@@ -480,6 +520,45 @@ const App: React.FC = () => {
       setIsSpeaking(false);
       setCurrentWordIndex(null);
     };
+
+    if (speakingDialogue) {
+      const lines = dialogueLines.slice(startTurn);
+      setTimeout(() => {
+        if (playId !== playIdRef.current || pausedRef.current) return;
+        const voices = speakerVoices(readVoices());
+        const available = readVoices();
+        try {
+          lines.forEach((line, index) => {
+            const utterance = new SpeechSynthesisUtterance(line.text);
+            const choice = voices[Math.min(line.speakerIndex, 1)] ?? voices[0];
+            const match = available.find((voice) => voice.name === choice.name);
+            const live = window.speechSynthesis.getVoices().find((voice) => voice.name === match?.name);
+            if (live) utterance.voice = live;
+            utterance.lang = choice.lang || 'en-US';
+            utterance.pitch = choice.pitch;
+            utterance.rate = rate * choice.rateScale;
+            utterance.onstart = () => {
+              if (playId !== playIdRef.current) return;
+              setActiveTurn(line.turnIndex);
+              setIsSpeaking(true);
+            };
+            utterance.onend = () => {
+              if (index === lines.length - 1) finish();
+            };
+            utterance.onerror = (event: SpeechSynthesisErrorEvent) => {
+              const err = event.error || '';
+              if (err === 'interrupted' || err === 'canceled') return;
+              handleError(event);
+            };
+            window.speechSynthesis.speak(utterance);
+          });
+          setIsSpeaking(true);
+        } catch {
+          failToStart();
+        }
+      }, 60);
+      return;
+    }
 
     if (isAndroid) {
       setTimeout(() => {
@@ -546,7 +625,7 @@ const App: React.FC = () => {
         failToStart();
       }
     }, 60);
-  }, [story, runProgressClock]);
+  }, [contentFormat, story, runProgressClock]);
 
   const pausePlayback = useCallback(() => {
     if (pausedRef.current || !isSpeakingRef.current) return;
@@ -602,12 +681,20 @@ const App: React.FC = () => {
         return;
       }
     }
+    if (contentFormat === 'dialogue') {
+      const lines = speechLines(parseDialogue(story));
+      const durations = lines.map((line) => estimateSpeechMs(line.text, rate));
+      const turn = resumeTurnIndex(durations, elapsed);
+      playbackStartRef.current = Date.now() - elapsed;
+      playSpeak(rate, { keepClock: true, fromTurn: turn });
+      return;
+    }
     const words = story.split(/\s+/).filter(Boolean);
     const index = resumeWordIndex(words, elapsed, durationMsRef.current);
     const text = textFromWordIndex(words, index);
     playbackStartRef.current = Date.now() - elapsed;
     playSpeak(rate, { text: text || story, keepClock: true });
-  }, [playSpeak, runProgressClock, story]);
+  }, [contentFormat, playSpeak, runProgressClock, story]);
 
   const openStoryReview = () => {
     const next = withStoryReview(
@@ -679,6 +766,35 @@ const App: React.FC = () => {
           <span className="font-semibold text-lg">Listening</span>
           {practiceType === 'listening' && <span className="mt-1 text-base text-blue-50">Selected</span>}
         </button>
+      </div>
+      <div className="mb-6">
+        <p className="mb-3 text-center text-lg font-semibold text-slate-900 dark:text-slate-50" role="status">
+          Selected format: {contentFormat === 'dialogue' ? 'Dialogue' : 'Text'}
+        </p>
+        <div className="grid grid-cols-2 gap-4" role="group" aria-label="Format">
+          <button
+            type="button"
+            onClick={() => setContentFormat('text')}
+            aria-pressed={contentFormat === 'text'}
+            className={modeButtonClass(contentFormat === 'text')}
+          >
+            <span className="font-semibold text-lg">Text</span>
+            <span className={`mt-1 text-base ${contentFormat === 'text' ? 'text-blue-50' : 'text-slate-700 dark:text-slate-200'}`}>
+              A story or monologue
+            </span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setContentFormat('dialogue')}
+            aria-pressed={contentFormat === 'dialogue'}
+            className={modeButtonClass(contentFormat === 'dialogue')}
+          >
+            <span className="font-semibold text-lg">Dialogue</span>
+            <span className={`mt-1 text-base ${contentFormat === 'dialogue' ? 'text-blue-50' : 'text-slate-700 dark:text-slate-200'}`}>
+              Two speakers
+            </span>
+          </button>
+        </div>
       </div>
       <Configurator config={config} setConfig={setConfig} onGenerate={handleGenerate} isLoading={isLoading} />
     </div>
@@ -792,8 +908,33 @@ const App: React.FC = () => {
     </div>
   );
 
+  const DialogueLines = ({ highlight }: { highlight: boolean }) => {
+    const turns: DialogueTurn[] = parseDialogue(story);
+    return (
+      <div
+        className={`mt-4 space-y-3 leading-relaxed ${fontClass}`}
+        data-transcript={highlight ? (androidDevice ? 'static' : 'synced') : undefined}
+      >
+        {turns.map((turn, index) => {
+          const active = highlight && !androidDevice && index === activeTurn;
+          return (
+            <p
+              key={`${turn.speaker}-${index}`}
+              className={active ? 'rounded bg-amber-200 px-1 text-slate-900' : 'text-slate-900 dark:text-slate-50'}
+            >
+              <span className="font-bold">{turn.speaker}:</span> {turn.line}
+            </p>
+          );
+        })}
+      </div>
+    );
+  };
+
   const TranscriptText = () => {
     if (!showTranscript) return null;
+    if (contentFormat === 'dialogue' && parseDialogue(story).length > 0) {
+      return <DialogueLines highlight />;
+    }
     if (androidDevice) {
       return (
         <p
@@ -838,15 +979,22 @@ const App: React.FC = () => {
             {storyTopic.surprise ? `Topic picked for you: ${storyTopic.label}` : `Topic: ${storyTopic.label}`}
           </p>
         )}
+        <p className="mt-1 text-center text-base font-semibold text-slate-900 dark:text-slate-50">
+          Format: {contentFormat === 'dialogue' ? 'Dialogue' : 'Text'}
+        </p>
 
         <TextSizeControl />
 
         {practiceType === 'listening' && <ListeningControls />}
 
         {practiceType === 'reading' && (
-          <p className={`mt-6 whitespace-pre-wrap text-slate-900 dark:text-slate-50 leading-relaxed ${fontClass}`}>
-            {story}
-          </p>
+          contentFormat === 'dialogue' && parseDialogue(story).length > 0 ? (
+            <DialogueLines highlight={false} />
+          ) : (
+            <p className={`mt-6 whitespace-pre-wrap text-slate-900 dark:text-slate-50 leading-relaxed ${fontClass}`}>
+              {story}
+            </p>
+          )
         )}
 
         {practiceType === 'listening' && <TranscriptText />}
@@ -1051,7 +1199,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen text-slate-900 dark:text-slate-50 flex flex-col items-center p-4 sm:p-6 lg:p-8 transition-colors duration-300">
+    <div className={`min-h-screen text-slate-900 dark:text-slate-50 flex flex-col items-center transition-colors duration-300 ${view === 'story' ? 'px-4 pt-3 pb-4 sm:px-6 sm:pb-6' : 'p-4 sm:p-6 lg:p-8'}`}>
       {isLoading && loadingStartedAt != null && (
         <Loader
           startedAt={loadingStartedAt}
@@ -1089,9 +1237,13 @@ const App: React.FC = () => {
                 <TranscriptText />
               </>
             ) : (
-              <p className={`mt-6 whitespace-pre-wrap text-slate-900 dark:text-slate-50 leading-relaxed ${fontClass}`}>
-                {story}
-              </p>
+              contentFormat === 'dialogue' && parseDialogue(story).length > 0 ? (
+                <DialogueLines highlight={false} />
+              ) : (
+                <p className={`mt-6 whitespace-pre-wrap text-slate-900 dark:text-slate-50 leading-relaxed ${fontClass}`}>
+                  {story}
+                </p>
+              )
             )}
             <button
               type="button"
@@ -1103,8 +1255,8 @@ const App: React.FC = () => {
           </div>
         </div>
       )}
-      <header className="w-full max-w-4xl mx-auto mb-6">
-        <div className="flex justify-end mb-3">
+      <header className={`w-full max-w-4xl mx-auto ${view === 'story' ? 'mb-2' : 'mb-6'}`}>
+        <div className={`flex justify-end ${view === 'story' ? 'mb-1' : 'mb-3'}`}>
           <button
             type="button"
             onClick={() => setIsDark((dark) => !dark)}
@@ -1114,21 +1266,23 @@ const App: React.FC = () => {
             {isDark ? 'Light mode' : 'Dark mode'}
           </button>
         </div>
-        <div className="text-center">
-          <div className="flex justify-center items-center gap-4 mb-4">
-            <UKFlagIcon className="w-28 h-28 rounded-lg shadow-md" />
-            <h1 className="text-4xl font-fun tracking-wide">
-              <span className="text-blue-800 dark:text-blue-300">Your daily </span>
-              <span className="text-red-700 dark:text-red-400">English Test!</span>
-            </h1>
+        {view !== 'story' && (
+          <div className="text-center">
+            <div className="flex justify-center items-center gap-4 mb-4">
+              <UKFlagIcon className="w-28 h-28 rounded-lg shadow-md" />
+              <h1 className="text-4xl font-fun tracking-wide">
+                <span className="text-blue-800 dark:text-blue-300">Your daily </span>
+                <span className="text-red-700 dark:text-red-400">English Test!</span>
+              </h1>
+            </div>
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-slate-900 dark:text-white">
+              English Comprehension Practice
+            </h2>
+            <p className="text-slate-800 dark:text-slate-100 mt-2 text-lg">
+              Practice reading and listening with short stories and quizzes.
+            </p>
           </div>
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-slate-900 dark:text-white">
-            English Comprehension Practice
-          </h2>
-          <p className="text-slate-800 dark:text-slate-100 mt-2 text-lg">
-            Practice reading and listening with short stories and quizzes.
-          </p>
-        </div>
+        )}
       </header>
 
       <main className="w-full">

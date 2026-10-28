@@ -1,10 +1,12 @@
 import type { ConfigOptions, QuizQuestion, VocabularyItem } from '../types';
 import { normalizeQuiz } from '../quizNormalize';
+import { parseDialogue, renderDialogue, type DialogueTurn } from '../dialogue';
 
 type GenResponse = {
   story?: string;
   quiz?: unknown[];
   vocabulary?: { word?: string; definition?: string }[];
+  dialogue?: unknown;
   resolvedTopic?: string;
   ok?: boolean;
   message?: string;
@@ -93,6 +95,7 @@ export async function generateStoryAndQuiz(
   story: string;
   quiz: QuizQuestion[];
   vocabulary: VocabularyItem[];
+  dialogue: DialogueTurn[];
   resolvedTopic?: string;
 }> {
   const payload = {
@@ -103,6 +106,7 @@ export async function generateStoryAndQuiz(
       questionCount: config.questionCount,
       vocabularyCount: 8,
       mode: config.practiceType === 'listening' ? 'listening' : 'reading',
+      format: config.format === 'dialogue' ? 'dialogue' : 'text',
     }),
   };
 
@@ -142,10 +146,17 @@ export async function generateStoryAndQuiz(
     }))
     .filter((item) => item.word && item.definition);
 
+  const format = config.format === 'dialogue' ? 'dialogue' : 'text';
+  let story = data.story.trim();
+  let dialogue = format === 'dialogue' ? parseDialogue(data.dialogue) : [];
+  if (format === 'dialogue' && dialogue.length === 0) dialogue = parseDialogue(story);
+  if (dialogue.length) story = renderDialogue(dialogue);
+
   return {
-    story: data.story.trim(),
+    story,
     quiz,
     vocabulary,
+    dialogue,
     resolvedTopic: data.resolvedTopic ? String(data.resolvedTopic) : undefined,
   };
 }
