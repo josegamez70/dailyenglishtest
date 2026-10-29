@@ -513,6 +513,7 @@ function readUpstream(error: unknown, model?: string): UpstreamFailure {
 async function generateRaw(apiKey: string, prompt: string, deadline: number): Promise<string> {
   let lastError: unknown;
   let lastModel = '';
+  const attempts: UpstreamFailure[] = [];
   for (const modelName of MODELS) {
     const remaining = deadline - Date.now();
     if (remaining < 6000) break;
@@ -529,6 +530,7 @@ async function generateRaw(apiKey: string, prompt: string, deadline: number): Pr
       const message = error instanceof Error ? error.message : String(error);
       const status = Number((error as { status?: number; code?: number })?.status || (error as { code?: number })?.code);
       console.error(JSON.stringify({ stage: 'gen_error', modelName, status, message }));
+      attempts.push(readUpstream(error, modelName));
       if ((status === 429 || status === 503) && deadline - Date.now() > 12000) {
         await sleep(400);
         const retryBudget = Math.min(8000, deadline - Date.now() - 8000);
@@ -576,7 +578,7 @@ async function generateRaw(apiKey: string, prompt: string, deadline: number): Pr
   const busy = upstream.status === 429 || upstream.status === 503;
   throw Object.assign(
     new Error(busy ? 'The story service is busy. Please try again.' : 'The lesson could not be created. Please try again.'),
-    { status: busy ? upstream.status : 502, upstream }
+    { status: busy ? upstream.status : 502, upstream, attempts }
   );
 }
 
@@ -721,6 +723,7 @@ export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => 
           status: upstream.status || status,
           message: upstream.message || scrubUpstream(message),
           model: upstream.model,
+          attempts: (error as { attempts?: UpstreamFailure[] }).attempts,
         },
       }),
     };
