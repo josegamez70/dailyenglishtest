@@ -64,7 +64,7 @@ type PreparedLesson = {
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 // 2.0 and 1.5 were shut down (HTTP 404). 2.5 is limited to older keys and also 404s for this project.
-const MODELS = ['gemini-3.8-flash', 'gemini-3.5-flash-lite'];
+const MODELS = ['gemini-3.5-flash-lite', 'gemini-3.8-flash'];
 
 const LESSON_SCHEMA: ResponseSchema = {
   type: SchemaType.OBJECT,
@@ -523,10 +523,10 @@ async function generateRaw(apiKey: string, prompt: string, deadline: number): Pr
   for (const modelName of MODELS) {
     const remaining = deadline - Date.now();
     if (remaining < 7000) break;
-    const timeout = Math.min(20000, remaining - 1500);
+    const timeout = Math.min(23000, remaining - 1200);
     try {
       console.log(JSON.stringify({ stage: 'gen_start', modelName }));
-      const text = await callModel(apiKey, modelName, prompt, timeout, true);
+      const text = await callModel(apiKey, modelName, prompt, timeout, false);
       if (text) return text;
     } catch (error) {
       lastError = error;
@@ -541,7 +541,7 @@ async function generateRaw(apiKey: string, prompt: string, deadline: number): Pr
         const retryBudget = Math.min(8000, deadline - Date.now() - 8000);
         if (retryBudget >= 5000) {
           try {
-            const text = await callModel(apiKey, modelName, prompt, retryBudget, true);
+            const text = await callModel(apiKey, modelName, prompt, retryBudget, false);
             if (text) return text;
           } catch (retryError) {
             lastError = retryError;
@@ -555,8 +555,8 @@ async function generateRaw(apiKey: string, prompt: string, deadline: number): Pr
             apiKey,
             modelName,
             prompt,
-            Math.min(18000, Math.max(5000, deadline - Date.now() - 2000)),
-            true,
+            Math.min(22000, Math.max(5000, deadline - Date.now() - 1500)),
+            false,
             false
           );
           if (text) return text;
@@ -647,7 +647,7 @@ export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => 
       };
     }
 
-    const deadline = Date.now() + 24000;
+    const deadline = Date.now() + 25000;
     let best: { lesson: PreparedLesson; score: number } | null = null;
     let prompt = buildPrompt(params);
 
