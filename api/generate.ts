@@ -544,10 +544,25 @@ async function generateRaw(apiKey: string, prompt: string, deadline: number): Pr
       if (text) return text;
     } catch (error) {
       const { status, message } = note(error, modelName);
-      // thinkingBudget / thinkingLevel rejected: one retry with the model's own default,
-      // and only when that retry can still return before the function deadline.
       const laterModel = MODELS.indexOf(modelName) < MODELS.length - 1;
       const timeLeft = deadline - Date.now();
+      const dailyQuota = /per day|retry in \d+h/i.test(message);
+      // A 503/429 is often over in a moment. Retry the same model once, and only
+      // when that retry can still finish before the function deadline.
+      if ((status === 503 || status === 429) && !dailyQuota && timeLeft > 8000) {
+        await sleep(400);
+        const retryTimeout = Math.min(20000, deadline - Date.now() - 700);
+        if (retryTimeout >= 5000) {
+          try {
+            const text = await callModel(apiKey, modelName, prompt, retryTimeout, false, true);
+            if (text) return text;
+          } catch (retryError) {
+            note(retryError, modelName);
+          }
+        }
+      }
+      // thinkingBudget / thinkingLevel rejected: one retry with the model's own default,
+      // and only when that retry can still return before the function deadline.
       if (status === 400 && /invalid argument/i.test(message) && timeLeft > 8000) {
         // The thinking setting was rejected immediately. Retry once without it,
         // leaving the next model a turn only when this retry itself stays short.
