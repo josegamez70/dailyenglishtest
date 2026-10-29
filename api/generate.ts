@@ -13,11 +13,9 @@ import {
   type QuestionSkill,
 } from '../lessonUtils';
 import {
-  DIALOGUE_CAST,
+  DIALOGUE_SPEAKERS,
   dialogueSpeakers,
-  genderForName,
   normalizeFormat,
-  pickDialoguePair,
   speakersWithGender,
   parseDialogue,
   renderDialogue,
@@ -553,22 +551,8 @@ function readParams(bodyText: string | null | undefined): LessonParams | null {
     vocabularyCount: clamp(Number(raw.vocabularyCount) || 8, 4, 12),
     mode,
     format: normalizeFormat(raw.format),
-    speakers: normalizeFormat(raw.format) === 'dialogue' ? readSpeakers(raw.speakers) : [],
+    speakers: normalizeFormat(raw.format) === 'dialogue' ? DIALOGUE_SPEAKERS : [],
   };
-}
-
-function readSpeakers(raw: unknown): { name: string; gender: SpeakerGender }[] {
-  if (!Array.isArray(raw)) return pickDialoguePair();
-  const people = raw.flatMap((item) => {
-    if (!item || typeof item !== 'object') return [];
-    const record = item as Record<string, unknown>;
-    const name = String(record.name ?? '').trim();
-    const known = DIALOGUE_CAST.find((person) => person.name.toLowerCase() === name.toLowerCase());
-    if (!known || genderForName(name) == null) return [];
-    return [known];
-  });
-  if (people.length !== 2 || people[0].name === people[1].name) return pickDialoguePair();
-  return people;
 }
 
 export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => {
