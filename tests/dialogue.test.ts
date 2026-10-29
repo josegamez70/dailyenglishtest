@@ -8,8 +8,6 @@ import {
   resumeTurnIndex,
   speechLines,
   spokenWordCount,
-  dialoguePairKey,
-  pickDialoguePair,
   voicesBySpeaker,
 } from '../dialogue.ts';
 import { clampedFontStep } from '../fontStep.ts';
@@ -82,21 +80,11 @@ test('voices follow speaker gender and stay the same for each name', () => {
     ],
     [{ name: 'Samantha', lang: 'en-US' }]
   );
-  const notes: string[] = [];
   assert.equal(only.anna.name, 'Samantha');
   assert.equal(only.ben.name, 'Samantha');
-  assert.equal(only.anna.pitch, 1);
-  assert.equal(only.ben.pitch, 1);
-  assert.equal(only.ben.rateScale, 1);
-  voicesBySpeaker(
-    [
-      { name: 'Anna', gender: 'female' },
-      { name: 'Ben', gender: 'male' },
-    ],
-    [{ name: 'Samantha', lang: 'en-US' }],
-    (message) => notes.push(message)
-  );
-  assert.match(notes[0], /No male speech voice/);
+  assert.ok(only.anna.pitch > 1);
+  assert.ok(only.ben.pitch < 1);
+  assert.ok(only.ben.rateScale < 1);
   assert.equal(parseDialogue('Anna: Hello.\nBen: Hi.')[0].gender, 'female');
   assert.equal(parseDialogue('Anna: Hello.\nBen: Hi.')[1].gender, 'male');
   assert.equal(parseDialogue([{ speaker: 'Anna', gender: 'male', line: 'Hello.' }])[0].gender, 'female');
@@ -128,52 +116,26 @@ test('voices follow speaker gender and stay the same for each name', () => {
       { name: 'Google UK English Female', lang: 'en-GB' },
     ]
   );
-  assert.equal(chrome.sophie.name, 'Google US English');
+  assert.equal(chrome.sophie.name, 'Google UK English Female');
   assert.equal(chrome.tom.name, 'Google UK English Male');
   assert.equal(chrome.sophie.pitch, 1);
   assert.equal(chrome.tom.pitch, 1);
 
-  const androidLocales = voicesBySpeaker(
+  const android = voicesBySpeaker(
     [
-      { name: 'Emma', gender: 'female' },
-      { name: 'Jack', gender: 'male' },
+      { name: 'Anna', gender: 'female' },
+      { name: 'Ben', gender: 'male' },
     ],
     [
       { name: 'English United States', lang: 'en-US' },
       { name: 'English United Kingdom', lang: 'en-GB' },
     ]
   );
-  assert.equal(androidLocales.emma.pitch, 1);
-  assert.equal(androidLocales.jack.pitch, 1);
-  assert.equal(androidLocales.emma.lang, 'en-GB');
-  assert.equal(androidLocales.jack.lang, 'en-US');
-
-  const androidIds = voicesBySpeaker(
-    [
-      { name: 'Lucy', gender: 'female' },
-      { name: 'David', gender: 'male' },
-    ],
-    [
-      { name: 'English United Kingdom', lang: 'en-GB', voiceURI: 'en-gb-x-gba-local' },
-      { name: 'English United Kingdom', lang: 'en-GB', voiceURI: 'en-gb-x-rjs-local' },
-      { name: 'English United States', lang: 'en-US', voiceURI: 'en-us-x-sfg-local' },
-    ]
-  );
-  assert.equal(androidIds.lucy.voiceURI, 'en-us-x-sfg-local');
-  assert.equal(androidIds.david.voiceURI, 'en-gb-x-rjs-local');
-  assert.equal(androidIds.david.pitch, 1);
-  assert.notEqual(androidIds.lucy.name.includes('Male'), true);
-});
-
-test('dialogue names come from the fixed list and skip the previous pair', () => {
-  const first = pickDialoguePair(() => 0.9, null);
-  assert.notEqual(first[0].gender, first[1].gender);
-  assert.ok(['Anna', 'Sophie', 'Emma', 'Lucy', 'Ben', 'Tom', 'Jack', 'David'].includes(first[0].name));
-  const key = dialoguePairKey(first[0].name, first[1].name);
-  const second = pickDialoguePair(() => 0.9, key);
-  assert.notEqual(dialoguePairKey(second[0].name, second[1].name), key);
-  const same = pickDialoguePair(() => 0.01, null);
-  assert.equal(same[0].gender, same[1].gender);
+  assert.equal(android.anna.name, 'English United States');
+  assert.equal(android.ben.name, 'English United Kingdom');
+  assert.ok(android.anna.pitch > 1);
+  assert.ok(android.ben.pitch < 1);
+  assert.ok(android.ben.rateScale < 1);
 });
 
 test('extra large text size becomes the largest remaining size', () => {

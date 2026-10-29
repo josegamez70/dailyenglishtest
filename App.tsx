@@ -10,8 +10,7 @@ import {
   resumeTurnIndex,
   speakersWithGender,
   speechLines,
-  dialoguePairKey,
-  pickDialoguePair,
+  DIALOGUE_SPEAKERS,
   voicesBySpeaker,
   type ContentFormat,
   type DialogueTurn,
@@ -76,57 +75,12 @@ function readFontStep(): number {
   return 1;
 }
 
-function readDialoguePair(): string | null {
+function readVoices(): { name: string; lang: string }[] {
   try {
-    return localStorage.getItem('dialoguePair');
-  } catch {
-    return null;
-  }
-}
-
-function saveDialoguePair(first: string, second: string) {
-  try {
-    localStorage.setItem('dialoguePair', dialoguePairKey(first, second));
-  } catch {
-    /* ignore blocked storage */
-  }
-}
-
-function readVoices(): { name: string; lang: string; voiceURI?: string; default?: boolean }[] {
-  try {
-    return window.speechSynthesis.getVoices().map((voice) => ({
-      name: voice.name,
-      lang: voice.lang,
-      voiceURI: voice.voiceURI,
-      default: voice.default,
-    }));
+    return window.speechSynthesis.getVoices().map((voice) => ({ name: voice.name, lang: voice.lang }));
   } catch {
     return [];
   }
-}
-
-function whenVoicesReady(): Promise<SpeechSynthesisVoice[]> {
-  return new Promise((resolve) => {
-    let settled = false;
-    const finish = () => {
-      const list = window.speechSynthesis.getVoices();
-      if (!list.length && !settled) return;
-      if (settled) return;
-      settled = true;
-      window.speechSynthesis.removeEventListener('voiceschanged', finish);
-      resolve(list);
-    };
-    try {
-      if (window.speechSynthesis.getVoices().length) {
-        resolve(window.speechSynthesis.getVoices());
-        return;
-      }
-      window.speechSynthesis.addEventListener('voiceschanged', finish);
-      window.setTimeout(finish, 700);
-    } catch {
-      resolve([]);
-    }
-  });
 }
 
 const App: React.FC = () => {
@@ -244,10 +198,7 @@ const App: React.FC = () => {
     abortRef.current = controller;
     const chosen = resolveTopic(config.topic);
     const levelLabel = LEVELS.find((level) => level.value === config.level)?.label ?? config.level;
-    const speakers = contentFormat === 'dialogue'
-      ? pickDialoguePair(Math.random, readDialoguePair())
-      : undefined;
-    if (speakers) saveDialoguePair(speakers[0].name, speakers[1].name);
+    const speakers = contentFormat === 'dialogue' ? DIALOGUE_SPEAKERS : undefined;
     const requestConfig: ConfigOptions = {
       level: levelLabel,
       topic: chosen.label,
@@ -581,27 +532,20 @@ const App: React.FC = () => {
 
     if (speakingDialogue) {
       const lines = dialogueLines.slice(startTurn);
-      void whenVoicesReady().then((liveVoices) => {
+      setTimeout(() => {
         if (playId !== playIdRef.current || pausedRef.current) return;
-        const voices = voicesBySpeaker(
-          speakersWithGender(lessonTurns),
-          liveVoices.map((voice) => ({
-            name: voice.name,
-            lang: voice.lang,
-            voiceURI: voice.voiceURI,
-            default: voice.default,
-          }))
-        );
+        const voices = voicesBySpeaker(speakersWithGender(lessonTurns), readVoices());
+        const available = readVoices();
         try {
           lines.forEach((line, index) => {
             const utterance = new SpeechSynthesisUtterance(line.text);
             const choice = voices[line.speaker.toLowerCase()] ?? Object.values(voices)[0];
-            const live = liveVoices.find((voice) => choice?.voiceURI && voice.voiceURI === choice.voiceURI)
-              ?? liveVoices.find((voice) => voice.name === choice?.name && voice.lang === choice?.lang);
+            const match = available.find((voice) => voice.name === choice?.name);
+            const live = window.speechSynthesis.getVoices().find((voice) => voice.name === match?.name);
             if (live) utterance.voice = live;
             utterance.lang = choice?.lang || 'en-US';
-            utterance.pitch = 1;
-            utterance.rate = rate;
+            utterance.pitch = choice?.pitch ?? 1;
+            utterance.rate = rate * (choice?.rateScale ?? 1);
             utterance.onstart = () => {
               if (playId !== playIdRef.current) return;
               setActiveTurn(line.turnIndex);
@@ -621,7 +565,7 @@ const App: React.FC = () => {
         } catch {
           failToStart();
         }
-      });
+      }, 60);
       return;
     }
 
