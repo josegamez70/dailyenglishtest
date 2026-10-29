@@ -574,9 +574,12 @@ async function generateRaw(apiKey: string, prompt: string, deadline: number): Pr
     const modelName = order[index];
     if (unavailableModels.has(modelName)) continue;
     const remaining = deadline - Date.now();
-    // A generation that cannot finish before Netlify kills the function is not started.
-    if (remaining < 7000) break;
-    const timeout = Math.min(18000, remaining - 800);
+    const laterPossible = order.slice(index + 1).some((name) => !unavailableModels.has(name));
+    // Leave time for the next model when this one is busy or slow.
+    const timeout = laterPossible
+      ? Math.min(12000, remaining - 9000)
+      : Math.min(20000, remaining - 800);
+    if (timeout < 5000) break;
     try {
       console.log(JSON.stringify({ stage: 'gen_start', modelName, timeout }));
       const text = await callModel(apiKey, modelName, prompt, timeout, false, true);
@@ -590,8 +593,9 @@ async function generateRaw(apiKey: string, prompt: string, deadline: number): Pr
       const laterModel = order.slice(index + 1).some((name) => !unavailableModels.has(name));
       const timeLeft = deadline - Date.now();
       const dailyQuota = /per day|retry in \d+h/i.test(message);
-      // One retry for a busy model. A 404 is remembered and never tried again.
-      if (status !== 404 && (status === 503 || status === 429) && !dailyQuota && timeLeft > 8000) {
+      // One short retry only when no other model is left. A 404 is remembered and skipped.
+      // If another model is available, try that instead of spending the window here.
+      if (!laterModel && status !== 404 && (status === 503 || status === 429) && !dailyQuota && timeLeft > 8000) {
         await sleep(400);
         const retryTimeout = Math.min(16000, deadline - Date.now() - 800);
         if (retryTimeout >= 5000) {
@@ -710,7 +714,7 @@ export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => 
       };
     }
 
-    const deadline = Date.now() + 22000;
+    const deadline = Date.now() + 23000;
     let best: { lesson: PreparedLesson; score: number } | null = null;
     let prompt = buildPrompt(params);
 
