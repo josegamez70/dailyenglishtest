@@ -19,10 +19,10 @@ test('dialogue keeps two speakers and ignores names in the word count', () => {
     { speaker: 'Person 1', line: 'We should stay uphill.' },
     { speaker: 'Person 2', line: 'I will carry the water.' },
   ]);
-  assert.deepEqual(dialogueSpeakers(turns), ['Woman', 'Man']);
+  assert.deepEqual(dialogueSpeakers(turns), ['Character 1', 'Character 2']);
   assert.equal(turns[0].line, 'I missed the train today.');
   assert.equal(spokenWordCount(turns), 19);
-  assert.equal(renderDialogue(turns).split('\n')[1], 'Man: The river flooded the road.');
+  assert.equal(renderDialogue(turns).split('\n')[1], 'Character 2: The river flooded the road.');
   const asText = renderDialogue(turns);
   assert.equal(contentWordCount(asText, 'dialogue'), 19);
   assert.equal(contentWordCount('One short narrative here.', 'text'), 4);
@@ -30,8 +30,8 @@ test('dialogue keeps two speakers and ignores names in the word count', () => {
 
 test('dialogue lines become spoken lines with a speaker index', () => {
   const lines = speechLines(parseDialogue('Person 1: Hello there.\nPerson 2: Good morning.'));
-  assert.equal(lines[0].text, 'Woman. Hello there.');
-  assert.equal(lines[0].speaker, 'Woman');
+  assert.equal(lines[0].text, 'Character 1. Hello there.');
+  assert.equal(lines[0].speaker, 'Character 1');
   assert.equal(lines[1].speakerIndex, 1);
   assert.equal(resumeTurnIndex([1000, 1000, 1000], 1500), 1);
   assert.equal(resumeTurnIndex([1000, 1000], 0), 0);
@@ -99,15 +99,16 @@ test('voices follow speaker gender and stay the same for each name', () => {
   );
   assert.match(notes[0], /No male speech voice/);
   const labelled = parseDialogue('**Person 1:** Hello there.\nPerson 2 : Hi there.');
-  assert.equal(labelled[0].speaker, 'Woman');
+  assert.equal(labelled[0].speaker, 'Character 1');
   assert.equal(labelled[0].gender, 'female');
   assert.equal(labelled[0].line, 'Hello there.');
-  assert.equal(labelled[1].speaker, 'Man');
+  assert.equal(labelled[1].speaker, 'Character 2');
   assert.equal(labelled[1].gender, 'male');
   assert.equal(parseDialogue([{ speaker: 'person 1', gender: 'male', line: 'Hello there.' }])[0].gender, 'female');
-  const named = parseDialogue('Woman: Hello there.\nMan: Hi there.');
-  assert.equal(named[0].speaker, 'Woman');
-  assert.equal(named[1].speaker, 'Man');
+  const named = parseDialogue('Character 1: Hello there.\nCharacter 2: Hi there.');
+  assert.equal(named[0].speaker, 'Character 1');
+  assert.equal(named[0].gender, 'female');
+  assert.equal(named[1].speaker, 'Character 2');
   assert.equal(named[1].gender, 'male');
 
   const windows = voicesBySpeaker(

@@ -218,16 +218,18 @@ function levelRules(level: string): string {
 
 function formatRules(format: ContentFormat, speakers: { name: string; gender: SpeakerGender }[]): string {
   if (format === 'dialogue') {
-    const cast = speakers.map((speaker) => `${speaker.name} (${speaker.gender})`).join(' and ');
+    const cast = speakers
+      .map((speaker) => `${speaker.name} (${speaker.gender === 'male' ? 'lower voice' : 'higher voice'})`)
+      .join(' and ');
     return [
       'FORMAT: Dialogue.',
       `Write a conversation between exactly these two speakers: ${cast}.`,
-      'Do not use personal names. speaker must be exactly "Woman" or "Man".',
+      'Do not use personal names. speaker must be exactly "Character 1" or "Character 2".',
       'Return a dialogue array. Each item has speaker, gender, and line.',
-      'gender for Woman is female. gender for Man is male.',
+      'gender for Character 1 is female. gender for Character 2 is male. Do not call them a woman or a man.',
       'Do not put the label inside line.',
       'Let them take turns. Write at least 6 turns.',
-      'Also set story to the same dialogue, one turn per line, like "Woman: Hello."',
+      'Also set story to the same dialogue, one turn per line, like "Character 1: Hello."',
       'Count only the words inside line. Do not count the speaker names.',
     ].join(' ');
   }
@@ -307,7 +309,7 @@ ${params.sourceStory}
 
 ${levelRules(params.level)}
 ${modeRules(params.mode)}
-${params.format === 'dialogue' ? 'In the questions, call the speakers Woman and Man, matching the story. Do not write Person 1 or Person 2.' : ''}
+${params.format === 'dialogue' ? 'In the questions, call the speakers Character 1 and Character 2, matching the story. Do not write Woman, Man, Person 1, or Person 2.' : ''}
 
 QUIZ:
 - Exactly ${params.questionCount} questions about the story above.

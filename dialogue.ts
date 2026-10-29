@@ -42,15 +42,15 @@ function cleanLine(speaker: string, line: string): string {
 }
 
 export const DIALOGUE_SPEAKERS: { name: string; gender: SpeakerGender }[] = [
-  { name: 'Woman', gender: 'female' },
-  { name: 'Man', gender: 'male' },
+  { name: 'Character 1', gender: 'female' },
+  { name: 'Character 2', gender: 'male' },
 ];
 
-/** Woman is always female. Man is always male. Person 1 and Person 2 still map to those names. */
+/** Character 1 is the higher voice. Character 2 is the lower voice. Person 1 and Person 2 still map here. */
 export function canonicalSpeaker(raw: string): string | null {
   const cleaned = raw.replace(/[*_`]/g, '').replace(/\s+/g, ' ').trim().replace(/:$/, '').trim();
-  if (/^(woman|person\s*1)$/i.test(cleaned)) return 'Woman';
-  if (/^(man|person\s*2)$/i.test(cleaned)) return 'Man';
+  if (/^(character\s*1|person\s*1)$/i.test(cleaned)) return 'Character 1';
+  if (/^(character\s*2|person\s*2)$/i.test(cleaned)) return 'Character 2';
   return null;
 }
 
@@ -297,9 +297,9 @@ function byHint(gender: SpeakerGender) {
 }
 
 /**
- * Woman gets a female voice. Man gets a male voice when the device has one, at pitch 0.9.
- * Android often lists only locale names. Then Woman prefers en-GB and Man a different English
- * locale, with a moderate pitch and rate gap. Pitch never goes below 0.8.
+ * Character 1 gets the higher voice. Character 2 gets a real male voice at pitch 0.9 when one exists.
+ * Android often lists only locale names. Then Character 1 prefers en-GB and Character 2 a different
+ * English locale, with a moderate pitch and rate gap. Pitch never goes below 0.8.
  */
 export function voicesBySpeaker(
   speakers: { name: string; gender: SpeakerGender | null }[],
