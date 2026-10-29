@@ -78,27 +78,23 @@ async function fetchWithRetry(
       lastErr = error;
       if (external?.aborted || (error instanceof Error && error.name === 'AbortError')) throw error;
       const status = Number((error as { status?: number })?.status || 0);
-      const retryable =
-        (error instanceof Error && error.name === 'TimeoutError') ||
-        [429, 502, 503, 504].includes(status);
+      const retryable = [429, 503, 504].includes(status);
       if (!retryable || i === tries - 1) throw error;
-      await new Promise((resolve) => setTimeout(resolve, 600 * (i + 1)));
+      await new Promise((resolve) => setTimeout(resolve, 400));
     }
   }
   throw lastErr;
 }
 
-export async function generateStoryAndQuiz(
-  config: ConfigOptions,
-  options?: { signal?: AbortSignal }
-): Promise<{
+export type StoryDraft = {
   story: string;
-  quiz: QuizQuestion[];
   vocabulary: VocabularyItem[];
   dialogue: DialogueTurn[];
   resolvedTopic?: string;
-}> {
-  const payload = {
+};
+
+function lessonPayload(config: ConfigOptions, extra: Record<string, unknown>) {
+  return {
     prompt: JSON.stringify({
       level: config.level,
       topic: config.topic,
@@ -108,56 +104,84 @@ export async function generateStoryAndQuiz(
       mode: config.practiceType === 'listening' ? 'listening' : 'reading',
       format: config.format === 'dialogue' ? 'dialogue' : 'text',
       speakers: config.speakers ?? [],
+      ...extra,
     }),
   };
+}
 
+async function postGenerate(body: unknown, signal?: AbortSignal): Promise<GenResponse> {
   const res = await fetchWithRetry(
     API_URL,
     {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
+      body: JSON.stringify(body),
     },
-    options?.signal
+    signal
   );
-
   const raw = await res.text();
   const clean = raw.replace(/^```json\s*|\s*```$/g, '').trim();
-
-  let data: GenResponse;
   try {
-    data = JSON.parse(clean);
+    return JSON.parse(clean) as GenResponse;
   } catch {
     throw new Error('The lesson could not be read. Please try again.');
   }
+}
 
+function readStory(data: GenResponse, config: ConfigOptions): StoryDraft {
   if (data?.ok === false) {
     throw new Error(data.message || 'The lesson could not be created. Please try again.');
   }
-
-  if (!data || typeof data.story !== 'string' || !Array.isArray(data.quiz) || !Array.isArray(data.vocabulary)) {
+  if (!data || typeof data.story !== 'string') {
     throw new Error('The lesson was incomplete. Please try again.');
   }
-
-  const quiz = normalizeQuiz(data.quiz).filter((question) => question.question && question.options.length > 0);
-  const vocabulary = data.vocabulary
-    .map((item) => ({
-      word: String(item?.word ?? '').trim(),
-      definition: String(item?.definition ?? '').trim(),
-    }))
-    .filter((item) => item.word && item.definition);
-
+  const vocabulary = Array.isArray(data.vocabulary)
+    ? data.vocabulary
+        .map((item) => ({
+          word: String(item?.word ?? '').trim(),
+          definition: String(item?.definition ?? '').trim(),
+        }))
+        .filter((item) => item.word && item.definition)
+    : [];
   const format = config.format === 'dialogue' ? 'dialogue' : 'text';
   let story = data.story.trim();
   let dialogue = format === 'dialogue' ? parseDialogue(data.dialogue) : [];
   if (format === 'dialogue' && dialogue.length === 0) dialogue = parseDialogue(story);
   if (dialogue.length) story = renderDialogue(dialogue);
-
+  if (!story) throw new Error('The lesson was incomplete. Please try again.');
   return {
     story,
-    quiz,
     vocabulary,
     dialogue,
     resolvedTopic: data.resolvedTopic ? String(data.resolvedTopic) : undefined,
   };
+}
+
+export async function generateStoryAndQuiz(
+  config: ConfigOptions,
+  options?: { signal?: AbortSignal; onStory?: (draft: StoryDraft) => void }
+): Promise<{
+  story: string;
+  quiz: QuizQuestion[];
+  vocabulary: VocabularyItem[];
+  dialogue: DialogueTurn[];
+  resolvedTopic?: string;
+}> {
+  const storyData = await postGenerate(lessonPayload(config, { stage: 'story' }), options?.signal);
+  const draft = readStory(storyData, config);
+  options?.onStory?.(draft);
+
+  const quizData = await postGenerate(
+    lessonPayload(config, { stage: 'quiz', story: draft.story }),
+    options?.signal
+  );
+  if (quizData?.ok === false) {
+    throw new Error(quizData.message || 'The questions could not be created. Please try again.');
+  }
+  const quiz = normalizeQuiz(Array.isArray(quizData?.quiz) ? quizData.quiz : []).filter(
+    (question) => question.question && question.options.length > 0
+  );
+  if (!quiz.length) throw new Error('The quiz was empty. Please try again.');
+
+  return { ...draft, quiz };
 }

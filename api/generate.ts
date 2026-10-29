@@ -47,6 +47,8 @@ type LessonParams = {
   format: ContentFormat;
   speakers: { name: string; gender: SpeakerGender }[];
   surprise: boolean;
+  stage: 'story' | 'quiz';
+  sourceStory: string;
 };
 
 type VocabularyItem = { word: string; definition: string };
@@ -63,7 +65,32 @@ type PreparedLesson = {
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const MODELS = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash'];
+// One warm function instance remembers a 404 so later steps do not call that model.
+// 2.5 and 2.0 are already closed for this key. 3.1 Flash-Lite with minimal thinking
+// is the model that has finished a short lesson inside the Netlify limit.
+const MODEL_CANDIDATES = ['gemini-3-flash-preview', 'gemini-3.1-flash-lite'];
+const unavailableModels = new Set<string>([
+  'gemini-2.0-flash',
+  'gemini-1.5-flash',
+  'gemini-2.5-flash',
+  'gemini-2.5-flash-lite',
+]);
+let preferredModel = 'gemini-3-flash-preview';
+
+function modelsToTry(): string[] {
+  const alive = MODEL_CANDIDATES.filter((name) => !unavailableModels.has(name));
+  if (alive.includes(preferredModel)) {
+    return [preferredModel, ...alive.filter((name) => name !== preferredModel)];
+  }
+  return alive;
+}
+
+function thinkingConfigFor(modelName: string): { thinkingBudget?: number; thinkingLevel?: string } {
+  // 2.5 is not called. thinkingBudget 0 is valid on 3.1 but did not finish in time.
+  if (modelName.includes('2.5')) return { thinkingBudget: 0 };
+  if (modelName.includes('3.8')) return { thinkingLevel: 'low' };
+  return { thinkingLevel: 'minimal' };
+}
 
 const LESSON_SCHEMA: ResponseSchema = {
   type: SchemaType.OBJECT,
@@ -233,70 +260,99 @@ function concreteTopic(raw: unknown): { label: string; surprise: boolean } {
   return { label: value, surprise: false };
 }
 
+function storyLevelRules(level: string): string {
+  const key = level.toLowerCase();
+  if (key.includes('advanced')) return 'Level: Advanced. Use richer vocabulary and longer sentences, but stay clear.';
+  if (key.includes('intermediate')) return 'Level: Intermediate. Use everyday English with some less common words.';
+  if (key.includes('beginner')) return 'Level: Beginner. Use short sentences and common words.';
+  return 'Level: Basic. Use very short sentences and very common words.';
+}
+
 function buildPrompt(params: LessonParams, corrective?: string): string {
+  return params.stage === 'quiz' ? buildQuizPrompt(params, corrective) : buildStoryPrompt(params, corrective);
+}
+
+function buildStoryPrompt(params: LessonParams, corrective?: string): string {
   const { min, max } = wordCountBounds(params.wordCount);
   const topic = params.topic.replace(/["\n\r]/g, ' ').trim();
   const correction = corrective
     ? `\n\nThe previous attempt was rejected. Fix every problem below, then return a new JSON object:\n${corrective}\n`
     : '';
-
   return `
-You write English learning materials for students around the world. Use clear, natural English.
+You write English learning materials. Use clear, natural English.
+Write one ${params.mode} ${params.format} on this topic only: ${topic}.
+Do not write about the words "wildcard" or "any topic".
 
-Create one ${params.mode} lesson.
-Topic: ${topic}
-Do not write a story about the words "wildcard" or "any topic". The story topic is exactly: ${topic}.
+${storyLevelRules(params.level)}
+${formatRules(params.format, params.speakers)}
+
+LENGTH: the ${params.format === 'dialogue' ? 'spoken lines' : 'text'} must be between ${min} and ${max} words (target ${params.wordCount}). A contraction such as "don't" is one word. ${params.format === 'dialogue' ? 'Do not count speaker names.' : 'Count the words in the text only.'}
+
+VOCABULARY: exactly ${params.vocabularyCount} useful words or short phrases that appear in the text. definition is one short explanation in simple English.
+
+Return ONLY JSON with story, dialogue, and vocabulary. No quiz. No markdown.
+${correction}
+`.trim();
+}
+
+function buildQuizPrompt(params: LessonParams, corrective?: string): string {
+  const correction = corrective
+    ? `\n\nThe previous attempt was rejected. Fix every problem below, then return a new JSON object:\n${corrective}\n`
+    : '';
+  return `
+You write quiz questions about a story the student already has. Do not rewrite the story.
+
+STORY:
+${params.sourceStory}
 
 ${levelRules(params.level)}
 ${modeRules(params.mode)}
-${formatRules(params.format, params.speakers)}
 
-LENGTH (required):
-- The ${params.format === 'dialogue' ? 'spoken lines' : 'text'} must contain between ${min} and ${max} words.
-- Target: ${params.wordCount} words.
-- Count every word before you answer. A contraction such as "don't" is one word.
-- ${params.format === 'dialogue' ? 'Do not count speaker names.' : 'Count every word in the text.'}
-- If it is too long, delete whole sentences until it fits. If it is too short, add a sentence.
-
-QUIZ (required):
-- Exactly ${params.questionCount} questions.
+QUIZ:
+- Exactly ${params.questionCount} questions about the story above.
 - Each question has exactly 4 options and exactly one correct answer.
 - Option text must NOT start with a letter label. Never write "A.", "A)", "(A)", "A:", "A-", or a lone "A ", "B ", "C ", or "D " in front of an answer.
-- Write each option as plain answer text in sentence case.
-- correctAnswer must be the full text of the one correct option, copied exactly from options. Do not answer with only A, B, C, or D.
-- The story must support that one answer. The other three options are plausible but wrong, and none of them is also defensible.
-- Wrong answers must not overlap in meaning, must not be near-copies of the correct answer, and must not be near-synonyms of the correct idea.
-- The question text must NOT contain the correct answer or its key words. Read the question and the correct option together. If the question already says the answer, rewrite the question.
+- correctAnswer must be the full text of the one correct option, copied exactly from options.
+- Wrong answers must be clearly different ideas, not near-copies or near-synonyms of the right idea.
+- The question text must NOT contain the correct answer or its key words.
 - Do not use "all of the above" or "none of the above".
 - skill: "detail", "inference", "vocabulary", or "intent".
-- explanation: one or two short sentences in simple English saying why the correct option is right and why the other options are not.
-- supportingSentence: copy ONE full sentence from the story, exactly as written, that shows why the answer is correct. It must appear in the story.
+- explanation: one short sentence in simple English.
+- supportingSentence: copy ONE full sentence from the story, exactly as written.
 
-VOCABULARY:
-- Exactly ${params.vocabularyCount} useful words or short phrases that appear in the story.
-- definition: a short explanation in simple English.
-
-Return ONLY JSON. No markdown and no extra text.
+Return ONLY this JSON shape. No markdown.
+{"quiz":[{"question":"...","options":["...","...","...","..."],"correctAnswer":"...","explanation":"...","supportingSentence":"...","skill":"detail"}]}
 ${correction}
 `.trim();
 }
 
 function parseModelJson(rawText: string): Record<string, unknown> | null {
-  const clean = rawText.replace(/^```json\s*|\s*```$/g, '').trim();
-  try {
-    const parsed = JSON.parse(clean);
-    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return null;
-    return parsed as Record<string, unknown>;
-  } catch {
-    return null;
+  const clean = rawText.replace(/```json|```/gi, '').trim();
+  const candidates = [clean];
+  const objStart = clean.indexOf('{');
+  const objEnd = clean.lastIndexOf('}');
+  if (objStart >= 0 && objEnd > objStart) candidates.push(clean.slice(objStart, objEnd + 1));
+  const arrStart = clean.indexOf('[');
+  const arrEnd = clean.lastIndexOf(']');
+  if (arrStart >= 0 && arrEnd > arrStart) candidates.push(clean.slice(arrStart, arrEnd + 1));
+  for (const candidate of candidates) {
+    try {
+      const parsed = JSON.parse(candidate.replace(/,\s*([}\]])/g, '$1'));
+      if (Array.isArray(parsed)) return { quiz: parsed };
+      if (parsed && typeof parsed === 'object') return parsed as Record<string, unknown>;
+    } catch {
+      /* try the next slice */
+    }
   }
+  return null;
 }
 
 function prepareLesson(parsed: Record<string, unknown>, params: LessonParams): PreparedLesson {
-  let story = typeof parsed.story === 'string' ? parsed.story.trim() : '';
+  const quizStage = params.stage === 'quiz';
+  let story = quizStage ? params.sourceStory : (typeof parsed.story === 'string' ? parsed.story.trim() : '');
   let dialogue: DialogueTurn[] = [];
   if (params.format === 'dialogue') {
-    const fromField = parseDialogue(parsed.dialogue);
+    const fromField = quizStage ? [] : parseDialogue(parsed.dialogue);
     const fromStory = parseDialogue(story);
     const base = fromField.length >= fromStory.length ? fromField : fromStory;
     const genders = new Map<string, DialogueTurn['gender']>();
@@ -309,14 +365,19 @@ function prepareLesson(parsed: Record<string, unknown>, params: LessonParams): P
     }));
     if (dialogue.length) story = renderDialogue(dialogue);
   }
-  const quiz = normalizeQuiz(Array.isArray(parsed.quiz) ? parsed.quiz : []);
+  const quizSource = Array.isArray(parsed.quiz)
+    ? parsed.quiz
+    : Array.isArray(parsed.questions)
+      ? parsed.questions
+      : [];
+  const quiz = quizStage ? normalizeQuiz(quizSource) : [];
   const problems: string[] = [];
   const wordCount = params.format === 'dialogue' ? spokenWordCount(dialogue) : countWords(story);
   const { min, max } = wordCountBounds(params.wordCount);
   const wordCountOk = wordCount >= min && wordCount <= max;
 
-  if (!story) problems.push('The story is missing.');
-  if (params.format === 'dialogue') {
+  if (!quizStage && !story) problems.push('The story is missing.');
+  if (!quizStage && params.format === 'dialogue') {
     const speakers = dialogueSpeakers(dialogue);
     if (speakers.length !== 2) {
       problems.push('Use exactly 2 speakers. Give each speaker a short name and let both of them speak.');
@@ -335,21 +396,21 @@ function prepareLesson(parsed: Record<string, unknown>, params: LessonParams): P
       problems.push('Every speaker must be one of the named people given for this dialogue.');
     }
   }
-  if (!wordCountOk) {
+  if (!quizStage && !wordCountOk) {
     problems.push(
       params.format === 'dialogue'
         ? `The spoken lines are ${wordCount} words. Rewrite them so they are between ${min} and ${max} words (target ${params.wordCount}). Do not count the names.`
         : `The story is ${wordCount} words. Rewrite it so it is between ${min} and ${max} words (target ${params.wordCount}).`
     );
   }
-  if (quiz.length !== params.questionCount) {
+  if (quizStage && quiz.length !== params.questionCount) {
     problems.push(`Write exactly ${params.questionCount} questions. You wrote ${quiz.length}.`);
   }
 
   const rawQuiz = Array.isArray(parsed.quiz) ? parsed.quiz : [];
   const skills: Array<QuestionSkill | null> = [];
 
-  quiz.forEach((question, index) => {
+  if (quizStage) quiz.forEach((question, index) => {
     const number = index + 1;
     if (!question.question) problems.push(`Question ${number} is missing its question text.`);
     if (question.options.length !== 4) {
@@ -406,6 +467,7 @@ function prepareLesson(parsed: Record<string, unknown>, params: LessonParams): P
   });
 
   if (
+    quizStage &&
     params.level.toLowerCase().includes('advanced') &&
     quiz.length > 0 &&
     !advancedSkillsAreChallenging(skills)
@@ -427,7 +489,7 @@ function prepareLesson(parsed: Record<string, unknown>, params: LessonParams): P
         .filter((item) => item.word && item.definition)
     : [];
 
-  if (vocabulary.length < Math.min(4, params.vocabularyCount)) {
+  if (!quizStage && vocabulary.length < Math.min(4, params.vocabularyCount)) {
     problems.push(`Include ${params.vocabularyCount} vocabulary items from the story.`);
   }
 
@@ -461,20 +523,23 @@ async function callModel(
   modelName: string,
   prompt: string,
   timeoutMs: number,
-  useSchema: boolean
+  useSchema: boolean,
+  useThinkingOff = true
 ): Promise<string> {
   const genAI = new GoogleGenerativeAI(apiKey);
   const model = genAI.getGenerativeModel({ model: modelName });
   const generationConfig: {
-    temperature: number;
     maxOutputTokens: number;
     responseMimeType: string;
     responseSchema?: ResponseSchema;
+    thinkingConfig?: { thinkingBudget?: number; thinkingLevel?: string };
   } = {
-    temperature: 0.7,
     maxOutputTokens: 8192,
     responseMimeType: 'application/json',
   };
+  if (useThinkingOff) {
+    generationConfig.thinkingConfig = thinkingConfigFor(modelName);
+  }
   if (useSchema) generationConfig.responseSchema = LESSON_SCHEMA;
 
   const request = model.generateContent({
@@ -488,52 +553,119 @@ async function callModel(
       setTimeout(() => reject(Object.assign(new Error('CLIENT_TIMEOUT'), { status: 504 })), timeoutMs)
     ),
   ]);
-  return extractText(result).trim();
+  const text = extractText(result).trim();
+  if (!text) throw Object.assign(new Error('EMPTY_MODEL_OUTPUT'), { status: 502 });
+  return text;
+}
+
+type UpstreamFailure = { status: number; message: string; model?: string };
+
+function scrubUpstream(message: string): string {
+  return message
+    .replace(/key=[^&\s"]+/gi, 'key=REDACTED')
+    .replace(/AIza[\w-]{10,}/g, 'REDACTED')
+    .slice(0, 800);
+}
+
+function readUpstream(error: unknown, model?: string): UpstreamFailure {
+  const status = Number((error as { status?: number })?.status || (error as { code?: number })?.code || 0);
+  const message = scrubUpstream(error instanceof Error ? error.message : String(error ?? ''));
+  return { status, message, model };
 }
 
 async function generateRaw(apiKey: string, prompt: string, deadline: number): Promise<string> {
   let lastError: unknown;
-  for (const modelName of MODELS) {
+  let lastModel = '';
+  const attempts: UpstreamFailure[] = [];
+  const note = (error: unknown, modelName: string) => {
+    lastError = error;
+    lastModel = modelName;
+    attempts.push(readUpstream(error, modelName));
+    const message = error instanceof Error ? error.message : String(error);
+    const status = Number((error as { status?: number })?.status || (error as { code?: number })?.code || 0);
+    console.error(JSON.stringify({ stage: 'gen_error', modelName, status, message: scrubUpstream(message) }));
+    return { status, message };
+  };
+
+  const order = modelsToTry();
+  for (let index = 0; index < order.length; index += 1) {
+    const modelName = order[index];
+    if (unavailableModels.has(modelName)) continue;
     const remaining = deadline - Date.now();
-    if (remaining < 5000) break;
-    const timeout = Math.min(20000, remaining - 400);
+    const laterCount = order.slice(index + 1).filter((name) => !unavailableModels.has(name)).length;
+    // The first model usually answers in a few seconds. Leave one fallback turn if it does not.
+    const timeout = laterCount
+      ? Math.min(16000, remaining - 7000)
+      : Math.min(20000, remaining - 800);
+    if (timeout < 4000) break;
     try {
-      console.log(JSON.stringify({ stage: 'gen_start', modelName }));
-      const text = await callModel(apiKey, modelName, prompt, timeout, true);
-      if (text) return text;
+      console.log(JSON.stringify({ stage: 'gen_start', modelName, timeout }));
+      const text = await callModel(apiKey, modelName, prompt, timeout, false, true);
+      if (text) {
+        preferredModel = modelName;
+        return text;
+      }
     } catch (error) {
-      lastError = error;
-      const message = error instanceof Error ? error.message : String(error);
-      const status = Number((error as { status?: number; code?: number })?.status || (error as { code?: number })?.code);
-      console.error(JSON.stringify({ stage: 'gen_error', modelName, status, message }));
-      if ((status === 429 || status === 503) && deadline - Date.now() > 6000) {
+      const { status, message } = note(error, modelName);
+      if (status === 404) unavailableModels.add(modelName);
+      const laterModel = order.slice(index + 1).some((name) => !unavailableModels.has(name));
+      const timeLeft = deadline - Date.now();
+      const dailyQuota = /per day|retry in \d+h/i.test(message);
+      // One short retry only when no other model is left. A 404 is remembered and skipped.
+      // If another model is available, try that instead of spending the window here.
+      if (!laterModel && status !== 404 && (status === 503 || status === 429) && !dailyQuota && timeLeft > 8000) {
         await sleep(400);
-        try {
-          const text = await callModel(apiKey, modelName, prompt, Math.min(20000, deadline - Date.now() - 400), true);
-          if (text) return text;
-        } catch (retryError) {
-          lastError = retryError;
-        }
-      }
-      if (/schema|responseMimeType|INVALID_ARGUMENT|invalid argument/i.test(message)) {
-        try {
-          const retryTimeout = Math.min(timeout, deadline - Date.now() - 400);
-          if (retryTimeout > 4000) {
-            const text = await callModel(apiKey, modelName, prompt, retryTimeout, false);
-            if (text) return text;
+        const retryTimeout = Math.min(18000, deadline - Date.now() - 800);
+        if (retryTimeout >= 5000) {
+          try {
+            const text = await callModel(apiKey, modelName, prompt, retryTimeout, false, true);
+            if (text) {
+              preferredModel = modelName;
+              return text;
+            }
+          } catch (retryError) {
+            note(retryError, modelName);
           }
-        } catch (schemaError) {
-          lastError = schemaError;
         }
       }
+      // thinkingBudget / thinkingLevel rejected: one retry with the model's own default,
+      // and only when that retry can still return before the function deadline.
+      if (status === 400 && /invalid argument/i.test(message) && timeLeft > 8000) {
+        // The thinking setting was rejected immediately. Retry once without it,
+        // leaving the next model a turn only when this retry itself stays short.
+        const retryTimeout = laterModel
+          ? Math.min(16000, timeLeft - 8000)
+          : Math.min(24000, timeLeft - 700);
+        if (retryTimeout >= 4000) {
+          try {
+            const text = await callModel(apiKey, modelName, prompt, retryTimeout, false, false);
+            if (text) {
+              preferredModel = modelName;
+              return text;
+            }
+          } catch (thinkingError) {
+            note(thinkingError, modelName);
+          }
+        }
+      }
+      // 429/503/504 fall through to the next model only when the loop still has time.
+      // Do not spend the rest of the window retrying the same model.
       if (![404, 400, 429, 500, 502, 503, 504].includes(status) && status) break;
     }
   }
-  const status = Number((lastError as { status?: number })?.status || (lastError as { code?: number })?.code || 0);
-  if (status === 429 || status === 503) {
-    throw Object.assign(new Error('The story service is busy. Please try again.'), { status });
-  }
-  throw Object.assign(new Error('The lesson could not be created. Please try again.'), { status: status || 502 });
+  const upstream = readUpstream(lastError, lastModel);
+  const busy = upstream.status === 429 || upstream.status === 503;
+  const timedOut = upstream.status === 504;
+  throw Object.assign(
+    new Error(
+      busy
+        ? 'The story service is busy. Please try again.'
+        : timedOut
+          ? 'The story service took too long. Please try again.'
+          : 'The lesson could not be created. Please try again.'
+    ),
+    { status: busy || timedOut ? upstream.status : 502, upstream, attempts }
+  );
 }
 
 function readParams(bodyText: string | null | undefined): LessonParams | null {
@@ -552,6 +684,9 @@ function readParams(bodyText: string | null | undefined): LessonParams | null {
   const topic = concreteTopic(raw.topic);
   const level = String(raw.level || 'Beginner');
   const mode = raw.mode === 'listening' ? 'listening' : 'reading';
+  const stage = raw.stage === 'quiz' ? 'quiz' : 'story';
+  const sourceStory = String(raw.story ?? '').trim().slice(0, 6000);
+  if (stage === 'quiz' && sourceStory.length < 20) return null;
   return {
     level,
     topic: topic.label,
@@ -562,6 +697,8 @@ function readParams(bodyText: string | null | undefined): LessonParams | null {
     mode,
     format: normalizeFormat(raw.format),
     speakers: normalizeFormat(raw.format) === 'dialogue' ? DIALOGUE_SPEAKERS : [],
+    stage,
+    sourceStory,
   };
 }
 
@@ -597,10 +734,12 @@ export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => 
 
     const deadline = Date.now() + 23000;
     let best: { lesson: PreparedLesson; score: number } | null = null;
+    let lastRaw = '';
     let prompt = buildPrompt(params);
 
     for (let attempt = 0; attempt < 2; attempt++) {
-      if (deadline - Date.now() < 5000) break;
+      // A repair call only starts when it can still finish inside this function.
+      if (attempt > 0 && deadline - Date.now() < 10000) break;
       let raw = '';
       try {
         raw = await generateRaw(apiKey, prompt, deadline);
@@ -608,6 +747,7 @@ export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => 
         if (!best) throw error;
         break;
       }
+      lastRaw = raw;
       const parsed = parseModelJson(raw);
       if (!parsed) {
         prompt = buildPrompt(params, 'Return only valid JSON. Do not use markdown.');
@@ -617,26 +757,48 @@ export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => 
       const score = lessonScore(lesson, params);
       console.log(JSON.stringify({
         stage: 'validated',
+        requestStage: params.stage,
         attempt,
         wordCount: lesson.wordCount,
         wordCountOk: lesson.wordCountOk,
         problems: lesson.problems.length,
       }));
       if (!best || score > best.score) best = { lesson, score };
-      if (lesson.problems.length === 0) break;
-      prompt = buildPrompt(params, lesson.problems.slice(0, 8).join('\n'));
-      // Give the network a beat before a second model call.
-      if (attempt === 0 && deadline - Date.now() > 8000) await sleep(200);
+      const countOk = params.stage === 'quiz'
+        ? lesson.quiz.length === params.questionCount
+        : Boolean(lesson.story);
+      if (countOk) break;
+      if (deadline - Date.now() < 10000) break;
+      prompt = buildPrompt(params, lesson.problems.slice(0, 6).join('\n') || 'Return only valid JSON.');
     }
 
-    if (!best || !best.lesson.story || best.lesson.quiz.length === 0) {
+    const storyReady = Boolean(best?.lesson.story);
+    const quizReady = (best?.lesson.quiz.length ?? 0) > 0;
+    if (!best || (params.stage === 'quiz' ? !quizReady : !storyReady)) {
       return {
         statusCode: 502,
         headers: corsHeaders,
         body: JSON.stringify({
           ok: false,
           code: 'BAD_MODEL_OUTPUT',
-          message: 'The lesson could not be created. Please try again.',
+          message: params.stage === 'quiz'
+            ? 'The questions could not be created. Please try again.'
+            : 'The lesson could not be created. Please try again.',
+          debug: {
+            problems: best?.lesson.problems ?? [],
+            preview: scrubUpstream(lastRaw).slice(0, 400),
+          },
+        }),
+      };
+    }
+
+    if (params.stage === 'quiz') {
+      return {
+        statusCode: 200,
+        headers: corsHeaders,
+        body: JSON.stringify({
+          stage: 'quiz',
+          quiz: best.lesson.quiz,
         }),
       };
     }
@@ -645,8 +807,8 @@ export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => 
       statusCode: 200,
       headers: corsHeaders,
       body: JSON.stringify({
+        stage: 'story',
         story: best.lesson.story,
-        quiz: best.lesson.quiz,
         vocabulary: best.lesson.vocabulary,
         resolvedTopic: params.topic,
         wordCount: best.lesson.wordCount,
@@ -657,21 +819,28 @@ export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => 
     };
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Unknown error';
-    console.error('generate.ts fatal:', message);
-    const status = Number((error as { status?: number })?.status || 500);
-    const safeStatus = [400, 401, 403, 404, 413, 429, 500, 502, 503, 504].includes(status) ? status : 500;
+    const upstream = (error as { upstream?: UpstreamFailure }).upstream ?? readUpstream(error);
+    console.error('generate.ts fatal:', JSON.stringify({ message, upstream }));
+    const status = upstream.status || Number((error as { status?: number })?.status || 500);
     const publicMessage = message === 'CLIENT_TIMEOUT'
       ? 'The story service took too long. Please try again.'
-      : status === 429 || status === 503 || message === 'The story service is busy. Please try again.'
+      : status === 429 || status === 503
         ? 'The story service is busy. Please try again.'
         : 'The lesson could not be created. Please try again.';
+    const httpStatus = status === 429 || status === 503 ? status : status === 504 ? 504 : 502;
     return {
-      statusCode: safeStatus === 401 || safeStatus === 403 ? safeStatus : safeStatus >= 500 ? 503 : safeStatus,
+      statusCode: httpStatus,
       headers: corsHeaders,
       body: JSON.stringify({
         ok: false,
         code: 'SERVER_ERROR',
         message: publicMessage,
+        debug: {
+          status: upstream.status || status,
+          message: upstream.message || scrubUpstream(message),
+          model: upstream.model,
+          attempts: (error as { attempts?: UpstreamFailure[] }).attempts,
+        },
       }),
     };
   }
