@@ -63,8 +63,21 @@ type PreparedLesson = {
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-// 2.0 and 1.5 were shut down (HTTP 404). 2.5 is limited to older keys and also 404s for this project.
-const MODELS = ['gemini-3.5-flash-lite', 'gemini-3.8-flash'];
+// Fastest model that has completed a lesson is first. 3.6/3.8 default to medium
+// thinking and did not finish inside Netlify's 26s limit. 2.5 Flash-Lite keeps
+// reasoning off (thinkingBudget 0) and is only started when the first call fails
+// quickly enough that time remains.
+const MODELS = ['gemini-3.5-flash-lite', 'gemini-2.5-flash-lite'];
+
+function thinkingConfigFor(modelName: string): { thinkingBudget?: number; thinkingLevel?: string } {
+  // Gemini 2.5 accepts thinkingBudget. 0 disables reasoning. Flash-Lite is already off.
+  if (modelName.includes('2.5')) return { thinkingBudget: 0 };
+  // Gemini 3.5 Flash-Lite rejects thinkingBudget (HTTP 400). "minimal" is its fastest level.
+  // 3.8 does not support minimal; 3.6 does, but it is not in the list because medium is its default
+  // and a low/minimal call still missed the function deadline in preview tests.
+  if (modelName.includes('3.8')) return { thinkingLevel: 'low' };
+  return { thinkingLevel: 'minimal' };
+}
 
 const LESSON_SCHEMA: ResponseSchema = {
   type: SchemaType.OBJECT,
@@ -253,11 +266,8 @@ ${modeRules(params.mode)}
 ${formatRules(params.format, params.speakers)}
 
 LENGTH (required):
-- The ${params.format === 'dialogue' ? 'spoken lines' : 'text'} must contain between ${min} and ${max} words.
-- Target: ${params.wordCount} words.
-- Count every word before you answer. A contraction such as "don't" is one word.
-- ${params.format === 'dialogue' ? 'Do not count speaker names.' : 'Count every word in the text.'}
-- If it is too long, delete whole sentences until it fits. If it is too short, add a sentence.
+- The ${params.format === 'dialogue' ? 'spoken lines' : 'text'} must contain between ${min} and ${max} words. Target: ${params.wordCount} words.
+- A contraction such as "don't" is one word. ${params.format === 'dialogue' ? 'Do not count speaker names.' : 'Count the words in the text only.'}
 
 QUIZ (required):
 - Exactly ${params.questionCount} questions.
@@ -270,7 +280,7 @@ QUIZ (required):
 - The question text must NOT contain the correct answer or its key words. Read the question and the correct option together. If the question already says the answer, rewrite the question.
 - Do not use "all of the above" or "none of the above".
 - skill: "detail", "inference", "vocabulary", or "intent".
-- explanation: one or two short sentences in simple English saying why the correct option is right and why the other options are not.
+- explanation: one short sentence in simple English saying why the correct option is right.
 - supportingSentence: copy ONE full sentence from the story, exactly as written, that shows why the answer is correct. It must appear in the story.
 
 VOCABULARY:
@@ -468,22 +478,16 @@ async function callModel(
   const genAI = new GoogleGenerativeAI(apiKey);
   const model = genAI.getGenerativeModel({ model: modelName });
   const generationConfig: {
-    temperature: number;
     maxOutputTokens: number;
     responseMimeType: string;
     responseSchema?: ResponseSchema;
     thinkingConfig?: { thinkingBudget?: number; thinkingLevel?: string };
   } = {
-    temperature: 0.7,
-    maxOutputTokens: 8192,
+    maxOutputTokens: 3072,
     responseMimeType: 'application/json',
   };
   if (useThinkingOff) {
-    generationConfig.thinkingConfig = modelName.includes('2.5')
-      ? { thinkingBudget: 0 }
-      : modelName.includes('3.8')
-        ? { thinkingLevel: 'low' }
-        : { thinkingLevel: 'minimal' };
+    generationConfig.thinkingConfig = thinkingConfigFor(modelName);
   }
   if (useSchema) generationConfig.responseSchema = LESSON_SCHEMA;
 
@@ -520,71 +524,55 @@ async function generateRaw(apiKey: string, prompt: string, deadline: number): Pr
   let lastError: unknown;
   let lastModel = '';
   const attempts: UpstreamFailure[] = [];
+  const note = (error: unknown, modelName: string) => {
+    lastError = error;
+    lastModel = modelName;
+    attempts.push(readUpstream(error, modelName));
+    const message = error instanceof Error ? error.message : String(error);
+    const status = Number((error as { status?: number })?.status || (error as { code?: number })?.code || 0);
+    console.error(JSON.stringify({ stage: 'gen_error', modelName, status, message: scrubUpstream(message) }));
+    return { status, message };
+  };
+
   for (const modelName of MODELS) {
     const remaining = deadline - Date.now();
+    // A generation that cannot finish before Netlify kills the function is not started.
     if (remaining < 7000) break;
     const timeout = Math.min(23000, remaining - 1200);
     try {
-      console.log(JSON.stringify({ stage: 'gen_start', modelName }));
-      const text = await callModel(apiKey, modelName, prompt, timeout, false);
+      console.log(JSON.stringify({ stage: 'gen_start', modelName, timeout }));
+      const text = await callModel(apiKey, modelName, prompt, timeout, false, true);
       if (text) return text;
     } catch (error) {
-      lastError = error;
-      lastModel = modelName;
-      const message = error instanceof Error ? error.message : String(error);
-      const status = Number((error as { status?: number; code?: number })?.status || (error as { code?: number })?.code);
-      console.error(JSON.stringify({ stage: 'gen_error', modelName, status, message }));
-      attempts.push(readUpstream(error, modelName));
-      const dailyQuota = /per day|retry in \d+h/i.test(message);
-      if ((status === 429 || status === 503) && !dailyQuota && deadline - Date.now() > 12000) {
-        await sleep(400);
-        const retryBudget = Math.min(8000, deadline - Date.now() - 8000);
-        if (retryBudget >= 5000) {
-          try {
-            const text = await callModel(apiKey, modelName, prompt, retryBudget, false);
-            if (text) return text;
-          } catch (retryError) {
-            lastError = retryError;
-            lastModel = modelName;
-          }
-        }
-      }
-      if (status === 400 && /invalid argument/i.test(message) && deadline - Date.now() > 6000) {
+      const { status, message } = note(error, modelName);
+      // thinkingBudget / thinkingLevel rejected: one retry with the model's own default,
+      // and only when that retry can still return before the function deadline.
+      if (status === 400 && /invalid argument/i.test(message) && deadline - Date.now() > 7000) {
         try {
-          const text = await callModel(
-            apiKey,
-            modelName,
-            prompt,
-            Math.min(22000, Math.max(5000, deadline - Date.now() - 1500)),
-            false,
-            false
-          );
+          const retryTimeout = Math.min(20000, deadline - Date.now() - 1200);
+          const text = await callModel(apiKey, modelName, prompt, retryTimeout, false, false);
           if (text) return text;
         } catch (thinkingError) {
-          lastError = thinkingError;
-          lastModel = modelName;
-          attempts.push(readUpstream(thinkingError, modelName));
+          note(thinkingError, modelName);
         }
       }
-      if (/schema|responseMimeType|INVALID_ARGUMENT/i.test(message) && !/invalid argument/i.test(message)) {
-        try {
-          const retryTimeout = Math.min(timeout, deadline - Date.now() - 400);
-          if (retryTimeout > 4000) {
-            const text = await callModel(apiKey, modelName, prompt, retryTimeout, false);
-            if (text) return text;
-          }
-        } catch (schemaError) {
-          lastError = schemaError;
-        }
-      }
+      // 429/503/504 fall through to the next model only when the loop still has time.
+      // Do not spend the rest of the window retrying the same model.
       if (![404, 400, 429, 500, 502, 503, 504].includes(status) && status) break;
     }
   }
   const upstream = readUpstream(lastError, lastModel);
   const busy = upstream.status === 429 || upstream.status === 503;
+  const timedOut = upstream.status === 504;
   throw Object.assign(
-    new Error(busy ? 'The story service is busy. Please try again.' : 'The lesson could not be created. Please try again.'),
-    { status: busy ? upstream.status : 502, upstream, attempts }
+    new Error(
+      busy
+        ? 'The story service is busy. Please try again.'
+        : timedOut
+          ? 'The story service took too long. Please try again.'
+          : 'The lesson could not be created. Please try again.'
+    ),
+    { status: busy || timedOut ? upstream.status : 502, upstream, attempts }
   );
 }
 
@@ -652,7 +640,8 @@ export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => 
     let prompt = buildPrompt(params);
 
     for (let attempt = 0; attempt < 2; attempt++) {
-      if (deadline - Date.now() < 5000) break;
+      // A second model call only starts when a full generation can still finish.
+      if (attempt > 0 && deadline - Date.now() < 12000) break;
       let raw = '';
       try {
         raw = await generateRaw(apiKey, prompt, deadline);
@@ -678,7 +667,7 @@ export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => 
       if (lesson.problems.length === 0) break;
       prompt = buildPrompt(params, lesson.problems.slice(0, 8).join('\n'));
       // Give the network a beat before a second model call.
-      if (attempt === 0 && deadline - Date.now() > 8000) await sleep(200);
+      if (attempt === 0 && deadline - Date.now() > 12000) await sleep(200);
     }
 
     if (!best || !best.lesson.story || best.lesson.quiz.length === 0) {
