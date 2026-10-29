@@ -42,16 +42,16 @@ function cleanLine(speaker: string, line: string): string {
 }
 
 export const DIALOGUE_SPEAKERS: { name: string; gender: SpeakerGender }[] = [
-  { name: 'Person 1', gender: 'female' },
-  { name: 'Person 2', gender: 'male' },
+  { name: 'Woman', gender: 'female' },
+  { name: 'Man', gender: 'male' },
 ];
 
-/** Person 1 is always the woman. Person 2 is always the man. */
+/** Woman is always female. Man is always male. Person 1 and Person 2 still map to those names. */
 export function canonicalSpeaker(raw: string): string | null {
   const cleaned = raw.replace(/[*_`]/g, '').replace(/\s+/g, ' ').trim().replace(/:$/, '').trim();
-  const match = cleaned.match(/^person\s*([12])$/i);
-  if (!match) return null;
-  return `Person ${match[1]}`;
+  if (/^(woman|person\s*1)$/i.test(cleaned)) return 'Woman';
+  if (/^(man|person\s*2)$/i.test(cleaned)) return 'Man';
+  return null;
 }
 
 export function genderForName(name: string): SpeakerGender | null {
@@ -262,13 +262,13 @@ export function voiceGender(voice: { name: string; voiceURI?: string }): Speaker
   return null;
 }
 
-function naturalVoice(voice: ListedVoice | undefined): SpeakerVoice {
+function spokenVoice(voice: ListedVoice | undefined, pitch: number, rateScale: number): SpeakerVoice {
   return {
     name: voice?.name ?? '',
     lang: voice?.lang || 'en-US',
     voiceURI: voice?.voiceURI,
-    pitch: 1,
-    rateScale: 1,
+    pitch: Math.max(0.8, pitch),
+    rateScale,
   };
 }
 
@@ -297,8 +297,9 @@ function byHint(gender: SpeakerGender) {
 }
 
 /**
- * Female names get a female voice. Male names get a male voice.
- * Pitch is always 1. If this device has no male voice, the man gets a different English locale, not a lowered female voice.
+ * Woman gets a female voice. Man gets a male voice when the device has one, at pitch 0.9.
+ * Android often lists only locale names. Then Woman prefers en-GB and Man a different English
+ * locale, with a moderate pitch and rate gap. Pitch never goes below 0.8.
  */
 export function voicesBySpeaker(
   speakers: { name: string; gender: SpeakerGender | null }[],
@@ -332,24 +333,36 @@ export function voicesBySpeaker(
       used.add(voiceKey(choice));
       if (!femaleChoice) femaleChoice = choice;
     }
-    result[key] = naturalVoice(choice);
+    result[key] = spokenVoice(choice, 1, 1);
   }
 
+  let usedClassifiedMale = false;
   for (const speaker of speakers) {
     const key = speaker.name.toLowerCase();
     if (result[key]) continue;
     const maleVoice = take(males);
     if (maleVoice) {
       used.add(voiceKey(maleVoice));
-      result[key] = naturalVoice(maleVoice);
+      usedClassifiedMale = true;
+      result[key] = spokenVoice(maleVoice, 0.9, 1);
       continue;
     }
     const differentLocale = neutral.find((voice) => !used.has(voiceKey(voice)) && (!femaleChoice || localeKey(voice.lang) !== localeKey(femaleChoice.lang)))
       ?? pool.find((voice) => voice.heard !== 'female' && !used.has(voiceKey(voice)) && (!femaleChoice || voiceKey(voice) !== voiceKey(femaleChoice)));
     const fallback = differentLocale ?? pool.find((voice) => voice.default) ?? pool[0];
     if (fallback) used.add(voiceKey(fallback));
-    log(`No male speech voice on this device. Using "${fallback?.name ?? 'default'}" (${fallback?.lang ?? ''}) at natural pitch.`);
-    result[key] = naturalVoice(fallback);
+    log(`No male speech voice on this device. Using "${fallback?.name ?? 'default'}" (${fallback?.lang ?? ''}) with a moderate pitch difference.`);
+    result[key] = spokenVoice(fallback, 0.8, 0.95);
+  }
+
+  if (!usedClassifiedMale) {
+    for (const speaker of speakers) {
+      if (speaker.gender === 'male') continue;
+      const choice = result[speaker.name.toLowerCase()];
+      if (!choice) continue;
+      choice.pitch = 1.15;
+      choice.rateScale = 1;
+    }
   }
   return result;
 }

@@ -583,8 +583,9 @@ const App: React.FC = () => {
               ?? liveVoices.find((voice) => voice.name === choice?.name && voice.lang === choice?.lang);
             if (live) utterance.voice = live;
             utterance.lang = choice?.lang || 'en-US';
-            utterance.pitch = 1;
-            utterance.rate = rate;
+            const pitch = choice?.pitch ?? 1;
+            utterance.pitch = pitch < 0.75 ? 0.8 : pitch;
+            utterance.rate = rate * (choice?.rateScale ?? 1);
             utterance.onstart = () => {
               if (playId !== playIdRef.current) return;
               setActiveTurn(line.turnIndex);

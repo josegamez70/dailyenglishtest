@@ -222,12 +222,12 @@ function formatRules(format: ContentFormat, speakers: { name: string; gender: Sp
     return [
       'FORMAT: Dialogue.',
       `Write a conversation between exactly these two speakers: ${cast}.`,
-      'Do not use personal names. speaker must be exactly "Person 1" or "Person 2".',
+      'Do not use personal names. speaker must be exactly "Woman" or "Man".',
       'Return a dialogue array. Each item has speaker, gender, and line.',
-      'gender for Person 1 is female. gender for Person 2 is male.',
+      'gender for Woman is female. gender for Man is male.',
       'Do not put the label inside line.',
       'Let them take turns. Write at least 6 turns.',
-      'Also set story to the same dialogue, one turn per line, like "Person 1: Hello."',
+      'Also set story to the same dialogue, one turn per line, like "Woman: Hello."',
       'Count only the words inside line. Do not count the speaker names.',
     ].join(' ');
   }
@@ -307,6 +307,7 @@ ${params.sourceStory}
 
 ${levelRules(params.level)}
 ${modeRules(params.mode)}
+${params.format === 'dialogue' ? 'In the questions, call the speakers Woman and Man, matching the story. Do not write Person 1 or Person 2.' : ''}
 
 QUIZ:
 - Exactly ${params.questionCount} questions about the story above.
