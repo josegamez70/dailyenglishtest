@@ -64,7 +64,7 @@ type PreparedLesson = {
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 // 2.0 and 1.5 were shut down (HTTP 404). 2.5 is limited to older keys and also 404s for this project.
-const MODELS = ['gemini-3.5-flash-lite', 'gemini-3.8-flash', 'gemini-2.5-flash'];
+const MODELS = ['gemini-2.5-flash-lite', 'gemini-3.5-flash-lite', 'gemini-3.8-flash'];
 
 const LESSON_SCHEMA: ResponseSchema = {
   type: SchemaType.OBJECT,
@@ -479,9 +479,11 @@ async function callModel(
     responseMimeType: 'application/json',
   };
   if (useThinkingOff) {
-    generationConfig.thinkingConfig = modelName.startsWith('gemini-2.5')
+    generationConfig.thinkingConfig = modelName.includes('2.5')
       ? { thinkingBudget: 0 }
-      : { thinkingLevel: 'minimal' };
+      : modelName.includes('3.8')
+        ? { thinkingLevel: 'low' }
+        : { thinkingLevel: 'minimal' };
   }
   if (useSchema) generationConfig.responseSchema = LESSON_SCHEMA;
 
@@ -520,10 +522,8 @@ async function generateRaw(apiKey: string, prompt: string, deadline: number): Pr
   const attempts: UpstreamFailure[] = [];
   for (const modelName of MODELS) {
     const remaining = deadline - Date.now();
-    if (remaining < 6000) break;
-    const laterModelWaiting = MODELS.indexOf(modelName) < MODELS.length - 1;
-    const reserve = laterModelWaiting ? 8000 : 1200;
-    const timeout = Math.min(11000, Math.max(5000, remaining - reserve));
+    if (remaining < 7000) break;
+    const timeout = Math.min(18000, remaining - 1500);
     try {
       console.log(JSON.stringify({ stage: 'gen_start', modelName }));
       const text = await callModel(apiKey, modelName, prompt, timeout, true);
@@ -535,7 +535,8 @@ async function generateRaw(apiKey: string, prompt: string, deadline: number): Pr
       const status = Number((error as { status?: number; code?: number })?.status || (error as { code?: number })?.code);
       console.error(JSON.stringify({ stage: 'gen_error', modelName, status, message }));
       attempts.push(readUpstream(error, modelName));
-      if ((status === 429 || status === 503) && deadline - Date.now() > 12000) {
+      const dailyQuota = /per day|retry in \d+h/i.test(message);
+      if ((status === 429 || status === 503) && !dailyQuota && deadline - Date.now() > 12000) {
         await sleep(400);
         const retryBudget = Math.min(8000, deadline - Date.now() - 8000);
         if (retryBudget >= 5000) {
