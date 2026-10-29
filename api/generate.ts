@@ -63,11 +63,11 @@ type PreparedLesson = {
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-// 3.5 Flash-Lite accepts the call but does not finish inside Netlify's 26s limit
-// (preview: CLIENT_TIMEOUT at 23s on every lesson size). 2.5 Flash-Lite is first
-// because thinking is off. Later models run only when an earlier call fails
-// quickly enough that time remains.
-const MODELS = ['gemini-2.5-flash-lite', 'gemini-3.1-flash-lite', 'gemini-3.6-flash'];
+// 2.5 Flash-Lite is closed to this key (HTTP 404). 3.5 Flash-Lite accepts the call
+// but did not finish inside Netlify's 26s limit. 3.6 Flash with thinkingLevel
+// "minimal" is first. 3.1 Flash-Lite is the fallback and only runs when the first
+// call fails quickly enough that time remains.
+const MODELS = ['gemini-3.6-flash', 'gemini-3.1-flash-lite'];
 
 function thinkingConfigFor(modelName: string): { thinkingBudget?: number; thinkingLevel?: string } {
   // Gemini 2.5 accepts thinkingBudget. 0 disables reasoning. Flash-Lite is already off.
