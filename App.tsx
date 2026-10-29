@@ -1274,28 +1274,17 @@ const App: React.FC = () => {
           </div>
         </div>
       )}
-      <header className={`w-full max-w-4xl mx-auto ${view === 'story' ? 'mb-2' : 'mb-3'}`}>
-        {view === 'story' ? (
-          <div className="flex justify-end">
-            <button
-              type="button"
-              onClick={() => setIsDark((dark) => !dark)}
-              aria-pressed={isDark}
-              className="inline-flex items-center rounded-lg border-2 border-slate-900 bg-white px-3 py-1.5 text-sm font-semibold text-slate-900 hover:bg-slate-100 sm:px-4 sm:py-2 sm:text-base dark:border-slate-100 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
-            >
-              {isDark ? 'Light mode' : 'Dark mode'}
-            </button>
-          </div>
-        ) : (
-          <div>
-            <div className="flex items-center gap-2 sm:gap-4">
-              <div className="flex min-w-0 flex-1 items-center justify-center gap-2 sm:gap-4">
-                <UKFlagIcon className="h-14 w-14 shrink-0 rounded-lg shadow-md sm:h-20 sm:w-20" />
-                <h1 className="text-left text-2xl font-fun leading-tight tracking-wide sm:text-4xl">
-                  <span className="text-blue-800 dark:text-blue-300">Your daily </span>
-                  <span className="text-red-700 dark:text-red-400">English Test!</span>
-                </h1>
-              </div>
+      {view !== 'story' && (
+        <header className="mb-3 w-full max-w-4xl mx-auto">
+          <div className="flex items-center gap-2 sm:gap-4">
+            <div className="flex min-w-0 flex-1 items-center justify-center gap-2 sm:gap-4">
+              <UKFlagIcon className="h-14 w-14 shrink-0 rounded-lg shadow-md sm:h-20 sm:w-20" />
+              <h1 className="text-left text-2xl font-fun leading-tight tracking-wide sm:text-4xl">
+                <span className="text-blue-800 dark:text-blue-300">Your daily </span>
+                <span className="text-red-700 dark:text-red-400">English Test!</span>
+              </h1>
+            </div>
+            {view === 'config' && (
               <button
                 type="button"
                 onClick={() => setIsDark((dark) => !dark)}
@@ -1304,16 +1293,16 @@ const App: React.FC = () => {
               >
                 {isDark ? 'Light mode' : 'Dark mode'}
               </button>
-            </div>
-            <h2 className="mt-2 text-center text-lg font-bold text-slate-900 dark:text-white sm:text-2xl md:text-3xl">
-              English Comprehension Practice
-            </h2>
-            <p className="mt-1 text-center text-base text-slate-800 dark:text-slate-100 sm:text-lg">
-              Practice reading and listening with short stories and quizzes.
-            </p>
+            )}
           </div>
-        )}
-      </header>
+          <h2 className="mt-2 text-center text-lg font-bold text-slate-900 dark:text-white sm:text-2xl md:text-3xl">
+            English Comprehension Practice
+          </h2>
+          <p className="mt-1 text-center text-base text-slate-800 dark:text-slate-100 sm:text-lg">
+            Practice reading and listening with short stories and quizzes.
+          </p>
+        </header>
+      )}
 
       <main className="w-full">
         {error && (
