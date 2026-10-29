@@ -41,22 +41,48 @@ function cleanLine(speaker: string, line: string): string {
   return trimmed.replace(new RegExp(`^${prefix}\\s*:\\s*`, 'i'), '').trim();
 }
 
-export const DIALOGUE_SPEAKERS: { name: string; gender: SpeakerGender }[] = [
-  { name: 'Character 1', gender: 'female' },
-  { name: 'Character 2', gender: 'male' },
-];
+export const FEMALE_NAMES = ['Anna', 'Sophie', 'Emma', 'Lucy', 'Laura', 'Kate', 'Julia', 'Mia'] as const;
 
-/** Character 1 is the higher voice. Character 2 is the lower voice. Person 1 and Person 2 still map here. */
-export function canonicalSpeaker(raw: string): string | null {
+export type DialogueSpeaker = { name: string; gender: SpeakerGender };
+
+/** First speaker is the higher voice. Second speaker is the lower voice. Both are women. */
+export function pickDialogueSpeakers(previous: string[] = [], random: () => number = Math.random): DialogueSpeaker[] {
+  const pairs: [string, string][] = [];
+  for (let i = 0; i < FEMALE_NAMES.length; i += 1) {
+    for (let j = 0; j < FEMALE_NAMES.length; j += 1) {
+      if (i === j) continue;
+      pairs.push([FEMALE_NAMES[i], FEMALE_NAMES[j]]);
+    }
+  }
+  const previousKey = previous.map((name) => name.toLowerCase()).sort().join('|');
+  const allowed = pairs.filter(([first, second]) => [first, second].map((name) => name.toLowerCase()).sort().join('|') !== previousKey);
+  const pool = allowed.length ? allowed : pairs;
+  const index = Math.min(pool.length - 1, Math.floor(random() * pool.length));
+  const [first, second] = pool[index];
+  return [
+    { name: first, gender: 'female' },
+    { name: second, gender: 'female' },
+  ];
+}
+
+function basketName(raw: string): string | null {
+  return FEMALE_NAMES.find((name) => name.toLowerCase() === raw.toLowerCase()) ?? null;
+}
+
+/** Named women are the real speakers. Character 1/2 and Person 1/2 still map onto the current pair. */
+export function canonicalSpeaker(raw: string, cast?: { name: string }[]): string | null {
   const cleaned = raw.replace(/[*_`]/g, '').replace(/\s+/g, ' ').trim().replace(/:$/, '').trim();
-  if (/^(character\s*1|person\s*1)$/i.test(cleaned)) return 'Character 1';
-  if (/^(character\s*2|person\s*2)$/i.test(cleaned)) return 'Character 2';
+  const named = basketName(cleaned);
+  if (named) return named;
+  if (/^(character\s*1|person\s*1)$/i.test(cleaned)) return cast?.[0]?.name ?? 'Character 1';
+  if (/^(character\s*2|person\s*2)$/i.test(cleaned)) return cast?.[1]?.name ?? 'Character 2';
   return null;
 }
 
-export function genderForName(name: string): SpeakerGender | null {
-  const speaker = canonicalSpeaker(name);
-  return DIALOGUE_SPEAKERS.find((person) => person.name === speaker)?.gender ?? null;
+export function genderForName(name: string, cast?: { name: string }[]): SpeakerGender | null {
+  const speaker = canonicalSpeaker(name, cast);
+  if (!speaker) return null;
+  return 'female';
 }
 
 /** Preference order. Earlier names win. "Google US English" with no suffix is female. */
@@ -130,44 +156,60 @@ const FEMALE_GOOGLE_IDS = [
   'en-au-x-auc',
 ];
 
-function splitLabelledLine(row: string): { speaker: string; line: string } | null {
+function splitLabelledLine(row: string, cast?: { name: string }[]): { speaker: string; line: string } | null {
   const plain = row.replace(/[*_`]/g, '').trim();
   const match = plain.match(/^(.*?):\s*(\S.*)$/);
   if (!match) return null;
-  const speaker = canonicalSpeaker(match[1]);
+  const speaker = canonicalSpeaker(match[1], cast);
   if (!speaker) return null;
   return { speaker, line: match[2].trim() };
 }
 
-function withSpeakerGenders(turns: DialogueTurn[]): DialogueTurn[] {
+function withSpeakerGenders(turns: DialogueTurn[], cast?: { name: string }[]): DialogueTurn[] {
   return turns.map((turn) => ({
     ...turn,
-    speaker: canonicalSpeaker(turn.speaker) ?? turn.speaker,
-    gender: genderForName(turn.speaker),
+    speaker: canonicalSpeaker(turn.speaker, cast) ?? turn.speaker,
+    gender: genderForName(turn.speaker, cast),
   }));
 }
 
-export function parseDialogue(raw: unknown): DialogueTurn[] {
+export function parseDialogue(raw: unknown, cast?: { name: string }[]): DialogueTurn[] {
   if (Array.isArray(raw)) {
     return withSpeakerGenders(raw.flatMap((item) => {
       if (!item || typeof item !== 'object') return [];
       const record = item as Record<string, unknown>;
       const rawLine = String(record.line ?? record.text ?? '');
-      const labelled = splitLabelledLine(rawLine);
-      const speaker = canonicalSpeaker(String(record.speaker ?? record.name ?? '')) ?? labelled?.speaker ?? '';
+      const labelled = splitLabelledLine(rawLine, cast);
+      const speaker = canonicalSpeaker(String(record.speaker ?? record.name ?? ''), cast) ?? labelled?.speaker ?? '';
       const line = labelled ? labelled.line : cleanLine(speaker, rawLine);
       if (!speaker || !line) return [];
       return [{ speaker, line, gender: null }];
-    }));
+    }), cast);
   }
   if (typeof raw !== 'string') return [];
   const turns: DialogueTurn[] = [];
   for (const row of raw.split(/\n+/)) {
-    const labelled = splitLabelledLine(row);
+    const labelled = splitLabelledLine(row, cast);
     if (!labelled) continue;
     turns.push({ speaker: labelled.speaker, line: labelled.line, gender: null });
   }
-  return withSpeakerGenders(turns);
+  return withSpeakerGenders(turns, cast);
+}
+
+/** About ten spoken words per turn. 60 words is 6 turns. */
+export function dialogueTurnPlan(wordCount: number): { turns: number; wordsPerTurn: number } {
+  const wordsPerTurn = 10;
+  const turns = Math.max(4, Math.round(Math.max(1, wordCount) / wordsPerTurn));
+  return { turns, wordsPerTurn };
+}
+
+/** Drop whole turns from the end until the spoken words fit the ±15% window. */
+export function trimDialogueToLength(turns: DialogueTurn[], target: number): DialogueTurn[] {
+  const max = Math.ceil(Math.max(1, Math.round(target)) * 1.15);
+  if (spokenWordCount(turns) <= max) return turns;
+  const trimmed = turns.slice();
+  while (trimmed.length > 1 && spokenWordCount(trimmed) > max) trimmed.pop();
+  return trimmed;
 }
 
 export function renderDialogue(turns: DialogueTurn[]): string {
@@ -297,9 +339,9 @@ function byHint(gender: SpeakerGender) {
 }
 
 /**
- * Character 1 gets the higher voice. Character 2 gets a real male voice at pitch 0.9 when one exists.
- * Android often lists only locale names. Then Character 1 prefers en-GB and Character 2 a different
- * English locale, with a moderate pitch and rate gap. Pitch never goes below 0.8.
+ * Both speakers are women. Use two different female voices when the device has them.
+ * Otherwise use two English locales and a moderate pitch gap: 1.15 then 0.9.
+ * Male voices are never chosen.
  */
 export function voicesBySpeaker(
   speakers: { name: string; gender: SpeakerGender | null }[],
@@ -307,13 +349,11 @@ export function voicesBySpeaker(
   log: (message: string) => void = console.log
 ): Record<string, SpeakerVoice> {
   const english = voices.filter((voice) => /^en([-_]|$)/i.test(voice.lang || ''));
-  const pool: ClassedVoice[] = (english.length ? english : voices).map((voice) => ({
-    ...voice,
-    heard: voiceGender(voice),
-  }));
+  const pool: ClassedVoice[] = (english.length ? english : voices)
+    .map((voice) => ({ ...voice, heard: voiceGender(voice) }))
+    .filter((voice) => voice.heard !== 'male');
   const localeOrder = ['en-gb', 'en-us', 'en-au', 'en-in', 'en-ng'];
   const females = pool.filter((voice) => voice.heard === 'female').sort(byHint('female'));
-  const males = pool.filter((voice) => voice.heard === 'male').sort(byHint('male'));
   const neutral = pool.filter((voice) => voice.heard == null).sort((left, right) => {
     const leftRank = localeOrder.indexOf(localeKey(left.lang));
     const rightRank = localeOrder.indexOf(localeKey(right.lang));
@@ -321,48 +361,30 @@ export function voicesBySpeaker(
   });
   const used = new Set<string>();
   const result: Record<string, SpeakerVoice> = {};
-  let femaleChoice: ClassedVoice | undefined;
 
-  const take = (list: ClassedVoice[]) => list.find((voice) => !used.has(voiceKey(voice)));
-
-  for (const speaker of speakers) {
-    const key = speaker.name.toLowerCase();
-    if (result[key] || speaker.gender === 'male') continue;
-    const choice = take(females) ?? take(neutral) ?? pool.find((voice) => voice.default) ?? pool[0];
-    if (choice) {
-      used.add(voiceKey(choice));
-      if (!femaleChoice) femaleChoice = choice;
-    }
-    result[key] = spokenVoice(choice, 1, 1);
-  }
-
-  let usedClassifiedMale = false;
-  for (const speaker of speakers) {
-    const key = speaker.name.toLowerCase();
-    if (result[key]) continue;
-    const maleVoice = take(males);
-    if (maleVoice) {
-      used.add(voiceKey(maleVoice));
-      usedClassifiedMale = true;
-      result[key] = spokenVoice(maleVoice, 0.9, 1);
-      continue;
-    }
-    const differentLocale = neutral.find((voice) => !used.has(voiceKey(voice)) && (!femaleChoice || localeKey(voice.lang) !== localeKey(femaleChoice.lang)))
-      ?? pool.find((voice) => voice.heard !== 'female' && !used.has(voiceKey(voice)) && (!femaleChoice || voiceKey(voice) !== voiceKey(femaleChoice)));
-    const fallback = differentLocale ?? pool.find((voice) => voice.default) ?? pool[0];
-    if (fallback) used.add(voiceKey(fallback));
-    log(`No male speech voice on this device. Using "${fallback?.name ?? 'default'}" (${fallback?.lang ?? ''}) with a moderate pitch difference.`);
-    result[key] = spokenVoice(fallback, 0.8, 0.95);
-  }
-
-  if (!usedClassifiedMale) {
+  if (females.length >= 2) {
     for (const speaker of speakers) {
-      if (speaker.gender === 'male') continue;
-      const choice = result[speaker.name.toLowerCase()];
-      if (!choice) continue;
-      choice.pitch = 1.15;
-      choice.rateScale = 1;
+      const choice = females.find((voice) => !used.has(voiceKey(voice))) ?? females[0];
+      if (choice) used.add(voiceKey(choice));
+      result[speaker.name.toLowerCase()] = spokenVoice(choice, 1, 1);
     }
+    return result;
   }
+
+  const higher = females[0]
+    ?? neutral.find((voice) => localeKey(voice.lang) === 'en-gb')
+    ?? neutral[0]
+    ?? pool[0];
+  if (higher) used.add(voiceKey(higher));
+  const lower = neutral.find((voice) => !used.has(voiceKey(voice)) && (!higher || localeKey(voice.lang) !== localeKey(higher.lang)))
+    ?? pool.find((voice) => higher && voiceKey(voice) !== voiceKey(higher))
+    ?? higher;
+  if (lower) used.add(voiceKey(lower));
+  log(`No second female speech voice on this device. Using "${lower?.name ?? 'default'}" (${lower?.lang ?? ''}) at a lower pitch.`);
+
+  speakers.forEach((speaker, index) => {
+    const voice = index === 0 ? higher : lower;
+    result[speaker.name.toLowerCase()] = spokenVoice(voice, index === 0 ? 1.15 : 0.9, 1);
+  });
   return result;
 }

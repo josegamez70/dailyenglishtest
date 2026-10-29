@@ -8,7 +8,7 @@ import {
   resumeTurnIndex,
   speakersWithGender,
   speechLines,
-  DIALOGUE_SPEAKERS,
+  pickDialogueSpeakers,
   voicesBySpeaker,
   type ContentFormat,
   type DialogueTurn,
@@ -33,6 +33,23 @@ const FONT_STEPS = [
   { label: 'Medium', className: 'text-lg' },
   { label: 'Large', className: 'text-xl' },
 ] as const;
+
+function nextDialogueSpeakers() {
+  let previous: string[] = [];
+  try {
+    const saved = JSON.parse(localStorage.getItem('dialogueNamePair') || '[]');
+    if (Array.isArray(saved)) previous = saved.map((name) => String(name));
+  } catch {
+    previous = [];
+  }
+  const speakers = pickDialogueSpeakers(previous);
+  try {
+    localStorage.setItem('dialogueNamePair', JSON.stringify(speakers.map((speaker) => speaker.name)));
+  } catch {
+    /* ignore blocked storage */
+  }
+  return speakers;
+}
 
 function formatClock(ms: number): string {
   const totalSeconds = Math.max(0, Math.round(ms / 1000));
@@ -227,7 +244,7 @@ const App: React.FC = () => {
     abortRef.current = controller;
     const chosen = resolveTopic(config.topic);
     const levelLabel = LEVELS.find((level) => level.value === config.level)?.label ?? config.level;
-    const speakers = contentFormat === 'dialogue' ? DIALOGUE_SPEAKERS : undefined;
+    const speakers = contentFormat === 'dialogue' ? nextDialogueSpeakers() : undefined;
     const requestConfig: ConfigOptions = {
       level: levelLabel,
       topic: chosen.label,
