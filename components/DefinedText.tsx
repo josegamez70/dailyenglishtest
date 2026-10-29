@@ -1,6 +1,6 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { defineWord, popupPosition, type DictEntry } from '../dictionary';
+import { defineWord, normalizeLookupWord, popupPosition, type DictEntry } from '../dictionary';
 
 type Anchor = { top: number; bottom: number; left: number; width: number; height: number };
 
@@ -16,6 +16,7 @@ let nextId = 1;
 let openWord: OpenWord | null = null;
 let listener: ((value: OpenWord | null) => void) | null = null;
 let closeTimer = 0;
+let suppressCloseUntil = 0;
 
 function emit(value: OpenWord | null) {
   openWord = value;
@@ -88,6 +89,7 @@ export function DictionaryPopup() {
         if (!cancelled) setStatus('error');
       });
     const onPointerDown = (event: PointerEvent) => {
+      if (Date.now() < suppressCloseUntil) return;
       const target = event.target as Node | null;
       if (!target) return;
       if (popupRef.current?.contains(target)) return;
@@ -127,7 +129,7 @@ export function DictionaryPopup() {
     >
       <div className="flex items-start gap-2">
         <div className="min-w-0 flex-1">
-          <p className="text-base font-bold break-words">{entry?.word ?? open.surface.replace(/[^A-Za-z']/g, '')}</p>
+          <p className="text-base font-bold break-words">{entry?.word ?? normalizeLookupWord(open.surface)}</p>
           {status === 'ready' && entry?.phonetic && (
             <p className="text-slate-600 dark:text-slate-300">{entry.phonetic}</p>
           )}
@@ -149,7 +151,7 @@ export function DictionaryPopup() {
           X
         </button>
       </div>
-      {status === 'loading' && <p className="mt-2">Looking up the word...</p>}
+      {status === 'loading' && <p className="mt-2">Looking up...</p>}
       {status === 'missing' && <p className="mt-2">No definition found.</p>}
       {status === 'error' && <p className="mt-2">Could not load the definition. Try again.</p>}
       {status === 'ready' && entry && (
@@ -172,8 +174,10 @@ function LookupWord({ surface, highlighted }: { surface: string; highlighted: bo
   const fine = useFinePointer();
   const hoverTimer = React.useRef(0);
   const openFrom = (element: HTMLElement) => {
+    if (openWord?.surface === surface && Date.now() < suppressCloseUntil) return;
     const rect = element.getBoundingClientRect();
     cancelClose();
+    suppressCloseUntil = Date.now() + 500;
     emit({
       id: nextId++,
       surface,
@@ -185,7 +189,7 @@ function LookupWord({ surface, highlighted }: { surface: string; highlighted: bo
       data-lookup-word
       role="button"
       tabIndex={0}
-      className="cursor-pointer rounded-sm underline decoration-dotted decoration-slate-400 underline-offset-2"
+      className="cursor-pointer touch-manipulation rounded-sm underline decoration-dotted decoration-slate-400 underline-offset-2"
       style={highlighted ? {
         color: '#0f172a',
         fontWeight: 700,

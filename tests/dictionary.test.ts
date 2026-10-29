@@ -1,14 +1,19 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { lookupCandidates, parseDictionary, popupPosition } from '../dictionary.ts';
+import { lemmaCandidates, lookupCandidates, normalizeLookupWord, parseDictionary, popupPosition } from '../dictionary.ts';
 
 test('word lookup tries a simple plural or verb ending when needed', () => {
+  assert.equal(normalizeLookupWord("Sophie's"), 'sophie');
+  assert.equal(normalizeLookupWord('Sophie\u2019s'), 'sophie');
+  assert.equal(normalizeLookupWord('mystery,'), 'mystery');
   assert.deepEqual(lookupCandidates('Cats,'), ['cats', 'cat']);
-  assert.ok(lookupCandidates('cities').includes('city'));
-  assert.ok(lookupCandidates('running').includes('run'));
-  assert.ok(lookupCandidates('walked').includes('walk'));
-  assert.ok(lookupCandidates('stopped').includes('stop'));
-  assert.ok(lookupCandidates('liked').includes('like'));
+  assert.equal(lemmaCandidates('cities')[0], 'city');
+  assert.equal(lemmaCandidates('studies')[0], 'study');
+  assert.ok(lemmaCandidates('running').includes('run'));
+  assert.ok(lemmaCandidates('walked').includes('walk'));
+  assert.ok(lemmaCandidates('stopped').includes('stop'));
+  assert.ok(lemmaCandidates('liked').includes('like'));
+  assert.ok(lemmaCandidates('happiest').includes('happy'));
   assert.deepEqual(lookupCandidates('...'), []);
 });
 
