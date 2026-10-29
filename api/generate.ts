@@ -63,11 +63,11 @@ type PreparedLesson = {
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-// Fastest model that has completed a lesson is first. 3.6/3.8 default to medium
-// thinking and did not finish inside Netlify's 26s limit. 2.5 Flash-Lite keeps
-// reasoning off (thinkingBudget 0) and is only started when the first call fails
+// 3.5 Flash-Lite accepts the call but does not finish inside Netlify's 26s limit
+// (preview: CLIENT_TIMEOUT at 23s on every lesson size). 2.5 Flash-Lite is first
+// because thinking is off. Later models run only when an earlier call fails
 // quickly enough that time remains.
-const MODELS = ['gemini-3.5-flash-lite', 'gemini-2.5-flash-lite'];
+const MODELS = ['gemini-2.5-flash-lite', 'gemini-3.1-flash-lite', 'gemini-3.6-flash'];
 
 function thinkingConfigFor(modelName: string): { thinkingBudget?: number; thinkingLevel?: string } {
   // Gemini 2.5 accepts thinkingBudget. 0 disables reasoning. Flash-Lite is already off.
@@ -547,13 +547,20 @@ async function generateRaw(apiKey: string, prompt: string, deadline: number): Pr
       const { status, message } = note(error, modelName);
       // thinkingBudget / thinkingLevel rejected: one retry with the model's own default,
       // and only when that retry can still return before the function deadline.
-      if (status === 400 && /invalid argument/i.test(message) && deadline - Date.now() > 7000) {
-        try {
-          const retryTimeout = Math.min(20000, deadline - Date.now() - 1200);
-          const text = await callModel(apiKey, modelName, prompt, retryTimeout, false, false);
-          if (text) return text;
-        } catch (thinkingError) {
-          note(thinkingError, modelName);
+      const laterModel = MODELS.indexOf(modelName) < MODELS.length - 1;
+      const timeLeft = deadline - Date.now();
+      if (status === 400 && /invalid argument/i.test(message) && timeLeft > 7000) {
+        // Leave a window for the next model when this one rejected the thinking setting.
+        const retryTimeout = laterModel
+          ? Math.min(8000, timeLeft - 8000)
+          : Math.min(20000, timeLeft - 1200);
+        if (retryTimeout >= 4000) {
+          try {
+            const text = await callModel(apiKey, modelName, prompt, retryTimeout, false, false);
+            if (text) return text;
+          } catch (thinkingError) {
+            note(thinkingError, modelName);
+          }
         }
       }
       // 429/503/504 fall through to the next model only when the loop still has time.
