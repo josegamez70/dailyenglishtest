@@ -68,7 +68,7 @@ const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 // One warm function instance remembers a 404 so later steps do not call that model.
 // 2.5 and 2.0 are already closed for this key. 3.1 Flash-Lite with minimal thinking
 // is the model that has finished a short lesson inside the Netlify limit.
-const MODEL_CANDIDATES = ['gemini-3.1-flash-lite'];
+const MODEL_CANDIDATES = ['gemini-3-flash-preview', 'gemini-3.5-flash-lite', 'gemini-3.1-flash-lite'];
 const unavailableModels = new Set<string>([
   'gemini-2.0-flash',
   'gemini-1.5-flash',
@@ -574,12 +574,12 @@ async function generateRaw(apiKey: string, prompt: string, deadline: number): Pr
     const modelName = order[index];
     if (unavailableModels.has(modelName)) continue;
     const remaining = deadline - Date.now();
-    const laterPossible = order.slice(index + 1).some((name) => !unavailableModels.has(name));
-    // Leave time for the next model when this one is busy or slow.
-    const timeout = laterPossible
-      ? Math.min(12000, remaining - 9000)
+    const laterCount = order.slice(index + 1).filter((name) => !unavailableModels.has(name)).length;
+    // Keep about 7s for every model still waiting, and give the last model the rest.
+    const timeout = laterCount
+      ? Math.min(7000, remaining - laterCount * 7000 - 400)
       : Math.min(20000, remaining - 800);
-    if (timeout < 5000) break;
+    if (timeout < 4000) break;
     try {
       console.log(JSON.stringify({ stage: 'gen_start', modelName, timeout }));
       const text = await callModel(apiKey, modelName, prompt, timeout, false, true);
