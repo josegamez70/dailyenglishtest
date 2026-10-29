@@ -68,14 +68,14 @@ const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 // One warm function instance remembers a 404 so later steps do not call that model.
 // 2.5 and 2.0 are already closed for this key. 3.1 Flash-Lite with minimal thinking
 // is the model that has finished a short lesson inside the Netlify limit.
-const MODEL_CANDIDATES = ['gemini-3-flash-preview', 'gemini-3.5-flash-lite', 'gemini-3.1-flash-lite'];
+const MODEL_CANDIDATES = ['gemini-3-flash-preview', 'gemini-3.1-flash-lite'];
 const unavailableModels = new Set<string>([
   'gemini-2.0-flash',
   'gemini-1.5-flash',
   'gemini-2.5-flash',
   'gemini-2.5-flash-lite',
 ]);
-let preferredModel = 'gemini-3.1-flash-lite';
+let preferredModel = 'gemini-3-flash-preview';
 
 function modelsToTry(): string[] {
   const alive = MODEL_CANDIDATES.filter((name) => !unavailableModels.has(name));
@@ -320,20 +320,31 @@ QUIZ:
 - explanation: one short sentence in simple English.
 - supportingSentence: copy ONE full sentence from the story, exactly as written.
 
-Return ONLY JSON with a quiz array. No markdown.
+Return ONLY this JSON shape. No markdown.
+{"quiz":[{"question":"...","options":["...","...","...","..."],"correctAnswer":"...","explanation":"...","supportingSentence":"...","skill":"detail"}]}
 ${correction}
 `.trim();
 }
 
 function parseModelJson(rawText: string): Record<string, unknown> | null {
-  const clean = rawText.replace(/^```json\s*|\s*```$/g, '').trim();
-  try {
-    const parsed = JSON.parse(clean);
-    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return null;
-    return parsed as Record<string, unknown>;
-  } catch {
-    return null;
+  const clean = rawText.replace(/```json|```/gi, '').trim();
+  const candidates = [clean];
+  const objStart = clean.indexOf('{');
+  const objEnd = clean.lastIndexOf('}');
+  if (objStart >= 0 && objEnd > objStart) candidates.push(clean.slice(objStart, objEnd + 1));
+  const arrStart = clean.indexOf('[');
+  const arrEnd = clean.lastIndexOf(']');
+  if (arrStart >= 0 && arrEnd > arrStart) candidates.push(clean.slice(arrStart, arrEnd + 1));
+  for (const candidate of candidates) {
+    try {
+      const parsed = JSON.parse(candidate.replace(/,\s*([}\]])/g, '$1'));
+      if (Array.isArray(parsed)) return { quiz: parsed };
+      if (parsed && typeof parsed === 'object') return parsed as Record<string, unknown>;
+    } catch {
+      /* try the next slice */
+    }
   }
+  return null;
 }
 
 function prepareLesson(parsed: Record<string, unknown>, params: LessonParams): PreparedLesson {
@@ -354,7 +365,12 @@ function prepareLesson(parsed: Record<string, unknown>, params: LessonParams): P
     }));
     if (dialogue.length) story = renderDialogue(dialogue);
   }
-  const quiz = quizStage ? normalizeQuiz(Array.isArray(parsed.quiz) ? parsed.quiz : []) : [];
+  const quizSource = Array.isArray(parsed.quiz)
+    ? parsed.quiz
+    : Array.isArray(parsed.questions)
+      ? parsed.questions
+      : [];
+  const quiz = quizStage ? normalizeQuiz(quizSource) : [];
   const problems: string[] = [];
   const wordCount = params.format === 'dialogue' ? spokenWordCount(dialogue) : countWords(story);
   const { min, max } = wordCountBounds(params.wordCount);
@@ -518,7 +534,7 @@ async function callModel(
     responseSchema?: ResponseSchema;
     thinkingConfig?: { thinkingBudget?: number; thinkingLevel?: string };
   } = {
-    maxOutputTokens: 3072,
+    maxOutputTokens: 8192,
     responseMimeType: 'application/json',
   };
   if (useThinkingOff) {
@@ -537,7 +553,9 @@ async function callModel(
       setTimeout(() => reject(Object.assign(new Error('CLIENT_TIMEOUT'), { status: 504 })), timeoutMs)
     ),
   ]);
-  return extractText(result).trim();
+  const text = extractText(result).trim();
+  if (!text) throw Object.assign(new Error('EMPTY_MODEL_OUTPUT'), { status: 502 });
+  return text;
 }
 
 type UpstreamFailure = { status: number; message: string; model?: string };
@@ -575,9 +593,9 @@ async function generateRaw(apiKey: string, prompt: string, deadline: number): Pr
     if (unavailableModels.has(modelName)) continue;
     const remaining = deadline - Date.now();
     const laterCount = order.slice(index + 1).filter((name) => !unavailableModels.has(name)).length;
-    // Keep about 7s for every model still waiting, and give the last model the rest.
+    // The first model usually answers in a few seconds. Leave one fallback turn if it does not.
     const timeout = laterCount
-      ? Math.min(7000, remaining - laterCount * 7000 - 400)
+      ? Math.min(16000, remaining - 7000)
       : Math.min(20000, remaining - 800);
     if (timeout < 4000) break;
     try {
@@ -716,6 +734,7 @@ export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => 
 
     const deadline = Date.now() + 23000;
     let best: { lesson: PreparedLesson; score: number } | null = null;
+    let lastRaw = '';
     let prompt = buildPrompt(params);
 
     for (let attempt = 0; attempt < 2; attempt++) {
@@ -728,6 +747,7 @@ export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => 
         if (!best) throw error;
         break;
       }
+      lastRaw = raw;
       const parsed = parseModelJson(raw);
       if (!parsed) {
         prompt = buildPrompt(params, 'Return only valid JSON. Do not use markdown.');
@@ -764,6 +784,10 @@ export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => 
           message: params.stage === 'quiz'
             ? 'The questions could not be created. Please try again.'
             : 'The lesson could not be created. Please try again.',
+          debug: {
+            problems: best?.lesson.problems ?? [],
+            preview: scrubUpstream(lastRaw).slice(0, 400),
+          },
         }),
       };
     }
