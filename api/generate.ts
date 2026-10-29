@@ -63,16 +63,17 @@ type PreparedLesson = {
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-// This key cannot call 2.5 Flash-Lite (HTTP 404). 3.5 Flash-Lite and 3.6 Flash
-// accepted the lesson prompt and still missed Netlify's 26s limit. 3.1 Flash-Lite
-// is the only model that has returned a lesson inside that limit. thinkingBudget 0
-// turns reasoning off when the model allows it. A fast 400 falls back to thinkingLevel
-// minimal on the same model, then to 3.5 Flash-Lite only if time remains.
+// Preview results for this key, inside Netlify's 26s limit:
+// - gemini-2.5-flash-lite: HTTP 404 (closed to new users)
+// - gemini-3.5-flash-lite and gemini-3.6-flash: accepted, then CLIENT_TIMEOUT
+// - gemini-3.1-flash-lite with thinkingBudget 0: accepted, then CLIENT_TIMEOUT
+// - gemini-3.1-flash-lite with thinkingLevel minimal: the only combo that returned lessons
+// A second model is attempted only when the first failure leaves time.
 const MODELS = ['gemini-3.1-flash-lite', 'gemini-3.5-flash-lite'];
 
 function thinkingConfigFor(modelName: string): { thinkingBudget?: number; thinkingLevel?: string } {
-  // 3.5 Flash-Lite rejects thinkingBudget. 3.1 and 2.5 accept 0, which disables reasoning.
-  if (modelName.includes('3.1') || modelName.includes('2.5')) return { thinkingBudget: 0 };
+  // 2.5 is not called. thinkingBudget 0 is valid on 3.1 but did not finish in time.
+  if (modelName.includes('2.5')) return { thinkingBudget: 0 };
   if (modelName.includes('3.8')) return { thinkingLevel: 'low' };
   return { thinkingLevel: 'minimal' };
 }
