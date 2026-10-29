@@ -63,18 +63,16 @@ type PreparedLesson = {
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-// 2.5 Flash-Lite is closed to this key (HTTP 404). 3.5 Flash-Lite accepts the call
-// but did not finish inside Netlify's 26s limit. 3.6 Flash with thinkingLevel
-// "minimal" is first. 3.1 Flash-Lite is the fallback and only runs when the first
-// call fails quickly enough that time remains.
-const MODELS = ['gemini-3.6-flash', 'gemini-3.1-flash-lite'];
+// This key cannot call 2.5 Flash-Lite (HTTP 404). 3.5 Flash-Lite and 3.6 Flash
+// accepted the lesson prompt and still missed Netlify's 26s limit. 3.1 Flash-Lite
+// is the only model that has returned a lesson inside that limit. thinkingBudget 0
+// turns reasoning off when the model allows it. A fast 400 falls back to thinkingLevel
+// minimal on the same model, then to 3.5 Flash-Lite only if time remains.
+const MODELS = ['gemini-3.1-flash-lite', 'gemini-3.5-flash-lite'];
 
 function thinkingConfigFor(modelName: string): { thinkingBudget?: number; thinkingLevel?: string } {
-  // Gemini 2.5 accepts thinkingBudget. 0 disables reasoning. Flash-Lite is already off.
-  if (modelName.includes('2.5')) return { thinkingBudget: 0 };
-  // Gemini 3.5 Flash-Lite rejects thinkingBudget (HTTP 400). "minimal" is its fastest level.
-  // 3.8 does not support minimal; 3.6 does, but it is not in the list because medium is its default
-  // and a low/minimal call still missed the function deadline in preview tests.
+  // 3.5 Flash-Lite rejects thinkingBudget. 3.1 and 2.5 accept 0, which disables reasoning.
+  if (modelName.includes('3.1') || modelName.includes('2.5')) return { thinkingBudget: 0 };
   if (modelName.includes('3.8')) return { thinkingLevel: 'low' };
   return { thinkingLevel: 'minimal' };
 }
@@ -538,7 +536,7 @@ async function generateRaw(apiKey: string, prompt: string, deadline: number): Pr
     const remaining = deadline - Date.now();
     // A generation that cannot finish before Netlify kills the function is not started.
     if (remaining < 7000) break;
-    const timeout = Math.min(23000, remaining - 1200);
+    const timeout = Math.min(24200, remaining - 700);
     try {
       console.log(JSON.stringify({ stage: 'gen_start', modelName, timeout }));
       const text = await callModel(apiKey, modelName, prompt, timeout, false, true);
@@ -549,11 +547,12 @@ async function generateRaw(apiKey: string, prompt: string, deadline: number): Pr
       // and only when that retry can still return before the function deadline.
       const laterModel = MODELS.indexOf(modelName) < MODELS.length - 1;
       const timeLeft = deadline - Date.now();
-      if (status === 400 && /invalid argument/i.test(message) && timeLeft > 7000) {
-        // Leave a window for the next model when this one rejected the thinking setting.
+      if (status === 400 && /invalid argument/i.test(message) && timeLeft > 8000) {
+        // The thinking setting was rejected immediately. Retry once without it,
+        // leaving the next model a turn only when this retry itself stays short.
         const retryTimeout = laterModel
-          ? Math.min(8000, timeLeft - 8000)
-          : Math.min(20000, timeLeft - 1200);
+          ? Math.min(16000, timeLeft - 8000)
+          : Math.min(24000, timeLeft - 700);
         if (retryTimeout >= 4000) {
           try {
             const text = await callModel(apiKey, modelName, prompt, retryTimeout, false, false);
@@ -642,7 +641,7 @@ export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => 
       };
     }
 
-    const deadline = Date.now() + 25000;
+    const deadline = Date.now() + 25200;
     let best: { lesson: PreparedLesson; score: number } | null = null;
     let prompt = buildPrompt(params);
 
