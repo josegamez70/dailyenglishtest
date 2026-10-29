@@ -10,6 +10,8 @@ import {
   resumeTurnIndex,
   speakersWithGender,
   speechLines,
+  dialoguePairKey,
+  pickDialoguePair,
   voicesBySpeaker,
   type ContentFormat,
   type DialogueTurn,
@@ -72,6 +74,22 @@ function readFontStep(): number {
     /* ignore blocked storage */
   }
   return 1;
+}
+
+function readDialoguePair(): string | null {
+  try {
+    return localStorage.getItem('dialoguePair');
+  } catch {
+    return null;
+  }
+}
+
+function saveDialoguePair(first: string, second: string) {
+  try {
+    localStorage.setItem('dialoguePair', dialoguePairKey(first, second));
+  } catch {
+    /* ignore blocked storage */
+  }
 }
 
 function readVoices(): { name: string; lang: string }[] {
@@ -197,6 +215,10 @@ const App: React.FC = () => {
     abortRef.current = controller;
     const chosen = resolveTopic(config.topic);
     const levelLabel = LEVELS.find((level) => level.value === config.level)?.label ?? config.level;
+    const speakers = contentFormat === 'dialogue'
+      ? pickDialoguePair(Math.random, readDialoguePair())
+      : undefined;
+    if (speakers) saveDialoguePair(speakers[0].name, speakers[1].name);
     const requestConfig: ConfigOptions = {
       level: levelLabel,
       topic: chosen.label,
@@ -204,6 +226,7 @@ const App: React.FC = () => {
       questionCount: config.questionCount,
       practiceType,
       format: contentFormat,
+      speakers,
     };
 
     setIsLoading(true);

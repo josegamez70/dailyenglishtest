@@ -29,7 +29,7 @@ export function isWordCountWithinTolerance(text: string, target: number): boolea
   return count >= min && count <= max;
 }
 
-/** Rough wait for the loading screen. A 200-word, 10-question lesson is about half a minute. */
+/** Rough wait for the loading screen. A 140-word, 10-question lesson is under half a minute. */
 export function estimateGenerationSeconds(wordCount: number, questionCount: number): number {
   const seconds = 8 + wordCount * 0.05 + questionCount * 1.3;
   return Math.round(Math.min(40, Math.max(12, seconds)));

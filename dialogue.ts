@@ -33,21 +33,51 @@ function cleanLine(speaker: string, line: string): string {
   return trimmed.replace(new RegExp(`^${prefix}\\s*:\\s*`, 'i'), '').trim();
 }
 
-const FEMALE_NAMES = new Set([
-  'ana', 'anna', 'anne', 'ann', 'emma', 'mia', 'sophie', 'sofia', 'olivia', 'lily', 'lucy',
-  'mary', 'sarah', 'sara', 'kate', 'katie', 'grace', 'hannah', 'ella', 'amy', 'jane', 'lisa',
-  'nina', 'chloe', 'zoe', 'zara', 'maria', 'fatima', 'aisha', 'priya', 'mei', 'leila', 'layla',
-  'rosa', 'elena', 'lucia', 'julia', 'helen', 'rachel', 'emily', 'alice', 'claire', 'diana',
-  'fiona', 'laura', 'linda', 'nancy', 'ruth', 'susan', 'wendy',
-]);
+export const DIALOGUE_CAST: { name: string; gender: SpeakerGender }[] = [
+  { name: 'Anna', gender: 'female' },
+  { name: 'Sophie', gender: 'female' },
+  { name: 'Emma', gender: 'female' },
+  { name: 'Lucy', gender: 'female' },
+  { name: 'Ben', gender: 'male' },
+  { name: 'Tom', gender: 'male' },
+  { name: 'Jack', gender: 'male' },
+  { name: 'David', gender: 'male' },
+];
 
-const MALE_NAMES = new Set([
-  'ben', 'benjamin', 'leo', 'leon', 'tom', 'thomas', 'james', 'john', 'jack', 'joe', 'joseph',
-  'david', 'daniel', 'mark', 'alex', 'alexander', 'adam', 'sam', 'samuel', 'mike', 'michael',
-  'peter', 'paul', 'chris', 'robert', 'will', 'william', 'harry', 'henry', 'george', 'charles',
-  'charlie', 'edward', 'frank', 'fred', 'luke', 'martin', 'nick', 'oscar', 'richard', 'steve',
-  'tim', 'ali', 'omar', 'ahmed', 'carlos', 'diego', 'luis', 'marco', 'pedro',
-]);
+export function genderForName(name: string): SpeakerGender | null {
+  const key = name.trim().toLowerCase();
+  return DIALOGUE_CAST.find((person) => person.name.toLowerCase() === key)?.gender ?? null;
+}
+
+export function dialoguePairKey(first: string, second: string): string {
+  return [first, second].map((name) => name.trim().toLowerCase()).sort().join('|');
+}
+
+/** One woman and one man most of the time. Sometimes two of the same gender. Never the previous pair. */
+export function pickDialoguePair(
+  random: () => number = Math.random,
+  previousKey: string | null = null
+): { name: string; gender: SpeakerGender }[] {
+  const females = DIALOGUE_CAST.filter((person) => person.gender === 'female');
+  const males = DIALOGUE_CAST.filter((person) => person.gender === 'male');
+  const sameGender = random() < 0.25;
+  for (let attempt = 0; attempt < 24; attempt++) {
+    let pair: { name: string; gender: SpeakerGender }[];
+    if (sameGender && attempt < 18) {
+      const pool = random() < 0.5 ? females : males;
+      const firstIndex = Math.floor(random() * pool.length);
+      let secondIndex = Math.floor(random() * (pool.length - 1));
+      if (secondIndex >= firstIndex) secondIndex += 1;
+      pair = [pool[firstIndex], pool[secondIndex]];
+    } else {
+      const woman = females[Math.floor(random() * females.length)];
+      const man = males[Math.floor(random() * males.length)];
+      pair = random() < 0.5 ? [woman, man] : [man, woman];
+    }
+    if (dialoguePairKey(pair[0].name, pair[1].name) !== previousKey) return pair;
+  }
+  return [females[0], males[1]];
+}
 
 const FEMALE_VOICE_HINTS = [
   'samantha', 'zira', 'karen', 'susan', 'serena', 'alexa', 'victoria', 'moira', 'fiona',
@@ -58,58 +88,10 @@ const MALE_VOICE_HINTS = [
   'daniel', 'david', 'mark', 'alex', 'fred', 'rishi', 'arthur', 'aaron', 'google uk english male',
 ];
 
-export function normalizeGender(value: unknown): SpeakerGender | null {
-  const text = String(value ?? '').trim().toLowerCase();
-  if (text === 'female' || text === 'f' || text === 'woman' || text === 'girl') return 'female';
-  if (text === 'male' || text === 'm' || text === 'man' || text === 'boy') return 'male';
-  return null;
-}
-
-export function inferGender(name: string): SpeakerGender | null {
-  const key = name.trim().toLowerCase();
-  if (FEMALE_NAMES.has(key)) return 'female';
-  if (MALE_NAMES.has(key)) return 'male';
-  return null;
-}
-
-export function dialogueGendersConflict(raw: unknown): boolean {
-  if (!Array.isArray(raw)) return false;
-  const seen = new Map<string, SpeakerGender>();
-  for (const item of raw) {
-    if (!item || typeof item !== 'object') continue;
-    const record = item as Record<string, unknown>;
-    const speaker = String(record.speaker ?? record.name ?? '').trim().toLowerCase();
-    const gender = normalizeGender(record.gender);
-    if (!speaker || !gender) continue;
-    const previous = seen.get(speaker);
-    if (previous && previous !== gender) return true;
-    seen.set(speaker, gender);
-  }
-  return false;
-}
-
 function withSpeakerGenders(turns: DialogueTurn[]): DialogueTurn[] {
-  const known = new Map<string, SpeakerGender>();
-  for (const turn of turns) {
-    const key = turn.speaker.toLowerCase();
-    if (turn.gender && !known.has(key)) known.set(key, turn.gender);
-  }
-  for (const turn of turns) {
-    const key = turn.speaker.toLowerCase();
-    if (!known.has(key)) {
-      const inferred = inferGender(turn.speaker);
-      if (inferred) known.set(key, inferred);
-    }
-  }
-  const speakers = dialogueSpeakers(turns).map((name) => name.toLowerCase());
-  if (speakers.length === 2) {
-    const [first, second] = speakers;
-    if (known.has(first) && !known.has(second)) known.set(second, known.get(first) === 'female' ? 'male' : 'female');
-    if (known.has(second) && !known.has(first)) known.set(first, known.get(second) === 'female' ? 'male' : 'female');
-  }
   return turns.map((turn) => ({
     ...turn,
-    gender: known.get(turn.speaker.toLowerCase()) ?? null,
+    gender: genderForName(turn.speaker),
   }));
 }
 
@@ -121,7 +103,7 @@ export function parseDialogue(raw: unknown): DialogueTurn[] {
       const speaker = String(record.speaker ?? record.name ?? '').replace(/\s+/g, ' ').trim();
       const line = cleanLine(speaker, String(record.line ?? record.text ?? ''));
       if (!speaker || !line || speaker.length > 40 || speaker.includes(':')) return [];
-      return [{ speaker, line, gender: normalizeGender(record.gender) }];
+      return [{ speaker, line, gender: null }];
     }));
   }
   if (typeof raw !== 'string') return [];
@@ -241,8 +223,15 @@ export function voicesBySpeaker(
   for (const speaker of speakers) {
     const key = speaker.name.toLowerCase();
     if (result[key]) continue;
-    if (pool.length === 1) {
+    if (pool.length <= 1) {
       result[key] = pitchedVoice(pool[0], speaker.gender, speaker.gender != null);
+      continue;
+    }
+    const gendered = pool.some((voice) => voice.heard === 'female' || voice.heard === 'male');
+    if (!gendered) {
+      const voice = pool.find((item) => !used.has(item.name)) ?? pool[0];
+      if (voice) used.add(voice.name);
+      result[key] = pitchedVoice(voice, speaker.gender, speaker.gender != null);
       continue;
     }
     const match = pool.find((voice) => speaker.gender && voice.heard === speaker.gender && !used.has(voice.name));
@@ -251,13 +240,14 @@ export function voicesBySpeaker(
       result[key] = pitchedVoice(match, speaker.gender, false);
       continue;
     }
-    const unused = pool.find((voice) => !used.has(voice.name));
-    if (unused && pool.length > 1) {
-      used.add(unused.name);
-      result[key] = pitchedVoice(unused, speaker.gender, unused.heard !== speaker.gender && speaker.gender != null);
+    const reuse = pool.find((voice) => speaker.gender && voice.heard === speaker.gender);
+    if (reuse) {
+      result[key] = pitchedVoice(reuse, speaker.gender, false);
       continue;
     }
-    result[key] = pitchedVoice(pool[0], speaker.gender, speaker.gender != null);
+    const fallback = pool.find((voice) => !used.has(voice.name)) ?? pool[0];
+    if (fallback) used.add(fallback.name);
+    result[key] = pitchedVoice(fallback, speaker.gender, speaker.gender != null);
   }
   return result;
 }

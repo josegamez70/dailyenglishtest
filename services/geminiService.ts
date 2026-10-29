@@ -107,6 +107,7 @@ export async function generateStoryAndQuiz(
       vocabularyCount: 8,
       mode: config.practiceType === 'listening' ? 'listening' : 'reading',
       format: config.format === 'dialogue' ? 'dialogue' : 'text',
+      speakers: config.speakers ?? [],
     }),
   };
 
