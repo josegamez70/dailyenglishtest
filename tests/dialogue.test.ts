@@ -82,10 +82,21 @@ test('voices follow speaker gender and stay the same for each name', () => {
     ],
     [{ name: 'Samantha', lang: 'en-US' }]
   );
+  const notes: string[] = [];
   assert.equal(only.anna.name, 'Samantha');
   assert.equal(only.ben.name, 'Samantha');
-  assert.ok(only.anna.pitch > 1);
-  assert.ok(only.ben.pitch < 1);
+  assert.equal(only.anna.pitch, 1);
+  assert.equal(only.ben.pitch, 1);
+  assert.equal(only.ben.rateScale, 1);
+  voicesBySpeaker(
+    [
+      { name: 'Anna', gender: 'female' },
+      { name: 'Ben', gender: 'male' },
+    ],
+    [{ name: 'Samantha', lang: 'en-US' }],
+    (message) => notes.push(message)
+  );
+  assert.match(notes[0], /No male speech voice/);
   assert.equal(parseDialogue('Anna: Hello.\nBen: Hi.')[0].gender, 'female');
   assert.equal(parseDialogue('Anna: Hello.\nBen: Hi.')[1].gender, 'male');
   assert.equal(parseDialogue([{ speaker: 'Anna', gender: 'male', line: 'Hello.' }])[0].gender, 'female');
@@ -117,10 +128,12 @@ test('voices follow speaker gender and stay the same for each name', () => {
       { name: 'Google UK English Female', lang: 'en-GB' },
     ]
   );
-  assert.equal(chrome.sophie.name, 'Google UK English Female');
+  assert.equal(chrome.sophie.name, 'Google US English');
   assert.equal(chrome.tom.name, 'Google UK English Male');
+  assert.equal(chrome.sophie.pitch, 1);
+  assert.equal(chrome.tom.pitch, 1);
 
-  const android = voicesBySpeaker(
+  const androidLocales = voicesBySpeaker(
     [
       { name: 'Emma', gender: 'female' },
       { name: 'Jack', gender: 'male' },
@@ -130,9 +143,26 @@ test('voices follow speaker gender and stay the same for each name', () => {
       { name: 'English United Kingdom', lang: 'en-GB' },
     ]
   );
-  assert.ok(android.emma.pitch > 1);
-  assert.ok(android.jack.pitch < 1);
-  assert.notEqual(android.emma.name, android.jack.name);
+  assert.equal(androidLocales.emma.pitch, 1);
+  assert.equal(androidLocales.jack.pitch, 1);
+  assert.equal(androidLocales.emma.lang, 'en-GB');
+  assert.equal(androidLocales.jack.lang, 'en-US');
+
+  const androidIds = voicesBySpeaker(
+    [
+      { name: 'Lucy', gender: 'female' },
+      { name: 'David', gender: 'male' },
+    ],
+    [
+      { name: 'English United Kingdom', lang: 'en-GB', voiceURI: 'en-gb-x-gba-local' },
+      { name: 'English United Kingdom', lang: 'en-GB', voiceURI: 'en-gb-x-rjs-local' },
+      { name: 'English United States', lang: 'en-US', voiceURI: 'en-us-x-sfg-local' },
+    ]
+  );
+  assert.equal(androidIds.lucy.voiceURI, 'en-us-x-sfg-local');
+  assert.equal(androidIds.david.voiceURI, 'en-gb-x-rjs-local');
+  assert.equal(androidIds.david.pitch, 1);
+  assert.notEqual(androidIds.lucy.name.includes('Male'), true);
 });
 
 test('dialogue names come from the fixed list and skip the previous pair', () => {
