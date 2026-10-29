@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import type { QuizQuestion, ConfigOptions, PracticeType, AppView, VocabularyItem } from './types';
 import { LEVELS, QUESTION_COUNTS, resolveTopic, TOPICS, WORD_COUNTS } from './constants';
 import { isAndroidUserAgent } from './device';
-import { estimateGenerationSeconds, scoreFeedback } from './lessonUtils';
+import { scoreFeedback } from './lessonUtils';
 import {
   parseDialogue,
   resumeTurnIndex,
@@ -128,6 +128,7 @@ const App: React.FC = () => {
   const [userAnswers, setUserAnswers] = useState<string[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [quizLoading, setQuizLoading] = useState(false);
   const [loadingStartedAt, setLoadingStartedAt] = useState<number | null>(null);
   const [loadingEstimate, setLoadingEstimate] = useState(20);
   const [loadingNote, setLoadingNote] = useState<string | null>(null);
@@ -214,6 +215,7 @@ const App: React.FC = () => {
   const handleCancelGenerate = () => {
     abortRef.current?.abort();
     setIsLoading(false);
+    setQuizLoading(false);
     setLoadingStartedAt(null);
     setLoadingNote(null);
     setError(null);
@@ -237,13 +239,38 @@ const App: React.FC = () => {
     };
 
     setIsLoading(true);
+    setQuizLoading(false);
     setError(null);
-    setLoadingNote(null);
+    setLoadingNote('Writing the story...');
     setLoadingStartedAt(Date.now());
-    setLoadingEstimate(estimateGenerationSeconds(config.wordCount, config.questionCount));
+    setLoadingEstimate(12);
+    let storyShown = false;
 
     try {
-      const result = await generateStoryAndQuiz(requestConfig, { signal: controller.signal });
+      const result = await generateStoryAndQuiz(requestConfig, {
+        signal: controller.signal,
+        onStory: (draft) => {
+          if (controller.signal.aborted) return;
+          storyShown = true;
+          setStory(draft.story);
+          setDialogueTurns(contentFormat === 'dialogue' ? draft.dialogue : []);
+          setVocabulary(draft.vocabulary);
+          setQuiz([]);
+          setUserAnswers([]);
+          setStoryTopic({
+            label: draft.resolvedTopic || chosen.label,
+            surprise: chosen.surprise,
+          });
+          setCurrentQuestionIndex(0);
+          setShowTranscript(false);
+          setIsLoading(false);
+          setLoadingStartedAt(null);
+          setLoadingNote(null);
+          setQuizLoading(true);
+          setView('story');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        },
+      });
       if (controller.signal.aborted) return;
       if (!result.quiz.length) throw new Error('The quiz was empty. Please try again.');
 
@@ -251,22 +278,17 @@ const App: React.FC = () => {
       setDialogueTurns(contentFormat === 'dialogue' ? result.dialogue : []);
       setQuiz(result.quiz);
       setVocabulary(result.vocabulary);
-      setStoryTopic({
-        label: result.resolvedTopic || chosen.label,
-        surprise: chosen.surprise,
-      });
       setUserAnswers(new Array(result.quiz.length).fill(''));
       setCurrentQuestionIndex(0);
-      setShowTranscript(false);
-      setView('story');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setQuizLoading(false);
     } catch (err) {
+      setQuizLoading(false);
       if (controller.signal.aborted || (err instanceof Error && err.name === 'AbortError')) {
         setView('config');
         return;
       }
       setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
-      setView('config');
+      if (!storyShown) setView('config');
     } finally {
       setIsLoading(false);
       setLoadingStartedAt(null);
@@ -1016,13 +1038,21 @@ const App: React.FC = () => {
 
         {practiceType === 'listening' && <TranscriptText />}
 
+        {quizLoading && (
+          <div className="mt-6 flex items-center justify-center gap-3 text-slate-900 dark:text-slate-50" role="status">
+            <span className="h-5 w-5 shrink-0 animate-spin rounded-full border-4 border-blue-700 border-t-transparent" aria-hidden="true"></span>
+            <span className="text-base font-semibold">Writing the questions...</span>
+          </div>
+        )}
+
         <div className="mt-8 pt-6 border-t border-slate-300 dark:border-slate-600 flex flex-col sm:flex-row-reverse justify-center items-center gap-4">
           <button
             type="button"
             onClick={startQuiz}
-            className="w-full sm:w-auto bg-blue-700 hover:bg-blue-800 text-white font-bold py-3 px-8 rounded-lg text-lg"
+            disabled={quizLoading || quiz.length === 0}
+            className="w-full sm:w-auto bg-blue-700 hover:bg-blue-800 disabled:cursor-not-allowed disabled:opacity-60 text-white font-bold py-3 px-8 rounded-lg text-lg"
           >
-            Start Quiz
+            {quizLoading ? 'Writing the questions...' : 'Start Quiz'}
           </button>
           {vocabulary.length > 0 && (
             <button
