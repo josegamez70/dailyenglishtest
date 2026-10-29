@@ -472,13 +472,17 @@ async function callModel(
     maxOutputTokens: number;
     responseMimeType: string;
     responseSchema?: ResponseSchema;
-    thinkingConfig?: { thinkingBudget: number };
+    thinkingConfig?: { thinkingBudget?: number; thinkingLevel?: string };
   } = {
     temperature: 0.7,
     maxOutputTokens: 8192,
     responseMimeType: 'application/json',
   };
-  if (useThinkingOff) generationConfig.thinkingConfig = { thinkingBudget: 0 };
+  if (useThinkingOff) {
+    generationConfig.thinkingConfig = modelName.startsWith('gemini-2.5')
+      ? { thinkingBudget: 0 }
+      : { thinkingLevel: 'minimal' };
+  }
   if (useSchema) generationConfig.responseSchema = LESSON_SCHEMA;
 
   const request = model.generateContent({
@@ -550,7 +554,7 @@ async function generateRaw(apiKey: string, prompt: string, deadline: number): Pr
             apiKey,
             modelName,
             prompt,
-            Math.min(timeout, Math.max(5000, deadline - Date.now() - 8000)),
+            Math.min(18000, Math.max(5000, deadline - Date.now() - 2000)),
             true,
             false
           );
