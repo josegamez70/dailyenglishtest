@@ -544,13 +544,13 @@ async function generateRaw(apiKey: string, prompt: string, deadline: number): Pr
           }
         }
       }
-      if (status === 400 && /thinking/i.test(message) && deadline - Date.now() > 6000) {
+      if (status === 400 && /invalid argument/i.test(message) && deadline - Date.now() > 6000) {
         try {
           const text = await callModel(
             apiKey,
             modelName,
             prompt,
-            Math.min(timeout, deadline - Date.now() - 1200),
+            Math.min(timeout, Math.max(5000, deadline - Date.now() - 8000)),
             true,
             false
           );
@@ -558,9 +558,10 @@ async function generateRaw(apiKey: string, prompt: string, deadline: number): Pr
         } catch (thinkingError) {
           lastError = thinkingError;
           lastModel = modelName;
+          attempts.push(readUpstream(thinkingError, modelName));
         }
       }
-      if (/schema|responseMimeType|INVALID_ARGUMENT|invalid argument/i.test(message)) {
+      if (/schema|responseMimeType|INVALID_ARGUMENT/i.test(message) && !/invalid argument/i.test(message)) {
         try {
           const retryTimeout = Math.min(timeout, deadline - Date.now() - 400);
           if (retryTimeout > 4000) {
