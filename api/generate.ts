@@ -64,7 +64,7 @@ type PreparedLesson = {
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 // 2.0 and 1.5 were shut down (HTTP 404). 2.5 is limited to older keys and also 404s for this project.
-const MODELS = ['gemini-2.5-flash-lite', 'gemini-3.5-flash-lite', 'gemini-3.8-flash'];
+const MODELS = ['gemini-3.8-flash', 'gemini-3.5-flash-lite'];
 
 const LESSON_SCHEMA: ResponseSchema = {
   type: SchemaType.OBJECT,
@@ -523,7 +523,7 @@ async function generateRaw(apiKey: string, prompt: string, deadline: number): Pr
   for (const modelName of MODELS) {
     const remaining = deadline - Date.now();
     if (remaining < 7000) break;
-    const timeout = Math.min(18000, remaining - 1500);
+    const timeout = Math.min(20000, remaining - 1500);
     try {
       console.log(JSON.stringify({ stage: 'gen_start', modelName }));
       const text = await callModel(apiKey, modelName, prompt, timeout, true);
@@ -647,7 +647,7 @@ export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => 
       };
     }
 
-    const deadline = Date.now() + 22000;
+    const deadline = Date.now() + 24000;
     let best: { lesson: PreparedLesson; score: number } | null = null;
     let prompt = buildPrompt(params);
 
