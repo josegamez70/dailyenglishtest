@@ -13,14 +13,18 @@ import {
   type QuestionSkill,
 } from '../lessonUtils';
 import {
-  DIALOGUE_SPEAKERS,
+  FEMALE_NAMES,
+  dialogueTurnPlan,
   dialogueSpeakers,
   normalizeFormat,
+  pickDialogueSpeakers,
   speakersWithGender,
   parseDialogue,
   renderDialogue,
   spokenWordCount,
+  trimDialogueToLength,
   type ContentFormat,
+  type DialogueSpeaker,
   type DialogueTurn,
   type SpeakerGender,
 } from '../dialogue';
@@ -218,19 +222,17 @@ function levelRules(level: string): string {
 
 function formatRules(format: ContentFormat, speakers: { name: string; gender: SpeakerGender }[]): string {
   if (format === 'dialogue') {
-    const cast = speakers
-      .map((speaker) => `${speaker.name} (${speaker.gender === 'male' ? 'lower voice' : 'higher voice'})`)
-      .join(' and ');
+    const [first, second] = speakers;
     return [
       'FORMAT: Dialogue.',
-      `Write a conversation between exactly these two speakers: ${cast}.`,
-      'Do not use personal names. speaker must be exactly "Character 1" or "Character 2".',
+      `Write a conversation between exactly these two women: ${first?.name ?? 'Anna'} and ${second?.name ?? 'Sophie'}.`,
+      `speaker must be exactly "${first?.name ?? 'Anna'}" or "${second?.name ?? 'Sophie'}".`,
       'Return a dialogue array. Each item has speaker, gender, and line.',
-      'gender for Character 1 is female. gender for Character 2 is male. Do not call them a woman or a man.',
-      'Do not put the label inside line.',
-      'Let them take turns. Write at least 6 turns.',
-      'Also set story to the same dialogue, one turn per line, like "Character 1: Hello."',
+      'gender for both speakers is female.',
+      'Do not put the name inside line.',
+      `Also set story to the same dialogue, one turn per line, like "${first?.name ?? 'Anna'}: Hello."`,
       'Count only the words inside line. Do not count the speaker names.',
+      'Do not write Character 1, Character 2, Person 1, Person 2, or any other name.',
     ].join(' ');
   }
   return [
@@ -288,7 +290,9 @@ Do not write about the words "wildcard" or "any topic".
 ${storyLevelRules(params.level)}
 ${formatRules(params.format, params.speakers)}
 
-LENGTH: the ${params.format === 'dialogue' ? 'spoken lines' : 'text'} must be between ${min} and ${max} words (target ${params.wordCount}). A contraction such as "don't" is one word. ${params.format === 'dialogue' ? 'Do not count speaker names.' : 'Count the words in the text only.'}
+${params.format === 'dialogue'
+    ? `LENGTH: write exactly ${dialogueTurnPlan(params.wordCount).turns} turns and then stop. Each spoken line is about ${dialogueTurnPlan(params.wordCount).wordsPerTurn} words, even at Advanced level. Spoken words must total about ${params.wordCount} (between ${min} and ${max}). Do not count the names. Do not add another turn.`
+    : `LENGTH: the text must be between ${min} and ${max} words (target ${params.wordCount}). A contraction such as "don't" is one word. Count the words in the text only.`}
 
 VOCABULARY: exactly ${params.vocabularyCount} useful words or short phrases that appear in the text. definition is one short explanation in simple English.
 
@@ -309,7 +313,7 @@ ${params.sourceStory}
 
 ${levelRules(params.level)}
 ${modeRules(params.mode)}
-${params.format === 'dialogue' ? 'In the questions, call the speakers Character 1 and Character 2, matching the story. Do not write Woman, Man, Person 1, or Person 2.' : ''}
+${params.format === 'dialogue' ? 'In the questions, use the two women\'s names exactly as they appear in the story.' : ''}
 
 QUIZ:
 - Exactly ${params.questionCount} questions about the story above.
@@ -355,8 +359,8 @@ function prepareLesson(parsed: Record<string, unknown>, params: LessonParams): P
   let story = quizStage ? params.sourceStory : (typeof parsed.story === 'string' ? parsed.story.trim() : '');
   let dialogue: DialogueTurn[] = [];
   if (params.format === 'dialogue') {
-    const fromField = quizStage ? [] : parseDialogue(parsed.dialogue);
-    const fromStory = parseDialogue(story);
+    const fromField = quizStage ? [] : parseDialogue(parsed.dialogue, params.speakers);
+    const fromStory = parseDialogue(story, params.speakers);
     const base = fromField.length >= fromStory.length ? fromField : fromStory;
     const genders = new Map<string, DialogueTurn['gender']>();
     for (const turn of [...fromStory, ...fromField]) {
@@ -366,6 +370,9 @@ function prepareLesson(parsed: Record<string, unknown>, params: LessonParams): P
       ...turn,
       gender: genders.get(turn.speaker.toLowerCase()) ?? turn.gender,
     }));
+    if (!quizStage && dialogue.length) {
+      dialogue = trimDialogueToLength(dialogue, params.wordCount);
+    }
     if (dialogue.length) story = renderDialogue(dialogue);
   }
   const quizSource = Array.isArray(parsed.quiz)
@@ -527,7 +534,8 @@ async function callModel(
   prompt: string,
   timeoutMs: number,
   useSchema: boolean,
-  useThinkingOff = true
+  useThinkingOff = true,
+  maxOutputTokens = 8192
 ): Promise<string> {
   const genAI = new GoogleGenerativeAI(apiKey);
   const model = genAI.getGenerativeModel({ model: modelName });
@@ -537,7 +545,7 @@ async function callModel(
     responseSchema?: ResponseSchema;
     thinkingConfig?: { thinkingBudget?: number; thinkingLevel?: string };
   } = {
-    maxOutputTokens: 8192,
+    maxOutputTokens,
     responseMimeType: 'application/json',
   };
   if (useThinkingOff) {
@@ -576,7 +584,7 @@ function readUpstream(error: unknown, model?: string): UpstreamFailure {
   return { status, message, model };
 }
 
-async function generateRaw(apiKey: string, prompt: string, deadline: number): Promise<string> {
+async function generateRaw(apiKey: string, prompt: string, deadline: number, maxOutputTokens: number): Promise<string> {
   let lastError: unknown;
   let lastModel = '';
   const attempts: UpstreamFailure[] = [];
@@ -603,7 +611,7 @@ async function generateRaw(apiKey: string, prompt: string, deadline: number): Pr
     if (timeout < 4000) break;
     try {
       console.log(JSON.stringify({ stage: 'gen_start', modelName, timeout }));
-      const text = await callModel(apiKey, modelName, prompt, timeout, false, true);
+      const text = await callModel(apiKey, modelName, prompt, timeout, false, true, maxOutputTokens);
       if (text) {
         preferredModel = modelName;
         return text;
@@ -621,7 +629,7 @@ async function generateRaw(apiKey: string, prompt: string, deadline: number): Pr
         const retryTimeout = Math.min(18000, deadline - Date.now() - 800);
         if (retryTimeout >= 5000) {
           try {
-            const text = await callModel(apiKey, modelName, prompt, retryTimeout, false, true);
+            const text = await callModel(apiKey, modelName, prompt, retryTimeout, false, true, maxOutputTokens);
             if (text) {
               preferredModel = modelName;
               return text;
@@ -641,7 +649,7 @@ async function generateRaw(apiKey: string, prompt: string, deadline: number): Pr
           : Math.min(24000, timeLeft - 700);
         if (retryTimeout >= 4000) {
           try {
-            const text = await callModel(apiKey, modelName, prompt, retryTimeout, false, false);
+            const text = await callModel(apiKey, modelName, prompt, retryTimeout, false, false, maxOutputTokens);
             if (text) {
               preferredModel = modelName;
               return text;
@@ -669,6 +677,29 @@ async function generateRaw(apiKey: string, prompt: string, deadline: number): Pr
     ),
     { status: busy || timedOut ? upstream.status : 502, upstream, attempts }
   );
+}
+
+function resolveDialogueSpeakers(raw: Record<string, unknown>): DialogueSpeaker[] {
+  const incoming = Array.isArray(raw.speakers) ? raw.speakers : [];
+  const names = incoming.map((item) => {
+    const record = item && typeof item === 'object' ? item as Record<string, unknown> : {};
+    const text = String(record.name ?? '').trim().toLowerCase();
+    return FEMALE_NAMES.find((name) => name.toLowerCase() === text) ?? '';
+  });
+  if (names.length >= 2 && names[0] && names[1] && names[0] !== names[1]) {
+    return [
+      { name: names[0], gender: 'female' },
+      { name: names[1], gender: 'female' },
+    ];
+  }
+  return pickDialogueSpeakers();
+}
+
+function outputTokenCap(params: LessonParams): number {
+  if (params.stage === 'quiz') return Math.min(8192, 600 + params.questionCount * 220);
+  if (params.format !== 'dialogue') return Math.min(8192, 500 + params.wordCount * 5);
+  const plan = dialogueTurnPlan(params.wordCount);
+  return Math.min(8192, 700 + plan.turns * 48);
 }
 
 function readParams(bodyText: string | null | undefined): LessonParams | null {
@@ -699,7 +730,7 @@ function readParams(bodyText: string | null | undefined): LessonParams | null {
     vocabularyCount: clamp(Number(raw.vocabularyCount) || 8, 4, 12),
     mode,
     format: normalizeFormat(raw.format),
-    speakers: normalizeFormat(raw.format) === 'dialogue' ? DIALOGUE_SPEAKERS : [],
+    speakers: normalizeFormat(raw.format) === 'dialogue' ? resolveDialogueSpeakers(raw) : [],
     stage,
     sourceStory,
   };
@@ -745,7 +776,7 @@ export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => 
       if (attempt > 0 && deadline - Date.now() < 10000) break;
       let raw = '';
       try {
-        raw = await generateRaw(apiKey, prompt, deadline);
+        raw = await generateRaw(apiKey, prompt, deadline, outputTokenCap(params));
       } catch (error) {
         if (!best) throw error;
         break;
