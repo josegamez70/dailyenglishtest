@@ -63,7 +63,8 @@ type PreparedLesson = {
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const MODELS = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash'];
+// 2.0 and 1.5 were shut down (HTTP 404). 2.5 is limited to older keys and also 404s for this project.
+const MODELS = ['gemini-3.5-flash-lite', 'gemini-3.8-flash', 'gemini-2.5-flash'];
 
 const LESSON_SCHEMA: ResponseSchema = {
   type: SchemaType.OBJECT,
@@ -491,8 +492,24 @@ async function callModel(
   return extractText(result).trim();
 }
 
+type UpstreamFailure = { status: number; message: string; model?: string };
+
+function scrubUpstream(message: string): string {
+  return message
+    .replace(/key=[^&\s"]+/gi, 'key=REDACTED')
+    .replace(/AIza[\w-]{10,}/g, 'REDACTED')
+    .slice(0, 800);
+}
+
+function readUpstream(error: unknown, model?: string): UpstreamFailure {
+  const status = Number((error as { status?: number })?.status || (error as { code?: number })?.code || 0);
+  const message = scrubUpstream(error instanceof Error ? error.message : String(error ?? ''));
+  return { status, message, model };
+}
+
 async function generateRaw(apiKey: string, prompt: string, deadline: number): Promise<string> {
   let lastError: unknown;
+  let lastModel = '';
   for (const modelName of MODELS) {
     const remaining = deadline - Date.now();
     if (remaining < 5000) break;
@@ -503,6 +520,7 @@ async function generateRaw(apiKey: string, prompt: string, deadline: number): Pr
       if (text) return text;
     } catch (error) {
       lastError = error;
+      lastModel = modelName;
       const message = error instanceof Error ? error.message : String(error);
       const status = Number((error as { status?: number; code?: number })?.status || (error as { code?: number })?.code);
       console.error(JSON.stringify({ stage: 'gen_error', modelName, status, message }));
@@ -513,6 +531,7 @@ async function generateRaw(apiKey: string, prompt: string, deadline: number): Pr
           if (text) return text;
         } catch (retryError) {
           lastError = retryError;
+          lastModel = modelName;
         }
       }
       if (/schema|responseMimeType|INVALID_ARGUMENT|invalid argument/i.test(message)) {
@@ -529,11 +548,12 @@ async function generateRaw(apiKey: string, prompt: string, deadline: number): Pr
       if (![404, 400, 429, 500, 502, 503, 504].includes(status) && status) break;
     }
   }
-  const status = Number((lastError as { status?: number })?.status || (lastError as { code?: number })?.code || 0);
-  if (status === 429 || status === 503) {
-    throw Object.assign(new Error('The story service is busy. Please try again.'), { status });
-  }
-  throw Object.assign(new Error('The lesson could not be created. Please try again.'), { status: status || 502 });
+  const upstream = readUpstream(lastError, lastModel);
+  const busy = upstream.status === 429 || upstream.status === 503;
+  throw Object.assign(
+    new Error(busy ? 'The story service is busy. Please try again.' : 'The lesson could not be created. Please try again.'),
+    { status: busy ? upstream.status : 502, upstream }
+  );
 }
 
 function readParams(bodyText: string | null | undefined): LessonParams | null {
@@ -657,21 +677,27 @@ export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => 
     };
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Unknown error';
-    console.error('generate.ts fatal:', message);
-    const status = Number((error as { status?: number })?.status || 500);
-    const safeStatus = [400, 401, 403, 404, 413, 429, 500, 502, 503, 504].includes(status) ? status : 500;
+    const upstream = (error as { upstream?: UpstreamFailure }).upstream ?? readUpstream(error);
+    console.error('generate.ts fatal:', JSON.stringify({ message, upstream }));
+    const status = upstream.status || Number((error as { status?: number })?.status || 500);
     const publicMessage = message === 'CLIENT_TIMEOUT'
       ? 'The story service took too long. Please try again.'
-      : status === 429 || status === 503 || message === 'The story service is busy. Please try again.'
+      : status === 429 || status === 503
         ? 'The story service is busy. Please try again.'
         : 'The lesson could not be created. Please try again.';
+    const httpStatus = status === 429 || status === 503 ? status : status === 504 ? 504 : 502;
     return {
-      statusCode: safeStatus === 401 || safeStatus === 403 ? safeStatus : safeStatus >= 500 ? 503 : safeStatus,
+      statusCode: httpStatus,
       headers: corsHeaders,
       body: JSON.stringify({
         ok: false,
         code: 'SERVER_ERROR',
         message: publicMessage,
+        debug: {
+          status: upstream.status || status,
+          message: upstream.message || scrubUpstream(message),
+          model: upstream.model,
+        },
       }),
     };
   }
