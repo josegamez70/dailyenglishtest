@@ -223,15 +223,8 @@ export function voicesBySpeaker(
   for (const speaker of speakers) {
     const key = speaker.name.toLowerCase();
     if (result[key]) continue;
-    if (pool.length <= 1) {
+    if (pool.length === 1) {
       result[key] = pitchedVoice(pool[0], speaker.gender, speaker.gender != null);
-      continue;
-    }
-    const gendered = pool.some((voice) => voice.heard === 'female' || voice.heard === 'male');
-    if (!gendered) {
-      const voice = pool.find((item) => !used.has(item.name)) ?? pool[0];
-      if (voice) used.add(voice.name);
-      result[key] = pitchedVoice(voice, speaker.gender, speaker.gender != null);
       continue;
     }
     const match = pool.find((voice) => speaker.gender && voice.heard === speaker.gender && !used.has(voice.name));
@@ -240,14 +233,13 @@ export function voicesBySpeaker(
       result[key] = pitchedVoice(match, speaker.gender, false);
       continue;
     }
-    const reuse = pool.find((voice) => speaker.gender && voice.heard === speaker.gender);
-    if (reuse) {
-      result[key] = pitchedVoice(reuse, speaker.gender, false);
+    const unused = pool.find((voice) => !used.has(voice.name));
+    if (unused && pool.length > 1) {
+      used.add(unused.name);
+      result[key] = pitchedVoice(unused, speaker.gender, unused.heard !== speaker.gender && speaker.gender != null);
       continue;
     }
-    const fallback = pool.find((voice) => !used.has(voice.name)) ?? pool[0];
-    if (fallback) used.add(fallback.name);
-    result[key] = pitchedVoice(fallback, speaker.gender, speaker.gender != null);
+    result[key] = pitchedVoice(pool[0], speaker.gender, speaker.gender != null);
   }
   return result;
 }
