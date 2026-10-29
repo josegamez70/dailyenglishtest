@@ -19,6 +19,7 @@ import { withStoryReview } from './quizSession';
 import { resumeWordIndex, textFromWordIndex } from './speechPosition';
 import { generateStoryAndQuiz } from './services/geminiService';
 import Configurator from './components/Configurator';
+import { DefinedText, DictionaryPopup } from './components/DefinedText';
 import Loader from './components/Loader';
 import BookOpenIcon from './components/icons/BookOpenIcon';
 import HeadphonesIcon from './components/icons/HeadphonesIcon';
@@ -934,7 +935,8 @@ const App: React.FC = () => {
               key={`${turn.speaker}-${index}`}
               className={active ? 'rounded bg-amber-200 px-1 text-slate-900' : 'text-slate-900 dark:text-slate-50'}
             >
-              <span className="font-bold">{turn.speaker}:</span> {turn.line}
+              <span className="font-bold">{turn.speaker}:</span>{' '}
+              <DefinedText text={turn.line} />
             </p>
           );
         })}
@@ -949,33 +951,20 @@ const App: React.FC = () => {
     }
     if (androidDevice) {
       return (
-        <p
-          data-transcript="static"
-          className={`mt-4 whitespace-pre-wrap leading-relaxed text-slate-900 dark:text-slate-50 ${fontClass}`}
-        >
-          {story}
-        </p>
+        <DefinedText
+          text={story}
+          transcript="static"
+          className={`mt-4 block whitespace-pre-wrap leading-relaxed text-slate-900 dark:text-slate-50 ${fontClass}`}
+        />
       );
     }
     return (
-      <div
-        data-transcript="synced"
-        className={`mt-4 leading-relaxed text-slate-900 dark:text-slate-50 ${fontClass}`}
-      >
-        {story.split(/\s+/).filter(Boolean).map((word, idx) => (
-          <span
-            key={idx}
-            style={idx === currentWordIndex ? {
-              color: '#0f172a',
-              fontWeight: 700,
-              backgroundColor: '#fde68a',
-              borderRadius: '0.25rem',
-            } : undefined}
-          >
-            {word}{' '}
-          </span>
-        ))}
-      </div>
+      <DefinedText
+        text={story}
+        transcript="synced"
+        highlightIndex={currentWordIndex}
+        className={`mt-4 block leading-relaxed text-slate-900 dark:text-slate-50 ${fontClass}`}
+      />
     );
   };
 
@@ -998,9 +987,10 @@ const App: React.FC = () => {
           contentFormat === 'dialogue' && parseDialogue(story).length > 0 ? (
             <DialogueLines highlight={false} />
           ) : (
-            <p className={`mt-6 whitespace-pre-wrap text-slate-900 dark:text-slate-50 leading-relaxed ${fontClass}`}>
-              {story}
-            </p>
+            <DefinedText
+              text={story}
+              className={`mt-6 block whitespace-pre-wrap leading-relaxed text-slate-900 dark:text-slate-50 ${fontClass}`}
+            />
           )
         )}
 
@@ -1207,6 +1197,7 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen text-slate-900 dark:text-slate-50 flex flex-col items-center px-3 pt-2 pb-4 sm:px-5 sm:pb-6 transition-colors duration-300">
+      <DictionaryPopup />
       {isLoading && loadingStartedAt != null && (
         <Loader
           startedAt={loadingStartedAt}
@@ -1247,9 +1238,10 @@ const App: React.FC = () => {
               contentFormat === 'dialogue' && parseDialogue(story).length > 0 ? (
                 <DialogueLines highlight={false} />
               ) : (
-                <p className={`mt-6 whitespace-pre-wrap text-slate-900 dark:text-slate-50 leading-relaxed ${fontClass}`}>
-                  {story}
-                </p>
+                <DefinedText
+                  text={story}
+                  className={`mt-6 block whitespace-pre-wrap leading-relaxed text-slate-900 dark:text-slate-50 ${fontClass}`}
+                />
               )
             )}
             <button
