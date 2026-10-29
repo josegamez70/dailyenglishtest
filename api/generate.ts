@@ -462,7 +462,8 @@ async function callModel(
   modelName: string,
   prompt: string,
   timeoutMs: number,
-  useSchema: boolean
+  useSchema: boolean,
+  useThinkingOff = true
 ): Promise<string> {
   const genAI = new GoogleGenerativeAI(apiKey);
   const model = genAI.getGenerativeModel({ model: modelName });
@@ -471,11 +472,13 @@ async function callModel(
     maxOutputTokens: number;
     responseMimeType: string;
     responseSchema?: ResponseSchema;
+    thinkingConfig?: { thinkingBudget: number };
   } = {
     temperature: 0.7,
     maxOutputTokens: 8192,
     responseMimeType: 'application/json',
   };
+  if (useThinkingOff) generationConfig.thinkingConfig = { thinkingBudget: 0 };
   if (useSchema) generationConfig.responseSchema = LESSON_SCHEMA;
 
   const request = model.generateContent({
@@ -512,8 +515,10 @@ async function generateRaw(apiKey: string, prompt: string, deadline: number): Pr
   let lastModel = '';
   for (const modelName of MODELS) {
     const remaining = deadline - Date.now();
-    if (remaining < 5000) break;
-    const timeout = Math.min(20000, remaining - 400);
+    if (remaining < 6000) break;
+    const laterModelWaiting = MODELS.indexOf(modelName) < MODELS.length - 1;
+    const reserve = laterModelWaiting ? 8000 : 1200;
+    const timeout = Math.min(11000, Math.max(5000, remaining - reserve));
     try {
       console.log(JSON.stringify({ stage: 'gen_start', modelName }));
       const text = await callModel(apiKey, modelName, prompt, timeout, true);
@@ -524,13 +529,32 @@ async function generateRaw(apiKey: string, prompt: string, deadline: number): Pr
       const message = error instanceof Error ? error.message : String(error);
       const status = Number((error as { status?: number; code?: number })?.status || (error as { code?: number })?.code);
       console.error(JSON.stringify({ stage: 'gen_error', modelName, status, message }));
-      if ((status === 429 || status === 503) && deadline - Date.now() > 6000) {
+      if ((status === 429 || status === 503) && deadline - Date.now() > 12000) {
         await sleep(400);
+        const retryBudget = Math.min(8000, deadline - Date.now() - 8000);
+        if (retryBudget >= 5000) {
+          try {
+            const text = await callModel(apiKey, modelName, prompt, retryBudget, true);
+            if (text) return text;
+          } catch (retryError) {
+            lastError = retryError;
+            lastModel = modelName;
+          }
+        }
+      }
+      if (status === 400 && /thinking/i.test(message) && deadline - Date.now() > 6000) {
         try {
-          const text = await callModel(apiKey, modelName, prompt, Math.min(20000, deadline - Date.now() - 400), true);
+          const text = await callModel(
+            apiKey,
+            modelName,
+            prompt,
+            Math.min(timeout, deadline - Date.now() - 1200),
+            true,
+            false
+          );
           if (text) return text;
-        } catch (retryError) {
-          lastError = retryError;
+        } catch (thinkingError) {
+          lastError = thinkingError;
           lastModel = modelName;
         }
       }
@@ -615,7 +639,7 @@ export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => 
       };
     }
 
-    const deadline = Date.now() + 23000;
+    const deadline = Date.now() + 22000;
     let best: { lesson: PreparedLesson; score: number } | null = null;
     let prompt = buildPrompt(params);
 
