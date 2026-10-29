@@ -24,15 +24,15 @@ export const TOPICS = [
 ];
 
 export const WORD_COUNTS = [
+  { value: 60, label: '60 words' },
   { value: 100, label: '100 words' },
-  { value: 150, label: '150 words' },
-  { value: 200, label: '200 words' },
+  { value: 140, label: '140 words' },
 ];
 
 export const QUESTION_COUNTS = [
   { value: 5, label: '5 Questions' },
+  { value: 8, label: '8 Questions' },
   { value: 10, label: '10 Questions' },
-  { value: 15, label: '15 Questions' },
 ];
 
 export type TopicChoice = {

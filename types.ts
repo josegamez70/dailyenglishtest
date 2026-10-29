@@ -20,6 +20,7 @@ export interface ConfigOptions {
   questionCount: number;
   practiceType?: PracticeType;
   format?: ContentFormat;
+  speakers?: { name: string; gender: 'female' | 'male' }[];
 }
 
 export type PracticeType = 'reading' | 'listening';

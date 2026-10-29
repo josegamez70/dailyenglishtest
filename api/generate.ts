@@ -13,15 +13,18 @@ import {
   type QuestionSkill,
 } from '../lessonUtils';
 import {
-  dialogueGendersConflict,
+  DIALOGUE_CAST,
   dialogueSpeakers,
+  genderForName,
   normalizeFormat,
+  pickDialoguePair,
   speakersWithGender,
   parseDialogue,
   renderDialogue,
   spokenWordCount,
   type ContentFormat,
   type DialogueTurn,
+  type SpeakerGender,
 } from '../dialogue';
 import { normalizeQuiz, type NormalizedQuizQuestion } from '../quizNormalize';
 
@@ -44,6 +47,7 @@ type LessonParams = {
   vocabularyCount: number;
   mode: 'reading' | 'listening';
   format: ContentFormat;
+  speakers: { name: string; gender: SpeakerGender }[];
   surprise: boolean;
 };
 
@@ -187,16 +191,20 @@ function levelRules(level: string): string {
   ].join(' ');
 }
 
-function formatRules(format: ContentFormat): string {
+function formatRules(format: ContentFormat, speakers: { name: string; gender: SpeakerGender }[]): string {
   if (format === 'dialogue') {
+    const cast = speakers.map((speaker) => `${speaker.name} (${speaker.gender})`).join(' and ');
+    const sample = `${speakers[0]?.name ?? 'Anna'}: Hello.`;
     return [
       'FORMAT: Dialogue.',
-      'Write a conversation between exactly 2 people.',
-      'Return a dialogue array. Each item has speaker (a short first name), gender ("female" or "male"), and line (what that person says).',
-      'Use the same two names every time, and keep each speaker\'s gender the same on every turn. A woman is female. A man is male. For example Anna is female and Ben is male.',
-      'Do not put the name inside line.',
+      `Write a conversation between exactly these two people: ${cast}.`,
+      'Do not use any other names.',
+      'Return a dialogue array. Each item has speaker, gender, and line (what that person says).',
+      `speaker must be exactly one of: ${speakers.map((speaker) => speaker.name).join(', ')}.`,
+      `gender must be ${speakers.map((speaker) => `${speaker.name} = ${speaker.gender}`).join(', ')}.`,
+      'Use the same two names every time. Do not put the name inside line.',
       'Let the speakers take turns. Write at least 6 turns.',
-      'Also set story to the same dialogue, one turn per line, like "Ana: Hello."',
+      `Also set story to the same dialogue, one turn per line, like "${sample}"`,
       'Count only the words inside line. Do not count the speaker names.',
     ].join(' ');
   }
@@ -245,7 +253,7 @@ Do not write a story about the words "wildcard" or "any topic". The story topic 
 
 ${levelRules(params.level)}
 ${modeRules(params.mode)}
-${formatRules(params.format)}
+${formatRules(params.format, params.speakers)}
 
 LENGTH (required):
 - The ${params.format === 'dialogue' ? 'spoken lines' : 'text'} must contain between ${min} and ${max} words.
@@ -320,11 +328,15 @@ function prepareLesson(parsed: Record<string, unknown>, params: LessonParams): P
     if (dialogue.length < 4) {
       problems.push('Write at least 4 dialogue turns. Each turn is one speaker and one line.');
     }
-    if (dialogueGendersConflict(parsed.dialogue)) {
-      problems.push('Each speaker must keep the same gender, female or male, on every turn.');
+    const allowed = new Set(params.speakers.map((speaker) => speaker.name.toLowerCase()));
+    const used = dialogueSpeakers(dialogue).map((name) => name.toLowerCase());
+    const samePeople = used.length === allowed.size && used.every((name) => allowed.has(name));
+    if (!samePeople) {
+      const cast = params.speakers.map((speaker) => `${speaker.name} (${speaker.gender})`).join(' and ');
+      problems.push(`Use only these two speakers: ${cast}. Do not invent other names.`);
     }
     if (speakersWithGender(dialogue).some((speaker) => !speaker.gender)) {
-      problems.push('Set gender to female or male for every speaker, and use that same gender each time they speak.');
+      problems.push('Every speaker must be one of the named people given for this dialogue.');
     }
   }
   if (!wordCountOk) {
@@ -536,12 +548,27 @@ function readParams(bodyText: string | null | undefined): LessonParams | null {
     level,
     topic: topic.label,
     surprise: topic.surprise,
-    wordCount: clamp(Number(raw.wordCount) || 150, 50, 400),
-    questionCount: clamp(Number(raw.questionCount) || 5, 1, 15),
+    wordCount: clamp(Number(raw.wordCount) || 100, 40, 400),
+    questionCount: clamp(Number(raw.questionCount) || 5, 1, 12),
     vocabularyCount: clamp(Number(raw.vocabularyCount) || 8, 4, 12),
     mode,
     format: normalizeFormat(raw.format),
+    speakers: normalizeFormat(raw.format) === 'dialogue' ? readSpeakers(raw.speakers) : [],
   };
+}
+
+function readSpeakers(raw: unknown): { name: string; gender: SpeakerGender }[] {
+  if (!Array.isArray(raw)) return pickDialoguePair();
+  const people = raw.flatMap((item) => {
+    if (!item || typeof item !== 'object') return [];
+    const record = item as Record<string, unknown>;
+    const name = String(record.name ?? '').trim();
+    const known = DIALOGUE_CAST.find((person) => person.name.toLowerCase() === name.toLowerCase());
+    if (!known || genderForName(name) == null) return [];
+    return [known];
+  });
+  if (people.length !== 2 || people[0].name === people[1].name) return pickDialoguePair();
+  return people;
 }
 
 export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => {

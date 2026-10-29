@@ -19,9 +19,9 @@ function words(count: number): string {
 }
 
 test('word-count window is about plus or minus 15 percent', () => {
+  assert.deepEqual(wordCountBounds(60), { min: 51, max: 69 });
   assert.deepEqual(wordCountBounds(100), { min: 85, max: 115 });
-  assert.deepEqual(wordCountBounds(150), { min: 127, max: 173 });
-  assert.deepEqual(wordCountBounds(200), { min: 170, max: 230 });
+  assert.deepEqual(wordCountBounds(140), { min: 119, max: 161 });
   assert.equal(isWordCountWithinTolerance(words(100), 100), true);
   assert.equal(isWordCountWithinTolerance(words(115), 100), true);
   assert.equal(isWordCountWithinTolerance(words(130), 100), false);

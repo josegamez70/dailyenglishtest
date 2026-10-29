@@ -8,6 +8,8 @@ import {
   resumeTurnIndex,
   speechLines,
   spokenWordCount,
+  dialoguePairKey,
+  pickDialoguePair,
   voicesBySpeaker,
 } from '../dialogue.ts';
 import { clampedFontStep } from '../fontStep.ts';
@@ -86,6 +88,62 @@ test('voices follow speaker gender and stay the same for each name', () => {
   assert.ok(only.ben.pitch < 1);
   assert.equal(parseDialogue('Anna: Hello.\nBen: Hi.')[0].gender, 'female');
   assert.equal(parseDialogue('Anna: Hello.\nBen: Hi.')[1].gender, 'male');
+  assert.equal(parseDialogue([{ speaker: 'Anna', gender: 'male', line: 'Hello.' }])[0].gender, 'female');
+
+  const windows = voicesBySpeaker(
+    [
+      { name: 'Anna', gender: 'female' },
+      { name: 'Ben', gender: 'male' },
+    ],
+    [
+      { name: 'Microsoft David Desktop', lang: 'en-US' },
+      { name: 'Microsoft Zira Desktop', lang: 'en-US' },
+      { name: 'Microsoft Mark', lang: 'en-US' },
+    ]
+  );
+  assert.equal(windows.anna.name, 'Microsoft Zira Desktop');
+  assert.equal(windows.ben.name, 'Microsoft David Desktop');
+  assert.equal(windows.anna.pitch, 1);
+  assert.equal(windows.ben.pitch, 1);
+
+  const chrome = voicesBySpeaker(
+    [
+      { name: 'Sophie', gender: 'female' },
+      { name: 'Tom', gender: 'male' },
+    ],
+    [
+      { name: 'Google US English', lang: 'en-US' },
+      { name: 'Google UK English Male', lang: 'en-GB' },
+      { name: 'Google UK English Female', lang: 'en-GB' },
+    ]
+  );
+  assert.equal(chrome.sophie.name, 'Google UK English Female');
+  assert.equal(chrome.tom.name, 'Google UK English Male');
+
+  const android = voicesBySpeaker(
+    [
+      { name: 'Emma', gender: 'female' },
+      { name: 'Jack', gender: 'male' },
+    ],
+    [
+      { name: 'English United States', lang: 'en-US' },
+      { name: 'English United Kingdom', lang: 'en-GB' },
+    ]
+  );
+  assert.ok(android.emma.pitch > 1);
+  assert.ok(android.jack.pitch < 1);
+  assert.notEqual(android.emma.name, android.jack.name);
+});
+
+test('dialogue names come from the fixed list and skip the previous pair', () => {
+  const first = pickDialoguePair(() => 0.9, null);
+  assert.notEqual(first[0].gender, first[1].gender);
+  assert.ok(['Anna', 'Sophie', 'Emma', 'Lucy', 'Ben', 'Tom', 'Jack', 'David'].includes(first[0].name));
+  const key = dialoguePairKey(first[0].name, first[1].name);
+  const second = pickDialoguePair(() => 0.9, key);
+  assert.notEqual(dialoguePairKey(second[0].name, second[1].name), key);
+  const same = pickDialoguePair(() => 0.01, null);
+  assert.equal(same[0].gender, same[1].gender);
 });
 
 test('extra large text size becomes the largest remaining size', () => {
