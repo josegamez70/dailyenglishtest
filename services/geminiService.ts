@@ -78,7 +78,7 @@ async function fetchWithRetry(
       lastErr = error;
       if (external?.aborted || (error instanceof Error && error.name === 'AbortError')) throw error;
       const status = Number((error as { status?: number })?.status || 0);
-      const retryable = [429, 503].includes(status);
+      const retryable = [429, 503, 504].includes(status);
       if (!retryable || i === tries - 1) throw error;
       await new Promise((resolve) => setTimeout(resolve, 400));
     }

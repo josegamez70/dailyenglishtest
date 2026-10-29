@@ -68,7 +68,7 @@ const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 // One warm function instance remembers a 404 so later steps do not call that model.
 // 2.5 and 2.0 are already closed for this key. 3.1 Flash-Lite with minimal thinking
 // is the model that has finished a short lesson inside the Netlify limit.
-const MODEL_CANDIDATES = ['gemini-3.1-flash-lite', 'gemini-3.5-flash-lite'];
+const MODEL_CANDIDATES = ['gemini-3.1-flash-lite'];
 const unavailableModels = new Set<string>([
   'gemini-2.0-flash',
   'gemini-1.5-flash',
@@ -597,7 +597,7 @@ async function generateRaw(apiKey: string, prompt: string, deadline: number): Pr
       // If another model is available, try that instead of spending the window here.
       if (!laterModel && status !== 404 && (status === 503 || status === 429) && !dailyQuota && timeLeft > 8000) {
         await sleep(400);
-        const retryTimeout = Math.min(16000, deadline - Date.now() - 800);
+        const retryTimeout = Math.min(18000, deadline - Date.now() - 800);
         if (retryTimeout >= 5000) {
           try {
             const text = await callModel(apiKey, modelName, prompt, retryTimeout, false, true);
