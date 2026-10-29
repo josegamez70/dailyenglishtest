@@ -19,10 +19,10 @@ test('dialogue keeps two speakers and ignores names in the word count', () => {
     { speaker: 'Person 1', line: 'We should stay uphill.' },
     { speaker: 'Person 2', line: 'I will carry the water.' },
   ]);
-  assert.deepEqual(dialogueSpeakers(turns), ['Person 1', 'Person 2']);
+  assert.deepEqual(dialogueSpeakers(turns), ['Character 1', 'Character 2']);
   assert.equal(turns[0].line, 'I missed the train today.');
   assert.equal(spokenWordCount(turns), 19);
-  assert.equal(renderDialogue(turns).split('\n')[1], 'Person 2: The river flooded the road.');
+  assert.equal(renderDialogue(turns).split('\n')[1], 'Character 2: The river flooded the road.');
   const asText = renderDialogue(turns);
   assert.equal(contentWordCount(asText, 'dialogue'), 19);
   assert.equal(contentWordCount('One short narrative here.', 'text'), 4);
@@ -30,7 +30,8 @@ test('dialogue keeps two speakers and ignores names in the word count', () => {
 
 test('dialogue lines become spoken lines with a speaker index', () => {
   const lines = speechLines(parseDialogue('Person 1: Hello there.\nPerson 2: Good morning.'));
-  assert.equal(lines[0].text, 'Person 1. Hello there.');
+  assert.equal(lines[0].text, 'Character 1. Hello there.');
+  assert.equal(lines[0].speaker, 'Character 1');
   assert.equal(lines[1].speakerIndex, 1);
   assert.equal(resumeTurnIndex([1000, 1000, 1000], 1500), 1);
   assert.equal(resumeTurnIndex([1000, 1000], 0), 0);
@@ -60,7 +61,8 @@ test('voices follow speaker gender and stay the same for each name', () => {
   assert.equal(voices.anna.name, 'Samantha');
   assert.equal(voices.ben.name, 'Daniel');
   assert.equal(voices.anna.pitch, 1);
-  assert.equal(voices.ben.pitch, 1);
+  assert.equal(voices.ben.pitch, 0.9);
+  assert.equal(voices.ben.rateScale, 1);
   const google = voicesBySpeaker(
     [
       { name: 'Anna', gender: 'female' },
@@ -83,9 +85,10 @@ test('voices follow speaker gender and stay the same for each name', () => {
   const notes: string[] = [];
   assert.equal(only.anna.name, 'Samantha');
   assert.equal(only.ben.name, 'Samantha');
-  assert.equal(only.anna.pitch, 1);
-  assert.equal(only.ben.pitch, 1);
-  assert.equal(only.ben.rateScale, 1);
+  assert.equal(only.anna.pitch, 1.15);
+  assert.equal(only.anna.rateScale, 1);
+  assert.equal(only.ben.pitch, 0.8);
+  assert.equal(only.ben.rateScale, 0.95);
   voicesBySpeaker(
     [
       { name: 'Anna', gender: 'female' },
@@ -96,12 +99,17 @@ test('voices follow speaker gender and stay the same for each name', () => {
   );
   assert.match(notes[0], /No male speech voice/);
   const labelled = parseDialogue('**Person 1:** Hello there.\nPerson 2 : Hi there.');
-  assert.equal(labelled[0].speaker, 'Person 1');
+  assert.equal(labelled[0].speaker, 'Character 1');
   assert.equal(labelled[0].gender, 'female');
   assert.equal(labelled[0].line, 'Hello there.');
-  assert.equal(labelled[1].speaker, 'Person 2');
+  assert.equal(labelled[1].speaker, 'Character 2');
   assert.equal(labelled[1].gender, 'male');
   assert.equal(parseDialogue([{ speaker: 'person 1', gender: 'male', line: 'Hello there.' }])[0].gender, 'female');
+  const named = parseDialogue('Character 1: Hello there.\nCharacter 2: Hi there.');
+  assert.equal(named[0].speaker, 'Character 1');
+  assert.equal(named[0].gender, 'female');
+  assert.equal(named[1].speaker, 'Character 2');
+  assert.equal(named[1].gender, 'male');
 
   const windows = voicesBySpeaker(
     [
@@ -117,7 +125,7 @@ test('voices follow speaker gender and stay the same for each name', () => {
   assert.equal(windows.anna.name, 'Microsoft Zira Desktop');
   assert.equal(windows.ben.name, 'Microsoft David Desktop');
   assert.equal(windows.anna.pitch, 1);
-  assert.equal(windows.ben.pitch, 1);
+  assert.equal(windows.ben.pitch, 0.9);
 
   const chrome = voicesBySpeaker(
     [
@@ -133,7 +141,7 @@ test('voices follow speaker gender and stay the same for each name', () => {
   assert.equal(chrome.sophie.name, 'Google US English');
   assert.equal(chrome.tom.name, 'Google UK English Male');
   assert.equal(chrome.sophie.pitch, 1);
-  assert.equal(chrome.tom.pitch, 1);
+  assert.equal(chrome.tom.pitch, 0.9);
 
   const androidLocales = voicesBySpeaker(
     [
@@ -145,8 +153,10 @@ test('voices follow speaker gender and stay the same for each name', () => {
       { name: 'English United Kingdom', lang: 'en-GB' },
     ]
   );
-  assert.equal(androidLocales.emma.pitch, 1);
-  assert.equal(androidLocales.jack.pitch, 1);
+  assert.equal(androidLocales.emma.pitch, 1.15);
+  assert.equal(androidLocales.emma.rateScale, 1);
+  assert.equal(androidLocales.jack.pitch, 0.8);
+  assert.equal(androidLocales.jack.rateScale, 0.95);
   assert.equal(androidLocales.emma.lang, 'en-GB');
   assert.equal(androidLocales.jack.lang, 'en-US');
 
@@ -163,7 +173,8 @@ test('voices follow speaker gender and stay the same for each name', () => {
   );
   assert.equal(androidIds.lucy.voiceURI, 'en-us-x-sfg-local');
   assert.equal(androidIds.david.voiceURI, 'en-gb-x-rjs-local');
-  assert.equal(androidIds.david.pitch, 1);
+  assert.equal(androidIds.lucy.pitch, 1);
+  assert.equal(androidIds.david.pitch, 0.9);
   assert.notEqual(androidIds.lucy.name.includes('Male'), true);
 });
 
