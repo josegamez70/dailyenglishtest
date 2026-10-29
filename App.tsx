@@ -4,8 +4,6 @@ import { LEVELS, QUESTION_COUNTS, resolveTopic, TOPICS, WORD_COUNTS } from './co
 import { isAndroidUserAgent } from './device';
 import { estimateGenerationSeconds, scoreFeedback } from './lessonUtils';
 import {
-  contentWordCount,
-  isContentLengthOk,
   parseDialogue,
   resumeTurnIndex,
   speakersWithGender,
@@ -75,12 +73,41 @@ function readFontStep(): number {
   return 1;
 }
 
-function readVoices(): { name: string; lang: string }[] {
+function readVoices(): { name: string; lang: string; voiceURI?: string; default?: boolean }[] {
   try {
-    return window.speechSynthesis.getVoices().map((voice) => ({ name: voice.name, lang: voice.lang }));
+    return window.speechSynthesis.getVoices().map((voice) => ({
+      name: voice.name,
+      lang: voice.lang,
+      voiceURI: voice.voiceURI,
+      default: voice.default,
+    }));
   } catch {
     return [];
   }
+}
+
+function whenVoicesReady(): Promise<SpeechSynthesisVoice[]> {
+  return new Promise((resolve) => {
+    let settled = false;
+    const finish = () => {
+      const list = window.speechSynthesis.getVoices();
+      if (!list.length && !settled) return;
+      if (settled) return;
+      settled = true;
+      window.speechSynthesis.removeEventListener('voiceschanged', finish);
+      resolve(list);
+    };
+    try {
+      if (window.speechSynthesis.getVoices().length) {
+        resolve(window.speechSynthesis.getVoices());
+        return;
+      }
+      window.speechSynthesis.addEventListener('voiceschanged', finish);
+      window.setTimeout(finish, 700);
+    } catch {
+      resolve([]);
+    }
+  });
 }
 
 const App: React.FC = () => {
@@ -216,24 +243,7 @@ const App: React.FC = () => {
     setLoadingEstimate(estimateGenerationSeconds(config.wordCount, config.questionCount));
 
     try {
-      let result = await generateStoryAndQuiz(requestConfig, { signal: controller.signal });
-      if (controller.signal.aborted) return;
-      if (!isContentLengthOk(result.story, contentFormat, config.wordCount)) {
-        setLoadingNote('The first story was the wrong length. Writing another one...');
-        try {
-          const second = await generateStoryAndQuiz(requestConfig, { signal: controller.signal });
-          if (!controller.signal.aborted) {
-            const lengthOf = (text: string) => contentWordCount(text, contentFormat);
-            const firstDistance = Math.abs(lengthOf(result.story) - config.wordCount);
-            const secondDistance = Math.abs(lengthOf(second.story) - config.wordCount);
-            if (secondDistance <= firstDistance) result = second;
-          }
-        } catch (retryError) {
-          if (controller.signal.aborted || (retryError instanceof Error && retryError.name === 'AbortError')) {
-            throw retryError;
-          }
-        }
-      }
+      const result = await generateStoryAndQuiz(requestConfig, { signal: controller.signal });
       if (controller.signal.aborted) return;
       if (!result.quiz.length) throw new Error('The quiz was empty. Please try again.');
 
@@ -532,20 +542,27 @@ const App: React.FC = () => {
 
     if (speakingDialogue) {
       const lines = dialogueLines.slice(startTurn);
-      setTimeout(() => {
+      void whenVoicesReady().then((liveVoices) => {
         if (playId !== playIdRef.current || pausedRef.current) return;
-        const voices = voicesBySpeaker(speakersWithGender(lessonTurns), readVoices());
-        const available = readVoices();
+        const voices = voicesBySpeaker(
+          speakersWithGender(lessonTurns),
+          liveVoices.map((voice) => ({
+            name: voice.name,
+            lang: voice.lang,
+            voiceURI: voice.voiceURI,
+            default: voice.default,
+          }))
+        );
         try {
           lines.forEach((line, index) => {
             const utterance = new SpeechSynthesisUtterance(line.text);
             const choice = voices[line.speaker.toLowerCase()] ?? Object.values(voices)[0];
-            const match = available.find((voice) => voice.name === choice?.name);
-            const live = window.speechSynthesis.getVoices().find((voice) => voice.name === match?.name);
+            const live = liveVoices.find((voice) => choice?.voiceURI && voice.voiceURI === choice.voiceURI)
+              ?? liveVoices.find((voice) => voice.name === choice?.name && voice.lang === choice?.lang);
             if (live) utterance.voice = live;
             utterance.lang = choice?.lang || 'en-US';
-            utterance.pitch = choice?.pitch ?? 1;
-            utterance.rate = rate * (choice?.rateScale ?? 1);
+            utterance.pitch = 1;
+            utterance.rate = rate;
             utterance.onstart = () => {
               if (playId !== playIdRef.current) return;
               setActiveTurn(line.turnIndex);
@@ -565,7 +582,7 @@ const App: React.FC = () => {
         } catch {
           failToStart();
         }
-      }, 60);
+      });
       return;
     }
 

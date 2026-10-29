@@ -192,17 +192,15 @@ function levelRules(level: string): string {
 function formatRules(format: ContentFormat, speakers: { name: string; gender: SpeakerGender }[]): string {
   if (format === 'dialogue') {
     const cast = speakers.map((speaker) => `${speaker.name} (${speaker.gender})`).join(' and ');
-    const sample = `${speakers[0]?.name ?? 'Anna'}: Hello.`;
     return [
       'FORMAT: Dialogue.',
-      `Write a conversation between exactly these two people: ${cast}.`,
-      'Do not use any other names.',
-      'Return a dialogue array. Each item has speaker, gender, and line (what that person says).',
-      `speaker must be exactly one of: ${speakers.map((speaker) => speaker.name).join(', ')}.`,
-      `gender must be ${speakers.map((speaker) => `${speaker.name} = ${speaker.gender}`).join(', ')}.`,
-      'Use the same two names every time. Do not put the name inside line.',
-      'Let the speakers take turns. Write at least 6 turns.',
-      `Also set story to the same dialogue, one turn per line, like "${sample}"`,
+      `Write a conversation between exactly these two speakers: ${cast}.`,
+      'Do not use personal names. speaker must be exactly "Person 1" or "Person 2".',
+      'Return a dialogue array. Each item has speaker, gender, and line.',
+      'gender for Person 1 is female. gender for Person 2 is male.',
+      'Do not put the label inside line.',
+      'Let them take turns. Write at least 6 turns.',
+      'Also set story to the same dialogue, one turn per line, like "Person 1: Hello."',
       'Count only the words inside line. Do not count the speaker names.',
     ].join(' ');
   }
@@ -508,6 +506,15 @@ async function generateRaw(apiKey: string, prompt: string, deadline: number): Pr
       const message = error instanceof Error ? error.message : String(error);
       const status = Number((error as { status?: number; code?: number })?.status || (error as { code?: number })?.code);
       console.error(JSON.stringify({ stage: 'gen_error', modelName, status, message }));
+      if ((status === 429 || status === 503) && deadline - Date.now() > 6000) {
+        await sleep(400);
+        try {
+          const text = await callModel(apiKey, modelName, prompt, Math.min(20000, deadline - Date.now() - 400), true);
+          if (text) return text;
+        } catch (retryError) {
+          lastError = retryError;
+        }
+      }
       if (/schema|responseMimeType|INVALID_ARGUMENT|invalid argument/i.test(message)) {
         try {
           const retryTimeout = Math.min(timeout, deadline - Date.now() - 400);
@@ -522,8 +529,11 @@ async function generateRaw(apiKey: string, prompt: string, deadline: number): Pr
       if (![404, 400, 429, 500, 502, 503, 504].includes(status) && status) break;
     }
   }
-  if (lastError instanceof Error) throw lastError;
-  throw new Error('The story service is busy. Please try again.');
+  const status = Number((lastError as { status?: number })?.status || (lastError as { code?: number })?.code || 0);
+  if (status === 429 || status === 503) {
+    throw Object.assign(new Error('The story service is busy. Please try again.'), { status });
+  }
+  throw Object.assign(new Error('The lesson could not be created. Please try again.'), { status: status || 502 });
 }
 
 function readParams(bodyText: string | null | undefined): LessonParams | null {
@@ -652,9 +662,9 @@ export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => 
     const safeStatus = [400, 401, 403, 404, 413, 429, 500, 502, 503, 504].includes(status) ? status : 500;
     const publicMessage = message === 'CLIENT_TIMEOUT'
       ? 'The story service took too long. Please try again.'
-      : message && message.length < 280 && !/api[_ ]?key/i.test(message)
-        ? message
-        : 'The story service is busy. Please try again.';
+      : status === 429 || status === 503 || message === 'The story service is busy. Please try again.'
+        ? 'The story service is busy. Please try again.'
+        : 'The lesson could not be created. Please try again.';
     return {
       statusCode: safeStatus === 401 || safeStatus === 403 ? safeStatus : safeStatus >= 500 ? 503 : safeStatus,
       headers: corsHeaders,
