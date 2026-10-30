@@ -13,8 +13,8 @@ const points = [
     ),
   },
   {
-    title: 'Listen with two natural voices',
-    text: 'Hear the lesson read aloud.',
+    title: 'Listen to native-sounding English',
+    text: 'Audio generated instantly for every lesson you create.',
     icon: (
       <svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
         <path strokeLinecap="round" strokeLinejoin="round" d="M4 10v4a2 2 0 0 0 2 2h1l4 3V5L7 8H6a2 2 0 0 0-2 2Z" />
