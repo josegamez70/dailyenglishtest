@@ -1,5 +1,4 @@
 export const LEVELS = [
-  { value: 'basic', label: 'Basic' },
   { value: 'beginner', label: 'Beginner' },
   { value: 'intermediate', label: 'Intermediate' },
   { value: 'advanced', label: 'Advanced' },

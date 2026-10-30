@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { lemmaCandidates, lookupCandidates, normalizeLookupWord, parseDictionary, popupPosition } from '../dictionary.ts';
+import { inflectionPointer, lemmaCandidates, lookupCandidates, normalizeLookupWord, parseDictionary, popupPosition } from '../dictionary.ts';
 
 test('word lookup tries a simple plural or verb ending when needed', () => {
   assert.equal(normalizeLookupWord("Sophie's"), 'sophie');
@@ -42,6 +42,23 @@ test('dictionary payload keeps a short meaning and one example', () => {
   assert.equal(entry?.senses.length, 2);
   assert.equal(entry?.senses[0].partOfSpeech, 'verb');
   assert.equal(entry?.example, 'They walk to school.');
+});
+
+test('an inflection pointer names the base word', () => {
+  const pointer = inflectionPointer({
+    word: 'cities',
+    phonetic: null,
+    senses: [{ partOfSpeech: 'noun', definition: 'plural of city' }],
+    example: null,
+  });
+  assert.deepEqual(pointer, { base: 'city', label: 'plural' });
+  const real = inflectionPointer({
+    word: 'mystery',
+    phonetic: null,
+    senses: [{ partOfSpeech: 'noun', definition: 'Something secret or unexplainable.' }],
+    example: null,
+  });
+  assert.equal(real, null);
 });
 
 test('the definition popup stays inside the screen', () => {

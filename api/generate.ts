@@ -202,19 +202,10 @@ function levelRules(level: string): string {
       'The question must not contain the correct answer or give it away.',
     ].join(' ');
   }
-  if (key.includes('beginner')) {
-    return [
-      'Level: Beginner.',
-      'Use short sentences and common words.',
-      'Ask simple questions about facts the story states: who, what, where, and when.',
-      'Each question has exactly one correct answer.',
-      'Wrong answers must be clearly different.',
-    ].join(' ');
-  }
   return [
-    'Level: Basic.',
-    'Use very short sentences and very common words.',
-    'Ask very simple questions about facts the story states.',
+    'Level: Beginner.',
+    'Use short sentences and common words.',
+    'Ask simple questions about facts the story states: who, what, where, and when.',
     'Each question has exactly one correct answer.',
     'Wrong answers must be clearly different.',
   ].join(' ');
@@ -268,8 +259,7 @@ function storyLevelRules(level: string): string {
   const key = level.toLowerCase();
   if (key.includes('advanced')) return 'Level: Advanced. Use richer vocabulary and longer sentences, but stay clear.';
   if (key.includes('intermediate')) return 'Level: Intermediate. Use everyday English with some less common words.';
-  if (key.includes('beginner')) return 'Level: Beginner. Use short sentences and common words.';
-  return 'Level: Basic. Use very short sentences and very common words.';
+  return 'Level: Beginner. Use short sentences and common words.';
 }
 
 function buildPrompt(params: LessonParams, corrective?: string): string {

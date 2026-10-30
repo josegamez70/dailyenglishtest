@@ -130,6 +130,9 @@ export function DictionaryPopup() {
       <div className="flex items-start gap-2">
         <div className="min-w-0 flex-1">
           <p className="text-base font-bold break-words">{entry?.word ?? normalizeLookupWord(open.surface)}</p>
+          {status === 'ready' && entry?.note && (
+            <p className="text-sm text-slate-600 dark:text-slate-300">{entry.note}</p>
+          )}
           {status === 'ready' && entry?.phonetic && (
             <p className="text-slate-600 dark:text-slate-300">{entry.phonetic}</p>
           )}
