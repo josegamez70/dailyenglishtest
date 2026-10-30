@@ -20,6 +20,7 @@ import { generateStoryAndQuiz } from './services/geminiService';
 import { FREE_LESSON_LIMIT, signOut, useAccount } from './auth';
 import { SignInBox } from './components/SignInBox';
 import { LegalDocument, SiteFooter, legalPageFromPath } from './components/LegalPages';
+import { AuthLoading, Landing, focusSignIn } from './components/Landing';
 import Configurator from './components/Configurator';
 import { DefinedText, DictionaryPopup } from './components/DefinedText';
 import Loader from './components/Loader';
@@ -263,9 +264,8 @@ const App: React.FC = () => {
 
     if (!account.ready) return;
     if (!account.signedIn) {
-      setSignInOpen(true);
-      setSignInPrompt(true);
       setError(null);
+      focusSignIn();
       return;
     }
 
@@ -1282,6 +1282,9 @@ const App: React.FC = () => {
 
   const legalPage = legalPageFromPath(window.location.pathname);
   if (legalPage) return <LegalDocument page={legalPage} />;
+  if (!account.ready) return <AuthLoading />;
+
+  const showLanding = !account.signedIn;
 
   return (
     <div className="min-h-screen text-slate-900 dark:text-slate-50 flex flex-col items-center px-3 pt-2 pb-4 sm:px-5 sm:pb-6 transition-colors duration-300">
@@ -1347,10 +1350,17 @@ const App: React.FC = () => {
           <div className="flex items-center gap-2 sm:gap-4">
             <div className="flex min-w-0 flex-1 items-center justify-center gap-2 sm:gap-4">
               <UKFlagIcon className="h-14 w-14 shrink-0 rounded-lg shadow-md sm:h-20 sm:w-20" />
-              <h1 className="text-left text-2xl font-fun leading-tight tracking-wide sm:text-4xl">
-                <span className="text-blue-800 dark:text-blue-300">Your daily </span>
-                <span className="text-red-700 dark:text-red-400">English Test!</span>
-              </h1>
+              {showLanding ? (
+                <p className="text-left text-2xl font-fun leading-tight tracking-wide sm:text-4xl">
+                  <span className="text-blue-800 dark:text-blue-300">Your daily </span>
+                  <span className="text-red-700 dark:text-red-400">English Test!</span>
+                </p>
+              ) : (
+                <h1 className="text-left text-2xl font-fun leading-tight tracking-wide sm:text-4xl">
+                  <span className="text-blue-800 dark:text-blue-300">Your daily </span>
+                  <span className="text-red-700 dark:text-red-400">English Test!</span>
+                </h1>
+              )}
             </div>
             <div className="flex shrink-0 flex-col items-end gap-1">
               {account.signedIn ? (
@@ -1372,7 +1382,7 @@ const App: React.FC = () => {
               ) : (
                 <button
                   type="button"
-                  onClick={() => { setSignInOpen(true); setSignInPrompt(false); }}
+                  onClick={() => focusSignIn()}
                   className="rounded-lg bg-blue-700 px-3 py-1.5 text-sm font-bold text-white hover:bg-blue-800 sm:px-4 sm:py-2 sm:text-base"
                 >
                   Sign in
@@ -1390,19 +1400,24 @@ const App: React.FC = () => {
               )}
             </div>
           </div>
-          <h2 className="mt-2 text-center text-lg font-bold text-slate-900 dark:text-white sm:text-2xl md:text-3xl">
-            English Comprehension Practice
-          </h2>
-          <p className="mt-1 text-center text-base text-slate-800 dark:text-slate-100 sm:text-lg">
-            Practice reading and listening with short stories and quizzes.
-          </p>
+          {!showLanding && (
+            <>
+              <h2 className="mt-2 text-center text-lg font-bold text-slate-900 dark:text-white sm:text-2xl md:text-3xl">
+                English Comprehension Practice
+              </h2>
+              <p className="mt-1 text-center text-base text-slate-800 dark:text-slate-100 sm:text-lg">
+                Practice reading and listening with short stories and quizzes.
+              </p>
+            </>
+          )}
         </header>
       )}
 
-      {signInOpen && !account.signedIn && (
+      {signInOpen && !account.signedIn && !showLanding && (
         <SignInBox prompt={signInPrompt} onClose={() => { setSignInOpen(false); setSignInPrompt(false); }} />
       )}
 
+      {showLanding ? <Landing /> : (
       <main className="w-full">
         {error && (
           <div className="w-full max-w-2xl mx-auto bg-red-100 border border-red-700 text-red-900 px-4 py-3 rounded-lg relative mb-6 text-base" role="alert">
@@ -1412,6 +1427,7 @@ const App: React.FC = () => {
         )}
         {renderContent()}
       </main>
+      )}
       <SiteFooter />
     </div>
   );

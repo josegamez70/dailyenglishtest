@@ -4,9 +4,13 @@ import { sendMagicLink } from '../auth';
 export function SignInBox({
   prompt,
   onClose,
+  submitLabel = 'Send link',
+  formId = 'sign-in',
 }: {
   prompt?: boolean;
   onClose?: () => void;
+  submitLabel?: string;
+  formId?: string;
 }) {
   const [email, setEmail] = useState('');
   const [sent, setSent] = useState(false);
@@ -29,8 +33,9 @@ export function SignInBox({
 
   return (
     <form
+      id={formId}
       onSubmit={submit}
-      className="mx-auto mb-4 w-full max-w-xl rounded-lg border border-slate-300 bg-white p-4 text-slate-900 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-50"
+      className="mx-auto mb-4 w-full max-w-xl scroll-mt-4 rounded-lg border border-slate-300 bg-white p-4 text-slate-900 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-50"
     >
       {prompt && <p className="mb-2 text-base font-semibold">Sign in free to get 3 free lessons.</p>}
       <p className="text-base">We'll email you a sign-in link. No password needed.</p>
@@ -50,9 +55,9 @@ export function SignInBox({
         <button
           type="submit"
           disabled={busy}
-          className="shrink-0 rounded-lg bg-blue-700 px-4 py-2 text-base font-bold text-white hover:bg-blue-800 disabled:opacity-60"
+          className="w-full shrink-0 rounded-lg bg-blue-700 px-4 py-2 text-base font-bold text-white hover:bg-blue-800 disabled:opacity-60 sm:w-auto"
         >
-          {busy ? 'Sending...' : 'Send link'}
+          {busy ? 'Sending...' : submitLabel}
         </button>
       </div>
       {sent && <p className="mt-3 text-base font-semibold">Check your email for your sign-in link.</p>}
