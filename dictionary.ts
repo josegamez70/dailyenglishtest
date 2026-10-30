@@ -8,6 +8,7 @@ export type DictEntry = {
   phonetic: string | null;
   senses: DictSense[];
   example: string | null;
+  note?: string | null;
 };
 
 const memory = new Map<string, DictEntry | 'missing'>();
@@ -146,6 +147,29 @@ function isEntry(value: FetchResult): value is DictEntry {
   return value !== 'missing' && value !== 'failed';
 }
 
+const INFLECTION = /(?:plural|past|participle|gerund|superlative|comparative|third-person|form|tense) of ["“]?([a-z'-]+)/i;
+
+function inflectionLabel(definition: string): string {
+  const text = definition.toLowerCase();
+  if (text.includes('plural')) return 'plural';
+  if (text.includes('superlative')) return 'superlative';
+  if (text.includes('comparative')) return 'comparative';
+  if (text.includes('third-person')) return 'third-person';
+  if (text.includes('gerund')) return 'gerund';
+  if (text.includes('past')) return 'past';
+  return 'form';
+}
+
+/** When the first sense only points at a base word, return that base word. */
+export function inflectionPointer(entry: DictEntry): { base: string; label: string } | null {
+  const definition = entry.senses[0]?.definition ?? '';
+  const match = definition.match(INFLECTION);
+  if (!match) return null;
+  const base = match[1].toLowerCase().replace(/^['"“]+|['"”]+$/g, '');
+  if (!/[a-z]/.test(base) || base === entry.word.toLowerCase()) return null;
+  return { base, label: inflectionLabel(definition) };
+}
+
 async function fetchDictionary(word: string): Promise<FetchResult> {
   try {
     const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(word)}`, {
@@ -188,7 +212,7 @@ export function parseWiktionary(data: unknown, fallbackWord: string): DictEntry 
     for (const item of definitions) {
       if (!item || typeof item !== 'object' || senses.length >= 2) break;
       const definition = stripHtml(String((item as Record<string, unknown>).definition ?? ''));
-      if (!definition) continue;
+      if (!definition || /^ISO\b/i.test(definition)) continue;
       senses.push({ partOfSpeech, definition });
       if (!example) {
         const examples = (item as Record<string, unknown>).parsedExamples;
@@ -250,6 +274,27 @@ async function lookupForm(word: string, retryMiss: boolean): Promise<FetchResult
   return result;
 }
 
+async function followInflection(entry: DictEntry, surface: string, depth = 0): Promise<DictEntry> {
+  if (depth >= 2) return entry;
+  const pointer = inflectionPointer(entry);
+  if (!pointer) return entry;
+  let base = await lookupForm(pointer.base, true);
+  if (!isEntry(base)) {
+    const wiki = await fetchWiktionary(pointer.base);
+    if (!isEntry(wiki)) return entry;
+    base = wiki;
+  }
+  const followed = inflectionPointer(base) ? await followInflection(base, surface, depth + 1) : base;
+  if (inflectionPointer(followed)) return entry;
+  return {
+    word: followed.word,
+    phonetic: followed.phonetic,
+    senses: followed.senses,
+    example: followed.example,
+    note: `(${pointer.label}: ${surface})`,
+  };
+}
+
 export async function defineWord(raw: string): Promise<DictEntry | null> {
   const word = normalizeLookupWord(raw);
   if (!word) return null;
@@ -264,8 +309,9 @@ export async function defineWord(raw: string): Promise<DictEntry | null> {
   for (let index = 0; index < forms.length; index += 1) {
     const result = await lookupForm(forms[index], index === 0);
     if (isEntry(result)) {
-      remember(resultKey, result);
-      return result;
+      const shown = await followInflection(result, word);
+      remember(resultKey, shown);
+      return shown;
     }
     if (result === 'missing') sawMiss = true;
     if (result === 'failed') sawFailure = true;
@@ -273,8 +319,9 @@ export async function defineWord(raw: string): Promise<DictEntry | null> {
   for (const form of forms) {
     const result = await fetchWiktionary(form);
     if (isEntry(result)) {
-      remember(resultKey, result);
-      return result;
+      const shown = await followInflection(result, word);
+      remember(resultKey, shown);
+      return shown;
     }
     if (result === 'missing') sawMiss = true;
     if (result === 'failed') sawFailure = true;
