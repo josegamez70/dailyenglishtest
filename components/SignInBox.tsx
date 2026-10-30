@@ -57,6 +57,9 @@ export function SignInBox({
       </div>
       {sent && <p className="mt-3 text-base font-semibold">Check your email for your sign-in link.</p>}
       {error && <p className="mt-3 text-base text-red-800 dark:text-red-300">{error}</p>}
+      <p className="mt-3 text-sm">
+        By signing in you agree to our <a href="/terms" className="underline">Terms</a> and <a href="/privacy" className="underline">Privacy Policy</a>.
+      </p>
       {onClose && (
         <button type="button" onClick={onClose} className="mt-3 text-sm font-semibold underline">
           Close

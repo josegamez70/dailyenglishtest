@@ -10,6 +10,37 @@
   to = "/.netlify/functions/:splat"
   status = 200
 
+# Legal pages are part of the app. A direct visit must still load index.html.
+[[redirects]]
+  from = "/legal"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/legal/"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/privacy"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/privacy/"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/terms"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/terms/"
+  to = "/index.html"
+  status = 200
+
 # Le decimos a Netlify que el comando para desarrollo es 'vite'
 [dev]
   command = "vite"

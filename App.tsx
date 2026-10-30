@@ -19,6 +19,7 @@ import { resumeWordIndex, textFromWordIndex } from './speechPosition';
 import { generateStoryAndQuiz } from './services/geminiService';
 import { FREE_LESSON_LIMIT, signOut, useAccount } from './auth';
 import { SignInBox } from './components/SignInBox';
+import { LegalDocument, SiteFooter, legalPageFromPath } from './components/LegalPages';
 import Configurator from './components/Configurator';
 import { DefinedText, DictionaryPopup } from './components/DefinedText';
 import Loader from './components/Loader';
@@ -1279,6 +1280,9 @@ const App: React.FC = () => {
     }
   };
 
+  const legalPage = legalPageFromPath(window.location.pathname);
+  if (legalPage) return <LegalDocument page={legalPage} />;
+
   return (
     <div className="min-h-screen text-slate-900 dark:text-slate-50 flex flex-col items-center px-3 pt-2 pb-4 sm:px-5 sm:pb-6 transition-colors duration-300">
       <DictionaryPopup />
@@ -1408,6 +1412,7 @@ const App: React.FC = () => {
         )}
         {renderContent()}
       </main>
+      <SiteFooter />
     </div>
   );
 };
