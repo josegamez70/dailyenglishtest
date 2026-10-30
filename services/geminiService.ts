@@ -1,6 +1,7 @@
 import type { ConfigOptions, QuizQuestion, VocabularyItem } from '../types';
 import { normalizeQuiz } from '../quizNormalize';
 import { parseDialogue, renderDialogue, type DialogueTurn } from '../dialogue';
+import { accessToken, FREE_LIMIT_MESSAGE } from '../auth';
 
 type GenResponse = {
   story?: string;
@@ -64,8 +65,10 @@ async function fetchWithRetry(
         const text = await res.text().catch(() => '');
         let message = text || `HTTP ${res.status}`;
         try {
-          const parsed = JSON.parse(text) as { message?: string };
-          if (parsed?.message) message = String(parsed.message);
+          const parsed = JSON.parse(text) as { message?: string; error?: string };
+          if (parsed?.error === 'free_limit') message = FREE_LIMIT_MESSAGE;
+          else if (parsed?.error === 'auth_required') message = 'Sign in free to get 3 free lessons.';
+          else if (parsed?.message) message = String(parsed.message);
         } catch {
           /* keep the raw text */
         }
@@ -110,11 +113,14 @@ function lessonPayload(config: ConfigOptions, extra: Record<string, unknown>) {
 }
 
 async function postGenerate(body: unknown, signal?: AbortSignal): Promise<GenResponse> {
+  const token = await accessToken();
+  const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+  if (token) headers.Authorization = `Bearer ${token}`;
   const res = await fetchWithRetry(
     API_URL,
     {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers,
       body: JSON.stringify(body),
     },
     signal

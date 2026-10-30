@@ -17,6 +17,8 @@ import { clampedFontStep } from './fontStep';
 import { withStoryReview } from './quizSession';
 import { resumeWordIndex, textFromWordIndex } from './speechPosition';
 import { generateStoryAndQuiz } from './services/geminiService';
+import { FREE_LESSON_LIMIT, signOut, useAccount } from './auth';
+import { SignInBox } from './components/SignInBox';
 import Configurator from './components/Configurator';
 import { DefinedText, DictionaryPopup } from './components/DefinedText';
 import Loader from './components/Loader';
@@ -128,7 +130,10 @@ function whenVoicesReady(): Promise<SpeechSynthesisVoice[]> {
 }
 
 const App: React.FC = () => {
+  const account = useAccount();
   const [view, setView] = useState<AppView>('config');
+  const [signInOpen, setSignInOpen] = useState(false);
+  const [signInPrompt, setSignInPrompt] = useState(false);
   const [practiceType, setPracticeType] = useState<PracticeType>('reading');
   const [contentFormat, setContentFormat] = useState<ContentFormat>('text');
   const [dialogueTurns, setDialogueTurns] = useState<DialogueTurn[]>([]);
@@ -255,9 +260,19 @@ const App: React.FC = () => {
       speakers,
     };
 
+    if (!account.ready) return;
+    if (!account.signedIn) {
+      setSignInOpen(true);
+      setSignInPrompt(true);
+      setError(null);
+      return;
+    }
+
     setIsLoading(true);
     setQuizLoading(false);
     setError(null);
+    setSignInOpen(false);
+    setSignInPrompt(false);
     setLoadingNote('Writing the story...');
     setLoadingStartedAt(Date.now());
     setLoadingEstimate(12);
@@ -285,6 +300,7 @@ const App: React.FC = () => {
           setLoadingNote(null);
           setQuizLoading(true);
           setView('story');
+          void account.refreshProfile();
           window.scrollTo({ top: 0, behavior: 'smooth' });
         },
       });
@@ -1332,16 +1348,43 @@ const App: React.FC = () => {
                 <span className="text-red-700 dark:text-red-400">English Test!</span>
               </h1>
             </div>
-            {view === 'config' && (
-              <button
-                type="button"
-                onClick={() => setIsDark((dark) => !dark)}
-                aria-pressed={isDark}
-                className="inline-flex shrink-0 items-center rounded-lg border-2 border-slate-900 bg-white px-3 py-1.5 text-sm font-semibold text-slate-900 hover:bg-slate-100 sm:px-4 sm:py-2 sm:text-base dark:border-slate-100 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
-              >
-                {isDark ? 'Light mode' : 'Dark mode'}
-              </button>
-            )}
+            <div className="flex shrink-0 flex-col items-end gap-1">
+              {account.signedIn ? (
+                <>
+                  <p className="max-w-[12rem] truncate text-sm font-semibold text-slate-900 dark:text-slate-50">{account.email}</p>
+                  {account.plan === 'free' && (
+                    <p className="text-sm text-slate-800 dark:text-slate-100">
+                      Free lessons left: {account.lessonsLeft} of {FREE_LESSON_LIMIT}
+                    </p>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => { void signOut(); }}
+                    className="rounded-lg border-2 border-slate-900 px-3 py-1.5 text-sm font-semibold text-slate-900 hover:bg-slate-100 dark:border-slate-100 dark:text-white dark:hover:bg-slate-700"
+                  >
+                    Sign out
+                  </button>
+                </>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => { setSignInOpen(true); setSignInPrompt(false); }}
+                  className="rounded-lg bg-blue-700 px-3 py-1.5 text-sm font-bold text-white hover:bg-blue-800 sm:px-4 sm:py-2 sm:text-base"
+                >
+                  Sign in
+                </button>
+              )}
+              {view === 'config' && (
+                <button
+                  type="button"
+                  onClick={() => setIsDark((dark) => !dark)}
+                  aria-pressed={isDark}
+                  className="inline-flex shrink-0 items-center rounded-lg border-2 border-slate-900 bg-white px-3 py-1.5 text-sm font-semibold text-slate-900 hover:bg-slate-100 sm:px-4 sm:py-2 sm:text-base dark:border-slate-100 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
+                >
+                  {isDark ? 'Light mode' : 'Dark mode'}
+                </button>
+              )}
+            </div>
           </div>
           <h2 className="mt-2 text-center text-lg font-bold text-slate-900 dark:text-white sm:text-2xl md:text-3xl">
             English Comprehension Practice
@@ -1350,6 +1393,10 @@ const App: React.FC = () => {
             Practice reading and listening with short stories and quizzes.
           </p>
         </header>
+      )}
+
+      {signInOpen && !account.signedIn && (
+        <SignInBox prompt={signInPrompt} onClose={() => { setSignInOpen(false); setSignInPrompt(false); }} />
       )}
 
       <main className="w-full">
