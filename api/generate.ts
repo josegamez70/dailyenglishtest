@@ -29,10 +29,12 @@ import {
   type SpeakerGender,
 } from '../dialogue';
 import { normalizeQuiz, type NormalizedQuizQuestion } from '../quizNormalize';
+import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 
 type HandlerEvent = {
   httpMethod?: string;
   body?: string | null;
+  headers?: Record<string, string | undefined> | null;
 };
 
 type HandlerResponse = {
@@ -167,6 +169,48 @@ const LESSON_SCHEMA: ResponseSchema = {
 
 function clamp(n: number, lo: number, hi: number) {
   return Math.max(lo, Math.min(hi, n));
+}
+
+const FREE_LESSON_LIMIT = 3;
+
+function adminClient(): SupabaseClient | null {
+  const url = process.env.SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!url || !key) return null;
+  return createClient(url, key, {
+    auth: { persistSession: false, autoRefreshToken: false },
+  });
+}
+
+function bearerToken(event: HandlerEvent): string | null {
+  const headers = event.headers ?? {};
+  const raw = headers.authorization || headers.Authorization || '';
+  const match = String(raw).match(/^Bearer\s+(\S+)/i);
+  return match?.[1] ?? null;
+}
+
+type LessonAllowance = { allowed: boolean; lessonsUsed: number; plan: string };
+
+function readAllowance(data: unknown): LessonAllowance | null {
+  const row = Array.isArray(data) ? data[0] : data;
+  if (!row || typeof row !== 'object') return null;
+  const record = row as Record<string, unknown>;
+  if (typeof record.allowed !== 'boolean') return null;
+  return {
+    allowed: record.allowed,
+    lessonsUsed: Number(record.lessons_used ?? 0),
+    plan: String(record.plan ?? 'free'),
+  };
+}
+
+function limitBody(lessonsUsed: number, plan: string) {
+  return JSON.stringify({
+    ok: false,
+    error: 'free_limit',
+    lessonsUsed,
+    plan,
+    message: 'You have used your 3 free lessons. Premium is coming soon: 5 € per month.',
+  });
 }
 
 function pickApiKey() {
@@ -729,7 +773,7 @@ function readParams(bodyText: string | null | undefined): LessonParams | null {
 export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => {
   const corsHeaders = {
     'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     'Content-Type': 'application/json',
   };
 
@@ -754,6 +798,41 @@ export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => 
         headers: corsHeaders,
         body: JSON.stringify({ ok: false, code: 'BAD_REQUEST', message: 'Invalid prompt JSON' }),
       };
+    }
+
+    const token = bearerToken(event);
+    if (!token) {
+      return {
+        statusCode: 401,
+        headers: corsHeaders,
+        body: JSON.stringify({ ok: false, error: 'auth_required' }),
+      };
+    }
+    const admin = adminClient();
+    if (!admin) {
+      return {
+        statusCode: 500,
+        headers: corsHeaders,
+        body: JSON.stringify({ ok: false, code: 'NO_AUTH', message: 'Sign-in is not set up yet.' }),
+      };
+    }
+    const userResult = await admin.auth.getUser(token);
+    const userId = userResult.data.user?.id;
+    if (userResult.error || !userId) {
+      return {
+        statusCode: 401,
+        headers: corsHeaders,
+        body: JSON.stringify({ ok: false, error: 'auth_required' }),
+      };
+    }
+
+    if (params.stage === 'story') {
+      const { data: profile } = await admin.from('profiles').select('plan, lessons_used').eq('id', userId).maybeSingle();
+      const used = Number(profile?.lessons_used ?? 0);
+      const plan = String(profile?.plan ?? 'free');
+      if (plan === 'free' && used >= FREE_LESSON_LIMIT) {
+        return { statusCode: 402, headers: corsHeaders, body: limitBody(used, plan) };
+      }
     }
 
     const deadline = Date.now() + 23000;
@@ -824,6 +903,22 @@ export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => 
           stage: 'quiz',
           quiz: best.lesson.quiz,
         }),
+      };
+    }
+
+    const consumed = await admin.rpc('consume_lesson', { uid: userId, free_limit: FREE_LESSON_LIMIT });
+    const allowance = readAllowance(consumed.data);
+    if (consumed.error || !allowance?.allowed) {
+      return {
+        statusCode: allowance && !allowance.allowed ? 402 : 502,
+        headers: corsHeaders,
+        body: allowance && !allowance.allowed
+          ? limitBody(allowance.lessonsUsed, allowance.plan)
+          : JSON.stringify({
+            ok: false,
+            code: 'LESSON_COUNT',
+            message: 'The lesson could not be saved. Please try again.',
+          }),
       };
     }
 
