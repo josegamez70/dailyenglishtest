@@ -44,9 +44,11 @@
     </style>
     <script>
       try {
-        if (localStorage.getItem('theme') === 'dark') {
-          document.documentElement.classList.add('dark');
-        }
+        var theme = localStorage.getItem('theme') || 'system';
+        var systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var dark = theme === 'dark' || (theme !== 'light' && systemDark);
+        document.documentElement.classList.toggle('dark', dark);
+        document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
       } catch (e) {}
     </script>
     <script src="https://cdn.tailwindcss.com"></script>
