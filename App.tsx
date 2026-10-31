@@ -23,6 +23,9 @@ import { ProfilePage, type ThemeChoice, type VoiceChoice } from './components/Pr
 import { ProgressPage } from './components/ProgressPage';
 import { SavedLessonsPage } from './components/SavedLessonsPage';
 import { cefrToLessonLevel, type CefrLevel } from './progressStats';
+import { ACADEMY_INVITE_DISMISSED_KEY, ACADEMY_INVITE_KEY, normalizeInviteCode } from './academyStats';
+import { AcademyPage } from './components/AcademyPage';
+import { JoinAcademyPage } from './components/JoinAcademyPage';
 import { saveLesson, saveTestResult } from './studyStore';
 import { SignInBox } from './components/SignInBox';
 import { LegalDocument, SiteFooter, legalPageFromPath } from './components/LegalPages';
@@ -236,6 +239,36 @@ const App: React.FC = () => {
     window.addEventListener('popstate', onPop);
     return () => window.removeEventListener('popstate', onPop);
   }, []);
+
+  const invitePrompted = useRef(false);
+  useEffect(() => {
+    try {
+      const code = normalizeInviteCode(new URLSearchParams(window.location.search).get('code') || '');
+      if (code) localStorage.setItem(ACADEMY_INVITE_KEY, code);
+    } catch {
+      /* ignore blocked storage */
+    }
+  }, []);
+
+  useEffect(() => {
+    if (invitePrompted.current || !account.ready || !account.signedIn || !account.academyChecked) return;
+    if (account.academyRole === 'student' || account.plan === 'academy') return;
+    if (path !== '/' && path !== '/join') return;
+    let code = '';
+    let dismissed = '';
+    try {
+      code = normalizeInviteCode(localStorage.getItem(ACADEMY_INVITE_KEY) || '');
+      dismissed = localStorage.getItem(ACADEMY_INVITE_DISMISSED_KEY) || '';
+    } catch {
+      return;
+    }
+    if (!code || dismissed === code) return;
+    invitePrompted.current = true;
+    if (path !== '/join') {
+      window.history.replaceState({}, '', '/join');
+      setPath('/join');
+    }
+  }, [account.ready, account.signedIn, account.academyChecked, account.academyRole, account.plan, path]);
 
   useEffect(() => {
     speedRef.current = account.speed;
@@ -1366,7 +1399,16 @@ const App: React.FC = () => {
   if (!account.ready) return <AuthLoading />;
 
   const showLanding = !account.signedIn;
-  const statusText = planStatusText(account.plan, account.lessonsLeft);
+  const statusText = planStatusText(account.plan, account.lessonsLeft, account.academyRole === 'student');
+  const inviteCode = (() => {
+    try {
+      const fromUrl = normalizeInviteCode(new URLSearchParams(window.location.search).get('code') || '');
+      if (fromUrl) return fromUrl;
+      return normalizeInviteCode(localStorage.getItem(ACADEMY_INVITE_KEY) || '');
+    } catch {
+      return '';
+    }
+  })();
 
   const signedOutPage = (
     <div className="min-h-screen text-slate-900 dark:text-slate-50 flex flex-col items-center px-3 pt-2 pb-4 sm:px-5 sm:pb-6 transition-colors duration-300">
@@ -1519,7 +1561,7 @@ const App: React.FC = () => {
     </div>
   );
 
-  const shellItem: ShellItem = path === '/progress' ? 'progress' : path === '/saved' ? 'saved' : path === '/profile' ? 'profile' : 'lesson';
+  const shellItem: ShellItem = path === '/progress' ? 'progress' : path === '/saved' ? 'saved' : path === '/profile' ? 'profile' : path === '/academy' ? 'academy' : path === '/join' ? 'join' : 'lesson';
   const go = (next: string) => {
     const clean = next.replace(/\/+$/, '') || '/';
     const current = window.location.pathname.replace(/\/+$/, '') || '/';
@@ -1555,9 +1597,30 @@ const App: React.FC = () => {
   if (!account.signedIn) return signedOutPage;
 
   return (
-    <AppShell active={shellItem} onNavigate={go} onSignOut={() => { void signOut(); }} email={account.email} status={statusText}>
+    <AppShell active={shellItem} onNavigate={go} onSignOut={() => { void signOut(); }} email={account.email} status={statusText} showAcademy={account.plan === 'academy'}>
       {shellItem === 'progress' && <ProgressPage onCreate={() => go('/')} />}
       {shellItem === 'saved' && <SavedLessonsPage onOpen={openSaved} onCreate={() => go('/')} />}
+      {shellItem === 'academy' && account.plan === 'academy' && <AcademyPage />}
+      {shellItem === 'academy' && account.plan !== 'academy' && (
+        <p className="text-base">This page is for academy accounts.</p>
+      )}
+      {shellItem === 'join' && (
+        <JoinAcademyPage
+          code={inviteCode}
+          onJoined={() => {
+            try {
+              localStorage.removeItem(ACADEMY_INVITE_KEY);
+              localStorage.removeItem(ACADEMY_INVITE_DISMISSED_KEY);
+            } catch { /* ignore */ }
+            void account.refreshProfile();
+            go('/');
+          }}
+          onNotNow={() => {
+            try { localStorage.setItem(ACADEMY_INVITE_DISMISSED_KEY, inviteCode); } catch { /* ignore */ }
+            go('/');
+          }}
+        />
+      )}
       {shellItem === 'profile' && (
         <ProfilePage
           userId={account.userId}
@@ -1569,6 +1632,8 @@ const App: React.FC = () => {
           voice={account.voice}
           speed={account.speed}
           displayName={account.displayName}
+          academyRole={account.academyRole}
+          academyName={account.academyName}
           onTheme={setThemeChoice}
           onSaved={(next) => {
             setThemeChoice(next.theme);
@@ -1578,6 +1643,7 @@ const App: React.FC = () => {
             setConfig((current) => ({ ...current, level: cefrToLessonLevel(next.defaultLevel) }));
             void account.refreshProfile();
           }}
+          onAcademyChanged={() => { void account.refreshProfile(); }}
         />
       )}
       {shellItem === 'lesson' && signedOutPage}
