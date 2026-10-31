@@ -41,6 +41,36 @@
   to = "/index.html"
   status = 200
 
+[[redirects]]
+  from = "/progress"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/progress/"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/saved"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/saved/"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/profile"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/profile/"
+  to = "/index.html"
+  status = 200
+
 # Le decimos a Netlify que el comando para desarrollo es 'vite'
 [dev]
   command = "vite"

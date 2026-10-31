@@ -17,7 +17,13 @@ import { clampedFontStep } from './fontStep';
 import { withStoryReview } from './quizSession';
 import { resumeWordIndex, textFromWordIndex } from './speechPosition';
 import { generateStoryAndQuiz } from './services/geminiService';
-import { FREE_LESSON_LIMIT, signOut, useAccount } from './auth';
+import { FREE_LESSON_LIMIT, planStatusText, signOut, useAccount } from './auth';
+import { AppShell, type ShellItem } from './components/AppShell';
+import { ProfilePage, type ThemeChoice, type VoiceChoice } from './components/ProfilePage';
+import { ProgressPage } from './components/ProgressPage';
+import { SavedLessonsPage } from './components/SavedLessonsPage';
+import { cefrToLessonLevel, type CefrLevel } from './progressStats';
+import { saveLesson, saveTestResult } from './studyStore';
 import { SignInBox } from './components/SignInBox';
 import { LegalDocument, SiteFooter, legalPageFromPath } from './components/LegalPages';
 import { AuthLoading, Landing, focusSignIn } from './components/Landing';
@@ -158,7 +164,14 @@ const App: React.FC = () => {
   const [loadingNote, setLoadingNote] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isVocabularyModalOpen, setIsVocabularyModalOpen] = useState(false);
-  const [isDark, setIsDark] = useState(() => document.documentElement.classList.contains('dark'));
+  const [themeChoice, setThemeChoice] = useState<ThemeChoice>(() => {
+    try {
+      const stored = localStorage.getItem('theme');
+      if (stored === 'light' || stored === 'dark' || stored === 'system') return stored;
+    } catch { /* ignore */ }
+    return 'system';
+  });
+  const [path, setPath] = useState(() => window.location.pathname.replace(/\/+$/, '') || '/');
   const [fontStep, setFontStep] = useState(readFontStep);
 
   const [isSpeaking, setIsSpeaking] = useState(false);
@@ -186,20 +199,60 @@ const App: React.FC = () => {
   const pausedRef = useRef(false);
   const pauseModeRef = useRef<'native' | 'restart' | null>(null);
   const rateRef = useRef(1);
+  const speedRef = useRef(1);
+  const voiceRef = useRef<VoiceChoice>('british');
+  const levelAppliedRef = useRef(false);
 
   useEffect(() => {
     isSpeakingRef.current = isSpeaking;
   }, [isSpeaking]);
 
+  const darkOn = themeChoice === 'dark' || (themeChoice !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+
   useEffect(() => {
-    document.documentElement.classList.toggle('dark', isDark);
-    document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+    const dark = themeChoice === 'dark' || (themeChoice !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    document.documentElement.classList.toggle('dark', dark);
+    document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
     try {
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      localStorage.setItem('theme', themeChoice);
     } catch {
       /* ignore blocked storage */
     }
-  }, [isDark]);
+  }, [themeChoice]);
+
+  useEffect(() => {
+    if (themeChoice !== 'system') return undefined;
+    const query = window.matchMedia('(prefers-color-scheme: dark)');
+    const apply = () => {
+      document.documentElement.classList.toggle('dark', query.matches);
+      document.documentElement.style.colorScheme = query.matches ? 'dark' : 'light';
+    };
+    query.addEventListener('change', apply);
+    return () => query.removeEventListener('change', apply);
+  }, [themeChoice]);
+
+  useEffect(() => {
+    const onPop = () => setPath(window.location.pathname.replace(/\/+$/, '') || '/');
+    window.addEventListener('popstate', onPop);
+    return () => window.removeEventListener('popstate', onPop);
+  }, []);
+
+  useEffect(() => {
+    speedRef.current = account.speed;
+    voiceRef.current = account.voice;
+  }, [account.speed, account.voice]);
+
+  useEffect(() => {
+    if (account.theme === 'light' || account.theme === 'dark' || account.theme === 'system') {
+      setThemeChoice(account.theme);
+    }
+  }, [account.theme]);
+
+  useEffect(() => {
+    if (!account.defaultLevel || levelAppliedRef.current) return;
+    levelAppliedRef.current = true;
+    setConfig((current) => ({ ...current, level: cefrToLessonLevel(account.defaultLevel || 'A2') }));
+  }, [account.defaultLevel]);
 
   useEffect(() => {
     try {
@@ -315,6 +368,20 @@ const App: React.FC = () => {
       setUserAnswers(new Array(result.quiz.length).fill(''));
       setCurrentQuestionIndex(0);
       setQuizLoading(false);
+      const title = result.resolvedTopic || chosen.label;
+      void saveLesson({
+        story: result.story,
+        quiz: result.quiz,
+        vocabulary: result.vocabulary,
+        dialogue: result.dialogue,
+        level: config.level,
+        levelLabel: levelLabel,
+        topic: title,
+        title,
+        mode: practiceType,
+        format: contentFormat,
+        wordCount: config.wordCount,
+      }, title).catch(() => undefined);
     } catch (err) {
       setQuizLoading(false);
       if (controller.signal.aborted || (err instanceof Error && err.name === 'AbortError')) {
@@ -342,6 +409,20 @@ const App: React.FC = () => {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
       stopSpeaking();
+      const score = quiz.reduce((acc, question, index) => acc + (question.correctAnswer === userAnswers[index] ? 1 : 0), 0);
+      const wrongAnswers = quiz.flatMap((question, index) => {
+        const userAnswer = userAnswers[index] || '';
+        if (userAnswer === question.correctAnswer) return [];
+        return [{ question: question.question, userAnswer, correctAnswer: question.correctAnswer }];
+      });
+      void saveTestResult({
+        level: LEVELS.find((level) => level.value === config.level)?.label ?? config.level,
+        topic: storyTopic?.label ?? config.topic,
+        title: storyTopic?.label ?? config.topic,
+        score,
+        total: quiz.length,
+        wrongAnswers,
+      }).catch(() => undefined);
       const next = withStoryReview(
         { questionIndex: currentQuestionIndex, answers: userAnswers, reviewOpen: storyReviewOpen },
         false
@@ -600,15 +681,15 @@ const App: React.FC = () => {
       const lines = dialogueLines.slice(startTurn);
       void whenVoicesReady().then((liveVoices) => {
         if (playId !== playIdRef.current || pausedRef.current) return;
-        const voices = voicesBySpeaker(
-          speakersWithGender(lessonTurns),
-          liveVoices.map((voice) => ({
-            name: voice.name,
-            lang: voice.lang,
-            voiceURI: voice.voiceURI,
-            default: voice.default,
-          }))
-        );
+        const accentPrefix = voiceRef.current === 'american' ? 'en-us' : 'en-gb';
+        const listed = liveVoices.map((voice) => ({
+          name: voice.name,
+          lang: voice.lang,
+          voiceURI: voice.voiceURI,
+          default: voice.default,
+        }));
+        const accentVoices = listed.filter((voice) => voice.lang.toLowerCase().replace('_', '-').startsWith(accentPrefix));
+        const voices = voicesBySpeaker(speakersWithGender(lessonTurns), accentVoices.length ? accentVoices : listed);
         try {
           lines.forEach((line, index) => {
             const utterance = new SpeechSynthesisUtterance(line.text);
@@ -616,7 +697,7 @@ const App: React.FC = () => {
             const live = liveVoices.find((voice) => choice?.voiceURI && voice.voiceURI === choice.voiceURI)
               ?? liveVoices.find((voice) => voice.name === choice?.name && voice.lang === choice?.lang);
             if (live) utterance.voice = live;
-            utterance.lang = choice?.lang || 'en-US';
+            utterance.lang = choice?.lang || (voiceRef.current === 'american' ? 'en-US' : 'en-GB');
             const pitch = choice?.pitch ?? 1;
             utterance.pitch = pitch < 0.75 ? 0.8 : pitch;
             utterance.rate = rate * (choice?.rateScale ?? 1);
@@ -647,7 +728,7 @@ const App: React.FC = () => {
       setTimeout(() => {
         if (playId !== playIdRef.current || pausedRef.current) return;
         const utterance = new SpeechSynthesisUtterance(spoken);
-        utterance.lang = 'en-US';
+        utterance.lang = voiceRef.current === 'american' ? 'en-US' : 'en-GB';
         utterance.rate = rate;
         utterance.onend = finish;
         utterance.onerror = handleError;
@@ -671,7 +752,7 @@ const App: React.FC = () => {
     setTimeout(() => {
       if (playId !== playIdRef.current || pausedRef.current) return;
       const utterance = new SpeechSynthesisUtterance(spoken);
-      utterance.lang = 'en-US';
+      utterance.lang = voiceRef.current === 'american' ? 'en-US' : 'en-GB';
       utterance.rate = rate;
       if (!keepClock) utterance.onboundary = (event: SpeechSynthesisEvent) => {
         if (pausedRef.current) return;
@@ -926,17 +1007,17 @@ const App: React.FC = () => {
       <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 justify-center">
         <button
           type="button"
-          onClick={() => playSpeak(1)}
+          onClick={() => playSpeak(speedRef.current)}
           className="bg-green-700 hover:bg-green-800 text-white font-bold py-3 px-6 rounded-lg text-lg"
         >
-          Play 1x
+          Play
         </button>
         <button
           type="button"
-          onClick={() => playSpeak(0.5)}
+          onClick={() => playSpeak(speedRef.current * 0.75)}
           className="bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-6 rounded-lg text-lg"
         >
-          Play 0.5x
+          Slower
         </button>
         <button
           type="button"
@@ -972,8 +1053,8 @@ const App: React.FC = () => {
                 {isPaused
                   ? 'Paused'
                   : isSpeaking
-                    ? playbackRate != null && playbackRate <= 0.6
-                      ? 'Playing at half speed'
+                    ? playbackRate != null && playbackRate < 1
+                      ? 'Playing slower'
                       : 'Playing'
                     : 'Finished'}
               </span>
@@ -1285,8 +1366,9 @@ const App: React.FC = () => {
   if (!account.ready) return <AuthLoading />;
 
   const showLanding = !account.signedIn;
+  const statusText = planStatusText(account.plan, account.lessonsLeft);
 
-  return (
+  const signedOutPage = (
     <div className="min-h-screen text-slate-900 dark:text-slate-50 flex flex-col items-center px-3 pt-2 pb-4 sm:px-5 sm:pb-6 transition-colors duration-300">
       <DictionaryPopup />
       {isLoading && loadingStartedAt != null && (
@@ -1345,7 +1427,7 @@ const App: React.FC = () => {
           </div>
         </div>
       )}
-      {view !== 'story' && (
+      {!account.signedIn && view !== 'story' && (
         <header className="mb-3 w-full max-w-4xl mx-auto">
           <div className="flex items-center gap-2 sm:gap-4">
             <div className="flex min-w-0 flex-1 items-center justify-center gap-2 sm:gap-4">
@@ -1391,11 +1473,11 @@ const App: React.FC = () => {
               {view === 'config' && (
                 <button
                   type="button"
-                  onClick={() => setIsDark((dark) => !dark)}
-                  aria-pressed={isDark}
+                  onClick={() => setThemeChoice(darkOn ? 'light' : 'dark')}
+                  aria-pressed={darkOn}
                   className="inline-flex shrink-0 items-center rounded-lg border-2 border-slate-900 bg-white px-3 py-1.5 text-sm font-semibold text-slate-900 hover:bg-slate-100 sm:px-4 sm:py-2 sm:text-base dark:border-slate-100 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
                 >
-                  {isDark ? 'Light mode' : 'Dark mode'}
+                  {darkOn ? 'Light mode' : 'Dark mode'}
                 </button>
               )}
             </div>
@@ -1419,6 +1501,11 @@ const App: React.FC = () => {
 
       {showLanding ? <Landing /> : (
       <main className="w-full">
+        {view === 'config' && statusText && (
+          <p className="mx-auto mb-4 w-fit rounded-full border border-slate-300 bg-white px-3 py-1 text-sm font-semibold text-slate-800 dark:border-slate-500 dark:bg-slate-800 dark:text-slate-100">
+            {statusText}
+          </p>
+        )}
         {error && (
           <div className="w-full max-w-2xl mx-auto bg-red-100 border border-red-700 text-red-900 px-4 py-3 rounded-lg relative mb-6 text-base" role="alert">
             <strong className="font-bold">Error: </strong>
@@ -1428,8 +1515,73 @@ const App: React.FC = () => {
         {renderContent()}
       </main>
       )}
-      <SiteFooter />
+      {!account.signedIn && <SiteFooter />}
     </div>
+  );
+
+  const shellItem: ShellItem = path === '/progress' ? 'progress' : path === '/saved' ? 'saved' : path === '/profile' ? 'profile' : 'lesson';
+  const go = (next: string) => {
+    const clean = next.replace(/\/+$/, '') || '/';
+    const current = window.location.pathname.replace(/\/+$/, '') || '/';
+    if (current !== clean) window.history.pushState({}, '', clean);
+    setPath(clean);
+    if (clean === '/') resetApp();
+    window.scrollTo({ top: 0 });
+  };
+  const openSaved = (lesson: Record<string, unknown>) => {
+    stopSpeaking();
+    const quizItems = Array.isArray(lesson.quiz) ? lesson.quiz as QuizQuestion[] : [];
+    setStory(String(lesson.story ?? ''));
+    setQuiz(quizItems);
+    setVocabulary(Array.isArray(lesson.vocabulary) ? lesson.vocabulary as VocabularyItem[] : []);
+    setDialogueTurns(Array.isArray(lesson.dialogue) ? lesson.dialogue as DialogueTurn[] : parseDialogue(String(lesson.story ?? '')));
+    setUserAnswers(new Array(quizItems.length).fill(''));
+    setCurrentQuestionIndex(0);
+    setStoryReviewOpen(false);
+    setPracticeType(lesson.mode === 'listening' ? 'listening' : 'reading');
+    setContentFormat(lesson.format === 'dialogue' ? 'dialogue' : 'text');
+    if (typeof lesson.level === 'string') setConfig((current) => ({ ...current, level: lesson.level as string }));
+    setStoryTopic({ label: String(lesson.title ?? lesson.topic ?? 'Lesson'), surprise: false });
+    setView('story');
+    const current = window.location.pathname.replace(/\/+$/, '') || '/';
+    if (current !== '/') window.history.pushState({}, '', '/');
+    setPath('/');
+    window.scrollTo({ top: 0 });
+  };
+  const cefr = (['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as const).includes(account.defaultLevel as CefrLevel)
+    ? account.defaultLevel as CefrLevel
+    : 'A2';
+
+  if (!account.signedIn) return signedOutPage;
+
+  return (
+    <AppShell active={shellItem} onNavigate={go} onSignOut={() => { void signOut(); }} email={account.email} status={statusText}>
+      {shellItem === 'progress' && <ProgressPage onCreate={() => go('/')} />}
+      {shellItem === 'saved' && <SavedLessonsPage onOpen={openSaved} onCreate={() => go('/')} />}
+      {shellItem === 'profile' && (
+        <ProfilePage
+          userId={account.userId}
+          email={account.email}
+          plan={account.plan}
+          lessonsLeft={account.lessonsLeft}
+          theme={themeChoice}
+          defaultLevel={cefr}
+          voice={account.voice}
+          speed={account.speed}
+          displayName={account.displayName}
+          onTheme={setThemeChoice}
+          onSaved={(next) => {
+            setThemeChoice(next.theme);
+            speedRef.current = next.speed;
+            voiceRef.current = next.voice;
+            levelAppliedRef.current = true;
+            setConfig((current) => ({ ...current, level: cefrToLessonLevel(next.defaultLevel) }));
+            void account.refreshProfile();
+          }}
+        />
+      )}
+      {shellItem === 'lesson' && signedOutPage}
+    </AppShell>
   );
 };
 
