@@ -1,21 +1,73 @@
 import React, { useEffect, useState } from 'react';
-import { averagePercent, bestPercent, dayStreak } from '../progressStats';
+import { averagePercent, bestPercent, chartX, chartY, dayStreak, formatResultDate } from '../progressStats';
 import { listTestResults, type TestResultRow } from '../studyStore';
 
-function ScoreChart({ scores }: { scores: number[] }) {
+const GUIDE_SCORES = [100, 50, 0];
+
+export function ScoreChart({ scores }: { scores: number[] }) {
   if (!scores.length) return null;
-  const width = 320;
-  const height = 120;
-  const step = scores.length === 1 ? 0 : width / (scores.length - 1);
-  const points = scores.map((score, index) => {
-    const x = index * step;
-    const y = height - (Math.max(0, Math.min(100, score)) / 100) * (height - 8) - 4;
-    return `${x},${y}`;
-  }).join(' ');
+  const line = scores.map((score, index) => `${chartX(index, scores.length)},${chartY(score)}`).join(' ');
   return (
-    <svg viewBox={`0 0 ${width} ${height}`} className="mt-3 h-32 w-full" role="img" aria-label="Last 10 scores">
-      <polyline fill="none" stroke="currentColor" strokeWidth="3" points={points} className="text-blue-700 dark:text-blue-300" />
-    </svg>
+    <div className="relative mt-3 h-40 w-full" role="img" aria-label={`Last 10 scores: ${scores.join(', ')}`}>
+      <div className="absolute inset-y-0 left-0 w-10">
+        {GUIDE_SCORES.map((mark) => (
+          <span
+            key={mark}
+            className="absolute right-1 -translate-y-1/2 text-[11px] leading-none text-slate-500 dark:text-slate-400"
+            style={{ top: `${chartY(mark)}%` }}
+          >
+            {mark}%
+          </span>
+        ))}
+      </div>
+      <div className="absolute inset-y-0 left-10 right-0">
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="h-full w-full overflow-visible">
+          {GUIDE_SCORES.map((mark) => (
+            <line
+              key={mark}
+              x1="0"
+              x2="100"
+              y1={chartY(mark)}
+              y2={chartY(mark)}
+              stroke="currentColor"
+              strokeWidth="1"
+              vectorEffect="non-scaling-stroke"
+              className="text-slate-300 dark:text-slate-600"
+            />
+          ))}
+          {scores.length > 1 && (
+            <polyline
+              fill="none"
+              points={line}
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinejoin="round"
+              strokeLinecap="round"
+              vectorEffect="non-scaling-stroke"
+              className="text-blue-700 dark:text-blue-300"
+            />
+          )}
+        </svg>
+        {scores.map((score, index) => {
+          const x = chartX(index, scores.length);
+          const y = chartY(score);
+          return (
+            <div key={`${index}-${score}`}>
+              <span
+                className="absolute z-10 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-700 dark:bg-blue-300"
+                style={{ left: `${x}%`, top: `${y}%` }}
+              />
+              <span
+                className="absolute z-10 -translate-x-1/2 -translate-y-full whitespace-nowrap pb-1 text-[11px] font-semibold leading-none text-slate-800 dark:text-slate-100"
+                style={{ left: `${x}%`, top: `${y}%` }}
+              >
+                {score}%
+              </span>
+            </div>
+          );
+        })}
+      </div>
+    </div>
   );
 }
 
@@ -85,7 +137,7 @@ export function ProgressPage({ onCreate }: { onCreate: () => void }) {
                 onClick={() => setOpenId(open ? null : row.id)}
                 className="w-full px-4 py-3 text-left"
               >
-                <span className="block text-sm text-slate-600 dark:text-slate-300">{new Date(row.created_at).toLocaleString()}</span>
+                <span className="block text-sm text-slate-600 dark:text-slate-300">{formatResultDate(row.created_at)}</span>
                 <span className="mt-1 block text-base font-semibold">{row.title || row.topic} · {row.level} · {row.score}/{row.total} ({percent}%)</span>
               </button>
               {open && (

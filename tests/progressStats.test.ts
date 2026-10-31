@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { averagePercent, bestPercent, cefrToLessonLevel, dayStreak } from '../progressStats.ts';
+import { averagePercent, bestPercent, cefrToLessonLevel, chartX, chartY, dayStreak, formatResultDate } from '../progressStats.ts';
 
 test('streak counts consecutive local days and stops after a gap', () => {
   const today = new Date(2026, 9, 31);
@@ -26,4 +26,12 @@ test('score summaries ignore empty tests', () => {
   assert.equal(cefrToLessonLevel('C1'), 'advanced');
   assert.equal(cefrToLessonLevel('B2'), 'intermediate');
   assert.equal(cefrToLessonLevel('A2'), 'beginner');
+});
+
+test('a single chart score has a point and higher scores sit higher', () => {
+  assert.equal(chartX(0, 1), 50);
+  assert.ok(chartX(0, 2) < chartX(1, 2));
+  assert.ok(chartY(100) < chartY(50));
+  assert.ok(chartY(50) < chartY(0));
+  assert.equal(formatResultDate(new Date(2026, 9, 31, 9, 57)), '31 Oct 2026, 09:57');
 });

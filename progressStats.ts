@@ -36,6 +36,36 @@ export function bestPercent(rows: { score: number; total: number }[]): number {
 
 export type CefrLevel = 'A1' | 'A2' | 'B1' | 'B2' | 'C1' | 'C2';
 
+const CHART_TOP = 18;
+const CHART_BOTTOM = 90;
+
+/** Vertical position in a 0–100 viewBox. 100% is near the top. */
+export function chartY(score: number): number {
+  const clamped = Math.max(0, Math.min(100, score));
+  return CHART_TOP + ((100 - clamped) / 100) * (CHART_BOTTOM - CHART_TOP);
+}
+
+/** Horizontal position in a 0–100 viewBox. One score sits in the middle. */
+export function chartX(index: number, count: number): number {
+  if (count <= 1) return 50;
+  const inset = 6;
+  return inset + (index / (count - 1)) * (100 - inset * 2);
+}
+
+/** Short local date, for example "31 Oct 2026, 09:57". */
+export function formatResultDate(value: string | Date): string {
+  const date = value instanceof Date ? value : new Date(value);
+  if (Number.isNaN(date.getTime())) return '';
+  return new Intl.DateTimeFormat('en-GB', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hourCycle: 'h23',
+  }).format(date);
+}
+
 export function cefrToLessonLevel(level: string): 'beginner' | 'intermediate' | 'advanced' {
   const key = level.toUpperCase();
   if (key === 'C1' || key === 'C2' || key.includes('ADVANCED')) return 'advanced';

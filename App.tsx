@@ -17,7 +17,7 @@ import { clampedFontStep } from './fontStep';
 import { withStoryReview } from './quizSession';
 import { resumeWordIndex, textFromWordIndex } from './speechPosition';
 import { generateStoryAndQuiz } from './services/geminiService';
-import { FREE_LESSON_LIMIT, signOut, useAccount } from './auth';
+import { FREE_LESSON_LIMIT, planStatusText, signOut, useAccount } from './auth';
 import { AppShell, type ShellItem } from './components/AppShell';
 import { ProfilePage, type ThemeChoice, type VoiceChoice } from './components/ProfilePage';
 import { ProgressPage } from './components/ProgressPage';
@@ -1366,6 +1366,7 @@ const App: React.FC = () => {
   if (!account.ready) return <AuthLoading />;
 
   const showLanding = !account.signedIn;
+  const statusText = planStatusText(account.plan, account.lessonsLeft);
 
   const signedOutPage = (
     <div className="min-h-screen text-slate-900 dark:text-slate-50 flex flex-col items-center px-3 pt-2 pb-4 sm:px-5 sm:pb-6 transition-colors duration-300">
@@ -1500,6 +1501,11 @@ const App: React.FC = () => {
 
       {showLanding ? <Landing /> : (
       <main className="w-full">
+        {view === 'config' && statusText && (
+          <p className="mx-auto mb-4 w-fit rounded-full border border-slate-300 bg-white px-3 py-1 text-sm font-semibold text-slate-800 dark:border-slate-500 dark:bg-slate-800 dark:text-slate-100">
+            {statusText}
+          </p>
+        )}
         {error && (
           <div className="w-full max-w-2xl mx-auto bg-red-100 border border-red-700 text-red-900 px-4 py-3 rounded-lg relative mb-6 text-base" role="alert">
             <strong className="font-bold">Error: </strong>
@@ -1549,7 +1555,7 @@ const App: React.FC = () => {
   if (!account.signedIn) return signedOutPage;
 
   return (
-    <AppShell active={shellItem} onNavigate={go} onSignOut={() => { void signOut(); }}>
+    <AppShell active={shellItem} onNavigate={go} onSignOut={() => { void signOut(); }} email={account.email} status={statusText}>
       {shellItem === 'progress' && <ProgressPage onCreate={() => go('/')} />}
       {shellItem === 'saved' && <SavedLessonsPage onOpen={openSaved} onCreate={() => go('/')} />}
       {shellItem === 'profile' && (

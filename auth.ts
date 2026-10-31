@@ -2,6 +2,17 @@ import { useCallback, useEffect, useState } from 'react';
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 
 export const FREE_LESSON_LIMIT = 3;
+
+/** Free accounts show the remaining lessons. Other plans show a name only. */
+export function planStatusText(plan: string | null, lessonsLeft: number): string | null {
+  if (!plan) return null;
+  if (plan === 'free') return `Free lessons left: ${lessonsLeft} of ${FREE_LESSON_LIMIT}`;
+  if (plan === 'pro') return 'Premium';
+  if (plan === 'tester') return 'Tester';
+  if (plan === 'academy') return 'Academy';
+  return plan;
+}
+
 export const FREE_LIMIT_MESSAGE = 'You have used your 3 free lessons. Premium is coming soon: 5 € per month.';
 
 let client: SupabaseClient | null | undefined;
