@@ -1,12 +1,37 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { averagePercent, bestPercent, chartX, chartY, dayStreak, formatResultDate } from '../progressStats';
 import { listTestResults, type TestResultRow } from '../studyStore';
 
 const GUIDE_SCORES = [100, 50, 0];
 
 export function ScoreChart({ scores }: { scores: number[] }) {
+  const plotRef = useRef<HTMLDivElement>(null);
+  const [box, setBox] = useState({ width: 0, height: 0 });
+
+  useLayoutEffect(() => {
+    const el = plotRef.current;
+    if (!el) return undefined;
+    const apply = () => {
+      const width = el.clientWidth;
+      const height = el.clientHeight;
+      setBox((current) => (current.width === width && current.height === height ? current : { width, height }));
+    };
+    apply();
+    if (typeof ResizeObserver !== 'function') {
+      window.addEventListener('resize', apply);
+      return () => window.removeEventListener('resize', apply);
+    }
+    const observer = new ResizeObserver(apply);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   if (!scores.length) return null;
-  const line = scores.map((score, index) => `${chartX(index, scores.length)},${chartY(score)}`).join(' ');
+  const { width, height } = box;
+  const line = width > 0 && height > 0
+    ? scores.map((score, index) => `${(chartX(index, scores.length) / 100) * width},${(chartY(score) / 100) * height}`).join(' ')
+    : '';
+
   return (
     <div className="relative mt-3 h-40 w-full" role="img" aria-label={`Last 10 scores: ${scores.join(', ')}`}>
       <div className="absolute inset-y-0 left-0 w-10">
@@ -20,34 +45,37 @@ export function ScoreChart({ scores }: { scores: number[] }) {
           </span>
         ))}
       </div>
-      <div className="absolute inset-y-0 left-10 right-0">
-        <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="h-full w-full overflow-visible">
-          {GUIDE_SCORES.map((mark) => (
-            <line
-              key={mark}
-              x1="0"
-              x2="100"
-              y1={chartY(mark)}
-              y2={chartY(mark)}
-              stroke="currentColor"
-              strokeWidth="1"
-              vectorEffect="non-scaling-stroke"
-              className="text-slate-300 dark:text-slate-600"
-            />
-          ))}
-          {scores.length > 1 && (
-            <polyline
-              fill="none"
-              points={line}
-              stroke="currentColor"
-              strokeWidth="2.5"
-              strokeLinejoin="round"
-              strokeLinecap="round"
-              vectorEffect="non-scaling-stroke"
-              className="text-blue-700 dark:text-blue-300"
-            />
-          )}
-        </svg>
+      <div ref={plotRef} className="absolute inset-y-0 left-10 right-0">
+        {width > 0 && height > 0 && (
+          <svg viewBox={`0 0 ${width} ${height}`} className="block h-full w-full">
+            {GUIDE_SCORES.map((mark) => {
+              const y = (chartY(mark) / 100) * height;
+              return (
+                <line
+                  key={mark}
+                  x1="0"
+                  x2={width}
+                  y1={y}
+                  y2={y}
+                  stroke="currentColor"
+                  strokeWidth="1"
+                  className="text-slate-300 dark:text-slate-600"
+                />
+              );
+            })}
+            {scores.length > 1 && (
+              <polyline
+                fill="none"
+                points={line}
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinejoin="round"
+                strokeLinecap="round"
+                className="text-blue-700 dark:text-blue-300"
+              />
+            )}
+          </svg>
+        )}
         {scores.map((score, index) => {
           const x = chartX(index, scores.length);
           const y = chartY(score);
