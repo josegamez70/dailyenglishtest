@@ -71,6 +71,26 @@
   to = "/index.html"
   status = 200
 
+[[redirects]]
+  from = "/academy"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/academy/"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/join"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/join/"
+  to = "/index.html"
+  status = 200
+
 # Le decimos a Netlify que el comando para desarrollo es 'vite'
 [dev]
   command = "vite"

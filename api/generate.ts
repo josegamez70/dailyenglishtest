@@ -831,7 +831,11 @@ export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => 
       const used = Number(profile?.lessons_used ?? 0);
       const plan = String(profile?.plan ?? 'free');
       if (plan === 'free' && used >= FREE_LESSON_LIMIT) {
-        return { statusCode: 402, headers: corsHeaders, body: limitBody(used, plan) };
+        const access = await admin.rpc('academy_lesson_access', { uid: userId });
+        const academySeat = !access.error && access.data === true;
+        if (!academySeat) {
+          return { statusCode: 402, headers: corsHeaders, body: limitBody(used, plan) };
+        }
       }
     }
 

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { FREE_LESSON_LIMIT } from '../auth';
 import { updateProfileSettings } from '../studyStore';
 import type { CefrLevel } from '../progressStats';
+import { AcademyProfileSection } from './AcademyProfileSection';
 
 export type ThemeChoice = 'light' | 'dark' | 'system';
 export type VoiceChoice = 'british' | 'american';
@@ -9,7 +10,8 @@ export type VoiceChoice = 'british' | 'american';
 const LEVELS: CefrLevel[] = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 const SPEEDS = [0.75, 1, 1.25];
 
-function planLabel(plan: string | null): string {
+function planLabel(plan: string | null, academyStudent: boolean): string {
+  if (academyStudent) return 'Academy student';
   if (plan === 'pro') return 'Premium';
   if (plan === 'tester') return 'Tester';
   if (plan === 'academy') return 'Academy';
@@ -26,8 +28,11 @@ export function ProfilePage({
   voice,
   speed,
   displayName,
+  academyRole,
+  academyName,
   onTheme,
   onSaved,
+  onAcademyChanged,
 }: {
   userId: string | null;
   email: string | null;
@@ -38,8 +43,11 @@ export function ProfilePage({
   voice: VoiceChoice;
   speed: number;
   displayName: string;
+  academyRole: 'owner' | 'student' | null;
+  academyName: string | null;
   onTheme: (theme: ThemeChoice) => void;
   onSaved: (next: { theme: ThemeChoice; defaultLevel: CefrLevel; voice: VoiceChoice; speed: number; displayName: string }) => void;
+  onAcademyChanged: () => void;
 }) {
   const [name, setName] = useState(displayName);
   const [level, setLevel] = useState<CefrLevel>(defaultLevel);
@@ -78,13 +86,15 @@ export function ProfilePage({
     setNote('Saved.');
   };
 
+  const academyStudent = academyRole === 'student';
   return (
-    <form onSubmit={save} className="mx-auto w-full max-w-xl space-y-5">
+    <div className="mx-auto w-full max-w-xl">
+    <form onSubmit={save} className="space-y-5">
       <h1 className="text-2xl font-bold">Profile</h1>
       <p className="text-base">{email}</p>
       <p className="text-base font-semibold">
-        {planLabel(plan)}
-        {(plan ?? 'free') === 'free' ? ` · ${lessonsLeft} of ${FREE_LESSON_LIMIT} free lessons left` : ''}
+        {planLabel(plan, academyStudent)}
+        {!academyStudent && (plan ?? 'free') === 'free' ? ` · ${lessonsLeft} of ${FREE_LESSON_LIMIT} free lessons left` : ''}
       </p>
       <label className="block text-sm font-semibold" htmlFor="display-name">
         Display name (optional)
@@ -154,5 +164,7 @@ export function ProfilePage({
       </button>
       {note && <p className="text-base">{note}</p>}
     </form>
+    <AcademyProfileSection plan={plan} academyRole={academyRole} academyName={academyName} onChanged={onAcademyChanged} />
+    </div>
   );
 }
