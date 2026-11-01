@@ -13,6 +13,74 @@ export function countPhrase(count: number, singular: string, plural = `${singula
   return `${count} ${count === 1 ? singular : plural}`;
 }
 
+/** Full join link for this site, including deploy previews. */
+export function inviteLink(origin: string, code: string): string {
+  const base = origin.replace(/\/+$/, '');
+  return `${base}/join?code=${encodeURIComponent(code)}`;
+}
+
+type CopyArea = {
+  value: string;
+  style: { position: string; left: string; top: string; opacity: string };
+  setAttribute: (name: string, value: string) => void;
+  focus: () => void;
+  select: () => void;
+};
+
+/** Android browsers sometimes block navigator.clipboard. A hidden field still copies. */
+export function copyWithHiddenTextarea(
+  text: string,
+  doc: {
+    createElement: (tag: 'textarea') => CopyArea;
+    body: { appendChild: (node: CopyArea) => void; removeChild: (node: CopyArea) => void };
+    execCommand: (command: string) => boolean;
+  },
+): boolean {
+  try {
+    const area = doc.createElement('textarea');
+    area.value = text;
+    area.setAttribute('readonly', '');
+    area.style.position = 'fixed';
+    area.style.left = '-9999px';
+    area.style.top = '0';
+    area.style.opacity = '0';
+    doc.body.appendChild(area);
+    area.focus();
+    area.select();
+    const copied = doc.execCommand('copy');
+    doc.body.removeChild(area);
+    return copied;
+  } catch {
+    return false;
+  }
+}
+
+export async function copyInviteText(
+  text: string,
+  tools?: {
+    writeText?: (value: string) => Promise<void>;
+    fallback?: (value: string) => boolean;
+  },
+): Promise<boolean> {
+  const writeText = tools?.writeText
+    ?? (typeof navigator !== 'undefined' && navigator.clipboard?.writeText
+      ? navigator.clipboard.writeText.bind(navigator.clipboard)
+      : undefined);
+  if (writeText) {
+    try {
+      await writeText(text);
+      return true;
+    } catch {
+      /* try the hidden field */
+    }
+  }
+  const fallback = tools?.fallback ?? ((value: string) => {
+    if (typeof document === 'undefined') return false;
+    return copyWithHiddenTextarea(value, document as unknown as Parameters<typeof copyWithHiddenTextarea>[1]);
+  });
+  return fallback(text);
+}
+
 /** Signed-out invite banner. A null name means the academy name is not available yet. */
 export function inviteBannerText(name: string | null): string {
   const academy = name?.trim() || 'an academy';
