@@ -1,11 +1,34 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { countTestsThisWeek, joinResultMessage, normalizeInviteCode, startOfLocalWeek } from '../academyStats.ts';
+import { countPhrase, countTestsThisWeek, inviteBannerText, joinResultMessage, normalizeInviteCode, startOfLocalWeek } from '../academyStats.ts';
 
 test('invite codes keep 6 to 8 letters and digits', () => {
   assert.equal(normalizeInviteCode(' ab-cd12 '), 'ABCD12');
   assert.equal(normalizeInviteCode('abc'), '');
   assert.equal(normalizeInviteCode('ABCDEFGHI'), '');
+});
+
+test('counts use the singular word for one', () => {
+  assert.equal(countPhrase(1, 'test'), '1 test');
+  assert.equal(countPhrase(0, 'test'), '0 tests');
+  assert.equal(countPhrase(2, 'test'), '2 tests');
+  assert.equal(countPhrase(1, 'student'), '1 student');
+  assert.equal(countPhrase(4, 'lesson'), '4 lessons');
+});
+
+test('an invite banner names the academy when it is known', () => {
+  assert.equal(
+    inviteBannerText('Bright Academy'),
+    'You have been invited to join Bright Academy. Sign in or create an account to join.',
+  );
+  assert.equal(
+    inviteBannerText(null),
+    'You have been invited to join an academy. Sign in or create an account to join.',
+  );
+  assert.equal(
+    inviteBannerText('  '),
+    'You have been invited to join an academy. Sign in or create an account to join.',
+  );
 });
 
 test('join errors use simple English', () => {

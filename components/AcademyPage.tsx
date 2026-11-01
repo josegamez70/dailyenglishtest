@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { createAcademy, loadAcademyStudents, loadOwnedAcademy, regenerateInviteCode, removeStudent, type AcademyStudent, type OwnedAcademy } from '../academy';
-import { countTestsThisWeek } from '../academyStats';
+import { countPhrase, countTestsThisWeek } from '../academyStats';
 import { averagePercent, formatResultDate } from '../progressStats';
 
 const SHARE_ORIGIN = 'https://dailyenglishtest.es/join?code=';
@@ -175,7 +175,7 @@ export function AcademyPage() {
               <button type="button" onClick={() => setOpenId(open ? null : student.userId)} className="w-full px-4 py-3 text-left">
                 <span className="block text-base font-semibold">{studentLabel(student)}</span>
                 <span className="mt-1 block text-sm text-slate-600 dark:text-slate-300">
-                  {student.tests.length} tests · average {averagePercent(scores)}%
+                  {countPhrase(student.tests.length, 'test')} · average {averagePercent(scores)}%
                   {latest ? ` · last ${formatResultDate(latest.createdAt)} · ${percent(latest.score, latest.total)}%` : ''}
                 </span>
               </button>

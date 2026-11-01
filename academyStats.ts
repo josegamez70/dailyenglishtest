@@ -8,6 +8,17 @@ export function normalizeInviteCode(raw: string): string {
   return cleaned;
 }
 
+/** "1 test", "0 tests", "2 lessons". */
+export function countPhrase(count: number, singular: string, plural = `${singular}s`): string {
+  return `${count} ${count === 1 ? singular : plural}`;
+}
+
+/** Signed-out invite banner. A null name means the academy name is not available yet. */
+export function inviteBannerText(name: string | null): string {
+  const academy = name?.trim() || 'an academy';
+  return `You have been invited to join ${academy}. Sign in or create an account to join.`;
+}
+
 export function joinResultMessage(result: string): string | null {
   if (result === 'ok') return null;
   if (result === 'invalid_code') return 'That code does not match an academy.';

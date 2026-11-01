@@ -28,7 +28,8 @@ import { ProfilePage, type ThemeChoice } from './components/ProfilePage';
 import { ProgressPage } from './components/ProgressPage';
 import { SavedLessonsPage } from './components/SavedLessonsPage';
 import { cefrToLessonLevel, type CefrLevel } from './progressStats';
-import { ACADEMY_INVITE_DISMISSED_KEY, ACADEMY_INVITE_KEY, normalizeInviteCode } from './academyStats';
+import { lookupAcademyName } from './academy';
+import { ACADEMY_INVITE_DISMISSED_KEY, ACADEMY_INVITE_KEY, inviteBannerText, normalizeInviteCode } from './academyStats';
 import { AcademyPage } from './components/AcademyPage';
 import { JoinAcademyPage } from './components/JoinAcademyPage';
 import { saveLesson, saveTestResult } from './studyStore';
@@ -239,14 +240,29 @@ const App: React.FC = () => {
   }, []);
 
   const invitePrompted = useRef(false);
+  const [inviteName, setInviteName] = useState<string | null>(null);
   useEffect(() => {
+    let code = '';
     try {
-      const code = normalizeInviteCode(new URLSearchParams(window.location.search).get('code') || '');
-      if (code) localStorage.setItem(ACADEMY_INVITE_KEY, code);
+      const fromUrl = normalizeInviteCode(new URLSearchParams(window.location.search).get('code') || '');
+      if (fromUrl) localStorage.setItem(ACADEMY_INVITE_KEY, fromUrl);
+      code = fromUrl || normalizeInviteCode(localStorage.getItem(ACADEMY_INVITE_KEY) || '');
     } catch {
       /* ignore blocked storage */
     }
-  }, []);
+    if (!code) {
+      setInviteName(null);
+      return undefined;
+    }
+    let ignore = false;
+    // lookup_academy_name is granted only to signed-in users and returns null for anon.
+    lookupAcademyName(code).then((result) => {
+      if (!ignore) setInviteName(result.name);
+    }).catch(() => {
+      if (!ignore) setInviteName(null);
+    });
+    return () => { ignore = true; };
+  }, [path]);
 
   useEffect(() => {
     if (invitePrompted.current || !account.ready || !account.signedIn || !account.academyChecked) return;
@@ -263,7 +279,7 @@ const App: React.FC = () => {
     if (!code || dismissed === code) return;
     invitePrompted.current = true;
     if (path !== '/join') {
-      window.history.replaceState({}, '', '/join');
+      window.history.replaceState({}, '', `/join?code=${code}`);
       setPath('/join');
     }
   }, [account.ready, account.signedIn, account.academyChecked, account.academyRole, account.plan, path]);
@@ -1518,7 +1534,19 @@ const App: React.FC = () => {
         <SignInBox prompt={signInPrompt} onClose={() => { setSignInOpen(false); setSignInPrompt(false); }} />
       )}
 
-      {showLanding ? <Landing /> : (
+      {showLanding ? (
+      <>
+        {inviteCode && (
+          <p
+            role="status"
+            className="mb-4 w-full max-w-3xl rounded-lg border-2 border-blue-700 bg-blue-50 px-4 py-3 text-base font-semibold text-slate-900 dark:border-blue-300 dark:bg-blue-950 dark:text-blue-50"
+          >
+            {inviteBannerText(inviteName)}
+          </p>
+        )}
+        <Landing />
+      </>
+      ) : (
       <main className="w-full">
         {view === 'config' && statusText && (
           <p className="mx-auto mb-4 w-fit rounded-full border border-slate-300 bg-white px-3 py-1 text-sm font-semibold text-slate-800 dark:border-slate-500 dark:bg-slate-800 dark:text-slate-100">
