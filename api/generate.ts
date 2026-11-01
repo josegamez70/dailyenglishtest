@@ -14,6 +14,7 @@ import {
 } from '../lessonUtils';
 import {
   FEMALE_NAMES,
+  MALE_NAMES,
   dialogueTurnPlan,
   dialogueSpeakers,
   normalizeFormat,
@@ -107,7 +108,7 @@ const LESSON_SCHEMA: ResponseSchema = {
     },
     dialogue: {
       type: SchemaType.ARRAY,
-      description: 'Dialogue turns. Empty for a Text lesson. Two speakers for a Dialogue lesson.',
+      description: 'Dialogue turns. Empty for a Text lesson. The first speaker is a woman and the second speaker is a man.',
       items: {
         type: SchemaType.OBJECT,
         properties: {
@@ -257,15 +258,19 @@ function levelRules(level: string): string {
 
 function formatRules(format: ContentFormat, speakers: { name: string; gender: SpeakerGender }[]): string {
   if (format === 'dialogue') {
-    const [first, second] = speakers;
+    const woman = speakers.find((speaker) => speaker.gender === 'female') ?? speakers[0];
+    const man = speakers.find((speaker) => speaker.gender === 'male') ?? speakers[1];
+    const womanName = woman?.name ?? 'Anna';
+    const manName = man?.name ?? 'Ben';
     return [
       'FORMAT: Dialogue.',
-      `Write a conversation between exactly these two women: ${first?.name ?? 'Anna'} and ${second?.name ?? 'Sophie'}.`,
-      `speaker must be exactly "${first?.name ?? 'Anna'}" or "${second?.name ?? 'Sophie'}".`,
+      `Write a conversation between exactly these two people: ${womanName}, a woman, and ${manName}, a man.`,
+      `${womanName} is the first speaker. ${manName} is the second speaker.`,
+      `speaker must be exactly "${womanName}" or "${manName}".`,
       'Return a dialogue array. Each item has speaker, gender, and line.',
-      'gender for both speakers is female.',
+      `gender for ${womanName} is female. gender for ${manName} is male.`,
       'Do not put the name inside line.',
-      `Also set story to the same dialogue, one turn per line, like "${first?.name ?? 'Anna'}: Hello."`,
+      `Also set story to the same dialogue, one turn per line, like "${womanName}: Hello."`,
       'Count only the words inside line. Do not count the speaker names.',
       'Do not write Character 1, Character 2, Person 1, Person 2, or any other name.',
     ].join(' ');
@@ -347,7 +352,7 @@ ${params.sourceStory}
 
 ${levelRules(params.level)}
 ${modeRules(params.mode)}
-${params.format === 'dialogue' ? 'In the questions, use the two women\'s names exactly as they appear in the story.' : ''}
+${params.format === 'dialogue' ? `In the questions, use ${(params.speakers.find((speaker) => speaker.gender === 'female') ?? params.speakers[0])?.name ?? 'the woman'} and ${(params.speakers.find((speaker) => speaker.gender === 'male') ?? params.speakers[1])?.name ?? 'the man'} exactly as they appear in the story.` : ''}
 
 QUIZ:
 - Exactly ${params.questionCount} questions about the story above.
@@ -438,6 +443,11 @@ function prepareLesson(parsed: Record<string, unknown>, params: LessonParams): P
     }
     if (speakersWithGender(dialogue).some((speaker) => !speaker.gender)) {
       problems.push('Every speaker must be one of the named people given for this dialogue.');
+    }
+    const woman = params.speakers.find((speaker) => speaker.gender === 'female');
+    const man = params.speakers.find((speaker) => speaker.gender === 'male');
+    if (woman && dialogue[0] && dialogue[0].speaker.toLowerCase() !== woman.name.toLowerCase()) {
+      problems.push(`${woman.name} is the woman and must speak first. ${man?.name ?? 'The man'} speaks second.`);
     }
   }
   if (!quizStage && !wordCountOk) {
@@ -713,17 +723,21 @@ async function generateRaw(apiKey: string, prompt: string, deadline: number, max
   );
 }
 
+function castName(raw: unknown, list: readonly string[]): string {
+  const text = String(raw ?? '').trim().toLowerCase();
+  return list.find((name) => name.toLowerCase() === text) ?? '';
+}
+
 function resolveDialogueSpeakers(raw: Record<string, unknown>): DialogueSpeaker[] {
   const incoming = Array.isArray(raw.speakers) ? raw.speakers : [];
-  const names = incoming.map((item) => {
-    const record = item && typeof item === 'object' ? item as Record<string, unknown> : {};
-    const text = String(record.name ?? '').trim().toLowerCase();
-    return FEMALE_NAMES.find((name) => name.toLowerCase() === text) ?? '';
-  });
-  if (names.length >= 2 && names[0] && names[1] && names[0] !== names[1]) {
+  const first = incoming[0] && typeof incoming[0] === 'object' ? (incoming[0] as Record<string, unknown>).name : '';
+  const second = incoming[1] && typeof incoming[1] === 'object' ? (incoming[1] as Record<string, unknown>).name : '';
+  const woman = castName(first, FEMALE_NAMES);
+  const man = castName(second, MALE_NAMES);
+  if (woman && man) {
     return [
-      { name: names[0], gender: 'female' },
-      { name: names[1], gender: 'female' },
+      { name: woman, gender: 'female' },
+      { name: man, gender: 'male' },
     ];
   }
   return pickDialogueSpeakers();

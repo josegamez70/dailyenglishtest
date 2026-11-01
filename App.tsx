@@ -4,6 +4,8 @@ import { LEVELS, QUESTION_COUNTS, resolveTopic, TOPICS, WORD_COUNTS } from './co
 import { isAndroidUserAgent } from './device';
 import { scoreFeedback } from './lessonUtils';
 import {
+  isEnUsLang,
+  narrationVoice,
   parseDialogue,
   resumeTurnIndex,
   speakersWithGender,
@@ -12,14 +14,17 @@ import {
   voicesBySpeaker,
   type ContentFormat,
   type DialogueTurn,
+  type ListedVoice,
+  type SpeakerVoice,
 } from './dialogue';
 import { clampedFontStep } from './fontStep';
+import { whenVoicesReady } from './speechVoices';
 import { withStoryReview } from './quizSession';
 import { resumeWordIndex, textFromWordIndex } from './speechPosition';
 import { generateStoryAndQuiz } from './services/geminiService';
 import { FREE_LESSON_LIMIT, planStatusText, signOut, useAccount } from './auth';
 import { AppShell, type ShellItem } from './components/AppShell';
-import { ProfilePage, type ThemeChoice, type VoiceChoice } from './components/ProfilePage';
+import { ProfilePage, type ThemeChoice } from './components/ProfilePage';
 import { ProgressPage } from './components/ProgressPage';
 import { SavedLessonsPage } from './components/SavedLessonsPage';
 import { cefrToLessonLevel, type CefrLevel } from './progressStats';
@@ -34,7 +39,6 @@ import BookOpenIcon from './components/icons/BookOpenIcon';
 import HeadphonesIcon from './components/icons/HeadphonesIcon';
 import CheckCircleIcon from './components/icons/CheckCircleIcon';
 import XCircleIcon from './components/icons/XCircleIcon';
-import HomeIcon from './components/icons/HomeIcon';
 import UKFlagIcon from './components/icons/UKFlagIcon';
 import VocabularyModal from './components/VocabularyModal';
 
@@ -100,41 +104,35 @@ function readFontStep(): number {
   return 1;
 }
 
-function readVoices(): { name: string; lang: string; voiceURI?: string; default?: boolean }[] {
-  try {
-    return window.speechSynthesis.getVoices().map((voice) => ({
-      name: voice.name,
-      lang: voice.lang,
-      voiceURI: voice.voiceURI,
-      default: voice.default,
-    }));
-  } catch {
-    return [];
-  }
+function listedVoices(live: SpeechSynthesisVoice[]): ListedVoice[] {
+  return live.map((voice) => ({
+    name: voice.name,
+    lang: voice.lang,
+    voiceURI: voice.voiceURI,
+    default: voice.default,
+  }));
 }
 
-function whenVoicesReady(): Promise<SpeechSynthesisVoice[]> {
-  return new Promise((resolve) => {
-    let settled = false;
-    const finish = () => {
-      const list = window.speechSynthesis.getVoices();
-      if (!list.length && !settled) return;
-      if (settled) return;
-      settled = true;
-      window.speechSynthesis.removeEventListener('voiceschanged', finish);
-      resolve(list);
-    };
-    try {
-      if (window.speechSynthesis.getVoices().length) {
-        resolve(window.speechSynthesis.getVoices());
-        return;
-      }
-      window.speechSynthesis.addEventListener('voiceschanged', finish);
-      window.setTimeout(finish, 700);
-    } catch {
-      resolve([]);
-    }
-  });
+function assignEnUsVoice(
+  utterance: SpeechSynthesisUtterance,
+  live: SpeechSynthesisVoice[],
+  choice: SpeakerVoice | undefined,
+) {
+  utterance.lang = 'en-US';
+  if (choice?.pitch) utterance.pitch = choice.pitch;
+  if (!choice?.name && !choice?.voiceURI) return;
+  const match = (choice.voiceURI && live.find((voice) => voice.voiceURI === choice.voiceURI))
+    || live.find((voice) => voice.name === choice.name && isEnUsLang(voice.lang || ''));
+  if (!match || !isEnUsLang(match.lang || '')) return;
+  utterance.voice = match;
+}
+
+function readSpeechVoices(): Promise<SpeechSynthesisVoice[]> {
+  try {
+    return whenVoicesReady(window.speechSynthesis);
+  } catch {
+    return Promise.resolve([]);
+  }
 }
 
 const App: React.FC = () => {
@@ -200,8 +198,8 @@ const App: React.FC = () => {
   const pauseModeRef = useRef<'native' | 'restart' | null>(null);
   const rateRef = useRef(1);
   const speedRef = useRef(1);
-  const voiceRef = useRef<VoiceChoice>('british');
   const levelAppliedRef = useRef(false);
+  const [finishing, setFinishing] = useState(false);
 
   useEffect(() => {
     isSpeakingRef.current = isSpeaking;
@@ -239,8 +237,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     speedRef.current = account.speed;
-    voiceRef.current = account.voice;
-  }, [account.speed, account.voice]);
+  }, [account.speed]);
 
   useEffect(() => {
     if (account.theme === 'light' || account.theme === 'dark' || account.theme === 'system') {
@@ -407,22 +404,25 @@ const App: React.FC = () => {
   const handleNextQuestion = () => {
     if (currentQuestionIndex < quiz.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
-    } else {
-      stopSpeaking();
-      const score = quiz.reduce((acc, question, index) => acc + (question.correctAnswer === userAnswers[index] ? 1 : 0), 0);
-      const wrongAnswers = quiz.flatMap((question, index) => {
-        const userAnswer = userAnswers[index] || '';
-        if (userAnswer === question.correctAnswer) return [];
-        return [{ question: question.question, userAnswer, correctAnswer: question.correctAnswer }];
-      });
-      void saveTestResult({
-        level: LEVELS.find((level) => level.value === config.level)?.label ?? config.level,
-        topic: storyTopic?.label ?? config.topic,
-        title: storyTopic?.label ?? config.topic,
-        score,
-        total: quiz.length,
-        wrongAnswers,
-      }).catch(() => undefined);
+      return;
+    }
+    if (finishing) return;
+    stopSpeaking();
+    const score = quiz.reduce((acc, question, index) => acc + (question.correctAnswer === userAnswers[index] ? 1 : 0), 0);
+    const wrongAnswers = quiz.flatMap((question, index) => {
+      const userAnswer = userAnswers[index] || '';
+      if (userAnswer === question.correctAnswer) return [];
+      return [{ question: question.question, userAnswer, correctAnswer: question.correctAnswer }];
+    });
+    setFinishing(true);
+    void saveTestResult({
+      level: LEVELS.find((level) => level.value === config.level)?.label ?? config.level,
+      topic: storyTopic?.label ?? config.topic,
+      title: storyTopic?.label ?? config.topic,
+      score,
+      total: quiz.length,
+      wrongAnswers,
+    }).catch(() => undefined).finally(() => {
       const next = withStoryReview(
         { questionIndex: currentQuestionIndex, answers: userAnswers, reviewOpen: storyReviewOpen },
         false
@@ -430,8 +430,9 @@ const App: React.FC = () => {
       setCurrentQuestionIndex(next.questionIndex);
       setUserAnswers(next.answers);
       setStoryReviewOpen(next.reviewOpen);
+      setFinishing(false);
       setView('results');
-    }
+    });
   };
 
   const stopSpeaking = useCallback(() => {
@@ -679,27 +680,14 @@ const App: React.FC = () => {
 
     if (speakingDialogue) {
       const lines = dialogueLines.slice(startTurn);
-      void whenVoicesReady().then((liveVoices) => {
+      void readSpeechVoices().then((liveVoices) => {
         if (playId !== playIdRef.current || pausedRef.current) return;
-        const accentPrefix = voiceRef.current === 'american' ? 'en-us' : 'en-gb';
-        const listed = liveVoices.map((voice) => ({
-          name: voice.name,
-          lang: voice.lang,
-          voiceURI: voice.voiceURI,
-          default: voice.default,
-        }));
-        const accentVoices = listed.filter((voice) => voice.lang.toLowerCase().replace('_', '-').startsWith(accentPrefix));
-        const voices = voicesBySpeaker(speakersWithGender(lessonTurns), accentVoices.length ? accentVoices : listed);
+        const voices = voicesBySpeaker(speakersWithGender(lessonTurns), listedVoices(liveVoices));
         try {
           lines.forEach((line, index) => {
             const utterance = new SpeechSynthesisUtterance(line.text);
             const choice = voices[line.speaker.toLowerCase()] ?? Object.values(voices)[0];
-            const live = liveVoices.find((voice) => choice?.voiceURI && voice.voiceURI === choice.voiceURI)
-              ?? liveVoices.find((voice) => voice.name === choice?.name && voice.lang === choice?.lang);
-            if (live) utterance.voice = live;
-            utterance.lang = choice?.lang || (voiceRef.current === 'american' ? 'en-US' : 'en-GB');
-            const pitch = choice?.pitch ?? 1;
-            utterance.pitch = pitch < 0.75 ? 0.8 : pitch;
+            assignEnUsVoice(utterance, liveVoices, choice);
             utterance.rate = rate * (choice?.rateScale ?? 1);
             utterance.onstart = () => {
               if (playId !== playIdRef.current) return;
@@ -725,34 +713,36 @@ const App: React.FC = () => {
     }
 
     if (isAndroid) {
-      setTimeout(() => {
-        if (playId !== playIdRef.current || pausedRef.current) return;
-        const utterance = new SpeechSynthesisUtterance(spoken);
-        utterance.lang = voiceRef.current === 'american' ? 'en-US' : 'en-GB';
-        utterance.rate = rate;
-        utterance.onend = finish;
-        utterance.onerror = handleError;
-        utteranceRef.current = utterance;
-        try {
-          window.speechSynthesis.speak(utterance);
-          setIsSpeaking(true);
-        } catch {
-          failToStart();
-        }
-      }, 60);
+      void readSpeechVoices().then((liveVoices) => {
+        window.setTimeout(() => {
+          if (playId !== playIdRef.current || pausedRef.current) return;
+          const utterance = new SpeechSynthesisUtterance(spoken);
+          assignEnUsVoice(utterance, liveVoices, narrationVoice(listedVoices(liveVoices)));
+          utterance.rate = rate;
+          utterance.onend = finish;
+          utterance.onerror = handleError;
+          utteranceRef.current = utterance;
+          try {
+            window.speechSynthesis.speak(utterance);
+            setIsSpeaking(true);
+          } catch {
+            failToStart();
+          }
+        }, 60);
+      });
       return;
     }
 
-    if (!keepClock) {
-      boundaryFallbackTimerRef.current = window.setTimeout(() => {
-        if (!firstBoundaryHeardRef.current && !pausedRef.current) startFallback();
-      }, 900);
-    }
-
-    setTimeout(() => {
+    void readSpeechVoices().then((liveVoices) => {
+      window.setTimeout(() => {
       if (playId !== playIdRef.current || pausedRef.current) return;
+      if (!keepClock) {
+        boundaryFallbackTimerRef.current = window.setTimeout(() => {
+          if (!firstBoundaryHeardRef.current && !pausedRef.current) startFallback();
+        }, 900);
+      }
       const utterance = new SpeechSynthesisUtterance(spoken);
-      utterance.lang = voiceRef.current === 'american' ? 'en-US' : 'en-GB';
+      assignEnUsVoice(utterance, liveVoices, narrationVoice(listedVoices(liveVoices)));
       utterance.rate = rate;
       if (!keepClock) utterance.onboundary = (event: SpeechSynthesisEvent) => {
         if (pausedRef.current) return;
@@ -788,7 +778,8 @@ const App: React.FC = () => {
         }
         failToStart();
       }
-    }, 60);
+      }, 60);
+    });
   }, [contentFormat, dialogueTurns, story, runProgressClock]);
 
   const pausePlayback = useCallback(() => {
@@ -881,20 +872,6 @@ const App: React.FC = () => {
     stopSpeaking();
   };
 
-  const HomeButton = ({ widthClass = 'max-w-3xl' }: { widthClass?: string }) => (
-    <div className={`w-full ${widthClass} mx-auto flex justify-end mb-3`}>
-      <button
-        type="button"
-        onClick={resetApp}
-        className="inline-flex items-center gap-2 bg-red-700 hover:bg-red-800 text-white font-semibold text-base py-2.5 px-4 rounded-lg shadow-md"
-        aria-label="Go to home screen"
-      >
-        <HomeIcon className="w-5 h-5" />
-        <span>Home</span>
-      </button>
-    </div>
-  );
-
   const modeButtonClass = (active: boolean) =>
     `flex flex-col items-center justify-center p-5 rounded-lg border-2 transition-all duration-200 ${
       active
@@ -979,7 +956,7 @@ const App: React.FC = () => {
       <p className="text-center text-base font-semibold text-slate-900 dark:text-slate-50 mb-2">
         Text size: {FONT_STEPS[fontStep].label}
       </p>
-      <div className="flex flex-wrap items-center justify-center gap-2" role="group" aria-label="Text size">
+      <div className="flex w-full flex-nowrap items-stretch gap-1.5" role="group" aria-label="Text size">
         {FONT_STEPS.map((step, index) => {
           const selected = index === fontStep;
           return (
@@ -990,8 +967,8 @@ const App: React.FC = () => {
               onClick={() => setFontStep(index)}
               className={
                 selected
-                  ? 'bg-blue-700 text-white border-2 border-blue-800 font-bold text-base px-4 py-2 rounded-lg'
-                  : 'bg-white text-slate-900 border-2 border-slate-700 font-semibold text-base px-4 py-2 rounded-lg hover:bg-slate-100 dark:bg-slate-800 dark:text-slate-50 dark:border-slate-200 dark:hover:bg-slate-700'
+                  ? 'min-w-0 flex-1 whitespace-nowrap rounded-lg border-2 border-blue-800 bg-blue-700 px-1 py-2 text-sm font-bold text-white'
+                  : 'min-w-0 flex-1 whitespace-nowrap rounded-lg border-2 border-slate-700 bg-white px-1 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-100 dark:border-slate-200 dark:bg-slate-800 dark:text-slate-50 dark:hover:bg-slate-700'
               }
             >
               {step.label}
@@ -1128,7 +1105,6 @@ const App: React.FC = () => {
 
   const StoryScreen = () => (
     <>
-      <HomeButton />
       <div className="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-xl shadow-lg w-full max-w-3xl mx-auto">
         <h2 className="text-lg sm:text-3xl font-bold text-center text-slate-900 dark:text-slate-50 whitespace-nowrap">
           {practiceType === 'reading' ? 'Read the Story' : 'Listen to the Story'}
@@ -1193,7 +1169,6 @@ const App: React.FC = () => {
     const question = quiz[currentQuestionIndex];
     return (
       <>
-        <HomeButton widthClass="max-w-2xl" />
         <div className="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-xl shadow-lg w-full max-w-2xl mx-auto">
           <h2 className="text-2xl font-bold text-center mb-4 text-slate-900 dark:text-slate-50">
             {practiceType === 'reading' ? 'Reading Comprehension Quiz' : 'Listening Comprehension Quiz'}
@@ -1242,10 +1217,13 @@ const App: React.FC = () => {
           <button
             type="button"
             onClick={handleNextQuestion}
-            disabled={!userAnswers[currentQuestionIndex]}
-            className="mt-8 w-full bg-green-700 hover:bg-green-800 disabled:bg-slate-300 disabled:text-slate-700 disabled:cursor-not-allowed text-white font-bold py-3 px-4 rounded-lg text-lg"
+            disabled={!userAnswers[currentQuestionIndex] || finishing}
+            aria-busy={finishing}
+            className={finishing
+              ? 'mt-8 w-full cursor-wait rounded-lg bg-green-800 py-3 px-4 text-lg font-bold text-white'
+              : 'mt-8 w-full rounded-lg bg-green-700 py-3 px-4 text-lg font-bold text-white hover:bg-green-800 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-700'}
           >
-            {currentQuestionIndex < quiz.length - 1 ? 'Next Question' : 'Finish Quiz'}
+            {finishing ? 'Saving...' : currentQuestionIndex < quiz.length - 1 ? 'Next Question' : 'Finish Quiz'}
           </button>
         </div>
       </>
@@ -1262,7 +1240,6 @@ const App: React.FC = () => {
 
     return (
       <>
-        <HomeButton />
         <div className="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-xl shadow-lg w-full max-w-3xl mx-auto">
           <h2 className="text-3xl font-bold text-center mb-2 text-slate-900 dark:text-slate-50">Quiz Complete!</h2>
           <p className="text-center text-xl text-slate-800 dark:text-slate-100 mb-2">
@@ -1555,7 +1532,14 @@ const App: React.FC = () => {
   if (!account.signedIn) return signedOutPage;
 
   return (
-    <AppShell active={shellItem} onNavigate={go} onSignOut={() => { void signOut(); }} email={account.email} status={statusText}>
+    <AppShell
+      active={shellItem}
+      onNavigate={go}
+      onSignOut={() => signOut()}
+      email={account.email}
+      status={statusText}
+      onHome={shellItem === 'lesson' && (view === 'story' || view === 'quiz' || view === 'results') ? resetApp : undefined}
+    >
       {shellItem === 'progress' && <ProgressPage onCreate={() => go('/')} />}
       {shellItem === 'saved' && <SavedLessonsPage onOpen={openSaved} onCreate={() => go('/')} />}
       {shellItem === 'profile' && (
@@ -1566,14 +1550,12 @@ const App: React.FC = () => {
           lessonsLeft={account.lessonsLeft}
           theme={themeChoice}
           defaultLevel={cefr}
-          voice={account.voice}
           speed={account.speed}
           displayName={account.displayName}
           onTheme={setThemeChoice}
           onSaved={(next) => {
             setThemeChoice(next.theme);
             speedRef.current = next.speed;
-            voiceRef.current = next.voice;
             levelAppliedRef.current = true;
             setConfig((current) => ({ ...current, level: cefrToLessonLevel(next.defaultLevel) }));
             void account.refreshProfile();

@@ -71,7 +71,8 @@ const Configurator: React.FC<ConfiguratorProps> = ({ config, setConfig, onGenera
         type="button"
         onClick={onGenerate}
         disabled={isLoading}
-        className="w-full bg-blue-700 hover:bg-blue-800 disabled:bg-slate-300 disabled:text-slate-700 disabled:cursor-not-allowed text-white font-bold py-3 px-4 rounded-lg transition-colors text-lg"
+        aria-busy={isLoading}
+        className="w-full bg-blue-700 hover:bg-blue-800 disabled:bg-slate-300 disabled:text-slate-700 disabled:cursor-not-allowed text-white font-bold py-3 px-4 rounded-lg text-lg"
       >
         {isLoading ? 'Generating...' : 'Start Learning'}
       </button>
