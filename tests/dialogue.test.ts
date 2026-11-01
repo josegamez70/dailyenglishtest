@@ -49,7 +49,7 @@ test('dialogue voices are American and alternate female then male', () => {
     { speaker: '**Person 1:**', line: 'We should stay uphill.' },
   ]);
   assert.equal(turns[0].gender, 'female');
-  assert.equal(turns[1].gender, 'female');
+  assert.equal(turns[1].gender, 'male');
   assert.equal(turns[2].gender, 'female');
   const women = [
     { name: 'Anna', gender: 'female' as const },
@@ -77,20 +77,22 @@ test('dialogue voices are American and alternate female then male', () => {
   assert.equal(labelled[0].gender, 'female');
   assert.equal(labelled[0].line, 'Hello there.');
   assert.equal(labelled[1].speaker, 'Character 2');
-  assert.equal(labelled[1].gender, 'female');
+  assert.equal(labelled[1].gender, 'male');
   const cast = [
     { name: 'Anna', gender: 'female' as const },
-    { name: 'Sophie', gender: 'female' as const },
+    { name: 'Ben', gender: 'male' as const },
   ];
   const mapped = parseDialogue('Person 1: Hello there.\nCharacter 2: Hi there.', cast);
   assert.equal(mapped[0].speaker, 'Anna');
-  assert.equal(mapped[1].speaker, 'Sophie');
-  assert.equal(mapped[1].gender, 'female');
+  assert.equal(mapped[0].gender, 'female');
+  assert.equal(mapped[1].speaker, 'Ben');
+  assert.equal(mapped[1].gender, 'male');
   assert.equal(parseDialogue([{ speaker: 'person 1', gender: 'male', line: 'Hello there.' }])[0].gender, 'female');
-  const named = parseDialogue('Anna: Hello there.\nSophie: Hi there.');
+  const named = parseDialogue('Anna: Hello there.\nBen: Hi there.');
   assert.equal(named[0].speaker, 'Anna');
   assert.equal(named[0].gender, 'female');
-  assert.equal(named[1].speaker, 'Sophie');
+  assert.equal(named[1].speaker, 'Ben');
+  assert.equal(named[1].gender, 'male');
 
   const windows = voicesBySpeaker(women, [
     { name: 'Microsoft David Desktop', lang: 'en-US' },
@@ -199,10 +201,13 @@ test('dialogue names rotate and long dialogues lose extra turns', () => {
   assert.deepEqual(dialogueTurnPlan(100), { turns: 10, wordsPerTurn: 10 });
   assert.deepEqual(dialogueTurnPlan(140), { turns: 14, wordsPerTurn: 10 });
   const first = pickDialogueSpeakers([], () => 0);
+  assert.equal(first[0].name, 'Anna');
   assert.equal(first[0].gender, 'female');
-  assert.equal(first[1].gender, 'female');
-  assert.notEqual(first[0].name, first[1].name);
+  assert.equal(first[1].name, 'Ben');
+  assert.equal(first[1].gender, 'male');
   const again = pickDialogueSpeakers([first[0].name, first[1].name], () => 0);
+  assert.equal(again[0].gender, 'female');
+  assert.equal(again[1].gender, 'male');
   const samePair = [again[0].name, again[1].name].sort().join() === [first[0].name, first[1].name].sort().join();
   assert.equal(samePair, false);
   const line = 'one two three four five six seven eight nine ten';

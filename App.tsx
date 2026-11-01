@@ -18,6 +18,7 @@ import {
   type SpeakerVoice,
 } from './dialogue';
 import { clampedFontStep } from './fontStep';
+import { whenVoicesReady } from './speechVoices';
 import { withStoryReview } from './quizSession';
 import { resumeWordIndex, textFromWordIndex } from './speechPosition';
 import { generateStoryAndQuiz } from './services/geminiService';
@@ -126,28 +127,12 @@ function assignEnUsVoice(
   utterance.voice = match;
 }
 
-function whenVoicesReady(): Promise<SpeechSynthesisVoice[]> {
-  return new Promise((resolve) => {
-    let settled = false;
-    const finish = () => {
-      const list = window.speechSynthesis.getVoices();
-      if (!list.length && !settled) return;
-      if (settled) return;
-      settled = true;
-      window.speechSynthesis.removeEventListener('voiceschanged', finish);
-      resolve(list);
-    };
-    try {
-      if (window.speechSynthesis.getVoices().length) {
-        resolve(window.speechSynthesis.getVoices());
-        return;
-      }
-      window.speechSynthesis.addEventListener('voiceschanged', finish);
-      window.setTimeout(finish, 700);
-    } catch {
-      resolve([]);
-    }
-  });
+function readSpeechVoices(): Promise<SpeechSynthesisVoice[]> {
+  try {
+    return whenVoicesReady(window.speechSynthesis);
+  } catch {
+    return Promise.resolve([]);
+  }
 }
 
 const App: React.FC = () => {
@@ -695,7 +680,7 @@ const App: React.FC = () => {
 
     if (speakingDialogue) {
       const lines = dialogueLines.slice(startTurn);
-      void whenVoicesReady().then((liveVoices) => {
+      void readSpeechVoices().then((liveVoices) => {
         if (playId !== playIdRef.current || pausedRef.current) return;
         const voices = voicesBySpeaker(speakersWithGender(lessonTurns), listedVoices(liveVoices));
         try {
@@ -728,7 +713,7 @@ const App: React.FC = () => {
     }
 
     if (isAndroid) {
-      void whenVoicesReady().then((liveVoices) => {
+      void readSpeechVoices().then((liveVoices) => {
         window.setTimeout(() => {
           if (playId !== playIdRef.current || pausedRef.current) return;
           const utterance = new SpeechSynthesisUtterance(spoken);
@@ -748,7 +733,7 @@ const App: React.FC = () => {
       return;
     }
 
-    void whenVoicesReady().then((liveVoices) => {
+    void readSpeechVoices().then((liveVoices) => {
       window.setTimeout(() => {
       if (playId !== playIdRef.current || pausedRef.current) return;
       if (!keepClock) {

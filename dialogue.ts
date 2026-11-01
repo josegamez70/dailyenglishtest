@@ -43,16 +43,15 @@ function cleanLine(speaker: string, line: string): string {
 
 export const FEMALE_NAMES = ['Anna', 'Sophie', 'Emma', 'Lucy', 'Laura', 'Kate', 'Julia', 'Mia'] as const;
 
+export const MALE_NAMES = ['Ben', 'Tom', 'Jack', 'David', 'Mark', 'James', 'Leo', 'Paul'] as const;
+
 export type DialogueSpeaker = { name: string; gender: SpeakerGender };
 
-/** First speaker is the higher voice. Second speaker is the lower voice. Both are women. */
+/** First speaker is a woman. Second speaker is a man. The pair changes each lesson. */
 export function pickDialogueSpeakers(previous: string[] = [], random: () => number = Math.random): DialogueSpeaker[] {
   const pairs: [string, string][] = [];
-  for (let i = 0; i < FEMALE_NAMES.length; i += 1) {
-    for (let j = 0; j < FEMALE_NAMES.length; j += 1) {
-      if (i === j) continue;
-      pairs.push([FEMALE_NAMES[i], FEMALE_NAMES[j]]);
-    }
+  for (const woman of FEMALE_NAMES) {
+    for (const man of MALE_NAMES) pairs.push([woman, man]);
   }
   const previousKey = previous.map((name) => name.toLowerCase()).sort().join('|');
   const allowed = pairs.filter(([first, second]) => [first, second].map((name) => name.toLowerCase()).sort().join('|') !== previousKey);
@@ -61,27 +60,37 @@ export function pickDialogueSpeakers(previous: string[] = [], random: () => numb
   const [first, second] = pool[index];
   return [
     { name: first, gender: 'female' },
-    { name: second, gender: 'female' },
+    { name: second, gender: 'male' },
   ];
 }
 
-function basketName(raw: string): string | null {
-  return FEMALE_NAMES.find((name) => name.toLowerCase() === raw.toLowerCase()) ?? null;
+function knownName(raw: string): { name: string; gender: SpeakerGender } | null {
+  const key = raw.toLowerCase();
+  const woman = FEMALE_NAMES.find((name) => name.toLowerCase() === key);
+  if (woman) return { name: woman, gender: 'female' };
+  const man = MALE_NAMES.find((name) => name.toLowerCase() === key);
+  if (man) return { name: man, gender: 'male' };
+  return null;
 }
 
-/** Named women are the real speakers. Character 1/2 and Person 1/2 still map onto the current pair. */
+/** Named speakers are the real speakers. Character 1/2 and Person 1/2 still map onto the current pair. */
 export function canonicalSpeaker(raw: string, cast?: { name: string }[]): string | null {
   const cleaned = raw.replace(/[*_`]/g, '').replace(/\s+/g, ' ').trim().replace(/:$/, '').trim();
-  const named = basketName(cleaned);
-  if (named) return named;
+  const named = knownName(cleaned);
+  if (named) return named.name;
   if (/^(character\s*1|person\s*1)$/i.test(cleaned)) return cast?.[0]?.name ?? 'Character 1';
   if (/^(character\s*2|person\s*2)$/i.test(cleaned)) return cast?.[1]?.name ?? 'Character 2';
   return null;
 }
 
-export function genderForName(name: string, cast?: { name: string }[]): SpeakerGender | null {
+export function genderForName(name: string, cast?: { name: string; gender?: SpeakerGender }[]): SpeakerGender | null {
   const speaker = canonicalSpeaker(name, cast);
   if (!speaker) return null;
+  const known = knownName(speaker);
+  if (known) return known.gender;
+  const listed = cast?.find((person) => person.name.toLowerCase() === speaker.toLowerCase());
+  if (listed?.gender) return listed.gender;
+  if (/^character\s*2$/i.test(speaker)) return 'male';
   return 'female';
 }
 
