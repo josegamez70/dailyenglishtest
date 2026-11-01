@@ -41,6 +41,24 @@
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <style>
       html { scrollbar-gutter: stable; }
+      button {
+        transition: transform 150ms ease, background-color 150ms ease, filter 150ms ease, box-shadow 150ms ease, border-color 150ms ease, color 150ms ease, opacity 150ms ease !important;
+      }
+      button:focus-visible {
+        outline: 2px solid #1d4ed8;
+        outline-offset: 2px;
+      }
+      html.dark button:focus-visible {
+        outline-color: #93c5fd;
+      }
+      button:active:not(:disabled):not([data-press="off"]) {
+        transform: scale(0.95);
+        filter: brightness(0.94);
+      }
+      html.dark button:active:not(:disabled):not([data-press="off"]) {
+        filter: brightness(1.12);
+        transform: scale(0.95);
+      }
     </style>
     <script>
       try {

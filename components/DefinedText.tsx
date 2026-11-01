@@ -1,5 +1,6 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { isEnUsLang, narrationVoice, type ListedVoice } from '../dialogue';
 import { defineWord, normalizeLookupWord, popupPosition, type DictEntry } from '../dictionary';
 
 type Anchor = { top: number; bottom: number; left: number; width: number; height: number };
@@ -52,6 +53,17 @@ function sayWord(word: string) {
     const utterance = new SpeechSynthesisUtterance(word);
     utterance.lang = 'en-US';
     utterance.rate = 0.9;
+    const live = window.speechSynthesis.getVoices();
+    const listed: ListedVoice[] = live.map((voice) => ({
+      name: voice.name,
+      lang: voice.lang,
+      voiceURI: voice.voiceURI,
+      default: voice.default,
+    }));
+    const choice = narrationVoice(listed);
+    const match = (choice.voiceURI && live.find((voice) => voice.voiceURI === choice.voiceURI))
+      || live.find((voice) => choice.name && voice.name === choice.name && isEnUsLang(voice.lang || ''));
+    if (match && isEnUsLang(match.lang || '')) utterance.voice = match;
     window.speechSynthesis.speak(utterance);
   } catch {
     /* the story audio keeps playing */
