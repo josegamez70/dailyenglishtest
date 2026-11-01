@@ -14,7 +14,6 @@ import {
 } from '../lessonUtils';
 import {
   FEMALE_NAMES,
-  MALE_NAMES,
   dialogueTurnPlan,
   dialogueSpeakers,
   normalizeFormat,
@@ -108,12 +107,12 @@ const LESSON_SCHEMA: ResponseSchema = {
     },
     dialogue: {
       type: SchemaType.ARRAY,
-      description: 'Dialogue turns. Empty for a Text lesson. The first speaker is a woman and the second speaker is a man.',
+      description: 'Dialogue turns. Empty for a Text lesson. Two women with different names. The first woman speaks first.',
       items: {
         type: SchemaType.OBJECT,
         properties: {
           speaker: { type: SchemaType.STRING, description: 'A short first name.' },
-          gender: { type: SchemaType.STRING, description: 'female or male. The same speaker always has the same gender.' },
+          gender: { type: SchemaType.STRING, description: 'female. Both speakers are women.' },
           line: { type: SchemaType.STRING, description: 'What that person says. Do not include the name.' },
         },
         required: ['speaker', 'gender', 'line'],
@@ -258,19 +257,19 @@ function levelRules(level: string): string {
 
 function formatRules(format: ContentFormat, speakers: { name: string; gender: SpeakerGender }[]): string {
   if (format === 'dialogue') {
-    const woman = speakers.find((speaker) => speaker.gender === 'female') ?? speakers[0];
-    const man = speakers.find((speaker) => speaker.gender === 'male') ?? speakers[1];
-    const womanName = woman?.name ?? 'Anna';
-    const manName = man?.name ?? 'Ben';
+    const [first, second] = speakers;
+    const firstName = first?.name ?? 'Anna';
+    const secondName = second?.name && second.name !== firstName ? second.name : 'Sophie';
     return [
       'FORMAT: Dialogue.',
-      `Write a conversation between exactly these two people: ${womanName}, a woman, and ${manName}, a man.`,
-      `${womanName} is the first speaker. ${manName} is the second speaker.`,
-      `speaker must be exactly "${womanName}" or "${manName}".`,
+      `Write a conversation between exactly these two women: ${firstName} and ${secondName}.`,
+      'They must have different names.',
+      `${firstName} is the first speaker. ${secondName} is the second speaker.`,
+      `speaker must be exactly "${firstName}" or "${secondName}".`,
       'Return a dialogue array. Each item has speaker, gender, and line.',
-      `gender for ${womanName} is female. gender for ${manName} is male.`,
+      'gender for both speakers is female.',
       'Do not put the name inside line.',
-      `Also set story to the same dialogue, one turn per line, like "${womanName}: Hello."`,
+      `Also set story to the same dialogue, one turn per line, like "${firstName}: Hello."`,
       'Count only the words inside line. Do not count the speaker names.',
       'Do not write Character 1, Character 2, Person 1, Person 2, or any other name.',
     ].join(' ');
@@ -352,7 +351,7 @@ ${params.sourceStory}
 
 ${levelRules(params.level)}
 ${modeRules(params.mode)}
-${params.format === 'dialogue' ? `In the questions, use ${(params.speakers.find((speaker) => speaker.gender === 'female') ?? params.speakers[0])?.name ?? 'the woman'} and ${(params.speakers.find((speaker) => speaker.gender === 'male') ?? params.speakers[1])?.name ?? 'the man'} exactly as they appear in the story.` : ''}
+${params.format === 'dialogue' ? `In the questions, use ${params.speakers[0]?.name ?? 'the first woman'} and ${params.speakers[1]?.name ?? 'the second woman'} exactly as they appear in the story.` : ''}
 
 QUIZ:
 - Exactly ${params.questionCount} questions about the story above.
@@ -444,10 +443,10 @@ function prepareLesson(parsed: Record<string, unknown>, params: LessonParams): P
     if (speakersWithGender(dialogue).some((speaker) => !speaker.gender)) {
       problems.push('Every speaker must be one of the named people given for this dialogue.');
     }
-    const woman = params.speakers.find((speaker) => speaker.gender === 'female');
-    const man = params.speakers.find((speaker) => speaker.gender === 'male');
-    if (woman && dialogue[0] && dialogue[0].speaker.toLowerCase() !== woman.name.toLowerCase()) {
-      problems.push(`${woman.name} is the woman and must speak first. ${man?.name ?? 'The man'} speaks second.`);
+    const firstSpeaker = params.speakers[0];
+    const secondSpeaker = params.speakers[1];
+    if (firstSpeaker && dialogue[0] && dialogue[0].speaker.toLowerCase() !== firstSpeaker.name.toLowerCase()) {
+      problems.push(`${firstSpeaker.name} must speak first. ${secondSpeaker?.name ?? 'The other woman'} speaks second. Both speakers are women with different names.`);
     }
   }
   if (!quizStage && !wordCountOk) {
@@ -733,11 +732,11 @@ function resolveDialogueSpeakers(raw: Record<string, unknown>): DialogueSpeaker[
   const first = incoming[0] && typeof incoming[0] === 'object' ? (incoming[0] as Record<string, unknown>).name : '';
   const second = incoming[1] && typeof incoming[1] === 'object' ? (incoming[1] as Record<string, unknown>).name : '';
   const woman = castName(first, FEMALE_NAMES);
-  const man = castName(second, MALE_NAMES);
-  if (woman && man) {
+  const otherWoman = castName(second, FEMALE_NAMES);
+  if (woman && otherWoman && woman !== otherWoman) {
     return [
       { name: woman, gender: 'female' },
-      { name: man, gender: 'male' },
+      { name: otherWoman, gender: 'female' },
     ];
   }
   return pickDialogueSpeakers();
@@ -845,7 +844,11 @@ export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => 
       const used = Number(profile?.lessons_used ?? 0);
       const plan = String(profile?.plan ?? 'free');
       if (plan === 'free' && used >= FREE_LESSON_LIMIT) {
-        return { statusCode: 402, headers: corsHeaders, body: limitBody(used, plan) };
+        const access = await admin.rpc('academy_lesson_access', { uid: userId });
+        const academySeat = !access.error && access.data === true;
+        if (!academySeat) {
+          return { statusCode: 402, headers: corsHeaders, body: limitBody(used, plan) };
+        }
       }
     }
 

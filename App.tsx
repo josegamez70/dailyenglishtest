@@ -18,7 +18,7 @@ import {
   type SpeakerVoice,
 } from './dialogue';
 import { clampedFontStep } from './fontStep';
-import { whenVoicesReady } from './speechVoices';
+import { slowerPlaybackRate, whenVoicesReady } from './speechVoices';
 import { withStoryReview } from './quizSession';
 import { resumeWordIndex, textFromWordIndex } from './speechPosition';
 import { generateStoryAndQuiz } from './services/geminiService';
@@ -28,6 +28,10 @@ import { ProfilePage, type ThemeChoice } from './components/ProfilePage';
 import { ProgressPage } from './components/ProgressPage';
 import { SavedLessonsPage } from './components/SavedLessonsPage';
 import { cefrToLessonLevel, type CefrLevel } from './progressStats';
+import { lookupAcademyName } from './academy';
+import { ACADEMY_INVITE_DISMISSED_KEY, ACADEMY_INVITE_KEY, inviteBannerText, normalizeInviteCode } from './academyStats';
+import { AcademyPage } from './components/AcademyPage';
+import { JoinAcademyPage } from './components/JoinAcademyPage';
 import { saveLesson, saveTestResult } from './studyStore';
 import { SignInBox } from './components/SignInBox';
 import { LegalDocument, SiteFooter, legalPageFromPath } from './components/LegalPages';
@@ -235,6 +239,50 @@ const App: React.FC = () => {
     return () => window.removeEventListener('popstate', onPop);
   }, []);
 
+  const invitePrompted = useRef(false);
+  const [inviteName, setInviteName] = useState<string | null>(null);
+  useEffect(() => {
+    let code = '';
+    try {
+      const fromUrl = normalizeInviteCode(new URLSearchParams(window.location.search).get('code') || '');
+      if (fromUrl) localStorage.setItem(ACADEMY_INVITE_KEY, fromUrl);
+      code = fromUrl || normalizeInviteCode(localStorage.getItem(ACADEMY_INVITE_KEY) || '');
+    } catch {
+      /* ignore blocked storage */
+    }
+    if (!code || !account.signedIn) {
+      setInviteName(null);
+      return undefined;
+    }
+    let ignore = false;
+    lookupAcademyName(code).then((result) => {
+      if (!ignore) setInviteName(result.name);
+    }).catch(() => {
+      if (!ignore) setInviteName(null);
+    });
+    return () => { ignore = true; };
+  }, [path, account.signedIn]);
+
+  useEffect(() => {
+    if (invitePrompted.current || !account.ready || !account.signedIn || !account.academyChecked) return;
+    if (account.academyRole === 'student' || account.plan === 'academy') return;
+    if (path !== '/' && path !== '/join') return;
+    let code = '';
+    let dismissed = '';
+    try {
+      code = normalizeInviteCode(localStorage.getItem(ACADEMY_INVITE_KEY) || '');
+      dismissed = localStorage.getItem(ACADEMY_INVITE_DISMISSED_KEY) || '';
+    } catch {
+      return;
+    }
+    if (!code || dismissed === code) return;
+    invitePrompted.current = true;
+    if (path !== '/join') {
+      window.history.replaceState({}, '', `/join?code=${code}`);
+      setPath('/join');
+    }
+  }, [account.ready, account.signedIn, account.academyChecked, account.academyRole, account.plan, path]);
+
   useEffect(() => {
     speedRef.current = account.speed;
   }, [account.speed]);
@@ -421,6 +469,7 @@ const App: React.FC = () => {
       title: storyTopic?.label ?? config.topic,
       score,
       total: quiz.length,
+      mode: practiceType === 'listening' ? 'listening' : 'reading',
       wrongAnswers,
     }).catch(() => undefined).finally(() => {
       const next = withStoryReview(
@@ -991,7 +1040,7 @@ const App: React.FC = () => {
         </button>
         <button
           type="button"
-          onClick={() => playSpeak(speedRef.current * 0.75)}
+          onClick={() => playSpeak(slowerPlaybackRate(speedRef.current))}
           className="bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-6 rounded-lg text-lg"
         >
           Slower
@@ -1343,7 +1392,16 @@ const App: React.FC = () => {
   if (!account.ready) return <AuthLoading />;
 
   const showLanding = !account.signedIn;
-  const statusText = planStatusText(account.plan, account.lessonsLeft);
+  const statusText = planStatusText(account.plan, account.lessonsLeft, account.academyRole === 'student');
+  const inviteCode = (() => {
+    try {
+      const fromUrl = normalizeInviteCode(new URLSearchParams(window.location.search).get('code') || '');
+      if (fromUrl) return fromUrl;
+      return normalizeInviteCode(localStorage.getItem(ACADEMY_INVITE_KEY) || '');
+    } catch {
+      return '';
+    }
+  })();
 
   const signedOutPage = (
     <div className="min-h-screen text-slate-900 dark:text-slate-50 flex flex-col items-center px-3 pt-2 pb-4 sm:px-5 sm:pb-6 transition-colors duration-300">
@@ -1476,7 +1534,19 @@ const App: React.FC = () => {
         <SignInBox prompt={signInPrompt} onClose={() => { setSignInOpen(false); setSignInPrompt(false); }} />
       )}
 
-      {showLanding ? <Landing /> : (
+      {showLanding ? (
+      <>
+        {inviteCode && (
+          <p
+            role="status"
+            className="mb-4 w-full max-w-3xl rounded-lg border-2 border-blue-700 bg-blue-50 px-4 py-3 text-base font-semibold text-slate-900 dark:border-blue-300 dark:bg-blue-950 dark:text-blue-50"
+          >
+            {inviteBannerText(inviteName)}
+          </p>
+        )}
+        <Landing />
+      </>
+      ) : (
       <main className="w-full">
         {view === 'config' && statusText && (
           <p className="mx-auto mb-4 w-fit rounded-full border border-slate-300 bg-white px-3 py-1 text-sm font-semibold text-slate-800 dark:border-slate-500 dark:bg-slate-800 dark:text-slate-100">
@@ -1496,7 +1566,7 @@ const App: React.FC = () => {
     </div>
   );
 
-  const shellItem: ShellItem = path === '/progress' ? 'progress' : path === '/saved' ? 'saved' : path === '/profile' ? 'profile' : 'lesson';
+  const shellItem: ShellItem = path === '/progress' ? 'progress' : path === '/saved' ? 'saved' : path === '/profile' ? 'profile' : path === '/academy' ? 'academy' : path === '/join' ? 'join' : 'lesson';
   const go = (next: string) => {
     const clean = next.replace(/\/+$/, '') || '/';
     const current = window.location.pathname.replace(/\/+$/, '') || '/';
@@ -1538,10 +1608,32 @@ const App: React.FC = () => {
       onSignOut={() => signOut()}
       email={account.email}
       status={statusText}
+      showAcademy={account.plan === 'academy'}
       onHome={shellItem === 'lesson' && (view === 'story' || view === 'quiz' || view === 'results') ? resetApp : undefined}
     >
       {shellItem === 'progress' && <ProgressPage onCreate={() => go('/')} />}
       {shellItem === 'saved' && <SavedLessonsPage onOpen={openSaved} onCreate={() => go('/')} />}
+      {shellItem === 'academy' && account.plan === 'academy' && <AcademyPage />}
+      {shellItem === 'academy' && account.plan !== 'academy' && (
+        <p className="text-base">This page is for academy accounts.</p>
+      )}
+      {shellItem === 'join' && (
+        <JoinAcademyPage
+          code={inviteCode}
+          onJoined={() => {
+            try {
+              localStorage.removeItem(ACADEMY_INVITE_KEY);
+              localStorage.removeItem(ACADEMY_INVITE_DISMISSED_KEY);
+            } catch { /* ignore */ }
+            void account.refreshProfile();
+            go('/');
+          }}
+          onNotNow={() => {
+            try { localStorage.setItem(ACADEMY_INVITE_DISMISSED_KEY, inviteCode); } catch { /* ignore */ }
+            go('/');
+          }}
+        />
+      )}
       {shellItem === 'profile' && (
         <ProfilePage
           userId={account.userId}
@@ -1552,6 +1644,8 @@ const App: React.FC = () => {
           defaultLevel={cefr}
           speed={account.speed}
           displayName={account.displayName}
+          academyRole={account.academyRole}
+          academyName={account.academyName}
           onTheme={setThemeChoice}
           onSaved={(next) => {
             setThemeChoice(next.theme);
@@ -1560,6 +1654,7 @@ const App: React.FC = () => {
             setConfig((current) => ({ ...current, level: cefrToLessonLevel(next.defaultLevel) }));
             void account.refreshProfile();
           }}
+          onAcademyChanged={() => { void account.refreshProfile(); }}
         />
       )}
       {shellItem === 'lesson' && signedOutPage}

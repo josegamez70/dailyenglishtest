@@ -4,7 +4,8 @@ import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 export const FREE_LESSON_LIMIT = 3;
 
 /** Free accounts show the remaining lessons. Other plans show a name only. */
-export function planStatusText(plan: string | null, lessonsLeft: number): string | null {
+export function planStatusText(plan: string | null, lessonsLeft: number, academyStudent = false): string | null {
+  if (academyStudent) return 'Academy student';
   if (!plan) return null;
   if (plan === 'free') return `Free lessons left: ${lessonsLeft} of ${FREE_LESSON_LIMIT}`;
   if (plan === 'pro') return 'Premium';
@@ -59,6 +60,9 @@ export function useAccount() {
   const [voice, setVoice] = useState<'british' | 'american'>('british');
   const [speed, setSpeed] = useState(1);
   const [displayName, setDisplayName] = useState('');
+  const [academyRole, setAcademyRole] = useState<'owner' | 'student' | null>(null);
+  const [academyName, setAcademyName] = useState<string | null>(null);
+  const [academyChecked, setAcademyChecked] = useState(false);
 
   const applyProfile = (data: Record<string, unknown>) => {
     setPlan(String(data.plan ?? 'free'));
@@ -69,6 +73,19 @@ export function useAccount() {
     const nextSpeed = Number(data.speed);
     if (nextSpeed === 0.75 || nextSpeed === 1 || nextSpeed === 1.25) setSpeed(nextSpeed);
     if (data.display_name != null) setDisplayName(String(data.display_name).slice(0, 40));
+  };
+
+  const applyMembership = (data: unknown) => {
+    const row = Array.isArray(data) ? data[0] : null;
+    if (!row || typeof row !== 'object') {
+      setAcademyRole(null);
+      setAcademyName(null);
+      return;
+    }
+    const record = row as Record<string, unknown>;
+    const role = record.role === 'owner' || record.role === 'student' ? record.role : null;
+    setAcademyRole(role);
+    setAcademyName(record.academy_name ? String(record.academy_name) : null);
   };
 
   const refreshProfile = useCallback(async (id?: string) => {
@@ -82,10 +99,17 @@ export function useAccount() {
       .maybeSingle();
     if (!full.error && full.data) {
       applyProfile(full.data as Record<string, unknown>);
-      return;
+    } else {
+      const basic = await supabase.from('profiles').select('plan, lessons_used').eq('id', profileId).maybeSingle();
+      if (!basic.error && basic.data) applyProfile(basic.data as Record<string, unknown>);
     }
-    const basic = await supabase.from('profiles').select('plan, lessons_used').eq('id', profileId).maybeSingle();
-    if (!basic.error && basic.data) applyProfile(basic.data as Record<string, unknown>);
+    const membership = await supabase.rpc('my_academy');
+    if (!membership.error) applyMembership(membership.data);
+    else {
+      setAcademyRole(null);
+      setAcademyName(null);
+    }
+    setAcademyChecked(true);
   }, [userId]);
 
   useEffect(() => {
@@ -111,6 +135,9 @@ export function useAccount() {
       else {
         setPlan(null);
         setLessonsUsed(0);
+        setAcademyRole(null);
+        setAcademyName(null);
+        setAcademyChecked(false);
       }
     });
     return () => {
@@ -132,6 +159,9 @@ export function useAccount() {
     voice,
     speed,
     displayName,
+    academyRole,
+    academyName,
+    academyChecked,
     signedIn: Boolean(userId),
     refreshProfile,
   };

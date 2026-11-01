@@ -1,6 +1,16 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { VOICE_LIST_TIMEOUT_MS, whenVoicesReady } from '../speechVoices.ts';
+import { VOICE_LIST_TIMEOUT_MS, slowerPlaybackRate, whenVoicesReady } from '../speechVoices.ts';
+
+test('slower playback is 70 percent of the profile speed and does not change pitch', () => {
+  assert.equal(slowerPlaybackRate(1), 0.7);
+  assert.equal(slowerPlaybackRate(1.25), 0.875);
+  assert.ok(Math.abs(slowerPlaybackRate(0.75) - 0.525) < 1e-10);
+  const pitch = 1.12;
+  const slower = { rate: slowerPlaybackRate(1), pitch };
+  assert.equal(slower.rate, 0.7);
+  assert.equal(slower.pitch, pitch);
+});
 
 test('an empty voice list resolves after the timeout so playback can start', async () => {
   let voices: { name: string }[] = [];

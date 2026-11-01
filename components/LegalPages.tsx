@@ -27,7 +27,7 @@ export function SiteFooter() {
   );
 }
 
-function PageShell({ title, children }: { title: string; children: React.ReactNode }) {
+function PageShell({ title, updated = UPDATED, children }: { title: string; updated?: string; children: React.ReactNode }) {
   return (
     <div className="min-h-screen text-slate-900 dark:text-slate-50 flex flex-col px-4 pt-6 pb-4 sm:px-6">
       <header className="mx-auto mb-6 w-full max-w-3xl">
@@ -38,7 +38,7 @@ function PageShell({ title, children }: { title: string; children: React.ReactNo
       </header>
       <article className="mx-auto w-full max-w-3xl text-base leading-relaxed">
         <h1 className="text-2xl font-bold sm:text-3xl">{title}</h1>
-        <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">Last updated: {UPDATED}</p>
+        <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">Last updated: {updated}</p>
         <div className="mt-6 space-y-6">{children}</div>
       </article>
       <SiteFooter />
@@ -101,7 +101,7 @@ function LegalNotice() {
 
 function PrivacyPolicy() {
   return (
-    <PageShell title="Privacy Policy">
+    <PageShell title="Privacy Policy" updated="31 October 2026">
       <p>
         This page explains what personal data Daily English Test uses, why, and what you can ask us to do. It is written in simple English.
       </p>
@@ -162,6 +162,11 @@ function PrivacyPolicy() {
       <Section heading="Cookies and local storage">
         <p>
           We do not use advertising cookies or tracking cookies. Cloudflare Web Analytics, when it is on, does not use cookies. Your browser stores the sign-in session on your device. That storage is strictly necessary to keep you signed in. Because of this, we do not show a cookie banner.
+        </p>
+      </Section>
+      <Section heading="Academies">
+        <p>
+          If you join an academy, that academy can see your name, your email, and your test results. It cannot see your saved lessons. You can leave the academy at any time from Profile. Academies are responsible for consent for students under 14.
         </p>
       </Section>
       <Section heading="Age">

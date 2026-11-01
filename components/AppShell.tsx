@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import HomeIcon from './icons/HomeIcon';
 
-export type ShellItem = 'lesson' | 'progress' | 'saved' | 'profile';
+export type ShellItem = 'lesson' | 'progress' | 'saved' | 'academy' | 'profile' | 'join';
 
-const items: { id: ShellItem; label: string; path: string }[] = [
+const baseItems: { id: ShellItem; label: string; path: string }[] = [
   { id: 'lesson', label: 'New lesson', path: '/' },
   { id: 'progress', label: 'My progress', path: '/progress' },
   { id: 'saved', label: 'Saved lessons', path: '/saved' },
@@ -17,6 +17,7 @@ function NavLinks({
   signingOut,
   email,
   status,
+  showAcademy,
 }: {
   active: ShellItem;
   onNavigate: (path: string) => void;
@@ -24,7 +25,17 @@ function NavLinks({
   signingOut: boolean;
   email: string | null;
   status: string | null;
+  showAcademy: boolean;
 }) {
+  const items = showAcademy
+    ? [
+      baseItems[0],
+      baseItems[1],
+      baseItems[2],
+      { id: 'academy' as const, label: 'My academy', path: '/academy' },
+      baseItems[3],
+    ]
+    : baseItems;
   return (
     <div className="flex h-full flex-col">
       <div className="px-4 pt-4">
@@ -87,6 +98,7 @@ export function AppShell({
   onHome,
   email,
   status,
+  showAcademy,
   children,
 }: {
   active: ShellItem;
@@ -95,6 +107,7 @@ export function AppShell({
   onHome?: () => void;
   email: string | null;
   status: string | null;
+  showAcademy: boolean;
   children: React.ReactNode;
 }) {
   const [open, setOpen] = useState(false);
@@ -112,7 +125,7 @@ export function AppShell({
   return (
     <div className="min-h-screen bg-slate-100 text-slate-900 dark:bg-slate-900 dark:text-slate-50 md:pl-64">
       <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col border-r border-slate-300 bg-white dark:border-slate-600 dark:bg-slate-800 md:flex">
-        <NavLinks active={active} onNavigate={go} onSignOut={leave} signingOut={signingOut} email={email} status={status} />
+        <NavLinks active={active} onNavigate={go} onSignOut={leave} signingOut={signingOut} email={email} status={status} showAcademy={showAcademy} />
       </aside>
       <div className="flex min-h-screen flex-col">
         <div className={`sticky top-0 z-20 flex items-center gap-2 border-b border-slate-300 bg-slate-100 px-3 py-2 dark:border-slate-600 dark:bg-slate-900 ${onHome ? '' : 'md:hidden'}`}>
@@ -154,7 +167,7 @@ export function AppShell({
             onClick={() => setOpen(false)}
           />
           <aside className="absolute inset-y-0 left-0 flex w-72 max-w-[85vw] flex-col bg-white shadow-xl dark:bg-slate-800">
-            <NavLinks active={active} onNavigate={go} onSignOut={leave} signingOut={signingOut} email={email} status={status} />
+            <NavLinks active={active} onNavigate={go} onSignOut={leave} signingOut={signingOut} email={email} status={status} showAcademy={showAcademy} />
           </aside>
         </div>
       )}

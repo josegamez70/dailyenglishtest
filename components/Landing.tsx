@@ -65,6 +65,9 @@ export function Landing() {
         <p className="text-center text-sm text-slate-700 dark:text-slate-300">
           Premium: 5 € per month, coming soon.
         </p>
+        <p className="mt-2 text-center text-sm text-slate-700 dark:text-slate-300">
+          Are you an academy? <a className="underline" href="mailto:josegamez70@hotmail.com">Contact us</a>
+        </p>
       </div>
     </main>
   );

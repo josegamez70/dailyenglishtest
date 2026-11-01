@@ -6,6 +6,8 @@ export type WrongAnswer = {
   correctAnswer: string;
 };
 
+export type LessonMode = 'reading' | 'listening';
+
 export type TestResultRow = {
   id: string;
   created_at: string;
@@ -14,6 +16,7 @@ export type TestResultRow = {
   title: string;
   score: number;
   total: number;
+  mode: LessonMode | null;
   wrong_answers: WrongAnswer[];
 };
 
@@ -33,12 +36,23 @@ export function isMissingTable(error: { code?: string; message?: string } | null
   return message.includes('42p01') || message.includes('pgrst') || message.includes('does not exist') || message.includes('schema cache');
 }
 
+export function isMissingColumn(error: { code?: string; message?: string } | null, column: string): boolean {
+  const message = `${error?.code ?? ''} ${error?.message ?? ''}`.toLowerCase();
+  const name = column.toLowerCase();
+  return message.includes('42703') || message.includes('pgrst204') || (message.includes(name) && (message.includes('column') || message.includes('schema cache')));
+}
+
+export function readLessonMode(value: unknown): LessonMode | null {
+  return value === 'reading' || value === 'listening' ? value : null;
+}
+
 export async function saveTestResult(input: {
   level: string;
   topic: string;
   title: string;
   score: number;
   total: number;
+  mode: LessonMode;
   wrongAnswers: WrongAnswer[];
 }): Promise<{ ok: boolean; missing?: boolean }> {
   const supabase = client();
@@ -46,26 +60,47 @@ export async function saveTestResult(input: {
   const { data } = await supabase.auth.getUser();
   const userId = data.user?.id;
   if (!userId) return { ok: false };
-  const { error } = await supabase.from('test_results').insert({
+  const row = {
     user_id: userId,
     level: input.level,
     topic: input.topic,
     title: input.title,
     score: input.score,
     total: input.total,
+    mode: input.mode,
     wrong_answers: input.wrongAnswers,
+  };
+  const first = await supabase.from('test_results').insert(row);
+  if (!first.error) return { ok: true };
+  if (!isMissingColumn(first.error, 'mode')) return { ok: false, missing: isMissingTable(first.error) };
+  const second = await supabase.from('test_results').insert({
+    user_id: row.user_id,
+    level: row.level,
+    topic: row.topic,
+    title: row.title,
+    score: row.score,
+    total: row.total,
+    wrong_answers: row.wrong_answers,
   });
-  if (error) return { ok: false, missing: isMissingTable(error) };
+  if (second.error) return { ok: false, missing: isMissingTable(second.error) };
   return { ok: true };
 }
 
 export async function listTestResults(): Promise<{ rows: TestResultRow[]; missing: boolean }> {
   const supabase = client();
   if (!supabase) return { rows: [], missing: false };
-  const { data, error } = await supabase
+  const withMode = await supabase
     .from('test_results')
-    .select('id, created_at, level, topic, title, score, total, wrong_answers')
+    .select('id, created_at, level, topic, title, score, total, mode, wrong_answers')
     .order('created_at', { ascending: false });
+  const fallback = withMode.error && isMissingColumn(withMode.error, 'mode')
+    ? await supabase
+      .from('test_results')
+      .select('id, created_at, level, topic, title, score, total, wrong_answers')
+      .order('created_at', { ascending: false })
+    : null;
+  const data = fallback ? fallback.data : withMode.data;
+  const error = fallback ? fallback.error : withMode.error;
   if (error) return { rows: [], missing: isMissingTable(error) };
   const rows = (data ?? []).map((row) => ({
     id: String(row.id),
@@ -75,6 +110,7 @@ export async function listTestResults(): Promise<{ rows: TestResultRow[]; missin
     title: String(row.title ?? row.topic ?? ''),
     score: Number(row.score ?? 0),
     total: Number(row.total ?? 0),
+    mode: readLessonMode('mode' in row ? row.mode : null),
     wrong_answers: Array.isArray(row.wrong_answers) ? row.wrong_answers as WrongAnswer[] : [],
   }));
   return { rows, missing: false };
