@@ -1,6 +1,62 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { countPhrase, countTestsThisWeek, inviteBannerText, joinResultMessage, normalizeInviteCode, startOfLocalWeek } from '../academyStats.ts';
+import { copyInviteText, copyWithHiddenTextarea, countPhrase, countTestsThisWeek, inviteBannerText, inviteLink, joinResultMessage, normalizeInviteCode, startOfLocalWeek } from '../academyStats.ts';
+
+test('the copied invite is the full join link for this site', () => {
+  assert.equal(
+    inviteLink('https://dailyenglishtest.es', '4WFXV3ZL'),
+    'https://dailyenglishtest.es/join?code=4WFXV3ZL',
+  );
+  assert.equal(
+    inviteLink('https://preview.example.com/', '4WFXV3ZL'),
+    'https://preview.example.com/join?code=4WFXV3ZL',
+  );
+});
+
+test('copy uses the clipboard and a hidden field when that fails', async () => {
+  let written = '';
+  const copied = await copyInviteText('https://dailyenglishtest.es/join?code=4WFXV3ZL', {
+    writeText: async (value) => { written = value; },
+  });
+  assert.equal(copied, true);
+  assert.equal(written, 'https://dailyenglishtest.es/join?code=4WFXV3ZL');
+
+  let fallbackText = '';
+  const recovered = await copyInviteText('https://preview.example.com/join?code=4WFXV3ZL', {
+    writeText: async () => { throw new Error('denied'); },
+    fallback: (value) => {
+      fallbackText = value;
+      return true;
+    },
+  });
+  assert.equal(recovered, true);
+  assert.equal(fallbackText, 'https://preview.example.com/join?code=4WFXV3ZL');
+
+  const area = {
+    value: '',
+    style: { position: '', left: '', top: '', opacity: '' },
+    setAttribute() {},
+    focus() {},
+    select() {},
+  };
+  let command = '';
+  let attached = false;
+  const hidden = copyWithHiddenTextarea('https://dailyenglishtest.es/join?code=4WFXV3ZL', {
+    createElement: () => area,
+    body: {
+      appendChild() { attached = true; },
+      removeChild() { attached = false; },
+    },
+    execCommand: (name) => {
+      command = name;
+      return true;
+    },
+  });
+  assert.equal(hidden, true);
+  assert.equal(command, 'copy');
+  assert.equal(area.value, 'https://dailyenglishtest.es/join?code=4WFXV3ZL');
+  assert.equal(attached, false);
+});
 
 test('invite codes keep 6 to 8 letters and digits', () => {
   assert.equal(normalizeInviteCode(' ab-cd12 '), 'ABCD12');

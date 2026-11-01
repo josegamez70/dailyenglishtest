@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { createAcademy, loadAcademyStudents, loadOwnedAcademy, regenerateInviteCode, removeStudent, type AcademyStudent, type OwnedAcademy } from '../academy';
-import { countPhrase, countTestsThisWeek } from '../academyStats';
+import { copyInviteText, countPhrase, countTestsThisWeek, inviteLink } from '../academyStats';
 import { averagePercent, formatResultDate, lessonModeLabel } from '../progressStats';
-
-const SHARE_ORIGIN = 'https://dailyenglishtest.es/join?code=';
 
 function studentLabel(student: AcademyStudent): string {
   return student.displayName.trim() || student.email || 'Student';
@@ -72,12 +70,9 @@ export function AcademyPage() {
 
   const copyCode = async () => {
     if (!academy) return;
-    try {
-      await navigator.clipboard.writeText(academy.inviteCode);
-      setNote('Copied.');
-    } catch {
-      setNote('Select the code and copy it.');
-    }
+    const link = inviteLink(window.location.origin, academy.inviteCode);
+    const copied = await copyInviteText(link);
+    setNote(copied ? 'Link copied.' : 'Select the link and copy it.');
   };
 
   const regenerate = async () => {
@@ -132,7 +127,7 @@ export function AcademyPage() {
 
   const allTests = students.flatMap((student) => student.tests);
   const weekCount = countTestsThisWeek(allTests.map((item) => new Date(item.createdAt)));
-  const shareLink = `${SHARE_ORIGIN}${academy.inviteCode}`;
+  const shareLink = inviteLink(window.location.origin, academy.inviteCode);
 
   return (
     <div className="mx-auto w-full max-w-3xl">
