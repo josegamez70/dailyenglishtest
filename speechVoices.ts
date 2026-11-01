@@ -1,5 +1,10 @@
 export const VOICE_LIST_TIMEOUT_MS = 700;
 
+/** Slower is 80% of the saved profile speed. Pitch is not part of this. */
+export function slowerPlaybackRate(profileSpeed: number): number {
+  return profileSpeed * 0.8;
+}
+
 type VoiceSource<T> = {
   getVoices: () => T[];
   addEventListener: (type: string, listener: () => void) => void;

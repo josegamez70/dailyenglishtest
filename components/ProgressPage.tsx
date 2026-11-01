@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { averagePercent, bestPercent, chartX, chartY, dayStreak, formatResultDate } from '../progressStats';
+import { averagePercent, bestPercent, chartX, chartY, dayStreak, formatResultDate, lessonModeLabel } from '../progressStats';
 import { listTestResults, type TestResultRow } from '../studyStore';
 
 const GUIDE_SCORES = [100, 50, 0];
@@ -165,7 +165,10 @@ export function ProgressPage({ onCreate }: { onCreate: () => void }) {
                 onClick={() => setOpenId(open ? null : row.id)}
                 className="w-full px-4 py-3 text-left"
               >
-                <span className="block text-sm text-slate-600 dark:text-slate-300">{formatResultDate(row.created_at)}</span>
+                <span className="block text-sm text-slate-600 dark:text-slate-300">
+                  {formatResultDate(row.created_at)}
+                  <span className="ml-2 inline-block rounded bg-slate-200 px-1.5 py-0.5 text-xs font-semibold text-slate-800 dark:bg-slate-700 dark:text-slate-100">{lessonModeLabel(row.mode)}</span>
+                </span>
                 <span className="mt-1 block text-base font-semibold">{row.title || row.topic} · {row.level} · {row.score}/{row.total} ({percent}%)</span>
               </button>
               {open && (

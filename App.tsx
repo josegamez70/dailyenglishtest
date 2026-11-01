@@ -18,7 +18,7 @@ import {
   type SpeakerVoice,
 } from './dialogue';
 import { clampedFontStep } from './fontStep';
-import { whenVoicesReady } from './speechVoices';
+import { slowerPlaybackRate, whenVoicesReady } from './speechVoices';
 import { withStoryReview } from './quizSession';
 import { resumeWordIndex, textFromWordIndex } from './speechPosition';
 import { generateStoryAndQuiz } from './services/geminiService';
@@ -250,19 +250,18 @@ const App: React.FC = () => {
     } catch {
       /* ignore blocked storage */
     }
-    if (!code) {
+    if (!code || !account.signedIn) {
       setInviteName(null);
       return undefined;
     }
     let ignore = false;
-    // lookup_academy_name is granted only to signed-in users and returns null for anon.
     lookupAcademyName(code).then((result) => {
       if (!ignore) setInviteName(result.name);
     }).catch(() => {
       if (!ignore) setInviteName(null);
     });
     return () => { ignore = true; };
-  }, [path]);
+  }, [path, account.signedIn]);
 
   useEffect(() => {
     if (invitePrompted.current || !account.ready || !account.signedIn || !account.academyChecked) return;
@@ -470,6 +469,7 @@ const App: React.FC = () => {
       title: storyTopic?.label ?? config.topic,
       score,
       total: quiz.length,
+      mode: practiceType === 'listening' ? 'listening' : 'reading',
       wrongAnswers,
     }).catch(() => undefined).finally(() => {
       const next = withStoryReview(
@@ -1040,7 +1040,7 @@ const App: React.FC = () => {
         </button>
         <button
           type="button"
-          onClick={() => playSpeak(speedRef.current * 0.75)}
+          onClick={() => playSpeak(slowerPlaybackRate(speedRef.current))}
           className="bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-6 rounded-lg text-lg"
         >
           Slower

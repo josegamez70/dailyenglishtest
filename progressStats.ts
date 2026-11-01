@@ -21,6 +21,13 @@ export function dayStreak(dates: Date[], today = new Date()): number {
   return count;
 }
 
+/** Reading, Audio, or an em dash when an older result has no saved mode. */
+export function lessonModeLabel(mode: string | null | undefined): string {
+  if (mode === 'listening') return 'Audio';
+  if (mode === 'reading') return 'Reading';
+  return '—';
+}
+
 export function averagePercent(rows: { score: number; total: number }[]): number {
   const usable = rows.filter((row) => row.total > 0);
   if (!usable.length) return 0;

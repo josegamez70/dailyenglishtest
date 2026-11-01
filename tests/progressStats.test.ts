@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { averagePercent, bestPercent, cefrToLessonLevel, chartX, chartY, dayStreak, formatResultDate } from '../progressStats.ts';
+import { averagePercent, bestPercent, cefrToLessonLevel, chartX, chartY, dayStreak, formatResultDate, lessonModeLabel } from '../progressStats.ts';
 
 test('streak counts consecutive local days and stops after a gap', () => {
   const today = new Date(2026, 9, 31);
@@ -13,6 +13,13 @@ test('streak counts consecutive local days and stops after a gap', () => {
   assert.equal(dayStreak(dates, today), 3);
   assert.equal(dayStreak([new Date(2026, 9, 28)], today), 0);
   assert.equal(dayStreak([new Date(2026, 9, 30, 8)], today), 1);
+});
+
+test('lesson mode labels name reading and audio', () => {
+  assert.equal(lessonModeLabel('reading'), 'Reading');
+  assert.equal(lessonModeLabel('listening'), 'Audio');
+  assert.equal(lessonModeLabel(null), '—');
+  assert.equal(lessonModeLabel(undefined), '—');
 });
 
 test('score summaries ignore empty tests', () => {

@@ -1,5 +1,5 @@
 import { getSupabase } from './auth';
-import { isMissingTable, type WrongAnswer } from './studyStore';
+import { isMissingColumn, isMissingTable, readLessonMode, type LessonMode, type WrongAnswer } from './studyStore';
 
 export type OwnedAcademy = {
   id: string;
@@ -16,6 +16,7 @@ export type StudentTest = {
   title: string;
   score: number;
   total: number;
+  mode: LessonMode | null;
   wrongAnswers: WrongAnswer[];
 };
 
@@ -97,15 +98,20 @@ export async function loadAcademyStudents(academyId: string): Promise<{ students
   if (members.error) return { students: [], missing: isMissingTable(members.error) };
   const ids = (members.data ?? []).map((row) => String(row.user_id));
   if (!ids.length) return { students: [], missing: false };
-  const [profiles, tests] = await Promise.all([
-    supabase.from('profiles').select('id, email, display_name').in('id', ids),
-    supabase
+  const profiles = await supabase.from('profiles').select('id, email, display_name').in('id', ids);
+  if (profiles.error) return { students: [], missing: isMissingTable(profiles.error) };
+  const withMode = await supabase
+    .from('test_results')
+    .select('id, user_id, created_at, level, topic, title, score, total, mode, wrong_answers')
+    .in('user_id', ids)
+    .order('created_at', { ascending: false });
+  const tests = withMode.error && isMissingColumn(withMode.error, 'mode')
+    ? await supabase
       .from('test_results')
       .select('id, user_id, created_at, level, topic, title, score, total, wrong_answers')
       .in('user_id', ids)
-      .order('created_at', { ascending: false }),
-  ]);
-  if (profiles.error) return { students: [], missing: isMissingTable(profiles.error) };
+      .order('created_at', { ascending: false })
+    : withMode;
   if (tests.error) return { students: [], missing: isMissingTable(tests.error) };
   const profileById = new Map((profiles.data ?? []).map((row) => [String(row.id), row]));
   const testsByUser = new Map<string, StudentTest[]>();
@@ -120,6 +126,7 @@ export async function loadAcademyStudents(academyId: string): Promise<{ students
       title: String(row.title ?? row.topic ?? ''),
       score: Number(row.score ?? 0),
       total: Number(row.total ?? 0),
+      mode: readLessonMode('mode' in row ? row.mode : null),
       wrongAnswers: Array.isArray(row.wrong_answers) ? row.wrong_answers as WrongAnswer[] : [],
     });
     testsByUser.set(userId, list);

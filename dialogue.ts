@@ -43,15 +43,16 @@ function cleanLine(speaker: string, line: string): string {
 
 export const FEMALE_NAMES = ['Anna', 'Sophie', 'Emma', 'Lucy', 'Laura', 'Kate', 'Julia', 'Mia'] as const;
 
-export const MALE_NAMES = ['Ben', 'Tom', 'Jack', 'David', 'Mark', 'James', 'Leo', 'Paul'] as const;
-
 export type DialogueSpeaker = { name: string; gender: SpeakerGender };
 
-/** First speaker is a woman. Second speaker is a man. The pair changes each lesson. */
+/** Two different women. The first speaks first. The pair changes each lesson. */
 export function pickDialogueSpeakers(previous: string[] = [], random: () => number = Math.random): DialogueSpeaker[] {
   const pairs: [string, string][] = [];
-  for (const woman of FEMALE_NAMES) {
-    for (const man of MALE_NAMES) pairs.push([woman, man]);
+  for (let i = 0; i < FEMALE_NAMES.length; i += 1) {
+    for (let j = 0; j < FEMALE_NAMES.length; j += 1) {
+      if (i === j) continue;
+      pairs.push([FEMALE_NAMES[i], FEMALE_NAMES[j]]);
+    }
   }
   const previousKey = previous.map((name) => name.toLowerCase()).sort().join('|');
   const allowed = pairs.filter(([first, second]) => [first, second].map((name) => name.toLowerCase()).sort().join('|') !== previousKey);
@@ -60,7 +61,7 @@ export function pickDialogueSpeakers(previous: string[] = [], random: () => numb
   const [first, second] = pool[index];
   return [
     { name: first, gender: 'female' },
-    { name: second, gender: 'male' },
+    { name: second, gender: 'female' },
   ];
 }
 
@@ -68,8 +69,6 @@ function knownName(raw: string): { name: string; gender: SpeakerGender } | null 
   const key = raw.toLowerCase();
   const woman = FEMALE_NAMES.find((name) => name.toLowerCase() === key);
   if (woman) return { name: woman, gender: 'female' };
-  const man = MALE_NAMES.find((name) => name.toLowerCase() === key);
-  if (man) return { name: man, gender: 'male' };
   return null;
 }
 
@@ -90,7 +89,6 @@ export function genderForName(name: string, cast?: { name: string; gender?: Spea
   if (known) return known.gender;
   const listed = cast?.find((person) => person.name.toLowerCase() === speaker.toLowerCase());
   if (listed?.gender) return listed.gender;
-  if (/^character\s*2$/i.test(speaker)) return 'male';
   return 'female';
 }
 
@@ -313,9 +311,9 @@ export function voiceGender(voice: { name: string; voiceURI?: string }): Speaker
   return null;
 }
 
-/** First speaker sounds higher. Second speaker sounds lower. Used only when one en-US voice must play both parts. */
-const FEMALE_PITCH = 1.15;
-const MALE_PITCH = 0.85;
+/** Same female voice. The second speaker is pitched a little higher so the two women sound different. */
+const FIRST_SPEAKER_PITCH = 1;
+const SECOND_SPEAKER_PITCH = 1.12;
 
 export function isEnUsLang(lang: string): boolean {
   return lang.toLowerCase().replace(/_/g, '-').startsWith('en-us');
@@ -329,10 +327,6 @@ function spokenVoice(voice: ListedVoice | undefined, pitch: number, rateScale: n
     pitch,
     rateScale,
   };
-}
-
-function voiceKey(voice: ListedVoice): string {
-  return `${voice.name}|${voice.voiceURI ?? ''}`;
 }
 
 type ClassedVoice = ListedVoice & { heard: SpeakerGender | null };
@@ -369,58 +363,20 @@ export function narrationVoice(voices: ListedVoice[]): SpeakerVoice {
 }
 
 /**
- * Dialogue alternates a female en-US voice and a male en-US voice, one per speaker, in speaker order.
- * The first speaker is female. The next is male. en-GB and every other locale are never chosen.
- * Profile accent settings are ignored by the caller. If only one en-US voice exists, both speakers
- * use it, at pitch 1.15 then 0.85.
+ * Both speakers share one female en-US voice. en-GB voices and male voices are never chosen.
+ * Prefer a known female voice such as en-us-x-sfg or Google US English.
+ * The first speaker uses pitch 1. The second uses 1.12. An empty voice list still requests en-US.
  */
 export function voicesBySpeaker(
   speakers: { name: string; gender: SpeakerGender | null }[],
   voices: ListedVoice[],
-  log: (message: string) => void = console.log
 ): Record<string, SpeakerVoice> {
-  const american = americanVoices(voices);
+  const american = americanVoices(voices).filter((voice) => voice.heard !== 'male');
   const females = american.filter((voice) => voice.heard === 'female').sort(byHint('female'));
-  const males = american.filter((voice) => voice.heard === 'male').sort(byHint('male'));
-  const femaleVoice = females[0];
-  const maleVoice = males.find((voice) => !femaleVoice || voiceKey(voice) !== voiceKey(femaleVoice));
-  const distinctGenders = Boolean(femaleVoice && maleVoice);
-
-  let higher: ClassedVoice | undefined;
-  let lower: ClassedVoice | undefined;
-  if (distinctGenders) {
-    higher = femaleVoice;
-    lower = maleVoice;
-  } else if (american.length <= 1) {
-    higher = american[0];
-    lower = american[0];
-    if (american.length === 1) {
-      log(`Only one American English voice (${american[0].name}). Using pitch ${FEMALE_PITCH} for the first speaker and ${MALE_PITCH} for the second.`);
-    } else {
-      log('No American English speech voice on this device. Speech will request en-US.');
-    }
-  } else {
-    const knownFemale = females[0];
-    const knownMale = males[0];
-    if (knownFemale) {
-      higher = knownFemale;
-      lower = american.find((voice) => voiceKey(voice) !== voiceKey(knownFemale)) ?? knownFemale;
-    } else if (knownMale) {
-      lower = knownMale;
-      higher = american.find((voice) => voiceKey(voice) !== voiceKey(knownMale)) ?? knownMale;
-    } else {
-      higher = american[0];
-      lower = american.find((voice) => voiceKey(voice) !== voiceKey(american[0])) ?? american[0];
-    }
-    log(`No separate American female and male voices. Using "${higher?.name ?? 'default'}" and "${lower?.name ?? 'default'}".`);
-  }
-
-  const natural = Boolean(distinctGenders && higher && lower && voiceKey(higher) !== voiceKey(lower));
+  const voice = females[0] ?? american[0];
   const result: Record<string, SpeakerVoice> = {};
   speakers.forEach((speaker, index) => {
-    const femaleTurn = index % 2 === 0;
-    const voice = femaleTurn ? higher : lower;
-    const pitch = natural ? 1 : (femaleTurn ? FEMALE_PITCH : MALE_PITCH);
+    const pitch = index === 0 ? FIRST_SPEAKER_PITCH : SECOND_SPEAKER_PITCH;
     result[speaker.name.toLowerCase()] = spokenVoice(voice, pitch, 1);
   });
   return result;
