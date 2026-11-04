@@ -174,6 +174,12 @@ test('the prompt names the level, the exercise, and an optional topic', () => {
   const advanced = buildGrammarPrompt({ level: 'C1', exercise: 'order', topic: '' });
   assert.match(advanced, /pronoun/);
   assert.match(blanks, /going to/);
+  assert.match(blanks, /that" and "who"/);
+  assert.match(blanks, /could" and "might"/);
+  const c1Blanks = buildGrammarPrompt({ level: 'C1', exercise: 'blanks', topic: '' });
+  assert.match(c1Blanks, /cleft sentences/);
+  assert.match(c1Blanks, /mixed conditionals/);
+  assert.match(c1Blanks, /Not only/);
 });
 
 test('gaps, doubled words, tense clashes, and repeated answers are rejected', () => {

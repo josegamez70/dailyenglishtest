@@ -273,7 +273,8 @@ Self-check every item before you keep it:
 - Do not repeat a word. Bad: "only after the meeting _____ that I realized" with the answer "that", because that makes "that that".
 - Do not mix tenses. Bad: "What _____ was a better sense" with the answer "is needed".
 - Then try each wrong option in the same gap. Exactly one option may be correct. If a second option also sounds acceptable, change the sentence or the options.
-- Do not offer two answers that both fit. Bad: "going to" and "will" in "I _____ visit my aunt tomorrow". Bad: "has been postponed" and "had been postponed" when the sentence does not force one of them.
+- Do not offer two answers that both fit. Never offer both "is going to" and "will" when either sounds natural. Never offer both "is" and "was" after "The reason ... _____ because". Never offer both "could" and "might" when either is acceptable. Also avoid "has been postponed" and "had been postponed" when the sentence does not force one of them.
+- In a relative clause, never offer both "that" and "who" for the same gap, and never offer both "which" and "that".
 - Do not use the same correct answer twice in the set.
 - Write the gap as exactly ${GAP}. One gap only.
 - explanation is ONE short sentence. No line breaks.
@@ -295,7 +296,7 @@ function levelGuide(level: GrammarLevel, exercise: GrammarExerciseType): string 
     if (level === 'B2') return 'Use B2 grammar in the paragraphs: conditionals, the passive, reported speech, or relative clauses. One logical order only. Vary the situation and the connectors.';
     return 'Write a short everyday paragraph in clear intermediate English. One logical order only. Vary the situation and the connectors.';
   }
-  if (level === 'C1') return 'Test inversion, cleft sentences, advanced conditionals, and other advanced structures. Prefer natural, idiomatic sentences a fluent speaker would say. Avoid awkward constructions built only to show the rule.';
+  if (level === 'C1') return 'Vary the structure of every item in this set, and do not repeat the same patterns you used in earlier sets. Do not keep using Not only, What ... needs is, Had ... known, Little did, Never before, or Should you require. Include cleft sentences, mixed conditionals, the subjunctive, participle clauses, modal perfects, advanced linkers, and collocations. Prefer natural, idiomatic sentences. Avoid awkward constructions built only to show a rule.';
   if (level === 'B2') return 'Test conditionals, the passive, reported speech, and other upper-intermediate grammar. Add a time word or a reporting detail so only one option fits.';
   return 'Test B1 grammar such as present and past tenses, the present perfect, going to, and common prepositions. Add a time word when the tense is what you are testing.';
 }
