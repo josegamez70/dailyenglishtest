@@ -1466,7 +1466,7 @@ const App: React.FC = () => {
         </div>
       )}
       {!account.signedIn && view !== 'story' && (
-        <header className={`mb-2 w-full mx-auto ${showLanding ? 'max-w-2xl' : 'max-w-4xl'}`}>
+        <header className={`mb-2 w-full mx-auto ${showLanding ? 'max-w-2xl md:max-w-3xl' : 'max-w-4xl'}`}>
           <div className="flex items-center gap-2 sm:gap-4">
             <div className="flex min-w-0 flex-1 items-center justify-center gap-2 sm:gap-3">
               <UKFlagIcon className={`shrink-0 rounded-lg shadow-md ${showLanding ? 'h-10 w-10 sm:h-12 sm:w-12' : 'h-14 w-14 sm:h-20 sm:w-20'}`} />
@@ -1542,7 +1542,7 @@ const App: React.FC = () => {
         {inviteCode && (
           <p
             role="status"
-            className="mb-4 w-full max-w-2xl rounded-lg border-2 border-blue-700 bg-blue-50 px-4 py-3 text-base font-semibold text-slate-900 dark:border-blue-300 dark:bg-blue-950 dark:text-blue-50"
+            className="mb-4 w-full max-w-2xl rounded-lg border-2 border-blue-700 bg-blue-50 px-4 py-3 text-base font-semibold text-slate-900 dark:border-blue-300 dark:bg-blue-950 dark:text-blue-50 md:max-w-3xl"
           >
             {inviteBannerText(inviteName)}
           </p>
