@@ -1,3 +1,5 @@
+import { INVENTED_PHRASALS, REAL_PHRASAL_VERBS } from './phrasalVerbs';
+
 export type GrammarLevel = 'B1' | 'B2' | 'C1';
 export type GrammarExerciseType = 'blanks' | 'phrasal' | 'order';
 
@@ -50,6 +52,8 @@ export type ItemGrade = {
 export const GRAMMAR_ITEM_COUNT = 6;
 /** Keep a generated set when at least this many items pass the checks. */
 export const GRAMMAR_MIN_ITEMS = 4;
+/** Ask the model for more items than we keep, so filtering can still leave a full set. */
+export const GRAMMAR_GENERATION_COUNT = 9;
 
 export function exerciseLabel(exercise: GrammarExerciseType): string {
   if (exercise === 'phrasal') return 'Phrasal verbs';
@@ -148,35 +152,48 @@ function optionVerb(option: string): string {
   return words[index] ?? '';
 }
 
-const REAL_PHRASALS = new Set(`
-look after, look for, look up, look into, look out, look around, look forward to, look down on, look up to,
-give up, give back, give in, give away, give out,
-put off, put on, put away, put out, put up, put back, put down, put through, put up with,
-take off, take up, take on, take over, take back, take in, take after, take apart, take out,
-turn off, turn on, turn up, turn down, turn out, turn around, turn into,
-break down, break up, break in, break out, break off,
-come back, come in, come across, come on, come out, come up with, come down to,
-get up, get on, get off, get over, get back, get out, get in, get away, get along, get rid of,
-go out, go back, go on, go over, go through, go away, go along with,
-run out, run into, run off, run out of,
-call off, call back, call for, call in, call up, call out,
-work out, work on, work through, work up,
-bring up, bring back, bring about, bring in,
-carry on, carry out, set up, set off, set out, set about,
-make up, make out, make up for, pick up, figure out, find out, fill in, fill out, sort out,
-show up, end up, grow up, hold on, hold up, keep up, keep on, point out,
-check out, check in, drop off, drop out, hand in, hand out, hang up, hang on,
-pass out, pay back, pull off, pull over, iron out, gloss over, dream up,
-speak up, stand up, stand for, stick to, think over, think through, try on, try out,
-wake up, wear out, write down, write off, catch up, catch on, fall out, fall through, fall over,
-cut off, cut down, let down, live on, mix up, rule out, back up, blow up, calm down, count on, deal with
+const PARTICLES = new Set(`
+up down on off in out over under away back through around round about along across by for with to into onto
+apart forward ahead aside together upon after against of from at aback forth without home rid
+`.split(/\s+/).filter(Boolean));
+
+const PHRASAL_BY_VERB = new Map<string, Set<string>>();
+for (const phrase of REAL_PHRASAL_VERBS) {
+  const [verb, ...rest] = phrase.split(' ');
+  if (!verb || rest.length === 0) continue;
+  const particles = PHRASAL_BY_VERB.get(verb) ?? new Set<string>();
+  particles.add(rest.join(' '));
+  PHRASAL_BY_VERB.set(verb, particles);
+}
+const INVENTED_PHRASAL_SET = new Set(INVENTED_PHRASALS);
+
+export const REAL_PHRASAL_COUNT = new Set(REAL_PHRASAL_VERBS).size;
+
+const BASIC_PHRASALS = new Set(`
+get up, look for, turn off, turn on, give up, look after, put on, put off, pick up, find out, come back, go out,
+wake up, get in, get on, get off, take off, put away, look up, go back, come in, come on, check in, check out,
+fill in, fill out, drop off, hand in, grow up, end up, show up, sit down, stand up, turn up, put out, give back,
+give in, call back, hang up, come out, go away, get out, put back, take out, wake up
+`.split(',').map((item) => item.trim()).filter(Boolean));
+
+const B2_PHRASALS = new Set(`
+get over, come up with, put up with, run out of, turn down, carry out, come across, look into, get away with,
+make up for, break down, call off, fall through, point out, rule out, take over, figure out, bring up, set up,
+work out, look forward to, come down to, run into, go through, catch up with, do away with, fall back on
+`.split(',').map((item) => item.trim()).filter(Boolean));
+
+const C1_PHRASALS = new Set(`
+gloss over, iron out, hammer out, bring about, bring off, write off, sound out, stave off, play down,
+boil down to, brush up on, come down with, run up against, zero in on, phase out, tide over, weigh up,
+dispense with, dwell on, fend off, paper over, shrug off, smooth over, spell out, tone down, water down,
+weed out, win over, home in on, factor in, follow through, single out, thrash out, pore over, hinge on
 `.split(',').map((item) => item.trim()).filter(Boolean));
 
 function verbBases(token: string): string[] {
   const word = token.toLowerCase();
   const bases = new Set<string>([word]);
   const irregular: Record<string, string> = {
-    got: 'get', gets: 'get', getting: 'get',
+    got: 'get', gotten: 'get', gets: 'get', getting: 'get',
     went: 'go', goes: 'go', going: 'go', gone: 'go',
     took: 'take', takes: 'take', taking: 'take', taken: 'take',
     came: 'come', comes: 'come', coming: 'come',
@@ -185,6 +202,70 @@ function verbBases(token: string): string[] {
     gave: 'give', gives: 'give', giving: 'give', given: 'give',
     made: 'make', makes: 'make', making: 'make',
     puts: 'put', putting: 'put',
+    brought: 'bring', brings: 'bring', bringing: 'bring',
+    thought: 'think', thinks: 'think', thinking: 'think',
+    caught: 'catch', catches: 'catch', catching: 'catch',
+    fell: 'fall', falls: 'fall', falling: 'fall', fallen: 'fall',
+    found: 'find', finds: 'find', finding: 'find',
+    held: 'hold', holds: 'hold', holding: 'hold',
+    kept: 'keep', keeps: 'keep', keeping: 'keep',
+    left: 'leave', leaves: 'leave', leaving: 'leave',
+    paid: 'pay', pays: 'pay', paying: 'pay',
+    spoke: 'speak', spoken: 'speak', speaks: 'speak', speaking: 'speak',
+    stood: 'stand', stands: 'stand', standing: 'stand',
+    wrote: 'write', written: 'write', writes: 'write', writing: 'write',
+    woke: 'wake', woken: 'wake', wakes: 'wake', waking: 'wake',
+    wore: 'wear', worn: 'wear', wears: 'wear', wearing: 'wear',
+    hung: 'hang', hangs: 'hang', hanging: 'hang',
+    dealt: 'deal', deals: 'deal', dealing: 'deal',
+    grew: 'grow', grown: 'grow', grows: 'grow', growing: 'grow',
+    drew: 'draw', drawn: 'draw', draws: 'draw', drawing: 'draw',
+    drove: 'drive', driven: 'drive', drives: 'drive', driving: 'drive',
+    threw: 'throw', thrown: 'throw', throws: 'throw', throwing: 'throw',
+    stuck: 'stick', sticks: 'stick', sticking: 'stick',
+    laid: 'lay', lays: 'lay', laying: 'lay',
+    sent: 'send', sends: 'send', sending: 'send',
+    sold: 'sell', sells: 'sell', selling: 'sell',
+    spent: 'spend', spends: 'spend', spending: 'spend',
+    built: 'build', builds: 'build', building: 'build',
+    chose: 'choose', chosen: 'choose', chooses: 'choose', choosing: 'choose',
+    forgot: 'forget', forgotten: 'forget', forgets: 'forget', forgetting: 'forget',
+    rose: 'rise', risen: 'rise', rises: 'rise', rising: 'rise',
+    shook: 'shake', shaken: 'shake', shakes: 'shake', shaking: 'shake',
+    blew: 'blow', blown: 'blow', blows: 'blow', blowing: 'blow',
+    hid: 'hide', hidden: 'hide', hides: 'hide', hiding: 'hide',
+    lit: 'light', lighted: 'light', lights: 'light', lighting: 'light',
+    meant: 'mean', means: 'mean', meaning: 'mean',
+    met: 'meet', meets: 'meet', meeting: 'meet',
+    shot: 'shoot', shoots: 'shoot', shooting: 'shoot',
+    taught: 'teach', teaches: 'teach', teaching: 'teach',
+    told: 'tell', tells: 'tell', telling: 'tell',
+    understood: 'understand', understands: 'understand', understanding: 'understand',
+    won: 'win', wins: 'win', winning: 'win',
+    wound: 'wind', winds: 'wind', winding: 'wind',
+    beat: 'beat', beaten: 'beat', beats: 'beat', beating: 'beat',
+    became: 'become', becomes: 'become', becoming: 'become',
+    began: 'begin', begun: 'begin', begins: 'begin', beginning: 'begin',
+    ate: 'eat', eaten: 'eat', eats: 'eat', eating: 'eat',
+    drank: 'drink', drunk: 'drink', drinks: 'drink', drinking: 'drink',
+    flew: 'fly', flown: 'fly', flies: 'fly', flying: 'fly',
+    rode: 'ride', ridden: 'ride', rides: 'ride', riding: 'ride',
+    rang: 'ring', rung: 'ring', rings: 'ring', ringing: 'ring',
+    sang: 'sing', sung: 'sing', sings: 'sing', singing: 'sing',
+    sank: 'sink', sunk: 'sink', sinks: 'sink', sinking: 'sink',
+    swam: 'swim', swum: 'swim', swims: 'swim', swimming: 'swim',
+    froze: 'freeze', frozen: 'freeze', freezes: 'freeze', freezing: 'freeze',
+    lost: 'lose', loses: 'lose', losing: 'lose',
+    led: 'lead', leads: 'lead', leading: 'lead',
+    fed: 'feed', feeds: 'feed', feeding: 'feed',
+    slept: 'sleep', sleeps: 'sleep', sleeping: 'sleep',
+    sought: 'seek', seeks: 'seek', seeking: 'seek',
+    fought: 'fight', fights: 'fight', fighting: 'fight',
+    bought: 'buy', buys: 'buy', buying: 'buy',
+    cut: 'cut', cuts: 'cut', cutting: 'cut',
+    set: 'set', sets: 'set', setting: 'set',
+    let: 'let', lets: 'let', letting: 'let',
+    read: 'read', reads: 'read', reading: 'read',
   };
   if (irregular[word]) bases.add(irregular[word]);
   if (word.endsWith('ing') && word.length > 4) {
@@ -199,14 +280,32 @@ function verbBases(token: string): string[] {
   return [...bases];
 }
 
-function isRealPhrasal(option: string): boolean {
+function phrasalCore(option: string): { bases: string[]; rest: string } | null {
   const words = wordsOf(option);
   let start = 0;
   while (start < words.length && AUXILIARIES.has(words[start])) start += 1;
   const core = words.slice(start);
-  if (core.length < 2) return false;
-  const rest = core.slice(1).join(' ');
-  return verbBases(core[0]).some((verb) => REAL_PHRASALS.has(`${verb} ${rest}`));
+  if (core.length < 2) return null;
+  return { bases: verbBases(core[0]), rest: core.slice(1).join(' ') };
+}
+
+function canonicalPhrasal(option: string): string {
+  const core = phrasalCore(option);
+  if (!core) return '';
+  for (const verb of core.bases) {
+    if (PHRASAL_BY_VERB.get(verb)?.has(core.rest)) return `${verb} ${core.rest}`;
+  }
+  return `${core.bases[0] ?? ''} ${core.rest}`.trim();
+}
+
+function isRealPhrasal(option: string): boolean {
+  const core = phrasalCore(option);
+  if (!core) return false;
+  if (core.bases.some((verb) => INVENTED_PHRASAL_SET.has(`${verb} ${core.rest}`))) return false;
+  if (core.bases.some((verb) => PHRASAL_BY_VERB.get(verb)?.has(core.rest))) return true;
+  // A listed verb only takes the particles we know. "gloss up" is not "gloss over".
+  if (core.bases.some((verb) => PHRASAL_BY_VERB.has(verb))) return false;
+  return core.rest.split(' ').every((part) => PARTICLES.has(part));
 }
 
 function phrasalGroupProblem(options: string[]): string | null {
@@ -216,10 +315,32 @@ function phrasalGroupProblem(options: string[]): string | null {
   const counts = new Map<string, number>();
   for (const verb of options.map(optionVerb)) counts.set(verb, (counts.get(verb) ?? 0) + 1);
   const most = Math.max(...counts.values());
-  if (most < 3) {
-    return 'Use at least three options with the same verb and different real particles. The fourth may be another real phrasal verb with an unrelated meaning.';
+  const others = options.length - most;
+  if (most >= 3 || (most >= 2 && others >= 2)) return null;
+  return 'Use at least three options with the same verb and different real particles, or two with the same verb plus two other real phrasal verbs.';
+}
+
+function itemScore(item: GrammarItem, request: GrammarRequest): number {
+  if (request.exercise !== 'phrasal' || item.kind !== 'choice') return 0;
+  const phrase = canonicalPhrasal(item.correctAnswer);
+  const basic = BASIC_PHRASALS.has(phrase);
+  const upper = B2_PHRASALS.has(phrase);
+  const advanced = C1_PHRASALS.has(phrase);
+  if (request.level === 'C1') {
+    if (advanced) return 2;
+    if (upper) return 1;
+    if (basic) return -2;
+    return 0;
   }
-  return null;
+  if (request.level === 'B2') {
+    if (upper) return 2;
+    if (advanced) return 1;
+    if (basic) return -1;
+    return 0;
+  }
+  if (basic) return 1;
+  if (advanced) return -1;
+  return 0;
 }
 
 function mainPhrasalVerb(options: string[]): string {
@@ -355,74 +476,125 @@ function validateOrder(raw: Record<string, unknown>, level: GrammarLevel): { ok:
   return { ok: true, item };
 }
 
-/** Turn a Gemini grammar payload into a playable set. Keeps the set when at least GRAMMAR_MIN_ITEMS items pass. */
-export function normalizeGrammarSet(raw: unknown, request: GrammarRequest): { ok: true; set: GrammarSet } | { ok: false; problems: string[] } {
-  const rows = readRawItems(raw);
-  if (!rows) return { ok: false, problems: ['Return a JSON object with an items array.'] };
-  const items: GrammarItem[] = [];
-  const problems: string[] = [];
+type ScoredItem = { item: GrammarItem; index: number };
+
+function answerKey(item: GrammarItem): string {
+  return item.kind === 'choice' ? item.correctAnswer.toLowerCase() : item.chunks.join('|').toLowerCase();
+}
+
+function grammarSetFrom(request: GrammarRequest, items: GrammarItem[]): GrammarSet {
+  return {
+    level: request.level,
+    exercise: request.exercise,
+    topic: request.topic.trim(),
+    title: grammarTitle(request.exercise),
+    items,
+  };
+}
+
+/** Keep the strongest passing items, at most GRAMMAR_ITEM_COUNT, without repeating an answer or a base verb. */
+function selectGrammarItems(pool: ScoredItem[], request: GrammarRequest, problems: string[]): GrammarItem[] {
+  const ranked = [...pool].sort((left, right) => itemScore(right.item, request) - itemScore(left.item, request) || left.index - right.index);
   const seenAnswers = new Set<string>();
+  const seenPrompts = new Set<string>();
   const verbCounts = new Map<string, number>();
-  for (const row of rows) {
-    if (!row || typeof row !== 'object') {
-      problems.push('Each item must be an object.');
-      continue;
-    }
-    const record = row as Record<string, unknown>;
-    const checked = request.exercise === 'order' ? validateOrder(record, request.level) : validateChoice(record, request.exercise);
-    if (!checked.ok) {
-      problems.push(checked.problem);
-      continue;
-    }
-    const answerKey = checked.item.kind === 'choice'
-      ? checked.item.correctAnswer.toLowerCase()
-      : checked.item.chunks.join('|').toLowerCase();
-    if (seenAnswers.has(answerKey)) {
+  const items: GrammarItem[] = [];
+  for (const entry of ranked) {
+    const key = answerKey(entry.item);
+    if (seenAnswers.has(key)) {
       problems.push('Do not repeat the same correct answer. Test a different point.');
       continue;
     }
-    if (request.exercise === 'phrasal' && checked.item.kind === 'choice') {
-      const verb = mainPhrasalVerb(checked.item.options);
+    if (entry.item.kind === 'choice' && seenPrompts.has(entry.item.prompt.toLowerCase())) {
+      problems.push('Do not repeat the same sentence.');
+      continue;
+    }
+    if (request.exercise === 'phrasal' && entry.item.kind === 'choice') {
+      const verb = mainPhrasalVerb(entry.item.options);
       if ((verbCounts.get(verb) ?? 0) >= 2) {
         problems.push('Use each base verb in at most two items.');
         continue;
       }
       verbCounts.set(verb, (verbCounts.get(verb) ?? 0) + 1);
     }
-    seenAnswers.add(answerKey);
-    items.push(checked.item);
+    seenAnswers.add(key);
+    if (entry.item.kind === 'choice') seenPrompts.add(entry.item.prompt.toLowerCase());
+    items.push(entry.item);
     if (items.length === GRAMMAR_ITEM_COUNT) break;
   }
-  if (items.length < GRAMMAR_MIN_ITEMS) {
-    const summary = `Only ${items.length} exercises were usable. Need at least ${GRAMMAR_MIN_ITEMS}.`;
-    return { ok: false, problems: [summary, ...problems].slice(0, 8) };
-  }
-  return {
-    ok: true,
-    set: {
-      level: request.level,
-      exercise: request.exercise,
-      topic: request.topic.trim(),
-      title: grammarTitle(request.exercise),
-      items,
-    },
-  };
+  return items;
 }
 
-export function buildGrammarPrompt(request: GrammarRequest, correction?: string): string {
+export type GrammarNormalizeResult =
+  | { ok: true; set: GrammarSet; items: GrammarItem[] }
+  | { ok: false; problems: string[]; items: GrammarItem[] };
+
+function finishGrammarSet(request: GrammarRequest, items: GrammarItem[], problems: string[]): GrammarNormalizeResult {
+  if (items.length < GRAMMAR_MIN_ITEMS) {
+    const summary = `Only ${items.length} exercises were usable. Need at least ${GRAMMAR_MIN_ITEMS}.`;
+    return { ok: false, problems: [summary, ...problems].slice(0, 8), items };
+  }
+  const set = grammarSetFrom(request, items);
+  return { ok: true, set, items: set.items };
+}
+
+/**
+ * Turn a Gemini grammar payload into a playable set.
+ * Keeps the best GRAMMAR_ITEM_COUNT items when more pass, and still returns a set at GRAMMAR_MIN_ITEMS.
+ * Pass kept items to merge a top-up payload without repeating them.
+ */
+export function normalizeGrammarSet(
+  raw: unknown,
+  request: GrammarRequest,
+  options?: { kept?: GrammarItem[] },
+): GrammarNormalizeResult {
+  const kept = options?.kept ?? [];
+  const pool: ScoredItem[] = kept.map((item, index) => ({ item, index }));
+  const problems: string[] = [];
+  const rows = readRawItems(raw);
+  if (!rows) {
+    const items = selectGrammarItems(pool, request, problems);
+    if (!kept.length) return { ok: false, problems: ['Return a JSON object with an items array.'], items: [] };
+    return finishGrammarSet(request, items, problems);
+  }
+  rows.forEach((row, index) => {
+    if (!row || typeof row !== 'object') {
+      problems.push('Each item must be an object.');
+      return;
+    }
+    const record = row as Record<string, unknown>;
+    const checked = request.exercise === 'order' ? validateOrder(record, request.level) : validateChoice(record, request.exercise);
+    if (!checked.ok) {
+      problems.push(checked.problem);
+      return;
+    }
+    pool.push({ item: checked.item, index: kept.length + index + 1 });
+  });
+  return finishGrammarSet(request, selectGrammarItems(pool, request, problems), problems);
+}
+
+export function buildGrammarPrompt(
+  request: GrammarRequest,
+  correction?: string,
+  options?: { count?: number; extra?: string },
+): string {
+  const count = options?.count ?? GRAMMAR_GENERATION_COUNT;
+  const itemWord = count === 1 ? 'item' : 'items';
   const topic = request.topic.trim().replace(/["\n\r]/g, ' ');
   const topicLine = topic
-    ? `Topic: "${topic}". Cover different aspects of this topic across the ${GRAMMAR_ITEM_COUNT} items. Vary the items. For example, present perfect should mix has/have, past participles, already/yet/just, for/since, and present perfect versus past simple. Do not test the same contrast every time.`
+    ? `Topic: "${topic}". Cover different aspects of this topic across the ${count} ${itemWord}. Vary the items. For example, present perfect should mix has/have, past participles, already/yet/just, for/since, and present perfect versus past simple. Do not test the same contrast every time.`
     : 'Choose useful grammar for this level. Vary the items. Each item should test a different point.';
   return `
 You write English grammar exercises for learners around the world. Explanations use clear, simple English.
 Level: ${request.level}.
 Exercise: ${exerciseLabel(request.exercise)}.
-Make exactly ${GRAMMAR_ITEM_COUNT} items.
+Make exactly ${count} ${itemWord}.
 ${levelGuide(request.level, request.exercise)}
 ${topicLine}
 ${taskGuide(request.exercise, request.level)}
 ${c1BlankScenario(request)}
+${variationNote(request)}
+${options?.extra ?? ''}
 Self-check every item before you keep it:
 - Put the correct answer into the gap and read the whole sentence. It must be natural, idiomatic, and fully correct.
 - Do not repeat a word. Bad: "only after the meeting _____ that I realized" with the answer "that", because that makes "that that".
@@ -445,11 +617,67 @@ Return only JSON.
 `.trim();
 }
 
+const B1_FEATURED = ['get up', 'look for', 'turn off', 'give up', 'look after', 'put on', 'pick up', 'find out', 'wake up', 'go out', 'take off', 'come back'];
+const B2_FEATURED = ['get over', 'come up with', 'put up with', 'run out of', 'turn down', 'carry out', 'come across', 'look into', 'get away with', 'break down', 'call off', 'figure out'];
+const C1_FEATURED = ['gloss over', 'iron out', 'hammer out', 'bring about', 'write off', 'sound out', 'stave off', 'bring off', 'run up against', 'play down', 'shrug off', 'weigh up'];
+
+function pickSome(items: readonly string[], count: number): string[] {
+  const copy = [...items];
+  for (let index = copy.length - 1; index > 0; index -= 1) {
+    const swap = Math.floor(Math.random() * (index + 1));
+    const current = copy[index];
+    copy[index] = copy[swap];
+    copy[swap] = current;
+  }
+  return copy.slice(0, count);
+}
+
+function variationNote(request: GrammarRequest): string {
+  if (request.level === 'C1' && request.exercise === 'blanks') return '';
+  const seed = Math.floor(Math.random() * 10000);
+  if (request.exercise !== 'phrasal') {
+    return `Variation seed ${seed}. Vary the sentences so this set does not repeat an earlier one.`;
+  }
+  const pool = request.level === 'C1' ? C1_FEATURED : request.level === 'B2' ? B2_FEATURED : B1_FEATURED;
+  const featured = pickSome(pool, Math.min(6, pool.length));
+  return `Variation seed ${seed}. Use a fresh mix of phrasal verbs, including some of: ${featured.join(', ')}. Do not repeat items from an earlier set.`;
+}
+
+function usedSentences(items: GrammarItem[]): string[] {
+  return items.map((item) => (item.kind === 'choice' ? item.prompt : item.chunks.join(' '))).slice(0, 8);
+}
+
+function exclusionNote(request: GrammarRequest, kept: GrammarItem[]): string {
+  if (!kept.length) return '';
+  const lines = [
+    'These items are new. Do not repeat a sentence or a correct answer already used.',
+    `Do not reuse these sentences: ${usedSentences(kept).join(' | ')}`,
+  ];
+  if (request.exercise === 'phrasal') {
+    const verbs = [...new Set(kept.flatMap((item) => (item.kind === 'choice' ? [mainPhrasalVerb(item.options)] : [])))].filter(Boolean);
+    if (verbs.length) lines.push(`Do not use these base verbs again: ${verbs.join(', ')}.`);
+  } else {
+    const answers = kept.flatMap((item) => (item.kind === 'choice' ? [item.correctAnswer] : []));
+    if (answers.length) lines.push(`Do not use these correct answers again: ${answers.join(', ')}.`);
+  }
+  return lines.join('\n');
+}
+
+/** Ask only for the items still needed, leaving out verbs and sentences already kept. */
+export function buildGrammarTopUpPrompt(
+  request: GrammarRequest,
+  needed: number,
+  kept: GrammarItem[],
+  correction?: string,
+): string {
+  return buildGrammarPrompt(request, correction, { count: needed, extra: exclusionNote(request, kept) });
+}
+
 function levelGuide(level: GrammarLevel, exercise: GrammarExerciseType): string {
   if (exercise === 'phrasal') {
-    if (level === 'C1') return 'Use idiomatic but standard phrasal verbs that advanced learners still mix up. The sentence must sound like something a fluent speaker would say.';
-    if (level === 'B2') return 'Use less obvious standard phrasal verbs such as put off, come across, get over, and look into.';
-    return 'Use common standard phrasal verbs such as get up, look for, turn off, give up, and look after.';
+    if (level === 'C1') return 'Use advanced but standard phrasal verbs such as gloss over, iron out, hammer out, bring about, write off, sound out, and stave off. Do not use basic B1 phrasal verbs at C1. "Put off a meeting", get up, look for, turn off, give up, and look after are too easy.';
+    if (level === 'B2') return 'Use upper-intermediate phrasal verbs such as get over, come up with, put up with, run out of, turn down (an offer), and carry out. Do not fill the set with basic B1 items such as get up, look for, and turn off.';
+    return 'Use common everyday B1 phrasal verbs such as get up, look for, turn off, give up, and look after.';
   }
   if (exercise === 'order') {
     if (level === 'C1') return 'Prefer natural, idiomatic English. A paragraph must have exactly one possible order, shown by connectors, a pronoun that points back, or cause and effect. A single complex sentence split into chunks is a good item. Avoid awkward constructions.';
@@ -490,7 +718,7 @@ function taskGuide(exercise: GrammarExerciseType, level: GrammarLevel): string {
     return 'Each item is a different short paragraph of 4 to 6 sentences or clauses. Do not repeat the same scene, such as a morning routine, cooking, or the airport. Vary the connectors. Do not always use First, Then, After that, and Finally. Use because, once, when, after, before, meanwhile, as soon as, or later. Use "so" only for a result, not for a simple next step. Do not split one sentence into adverbials that could go in more than one place. The last part ends with . ! or ?';
   }
   if (exercise === 'phrasal') {
-    return 'Each prompt is one natural sentence with exactly one gap written as _____. Every option must be a real phrasal verb. Do not invent particles. Bad: "gloss up", "dream off". Good: "gloss over", "dream up". Prefer four real particles of the same verb, such as put off, put up, put out, and put on. If that verb does not have four real particles, use three real ones plus one other real phrasal verb whose meaning cannot fit the sentence. Use each base verb in at most two items. Do not offer two particles that both fit, such as "call in" and "call up" for reservists, or "work out" and "work through" for details. Never use a single-word verb such as "shelve". Never use near-synonyms such as make out and catch on to, go over and iron out, or speak to and tell off.';
+    return 'Each prompt is one natural sentence with exactly one gap written as _____. Every option must be a real phrasal verb. Do not invent particles. Bad: "gloss up", "dream off". Good: "gloss over", "dream up". Use either at least three options with the same verb and different real particles, or two options with the same verb plus two other real phrasal verbs. Four real particles of the same verb is best, such as put off, put up, put out, and put on. Use each base verb in at most two items. Exactly one option may be the natural answer. Do not offer two particles that both fit, such as "call in" and "call up" for reservists, or "work out" and "work through" for details. Never use a single-word verb such as "shelve". Never use near-synonyms such as make out and catch on to, go over and iron out, or speak to and tell off.';
   }
   return 'Each prompt is one natural sentence with exactly one gap written as _____. The 4 options are single words or short phrases. Wrong options must be clearly wrong in this sentence, in British and American English. Do not pair "will" with "is going to" or "are going to". Do not make an item from degree adverbs such as somewhat, slightly, rather, fairly, quite, pretty, or a bit. Do not pair "going to" with "will", or two tenses that both fit. After suggest, recommend, or insist, do not offer both a gerund and a that-clause. Do not offer two modal perfects such as "might have" and "should have" unless the sentence forces one. A cleft starting "It was" or "It is" must not offer two of "that", "which", and "who".';
 }

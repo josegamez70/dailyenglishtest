@@ -2,7 +2,9 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
   buildGrammarPrompt,
+  buildGrammarTopUpPrompt,
   freshOrder,
+  GRAMMAR_GENERATION_COUNT,
   GRAMMAR_ITEM_COUNT,
   GRAMMAR_MIN_ITEMS,
   gradeChoice,
@@ -10,6 +12,7 @@ import {
   grammarTitle,
   normalizeGrammarSet,
   placeChunk,
+  REAL_PHRASAL_COUNT,
   resetOrder,
   sameOrder,
   shuffleChunks,
@@ -160,8 +163,10 @@ test('extra valid items are cut to 6 and order parts must be 4 to 6 different ch
 
 test('the prompt names the level, the exercise, and an optional topic', () => {
   const blanks = buildGrammarPrompt(blanksRequest);
-  assert.match(blanks, /Make exactly 6 items/);
-  assert.match(blanks, /across the 6 items/);
+  assert.equal(GRAMMAR_GENERATION_COUNT, 9);
+  assert.ok(REAL_PHRASAL_COUNT >= 300);
+  assert.match(blanks, /Make exactly 9 items/);
+  assert.match(blanks, /across the 9 items/);
   assert.match(blanks, /Level: B1/);
   assert.match(blanks, /present perfect/);
   assert.match(blanks, /for\/since/);
@@ -196,6 +201,17 @@ test('the prompt names the level, the exercise, and an optional topic', () => {
   assert.match(phrasal, /gloss up/);
   assert.match(phrasal, /at most two/);
   assert.match(phrasal, /call in/);
+  assert.match(phrasal, /gloss over/);
+  assert.match(phrasal, /stave off/);
+  assert.match(phrasal, /Do not use basic B1/);
+  assert.match(phrasal, /Put off a meeting/);
+  assert.match(phrasal, /Variation seed/);
+  assert.match(phrasal, /two other real phrasal verbs/);
+  const b2Phrasal = buildGrammarPrompt({ level: 'B2', exercise: 'phrasal', topic: '' });
+  assert.match(b2Phrasal, /come up with/);
+  assert.match(b2Phrasal, /put up with/);
+  assert.match(b2Phrasal, /run out of/);
+  assert.match(b2Phrasal, /turn down \(an offer\)/);
   assert.match(c1Blanks, /Hardly had I entered/);
   assert.match(c1Blanks, /Variation seed/);
   assert.match(paragraph, /until the crust was golden brown/);
@@ -459,4 +475,161 @@ test('grading marks the chosen option and the tapped order', () => {
   assert.equal(missed.correct, false);
   assert.equal(missed.userAnswer, 'I left home. I got up.');
   assert.equal(missed.correctAnswer, order.chunks.join(' '));
+});
+
+test('five passing items are kept and a top-up merges without repeating them', () => {
+  const five = normalizeGrammarSet({ items: tenChoices().items.slice(0, 5) }, blanksRequest);
+  assert.equal(five.ok, true);
+  if (!five.ok) return;
+  assert.equal(five.set.items.length, 5);
+
+  const first = normalizeGrammarSet({ items: tenChoices().items.slice(0, 4) }, blanksRequest);
+  assert.equal(first.ok, true);
+  if (!first.ok) return;
+  const merged = normalizeGrammarSet({
+    items: [choice(1), choice(5), choice(6), choice(7)],
+  }, blanksRequest, { kept: first.set.items });
+  assert.equal(merged.ok, true);
+  if (!merged.ok) return;
+  assert.equal(merged.set.items.length, GRAMMAR_ITEM_COUNT);
+  const answers = merged.set.items.map((item) => item.kind === 'choice' ? item.correctAnswer : '');
+  assert.equal(new Set(answers).size, GRAMMAR_ITEM_COUNT);
+  assert.equal(answers.includes('right1'), true);
+
+  const keptOnly = normalizeGrammarSet(null, blanksRequest, { kept: first.set.items });
+  assert.equal(keptOnly.ok, true);
+  if (!keptOnly.ok) return;
+  assert.equal(keptOnly.set.items.length, 4);
+
+  const topUp = buildGrammarTopUpPrompt(
+    { level: 'B2', exercise: 'phrasal', topic: '' },
+    2,
+    [{
+      kind: 'choice',
+      prompt: 'Please _____ the meeting.',
+      options: ['put off', 'put on', 'put out', 'put away'],
+      correctAnswer: 'put off',
+      explanation: 'Delay it.',
+    }],
+  );
+  assert.match(topUp, /Make exactly 2 items/);
+  assert.match(topUp, /Please _____ the meeting/);
+  assert.match(topUp, /Do not use these base verbs again: put/);
+});
+
+test('B2 and C1 phrasals stay when the option group is valid', () => {
+  const phrasal = { level: 'C1' as const, exercise: 'phrasal' as const, topic: '' };
+  const accepted = normalizeGrammarSet({
+    items: [
+      choice(1, {
+        prompt: 'They could only _____ as the parade passed.',
+        options: ['look on', 'look up', 'come over', 'get through'],
+        correctAnswer: 'look on',
+      }),
+      choice(2, {
+        prompt: 'The team _____ a serious obstacle.',
+        options: ['run up against', 'run out of', 'run into', 'come up with'],
+        correctAnswer: 'run up against',
+      }),
+      choice(3, {
+        prompt: 'She _____ the deal at the last minute.',
+        options: ['brought off', 'brought about', 'brought up', 'brought in'],
+        correctAnswer: 'brought off',
+      }),
+      choice(4, {
+        prompt: 'We need to _____ a compromise.',
+        options: ['hammer out', 'hammer away', 'iron out', 'gloss over'],
+        correctAnswer: 'hammer out',
+      }),
+      choice(5, {
+        prompt: 'Please _____ the report tonight.',
+        options: ['turn in', 'turn down', 'come over', 'get through'],
+        correctAnswer: 'turn in',
+      }),
+      choice(6, {
+        prompt: 'They tried to _____ a reason.',
+        options: ['snarfle up', 'snarfle off', 'snarfle out', 'look after'],
+        correctAnswer: 'snarfle up',
+      }),
+    ],
+  }, phrasal);
+  assert.equal(accepted.ok, true);
+  if (!accepted.ok) return;
+  const answers = accepted.set.items.map((item) => item.kind === 'choice' ? item.correctAnswer : '');
+  assert.equal(answers.includes('look on'), true);
+  assert.equal(answers.includes('run up against'), true);
+  assert.equal(answers.includes('brought off'), true);
+  assert.equal(answers.includes('hammer out'), true);
+  assert.equal(answers.includes('turn in'), true);
+  assert.equal(answers.includes('snarfle up'), true);
+
+  const unrelated = normalizeGrammarSet({
+    items: [
+      choice(7, {
+        prompt: 'We tried to _____ the issue.',
+        options: ['come over', 'get through', 'turn in', 'bring off'],
+        correctAnswer: 'come over',
+      }),
+      ...tenPhrasals().items.slice(0, 6),
+    ],
+  }, phrasal);
+  assert.equal(unrelated.ok, true);
+  if (!unrelated.ok) return;
+  assert.equal(unrelated.set.items.some((item) => item.kind === 'choice' && item.correctAnswer === 'come over'), false);
+});
+
+test('C1 keeps advanced phrasals ahead of basic ones when the pool is longer than 6', () => {
+  const phrasal = { level: 'C1' as const, exercise: 'phrasal' as const, topic: '' };
+  const result = normalizeGrammarSet({
+    items: [
+      choice(1, {
+        prompt: 'The change will _____ a new policy.',
+        options: ['bring about', 'bring off', 'bring up', 'bring in'],
+        correctAnswer: 'bring about',
+      }),
+      choice(2, {
+        prompt: 'They had to _____ a deal.',
+        options: ['hammer out', 'hammer away', 'iron out', 'gloss over'],
+        correctAnswer: 'hammer out',
+      }),
+      choice(3, {
+        prompt: 'The plan _____ a legal limit.',
+        options: ['run up against', 'run out of', 'run into', 'come up with'],
+        correctAnswer: 'run up against',
+      }),
+      choice(4, {
+        prompt: 'The firm will _____ the debt.',
+        options: ['write off', 'write down', 'write up', 'write out'],
+        correctAnswer: 'write off',
+      }),
+      choice(5, {
+        prompt: 'She _____ a difficult rescue.',
+        options: ['brought off', 'brought about', 'brought up', 'brought in'],
+        correctAnswer: 'brought off',
+      }),
+      choice(6, {
+        prompt: 'He tried to _____ her views.',
+        options: ['sound out', 'stave off', 'bring about', 'bring off'],
+        correctAnswer: 'sound out',
+      }),
+      choice(7, {
+        prompt: 'Let us _____ the meeting.',
+        options: ['put off', 'put on', 'put out', 'put away'],
+        correctAnswer: 'put off',
+      }),
+      choice(8, {
+        prompt: 'I _____ at six.',
+        options: ['get up', 'get on', 'get off', 'get over'],
+        correctAnswer: 'get up',
+      }),
+    ],
+  }, phrasal);
+  assert.equal(result.ok, true);
+  if (!result.ok) return;
+  assert.equal(result.set.items.length, GRAMMAR_ITEM_COUNT);
+  const answers = result.set.items.map((item) => item.kind === 'choice' ? item.correctAnswer : '');
+  assert.equal(answers.includes('bring about'), true);
+  assert.equal(answers.includes('sound out'), true);
+  assert.equal(answers.includes('put off'), false);
+  assert.equal(answers.includes('get up'), false);
 });
