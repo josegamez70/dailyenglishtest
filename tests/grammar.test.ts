@@ -180,6 +180,10 @@ test('the prompt names the level, the exercise, and an optional topic', () => {
   assert.match(c1Blanks, /cleft sentences/);
   assert.match(c1Blanks, /mixed conditionals/);
   assert.match(c1Blanks, /Not only/);
+  assert.match(blanks, /any common variety of English/);
+  assert.match(blanks, /She suggested/);
+  assert.match(blanks, /might have/);
+  assert.match(blanks, /already, just, or yet/);
 });
 
 test('gaps, doubled words, tense clashes, and repeated answers are rejected', () => {
@@ -237,6 +241,45 @@ test('gaps, doubled words, tense clashes, and repeated answers are rejected', ()
   if (!repeated.ok) return;
   const answers = repeated.set.items.map((item) => item.kind === 'choice' ? item.correctAnswer : '');
   assert.equal(new Set(answers).size, answers.length);
+
+  const ambiguous = (item: ReturnType<typeof choice>) => normalizeGrammarSet({
+    items: [item, ...tenChoices().items.slice(1)],
+  }, blanksRequest);
+  const suggested = ambiguous(choice(30, {
+    prompt: 'She suggested _____ to the restaurant.',
+    options: ['going', 'we go', 'to go', 'gone'],
+    correctAnswer: 'going',
+  }));
+  assert.equal(suggested.ok, true);
+  if (!suggested.ok) return;
+  assert.equal(suggested.set.items.some((item) => item.kind === 'choice' && item.prompt.includes('suggested')), false);
+
+  const modals = ambiguous(choice(31, {
+    prompt: 'You _____ told me you were struggling.',
+    options: ['might have', 'could have', 'told', 'telling'],
+    correctAnswer: 'might have',
+  }));
+  assert.equal(modals.ok, true);
+  if (!modals.ok) return;
+  assert.equal(modals.set.items.some((item) => item.kind === 'choice' && item.correctAnswer === 'might have'), false);
+
+  const forced = ambiguous(choice(32, {
+    prompt: 'You were supposed to _____ told me earlier.',
+    options: ['should have', 'could have', 'must', 'can'],
+    correctAnswer: 'should have',
+  }));
+  assert.equal(forced.ok, true);
+  if (!forced.ok) return;
+  assert.equal(forced.set.items.some((item) => item.kind === 'choice' && item.correctAnswer === 'should have'), true);
+
+  const cleft = ambiguous(choice(33, {
+    prompt: 'It was the manager _____ hired me.',
+    options: ['that', 'who', 'when', 'where'],
+    correctAnswer: 'who',
+  }));
+  assert.equal(cleft.ok, true);
+  if (!cleft.ok) return;
+  assert.equal(cleft.set.items.some((item) => item.kind === 'choice' && item.prompt.startsWith('It was')), false);
 });
 
 test('B1 order items are paragraphs with one logical order', () => {

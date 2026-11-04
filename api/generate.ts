@@ -38,6 +38,7 @@ import {
   type GrammarRequest,
 } from '../grammarSet';
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
+import { isOverloadStatus, overloadFallbackModel } from '../modelFallback';
 
 type HandlerEvent = {
   httpMethod?: string;
@@ -77,17 +78,14 @@ type PreparedLesson = {
   dialogue: DialogueTurn[];
 };
 
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
 // One warm function instance remembers a 404 so later steps do not call that model.
-// 2.5 and 2.0 are already closed for this key. 3.1 Flash-Lite with minimal thinking
-// is the model that has finished a short lesson inside the Netlify limit.
+// 2.0 and 2.5 Flash are not used for normal lessons. 2.5 Flash-Lite is only the
+// single fallback when the primary models are overloaded or time out.
 const MODEL_CANDIDATES = ['gemini-3-flash-preview', 'gemini-3.1-flash-lite'];
 const unavailableModels = new Set<string>([
   'gemini-2.0-flash',
   'gemini-1.5-flash',
   'gemini-2.5-flash',
-  'gemini-2.5-flash-lite',
 ]);
 let preferredModel = 'gemini-3-flash-preview';
 
@@ -745,23 +743,8 @@ async function generateRaw(
       const laterModel = order.slice(index + 1).some((name) => !unavailableModels.has(name));
       const timeLeft = deadline - Date.now();
       const dailyQuota = /per day|retry in \d+h/i.test(message);
-      // One short retry only when no other model is left. A 404 is remembered and skipped.
-      // If another model is available, try that instead of spending the window here.
-      if (!laterModel && status !== 404 && (status === 503 || status === 429) && !dailyQuota && timeLeft > 8000) {
-        await sleep(400);
-        const retryTimeout = Math.min(18000, deadline - Date.now() - 800);
-        if (retryTimeout >= 5000) {
-          try {
-            const text = await callModel(apiKey, modelName, prompt, retryTimeout, false, true, maxOutputTokens, schema, temperature);
-            if (text) {
-              preferredModel = modelName;
-              return text;
-            }
-          } catch (retryError) {
-            note(retryError, modelName);
-          }
-        }
-      }
+      // Do not call the same overloaded model again. One free-tier fallback runs after this loop.
+      if (!laterModel && isOverloadStatus(status) && !dailyQuota && timeLeft > 4000) break;
       // thinkingBudget / thinkingLevel rejected: one retry with the model's own default,
       // and only when that retry can still return before the function deadline.
       if (status === 400 && /invalid argument/i.test(message) && timeLeft > 8000) {
@@ -788,6 +771,31 @@ async function generateRaw(
     }
   }
   const upstream = readUpstream(lastError, lastModel);
+  const fallback = isOverloadStatus(upstream.status)
+    ? overloadFallbackModel(attempts.map((attempt) => attempt.model ?? ''))
+    : null;
+  const fallbackTimeout = Math.min(12000, deadline - Date.now() - 800);
+  if (fallback && !unavailableModels.has(fallback) && fallbackTimeout >= 4000) {
+    try {
+      console.log(JSON.stringify({ stage: 'gen_fallback', modelName: fallback, timeout: fallbackTimeout }));
+      const text = await callModel(apiKey, fallback, prompt, fallbackTimeout, false, true, maxOutputTokens, schema, temperature);
+      if (text) return text;
+    } catch (error) {
+      const noted = note(error, fallback);
+      if (noted.status === 404) unavailableModels.add(fallback);
+      if (noted.status === 400 && /invalid argument/i.test(noted.message) && deadline - Date.now() > 5000) {
+        const retryTimeout = Math.min(10000, deadline - Date.now() - 800);
+        if (retryTimeout >= 4000) {
+          try {
+            const text = await callModel(apiKey, fallback, prompt, retryTimeout, false, false, maxOutputTokens, schema, temperature);
+            if (text) return text;
+          } catch (retryError) {
+            note(retryError, fallback);
+          }
+        }
+      }
+    }
+  }
   const busy = upstream.status === 429 || upstream.status === 503;
   const timedOut = upstream.status === 504;
   throw Object.assign(

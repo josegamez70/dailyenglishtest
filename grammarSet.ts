@@ -143,7 +143,49 @@ function choiceQualityProblem(item: GrammarChoice, exercise: GrammarExerciseType
   if (exercise === 'phrasal' && !looksLikeVerbParticle(item.correctAnswer)) {
     return 'The correct answer must be a verb plus a particle, such as "look after" or "put off".';
   }
+  if (exercise === 'blanks' && ambiguousBlank(item)) {
+    return 'More than one option can be correct here. Change the sentence so only one option fits.';
+  }
   return null;
+}
+
+const MODAL_PERFECTS = ['might have', 'could have', 'should have', 'ought to have'];
+
+function normalizedOption(option: string): string {
+  return option.toLowerCase().replace(/[^a-z\s]/g, ' ').replace(/\s+/g, ' ').trim();
+}
+
+function modalPerfectCount(options: string[]): number {
+  return options.filter((option) => {
+    const text = normalizedOption(option);
+    return MODAL_PERFECTS.some((modal) => text === modal || text.startsWith(`${modal} `));
+  }).length;
+}
+
+function hasModalDisambiguator(prompt: string): boolean {
+  return /supposed to|required|no other possibility|the only possibility|it was impossible|it is impossible/i.test(prompt);
+}
+
+function tooManyCleftRelatives(prompt: string, options: string[]): boolean {
+  if (!/^it (?:was|is)\b/i.test(prompt.trim())) return false;
+  const relatives = new Set(
+    options.map((option) => normalizedOption(option)).filter((option) => option === 'that' || option === 'which' || option === 'who'),
+  );
+  return relatives.size >= 2;
+}
+
+function suggestBothShapes(prompt: string, options: string[]): boolean {
+  if (!/\b(?:suggest(?:ed|s|ing)?|recommend(?:ed|s|ing)?|insist(?:ed|s|ing)?)\b/i.test(prompt)) return false;
+  const gerund = options.some((option) => /^[a-z]+ing$/i.test(option.trim()));
+  const clause = options.some((option) => /^(?:that|we|i|you|they|he|she)\b/i.test(option.trim()));
+  return gerund && clause;
+}
+
+function ambiguousBlank(item: GrammarChoice): boolean {
+  if (suggestBothShapes(item.prompt, item.options)) return true;
+  if (tooManyCleftRelatives(item.prompt, item.options)) return true;
+  if (modalPerfectCount(item.options) >= 2 && !hasModalDisambiguator(item.prompt)) return true;
+  return false;
 }
 
 function orderQualityProblem(item: GrammarOrder, level: GrammarLevel): string | null {
@@ -275,6 +317,11 @@ Self-check every item before you keep it:
 - Then try each wrong option in the same gap. Exactly one option may be correct. If a second option also sounds acceptable, change the sentence or the options.
 - Do not offer two answers that both fit. Never offer both "is going to" and "will" when either sounds natural. Never offer both "is" and "was" after "The reason ... _____ because". Never offer both "could" and "might" when either is acceptable. Also avoid "has been postponed" and "had been postponed" when the sentence does not force one of them.
 - In a relative clause, never offer both "that" and "who" for the same gap, and never offer both "which" and "that".
+- Before finalizing each item, test every distractor in the gap; if any distractor is grammatical and natural in any common variety of English, replace it.
+- After suggest, recommend, or insist, do not offer both a gerund and a that-clause or "we + verb". Bad: "She suggested _____ to the restaurant" with "going" and "we go", because both are correct.
+- Do not offer more than one of "might have", "could have", "should have", and "ought to have" when the sentence allows both reproach and possibility. Bad: "You _____ told me you were struggling; I would have helped."
+- In a cleft that starts with "It was" or "It is", do not offer more than one of "that", "which", and "who".
+- Do not test present perfect against past simple with already, just, or yet when American English also accepts the past simple. Avoid that contrast, or make the wrong option clearly ungrammatical.
 - Do not use the same correct answer twice in the set.
 - Write the gap as exactly ${GAP}. One gap only.
 - explanation is ONE short sentence. No line breaks.
@@ -311,7 +358,7 @@ function taskGuide(exercise: GrammarExerciseType, level: GrammarLevel): string {
   if (exercise === 'phrasal') {
     return 'Each prompt is one natural sentence with exactly one gap written as _____. Each of the 4 options is a real dictionary phrasal verb (verb + particle), in the form that fits the gap. Use its established meaning and the correct transitive or intransitive pattern. Bad: "cloud over your judgment". Bad: "root out the truth". Good: "look after the children", "put off the meeting", "come across an old letter".';
   }
-  return 'Each prompt is one natural sentence with exactly one gap written as _____. The 4 options are single words or short phrases. Wrong options must be clearly wrong in this sentence. Do not pair "going to" with "will", or two tenses that both fit.';
+  return 'Each prompt is one natural sentence with exactly one gap written as _____. The 4 options are single words or short phrases. Wrong options must be clearly wrong in this sentence, in British and American English. Do not pair "going to" with "will", or two tenses that both fit. After suggest, recommend, or insist, do not offer both a gerund and a that-clause. Do not offer two modal perfects such as "might have" and "should have" unless the sentence forces one. A cleft starting "It was" or "It is" must not offer two of "that", "which", and "who".';
 }
 
 function shapeGuide(exercise: GrammarExerciseType): string {
