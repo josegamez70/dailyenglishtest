@@ -3,72 +3,160 @@ import { SignInBox } from './SignInBox';
 
 const points = [
   {
-    title: 'Stories at your level',
-    text: 'Beginner, Intermediate, and Advanced.',
+    title: 'Stories Made for You',
+    text: 'Explore engaging stories tailored to your level and interests.',
     icon: (
-      <svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21.5V5.5Z" />
-        <path strokeLinecap="round" d="M8 8h8M8 12h8" />
+      <svg viewBox="0 0 24 24" className="h-7 w-7 overflow-visible" fill="none" stroke="currentColor" strokeWidth="1.75" aria-hidden="true">
+        <g className="landing-book-left">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.04A8.97 8.97 0 0 0 6 3.75c-1.05 0-2.06.18-3 .51v14.25A8.99 8.99 0 0 1 6 18a8.97 8.97 0 0 1 6 2.29V6.04Z" />
+          <path strokeLinecap="round" d="M6.2 8.2h3.1M6.2 11.1h3.1" />
+        </g>
+        <g className="landing-book-right">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.04A8.97 8.97 0 0 1 18 3.75c1.05 0 2.06.18 3 .51v14.25A8.99 8.99 0 0 0 18 18a8.97 8.97 0 0 0-6 2.29V6.04Z" />
+          <path strokeLinecap="round" d="M14.7 8.2h3.1M14.7 11.1h3.1" />
+        </g>
       </svg>
     ),
   },
   {
-    title: 'Listen to native-sounding English',
-    text: 'Audio generated instantly for every lesson you create.',
+    title: 'Listen. Learn. Improve.',
+    text: 'Build your listening skills with natural-sounding audio for every lesson.',
     icon: (
-      <svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M4 10v4a2 2 0 0 0 2 2h1l4 3V5L7 8H6a2 2 0 0 0-2 2Z" />
-        <path strokeLinecap="round" d="M16 9a4 4 0 0 1 0 6M18.5 7a7 7 0 0 1 0 10" />
+      <svg viewBox="0 0 24 24" className="h-7 w-7 overflow-visible" fill="none" stroke="currentColor" strokeWidth="1.75" aria-hidden="true">
+        <g className="landing-phones">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M4 13.25v-1.5a8 8 0 0 1 16 0v1.5" />
+          <path strokeLinecap="round" strokeLinejoin="round" d="M3 19.25a1.75 1.75 0 0 0 1.75 1.75H6a1.75 1.75 0 0 0 1.75-1.75v-3.5A1.75 1.75 0 0 0 6 14H3.5A1.75 1.75 0 0 0 3 15.25v4Z" />
+          <path strokeLinecap="round" strokeLinejoin="round" d="M21 19.25a1.75 1.75 0 0 1-1.75 1.75H18a1.75 1.75 0 0 1-1.75-1.75v-3.5A1.75 1.75 0 0 1 18 14h2.5A1.75 1.75 0 0 1 21 15.25v4Z" />
+          <path className="landing-wave landing-wave-a" strokeLinecap="round" d="M9.1 9.35a3.3 3.3 0 0 1 5.8 0" />
+          <path className="landing-wave landing-wave-b" strokeLinecap="round" d="M7.7 7.55a5.4 5.4 0 0 1 8.6 0" />
+        </g>
       </svg>
     ),
   },
   {
-    title: 'Tap any word',
-    text: 'See its meaning.',
+    title: 'Discover Words Instantly',
+    text: 'Tap any word to discover its meaning as you read.',
     icon: (
-      <svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M8 11V6.5a1.5 1.5 0 0 1 3 0V11" />
-        <path strokeLinecap="round" strokeLinejoin="round" d="M11 10.5V5.5a1.5 1.5 0 0 1 3 0V11" />
-        <path strokeLinecap="round" strokeLinejoin="round" d="M14 11V7.5a1.5 1.5 0 0 1 3 0V13c0 3.5-2 6.5-6 6.5-3.2 0-5-2-5.5-4L4 13.2a1.4 1.4 0 0 1 2.2-1.6L8 13" />
+      <svg viewBox="0 0 24 24" className="h-7 w-7 overflow-visible" fill="none" stroke="currentColor" strokeWidth="1.75" aria-hidden="true">
+        <g className="landing-rays">
+          <path strokeLinecap="round" d="M12 2.25V4.5m5.834.166-1.591 1.591M20.25 10.5H18M7.757 14.743l-1.59 1.59M6 10.5H3.75m4.007-4.243-1.59-1.59" />
+        </g>
+        <g className="landing-pointer">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M15.042 21.672 13.684 16.6m0 0-2.51 2.225.569-9.47 5.227 7.917-3.286-.672" />
+        </g>
       </svg>
     ),
   },
 ];
 
+const motionCss = `
+.landing-book-left,
+.landing-book-right,
+.landing-phones,
+.landing-pointer {
+  transform-box: fill-box;
+}
+.landing-book-left {
+  transform-origin: right center;
+  animation: landing-book-left 2.8s ease-in-out infinite;
+}
+.landing-book-right {
+  transform-origin: left center;
+  animation: landing-book-right 2.8s ease-in-out infinite;
+}
+.landing-phones {
+  transform-origin: center;
+  animation: landing-phones 2.6s ease-in-out 0.45s infinite;
+}
+.landing-wave {
+  opacity: 0.9;
+}
+.landing-wave-a { animation: landing-wave 2.6s ease-in-out 0.45s infinite; }
+.landing-wave-b { animation: landing-wave 2.6s ease-in-out 0.7s infinite; }
+.landing-pointer {
+  transform-origin: 20% 15%;
+  animation: landing-pointer 2.4s ease-in-out 0.9s infinite;
+}
+.landing-rays {
+  opacity: 0.85;
+  animation: landing-rays 2.4s ease-in-out 0.9s infinite;
+}
+@keyframes landing-book-left {
+  0%, 100% { transform: perspective(140px) rotateY(0deg); }
+  50% { transform: perspective(140px) rotateY(14deg); }
+}
+@keyframes landing-book-right {
+  0%, 100% { transform: perspective(140px) rotateY(0deg); }
+  50% { transform: perspective(140px) rotateY(-14deg); }
+}
+@keyframes landing-phones {
+  0%, 100% { transform: translateY(0) scale(1); }
+  35% { transform: translateY(-2px) scale(1.045); }
+  55% { transform: translateY(0) scale(1); }
+  78% { transform: translateY(-1px) scale(1.02); }
+}
+@keyframes landing-wave {
+  0%, 100% { opacity: 0.28; }
+  50% { opacity: 1; }
+}
+@keyframes landing-pointer {
+  0%, 100% { transform: translate(0, 0); }
+  42% { transform: translate(1.5px, 2.5px); }
+  58% { transform: translate(0, 0); }
+}
+@keyframes landing-rays {
+  0%, 32% { opacity: 0.2; }
+  48% { opacity: 1; }
+  68%, 100% { opacity: 0.35; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .landing-book-left,
+  .landing-book-right,
+  .landing-phones,
+  .landing-wave,
+  .landing-pointer,
+  .landing-rays {
+    animation: none;
+  }
+}
+`;
+
 export function Landing() {
   return (
-    <main className="w-full max-w-3xl">
-      <section className="px-1 pt-2 text-center sm:pt-6">
-        <h1 className="text-4xl font-fun leading-tight text-blue-800 dark:text-blue-300 sm:text-5xl">
-          Daily English Test
+    <main className="w-full max-w-2xl">
+      <style>{motionCss}</style>
+      <section className="px-1 pt-5 text-center sm:pt-8">
+        <h1 className="text-4xl font-bold leading-[1.1] tracking-tight text-[#172033] dark:text-white sm:text-5xl">
+          Your English. Your Pace.
         </h1>
-        <p className="mx-auto mt-3 max-w-md text-lg leading-snug text-slate-800 dark:text-slate-100">
-          Practice English reading and listening with AI lessons, every day.
+        <p className="mx-auto mt-4 max-w-lg text-center text-base leading-relaxed text-slate-500 dark:text-slate-300 sm:text-lg">
+          Improve your English every day with AI-powered stories, listening practice, and interactive lessons made just for you.
         </p>
       </section>
 
-      <ul className="mt-8 grid gap-3 sm:grid-cols-3">
+      <div className="mt-6 sm:mt-8">
+        <SignInBox submitLabel="Get 3 free lessons" />
+      </div>
+
+      <ul className="mt-2 flex flex-col gap-4">
         {points.map((point) => (
           <li
             key={point.title}
-            className="rounded-xl border border-slate-300 bg-white p-4 text-left dark:border-slate-600 dark:bg-slate-800"
+            className="rounded-2xl border border-slate-300 bg-white p-6 text-left dark:border-slate-400/30 dark:bg-[#22304a] sm:p-7"
           >
-            <div className="text-blue-800 dark:text-blue-300">{point.icon}</div>
-            <p className="mt-3 text-base font-bold text-slate-900 dark:text-slate-50">{point.title}</p>
-            <p className="mt-1 text-base text-slate-700 dark:text-slate-200">{point.text}</p>
+            <div className="text-blue-700 dark:text-blue-300">{point.icon}</div>
+            <h2 className="mt-3 text-lg font-bold text-[#172033] dark:text-white">{point.title}</h2>
+            <p className="mt-1.5 text-base leading-relaxed text-slate-600 dark:text-slate-300">{point.text}</p>
           </li>
         ))}
       </ul>
 
-      <div className="mt-8">
-        <SignInBox submitLabel="Get 3 free lessons" />
-        <p className="text-center text-sm text-slate-700 dark:text-slate-300">
-          Premium: 5 € per month, coming soon.
-        </p>
-        <p className="mt-2 text-center text-sm text-slate-700 dark:text-slate-300">
-          Are you an academy? <a className="underline" href="mailto:josegamez70@hotmail.com">Contact us</a>
-        </p>
-      </div>
+      <p className="mt-8 text-center text-sm text-slate-600 dark:text-slate-300">
+        Premium: 5 € per month, coming soon.
+      </p>
+      <p className="mt-2 text-center text-sm text-slate-600 dark:text-slate-300">
+        Are you an academy? <a className="underline" href="mailto:josegamez70@hotmail.com">Contact us</a>
+      </p>
     </main>
   );
 }
