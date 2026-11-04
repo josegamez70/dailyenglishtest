@@ -140,13 +140,44 @@ function choiceQualityProblem(item: GrammarChoice, exercise: GrammarExerciseType
   if (hasBareTenseClash(filled)) {
     return 'The sentence mixes present and past, such as "is" and "was". Use one natural tense.';
   }
-  if (exercise === 'phrasal' && !looksLikeVerbParticle(item.correctAnswer)) {
-    return 'The correct answer must be a verb plus a particle, such as "look after" or "put off".';
+  if (exercise === 'phrasal') {
+    if (!looksLikeVerbParticle(item.correctAnswer) || item.options.some((option) => !option.includes(' '))) {
+      return 'Every option must be a verb plus a particle, such as "put off". Do not use a single-word verb.';
+    }
+    if (!sameVerbParticles(item.options)) {
+      return 'All four options must use the same verb with different particles, such as put off, put up, put out, and put on.';
+    }
   }
   if (exercise === 'blanks' && ambiguousBlank(item)) {
     return 'More than one option can be correct here. Change the sentence so only one option fits.';
   }
   return null;
+}
+
+const DEGREE_ADVERBS = new Set(['somewhat', 'slightly', 'rather', 'fairly', 'quite', 'pretty', 'a bit', 'a little']);
+
+function optionVerb(option: string): string {
+  const words = normalizedOption(option).split(' ').filter(Boolean);
+  let index = 0;
+  while (index < words.length && AUXILIARIES.has(words[index])) index += 1;
+  return words[index] ?? '';
+}
+
+function sameVerbParticles(options: string[]): boolean {
+  const verbs = options.map(optionVerb);
+  return verbs.every((verb) => verb.length > 0 && verb === verbs[0]);
+}
+
+function mostAreDegreeAdverbs(options: string[]): boolean {
+  const hits = options.filter((option) => DEGREE_ADVERBS.has(normalizedOption(option))).length;
+  return hits >= 3;
+}
+
+function hasWillAndGoingTo(options: string[]): boolean {
+  const texts = options.map(normalizedOption);
+  const will = texts.some((text) => text === 'will' || text.startsWith('will '));
+  const goingTo = texts.some((text) => /\b(?:am|is|are) going to\b/.test(text) || text === 'going to' || text.startsWith('going to '));
+  return will && goingTo;
 }
 
 const MODAL_PERFECTS = ['might have', 'could have', 'should have', 'ought to have'];
@@ -185,6 +216,8 @@ function ambiguousBlank(item: GrammarChoice): boolean {
   if (suggestBothShapes(item.prompt, item.options)) return true;
   if (tooManyCleftRelatives(item.prompt, item.options)) return true;
   if (modalPerfectCount(item.options) >= 2 && !hasModalDisambiguator(item.prompt)) return true;
+  if (mostAreDegreeAdverbs(item.options)) return true;
+  if (hasWillAndGoingTo(item.options)) return true;
   return false;
 }
 
@@ -195,7 +228,17 @@ function orderQualityProblem(item: GrammarOrder, level: GrammarLevel): string | 
   if (item.chunks.some((chunk) => chunk.split(/\s+/).filter(Boolean).length < 3)) {
     return 'At B1 and B2 each part must be a sentence or clause, not a short phrase that could move.';
   }
+  if (level === 'B1' && item.chunks.some(isLooseFragment)) {
+    return 'At B1 each part must be a full sentence. Do not use a fragment such as "until the crust was golden brown".';
+  }
   return null;
+}
+
+function isLooseFragment(chunk: string): boolean {
+  const text = chunk.trim();
+  if (!/^[A-Z]/.test(text) || !/[.!?]$/.test(text)) return true;
+  if (text.includes(',')) return false;
+  return /^(?:until|before|after|when|while|if|because|although|unless|once)\s+(?!that\b)/i.test(text);
 }
 
 function readRawItems(raw: unknown): unknown[] | null {
@@ -310,6 +353,7 @@ Make exactly ${GRAMMAR_ITEM_COUNT} items.
 ${levelGuide(request.level, request.exercise)}
 ${topicLine}
 ${taskGuide(request.exercise, request.level)}
+${c1BlankScenario(request)}
 Self-check every item before you keep it:
 - Put the correct answer into the gap and read the whole sentence. It must be natural, idiomatic, and fully correct.
 - Do not repeat a word. Bad: "only after the meeting _____ that I realized" with the answer "that", because that makes "that that".
@@ -348,17 +392,38 @@ function levelGuide(level: GrammarLevel, exercise: GrammarExerciseType): string 
   return 'Test B1 grammar such as present and past tenses, the present perfect, going to, and common prepositions. Add a time word when the tense is what you are testing.';
 }
 
+const C1_SCENES = [
+  'a delayed train and a missed meeting',
+  'a scientist checking a surprising result',
+  'neighbours sorting out a shared garden',
+  'a journalist editing a difficult article',
+  'two colleagues planning a product launch',
+  'a nurse finishing a long night shift',
+  'an architect reviewing a building plan',
+  'friends organising a weekend away',
+];
+
+function c1BlankScenario(request: GrammarRequest): string {
+  if (request.level !== 'C1' || request.exercise !== 'blanks') return '';
+  const scene = C1_SCENES[Math.floor(Math.random() * C1_SCENES.length)];
+  const seed = Math.floor(Math.random() * 10000);
+  return `Variation seed ${seed}. Write new sentences about this situation: ${scene}. Do not reuse textbook lines from earlier sets, such as "Hardly had I entered".`;
+}
+
 function taskGuide(exercise: GrammarExerciseType, level: GrammarLevel): string {
   if (exercise === 'order') {
     if (level === 'C1') {
       return 'Include both short paragraphs of 4 to 6 sentences and single complex sentences split into words or short phrases. chunks are the correct order. A paragraph has exactly one order because of connectors, pronoun references, or cause and effect. Use normal punctuation, and make the last part end with . ! or ?';
     }
+    if (level === 'B1') {
+      return 'Each item is a different short paragraph of 4 to 6 full sentences. Each piece must start with a capital letter, end with . ! or ?, and still make sense on its own. Joined in order, the steps must read naturally. Do not use a fragment such as "until the crust was golden brown" as its own piece. Do not repeat the same scene, such as a morning routine, cooking, or the airport. Vary the connectors. Do not always use First, Then, After that, and Finally. Use because, once, when, after, before, meanwhile, as soon as, or later. Use "so" only for a result, not for a simple next step.';
+    }
     return 'Each item is a different short paragraph of 4 to 6 sentences or clauses. Do not repeat the same scene, such as a morning routine, cooking, or the airport. Vary the connectors. Do not always use First, Then, After that, and Finally. Use because, once, when, after, before, meanwhile, as soon as, or later. Use "so" only for a result, not for a simple next step. Do not split one sentence into adverbials that could go in more than one place. The last part ends with . ! or ?';
   }
   if (exercise === 'phrasal') {
-    return 'Each prompt is one natural sentence with exactly one gap written as _____. Each of the 4 options is a real dictionary phrasal verb (verb + particle), in the form that fits the gap. Use its established meaning and the correct transitive or intransitive pattern. Bad: "cloud over your judgment". Bad: "root out the truth". Good: "look after the children", "put off the meeting", "come across an old letter".';
+    return 'Each prompt is one natural sentence with exactly one gap written as _____. At least 7 of the 10 items must use the SAME verb with four different particles. Example: put off, put up, put out, put on. Or a gap such as "give _____" with up, in, away, and out. Only one particle fits the meaning. Every option is a verb plus a particle. Never use a single-word verb such as "shelve". Do not use near-synonyms. Bad: make out and catch on to; go over and iron out; speak to and tell off. A different verb is allowed only when each distractor is impossible in that sentence, not merely a similar meaning.';
   }
-  return 'Each prompt is one natural sentence with exactly one gap written as _____. The 4 options are single words or short phrases. Wrong options must be clearly wrong in this sentence, in British and American English. Do not pair "going to" with "will", or two tenses that both fit. After suggest, recommend, or insist, do not offer both a gerund and a that-clause. Do not offer two modal perfects such as "might have" and "should have" unless the sentence forces one. A cleft starting "It was" or "It is" must not offer two of "that", "which", and "who".';
+  return 'Each prompt is one natural sentence with exactly one gap written as _____. The 4 options are single words or short phrases. Wrong options must be clearly wrong in this sentence, in British and American English. Do not pair "will" with "is going to" or "are going to". Do not make an item from degree adverbs such as somewhat, slightly, rather, fairly, quite, pretty, or a bit. Do not pair "going to" with "will", or two tenses that both fit. After suggest, recommend, or insist, do not offer both a gerund and a that-clause. Do not offer two modal perfects such as "might have" and "should have" unless the sentence forces one. A cleft starting "It was" or "It is" must not offer two of "that", "which", and "who".';
 }
 
 function shapeGuide(exercise: GrammarExerciseType): string {

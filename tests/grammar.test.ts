@@ -76,16 +76,16 @@ test('choice items need a gap, four different options, and a matching answer', (
 });
 
 const phrasalSets = [
-  ['look after', 'look for', 'look up', 'get up'],
-  ['give up', 'give back', 'turn off', 'turn on'],
-  ['find out', 'point out', 'work out', 'sort out'],
+  ['look after', 'look for', 'look up', 'look into'],
+  ['give up', 'give back', 'give in', 'give away'],
   ['put off', 'put on', 'put away', 'put out'],
-  ['come across', 'come back', 'go back', 'get back'],
   ['take off', 'take up', 'take on', 'take over'],
-  ['break down', 'break up', 'calm down', 'slow down'],
-  ['carry out', 'carry on', 'set up', 'set off'],
-  ['run out of', 'get rid of', 'put up with', 'look forward to'],
-  ['figure out', 'end up', 'show up', 'grow up'],
+  ['turn off', 'turn on', 'turn up', 'turn down'],
+  ['break down', 'break up', 'break in', 'break out'],
+  ['come back', 'come in', 'come across', 'come on'],
+  ['get up', 'get on', 'get off', 'get over'],
+  ['go out', 'go back', 'go on', 'go over'],
+  ['run out', 'run into', 'run off', 'run out of'],
 ];
 
 function tenPhrasals() {
@@ -184,6 +184,13 @@ test('the prompt names the level, the exercise, and an optional topic', () => {
   assert.match(blanks, /She suggested/);
   assert.match(blanks, /might have/);
   assert.match(blanks, /already, just, or yet/);
+  assert.match(blanks, /somewhat, slightly/);
+  const phrasal = buildGrammarPrompt({ level: 'C1', exercise: 'phrasal', topic: '' });
+  assert.match(phrasal, /SAME verb/);
+  assert.match(phrasal, /shelve/);
+  assert.match(c1Blanks, /Hardly had I entered/);
+  assert.match(c1Blanks, /Variation seed/);
+  assert.match(paragraph, /until the crust was golden brown/);
 });
 
 test('gaps, doubled words, tense clashes, and repeated answers are rejected', () => {
@@ -280,6 +287,38 @@ test('gaps, doubled words, tense clashes, and repeated answers are rejected', ()
   assert.equal(cleft.ok, true);
   if (!cleft.ok) return;
   assert.equal(cleft.set.items.some((item) => item.kind === 'choice' && item.prompt.startsWith('It was')), false);
+
+  const degrees = ambiguous(choice(34, {
+    prompt: 'The soup was _____ hot.',
+    options: ['somewhat', 'slightly', 'rather', 'boiling'],
+    correctAnswer: 'somewhat',
+  }));
+  assert.equal(degrees.ok, true);
+  if (!degrees.ok) return;
+  assert.equal(degrees.set.items.some((item) => item.kind === 'choice' && item.correctAnswer === 'somewhat'), false);
+
+  const plans = ambiguous(choice(35, {
+    prompt: 'She _____ visit her aunt tomorrow.',
+    options: ['will', 'is going to', 'must', 'can'],
+    correctAnswer: 'will',
+  }));
+  assert.equal(plans.ok, true);
+  if (!plans.ok) return;
+  assert.equal(plans.set.items.some((item) => item.kind === 'choice' && item.correctAnswer === 'will'), false);
+
+  const near = normalizeGrammarSet({
+    items: [
+      choice(40, {
+        prompt: 'Please _____ the meeting.',
+        options: ['put off', 'make out', 'catch on to', 'iron out'],
+        correctAnswer: 'put off',
+      }),
+      ...tenPhrasals().items.slice(0, 6),
+    ],
+  }, { level: 'C1', exercise: 'phrasal', topic: '' });
+  assert.equal(near.ok, true);
+  if (!near.ok) return;
+  assert.equal(near.set.items.some((item) => item.kind === 'choice' && item.options.includes('make out')), false);
 });
 
 test('B1 order items are paragraphs with one logical order', () => {
@@ -304,6 +343,19 @@ test('B1 order items are paragraphs with one logical order', () => {
     })),
   }, { level: 'B1', exercise: 'order', topic: '' });
   assert.equal(movable.ok, false);
+
+  const fragment = normalizeGrammarSet({
+    items: Array.from({ length: 10 }, (_, index) => ({
+      chunks: [
+        `First she mixed the filling ${index}.`,
+        `Then she rolled the pastry ${index}.`,
+        'Until the crust was golden brown.',
+        `Finally she served the pie ${index}.`,
+      ],
+      explanation: `The pie steps stay in this order for ${index}.`,
+    })),
+  }, { level: 'B1', exercise: 'order', topic: '' });
+  assert.equal(fragment.ok, false);
 });
 
 test('shuffling hides the correct order and tapping supports undo and reset', () => {
