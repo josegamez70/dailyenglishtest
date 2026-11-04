@@ -648,6 +648,7 @@ async function callModel(
   useThinkingOff = true,
   maxOutputTokens = 8192,
   schema?: ResponseSchema,
+  temperature?: number,
 ): Promise<string> {
   const genAI = new GoogleGenerativeAI(apiKey);
   const model = genAI.getGenerativeModel({ model: modelName });
@@ -656,6 +657,7 @@ async function callModel(
     responseMimeType: string;
     responseSchema?: ResponseSchema;
     thinkingConfig?: { thinkingBudget?: number; thinkingLevel?: string };
+    temperature?: number;
   } = {
     maxOutputTokens,
     responseMimeType: 'application/json',
@@ -663,6 +665,7 @@ async function callModel(
   if (useThinkingOff) {
     generationConfig.thinkingConfig = thinkingConfigFor(modelName);
   }
+  if (typeof temperature === 'number') generationConfig.temperature = temperature;
   if (schema) generationConfig.responseSchema = schema;
   else if (useSchema) generationConfig.responseSchema = LESSON_SCHEMA;
 
@@ -703,6 +706,7 @@ async function generateRaw(
   deadline: number,
   maxOutputTokens: number,
   schema?: ResponseSchema,
+  temperature?: number,
 ): Promise<string> {
   let lastError: unknown;
   let lastModel = '';
@@ -730,7 +734,7 @@ async function generateRaw(
     if (timeout < 4000) break;
     try {
       console.log(JSON.stringify({ stage: 'gen_start', modelName, timeout }));
-      const text = await callModel(apiKey, modelName, prompt, timeout, false, true, maxOutputTokens, schema);
+      const text = await callModel(apiKey, modelName, prompt, timeout, false, true, maxOutputTokens, schema, temperature);
       if (text) {
         preferredModel = modelName;
         return text;
@@ -748,7 +752,7 @@ async function generateRaw(
         const retryTimeout = Math.min(18000, deadline - Date.now() - 800);
         if (retryTimeout >= 5000) {
           try {
-            const text = await callModel(apiKey, modelName, prompt, retryTimeout, false, true, maxOutputTokens, schema);
+            const text = await callModel(apiKey, modelName, prompt, retryTimeout, false, true, maxOutputTokens, schema, temperature);
             if (text) {
               preferredModel = modelName;
               return text;
@@ -768,7 +772,7 @@ async function generateRaw(
           : Math.min(24000, timeLeft - 700);
         if (retryTimeout >= 4000) {
           try {
-            const text = await callModel(apiKey, modelName, prompt, retryTimeout, false, false, maxOutputTokens, schema);
+            const text = await callModel(apiKey, modelName, prompt, retryTimeout, false, false, maxOutputTokens, schema, temperature);
             if (text) {
               preferredModel = modelName;
               return text;
@@ -949,7 +953,7 @@ async function createGrammarSet(
     if (attempt > 0 && deadline - Date.now() < 10000) break;
     let raw = '';
     try {
-      raw = await generateRaw(apiKey, prompt, deadline, 6144, schema);
+      raw = await generateRaw(apiKey, prompt, deadline, 6144, schema, 0.3);
     } catch (error) {
       if (!set?.ok) throw error;
       break;
