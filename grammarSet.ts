@@ -82,8 +82,6 @@ const AUXILIARIES = new Set(['is', 'am', 'are', 'was', 'were', 'be', 'been', 'be
 const PRESENT_BE = new Set(['is', 'am', 'are']);
 const PAST_BE = new Set(['was', 'were']);
 const CLAUSE_BOUNDARY = new Set(['and', 'but', 'or', 'because', 'when', 'while', 'who', 'which', 'that', 'if', 'although', 'though', 'after', 'before', 'so', 'where', 'whose']);
-const PHRASAL_PARTICLES = new Set(['up', 'off', 'out', 'on', 'in', 'over', 'away', 'back', 'down', 'through', 'around', 'about', 'into', 'onto', 'across', 'along', 'apart', 'aside', 'forward', 'together', 'by', 'for', 'after', 'with', 'of', 'to', 'round', 'ahead']);
-
 function normalizePromptGap(prompt: string): { prompt: string } | { problem: string } {
   const marked = prompt.replace(/\[(?:blank|gap)\]|\((?:blank|gap)\)|_{3,}/gi, GAP);
   const gaps = marked.split(GAP).length - 1;
@@ -122,16 +120,6 @@ function hasBareTenseClash(sentence: string): boolean {
   return false;
 }
 
-/** A phrasal answer is malformed when it is not a verb plus a particle. Distractors are not checked. */
-function looksLikeVerbParticle(option: string): boolean {
-  const words = wordsOf(option);
-  let start = 0;
-  while (start < words.length && AUXILIARIES.has(words[start])) start += 1;
-  const core = words.slice(start);
-  if (core.length < 2 || core.length > 5) return false;
-  return core.slice(1).some((word) => PHRASAL_PARTICLES.has(word));
-}
-
 function choiceQualityProblem(item: GrammarChoice, exercise: GrammarExerciseType): string | null {
   const filled = filledSentence(item.prompt, item.correctAnswer);
   if (hasDoubledFunctionWord(filled)) {
@@ -141,12 +129,8 @@ function choiceQualityProblem(item: GrammarChoice, exercise: GrammarExerciseType
     return 'The sentence mixes present and past, such as "is" and "was". Use one natural tense.';
   }
   if (exercise === 'phrasal') {
-    if (!looksLikeVerbParticle(item.correctAnswer) || item.options.some((option) => !option.includes(' '))) {
-      return 'Every option must be a verb plus a particle, such as "put off". Do not use a single-word verb.';
-    }
-    if (!sameVerbParticles(item.options)) {
-      return 'All four options must use the same verb with different particles, such as put off, put up, put out, and put on.';
-    }
+    const grouped = phrasalGroupProblem(item.options);
+    if (grouped) return grouped;
   }
   if (exercise === 'blanks' && ambiguousBlank(item)) {
     return 'More than one option can be correct here. Change the sentence so only one option fits.';
@@ -163,9 +147,84 @@ function optionVerb(option: string): string {
   return words[index] ?? '';
 }
 
-function sameVerbParticles(options: string[]): boolean {
-  const verbs = options.map(optionVerb);
-  return verbs.every((verb) => verb.length > 0 && verb === verbs[0]);
+const REAL_PHRASALS = new Set(`
+look after, look for, look up, look into, look out, look around, look forward to, look down on, look up to,
+give up, give back, give in, give away, give out,
+put off, put on, put away, put out, put up, put back, put down, put through, put up with,
+take off, take up, take on, take over, take back, take in, take after, take apart, take out,
+turn off, turn on, turn up, turn down, turn out, turn around, turn into,
+break down, break up, break in, break out, break off,
+come back, come in, come across, come on, come out, come up with, come down to,
+get up, get on, get off, get over, get back, get out, get in, get away, get along, get rid of,
+go out, go back, go on, go over, go through, go away, go along with,
+run out, run into, run off, run out of,
+call off, call back, call for, call in, call up, call out,
+work out, work on, work through, work up,
+bring up, bring back, bring about, bring in,
+carry on, carry out, set up, set off, set out, set about,
+make up, make out, make up for, pick up, figure out, find out, fill in, fill out, sort out,
+show up, end up, grow up, hold on, hold up, keep up, keep on, point out,
+check out, check in, drop off, drop out, hand in, hand out, hang up, hang on,
+pass out, pay back, pull off, pull over, iron out, gloss over, dream up,
+speak up, stand up, stand for, stick to, think over, think through, try on, try out,
+wake up, wear out, write down, write off, catch up, catch on, fall out, fall through, fall over,
+cut off, cut down, let down, live on, mix up, rule out, back up, blow up, calm down, count on, deal with
+`.split(',').map((item) => item.trim()).filter(Boolean));
+
+function verbBases(token: string): string[] {
+  const word = token.toLowerCase();
+  const bases = new Set<string>([word]);
+  const irregular: Record<string, string> = {
+    got: 'get', gets: 'get', getting: 'get',
+    went: 'go', goes: 'go', going: 'go', gone: 'go',
+    took: 'take', takes: 'take', taking: 'take', taken: 'take',
+    came: 'come', comes: 'come', coming: 'come',
+    ran: 'run', runs: 'run', running: 'run',
+    broke: 'break', breaks: 'break', breaking: 'break', broken: 'break',
+    gave: 'give', gives: 'give', giving: 'give', given: 'give',
+    made: 'make', makes: 'make', making: 'make',
+    puts: 'put', putting: 'put',
+  };
+  if (irregular[word]) bases.add(irregular[word]);
+  if (word.endsWith('ing') && word.length > 4) {
+    const stem = word.slice(0, -3);
+    bases.add(stem);
+    bases.add(`${stem}e`);
+    if (stem.length > 2 && stem[stem.length - 1] === stem[stem.length - 2]) bases.add(stem.slice(0, -1));
+  }
+  if (word.endsWith('ed') && word.length > 3) bases.add(word.slice(0, -2));
+  if (word.endsWith('es') && word.length > 3) bases.add(word.slice(0, -2));
+  if (word.endsWith('s') && !word.endsWith('ss') && word.length > 3) bases.add(word.slice(0, -1));
+  return [...bases];
+}
+
+function isRealPhrasal(option: string): boolean {
+  const words = wordsOf(option);
+  let start = 0;
+  while (start < words.length && AUXILIARIES.has(words[start])) start += 1;
+  const core = words.slice(start);
+  if (core.length < 2) return false;
+  const rest = core.slice(1).join(' ');
+  return verbBases(core[0]).some((verb) => REAL_PHRASALS.has(`${verb} ${rest}`));
+}
+
+function phrasalGroupProblem(options: string[]): string | null {
+  if (options.some((option) => !option.includes(' ') || !isRealPhrasal(option))) {
+    return 'Every option must be a real phrasal verb, such as "put off" or "gloss over". Do not invent one like "gloss up" or "dream off", and do not use a single-word verb.';
+  }
+  const counts = new Map<string, number>();
+  for (const verb of options.map(optionVerb)) counts.set(verb, (counts.get(verb) ?? 0) + 1);
+  const most = Math.max(...counts.values());
+  if (most < 3) {
+    return 'Use at least three options with the same verb and different real particles. The fourth may be another real phrasal verb with an unrelated meaning.';
+  }
+  return null;
+}
+
+function mainPhrasalVerb(options: string[]): string {
+  const counts = new Map<string, number>();
+  for (const verb of options.map(optionVerb)) counts.set(verb, (counts.get(verb) ?? 0) + 1);
+  return [...counts.entries()].sort((left, right) => right[1] - left[1])[0]?.[0] ?? '';
 }
 
 function mostAreDegreeAdverbs(options: string[]): boolean {
@@ -302,6 +361,7 @@ export function normalizeGrammarSet(raw: unknown, request: GrammarRequest): { ok
   const items: GrammarItem[] = [];
   const problems: string[] = [];
   const seenAnswers = new Set<string>();
+  const verbCounts = new Map<string, number>();
   for (const row of rows) {
     if (!row || typeof row !== 'object') {
       problems.push('Each item must be an object.');
@@ -319,6 +379,14 @@ export function normalizeGrammarSet(raw: unknown, request: GrammarRequest): { ok
     if (seenAnswers.has(answerKey)) {
       problems.push('Do not repeat the same correct answer. Test a different point.');
       continue;
+    }
+    if (request.exercise === 'phrasal' && checked.item.kind === 'choice') {
+      const verb = mainPhrasalVerb(checked.item.options);
+      if ((verbCounts.get(verb) ?? 0) >= 2) {
+        problems.push('Use each base verb in at most two items.');
+        continue;
+      }
+      verbCounts.set(verb, (verbCounts.get(verb) ?? 0) + 1);
     }
     seenAnswers.add(answerKey);
     items.push(checked.item);
@@ -421,7 +489,7 @@ function taskGuide(exercise: GrammarExerciseType, level: GrammarLevel): string {
     return 'Each item is a different short paragraph of 4 to 6 sentences or clauses. Do not repeat the same scene, such as a morning routine, cooking, or the airport. Vary the connectors. Do not always use First, Then, After that, and Finally. Use because, once, when, after, before, meanwhile, as soon as, or later. Use "so" only for a result, not for a simple next step. Do not split one sentence into adverbials that could go in more than one place. The last part ends with . ! or ?';
   }
   if (exercise === 'phrasal') {
-    return 'Each prompt is one natural sentence with exactly one gap written as _____. At least 7 of the 10 items must use the SAME verb with four different particles. Example: put off, put up, put out, put on. Or a gap such as "give _____" with up, in, away, and out. Only one particle fits the meaning. Every option is a verb plus a particle. Never use a single-word verb such as "shelve". Do not use near-synonyms. Bad: make out and catch on to; go over and iron out; speak to and tell off. A different verb is allowed only when each distractor is impossible in that sentence, not merely a similar meaning.';
+    return 'Each prompt is one natural sentence with exactly one gap written as _____. Every option must be a real phrasal verb. Do not invent particles. Bad: "gloss up", "dream off". Good: "gloss over", "dream up". Prefer four real particles of the same verb, such as put off, put up, put out, and put on. If that verb does not have four real particles, use three real ones plus one other real phrasal verb whose meaning cannot fit the sentence. Use each base verb in at most two items. Do not offer two particles that both fit, such as "call in" and "call up" for reservists, or "work out" and "work through" for details. Never use a single-word verb such as "shelve". Never use near-synonyms such as make out and catch on to, go over and iron out, or speak to and tell off.';
   }
   return 'Each prompt is one natural sentence with exactly one gap written as _____. The 4 options are single words or short phrases. Wrong options must be clearly wrong in this sentence, in British and American English. Do not pair "will" with "is going to" or "are going to". Do not make an item from degree adverbs such as somewhat, slightly, rather, fairly, quite, pretty, or a bit. Do not pair "going to" with "will", or two tenses that both fit. After suggest, recommend, or insist, do not offer both a gerund and a that-clause. Do not offer two modal perfects such as "might have" and "should have" unless the sentence forces one. A cleft starting "It was" or "It is" must not offer two of "that", "which", and "who".';
 }

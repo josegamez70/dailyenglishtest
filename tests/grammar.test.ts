@@ -186,8 +186,10 @@ test('the prompt names the level, the exercise, and an optional topic', () => {
   assert.match(blanks, /already, just, or yet/);
   assert.match(blanks, /somewhat, slightly/);
   const phrasal = buildGrammarPrompt({ level: 'C1', exercise: 'phrasal', topic: '' });
-  assert.match(phrasal, /SAME verb/);
-  assert.match(phrasal, /shelve/);
+  assert.match(phrasal, /same verb/);
+  assert.match(phrasal, /gloss up/);
+  assert.match(phrasal, /at most two/);
+  assert.match(phrasal, /call in/);
   assert.match(c1Blanks, /Hardly had I entered/);
   assert.match(c1Blanks, /Variation seed/);
   assert.match(paragraph, /until the crust was golden brown/);
@@ -319,6 +321,47 @@ test('gaps, doubled words, tense clashes, and repeated answers are rejected', ()
   assert.equal(near.ok, true);
   if (!near.ok) return;
   assert.equal(near.set.items.some((item) => item.kind === 'choice' && item.options.includes('make out')), false);
+
+  const invented = normalizeGrammarSet({
+    items: [
+      choice(41, {
+        prompt: 'She tried to _____ a reason.',
+        options: ['gloss up', 'gloss off', 'gloss out', 'dream off'],
+        correctAnswer: 'gloss up',
+      }),
+      ...tenPhrasals().items.slice(0, 6),
+    ],
+  }, { level: 'C1', exercise: 'phrasal', topic: '' });
+  assert.equal(invented.ok, true);
+  if (!invented.ok) return;
+  assert.equal(invented.set.items.some((item) => item.kind === 'choice' && item.options.includes('gloss up')), false);
+
+  const threePlusOne = normalizeGrammarSet({
+    items: [
+      choice(42, {
+        prompt: 'Please _____ the visit.',
+        options: ['put off', 'put on', 'put out', 'look after'],
+        correctAnswer: 'put off',
+      }),
+      ...tenPhrasals().items.slice(0, 6),
+    ],
+  }, { level: 'B1', exercise: 'phrasal', topic: '' });
+  assert.equal(threePlusOne.ok, true);
+  if (!threePlusOne.ok) return;
+  assert.equal(threePlusOne.set.items.some((item) => item.kind === 'choice' && item.correctAnswer === 'put off'), true);
+
+  const repeatedVerb = ['put off', 'put on', 'put out'].map((answer, index) => choice(60 + index, {
+    prompt: `Please _____ plan ${index}.`,
+    options: ['put off', 'put on', 'put out', 'put away'],
+    correctAnswer: answer,
+  }));
+  const capped = normalizeGrammarSet({
+    items: [...repeatedVerb, ...tenPhrasals().items.filter((item) => item.correctAnswer !== 'put off').slice(0, 6)],
+  }, { level: 'B2', exercise: 'phrasal', topic: '' });
+  assert.equal(capped.ok, true);
+  if (!capped.ok) return;
+  const putItems = capped.set.items.filter((item) => item.kind === 'choice' && item.options[0] === 'put off');
+  assert.equal(putItems.length, 2);
 });
 
 test('B1 order items are paragraphs with one logical order', () => {
