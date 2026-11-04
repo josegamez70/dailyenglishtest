@@ -1404,7 +1404,7 @@ const App: React.FC = () => {
   })();
 
   const signedOutPage = (
-    <div className="min-h-screen text-slate-900 dark:text-slate-50 flex flex-col items-center px-3 pt-2 pb-4 sm:px-5 sm:pb-6 transition-colors duration-300">
+    <div className={`min-h-screen flex flex-col items-center px-3 pt-2 pb-4 sm:px-5 sm:pb-6 transition-colors duration-300 ${showLanding ? 'bg-[#e7eef6] text-[#172033] dark:bg-[#172033] dark:text-slate-100' : 'text-slate-900 dark:text-slate-50'}`}>
       <DictionaryPopup />
       {isLoading && loadingStartedAt != null && (
         <Loader
@@ -1463,14 +1463,14 @@ const App: React.FC = () => {
         </div>
       )}
       {!account.signedIn && view !== 'story' && (
-        <header className="mb-3 w-full max-w-4xl mx-auto">
+        <header className={`mb-2 w-full mx-auto ${showLanding ? 'max-w-2xl' : 'max-w-4xl'}`}>
           <div className="flex items-center gap-2 sm:gap-4">
-            <div className="flex min-w-0 flex-1 items-center justify-center gap-2 sm:gap-4">
-              <UKFlagIcon className="h-14 w-14 shrink-0 rounded-lg shadow-md sm:h-20 sm:w-20" />
+            <div className="flex min-w-0 flex-1 items-center justify-center gap-2 sm:gap-3">
+              <UKFlagIcon className={`shrink-0 rounded-lg shadow-md ${showLanding ? 'h-10 w-10 sm:h-12 sm:w-12' : 'h-14 w-14 sm:h-20 sm:w-20'}`} />
               {showLanding ? (
-                <p className="text-left text-2xl font-fun leading-tight tracking-wide sm:text-4xl">
-                  <span className="text-blue-800 dark:text-blue-300">Your daily </span>
-                  <span className="text-red-700 dark:text-red-400">English Test!</span>
+                <p className="text-left text-lg font-fun leading-tight tracking-wide sm:text-2xl">
+                  <span className="text-blue-800 dark:text-blue-300">Daily </span>
+                  <span className="text-red-700 dark:text-red-400">English Test</span>
                 </p>
               ) : (
                 <h1 className="text-left text-2xl font-fun leading-tight tracking-wide sm:text-4xl">
@@ -1539,7 +1539,7 @@ const App: React.FC = () => {
         {inviteCode && (
           <p
             role="status"
-            className="mb-4 w-full max-w-3xl rounded-lg border-2 border-blue-700 bg-blue-50 px-4 py-3 text-base font-semibold text-slate-900 dark:border-blue-300 dark:bg-blue-950 dark:text-blue-50"
+            className="mb-4 w-full max-w-2xl rounded-lg border-2 border-blue-700 bg-blue-50 px-4 py-3 text-base font-semibold text-slate-900 dark:border-blue-300 dark:bg-blue-950 dark:text-blue-50"
           >
             {inviteBannerText(inviteName)}
           </p>
