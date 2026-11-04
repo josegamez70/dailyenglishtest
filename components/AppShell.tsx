@@ -4,7 +4,7 @@ import HomeIcon from './icons/HomeIcon';
 export type ShellItem = 'lesson' | 'grammar' | 'progress' | 'saved' | 'academy' | 'profile' | 'join';
 
 const baseItems: { id: ShellItem; label: string; path: string }[] = [
-  { id: 'lesson', label: 'New lesson', path: '/' },
+  { id: 'lesson', label: 'Reading / Listening', path: '/' },
   { id: 'grammar', label: 'Grammar', path: '/grammar' },
   { id: 'progress', label: 'My progress', path: '/progress' },
   { id: 'saved', label: 'Saved lessons', path: '/saved' },

@@ -3,6 +3,8 @@ import assert from 'node:assert/strict';
 import {
   buildGrammarPrompt,
   freshOrder,
+  GRAMMAR_ITEM_COUNT,
+  GRAMMAR_MIN_ITEMS,
   gradeChoice,
   gradeOrder,
   grammarTitle,
@@ -34,7 +36,7 @@ function tenChoices() {
   return { items: Array.from({ length: 10 }, (_, index) => choice(index + 1)) };
 }
 
-test('a grammar choice payload keeps 10 items and a one-line explanation', () => {
+test('a grammar choice payload keeps 6 items and a one-line explanation', () => {
   const raw = tenChoices();
   raw.items[0] = choice(1, {
     prompt: '  She _____ there.\n',
@@ -45,7 +47,9 @@ test('a grammar choice payload keeps 10 items and a one-line explanation', () =>
   const result = normalizeGrammarSet(raw, blanksRequest);
   assert.equal(result.ok, true);
   if (!result.ok) return;
-  assert.equal(result.set.items.length, 10);
+  assert.equal(GRAMMAR_ITEM_COUNT, 6);
+  assert.equal(GRAMMAR_MIN_ITEMS, 4);
+  assert.equal(result.set.items.length, GRAMMAR_ITEM_COUNT);
   assert.equal(result.set.title, 'Grammar: Fill in the blanks');
   assert.equal(result.set.topic, 'present perfect');
   const first = result.set.items[0];
@@ -118,15 +122,15 @@ test('phrasal verbs use the phrasal title and only real phrasal verbs', () => {
   assert.equal(malformed.ok, true);
   if (!malformed.ok) return;
   assert.equal(malformed.set.items.some((item) => item.kind === 'choice' && item.correctAnswer === 'finished'), false);
-  assert.equal(malformed.set.items.length, 9);
+  assert.equal(malformed.set.items.length, GRAMMAR_ITEM_COUNT);
 });
 
-test('extra valid items are cut to 10 and order parts must be 4 to 6 different chunks', () => {
+test('extra valid items are cut to 6 and order parts must be 4 to 6 different chunks', () => {
   const extra = { items: Array.from({ length: 12 }, (_, index) => choice(index + 1)) };
   const trimmed = normalizeGrammarSet(extra, blanksRequest);
   assert.equal(trimmed.ok, true);
   if (!trimmed.ok) return;
-  assert.equal(trimmed.set.items.length, 10);
+  assert.equal(trimmed.set.items.length, GRAMMAR_ITEM_COUNT);
 
   const good = normalizeGrammarSet({
     items: Array.from({ length: 10 }, (_, index) => ({
@@ -156,6 +160,8 @@ test('extra valid items are cut to 10 and order parts must be 4 to 6 different c
 
 test('the prompt names the level, the exercise, and an optional topic', () => {
   const blanks = buildGrammarPrompt(blanksRequest);
+  assert.match(blanks, /Make exactly 6 items/);
+  assert.match(blanks, /across the 6 items/);
   assert.match(blanks, /Level: B1/);
   assert.match(blanks, /present perfect/);
   assert.match(blanks, /for\/since/);
@@ -237,7 +243,10 @@ test('gaps, doubled words, tense clashes, and repeated answers are rejected', ()
   assert.equal(tense.ok, true);
   if (!tense.ok) return;
   assert.equal(tense.set.items.some((item) => item.kind === 'choice' && item.correctAnswer === 'finished'), true);
-  assert.equal(normalizeGrammarSet({ items: tenChoices().items.slice(0, 5) }, blanksRequest).ok, false);
+  assert.equal(normalizeGrammarSet({ items: tenChoices().items.slice(0, GRAMMAR_MIN_ITEMS) }, blanksRequest).ok, true);
+  const belowMinimum = normalizeGrammarSet({ items: tenChoices().items.slice(0, GRAMMAR_MIN_ITEMS - 1) }, blanksRequest);
+  assert.equal(belowMinimum.ok, false);
+  if (!belowMinimum.ok) assert.match(belowMinimum.problems[0], /Need at least 4/);
 
   const repeated = normalizeGrammarSet({
     items: [

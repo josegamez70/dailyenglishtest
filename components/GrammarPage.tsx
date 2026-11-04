@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
   exerciseLabel,
+  GRAMMAR_ITEM_COUNT,
   gradeChoice,
   gradeOrder,
   grammarTitle,
@@ -18,7 +19,9 @@ import {
 } from '../grammarSet';
 import { generateGrammarSet } from '../services/geminiService';
 import { saveTestResult } from '../studyStore';
+import { DefinedText, DictionaryPopup } from './DefinedText';
 import CheckCircleIcon from './icons/CheckCircleIcon';
+import Loader from './Loader';
 import XCircleIcon from './icons/XCircleIcon';
 
 type PlayOrder = GrammarOrder & { shuffled: GrammarChunk[] };
@@ -30,6 +33,26 @@ const EXERCISES: { id: GrammarExerciseType; label: string; hint: string }[] = [
   { id: 'phrasal', label: 'Phrasal verbs', hint: 'Choose the phrasal verb that fits the sentence.' },
   { id: 'order', label: 'Put in order', hint: 'Tap the parts in the right order.' },
 ];
+
+const GAP = '_____';
+const LOAD_ESTIMATE_SECONDS = 12;
+
+/** Word lookup for prompts, placed text, and explanations. The gap stays plain. */
+function LookupText({ text }: { text: string }) {
+  if (!text || text === '—') return <>{text}</>;
+  if (!text.includes(GAP)) return <DefinedText text={text} />;
+  const parts = text.split(GAP);
+  return (
+    <>
+      {parts.map((part, index) => (
+        <span key={index}>
+          {part ? <DefinedText text={part} /> : null}
+          {index < parts.length - 1 ? GAP : null}
+        </span>
+      ))}
+    </>
+  );
+}
 
 function choiceClass(active: boolean): string {
   return active
@@ -104,6 +127,7 @@ export function GrammarPage({
   const [placed, setPlaced] = useState<string[][]>([]);
   const [grades, setGrades] = useState<ItemGrade[]>([]);
   const [busy, setBusy] = useState(false);
+  const [loadingStartedAt, setLoadingStartedAt] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
   const abortRef = useRef<AbortController | null>(null);
   const seenReset = useRef(resetNonce);
@@ -118,6 +142,7 @@ export function GrammarPage({
     seenReset.current = resetNonce;
     abortRef.current?.abort();
     setBusy(false);
+    setLoadingStartedAt(null);
     setError(null);
     setPhase('setup');
   }, [resetNonce]);
@@ -130,6 +155,7 @@ export function GrammarPage({
     const controller = new AbortController();
     abortRef.current = controller;
     setBusy(true);
+    setLoadingStartedAt(Date.now());
     setError(null);
     try {
       const set = await generateGrammarSet({
@@ -156,6 +182,7 @@ export function GrammarPage({
     } finally {
       if (abortRef.current === controller) abortRef.current = null;
       setBusy(false);
+      setLoadingStartedAt(null);
     }
   };
 
@@ -193,6 +220,7 @@ export function GrammarPage({
     const percentage = grades.length ? Math.round((score / grades.length) * 100) : 0;
     return (
       <div className="mx-auto w-full max-w-2xl">
+        <DictionaryPopup />
         <TextSizeControl fontStep={fontStep} labels={fontLabels} onFontStep={onFontStep} />
         <div className="mt-4 rounded-xl bg-white p-6 shadow-lg dark:bg-slate-800">
           <h1 className="text-center text-3xl font-bold">{title}</h1>
@@ -203,20 +231,20 @@ export function GrammarPage({
                 key={gradeIndex}
                 className={`rounded-lg border p-4 ${grade.correct ? 'border-green-700 bg-green-50 dark:border-green-600 dark:bg-green-950' : 'border-red-700 bg-red-50 dark:border-red-600 dark:bg-red-950'}`}
               >
-                <p className={`mb-2 font-semibold ${fontClass}`}>{gradeIndex + 1}. {grade.prompt}</p>
+                <p className={`mb-2 font-semibold ${fontClass}`}>{gradeIndex + 1}. <LookupText text={grade.prompt} /></p>
                 <div className="flex items-start">
                   {grade.correct ? (
                     <CheckCircleIcon className="mr-2 mt-0.5 h-5 w-5 shrink-0 text-green-700 dark:text-green-300" />
                   ) : (
                     <XCircleIcon className="mr-2 mt-0.5 h-5 w-5 shrink-0 text-red-700 dark:text-red-300" />
                   )}
-                  <p className={fontClass}>Your answer: {grade.userAnswer}</p>
+                  <p className={fontClass}>Your answer: <LookupText text={grade.userAnswer} /></p>
                 </div>
                 <div className="mt-1 flex items-start">
                   <CheckCircleIcon className="mr-2 mt-0.5 h-5 w-5 shrink-0 text-green-700 dark:text-green-300" />
-                  <p className={fontClass}>Correct answer: {grade.correctAnswer}</p>
+                  <p className={fontClass}>Correct answer: <LookupText text={grade.correctAnswer} /></p>
                 </div>
-                <p className={`mt-3 ${fontClass}`}><span className="font-semibold">Why: </span>{grade.explanation}</p>
+                <p className={`mt-3 ${fontClass}`}><span className="font-semibold">Why: </span><LookupText text={grade.explanation} /></p>
               </div>
             ))}
           </div>
@@ -242,6 +270,7 @@ export function GrammarPage({
     const chosen = current.kind === 'order' && orderState ? placedTexts(orderState.placed, current.shuffled) : [];
     return (
       <div className="mx-auto w-full max-w-2xl">
+        <DictionaryPopup />
         <TextSizeControl fontStep={fontStep} labels={fontLabels} onFontStep={onFontStep} />
         <div className="mt-4 rounded-xl bg-white p-6 shadow-lg dark:bg-slate-800">
           <h1 className="text-center text-2xl font-bold">{title}</h1>
@@ -251,7 +280,7 @@ export function GrammarPage({
           </div>
           {current.kind === 'choice' ? (
             <>
-              <h2 className={`mb-6 mt-6 font-semibold ${fontClass}`}>{current.prompt}</h2>
+              <h2 className={`mb-6 mt-6 font-semibold ${fontClass}`}><LookupText text={current.prompt} /></h2>
               <div className="space-y-3">
                 {current.options.map((option, optionIndex) => {
                   const selectedOption = choices[index] === option;
@@ -274,14 +303,14 @@ export function GrammarPage({
             </>
           ) : (
             <>
-              <h2 className={`mb-4 mt-6 font-semibold ${fontClass}`}>{current.prompt}</h2>
+              <h2 className={`mb-4 mt-6 font-semibold ${fontClass}`}><LookupText text={current.prompt} /></h2>
               <p className="text-base">Tap the parts in the right order.</p>
               <div className="mt-3 min-h-16 rounded-lg border-2 border-dashed border-slate-400 p-3 dark:border-slate-500">
                 {chosen.length === 0 && <p className="text-slate-600 dark:text-slate-300">Your order will appear here.</p>}
                 <ol className="space-y-2">
                   {chosen.map((text, partIndex) => (
                     <li key={`${partIndex}-${text}`} className={`rounded-lg bg-slate-100 px-3 py-2 dark:bg-slate-700 ${fontClass}`}>
-                      <span className="font-semibold">{partIndex + 1}.</span> {text}
+                      <span className="font-semibold">{partIndex + 1}.</span> <LookupText text={text} />
                     </li>
                   ))}
                 </ol>
@@ -345,7 +374,7 @@ export function GrammarPage({
   return (
     <div className="mx-auto w-full max-w-2xl">
       <h1 className="text-3xl font-bold">Grammar</h1>
-      <p className="mt-2 text-base text-slate-800 dark:text-slate-100">Practice grammar with 10 short exercises. One set uses one free lesson.</p>
+      <p className="mt-2 text-base text-slate-800 dark:text-slate-100">Practice grammar with {GRAMMAR_ITEM_COUNT} short exercises. One set uses one free lesson.</p>
       <fieldset className="mt-6">
         <legend className="text-base font-semibold">Level</legend>
         <div className="mt-2 grid grid-cols-3 gap-2">
@@ -381,19 +410,17 @@ export function GrammarPage({
         type="button"
         onClick={() => { void start(); }}
         disabled={busy}
-        aria-busy={busy}
         className="mt-6 w-full rounded-lg bg-blue-700 py-3 text-lg font-bold text-white hover:bg-blue-800 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-700"
       >
-        {busy ? 'Writing your exercises...' : 'Start exercises'}
+        Start exercises
       </button>
-      {busy && (
-        <button
-          type="button"
-          onClick={() => abortRef.current?.abort()}
-          className="mt-3 w-full rounded-lg border-2 border-slate-700 py-3 text-base font-semibold dark:border-slate-200"
-        >
-          Cancel
-        </button>
+      {busy && loadingStartedAt != null && (
+        <Loader
+          startedAt={loadingStartedAt}
+          estimateSeconds={LOAD_ESTIMATE_SECONDS}
+          note="Writing your exercises..."
+          onCancel={() => abortRef.current?.abort()}
+        />
       )}
     </div>
   );

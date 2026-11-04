@@ -47,8 +47,9 @@ export type ItemGrade = {
   explanation: string;
 };
 
-export const GRAMMAR_ITEM_COUNT = 10;
-const MIN_ITEMS = 6;
+export const GRAMMAR_ITEM_COUNT = 6;
+/** Keep a generated set when at least this many items pass the checks. */
+export const GRAMMAR_MIN_ITEMS = 4;
 
 export function exerciseLabel(exercise: GrammarExerciseType): string {
   if (exercise === 'phrasal') return 'Phrasal verbs';
@@ -354,7 +355,7 @@ function validateOrder(raw: Record<string, unknown>, level: GrammarLevel): { ok:
   return { ok: true, item };
 }
 
-/** Turn a Gemini grammar payload into a set of about 10 playable items. */
+/** Turn a Gemini grammar payload into a playable set. Keeps the set when at least GRAMMAR_MIN_ITEMS items pass. */
 export function normalizeGrammarSet(raw: unknown, request: GrammarRequest): { ok: true; set: GrammarSet } | { ok: false; problems: string[] } {
   const rows = readRawItems(raw);
   if (!rows) return { ok: false, problems: ['Return a JSON object with an items array.'] };
@@ -392,8 +393,8 @@ export function normalizeGrammarSet(raw: unknown, request: GrammarRequest): { ok
     items.push(checked.item);
     if (items.length === GRAMMAR_ITEM_COUNT) break;
   }
-  if (items.length < MIN_ITEMS) {
-    const summary = `Only ${items.length} exercises were usable. Need at least ${MIN_ITEMS}.`;
+  if (items.length < GRAMMAR_MIN_ITEMS) {
+    const summary = `Only ${items.length} exercises were usable. Need at least ${GRAMMAR_MIN_ITEMS}.`;
     return { ok: false, problems: [summary, ...problems].slice(0, 8) };
   }
   return {
@@ -411,7 +412,7 @@ export function normalizeGrammarSet(raw: unknown, request: GrammarRequest): { ok
 export function buildGrammarPrompt(request: GrammarRequest, correction?: string): string {
   const topic = request.topic.trim().replace(/["\n\r]/g, ' ');
   const topicLine = topic
-    ? `Topic: "${topic}". Cover different aspects of this topic across the 10 items. Vary the items. For example, present perfect should mix has/have, past participles, already/yet/just, for/since, and present perfect versus past simple. Do not test the same contrast every time.`
+    ? `Topic: "${topic}". Cover different aspects of this topic across the ${GRAMMAR_ITEM_COUNT} items. Vary the items. For example, present perfect should mix has/have, past participles, already/yet/just, for/since, and present perfect versus past simple. Do not test the same contrast every time.`
     : 'Choose useful grammar for this level. Vary the items. Each item should test a different point.';
   return `
 You write English grammar exercises for learners around the world. Explanations use clear, simple English.
