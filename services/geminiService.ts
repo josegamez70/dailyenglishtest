@@ -2,7 +2,7 @@ import type { ConfigOptions, QuizQuestion, VocabularyItem } from '../types';
 import { normalizeQuiz } from '../quizNormalize';
 import { parseDialogue, renderDialogue, type DialogueTurn } from '../dialogue';
 import { accessToken, FREE_LIMIT_MESSAGE } from '../auth';
-import { normalizeGrammarSet, type GrammarExerciseType, type GrammarLevel, type GrammarSet } from '../grammarSet';
+import { GRAMMAR_ITEM_COUNT, normalizeGrammarSet, type GrammarExerciseType, type GrammarLevel, type GrammarSet } from '../grammarSet';
 
 type GenResponse = {
   story?: string;
@@ -203,7 +203,7 @@ export async function generateGrammarSet(
       level: input.level,
       exercise: input.exercise,
       topic: input.topic,
-      count: 10,
+      count: GRAMMAR_ITEM_COUNT,
     }),
   }, signal);
   const normalized = normalizeGrammarSet(data, input);

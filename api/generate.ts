@@ -31,6 +31,8 @@ import {
 import { normalizeQuiz, type NormalizedQuizQuestion } from '../quizNormalize';
 import {
   buildGrammarPrompt,
+  GRAMMAR_ITEM_COUNT,
+  GRAMMAR_MIN_ITEMS,
   grammarExercise,
   grammarLevel,
   normalizeGrammarSet,
@@ -178,9 +180,9 @@ const GRAMMAR_CHOICE_SCHEMA: ResponseSchema = {
   properties: {
     items: {
       type: SchemaType.ARRAY,
-      description: 'About 10 grammar items. Each sentence has one gap and four options.',
-      minItems: 6,
-      maxItems: 10,
+      description: `Exactly ${GRAMMAR_ITEM_COUNT} grammar items. Each sentence has one gap and four options.`,
+      minItems: GRAMMAR_MIN_ITEMS,
+      maxItems: GRAMMAR_ITEM_COUNT,
       items: {
         type: SchemaType.OBJECT,
         properties: {
@@ -206,9 +208,9 @@ const GRAMMAR_ORDER_SCHEMA: ResponseSchema = {
   properties: {
     items: {
       type: SchemaType.ARRAY,
-      description: 'About 10 order items. chunks are already in the correct order.',
-      minItems: 6,
-      maxItems: 10,
+      description: `Exactly ${GRAMMAR_ITEM_COUNT} order items. chunks are already in the correct order.`,
+      minItems: GRAMMAR_MIN_ITEMS,
+      maxItems: GRAMMAR_ITEM_COUNT,
       items: {
         type: SchemaType.OBJECT,
         properties: {
@@ -964,6 +966,7 @@ async function createGrammarSet(
   };
 
   let normalized = await ask(prompt);
+  // Retry only when fewer than GRAMMAR_MIN_ITEMS items survived the checks.
   if (!normalized.ok && deadline - Date.now() >= 10000) {
     problems = normalized.problems;
     normalized = await ask(buildGrammarPrompt(request, problems.slice(0, 6).join('\n') || 'Return only valid JSON.'));
