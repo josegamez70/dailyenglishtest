@@ -3,22 +3,6 @@ import { SignInBox } from './SignInBox';
 
 const points = [
   {
-    title: 'Stories Made for You',
-    text: 'Explore engaging stories tailored to your level and interests.',
-    icon: (
-      <svg viewBox="0 0 24 24" className="h-7 w-7 overflow-visible" fill="none" stroke="currentColor" strokeWidth="1.75" aria-hidden="true">
-        <g className="landing-book-left">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.04A8.97 8.97 0 0 0 6 3.75c-1.05 0-2.06.18-3 .51v14.25A8.99 8.99 0 0 1 6 18a8.97 8.97 0 0 1 6 2.29V6.04Z" />
-          <path strokeLinecap="round" d="M6.2 8.2h3.1M6.2 11.1h3.1" />
-        </g>
-        <g className="landing-book-right">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.04A8.97 8.97 0 0 1 18 3.75c1.05 0 2.06.18 3 .51v14.25A8.99 8.99 0 0 0 18 18a8.97 8.97 0 0 0-6 2.29V6.04Z" />
-          <path strokeLinecap="round" d="M14.7 8.2h3.1M14.7 11.1h3.1" />
-        </g>
-      </svg>
-    ),
-  },
-  {
     title: 'Listen. Learn. Improve.',
     text: 'Build your listening skills with natural-sounding audio for every lesson.',
     icon: (
@@ -34,21 +18,7 @@ const points = [
     ),
   },
   {
-    title: 'Discover Words Instantly',
-    text: 'Tap any word to discover its meaning as you read.',
-    icon: (
-      <svg viewBox="0 0 24 24" className="h-7 w-7 overflow-visible" fill="none" stroke="currentColor" strokeWidth="1.75" aria-hidden="true">
-        <g className="landing-rays">
-          <path strokeLinecap="round" d="M12 2.25V4.5m5.834.166-1.591 1.591M20.25 10.5H18M7.757 14.743l-1.59 1.59M6 10.5H3.75m4.007-4.243-1.59-1.59" />
-        </g>
-        <g className="landing-pointer">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M15.042 21.672 13.684 16.6m0 0-2.51 2.225.569-9.47 5.227 7.917-3.286-.672" />
-        </g>
-      </svg>
-    ),
-  },
-  {
-    title: 'Grammar',
+    title: 'Grammar Practice',
     text: 'Fill in the blanks, phrasal verbs and sentence order. Levels B1 to C1.',
     icon: (
       <svg viewBox="0 0 24 24" className="h-7 w-7 overflow-visible" fill="none" stroke="currentColor" strokeWidth="1.75" aria-hidden="true">
@@ -58,6 +28,36 @@ const points = [
           <path strokeLinecap="round" strokeLinejoin="round" d="M3.2 20.8 5.4 18.6" />
         </g>
         <path className="landing-grammar-mark" strokeLinecap="round" strokeLinejoin="round" d="m9.1 13.1 1.3 1.3 2.7-2.9" />
+      </svg>
+    ),
+  },
+  {
+    title: 'Test your reading comprehension',
+    text: 'Read a short story made for your level, then answer the questions.',
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-7 w-7 overflow-visible" fill="none" stroke="currentColor" strokeWidth="1.75" aria-hidden="true">
+        <g className="landing-book-left">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.04A8.97 8.97 0 0 0 6 3.75c-1.05 0-2.06.18-3 .51v14.25A8.99 8.99 0 0 1 6 18a8.97 8.97 0 0 1 6 2.29V6.04Z" />
+          <path strokeLinecap="round" d="M6.2 8.2h3.1M6.2 11.1h3.1" />
+        </g>
+        <g className="landing-book-right">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.04A8.97 8.97 0 0 1 18 3.75c1.05 0 2.06.18 3 .51v14.25A8.99 8.99 0 0 0 18 18a8.97 8.97 0 0 0-6 2.29V6.04Z" />
+          <path strokeLinecap="round" d="M14.7 8.2h3.1M14.7 11.1h3.1" />
+        </g>
+      </svg>
+    ),
+  },
+  {
+    title: 'Discover Words Instantly',
+    text: 'Tap any word to discover its meaning as you read, with the popup dictionary.',
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-7 w-7 overflow-visible" fill="none" stroke="currentColor" strokeWidth="1.75" aria-hidden="true">
+        <g className="landing-rays">
+          <path strokeLinecap="round" d="M12 2.25V4.5m5.834.166-1.591 1.591M20.25 10.5H18M7.757 14.743l-1.59 1.59M6 10.5H3.75m4.007-4.243-1.59-1.59" />
+        </g>
+        <g className="landing-pointer">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M15.042 21.672 13.684 16.6m0 0-2.51 2.225.569-9.47 5.227 7.917-3.286-.672" />
+        </g>
       </svg>
     ),
   },
@@ -161,7 +161,7 @@ export function Landing() {
       <style>{motionCss}</style>
       <section className="px-1 pt-5 text-center sm:pt-8">
         <h1 className="text-4xl font-bold leading-[1.1] tracking-tight text-[#172033] dark:text-white sm:text-5xl">
-          Your English. Your Pace.
+          Your English at your own pace.
         </h1>
         <p className="mx-auto mt-4 max-w-lg text-center text-base leading-relaxed text-slate-500 dark:text-slate-300 sm:text-lg">
           Improve your English every day with AI-powered stories, listening practice, grammar exercises, and lessons made just for you.
