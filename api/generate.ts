@@ -31,16 +31,19 @@ import {
 import { normalizeQuiz, type NormalizedQuizQuestion } from '../quizNormalize';
 import {
   buildGrammarPrompt,
+  buildGrammarTopUpPrompt,
+  GRAMMAR_GENERATION_COUNT,
   GRAMMAR_ITEM_COUNT,
   GRAMMAR_MIN_ITEMS,
   grammarExercise,
   grammarLevel,
   normalizeGrammarSet,
   type GrammarExerciseType,
+  type GrammarItem,
   type GrammarRequest,
 } from '../grammarSet';
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
-import { isOverloadStatus, overloadFallbackModel } from '../modelFallback';
+import { readHttpStatus, runModelLoop, type ModelAttemptFailure } from '../modelFallback';
 
 type HandlerEvent = {
   httpMethod?: string;
@@ -175,64 +178,53 @@ const LESSON_SCHEMA: ResponseSchema = {
   required: ['story', 'quiz', 'vocabulary'],
 };
 
-const GRAMMAR_CHOICE_SCHEMA: ResponseSchema = {
-  type: SchemaType.OBJECT,
-  properties: {
-    items: {
-      type: SchemaType.ARRAY,
-      description: `Exactly ${GRAMMAR_ITEM_COUNT} grammar items. Each sentence has one gap and four options.`,
-      minItems: GRAMMAR_MIN_ITEMS,
-      maxItems: GRAMMAR_ITEM_COUNT,
+function grammarSchema(exercise: GrammarExerciseType, count: number): ResponseSchema {
+  const choice = exercise !== 'order';
+  return {
+    type: SchemaType.OBJECT,
+    properties: {
       items: {
-        type: SchemaType.OBJECT,
-        properties: {
-          prompt: { type: SchemaType.STRING, description: 'One sentence with the gap written as _____.' },
-          options: {
-            type: SchemaType.ARRAY,
-            minItems: 4,
-            maxItems: 4,
-            items: { type: SchemaType.STRING },
+        type: SchemaType.ARRAY,
+        description: choice
+          ? `${count} grammar items. Each sentence has one gap and four options.`
+          : `${count} order items. chunks are already in the correct order.`,
+        minItems: 1,
+        maxItems: count,
+        items: choice
+          ? {
+            type: SchemaType.OBJECT,
+            properties: {
+              prompt: { type: SchemaType.STRING, description: 'One sentence with the gap written as _____.' },
+              options: {
+                type: SchemaType.ARRAY,
+                minItems: 4,
+                maxItems: 4,
+                items: { type: SchemaType.STRING },
+              },
+              correctAnswer: { type: SchemaType.STRING, description: 'The correct option, copied exactly. Not a letter.' },
+              explanation: { type: SchemaType.STRING, description: 'One short sentence in simple English.' },
+            },
+            required: ['prompt', 'options', 'correctAnswer', 'explanation'],
+          }
+          : {
+            type: SchemaType.OBJECT,
+            properties: {
+              prompt: { type: SchemaType.STRING, description: 'A short instruction, such as Put these parts in order.' },
+              chunks: {
+                type: SchemaType.ARRAY,
+                description: '4 to 6 parts in the correct order.',
+                minItems: 4,
+                maxItems: 6,
+                items: { type: SchemaType.STRING },
+              },
+              explanation: { type: SchemaType.STRING, description: 'One short sentence in simple English.' },
+            },
+            required: ['prompt', 'chunks', 'explanation'],
           },
-          correctAnswer: { type: SchemaType.STRING, description: 'The correct option, copied exactly. Not a letter.' },
-          explanation: { type: SchemaType.STRING, description: 'One short sentence in simple English.' },
-        },
-        required: ['prompt', 'options', 'correctAnswer', 'explanation'],
       },
     },
-  },
-  required: ['items'],
-};
-
-const GRAMMAR_ORDER_SCHEMA: ResponseSchema = {
-  type: SchemaType.OBJECT,
-  properties: {
-    items: {
-      type: SchemaType.ARRAY,
-      description: `Exactly ${GRAMMAR_ITEM_COUNT} order items. chunks are already in the correct order.`,
-      minItems: GRAMMAR_MIN_ITEMS,
-      maxItems: GRAMMAR_ITEM_COUNT,
-      items: {
-        type: SchemaType.OBJECT,
-        properties: {
-          prompt: { type: SchemaType.STRING, description: 'A short instruction, such as Put these parts in order.' },
-          chunks: {
-            type: SchemaType.ARRAY,
-            description: '4 to 6 parts in the correct order.',
-            minItems: 4,
-            maxItems: 6,
-            items: { type: SchemaType.STRING },
-          },
-          explanation: { type: SchemaType.STRING, description: 'One short sentence in simple English.' },
-        },
-        required: ['prompt', 'chunks', 'explanation'],
-      },
-    },
-  },
-  required: ['items'],
-};
-
-function grammarSchema(exercise: GrammarExerciseType): ResponseSchema {
-  return exercise === 'order' ? GRAMMAR_ORDER_SCHEMA : GRAMMAR_CHOICE_SCHEMA;
+    required: ['items'],
+  };
 }
 
 function clamp(n: number, lo: number, hi: number) {
@@ -685,7 +677,7 @@ async function callModel(
   return text;
 }
 
-type UpstreamFailure = { status: number; message: string; model?: string };
+type UpstreamFailure = ModelAttemptFailure;
 
 function scrubUpstream(message: string): string {
   return message
@@ -695,7 +687,7 @@ function scrubUpstream(message: string): string {
 }
 
 function readUpstream(error: unknown, model?: string): UpstreamFailure {
-  const status = Number((error as { status?: number })?.status || (error as { code?: number })?.code || 0);
+  const status = readHttpStatus(error);
   const message = scrubUpstream(error instanceof Error ? error.message : String(error ?? ''));
   return { status, message, model };
 }
@@ -708,108 +700,30 @@ async function generateRaw(
   schema?: ResponseSchema,
   temperature?: number,
 ): Promise<string> {
-  let lastError: unknown;
-  let lastModel = '';
-  const attempts: UpstreamFailure[] = [];
-  const note = (error: unknown, modelName: string) => {
-    lastError = error;
-    lastModel = modelName;
-    attempts.push(readUpstream(error, modelName));
-    const message = error instanceof Error ? error.message : String(error);
-    const status = Number((error as { status?: number })?.status || (error as { code?: number })?.code || 0);
-    console.error(JSON.stringify({ stage: 'gen_error', modelName, status, message: scrubUpstream(message) }));
-    return { status, message };
-  };
-
-  const order = modelsToTry();
-  for (let index = 0; index < order.length; index += 1) {
-    const modelName = order[index];
-    if (unavailableModels.has(modelName)) continue;
-    const remaining = deadline - Date.now();
-    const laterCount = order.slice(index + 1).filter((name) => !unavailableModels.has(name)).length;
-    // The first model usually answers in a few seconds. Leave one fallback turn if it does not.
-    const timeout = laterCount
-      ? Math.min(16000, remaining - 7000)
-      : Math.min(20000, remaining - 800);
-    if (timeout < 4000) break;
-    try {
-      console.log(JSON.stringify({ stage: 'gen_start', modelName, timeout }));
-      const text = await callModel(apiKey, modelName, prompt, timeout, false, true, maxOutputTokens, schema, temperature);
-      if (text) {
-        preferredModel = modelName;
-        return text;
-      }
-    } catch (error) {
-      const { status, message } = note(error, modelName);
-      if (status === 404) unavailableModels.add(modelName);
-      const laterModel = order.slice(index + 1).some((name) => !unavailableModels.has(name));
-      const timeLeft = deadline - Date.now();
-      const dailyQuota = /per day|retry in \d+h/i.test(message);
-      // Do not call the same overloaded model again. One free-tier fallback runs after this loop.
-      if (!laterModel && isOverloadStatus(status) && !dailyQuota && timeLeft > 4000) break;
-      // thinkingBudget / thinkingLevel rejected: one retry with the model's own default,
-      // and only when that retry can still return before the function deadline.
-      if (status === 400 && /invalid argument/i.test(message) && timeLeft > 8000) {
-        // The thinking setting was rejected immediately. Retry once without it,
-        // leaving the next model a turn only when this retry itself stays short.
-        const retryTimeout = laterModel
-          ? Math.min(16000, timeLeft - 8000)
-          : Math.min(24000, timeLeft - 700);
-        if (retryTimeout >= 4000) {
-          try {
-            const text = await callModel(apiKey, modelName, prompt, retryTimeout, false, false, maxOutputTokens, schema, temperature);
-            if (text) {
-              preferredModel = modelName;
-              return text;
-            }
-          } catch (thinkingError) {
-            note(thinkingError, modelName);
-          }
-        }
-      }
-      // 429/503/504 fall through to the next model only when the loop still has time.
-      // Do not spend the rest of the window retrying the same model.
-      if (![404, 400, 429, 500, 502, 503, 504].includes(status) && status) break;
-    }
-  }
-  const upstream = readUpstream(lastError, lastModel);
-  const fallback = isOverloadStatus(upstream.status)
-    ? overloadFallbackModel(attempts.map((attempt) => attempt.model ?? ''))
-    : null;
-  const fallbackTimeout = Math.min(12000, deadline - Date.now() - 800);
-  if (fallback && !unavailableModels.has(fallback) && fallbackTimeout >= 4000) {
-    try {
-      console.log(JSON.stringify({ stage: 'gen_fallback', modelName: fallback, timeout: fallbackTimeout }));
-      const text = await callModel(apiKey, fallback, prompt, fallbackTimeout, false, true, maxOutputTokens, schema, temperature);
-      if (text) return text;
-    } catch (error) {
-      const noted = note(error, fallback);
-      if (noted.status === 404) unavailableModels.add(fallback);
-      if (noted.status === 400 && /invalid argument/i.test(noted.message) && deadline - Date.now() > 5000) {
-        const retryTimeout = Math.min(10000, deadline - Date.now() - 800);
-        if (retryTimeout >= 4000) {
-          try {
-            const text = await callModel(apiKey, fallback, prompt, retryTimeout, false, false, maxOutputTokens, schema, temperature);
-            if (text) return text;
-          } catch (retryError) {
-            note(retryError, fallback);
-          }
-        }
-      }
-    }
-  }
-  const busy = upstream.status === 429 || upstream.status === 503;
-  const timedOut = upstream.status === 504;
-  throw Object.assign(
-    new Error(
-      busy
-        ? 'The story service is busy. Please try again.'
-        : timedOut
-          ? 'The story service took too long. Please try again.'
-          : 'The lesson could not be created. Please try again.'
+  return runModelLoop({
+    deadline,
+    models: modelsToTry(),
+    isUnavailable: (model) => unavailableModels.has(model),
+    markUnavailable: (model) => { unavailableModels.add(model); },
+    call: (model, timeoutMs, thinking) => callModel(
+      apiKey,
+      model,
+      prompt,
+      timeoutMs,
+      false,
+      thinking,
+      maxOutputTokens,
+      schema,
+      temperature,
     ),
-    { status: busy || timedOut ? upstream.status : 502, upstream, attempts }
-  );
+    scrub: scrubUpstream,
+    log: (entry) => {
+      const payload = { ...entry };
+      if (payload.stage === 'gen_error') console.error(JSON.stringify(payload));
+      else console.log(JSON.stringify(payload));
+    },
+    onPrimarySuccess: (model) => { preferredModel = model; },
+  });
 }
 
 function castName(raw: unknown, list: readonly string[]): string {
@@ -953,27 +867,39 @@ async function createGrammarSet(
   headers: Record<string, string>,
 ): Promise<HandlerResponse> {
   const deadline = Date.now() + 23000;
-  const schema = grammarSchema(request.exercise);
-  const prompt = buildGrammarPrompt(request);
+  // A top-up has to fit a primary call plus the overload fallback inside this window.
+  const topUpBudgetMs = 12000;
   let problems: string[] = [];
+  let kept: GrammarItem[] = [];
   let set = null as ReturnType<typeof normalizeGrammarSet> | null;
   let lastRaw = '';
 
-  const ask = async (text: string) => {
-    const raw = await generateRaw(apiKey, text, deadline, 6144, schema, 0.3);
+  const ask = async (text: string, count: number, prior: GrammarItem[]) => {
+    const raw = await generateRaw(apiKey, text, deadline, 6144, grammarSchema(request.exercise, count), 0.3);
     lastRaw = raw;
-    return normalizeGrammarSet(grammarModelPayload(parseModelJson(raw)), request);
+    return normalizeGrammarSet(grammarModelPayload(parseModelJson(raw)), request, { kept: prior });
   };
 
-  let normalized = await ask(prompt);
-  // Retry only when fewer than GRAMMAR_MIN_ITEMS items survived the checks.
-  if (!normalized.ok && deadline - Date.now() >= 10000) {
-    problems = normalized.problems;
-    normalized = await ask(buildGrammarPrompt(request, problems.slice(0, 6).join('\n') || 'Return only valid JSON.'));
+  let normalized = await ask(buildGrammarPrompt(request), GRAMMAR_GENERATION_COUNT, []);
+  kept = normalized.items;
+  if (!normalized.ok) problems = normalized.problems;
+
+  if (kept.length < GRAMMAR_ITEM_COUNT && deadline - Date.now() >= topUpBudgetMs) {
+    const needed = GRAMMAR_ITEM_COUNT - kept.length;
+    const correction = kept.length === 0
+      ? problems.slice(0, 6).join('\n') || 'Return only valid JSON.'
+      : undefined;
+    try {
+      normalized = await ask(buildGrammarTopUpPrompt(request, needed, kept, correction), needed, kept);
+      kept = normalized.items;
+      if (!normalized.ok) problems = normalized.problems;
+    } catch (error) {
+      if (kept.length < GRAMMAR_MIN_ITEMS) throw error;
+    }
   }
 
-  if (normalized.ok) set = normalized;
-  else problems = normalized.problems;
+  if (normalized.ok && kept.length >= GRAMMAR_MIN_ITEMS) set = normalized;
+  else if (!normalized.ok) problems = normalized.problems;
 
   if (!set?.ok) {
     return {
