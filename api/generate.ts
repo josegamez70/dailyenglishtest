@@ -180,8 +180,8 @@ const GRAMMAR_CHOICE_SCHEMA: ResponseSchema = {
   properties: {
     items: {
       type: SchemaType.ARRAY,
-      description: 'Exactly 10 grammar items. Each sentence has one gap and four options.',
-      minItems: 10,
+      description: 'About 10 grammar items. Each sentence has one gap and four options.',
+      minItems: 6,
       maxItems: 10,
       items: {
         type: SchemaType.OBJECT,
@@ -208,8 +208,8 @@ const GRAMMAR_ORDER_SCHEMA: ResponseSchema = {
   properties: {
     items: {
       type: SchemaType.ARRAY,
-      description: 'Exactly 10 order items. chunks are already in the correct order.',
-      minItems: 10,
+      description: 'About 10 order items. chunks are already in the correct order.',
+      minItems: 6,
       maxItems: 10,
       items: {
         type: SchemaType.OBJECT,
@@ -944,30 +944,25 @@ async function createGrammarSet(
 ): Promise<HandlerResponse> {
   const deadline = Date.now() + 23000;
   const schema = grammarSchema(request.exercise);
-  let prompt = buildGrammarPrompt(request);
+  const prompt = buildGrammarPrompt(request);
   let problems: string[] = [];
   let set = null as ReturnType<typeof normalizeGrammarSet> | null;
   let lastRaw = '';
 
-  for (let attempt = 0; attempt < 2; attempt += 1) {
-    if (attempt > 0 && deadline - Date.now() < 10000) break;
-    let raw = '';
-    try {
-      raw = await generateRaw(apiKey, prompt, deadline, 6144, schema, 0.3);
-    } catch (error) {
-      if (!set?.ok) throw error;
-      break;
-    }
+  const ask = async (text: string) => {
+    const raw = await generateRaw(apiKey, text, deadline, 6144, schema, 0.3);
     lastRaw = raw;
-    const normalized = normalizeGrammarSet(grammarModelPayload(parseModelJson(raw)), request);
-    if (normalized.ok) {
-      set = normalized;
-      break;
-    }
+    return normalizeGrammarSet(grammarModelPayload(parseModelJson(raw)), request);
+  };
+
+  let normalized = await ask(prompt);
+  if (!normalized.ok && deadline - Date.now() >= 10000) {
     problems = normalized.problems;
-    if (deadline - Date.now() < 10000) break;
-    prompt = buildGrammarPrompt(request, problems.slice(0, 6).join('\n') || 'Return only valid JSON.');
+    normalized = await ask(buildGrammarPrompt(request, problems.slice(0, 6).join('\n') || 'Return only valid JSON.'));
   }
+
+  if (normalized.ok) set = normalized;
+  else problems = normalized.problems;
 
   if (!set?.ok) {
     return {

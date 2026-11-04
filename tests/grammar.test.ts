@@ -105,14 +105,20 @@ test('phrasal verbs use the phrasal title and only real phrasal verbs', () => {
   assert.equal(result.set.title, 'Grammar: Phrasal verbs');
   assert.equal(result.set.topic, '');
   assert.equal(grammarTitle('phrasal'), 'Grammar: Phrasal verbs');
-  const invented = normalizeGrammarSet({
-    items: Array.from({ length: 10 }, () => choice(1, {
-      prompt: 'Do not _____ your judgment.',
-      options: ['cloud over', 'look after', 'put off', 'give up'],
-      correctAnswer: 'cloud over',
-    })),
+  const malformed = normalizeGrammarSet({
+    items: [
+      choice(99, {
+        prompt: 'I _____ my homework an hour ago.',
+        options: ['finish', 'finished', 'have finished', 'finishing'],
+        correctAnswer: 'finished',
+      }),
+      ...tenPhrasals().items.slice(1),
+    ],
   }, { level: 'C1', exercise: 'phrasal', topic: '' });
-  assert.equal(invented.ok, false);
+  assert.equal(malformed.ok, true);
+  if (!malformed.ok) return;
+  assert.equal(malformed.set.items.some((item) => item.kind === 'choice' && item.correctAnswer === 'finished'), false);
+  assert.equal(malformed.set.items.length, 9);
 });
 
 test('extra valid items are cut to 10 and order parts must be 4 to 6 different chunks', () => {
@@ -160,7 +166,14 @@ test('the prompt names the level, the exercise, and an optional topic', () => {
   assert.match(order, /word/);
   assert.match(order, /Vary the items/);
   const paragraph = buildGrammarPrompt({ level: 'B1', exercise: 'order', topic: '' });
-  assert.match(paragraph, /first, then, after that/);
+  assert.match(paragraph, /morning routine/);
+  assert.match(paragraph, /Do not always use First/);
+  const upper = buildGrammarPrompt({ level: 'B2', exercise: 'order', topic: '' });
+  assert.match(upper, /reported speech/);
+  assert.match(upper, /relative clauses/);
+  const advanced = buildGrammarPrompt({ level: 'C1', exercise: 'order', topic: '' });
+  assert.match(advanced, /pronoun/);
+  assert.match(blanks, /going to/);
 });
 
 test('gaps, doubled words, tense clashes, and repeated answers are rejected', () => {
@@ -192,14 +205,20 @@ test('gaps, doubled words, tense clashes, and repeated answers are rejected', ()
   }, { level: 'C1', exercise: 'blanks', topic: '' });
   assert.equal(mixed.ok, false);
 
-  const twins = normalizeGrammarSet({
-    items: Array.from({ length: 10 }, () => choice(1, {
-      prompt: 'She said the meeting _____ .',
-      options: ['has been postponed', 'had been postponed', 'postpones', 'postponing'],
-      correctAnswer: 'had been postponed',
-    })),
-  }, { level: 'B2', exercise: 'blanks', topic: 'reported speech' });
-  assert.equal(twins.ok, false);
+  const tense = normalizeGrammarSet({
+    items: [
+      choice(20, {
+        prompt: 'I _____ my homework an hour ago.',
+        options: ['finish', 'finished', 'have finished', 'finishing'],
+        correctAnswer: 'finished',
+      }),
+      ...tenChoices().items.slice(1, 6),
+    ],
+  }, blanksRequest);
+  assert.equal(tense.ok, true);
+  if (!tense.ok) return;
+  assert.equal(tense.set.items.some((item) => item.kind === 'choice' && item.correctAnswer === 'finished'), true);
+  assert.equal(normalizeGrammarSet({ items: tenChoices().items.slice(0, 5) }, blanksRequest).ok, false);
 
   const repeated = normalizeGrammarSet({
     items: [

@@ -48,7 +48,7 @@ export type ItemGrade = {
 };
 
 export const GRAMMAR_ITEM_COUNT = 10;
-const MIN_ITEMS = 8;
+const MIN_ITEMS = 6;
 
 export function exerciseLabel(exercise: GrammarExerciseType): string {
   if (exercise === 'phrasal') return 'Phrasal verbs';
@@ -82,29 +82,7 @@ const AUXILIARIES = new Set(['is', 'am', 'are', 'was', 'were', 'be', 'been', 'be
 const PRESENT_BE = new Set(['is', 'am', 'are']);
 const PAST_BE = new Set(['was', 'were']);
 const CLAUSE_BOUNDARY = new Set(['and', 'but', 'or', 'because', 'when', 'while', 'who', 'which', 'that', 'if', 'although', 'though', 'after', 'before', 'so', 'where', 'whose']);
-const ORDER_CONNECTOR = /\b(first|then|after that|finally|because|so|next|later|once)\b/i;
 const PHRASAL_PARTICLES = new Set(['up', 'off', 'out', 'on', 'in', 'over', 'away', 'back', 'down', 'through', 'around', 'about', 'into', 'onto', 'across', 'along', 'apart', 'aside', 'forward', 'together', 'by', 'for', 'after', 'with', 'of', 'to', 'round', 'ahead']);
-const STANDARD_PHRASALS = new Set(`
-get up,get on,get off,get in,get out,get back,get away,get over,get along,get along with,get on with,get rid of,get away with,get round to,
-look for,look after,look up,look into,look around,look out,look forward to,look down on,look up to,
-turn on,turn off,turn up,turn down,turn around,turn out,turn into,
-give up,give back,give in,give away,give out,
-pick up,put on,put off,put away,put down,put back,put out,put up,put up with,put through,put forward,put down to,
-find out,come back,come in,come on,come across,come up with,come down to,come about,come up against,
-go out,go back,go on,go away,go over,go through,go along with,
-take off,take on,take up,take after,take over,take away,take apart,take in,take to,
-wake up,sit down,stand up,stand for,grow up,fill in,fill out,write down,write off,throw away,try on,try out,
-call off,call back,hang up,hang on,hang out,carry on,carry out,work out,work on,set up,set off,set out,set about,
-check in,check out,drop off,drop out,hand in,hand out,point out,bring back,bring up,bring about,bring off,
-break down,break up,break out,break in,run out,run out of,run into,cut off,cut down,make up,make up for,make out,
-hold on,hold up,slow down,hurry up,clean up,tidy up,back up,blow up,calm down,catch up,count on,deal with,
-do without,do away with,end up,fall out,fall through,fall back on,figure out,keep on,keep up,let down,live on,live up to,
-mix up,own up,pass out,pass away,pay back,pull over,rule out,show up,sort out,speak up,talk over,talk into,talk out of,
-think over,think through,use up,watch out,wear out,wind up,brush up,brush up on,zero in,zero in on,account for,
-boil down to,dawn on,dispense with,draw up,dwell on,gloss over,lay off,narrow down,opt out,phase out,
-resort to,shrug off,single out,step down,tide over,track down,water down,weigh up,wipe out,follow up,follow through,
-iron out,pin down,settle for,shake off,stick to,tear down,tie in,touch on,ward off,play down
-`.split(',').map((item) => item.trim()).filter(Boolean));
 
 function normalizePromptGap(prompt: string): { prompt: string } | { problem: string } {
   const marked = prompt.replace(/\[(?:blank|gap)\]|\((?:blank|gap)\)|_{3,}/gi, GAP);
@@ -144,102 +122,14 @@ function hasBareTenseClash(sentence: string): boolean {
   return false;
 }
 
-function contentKey(option: string): string {
-  return wordsOf(option).filter((word) => !AUXILIARIES.has(word)).join(' ');
-}
-
-function hasTenseTwin(options: string[]): boolean {
-  const seen = new Set<string>();
-  for (const option of options) {
-    const key = contentKey(option);
-    if (!key) continue;
-    if (seen.has(key)) return true;
-    seen.add(key);
-  }
-  return false;
-}
-
-const IRREGULAR_BASES: Record<string, string> = {
-  got: 'get', gotten: 'get', getting: 'get', gets: 'get',
-  went: 'go', gone: 'go', going: 'go', goes: 'go',
-  took: 'take', taken: 'take', taking: 'take', takes: 'take',
-  came: 'come', coming: 'come', comes: 'come',
-  made: 'make', making: 'make', makes: 'make',
-  found: 'find', finding: 'find', finds: 'find',
-  gave: 'give', given: 'give', giving: 'give', gives: 'give',
-  brought: 'bring', bringing: 'bring', brings: 'bring',
-  broke: 'break', broken: 'break', breaking: 'break', breaks: 'break',
-  ran: 'run', running: 'run', runs: 'run',
-  left: 'leave', leaving: 'leave', leaves: 'leave',
-  held: 'hold', holding: 'hold', holds: 'hold',
-  kept: 'keep', keeping: 'keep', keeps: 'keep',
-  fell: 'fall', fallen: 'fall', falling: 'fall', falls: 'fall',
-  grew: 'grow', grown: 'grow', growing: 'grow', grows: 'grow',
-  woke: 'wake', woken: 'wake', waking: 'wake', wakes: 'wake',
-  sat: 'sit', sitting: 'sit', sits: 'sit',
-  stood: 'stand', standing: 'stand', stands: 'stand',
-  wrote: 'write', written: 'write', writing: 'write', writes: 'write',
-  threw: 'throw', thrown: 'throw', throwing: 'throw', throws: 'throw',
-  hung: 'hang', hanging: 'hang', hangs: 'hang',
-  caught: 'catch', catching: 'catch', catches: 'catch',
-  thought: 'think', thinking: 'think', thinks: 'think',
-  wore: 'wear', worn: 'wear', wearing: 'wear', wears: 'wear',
-  spoke: 'speak', spoken: 'speak', speaking: 'speak', speaks: 'speak',
-  paid: 'pay', paying: 'pay', pays: 'pay',
-  felt: 'feel', feeling: 'feel', feels: 'feel',
-  met: 'meet', meeting: 'meet', meets: 'meet',
-  bought: 'buy', buying: 'buy', buys: 'buy',
-  told: 'tell', telling: 'tell', tells: 'tell',
-  said: 'say', saying: 'say', says: 'say',
-  built: 'build', building: 'build', builds: 'build',
-  sent: 'send', sending: 'send', sends: 'send',
-  spent: 'spend', spending: 'spend', spends: 'spend',
-  won: 'win', winning: 'win', wins: 'win',
-  lost: 'lose', losing: 'lose', loses: 'lose',
-  blew: 'blow', blown: 'blow', blowing: 'blow', blows: 'blow',
-  shook: 'shake', shaken: 'shake', shaking: 'shake', shakes: 'shake',
-  tore: 'tear', torn: 'tear', tearing: 'tear', tears: 'tear',
-  stuck: 'stick', sticking: 'stick', sticks: 'stick',
-  cut: 'cut', cutting: 'cut', cuts: 'cut',
-  put: 'put', putting: 'put', puts: 'put',
-  set: 'set', setting: 'set', sets: 'set',
-  let: 'let', letting: 'let', lets: 'let',
-  did: 'do', done: 'do', doing: 'do', does: 'do',
-  had: 'have', has: 'have', having: 'have',
-};
-
-function verbBases(token: string): string[] {
-  const word = token.toLowerCase();
-  const bases = new Set<string>([word]);
-  if (IRREGULAR_BASES[word]) bases.add(IRREGULAR_BASES[word]);
-  if (word.endsWith('ies') && word.length > 4) bases.add(`${word.slice(0, -3)}y`);
-  if (word.endsWith('es') && word.length > 4) bases.add(word.slice(0, -2));
-  if (word.endsWith('s') && !word.endsWith('ss') && word.length > 3) bases.add(word.slice(0, -1));
-  if (word.endsWith('ing') && word.length > 5) {
-    const stem = word.slice(0, -3);
-    bases.add(stem);
-    bases.add(`${stem}e`);
-    if (stem.length > 2 && stem[stem.length - 1] === stem[stem.length - 2]) bases.add(stem.slice(0, -1));
-  }
-  if (word.endsWith('ied') && word.length > 4) bases.add(`${word.slice(0, -3)}y`);
-  if (word.endsWith('ed') && word.length > 3) {
-    const stem = word.slice(0, -2);
-    bases.add(stem);
-    bases.add(`${stem}e`);
-  }
-  return [...bases];
-}
-
-function isStandardPhrasal(option: string): boolean {
+/** A phrasal answer is malformed when it is not a verb plus a particle. Distractors are not checked. */
+function looksLikeVerbParticle(option: string): boolean {
   const words = wordsOf(option);
   let start = 0;
   while (start < words.length && AUXILIARIES.has(words[start])) start += 1;
   const core = words.slice(start);
-  if (core.length < 2 || core.length > 4) return false;
-  const particleAt = core.findIndex((word, index) => index > 0 && PHRASAL_PARTICLES.has(word));
-  if (particleAt !== 1) return false;
-  const rest = core.slice(1).join(' ');
-  return verbBases(core[0]).some((verb) => STANDARD_PHRASALS.has(`${verb} ${rest}`));
+  if (core.length < 2 || core.length > 5) return false;
+  return core.slice(1).some((word) => PHRASAL_PARTICLES.has(word));
 }
 
 function choiceQualityProblem(item: GrammarChoice, exercise: GrammarExerciseType): string | null {
@@ -250,11 +140,8 @@ function choiceQualityProblem(item: GrammarChoice, exercise: GrammarExerciseType
   if (hasBareTenseClash(filled)) {
     return 'The sentence mixes present and past, such as "is" and "was". Use one natural tense.';
   }
-  if (hasTenseTwin(item.options)) {
-    return 'Two options are the same phrase in different tenses, so more than one can be correct. Make the wrong options clearly wrong.';
-  }
-  if (exercise === 'phrasal' && item.options.some((option) => !isStandardPhrasal(option))) {
-    return 'Every option must be a real phrasal verb, used with its normal meaning. Do not invent one.';
+  if (exercise === 'phrasal' && !looksLikeVerbParticle(item.correctAnswer)) {
+    return 'The correct answer must be a verb plus a particle, such as "look after" or "put off".';
   }
   return null;
 }
@@ -265,9 +152,6 @@ function orderQualityProblem(item: GrammarOrder, level: GrammarLevel): string | 
   if (level === 'C1') return null;
   if (item.chunks.some((chunk) => chunk.split(/\s+/).filter(Boolean).length < 3)) {
     return 'At B1 and B2 each part must be a sentence or clause, not a short phrase that could move.';
-  }
-  if (!ORDER_CONNECTOR.test(paragraph)) {
-    return 'At B1 and B2 use connectors such as first, then, after that, finally, because, or so, so only one order works.';
   }
   return null;
 }
@@ -356,7 +240,7 @@ export function normalizeGrammarSet(raw: unknown, request: GrammarRequest): { ok
     if (items.length === GRAMMAR_ITEM_COUNT) break;
   }
   if (items.length < MIN_ITEMS) {
-    const summary = `Need ${GRAMMAR_ITEM_COUNT} usable exercises. Only ${items.length} were usable.`;
+    const summary = `Only ${items.length} exercises were usable. Need at least ${MIN_ITEMS}.`;
     return { ok: false, problems: [summary, ...problems].slice(0, 8) };
   }
   return {
@@ -389,7 +273,7 @@ Self-check every item before you keep it:
 - Do not repeat a word. Bad: "only after the meeting _____ that I realized" with the answer "that", because that makes "that that".
 - Do not mix tenses. Bad: "What _____ was a better sense" with the answer "is needed".
 - Then try each wrong option in the same gap. Exactly one option may be correct. If a second option also sounds acceptable, change the sentence or the options.
-- Do not offer the same phrase in two tenses. Bad: "has been postponed" and "had been postponed" in reported speech, because both can be right.
+- Do not offer two answers that both fit. Bad: "going to" and "will" in "I _____ visit my aunt tomorrow". Bad: "has been postponed" and "had been postponed" when the sentence does not force one of them.
 - Do not use the same correct answer twice in the set.
 - Write the gap as exactly ${GAP}. One gap only.
 - explanation is ONE short sentence. No line breaks.
@@ -407,9 +291,9 @@ function levelGuide(level: GrammarLevel, exercise: GrammarExerciseType): string 
     return 'Use common standard phrasal verbs such as get up, look for, turn off, give up, and look after.';
   }
   if (exercise === 'order') {
-    if (level === 'C1') return 'Mix short paragraphs with some complex sentences. A complex item may be one sentence split into words or short phrases, and it still needs one correct order and normal punctuation. Prefer natural, idiomatic English. Avoid awkward constructions.';
-    if (level === 'B2') return 'Write a short everyday paragraph. One logical order only. You may include a conditional, a passive, or reported speech when it fits.';
-    return 'Write a short everyday paragraph in clear intermediate English. One logical order only.';
+    if (level === 'C1') return 'Prefer natural, idiomatic English. A paragraph must have exactly one possible order, shown by connectors, a pronoun that points back, or cause and effect. A single complex sentence split into chunks is a good item. Avoid awkward constructions.';
+    if (level === 'B2') return 'Use B2 grammar in the paragraphs: conditionals, the passive, reported speech, or relative clauses. One logical order only. Vary the situation and the connectors.';
+    return 'Write a short everyday paragraph in clear intermediate English. One logical order only. Vary the situation and the connectors.';
   }
   if (level === 'C1') return 'Test inversion, cleft sentences, advanced conditionals, and other advanced structures. Prefer natural, idiomatic sentences a fluent speaker would say. Avoid awkward constructions built only to show the rule.';
   if (level === 'B2') return 'Test conditionals, the passive, reported speech, and other upper-intermediate grammar. Add a time word or a reporting detail so only one option fits.';
@@ -419,14 +303,14 @@ function levelGuide(level: GrammarLevel, exercise: GrammarExerciseType): string 
 function taskGuide(exercise: GrammarExerciseType, level: GrammarLevel): string {
   if (exercise === 'order') {
     if (level === 'C1') {
-      return 'About half of the items are a short paragraph of 4 to 6 sentences. The others may be one complex sentence split into words or short phrases. chunks are the correct order. Use normal punctuation, and make the last part end with . ! or ?';
+      return 'Include both short paragraphs of 4 to 6 sentences and single complex sentences split into words or short phrases. chunks are the correct order. A paragraph has exactly one order because of connectors, pronoun references, or cause and effect. Use normal punctuation, and make the last part end with . ! or ?';
     }
-    return 'Each item is a short paragraph of 4 to 6 sentences or clauses in the correct order. Use connectors such as first, then, after that, finally, because, or so, so the parts cannot be rearranged. Do not split one sentence into adverbials that could go in more than one place. The last part ends with . ! or ?';
+    return 'Each item is a different short paragraph of 4 to 6 sentences or clauses. Do not repeat the same scene, such as a morning routine, cooking, or the airport. Vary the connectors. Do not always use First, Then, After that, and Finally. Use because, once, when, after, before, meanwhile, as soon as, or later. Use "so" only for a result, not for a simple next step. Do not split one sentence into adverbials that could go in more than one place. The last part ends with . ! or ?';
   }
   if (exercise === 'phrasal') {
     return 'Each prompt is one natural sentence with exactly one gap written as _____. Each of the 4 options is a real dictionary phrasal verb (verb + particle), in the form that fits the gap. Use its established meaning and the correct transitive or intransitive pattern. Bad: "cloud over your judgment". Bad: "root out the truth". Good: "look after the children", "put off the meeting", "come across an old letter".';
   }
-  return 'Each prompt is one natural sentence with exactly one gap written as _____. The 4 options are single words or short phrases. Wrong options must be clearly wrong in this sentence, not another acceptable tense of the right phrase.';
+  return 'Each prompt is one natural sentence with exactly one gap written as _____. The 4 options are single words or short phrases. Wrong options must be clearly wrong in this sentence. Do not pair "going to" with "will", or two tenses that both fit.';
 }
 
 function shapeGuide(exercise: GrammarExerciseType): string {
