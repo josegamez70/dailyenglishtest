@@ -3,22 +3,6 @@ import { SignInBox } from './SignInBox';
 
 const points = [
   {
-    title: 'Stories Made for You',
-    text: 'Explore engaging stories tailored to your level and interests.',
-    icon: (
-      <svg viewBox="0 0 24 24" className="h-7 w-7 overflow-visible" fill="none" stroke="currentColor" strokeWidth="1.75" aria-hidden="true">
-        <g className="landing-book-left">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.04A8.97 8.97 0 0 0 6 3.75c-1.05 0-2.06.18-3 .51v14.25A8.99 8.99 0 0 1 6 18a8.97 8.97 0 0 1 6 2.29V6.04Z" />
-          <path strokeLinecap="round" d="M6.2 8.2h3.1M6.2 11.1h3.1" />
-        </g>
-        <g className="landing-book-right">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.04A8.97 8.97 0 0 1 18 3.75c1.05 0 2.06.18 3 .51v14.25A8.99 8.99 0 0 0 18 18a8.97 8.97 0 0 0-6 2.29V6.04Z" />
-          <path strokeLinecap="round" d="M14.7 8.2h3.1M14.7 11.1h3.1" />
-        </g>
-      </svg>
-    ),
-  },
-  {
     title: 'Listen. Learn. Improve.',
     text: 'Build your listening skills with natural-sounding audio for every lesson.',
     icon: (
@@ -34,8 +18,38 @@ const points = [
     ),
   },
   {
+    title: 'Grammar Practice',
+    text: 'Fill in the blanks, phrasal verbs and sentence order. Levels B1 to C1.',
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-7 w-7 overflow-visible" fill="none" stroke="currentColor" strokeWidth="1.75" aria-hidden="true">
+        <g className="landing-grammar">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M14.2 4.8 19.2 9.8 8.2 20.8H3.2v-5L14.2 4.8Z" />
+          <path strokeLinecap="round" d="M12.2 6.8 17.2 11.8" />
+          <path strokeLinecap="round" strokeLinejoin="round" d="M3.2 20.8 5.4 18.6" />
+        </g>
+        <path className="landing-grammar-mark" strokeLinecap="round" strokeLinejoin="round" d="m9.1 13.1 1.3 1.3 2.7-2.9" />
+      </svg>
+    ),
+  },
+  {
+    title: 'Test your reading comprehension',
+    text: 'Read a short story made for your level, then answer the questions.',
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-7 w-7 overflow-visible" fill="none" stroke="currentColor" strokeWidth="1.75" aria-hidden="true">
+        <g className="landing-book-left">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.04A8.97 8.97 0 0 0 6 3.75c-1.05 0-2.06.18-3 .51v14.25A8.99 8.99 0 0 1 6 18a8.97 8.97 0 0 1 6 2.29V6.04Z" />
+          <path strokeLinecap="round" d="M6.2 8.2h3.1M6.2 11.1h3.1" />
+        </g>
+        <g className="landing-book-right">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.04A8.97 8.97 0 0 1 18 3.75c1.05 0 2.06.18 3 .51v14.25A8.99 8.99 0 0 0 18 18a8.97 8.97 0 0 0-6 2.29V6.04Z" />
+          <path strokeLinecap="round" d="M14.7 8.2h3.1M14.7 11.1h3.1" />
+        </g>
+      </svg>
+    ),
+  },
+  {
     title: 'Discover Words Instantly',
-    text: 'Tap any word to discover its meaning as you read.',
+    text: 'Tap any word to discover its meaning as you read, with the popup dictionary.',
     icon: (
       <svg viewBox="0 0 24 24" className="h-7 w-7 overflow-visible" fill="none" stroke="currentColor" strokeWidth="1.75" aria-hidden="true">
         <g className="landing-rays">
@@ -53,7 +67,8 @@ const motionCss = `
 .landing-book-left,
 .landing-book-right,
 .landing-phones,
-.landing-pointer {
+.landing-pointer,
+.landing-grammar {
   transform-box: fill-box;
 }
 .landing-book-left {
@@ -80,6 +95,14 @@ const motionCss = `
 .landing-rays {
   opacity: 0.85;
   animation: landing-rays 2.4s ease-in-out 0.9s infinite;
+}
+.landing-grammar {
+  transform-origin: 70% 80%;
+  animation: landing-grammar 2.7s ease-in-out 1.2s infinite;
+}
+.landing-grammar-mark {
+  opacity: 0.85;
+  animation: landing-grammar-mark 2.7s ease-in-out 1.2s infinite;
 }
 @keyframes landing-book-left {
   0%, 100% { transform: perspective(140px) rotateY(0deg); }
@@ -109,13 +132,24 @@ const motionCss = `
   48% { opacity: 1; }
   68%, 100% { opacity: 0.35; }
 }
+@keyframes landing-grammar {
+  0%, 100% { transform: rotate(0deg); }
+  45% { transform: rotate(-7deg); }
+}
+@keyframes landing-grammar-mark {
+  0%, 35% { opacity: 0.2; }
+  55% { opacity: 1; }
+  80%, 100% { opacity: 0.35; }
+}
 @media (prefers-reduced-motion: reduce) {
   .landing-book-left,
   .landing-book-right,
   .landing-phones,
   .landing-wave,
   .landing-pointer,
-  .landing-rays {
+  .landing-rays,
+  .landing-grammar,
+  .landing-grammar-mark {
     animation: none;
   }
 }
@@ -123,14 +157,14 @@ const motionCss = `
 
 export function Landing() {
   return (
-    <main className="w-full max-w-2xl">
+    <main className="w-full max-w-2xl md:max-w-3xl">
       <style>{motionCss}</style>
       <section className="px-1 pt-5 text-center sm:pt-8">
         <h1 className="text-4xl font-bold leading-[1.1] tracking-tight text-[#172033] dark:text-white sm:text-5xl">
-          Your English. Your Pace.
+          Your English at your own pace.
         </h1>
         <p className="mx-auto mt-4 max-w-lg text-center text-base leading-relaxed text-slate-500 dark:text-slate-300 sm:text-lg">
-          Improve your English every day with AI-powered stories, listening practice, and interactive lessons made just for you.
+          Improve your English every day with AI-powered stories, listening practice, grammar exercises, and lessons made just for you.
         </p>
       </section>
 
@@ -138,7 +172,7 @@ export function Landing() {
         <SignInBox submitLabel="Get 3 free lessons" />
       </div>
 
-      <ul className="mt-2 flex flex-col gap-4">
+      <ul className="mt-2 grid grid-cols-1 gap-4 md:grid-cols-2">
         {points.map((point) => (
           <li
             key={point.title}

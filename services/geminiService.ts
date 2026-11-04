@@ -2,6 +2,7 @@ import type { ConfigOptions, QuizQuestion, VocabularyItem } from '../types';
 import { normalizeQuiz } from '../quizNormalize';
 import { parseDialogue, renderDialogue, type DialogueTurn } from '../dialogue';
 import { accessToken, FREE_LIMIT_MESSAGE } from '../auth';
+import { normalizeGrammarSet, type GrammarExerciseType, type GrammarLevel, type GrammarSet } from '../grammarSet';
 
 type GenResponse = {
   story?: string;
@@ -190,4 +191,22 @@ export async function generateStoryAndQuiz(
   if (!quiz.length) throw new Error('The quiz was empty. Please try again.');
 
   return { ...draft, quiz };
+}
+
+export async function generateGrammarSet(
+  input: { level: GrammarLevel; exercise: GrammarExerciseType; topic: string },
+  signal?: AbortSignal,
+): Promise<GrammarSet> {
+  const data = await postGenerate({
+    prompt: JSON.stringify({
+      mode: 'grammar',
+      level: input.level,
+      exercise: input.exercise,
+      topic: input.topic,
+      count: 10,
+    }),
+  }, signal);
+  const normalized = normalizeGrammarSet(data, input);
+  if (!normalized.ok) throw new Error('The exercises could not be read. Please try again.');
+  return normalized.set;
 }

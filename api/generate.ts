@@ -29,7 +29,16 @@ import {
   type SpeakerGender,
 } from '../dialogue';
 import { normalizeQuiz, type NormalizedQuizQuestion } from '../quizNormalize';
+import {
+  buildGrammarPrompt,
+  grammarExercise,
+  grammarLevel,
+  normalizeGrammarSet,
+  type GrammarExerciseType,
+  type GrammarRequest,
+} from '../grammarSet';
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
+import { isOverloadStatus, overloadFallbackModel } from '../modelFallback';
 
 type HandlerEvent = {
   httpMethod?: string;
@@ -69,17 +78,14 @@ type PreparedLesson = {
   dialogue: DialogueTurn[];
 };
 
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
 // One warm function instance remembers a 404 so later steps do not call that model.
-// 2.5 and 2.0 are already closed for this key. 3.1 Flash-Lite with minimal thinking
-// is the model that has finished a short lesson inside the Netlify limit.
+// 2.0 and 2.5 Flash are not used for normal lessons. 2.5 Flash-Lite is only the
+// single fallback when the primary models are overloaded or time out.
 const MODEL_CANDIDATES = ['gemini-3-flash-preview', 'gemini-3.1-flash-lite'];
 const unavailableModels = new Set<string>([
   'gemini-2.0-flash',
   'gemini-1.5-flash',
   'gemini-2.5-flash',
-  'gemini-2.5-flash-lite',
 ]);
 let preferredModel = 'gemini-3-flash-preview';
 
@@ -166,6 +172,66 @@ const LESSON_SCHEMA: ResponseSchema = {
   },
   required: ['story', 'quiz', 'vocabulary'],
 };
+
+const GRAMMAR_CHOICE_SCHEMA: ResponseSchema = {
+  type: SchemaType.OBJECT,
+  properties: {
+    items: {
+      type: SchemaType.ARRAY,
+      description: 'About 10 grammar items. Each sentence has one gap and four options.',
+      minItems: 6,
+      maxItems: 10,
+      items: {
+        type: SchemaType.OBJECT,
+        properties: {
+          prompt: { type: SchemaType.STRING, description: 'One sentence with the gap written as _____.' },
+          options: {
+            type: SchemaType.ARRAY,
+            minItems: 4,
+            maxItems: 4,
+            items: { type: SchemaType.STRING },
+          },
+          correctAnswer: { type: SchemaType.STRING, description: 'The correct option, copied exactly. Not a letter.' },
+          explanation: { type: SchemaType.STRING, description: 'One short sentence in simple English.' },
+        },
+        required: ['prompt', 'options', 'correctAnswer', 'explanation'],
+      },
+    },
+  },
+  required: ['items'],
+};
+
+const GRAMMAR_ORDER_SCHEMA: ResponseSchema = {
+  type: SchemaType.OBJECT,
+  properties: {
+    items: {
+      type: SchemaType.ARRAY,
+      description: 'About 10 order items. chunks are already in the correct order.',
+      minItems: 6,
+      maxItems: 10,
+      items: {
+        type: SchemaType.OBJECT,
+        properties: {
+          prompt: { type: SchemaType.STRING, description: 'A short instruction, such as Put these parts in order.' },
+          chunks: {
+            type: SchemaType.ARRAY,
+            description: '4 to 6 parts in the correct order.',
+            minItems: 4,
+            maxItems: 6,
+            items: { type: SchemaType.STRING },
+          },
+          explanation: { type: SchemaType.STRING, description: 'One short sentence in simple English.' },
+        },
+        required: ['prompt', 'chunks', 'explanation'],
+      },
+    },
+  },
+  required: ['items'],
+};
+
+function grammarSchema(exercise: GrammarExerciseType): ResponseSchema {
+  return exercise === 'order' ? GRAMMAR_ORDER_SCHEMA : GRAMMAR_CHOICE_SCHEMA;
+}
 
 function clamp(n: number, lo: number, hi: number) {
   return Math.max(lo, Math.min(hi, n));
@@ -578,7 +644,9 @@ async function callModel(
   timeoutMs: number,
   useSchema: boolean,
   useThinkingOff = true,
-  maxOutputTokens = 8192
+  maxOutputTokens = 8192,
+  schema?: ResponseSchema,
+  temperature?: number,
 ): Promise<string> {
   const genAI = new GoogleGenerativeAI(apiKey);
   const model = genAI.getGenerativeModel({ model: modelName });
@@ -587,6 +655,7 @@ async function callModel(
     responseMimeType: string;
     responseSchema?: ResponseSchema;
     thinkingConfig?: { thinkingBudget?: number; thinkingLevel?: string };
+    temperature?: number;
   } = {
     maxOutputTokens,
     responseMimeType: 'application/json',
@@ -594,7 +663,9 @@ async function callModel(
   if (useThinkingOff) {
     generationConfig.thinkingConfig = thinkingConfigFor(modelName);
   }
-  if (useSchema) generationConfig.responseSchema = LESSON_SCHEMA;
+  if (typeof temperature === 'number') generationConfig.temperature = temperature;
+  if (schema) generationConfig.responseSchema = schema;
+  else if (useSchema) generationConfig.responseSchema = LESSON_SCHEMA;
 
   const request = model.generateContent({
     contents: [{ role: 'user', parts: [{ text: prompt }] }],
@@ -627,7 +698,14 @@ function readUpstream(error: unknown, model?: string): UpstreamFailure {
   return { status, message, model };
 }
 
-async function generateRaw(apiKey: string, prompt: string, deadline: number, maxOutputTokens: number): Promise<string> {
+async function generateRaw(
+  apiKey: string,
+  prompt: string,
+  deadline: number,
+  maxOutputTokens: number,
+  schema?: ResponseSchema,
+  temperature?: number,
+): Promise<string> {
   let lastError: unknown;
   let lastModel = '';
   const attempts: UpstreamFailure[] = [];
@@ -654,7 +732,7 @@ async function generateRaw(apiKey: string, prompt: string, deadline: number, max
     if (timeout < 4000) break;
     try {
       console.log(JSON.stringify({ stage: 'gen_start', modelName, timeout }));
-      const text = await callModel(apiKey, modelName, prompt, timeout, false, true, maxOutputTokens);
+      const text = await callModel(apiKey, modelName, prompt, timeout, false, true, maxOutputTokens, schema, temperature);
       if (text) {
         preferredModel = modelName;
         return text;
@@ -665,23 +743,8 @@ async function generateRaw(apiKey: string, prompt: string, deadline: number, max
       const laterModel = order.slice(index + 1).some((name) => !unavailableModels.has(name));
       const timeLeft = deadline - Date.now();
       const dailyQuota = /per day|retry in \d+h/i.test(message);
-      // One short retry only when no other model is left. A 404 is remembered and skipped.
-      // If another model is available, try that instead of spending the window here.
-      if (!laterModel && status !== 404 && (status === 503 || status === 429) && !dailyQuota && timeLeft > 8000) {
-        await sleep(400);
-        const retryTimeout = Math.min(18000, deadline - Date.now() - 800);
-        if (retryTimeout >= 5000) {
-          try {
-            const text = await callModel(apiKey, modelName, prompt, retryTimeout, false, true, maxOutputTokens);
-            if (text) {
-              preferredModel = modelName;
-              return text;
-            }
-          } catch (retryError) {
-            note(retryError, modelName);
-          }
-        }
-      }
+      // Do not call the same overloaded model again. One free-tier fallback runs after this loop.
+      if (!laterModel && isOverloadStatus(status) && !dailyQuota && timeLeft > 4000) break;
       // thinkingBudget / thinkingLevel rejected: one retry with the model's own default,
       // and only when that retry can still return before the function deadline.
       if (status === 400 && /invalid argument/i.test(message) && timeLeft > 8000) {
@@ -692,7 +755,7 @@ async function generateRaw(apiKey: string, prompt: string, deadline: number, max
           : Math.min(24000, timeLeft - 700);
         if (retryTimeout >= 4000) {
           try {
-            const text = await callModel(apiKey, modelName, prompt, retryTimeout, false, false, maxOutputTokens);
+            const text = await callModel(apiKey, modelName, prompt, retryTimeout, false, false, maxOutputTokens, schema, temperature);
             if (text) {
               preferredModel = modelName;
               return text;
@@ -708,6 +771,31 @@ async function generateRaw(apiKey: string, prompt: string, deadline: number, max
     }
   }
   const upstream = readUpstream(lastError, lastModel);
+  const fallback = isOverloadStatus(upstream.status)
+    ? overloadFallbackModel(attempts.map((attempt) => attempt.model ?? ''))
+    : null;
+  const fallbackTimeout = Math.min(12000, deadline - Date.now() - 800);
+  if (fallback && !unavailableModels.has(fallback) && fallbackTimeout >= 4000) {
+    try {
+      console.log(JSON.stringify({ stage: 'gen_fallback', modelName: fallback, timeout: fallbackTimeout }));
+      const text = await callModel(apiKey, fallback, prompt, fallbackTimeout, false, true, maxOutputTokens, schema, temperature);
+      if (text) return text;
+    } catch (error) {
+      const noted = note(error, fallback);
+      if (noted.status === 404) unavailableModels.add(fallback);
+      if (noted.status === 400 && /invalid argument/i.test(noted.message) && deadline - Date.now() > 5000) {
+        const retryTimeout = Math.min(10000, deadline - Date.now() - 800);
+        if (retryTimeout >= 4000) {
+          try {
+            const text = await callModel(apiKey, fallback, prompt, retryTimeout, false, false, maxOutputTokens, schema, temperature);
+            if (text) return text;
+          } catch (retryError) {
+            note(retryError, fallback);
+          }
+        }
+      }
+    }
+  }
   const busy = upstream.status === 429 || upstream.status === 503;
   const timedOut = upstream.status === 504;
   throw Object.assign(
@@ -762,6 +850,7 @@ function readParams(bodyText: string | null | undefined): LessonParams | null {
   } catch {
     return null;
   }
+  if (raw.mode === 'grammar') return null;
   const topic = concreteTopic(raw.topic);
   const level = String(raw.level || 'Beginner');
   const mode = raw.mode === 'listening' ? 'listening' : 'reading';
@@ -780,6 +869,138 @@ function readParams(bodyText: string | null | undefined): LessonParams | null {
     speakers: normalizeFormat(raw.format) === 'dialogue' ? resolveDialogueSpeakers(raw) : [],
     stage,
     sourceStory,
+  };
+}
+
+function readPromptObject(bodyText: string | null | undefined): Record<string, unknown> | null {
+  let body: { prompt?: string } = {};
+  try {
+    body = JSON.parse(bodyText || '{}');
+  } catch {
+    return null;
+  }
+  try {
+    const raw = JSON.parse(String(body.prompt || '{}'));
+    return raw && typeof raw === 'object' ? raw as Record<string, unknown> : null;
+  } catch {
+    return null;
+  }
+}
+
+function readGrammarRequest(bodyText: string | null | undefined): GrammarRequest | null {
+  const raw = readPromptObject(bodyText);
+  if (!raw || raw.mode !== 'grammar') return null;
+  return {
+    level: grammarLevel(raw.level),
+    exercise: grammarExercise(raw.exercise),
+    topic: String(raw.topic ?? '').replace(/[\n\r"]/g, ' ').trim().slice(0, 80),
+  };
+}
+
+async function freeLimitResponse(
+  admin: SupabaseClient,
+  userId: string,
+  headers: Record<string, string>,
+): Promise<HandlerResponse | null> {
+  const { data: profile } = await admin.from('profiles').select('plan, lessons_used').eq('id', userId).maybeSingle();
+  const used = Number(profile?.lessons_used ?? 0);
+  const plan = String(profile?.plan ?? 'free');
+  if (plan === 'free' && used >= FREE_LESSON_LIMIT) {
+    const access = await admin.rpc('academy_lesson_access', { uid: userId });
+    const academySeat = !access.error && access.data === true;
+    if (!academySeat) return { statusCode: 402, headers, body: limitBody(used, plan) };
+  }
+  return null;
+}
+
+async function consumeLessonResponse(
+  admin: SupabaseClient,
+  userId: string,
+  headers: Record<string, string>,
+): Promise<HandlerResponse | null> {
+  const consumed = await admin.rpc('consume_lesson', { uid: userId, free_limit: FREE_LESSON_LIMIT });
+  const allowance = readAllowance(consumed.data);
+  if (consumed.error || !allowance?.allowed) {
+    return {
+      statusCode: allowance && !allowance.allowed ? 402 : 502,
+      headers,
+      body: allowance && !allowance.allowed
+        ? limitBody(allowance.lessonsUsed, allowance.plan)
+        : JSON.stringify({
+          ok: false,
+          code: 'LESSON_COUNT',
+          message: 'The lesson could not be saved. Please try again.',
+        }),
+    };
+  }
+  return null;
+}
+
+function grammarModelPayload(parsed: Record<string, unknown> | null): unknown {
+  if (!parsed) return null;
+  if (Array.isArray(parsed.items)) return parsed;
+  if (Array.isArray(parsed.quiz)) return { items: parsed.quiz };
+  return parsed;
+}
+
+async function createGrammarSet(
+  apiKey: string,
+  admin: SupabaseClient,
+  userId: string,
+  request: GrammarRequest,
+  headers: Record<string, string>,
+): Promise<HandlerResponse> {
+  const deadline = Date.now() + 23000;
+  const schema = grammarSchema(request.exercise);
+  const prompt = buildGrammarPrompt(request);
+  let problems: string[] = [];
+  let set = null as ReturnType<typeof normalizeGrammarSet> | null;
+  let lastRaw = '';
+
+  const ask = async (text: string) => {
+    const raw = await generateRaw(apiKey, text, deadline, 6144, schema, 0.3);
+    lastRaw = raw;
+    return normalizeGrammarSet(grammarModelPayload(parseModelJson(raw)), request);
+  };
+
+  let normalized = await ask(prompt);
+  if (!normalized.ok && deadline - Date.now() >= 10000) {
+    problems = normalized.problems;
+    normalized = await ask(buildGrammarPrompt(request, problems.slice(0, 6).join('\n') || 'Return only valid JSON.'));
+  }
+
+  if (normalized.ok) set = normalized;
+  else problems = normalized.problems;
+
+  if (!set?.ok) {
+    return {
+      statusCode: 502,
+      headers,
+      body: JSON.stringify({
+        ok: false,
+        code: 'BAD_MODEL_OUTPUT',
+        message: 'The exercises could not be created. Please try again.',
+        debug: {
+          problems,
+          preview: scrubUpstream(lastRaw).slice(0, 400),
+        },
+      }),
+    };
+  }
+
+  const blocked = await consumeLessonResponse(admin, userId, headers);
+  if (blocked) return blocked;
+  return {
+    statusCode: 200,
+    headers,
+    body: JSON.stringify({
+      mode: 'grammar',
+      level: set.set.level,
+      exercise: set.set.exercise,
+      topic: set.set.topic,
+      title: set.set.title,
+      items: set.set.items,
+    }),
   };
 }
 
@@ -804,8 +1025,9 @@ export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => 
       return { statusCode: 200, headers: corsHeaders, body: '' };
     }
 
-    const params = readParams(event.body);
-    if (!params) {
+    const grammarRequest = readGrammarRequest(event.body);
+    const params = grammarRequest ? null : readParams(event.body);
+    if (!grammarRequest && !params) {
       return {
         statusCode: 400,
         headers: corsHeaders,
@@ -839,17 +1061,39 @@ export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => 
       };
     }
 
-    if (params.stage === 'story') {
-      const { data: profile } = await admin.from('profiles').select('plan, lessons_used').eq('id', userId).maybeSingle();
-      const used = Number(profile?.lessons_used ?? 0);
-      const plan = String(profile?.plan ?? 'free');
-      if (plan === 'free' && used >= FREE_LESSON_LIMIT) {
-        const access = await admin.rpc('academy_lesson_access', { uid: userId });
-        const academySeat = !access.error && access.data === true;
-        if (!academySeat) {
-          return { statusCode: 402, headers: corsHeaders, body: limitBody(used, plan) };
-        }
+    if (grammarRequest || params?.stage === 'story') {
+      const blocked = await freeLimitResponse(admin, userId, corsHeaders);
+      if (blocked) return blocked;
+    }
+
+    if (grammarRequest) {
+      try {
+        return await createGrammarSet(apiKey, admin, userId, grammarRequest, corsHeaders);
+      } catch (error) {
+        const message = error instanceof Error ? error.message : 'Unknown error';
+        const upstream = (error as { upstream?: UpstreamFailure }).upstream ?? readUpstream(error);
+        console.error('generate.ts grammar:', JSON.stringify({ message, upstream }));
+        const status = upstream.status || Number((error as { status?: number })?.status || 500);
+        const httpStatus = status === 429 || status === 503 ? status : status === 504 ? 504 : 502;
+        const publicMessage = httpStatus === 429 || httpStatus === 503
+          ? 'The story service is busy. Please try again.'
+          : httpStatus === 504
+            ? 'The story service took too long. Please try again.'
+            : 'The exercises could not be created. Please try again.';
+        return {
+          statusCode: httpStatus,
+          headers: corsHeaders,
+          body: JSON.stringify({ ok: false, code: 'SERVER_ERROR', message: publicMessage }),
+        };
       }
+    }
+
+    if (!params) {
+      return {
+        statusCode: 400,
+        headers: corsHeaders,
+        body: JSON.stringify({ ok: false, code: 'BAD_REQUEST', message: 'Invalid prompt JSON' }),
+      };
     }
 
     const deadline = Date.now() + 23000;
@@ -923,21 +1167,8 @@ export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => 
       };
     }
 
-    const consumed = await admin.rpc('consume_lesson', { uid: userId, free_limit: FREE_LESSON_LIMIT });
-    const allowance = readAllowance(consumed.data);
-    if (consumed.error || !allowance?.allowed) {
-      return {
-        statusCode: allowance && !allowance.allowed ? 402 : 502,
-        headers: corsHeaders,
-        body: allowance && !allowance.allowed
-          ? limitBody(allowance.lessonsUsed, allowance.plan)
-          : JSON.stringify({
-            ok: false,
-            code: 'LESSON_COUNT',
-            message: 'The lesson could not be saved. Please try again.',
-          }),
-      };
-    }
+    const blocked = await consumeLessonResponse(admin, userId, corsHeaders);
+    if (blocked) return blocked;
 
     return {
       statusCode: 200,
