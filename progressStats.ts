@@ -21,10 +21,11 @@ export function dayStreak(dates: Date[], today = new Date()): number {
   return count;
 }
 
-/** Reading, Audio, or an em dash when an older result has no saved mode. */
+/** Reading, Audio, Grammar, or an em dash when an older result has no saved mode. */
 export function lessonModeLabel(mode: string | null | undefined): string {
   if (mode === 'listening') return 'Audio';
   if (mode === 'reading') return 'Reading';
+  if (mode === 'grammar') return 'Grammar';
   return '—';
 }
 

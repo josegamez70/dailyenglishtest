@@ -6,7 +6,7 @@ export type WrongAnswer = {
   correctAnswer: string;
 };
 
-export type LessonMode = 'reading' | 'listening';
+export type LessonMode = 'reading' | 'listening' | 'grammar';
 
 export type TestResultRow = {
   id: string;
@@ -43,7 +43,7 @@ export function isMissingColumn(error: { code?: string; message?: string } | nul
 }
 
 export function readLessonMode(value: unknown): LessonMode | null {
-  return value === 'reading' || value === 'listening' ? value : null;
+  return value === 'reading' || value === 'listening' || value === 'grammar' ? value : null;
 }
 
 export async function saveTestResult(input: {

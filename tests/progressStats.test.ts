@@ -15,9 +15,10 @@ test('streak counts consecutive local days and stops after a gap', () => {
   assert.equal(dayStreak([new Date(2026, 9, 30, 8)], today), 1);
 });
 
-test('lesson mode labels name reading and audio', () => {
+test('lesson mode labels name reading, audio, and grammar', () => {
   assert.equal(lessonModeLabel('reading'), 'Reading');
   assert.equal(lessonModeLabel('listening'), 'Audio');
+  assert.equal(lessonModeLabel('grammar'), 'Grammar');
   assert.equal(lessonModeLabel(null), '—');
   assert.equal(lessonModeLabel(undefined), '—');
 });

@@ -22,6 +22,7 @@ import { slowerPlaybackRate, whenVoicesReady } from './speechVoices';
 import { withStoryReview } from './quizSession';
 import { resumeWordIndex, textFromWordIndex } from './speechPosition';
 import { generateStoryAndQuiz } from './services/geminiService';
+import { GrammarPage } from './components/GrammarPage';
 import { FREE_LESSON_LIMIT, planStatusText, signOut, useAccount } from './auth';
 import { AppShell, type ShellItem } from './components/AppShell';
 import { ProfilePage, type ThemeChoice } from './components/ProfilePage';
@@ -174,6 +175,8 @@ const App: React.FC = () => {
     return 'system';
   });
   const [path, setPath] = useState(() => window.location.pathname.replace(/\/+$/, '') || '/');
+  const [grammarActive, setGrammarActive] = useState(false);
+  const [grammarResetNonce, setGrammarResetNonce] = useState(0);
   const [fontStep, setFontStep] = useState(readFontStep);
 
   const [isSpeaking, setIsSpeaking] = useState(false);
@@ -1566,7 +1569,7 @@ const App: React.FC = () => {
     </div>
   );
 
-  const shellItem: ShellItem = path === '/progress' ? 'progress' : path === '/saved' ? 'saved' : path === '/profile' ? 'profile' : path === '/academy' ? 'academy' : path === '/join' ? 'join' : 'lesson';
+  const shellItem: ShellItem = path === '/progress' ? 'progress' : path === '/saved' ? 'saved' : path === '/profile' ? 'profile' : path === '/academy' ? 'academy' : path === '/join' ? 'join' : path === '/grammar' ? 'grammar' : 'lesson';
   const go = (next: string) => {
     const clean = next.replace(/\/+$/, '') || '/';
     const current = window.location.pathname.replace(/\/+$/, '') || '/';
@@ -1609,8 +1612,26 @@ const App: React.FC = () => {
       email={account.email}
       status={statusText}
       showAcademy={account.plan === 'academy'}
-      onHome={shellItem === 'lesson' && (view === 'story' || view === 'quiz' || view === 'results') ? resetApp : undefined}
+      onHome={
+        shellItem === 'lesson' && (view === 'story' || view === 'quiz' || view === 'results')
+          ? resetApp
+          : shellItem === 'grammar' && grammarActive
+            ? () => setGrammarResetNonce((nonce) => nonce + 1)
+            : undefined
+      }
     >
+      {shellItem === 'grammar' && (
+        <GrammarPage
+          fontStep={fontStep}
+          fontClass={fontClass}
+          fontLabels={FONT_STEPS.map((step) => step.label)}
+          onFontStep={setFontStep}
+          initialLevel={cefr === 'B1' || cefr === 'B2' || cefr === 'C1' ? cefr : 'B1'}
+          resetNonce={grammarResetNonce}
+          onActiveChange={setGrammarActive}
+          onLessonsChanged={() => { void account.refreshProfile(); }}
+        />
+      )}
       {shellItem === 'progress' && <ProgressPage onCreate={() => go('/')} />}
       {shellItem === 'saved' && <SavedLessonsPage onOpen={openSaved} onCreate={() => go('/')} />}
       {shellItem === 'academy' && account.plan === 'academy' && <AcademyPage />}
