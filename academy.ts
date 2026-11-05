@@ -24,6 +24,8 @@ export type AcademyStudent = {
   userId: string;
   email: string;
   displayName: string;
+  /** Profile default level. Empty when the column is not available yet. */
+  profileLevel: string;
   joinedAt: string;
   tests: StudentTest[];
 };
@@ -98,8 +100,12 @@ export async function loadAcademyStudents(academyId: string): Promise<{ students
   if (members.error) return { students: [], missing: isMissingTable(members.error) };
   const ids = (members.data ?? []).map((row) => String(row.user_id));
   if (!ids.length) return { students: [], missing: false };
-  const profiles = await supabase.from('profiles').select('id, email, display_name').in('id', ids);
+  const withLevel = await supabase.from('profiles').select('id, email, display_name, default_level').in('id', ids);
+  const profiles = withLevel.error && isMissingColumn(withLevel.error, 'default_level')
+    ? await supabase.from('profiles').select('id, email, display_name').in('id', ids)
+    : withLevel;
   if (profiles.error) return { students: [], missing: isMissingTable(profiles.error) };
+  // Owners can read these rows. RLS hides every other academy.
   const withMode = await supabase
     .from('test_results')
     .select('id, user_id, created_at, level, topic, title, score, total, mode, wrong_answers')
@@ -113,7 +119,10 @@ export async function loadAcademyStudents(academyId: string): Promise<{ students
       .order('created_at', { ascending: false })
     : withMode;
   if (tests.error) return { students: [], missing: isMissingTable(tests.error) };
-  const profileById = new Map((profiles.data ?? []).map((row) => [String(row.id), row]));
+  const profileById = new Map((profiles.data ?? []).map((row) => {
+    const record = row as { id?: unknown; email?: unknown; display_name?: unknown; default_level?: unknown };
+    return [String(record.id), record] as const;
+  }));
   const testsByUser = new Map<string, StudentTest[]>();
   for (const row of tests.data ?? []) {
     const userId = String(row.user_id);
@@ -138,6 +147,7 @@ export async function loadAcademyStudents(academyId: string): Promise<{ students
       userId,
       email: String(profile?.email ?? ''),
       displayName: String(profile?.display_name ?? ''),
+      profileLevel: profile?.default_level == null ? '' : String(profile.default_level),
       joinedAt: String(member.joined_at ?? ''),
       tests: testsByUser.get(userId) ?? [],
     };

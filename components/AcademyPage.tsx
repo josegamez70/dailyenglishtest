@@ -1,14 +1,56 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { createAcademy, loadAcademyStudents, loadOwnedAcademy, regenerateInviteCode, removeStudent, type AcademyStudent, type OwnedAcademy } from '../academy';
 import { copyInviteText, countPhrase, countTestsThisWeek, inviteLink } from '../academyStats';
-import { averagePercent, formatResultDate, lessonModeLabel } from '../progressStats';
+import { averagePercent, formatResultDate } from '../progressStats';
+import { scorePercent, studentIdFromSearch } from '../studentDetail';
+import { StudentDetailView } from './StudentDetailView';
 
 function studentLabel(student: AcademyStudent): string {
   return student.displayName.trim() || student.email || 'Student';
 }
 
-function percent(score: number, total: number): number {
-  return total ? Math.round((score / total) * 100) : 0;
+function readStudentParam(): string | null {
+  if (typeof window === 'undefined') return null;
+  return studentIdFromSearch(window.location.search);
+}
+
+function AcademyStudentButton({
+  student,
+  onOpen,
+}: {
+  student: AcademyStudent;
+  onOpen: (userId: string) => void;
+}) {
+  const tests = [...student.tests].sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt));
+  const latest = tests[0];
+  const scores = tests.map((item) => ({ score: item.score, total: item.total }));
+  const latestPercent = latest ? scorePercent(latest.score, latest.total) : null;
+  const name = studentLabel(student);
+  return (
+    <li className="rounded-xl border border-slate-300 bg-white dark:border-slate-600 dark:bg-slate-800">
+      <button
+        type="button"
+        onClick={() => onOpen(student.userId)}
+        aria-label={`Open details for ${name}`}
+        className="flex w-full items-center gap-3 px-4 py-3 text-left"
+      >
+        <span className="min-w-0 flex-1">
+          <span className="block text-base font-semibold">{name}</span>
+          <span className="mt-1 block text-sm text-slate-600 dark:text-slate-300">
+            {countPhrase(tests.length, 'test')} · average {tests.length ? `${averagePercent(scores)}%` : '—'}
+          </span>
+          {latest && (
+            <span className="mt-0.5 block text-sm text-slate-600 dark:text-slate-300">
+              Last {formatResultDate(latest.createdAt)} · {latestPercent == null ? '—' : `${latestPercent}%`}
+            </span>
+          )}
+        </span>
+        <svg viewBox="0 0 24 24" className="h-5 w-5 shrink-0 text-slate-400" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M9 6l6 6-6 6" />
+        </svg>
+      </button>
+    </li>
+  );
 }
 
 export function AcademyPage() {
@@ -19,9 +61,8 @@ export function AcademyPage() {
   const [name, setName] = useState('');
   const [note, setNote] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
-  const [openId, setOpenId] = useState<string | null>(null);
-  const [openTestId, setOpenTestId] = useState<string | null>(null);
-  const [confirmId, setConfirmId] = useState<string | null>(null);
+  const [studentId, setStudentId] = useState<string | null>(readStudentParam);
+  const pushed = useRef(false);
 
   const load = async () => {
     const owned = await loadOwnedAcademy();
@@ -49,6 +90,34 @@ export function AcademyPage() {
     });
     return () => { ignore = true; };
   }, []);
+
+  useEffect(() => {
+    const onPop = () => {
+      pushed.current = false;
+      setStudentId(readStudentParam());
+    };
+    window.addEventListener('popstate', onPop);
+    return () => window.removeEventListener('popstate', onPop);
+  }, []);
+
+  const openStudent = (userId: string) => {
+    setNote(null);
+    window.history.pushState({ student: userId }, '', `/academy?student=${encodeURIComponent(userId)}`);
+    pushed.current = true;
+    setStudentId(userId);
+    window.scrollTo({ top: 0 });
+  };
+
+  const closeStudent = () => {
+    if (pushed.current) {
+      pushed.current = false;
+      window.history.back();
+      return;
+    }
+    window.history.replaceState({}, '', '/academy');
+    setStudentId(null);
+    window.scrollTo({ top: 0 });
+  };
 
   const create = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -92,9 +161,10 @@ export function AcademyPage() {
     setBusy(true);
     const result = await removeStudent(userId);
     setBusy(false);
-    setConfirmId(null);
     if (result === 'ok') {
-      setOpenId(null);
+      pushed.current = false;
+      window.history.replaceState({}, '', '/academy');
+      setStudentId(null);
       await load();
       return;
     }
@@ -122,6 +192,30 @@ export function AcademyPage() {
         </button>
         {note && <p className="text-base">{note}</p>}
       </form>
+    );
+  }
+
+  const selected = students.find((student) => student.userId === studentId) ?? null;
+  if (studentId) {
+    if (!selected) {
+      return (
+        <div className="mx-auto w-full max-w-md">
+          <button type="button" onClick={closeStudent} className="text-base font-semibold text-teal-700 dark:text-teal-300">
+            Back
+          </button>
+          <p className="mt-3 text-base">That student is not in your academy.</p>
+        </div>
+      );
+    }
+    return (
+      <StudentDetailView
+        key={selected.userId}
+        student={selected}
+        onBack={closeStudent}
+        onRemove={() => { void remove(selected.userId); }}
+        removing={busy}
+        message={note}
+      />
     );
   }
 
@@ -161,73 +255,9 @@ export function AcademyPage() {
       {note && <p className="mt-3 text-base">{note}</p>}
       {students.length === 0 && <p className="mt-6 text-base">No students yet. Share the invite code.</p>}
       <ul className="mt-6 space-y-3">
-        {students.map((student) => {
-          const open = openId === student.userId;
-          const latest = student.tests[0];
-          const scores = student.tests.map((item) => ({ score: item.score, total: item.total }));
-          return (
-            <li key={student.userId} className="rounded-xl border border-slate-300 bg-white dark:border-slate-600 dark:bg-slate-800">
-              <button type="button" onClick={() => setOpenId(open ? null : student.userId)} className="w-full px-4 py-3 text-left">
-                <span className="block text-base font-semibold">{studentLabel(student)}</span>
-                <span className="mt-1 block text-sm text-slate-600 dark:text-slate-300">
-                  {countPhrase(student.tests.length, 'test')} · average {student.tests.length ? `${averagePercent(scores)}%` : '—'}
-                  {latest ? ` · last ${formatResultDate(latest.createdAt)} · ${percent(latest.score, latest.total)}%` : ''}
-                </span>
-              </button>
-              {open && (
-                <div className="space-y-3 border-t border-slate-200 px-4 py-3 dark:border-slate-600">
-                  {student.email && student.displayName.trim() && (
-                    <p className="text-sm text-slate-600 dark:text-slate-300">{student.email}</p>
-                  )}
-                  {student.tests.length === 0 && <p className="text-sm">No tests yet.</p>}
-                  {student.tests.map((item) => {
-                    const testOpen = openTestId === item.id;
-                    return (
-                      <div key={item.id} className="rounded-lg border border-slate-200 dark:border-slate-600">
-                        <button type="button" onClick={() => setOpenTestId(testOpen ? null : item.id)} className="w-full px-3 py-2 text-left text-sm">
-                          <span className="block text-slate-600 dark:text-slate-300">
-                            {formatResultDate(item.createdAt)}
-                            <span className="ml-2 inline-block rounded bg-slate-200 px-1.5 py-0.5 text-xs font-semibold text-slate-800 dark:bg-slate-700 dark:text-slate-100">{lessonModeLabel(item.mode)}</span>
-                          </span>
-                          <span className="mt-1 block font-semibold">{item.title || item.topic} · {item.level} · {item.score}/{item.total} ({percent(item.score, item.total)}%)</span>
-                        </button>
-                        {testOpen && (
-                          <div className="space-y-2 border-t border-slate-200 px-3 py-2 text-sm dark:border-slate-600">
-                            {item.wrongAnswers.length === 0 && <p>No wrong answers.</p>}
-                            {item.wrongAnswers.map((answer, index) => (
-                              <p key={index}>
-                                <span className="font-semibold">{answer.question}</span>
-                                <br />
-                                Their answer: {answer.userAnswer || '—'}
-                                <br />
-                                Correct answer: {answer.correctAnswer}
-                              </p>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })}
-                  {confirmId === student.userId ? (
-                    <div className="flex flex-wrap gap-2">
-                      <p className="w-full text-sm">Remove this student?</p>
-                      <button type="button" disabled={busy} onClick={() => { void remove(student.userId); }} className="rounded-lg bg-red-700 px-3 py-2 text-sm font-bold text-white">
-                        Remove
-                      </button>
-                      <button type="button" onClick={() => setConfirmId(null)} className="rounded-lg border-2 border-slate-700 px-3 py-2 text-sm font-semibold dark:border-slate-200">
-                        Cancel
-                      </button>
-                    </div>
-                  ) : (
-                    <button type="button" onClick={() => setConfirmId(student.userId)} className="rounded-lg border-2 border-red-700 px-3 py-2 text-sm font-semibold text-red-800 dark:text-red-300">
-                      Remove student
-                    </button>
-                  )}
-                </div>
-              )}
-            </li>
-          );
-        })}
+        {students.map((student) => (
+          <AcademyStudentButton key={student.userId} student={student} onOpen={openStudent} />
+        ))}
       </ul>
     </div>
   );
