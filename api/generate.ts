@@ -201,7 +201,7 @@ function grammarSchema(exercise: GrammarExerciseType, count: number): ResponseSc
                 maxItems: 4,
                 items: { type: SchemaType.STRING },
               },
-              correctAnswer: { type: SchemaType.STRING, description: 'The correct option, copied exactly. Not a letter.' },
+              correctAnswer: { type: SchemaType.STRING, description: 'The correct option, copied exactly from options. Not a letter. It may be any of the four options, not always the first.' },
               explanation: { type: SchemaType.STRING, description: 'One short sentence in simple English.' },
             },
             required: ['prompt', 'options', 'correctAnswer', 'explanation'],

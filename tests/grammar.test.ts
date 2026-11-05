@@ -15,6 +15,7 @@ import {
   REAL_PHRASAL_COUNT,
   resetOrder,
   sameOrder,
+  shuffleChoiceOptions,
   shuffleChunks,
   undoChunk,
   type GrammarChoice,
@@ -59,7 +60,8 @@ test('a grammar choice payload keeps 6 items and a one-line explanation', () => 
   assert.equal(first.kind, 'choice');
   if (first.kind !== 'choice') return;
   assert.equal(first.prompt, 'She _____ there.');
-  assert.deepEqual(first.options, ['has gone', 'went', 'goes', 'going']);
+  assert.deepEqual([...first.options].sort(), ['goes', 'going', 'has gone', 'went']);
+  assert.equal(first.options.includes(first.correctAnswer), true);
   assert.equal(first.correctAnswer, 'has gone');
   assert.equal(first.explanation, 'Present perfect for life experience.');
   assert.equal(first.explanation.includes('\n'), false);
@@ -196,6 +198,8 @@ test('the prompt names the level, the exercise, and an optional topic', () => {
   assert.match(blanks, /might have/);
   assert.match(blanks, /already, just, or yet/);
   assert.match(blanks, /somewhat, slightly/);
+  assert.match(blanks, /Do not leave it first every time/);
+  assert.equal(order.includes('Do not leave it first every time'), false);
   const phrasal = buildGrammarPrompt({ level: 'C1', exercise: 'phrasal', topic: '' });
   assert.match(phrasal, /same verb/);
   assert.match(phrasal, /gloss up/);
@@ -207,6 +211,7 @@ test('the prompt names the level, the exercise, and an optional topic', () => {
   assert.match(phrasal, /Put off a meeting/);
   assert.match(phrasal, /Variation seed/);
   assert.match(phrasal, /two other real phrasal verbs/);
+  assert.match(phrasal, /Do not leave it first every time/);
   const b2Phrasal = buildGrammarPrompt({ level: 'B2', exercise: 'phrasal', topic: '' });
   assert.match(b2Phrasal, /come up with/);
   assert.match(b2Phrasal, /put up with/);
@@ -385,7 +390,7 @@ test('gaps, doubled words, tense clashes, and repeated answers are rejected', ()
   }, { level: 'B2', exercise: 'phrasal', topic: '' });
   assert.equal(capped.ok, true);
   if (!capped.ok) return;
-  const putItems = capped.set.items.filter((item) => item.kind === 'choice' && item.options[0] === 'put off');
+  const putItems = capped.set.items.filter((item) => item.kind === 'choice' && item.options.includes('put away'));
   assert.equal(putItems.length, 2);
 });
 
@@ -632,4 +637,95 @@ test('C1 keeps advanced phrasals ahead of basic ones when the pool is longer tha
   assert.equal(answers.includes('sound out'), true);
   assert.equal(answers.includes('put off'), false);
   assert.equal(answers.includes('get up'), false);
+});
+
+test('shuffling a choice keeps the correct text on the new letter', () => {
+  const item: GrammarChoice = {
+    kind: 'choice',
+    prompt: 'She _____ yesterday.',
+    options: ['went', 'goes', 'go', 'going'],
+    correctAnswer: 'went',
+    explanation: 'Yesterday needs the past simple.',
+  };
+  const stayed = shuffleChoiceOptions(item, () => 0.999);
+  assert.deepEqual(stayed.options, ['went', 'goes', 'go', 'going']);
+  assert.equal(stayed.options.indexOf(stayed.correctAnswer), 0);
+
+  const moved = shuffleChoiceOptions(item, () => 0);
+  assert.deepEqual(moved.options, ['goes', 'go', 'going', 'went']);
+  assert.equal(moved.correctAnswer, 'went');
+  assert.equal(moved.options.indexOf(moved.correctAnswer), 3);
+  assert.equal(String.fromCharCode(65 + moved.options.indexOf(moved.correctAnswer)), 'D');
+  assert.equal(gradeChoice(moved, moved.options[3]).correct, true);
+  assert.equal(gradeChoice(moved, moved.options[0]).correct, false);
+});
+
+function mulberry32(seed: number): () => number {
+  let state = seed >>> 0;
+  return () => {
+    state = (state + 0x6D2B79F5) >>> 0;
+    let value = Math.imul(state ^ (state >>> 15), 1 | state);
+    value = (value + Math.imul(value ^ (value >>> 7), 61 | value)) ^ value;
+    return ((value ^ (value >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+test('blanks and phrasals spread the correct option across A B C and D', () => {
+  const requests: { request: GrammarRequest; raw: () => { items: ReturnType<typeof choice>[] } }[] = [
+    { request: blanksRequest, raw: () => tenChoices() },
+    { request: { level: 'B2', exercise: 'phrasal', topic: '' }, raw: () => tenPhrasals() },
+  ];
+  for (const { request, raw } of requests) {
+    const stuck = normalizeGrammarSet(raw(), request, { random: () => 0 });
+    assert.equal(stuck.ok, true);
+    if (!stuck.ok) return;
+    assert.equal(stuck.set.items.every((item) => (
+      item.kind === 'choice' && item.options.indexOf(item.correctAnswer) === item.options.length - 1
+    )), true);
+
+    const random = mulberry32(20261105);
+    const counts = [0, 0, 0, 0];
+    let allA = 0;
+    const samples: string[] = [];
+    for (let setIndex = 0; setIndex < 80; setIndex += 1) {
+      const result = normalizeGrammarSet(raw(), request, { random });
+      assert.equal(result.ok, true);
+      if (!result.ok) return;
+      const letters: string[] = [];
+      for (const item of result.set.items) {
+        assert.equal(item.kind, 'choice');
+        if (item.kind !== 'choice') continue;
+        const index = item.options.indexOf(item.correctAnswer);
+        assert.equal(item.options[index], item.correctAnswer);
+        assert.equal(String.fromCharCode(65 + index), 'ABCD'[index]);
+        assert.equal(gradeChoice(item, item.options[index]).correct, true);
+        const wrong = item.options.find((option) => option !== item.correctAnswer) ?? '';
+        assert.equal(gradeChoice(item, wrong).correct, false);
+        counts[index] += 1;
+        letters.push('ABCD'[index]);
+      }
+      if (letters.every((letter) => letter === 'A')) allA += 1;
+      if (samples.length < 3) samples.push(letters.join(' '));
+    }
+    assert.equal(allA, 0, `${request.exercise} had a set that was all A. samples=${samples.join(' | ')} counts=${counts.join(',')}`);
+    counts.forEach((count, index) => {
+      assert.ok(count >= 70, `${request.exercise} letter ${'ABCD'[index]} was ${count} (counts=${counts.join(',')})`);
+    });
+    const again = normalizeGrammarSet(stuck.set, request, { random: mulberry32(7) });
+    assert.equal(again.ok, true);
+    if (!again.ok) return;
+    const before = stuck.set.items.map((item) => item.kind === 'choice' ? item.correctAnswer : '');
+    const after = again.set.items.map((item) => item.kind === 'choice' ? item.correctAnswer : '');
+    assert.deepEqual(after, before);
+  }
+
+  const order = normalizeGrammarSet({
+    items: Array.from({ length: 6 }, (_, index) => ({
+      chunks: [`Alpha ${index}`, `Beta ${index}`, `Gamma ${index}`, `Delta ${index}.`],
+      explanation: `Keep this order for ${index}.`,
+    })),
+  }, { level: 'C1', exercise: 'order', topic: '' }, { random: () => 0 });
+  assert.equal(order.ok, true);
+  if (!order.ok) return;
+  assert.equal(order.set.items.every((item) => item.kind === 'order' && item.chunks[0].startsWith('Alpha')), true);
 });

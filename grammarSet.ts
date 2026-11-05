@@ -346,7 +346,10 @@ function itemScore(item: GrammarItem, request: GrammarRequest): number {
 function mainPhrasalVerb(options: string[]): string {
   const counts = new Map<string, number>();
   for (const verb of options.map(optionVerb)) counts.set(verb, (counts.get(verb) ?? 0) + 1);
-  return [...counts.entries()].sort((left, right) => right[1] - left[1])[0]?.[0] ?? '';
+  // When two verbs are equally common, the name decides. Option order must not matter, because the choices are shuffled.
+  return [...counts.entries()].sort((left, right) => (
+    right[1] - left[1] || (left[0] < right[0] ? -1 : left[0] > right[0] ? 1 : 0)
+  ))[0]?.[0] ?? '';
 }
 
 function mostAreDegreeAdverbs(options: string[]): boolean {
@@ -529,33 +532,41 @@ export type GrammarNormalizeResult =
   | { ok: true; set: GrammarSet; items: GrammarItem[] }
   | { ok: false; problems: string[]; items: GrammarItem[] };
 
-function finishGrammarSet(request: GrammarRequest, items: GrammarItem[], problems: string[]): GrammarNormalizeResult {
-  if (items.length < GRAMMAR_MIN_ITEMS) {
-    const summary = `Only ${items.length} exercises were usable. Need at least ${GRAMMAR_MIN_ITEMS}.`;
-    return { ok: false, problems: [summary, ...problems].slice(0, 8), items };
+function finishGrammarSet(
+  request: GrammarRequest,
+  items: GrammarItem[],
+  problems: string[],
+  random: () => number,
+): GrammarNormalizeResult {
+  const ready = items.map((item) => (item.kind === 'choice' ? shuffleChoiceOptions(item, random) : item));
+  if (ready.length < GRAMMAR_MIN_ITEMS) {
+    const summary = `Only ${ready.length} exercises were usable. Need at least ${GRAMMAR_MIN_ITEMS}.`;
+    return { ok: false, problems: [summary, ...problems].slice(0, 8), items: ready };
   }
-  const set = grammarSetFrom(request, items);
+  const set = grammarSetFrom(request, ready);
   return { ok: true, set, items: set.items };
 }
 
 /**
  * Turn a Gemini grammar payload into a playable set.
  * Keeps the best GRAMMAR_ITEM_COUNT items when more pass, and still returns a set at GRAMMAR_MIN_ITEMS.
+ * Multiple-choice options are shuffled so the correct answer is not always the first one.
  * Pass kept items to merge a top-up payload without repeating them.
  */
 export function normalizeGrammarSet(
   raw: unknown,
   request: GrammarRequest,
-  options?: { kept?: GrammarItem[] },
+  options?: { kept?: GrammarItem[]; random?: () => number },
 ): GrammarNormalizeResult {
   const kept = options?.kept ?? [];
+  const random = options?.random ?? Math.random;
   const pool: ScoredItem[] = kept.map((item, index) => ({ item, index }));
   const problems: string[] = [];
   const rows = readRawItems(raw);
   if (!rows) {
     const items = selectGrammarItems(pool, request, problems);
     if (!kept.length) return { ok: false, problems: ['Return a JSON object with an items array.'], items: [] };
-    return finishGrammarSet(request, items, problems);
+    return finishGrammarSet(request, items, problems, random);
   }
   rows.forEach((row, index) => {
     if (!row || typeof row !== 'object') {
@@ -570,7 +581,7 @@ export function normalizeGrammarSet(
     }
     pool.push({ item: checked.item, index: kept.length + index + 1 });
   });
-  return finishGrammarSet(request, selectGrammarItems(pool, request, problems), problems);
+  return finishGrammarSet(request, selectGrammarItems(pool, request, problems), problems, random);
 }
 
 export function buildGrammarPrompt(
@@ -611,7 +622,7 @@ Self-check every item before you keep it:
 - Write the gap as exactly ${GAP}. One gap only.
 - explanation is ONE short sentence. No line breaks.
 - Do not prefix options or parts with A, B, C, or D.
-${shapeGuide(request.exercise)}
+${request.exercise === 'order' ? '' : '- Put the correct option in a different position from item to item. Do not leave it first every time.\n'}${shapeGuide(request.exercise)}
 ${correction ? `Fix these problems:\n${correction}` : ''}
 Return only JSON.
 `.trim();
@@ -727,18 +738,34 @@ function shapeGuide(exercise: GrammarExerciseType): string {
   if (exercise === 'order') {
     return 'JSON shape: {"items":[{"prompt":"Put these parts in order.","chunks":["first","second","third","fourth"],"explanation":"One short sentence."}]}';
   }
-  return 'JSON shape: {"items":[{"prompt":"She _____ home yesterday.","options":["went","goes","go","going"],"correctAnswer":"went","explanation":"Yesterday needs the past simple."}]}';
+  return 'JSON shape: {"items":[{"prompt":"She _____ home yesterday.","options":["goes","went","go","going"],"correctAnswer":"went","explanation":"Yesterday needs the past simple."}]}';
+}
+
+/** Fisher-Yates. `random` returns a number in [0, 1). */
+function shuffleList<T>(items: readonly T[], random: () => number): T[] {
+  const copy = [...items];
+  for (let index = copy.length - 1; index > 0; index -= 1) {
+    const swap = Math.min(index, Math.floor(random() * (index + 1)));
+    const current = copy[index];
+    copy[index] = copy[swap];
+    copy[swap] = current;
+  }
+  return copy;
+}
+
+/**
+ * Spread the correct option across the choices.
+ * correctAnswer stays the option text, so its letter is its index after the shuffle.
+ */
+export function shuffleChoiceOptions(item: GrammarChoice, random: () => number = Math.random): GrammarChoice {
+  const options = shuffleList(item.options, random);
+  const correctAnswer = options.find((option) => option.toLowerCase() === item.correctAnswer.toLowerCase()) ?? item.correctAnswer;
+  return { ...item, options, correctAnswer };
 }
 
 /** Shuffle parts so the learner does not see the correct order. */
 export function shuffleChunks(chunks: string[], random: () => number = Math.random): GrammarChunk[] {
-  const items = chunks.map((text, index) => ({ id: `c${index}`, text }));
-  for (let index = items.length - 1; index > 0; index -= 1) {
-    const swap = Math.floor(random() * (index + 1));
-    const current = items[index];
-    items[index] = items[swap];
-    items[swap] = current;
-  }
+  const items = shuffleList(chunks.map((text, index) => ({ id: `c${index}`, text })), random);
   const unchanged = items.every((item, index) => item.text === chunks[index]);
   if (unchanged && items.length > 1) {
     const first = items[0];
