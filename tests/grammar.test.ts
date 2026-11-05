@@ -1,10 +1,13 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
+  B1_BLANK_TARGETS,
+  B2_BLANK_TARGETS,
   B2_PHRASALS,
   BASIC_PHRASALS,
   buildGrammarPrompt,
   buildGrammarTopUpPrompt,
+  C1_BLANK_TARGETS,
   C1_PHRASALS,
   freshOrder,
   GRAMMAR_GENERATION_COUNT,
@@ -864,4 +867,87 @@ test('B2 scoring prefers B2 phrasals over basic ones', () => {
   assert.equal(answers.includes('get up'), false);
   assert.equal(answers.includes('turn off'), false);
   for (const answer of answers) assert.equal(B2_PHRASALS.has(answer), true, answer);
+});
+
+function featuredBlankStructures(level: GrammarLevel, seed: number): string[] {
+  const prompt = buildGrammarPrompt({ level, exercise: 'blanks', topic: '' }, undefined, { seed });
+  const match = prompt.match(/Include several of these structures or contrasts in this set: ([^.]+)\./);
+  assert.ok(match, prompt);
+  return match[1].split(', ').map((item) => item.trim()).filter(Boolean);
+}
+
+test('blank grammar pools are large and stay inside one level', () => {
+  const pools = [
+    ['B1', B1_BLANK_TARGETS],
+    ['B2', B2_BLANK_TARGETS],
+    ['C1', C1_BLANK_TARGETS],
+  ] as const;
+  const seen = new Set<string>();
+  for (const [level, pool] of pools) {
+    assert.ok(pool.length >= 40, `${level} pool is ${pool.length}`);
+    assert.equal(new Set(pool).size, pool.length, `${level} has a repeated target`);
+    for (const target of pool) {
+      assert.equal(target, target.trim(), target);
+      assert.equal(target.includes(','), false, target);
+      assert.equal(target.includes('.'), false, target);
+      assert.equal(seen.has(target), false, `${target} is listed for more than one level`);
+      seen.add(target);
+    }
+  }
+  const overused = ['not only', 'little did', 'never before', 'had i known', 'hardly had', 'should you require'];
+  for (const target of C1_BLANK_TARGETS) {
+    const text = target.toLowerCase();
+    for (const phrase of overused) assert.equal(text.includes(phrase), false, target);
+  }
+});
+
+test('featured blank structures follow the variation seed', () => {
+  for (const level of ['B1', 'B2', 'C1'] as const) {
+    const pool = level === 'C1' ? C1_BLANK_TARGETS : level === 'B2' ? B2_BLANK_TARGETS : B1_BLANK_TARGETS;
+    const first = featuredBlankStructures(level, 1);
+    const sameCount = featuredBlankStructures(level, 6);
+    assert.equal(first.length, sameCount.length);
+    assert.ok(first.length >= 6 && first.length <= 10, `${level} sampled ${first.length}`);
+    assert.deepEqual(first, featuredBlankStructures(level, 1));
+    assert.notDeepEqual([...first].sort(), [...sameCount].sort());
+    assert.equal(featuredBlankStructures(level, 0).length, 6);
+    assert.equal(featuredBlankStructures(level, 4).length, 10);
+
+    const covered = new Set<string>();
+    for (let seed = 0; seed < 40; seed += 1) {
+      const sample = featuredBlankStructures(level, seed);
+      assert.ok(sample.length >= 6 && sample.length <= 10, `${level} seed ${seed} sampled ${sample.length}`);
+      assert.equal(new Set(sample).size, sample.length);
+      for (const target of sample) {
+        covered.add(target);
+        assert.equal(pool.includes(target), true, `${level} sample left the pool: ${target}`);
+      }
+    }
+    assert.ok(covered.size >= 30, `${level} samples only reached ${covered.size} targets`);
+  }
+
+  const b1 = buildGrammarPrompt({ level: 'B1', exercise: 'blanks', topic: 'present perfect' }, undefined, { seed: 42 });
+  assert.match(b1, /Variation seed 42\./);
+  assert.match(b1, /Topic: "present perfect"/);
+  assert.match(b1, /for\/since/);
+  assert.match(b1, /structures or contrasts/);
+
+  const c1 = buildGrammarPrompt({ level: 'C1', exercise: 'blanks', topic: '' }, undefined, { seed: 42 });
+  assert.match(c1, /Variation seed 42\./);
+  assert.match(c1, /Hardly had I entered/);
+  assert.match(c1, /Do not keep using Not only/);
+  assert.match(c1, /cleft sentences/);
+  assert.match(c1, /mixed conditionals/);
+  assert.match(c1, /structures or contrasts/);
+  const scene = c1.match(/Write new sentences about this situation: ([^.]+)\./);
+  assert.ok(scene, c1);
+
+  const order = buildGrammarPrompt({ level: 'B2', exercise: 'order', topic: '' }, undefined, { seed: 42 });
+  assert.match(order, /Variation seed 42\. Vary the sentences so this set does not repeat an earlier one/);
+  assert.equal(order.includes('structures or contrasts'), false);
+  assert.match(order, /reported speech/);
+
+  const phrasal = buildGrammarPrompt({ level: 'B2', exercise: 'phrasal', topic: '' }, undefined, { seed: 42 });
+  assert.match(phrasal, /Include several of these in this set/);
+  assert.equal(phrasal.includes('structures or contrasts'), false);
 });
