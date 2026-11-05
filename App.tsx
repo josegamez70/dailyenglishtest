@@ -1614,6 +1614,7 @@ const App: React.FC = () => {
       status={statusText}
       showAcademy={account.plan === 'academy'}
       academyName={inAcademy ? (account.academyName ?? '') : null}
+      academyRole={inAcademy ? account.academyRole : null}
       onHome={
         shellItem === 'lesson' && (view === 'story' || view === 'quiz' || view === 'results')
           ? resetApp
