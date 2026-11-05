@@ -1,6 +1,7 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { averagePercent, bestPercent, chartX, chartY, dayStreak, formatResultDate, lessonModeLabel } from '../progressStats';
 import { listTestResults, type TestResultRow } from '../studyStore';
+import { WrongAnswerReview } from './WrongAnswerReview';
 
 const GUIDE_SCORES = [100, 50, 0];
 
@@ -172,18 +173,7 @@ export function ProgressPage({ onCreate }: { onCreate: () => void }) {
                 <span className="mt-1 block text-base font-semibold">{row.title || row.topic} · {row.level} · {row.score}/{row.total} ({percent}%)</span>
               </button>
               {open && (
-                <div className="space-y-2 border-t border-slate-200 px-4 py-3 text-sm dark:border-slate-600">
-                  {row.wrong_answers.length === 0 && <p>No wrong answers.</p>}
-                  {row.wrong_answers.map((item, index) => (
-                    <p key={index}>
-                      <span className="font-semibold">{item.question}</span>
-                      <br />
-                      Your answer: {item.userAnswer || '—'}
-                      <br />
-                      Correct answer: {item.correctAnswer}
-                    </p>
-                  ))}
-                </div>
+                <WrongAnswerReview answers={row.wrong_answers} answerLabel="Your answer" />
               )}
             </li>
           );
