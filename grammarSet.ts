@@ -195,11 +195,46 @@ pick on, pull off, pull through, put aside, put forward, see to, settle for, sta
 sum up, take in, take on, talk into, think over, try out, work on, wrap up
 `.split(',').map((item) => item.trim()).filter(Boolean));
 
+// Advanced band. Scoring prefers these at C1, and the variation note samples whole groups.
+// Every verb has at least three real particles, so an item can be built without inventing one.
+// Keep this set out of BASIC_PHRASALS and out of B2_PHRASALS.
 export const C1_PHRASALS = new Set(`
-gloss over, iron out, hammer out, bring about, bring off, write off, sound out, stave off, play down,
-boil down to, brush up on, come down with, run up against, zero in on, phase out, tide over, weigh up,
-dispense with, dwell on, fend off, paper over, shrug off, smooth over, spell out, tone down, water down,
-weed out, win over, home in on, factor in, follow through, single out, thrash out, pore over, hinge on
+bring about, bring off, bring around, bring forth,
+play down, play along, play off, play up,
+boil down to, boil over, boil down, boil up,
+brush aside, brush off, brush up on,
+hammer out, hammer away, hammer home,
+write off, write up, write out, write in,
+weigh up, weigh in, weigh on, weigh down,
+run up against, run through, run across, run off with,
+come down with, come apart, come forward, come upon,
+look back on, look upon, look ahead, look out for,
+take aback, take to, take apart, take out on,
+turn against, turn away, turn in, turn over,
+put through, put across, put down to, put in for,
+set about, set forth, set back, set apart,
+make off with, make for, make over, make away with,
+hold out for, hold on to, hold against, hold off,
+keep from, keep at, keep to, keep off,
+pull together, pull apart, pull ahead, pull away,
+pass off, pass over, pass up, pass for,
+stick with, stick by, stick up for, stick at,
+call upon, call up, call in, call out,
+fall out with, fall back, fall over, fall in,
+draw on, draw out, draw into, draw back,
+live down, live through, live off, live with,
+stand up to, stand in for, stand by, stand down,
+work through, work up, work off, work up to,
+hand down, hand out, hand back,
+see through, see off, see out,
+carry through, carry off, carry over, carry away,
+break away, break into, break out of, break in,
+talk out of, talk round, talk down to, talk over,
+lay out, lay into, lay down, lay up,
+bear with, bear out, bear down on, bear up,
+back down, back out, back away, back off,
+think through, think up, think back, think ahead,
+settle on, settle up, settle down, settle in
 `.split(',').map((item) => item.trim()).filter(Boolean));
 
 function verbBases(token: string): string[] {
@@ -644,9 +679,10 @@ Return only JSON.
 
 const B1_FEATURED = [...BASIC_PHRASALS];
 const B2_FEATURED = [...B2_PHRASALS];
-const C1_FEATURED = [...C1_PHRASALS];
 const FEATURED_SAMPLE_MIN = 8;
 const FEATURED_SAMPLE_SPAN = 5;
+const C1_GROUP_MIN = 5;
+const C1_GROUP_SPAN = 3;
 const BLANKS_SAMPLE_MIN = 6;
 const BLANKS_SAMPLE_SPAN = 5;
 
@@ -670,6 +706,35 @@ function featuredSample(pool: readonly string[], seed: number, min: number, span
 /** 8 to 12 verbs, chosen from the level pool by the variation seed. */
 function featuredPhrasals(pool: readonly string[], seed: number): string[] {
   return featuredSample(pool, seed, FEATURED_SAMPLE_MIN, FEATURED_SAMPLE_SPAN);
+}
+
+function c1VerbGroups(): { verb: string; phrases: string[] }[] {
+  const byVerb = new Map<string, string[]>();
+  for (const phrase of C1_PHRASALS) {
+    const verb = phrase.split(' ')[0] ?? '';
+    const phrases = byVerb.get(verb) ?? [];
+    phrases.push(phrase);
+    byVerb.set(verb, phrases);
+  }
+  return [...byVerb.entries()]
+    .map(([verb, phrases]) => ({ verb, phrases: [...phrases].sort() }))
+    .filter((entry) => entry.phrases.length >= 3)
+    .sort((left, right) => left.verb.localeCompare(right.verb));
+}
+
+/**
+ * 5 to 7 groups. Each group is three or four real particles of one verb,
+ * so the model can copy them as the options instead of inventing a particle.
+ */
+function featuredC1Line(seed: number): string {
+  const groups = c1VerbGroups();
+  const stable = seed >>> 0;
+  const count = Math.min(groups.length, C1_GROUP_MIN + (stable % C1_GROUP_SPAN));
+  return shuffleList(groups, randomFromSeed(stable)).slice(0, count).map((group) => {
+    const start = stable % group.phrases.length;
+    const rotated = group.phrases.slice(start).concat(group.phrases.slice(0, start));
+    return rotated.slice(0, 4).join(', ');
+  }).join('; ');
 }
 
 /** 6 to 10 structures, chosen from the level pool by the variation seed. */
@@ -862,7 +927,10 @@ function blankPool(level: GrammarLevel): readonly string[] {
 
 function variationNote(request: GrammarRequest, seed: number): string {
   if (request.exercise === 'phrasal') {
-    const pool = request.level === 'C1' ? C1_FEATURED : request.level === 'B2' ? B2_FEATURED : B1_FEATURED;
+    if (request.level === 'C1') {
+      return `Variation seed ${seed}. Each item uses the phrases of one group below as its options. The correct answer must be one phrase from that group. A group of three needs a fourth option copied from a different group. Do not invent a particle. Include several of these in this set: ${featuredC1Line(seed)}. Do not repeat items from an earlier set.`;
+    }
+    const pool = request.level === 'B2' ? B2_FEATURED : B1_FEATURED;
     const featured = featuredPhrasals(pool, seed);
     return `Variation seed ${seed}. Use a fresh mix of phrasal verbs. Include several of these in this set: ${featured.join(', ')}. Do not repeat items from an earlier set.`;
   }
@@ -907,7 +975,7 @@ export function buildGrammarTopUpPrompt(
 
 function levelGuide(level: GrammarLevel, exercise: GrammarExerciseType): string {
   if (exercise === 'phrasal') {
-    if (level === 'C1') return 'Use advanced but standard phrasal verbs. Do not use basic B1 phrasal verbs at C1. "Put off a meeting", get up, look for, turn off, give up, and look after are too easy.';
+    if (level === 'C1') return 'Use advanced but standard phrasal verbs. Each item must use at least three real particles of one verb, copied from one group named for this set. Do not invent a particle, and do not build four options for a verb that has only one, such as gloss over. Do not use basic B1 phrasal verbs at C1. "Put off a meeting", get up, look for, turn off, give up, and look after are too easy.';
     if (level === 'B2') return 'Use upper-intermediate phrasal verbs, the kind a B2 learner meets in work, study, and the news. Do not fill the set with basic B1 items such as get up, look for, and turn off.';
     return 'Use common everyday B1 phrasal verbs such as get up, look for, turn off, give up, and look after.';
   }
