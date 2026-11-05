@@ -22,6 +22,7 @@ function NavLinks({
   showAcademy,
   academyName,
   academyRole,
+  displayName,
 }: {
   active: ShellItem;
   onNavigate: (path: string) => void;
@@ -32,6 +33,7 @@ function NavLinks({
   showAcademy: boolean;
   academyName?: string | null;
   academyRole?: 'owner' | 'student' | null;
+  displayName?: string | null;
 }) {
   const items = showAcademy
     ? [
@@ -55,7 +57,7 @@ function NavLinks({
         )}
         {academyName != null ? (
           <div className="mt-3">
-            <AcademyBadge name={academyName} compact role={academyRole === 'student' ? 'student' : 'owner'} />
+            <AcademyBadge name={academyName} displayName={displayName} compact role={academyRole === 'student' ? 'student' : 'owner'} />
           </div>
         ) : status ? (
           <p className="mt-1 text-sm font-medium text-slate-700 dark:text-slate-200">{status}</p>
@@ -112,6 +114,7 @@ export function AppShell({
   showAcademy,
   academyName,
   academyRole,
+  displayName,
   children,
 }: {
   active: ShellItem;
@@ -124,6 +127,7 @@ export function AppShell({
   /** Set when this person belongs to an academy. Empty still shows a short Academy badge. */
   academyName?: string | null;
   academyRole?: 'owner' | 'student' | null;
+  displayName?: string | null;
   children: React.ReactNode;
 }) {
   const [open, setOpen] = useState(false);
@@ -141,7 +145,7 @@ export function AppShell({
   return (
     <div className="min-h-screen bg-slate-100 text-slate-900 dark:bg-slate-900 dark:text-slate-50 md:pl-64">
       <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col border-r border-slate-300 bg-white dark:border-slate-600 dark:bg-slate-800 md:flex">
-        <NavLinks active={active} onNavigate={go} onSignOut={leave} signingOut={signingOut} email={email} status={status} showAcademy={showAcademy} academyName={academyName} academyRole={academyRole} />
+        <NavLinks active={active} onNavigate={go} onSignOut={leave} signingOut={signingOut} email={email} status={status} showAcademy={showAcademy} academyName={academyName} academyRole={academyRole} displayName={displayName} />
       </aside>
       <div className="flex min-h-screen flex-col">
         <div className={`sticky top-0 z-20 flex items-center gap-2 border-b border-slate-300 bg-slate-100 px-3 py-2 dark:border-slate-600 dark:bg-slate-900 ${onHome ? '' : 'md:hidden'}`}>
@@ -161,7 +165,7 @@ export function AppShell({
           </p>
           {(academyName != null || onHome) && (
             <div className="ml-auto flex shrink-0 items-center gap-1.5">
-              {academyName != null && <AcademyBadge name={academyName} compact role={academyRole === 'student' ? 'student' : 'owner'} />}
+              {academyName != null && <AcademyBadge name={academyName} displayName={displayName} compact role={academyRole === 'student' ? 'student' : 'owner'} />}
               {onHome && (
                 <button
                   type="button"
@@ -188,7 +192,7 @@ export function AppShell({
             onClick={() => setOpen(false)}
           />
           <aside className="absolute inset-y-0 left-0 flex w-72 max-w-[85vw] flex-col bg-white shadow-xl dark:bg-slate-800">
-            <NavLinks active={active} onNavigate={go} onSignOut={leave} signingOut={signingOut} email={email} status={status} showAcademy={showAcademy} academyName={academyName} academyRole={academyRole} />
+            <NavLinks active={active} onNavigate={go} onSignOut={leave} signingOut={signingOut} email={email} status={status} showAcademy={showAcademy} academyName={academyName} academyRole={academyRole} displayName={displayName} />
           </aside>
         </div>
       )}
