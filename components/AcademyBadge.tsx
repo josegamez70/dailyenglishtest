@@ -23,7 +23,7 @@ export function AcademyBadge({
   role = 'owner',
 }: {
   name: string;
-  /** Profile display name. Compact pills prefer this over the academy name. */
+  /** Academy owner's profile display name. Compact pills prefer this over the record name. */
   displayName?: string | null;
   compact?: boolean;
   role?: 'owner' | 'student';

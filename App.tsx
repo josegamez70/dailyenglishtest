@@ -1615,7 +1615,7 @@ const App: React.FC = () => {
       showAcademy={account.plan === 'academy'}
       academyName={inAcademy ? (account.academyName ?? '') : null}
       academyRole={inAcademy ? account.academyRole : null}
-      displayName={inAcademy ? account.displayName : null}
+      displayName={account.academyRole === 'owner' ? account.displayName : null}
       onHome={
         shellItem === 'lesson' && (view === 'story' || view === 'quiz' || view === 'results')
           ? resetApp
@@ -1638,7 +1638,7 @@ const App: React.FC = () => {
       )}
       {shellItem === 'progress' && <ProgressPage onCreate={() => go('/')} />}
       {shellItem === 'saved' && <SavedLessonsPage onOpen={openSaved} onCreate={() => go('/')} />}
-      {shellItem === 'academy' && account.plan === 'academy' && <AcademyPage />}
+      {shellItem === 'academy' && account.plan === 'academy' && <AcademyPage ownerDisplayName={account.displayName} />}
       {shellItem === 'academy' && account.plan !== 'academy' && (
         <p className="text-base">This page is for academy accounts.</p>
       )}

@@ -81,11 +81,14 @@ export async function copyInviteText(
   return fallback(text);
 }
 
-/** Name under My academy or Student. A saved display name wins. Otherwise the academy name. */
-export function academyPillName(displayName: string | null | undefined, academyName: string | null | undefined): string {
-  const person = String(displayName ?? '').replace(/\s+/g, ' ').trim();
+/**
+ * Public academy name. The owner's profile display name wins.
+ * Otherwise the academy record name, then "Academy".
+ */
+export function academyPillName(ownerDisplayName: string | null | undefined, academyRecordName: string | null | undefined): string {
+  const person = String(ownerDisplayName ?? '').replace(/\s+/g, ' ').trim();
   if (person) return person;
-  const academy = String(academyName ?? '').trim();
+  const academy = String(academyRecordName ?? '').trim();
   return academy || 'Academy';
 }
 

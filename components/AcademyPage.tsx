@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { createAcademy, loadAcademyStudents, loadOwnedAcademy, regenerateInviteCode, removeStudent, type AcademyStudent, type OwnedAcademy } from '../academy';
-import { copyInviteText, countPhrase, countTestsThisWeek, inviteLink } from '../academyStats';
+import { academyPillName, copyInviteText, countPhrase, countTestsThisWeek, inviteLink } from '../academyStats';
 import { averagePercent, formatResultDate } from '../progressStats';
 import { scorePercent, studentIdFromSearch } from '../studentDetail';
 import { AcademyBadge } from './AcademyBadge';
@@ -54,7 +54,7 @@ function AcademyStudentButton({
   );
 }
 
-export function AcademyPage() {
+export function AcademyPage({ ownerDisplayName = '' }: { ownerDisplayName?: string }) {
   const [academy, setAcademy] = useState<OwnedAcademy | null>(null);
   const [students, setStudents] = useState<AcademyStudent[]>([]);
   const [missing, setMissing] = useState(false);
@@ -226,7 +226,7 @@ export function AcademyPage() {
 
   return (
     <div className="mx-auto w-full max-w-3xl">
-      <AcademyBadge name={academy.name} />
+      <AcademyBadge name={academyPillName(ownerDisplayName, academy.name)} />
       <div className="mt-4 rounded-xl border border-slate-300 bg-white p-4 dark:border-slate-600 dark:bg-slate-800">
         <p className="text-sm font-semibold">Invite code</p>
         <p className="mt-1 text-2xl font-bold tracking-widest">{academy.inviteCode}</p>
