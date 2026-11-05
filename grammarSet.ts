@@ -169,20 +169,33 @@ const INVENTED_PHRASAL_SET = new Set(INVENTED_PHRASALS);
 
 export const REAL_PHRASAL_COUNT = new Set(REAL_PHRASAL_VERBS).size;
 
-const BASIC_PHRASALS = new Set(`
+export const BASIC_PHRASALS = new Set(`
 get up, look for, turn off, turn on, give up, look after, put on, put off, pick up, find out, come back, go out,
 wake up, get in, get on, get off, take off, put away, look up, go back, come in, come on, check in, check out,
 fill in, fill out, drop off, hand in, grow up, end up, show up, sit down, stand up, turn up, put out, give back,
 give in, call back, hang up, come out, go away, get out, put back, take out, wake up
 `.split(',').map((item) => item.trim()).filter(Boolean));
 
-const B2_PHRASALS = new Set(`
+// Upper-intermediate band. Scoring prefers these at B2, and the variation note samples them.
+// Keep this set out of BASIC_PHRASALS and out of C1_PHRASALS.
+export const B2_PHRASALS = new Set(`
 get over, come up with, put up with, run out of, turn down, carry out, come across, look into, get away with,
 make up for, break down, call off, fall through, point out, rule out, take over, figure out, bring up, set up,
-work out, look forward to, come down to, run into, go through, catch up with, do away with, fall back on
+work out, look forward to, come down to, run into, go through, catch up with, do away with, fall back on,
+account for, back up, break off, break out, break up, bring out, build up, bump into, call for, carry on,
+cut down, cut down on, deal with, do without, drop out, fall out, get by, get on with, get rid of, get through,
+give away, go through with, hold up, keep up, let down, make out, make up, put together, run over, set out,
+sort out, stand for, take after, take up, tell off, turn out, wear off,
+allow for, break through, brush up, call on, catch on, catch up on, check up on, come about, come out with,
+come up against, count on, cover up, cut back on, dawn on, die out, draw up, face up to, fall apart, fall behind,
+fall for, follow up, get across, get ahead, get along with, get around to, get at, get down to, get out of,
+go along with, go back on, go into, go over, go without, grow out of, hand over, hold back, keep up with,
+lay off, leave out, live up to, look down on, look up to, miss out on, mix up, own up, pay back, pay off,
+pick on, pull off, pull through, put aside, put forward, see to, settle for, stand out, stand up for, stick to,
+sum up, take in, take on, talk into, think over, try out, work on, wrap up
 `.split(',').map((item) => item.trim()).filter(Boolean));
 
-const C1_PHRASALS = new Set(`
+export const C1_PHRASALS = new Set(`
 gloss over, iron out, hammer out, bring about, bring off, write off, sound out, stave off, play down,
 boil down to, brush up on, come down with, run up against, zero in on, phase out, tide over, weigh up,
 dispense with, dwell on, fend off, paper over, shrug off, smooth over, spell out, tone down, water down,
@@ -587,9 +600,10 @@ export function normalizeGrammarSet(
 export function buildGrammarPrompt(
   request: GrammarRequest,
   correction?: string,
-  options?: { count?: number; extra?: string },
+  options?: { count?: number; extra?: string; seed?: number },
 ): string {
   const count = options?.count ?? GRAMMAR_GENERATION_COUNT;
+  const seed = options?.seed ?? Math.floor(Math.random() * 10000);
   const itemWord = count === 1 ? 'item' : 'items';
   const topic = request.topic.trim().replace(/["\n\r]/g, ' ');
   const topicLine = topic
@@ -604,7 +618,7 @@ ${levelGuide(request.level, request.exercise)}
 ${topicLine}
 ${taskGuide(request.exercise, request.level)}
 ${c1BlankScenario(request)}
-${variationNote(request)}
+${variationNote(request, seed)}
 ${options?.extra ?? ''}
 Self-check every item before you keep it:
 - Put the correct answer into the gap and read the whole sentence. It must be natural, idiomatic, and fully correct.
@@ -628,30 +642,37 @@ Return only JSON.
 `.trim();
 }
 
-const B1_FEATURED = ['get up', 'look for', 'turn off', 'give up', 'look after', 'put on', 'pick up', 'find out', 'wake up', 'go out', 'take off', 'come back'];
-const B2_FEATURED = ['get over', 'come up with', 'put up with', 'run out of', 'turn down', 'carry out', 'come across', 'look into', 'get away with', 'break down', 'call off', 'figure out'];
-const C1_FEATURED = ['gloss over', 'iron out', 'hammer out', 'bring about', 'write off', 'sound out', 'stave off', 'bring off', 'run up against', 'play down', 'shrug off', 'weigh up'];
+const B1_FEATURED = [...BASIC_PHRASALS];
+const B2_FEATURED = [...B2_PHRASALS];
+const C1_FEATURED = [...C1_PHRASALS];
+const FEATURED_SAMPLE_MIN = 8;
+const FEATURED_SAMPLE_SPAN = 5;
 
-function pickSome(items: readonly string[], count: number): string[] {
-  const copy = [...items];
-  for (let index = copy.length - 1; index > 0; index -= 1) {
-    const swap = Math.floor(Math.random() * (index + 1));
-    const current = copy[index];
-    copy[index] = copy[swap];
-    copy[swap] = current;
-  }
-  return copy.slice(0, count);
+function randomFromSeed(seed: number): () => number {
+  let state = seed >>> 0;
+  return () => {
+    state = (state + 0x6D2B79F5) >>> 0;
+    let value = Math.imul(state ^ (state >>> 15), 1 | state);
+    value = (value + Math.imul(value ^ (value >>> 7), 61 | value)) ^ value;
+    return ((value ^ (value >>> 14)) >>> 0) / 4294967296;
+  };
 }
 
-function variationNote(request: GrammarRequest): string {
+/** 8 to 12 verbs, chosen from the level pool by the variation seed. */
+function featuredPhrasals(pool: readonly string[], seed: number): string[] {
+  const stable = seed >>> 0;
+  const count = Math.min(pool.length, FEATURED_SAMPLE_MIN + (stable % FEATURED_SAMPLE_SPAN));
+  return shuffleList(pool, randomFromSeed(stable)).slice(0, count);
+}
+
+function variationNote(request: GrammarRequest, seed: number): string {
   if (request.level === 'C1' && request.exercise === 'blanks') return '';
-  const seed = Math.floor(Math.random() * 10000);
   if (request.exercise !== 'phrasal') {
     return `Variation seed ${seed}. Vary the sentences so this set does not repeat an earlier one.`;
   }
   const pool = request.level === 'C1' ? C1_FEATURED : request.level === 'B2' ? B2_FEATURED : B1_FEATURED;
-  const featured = pickSome(pool, Math.min(6, pool.length));
-  return `Variation seed ${seed}. Use a fresh mix of phrasal verbs, including some of: ${featured.join(', ')}. Do not repeat items from an earlier set.`;
+  const featured = featuredPhrasals(pool, seed);
+  return `Variation seed ${seed}. Use a fresh mix of phrasal verbs. Include several of these in this set: ${featured.join(', ')}. Do not repeat items from an earlier set.`;
 }
 
 function usedSentences(items: GrammarItem[]): string[] {
@@ -686,8 +707,8 @@ export function buildGrammarTopUpPrompt(
 
 function levelGuide(level: GrammarLevel, exercise: GrammarExerciseType): string {
   if (exercise === 'phrasal') {
-    if (level === 'C1') return 'Use advanced but standard phrasal verbs such as gloss over, iron out, hammer out, bring about, write off, sound out, and stave off. Do not use basic B1 phrasal verbs at C1. "Put off a meeting", get up, look for, turn off, give up, and look after are too easy.';
-    if (level === 'B2') return 'Use upper-intermediate phrasal verbs such as get over, come up with, put up with, run out of, turn down (an offer), and carry out. Do not fill the set with basic B1 items such as get up, look for, and turn off.';
+    if (level === 'C1') return 'Use advanced but standard phrasal verbs. Do not use basic B1 phrasal verbs at C1. "Put off a meeting", get up, look for, turn off, give up, and look after are too easy.';
+    if (level === 'B2') return 'Use upper-intermediate phrasal verbs, the kind a B2 learner meets in work, study, and the news. Do not fill the set with basic B1 items such as get up, look for, and turn off.';
     return 'Use common everyday B1 phrasal verbs such as get up, look for, turn off, give up, and look after.';
   }
   if (exercise === 'order') {

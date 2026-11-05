@@ -1,8 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
+  B2_PHRASALS,
+  BASIC_PHRASALS,
   buildGrammarPrompt,
   buildGrammarTopUpPrompt,
+  C1_PHRASALS,
   freshOrder,
   GRAMMAR_GENERATION_COUNT,
   GRAMMAR_ITEM_COUNT,
@@ -19,9 +22,11 @@ import {
   shuffleChunks,
   undoChunk,
   type GrammarChoice,
+  type GrammarLevel,
   type GrammarOrder,
   type GrammarRequest,
 } from '../grammarSet.ts';
+import { REAL_PHRASAL_VERBS } from '../phrasalVerbs.ts';
 
 const blanksRequest: GrammarRequest = { level: 'B1', exercise: 'blanks', topic: 'present perfect' };
 const orderRequest: GrammarRequest = { level: 'C1', exercise: 'order', topic: '' };
@@ -205,18 +210,18 @@ test('the prompt names the level, the exercise, and an optional topic', () => {
   assert.match(phrasal, /gloss up/);
   assert.match(phrasal, /at most two/);
   assert.match(phrasal, /call in/);
-  assert.match(phrasal, /gloss over/);
-  assert.match(phrasal, /stave off/);
+  assert.match(phrasal, /advanced but standard phrasal verbs/);
   assert.match(phrasal, /Do not use basic B1/);
   assert.match(phrasal, /Put off a meeting/);
   assert.match(phrasal, /Variation seed/);
+  assert.match(phrasal, /Include several of these in this set/);
   assert.match(phrasal, /two other real phrasal verbs/);
   assert.match(phrasal, /Do not leave it first every time/);
-  const b2Phrasal = buildGrammarPrompt({ level: 'B2', exercise: 'phrasal', topic: '' });
-  assert.match(b2Phrasal, /come up with/);
-  assert.match(b2Phrasal, /put up with/);
-  assert.match(b2Phrasal, /run out of/);
-  assert.match(b2Phrasal, /turn down \(an offer\)/);
+  const b2Phrasal = buildGrammarPrompt({ level: 'B2', exercise: 'phrasal', topic: '' }, undefined, { seed: 4 });
+  assert.match(b2Phrasal, /upper-intermediate phrasal verbs/);
+  assert.match(b2Phrasal, /Do not fill the set with basic B1/);
+  assert.match(b2Phrasal, /get up, look for, and turn off/);
+  assert.match(b2Phrasal, /Include several of these in this set/);
   assert.match(c1Blanks, /Hardly had I entered/);
   assert.match(c1Blanks, /Variation seed/);
   assert.match(paragraph, /until the crust was golden brown/);
@@ -728,4 +733,135 @@ test('blanks and phrasals spread the correct option across A B C and D', () => {
   assert.equal(order.ok, true);
   if (!order.ok) return;
   assert.equal(order.set.items.every((item) => item.kind === 'order' && item.chunks[0].startsWith('Alpha')), true);
+});
+
+function featuredInPrompt(level: GrammarLevel, seed: number): string[] {
+  const prompt = buildGrammarPrompt({ level, exercise: 'phrasal', topic: '' }, undefined, { seed });
+  const match = prompt.match(/Include several of these in this set: ([^.]+)\./);
+  assert.ok(match, prompt);
+  return match[1].split(', ').map((item) => item.trim()).filter(Boolean);
+}
+
+test('B2 phrasal pool is a large real upper-intermediate set', () => {
+  const real = new Set(REAL_PHRASAL_VERBS);
+  assert.ok(B2_PHRASALS.size >= 80, `B2 pool is ${B2_PHRASALS.size}`);
+  assert.ok(B2_PHRASALS.size <= 150, `B2 pool is ${B2_PHRASALS.size}`);
+  assert.ok(B2_PHRASALS.size >= 60);
+  for (const phrase of B2_PHRASALS) {
+    assert.equal(real.has(phrase), true, `${phrase} is not a listed real phrasal verb`);
+    assert.equal(BASIC_PHRASALS.has(phrase), false, `${phrase} is a basic B1 phrasal`);
+    assert.equal(C1_PHRASALS.has(phrase), false, `${phrase} belongs on the C1 list`);
+  }
+  for (const phrase of BASIC_PHRASALS) {
+    assert.equal(real.has(phrase), true, `${phrase} is not a listed real phrasal verb`);
+    assert.equal(C1_PHRASALS.has(phrase), false, phrase);
+  }
+});
+
+test('featured phrasal prompts differ across seeds', () => {
+  const first = featuredInPrompt('B2', 1);
+  const sameCount = featuredInPrompt('B2', 6);
+  assert.equal(first.length, sameCount.length);
+  assert.ok(first.length >= 8 && first.length <= 12);
+  assert.deepEqual(first, featuredInPrompt('B2', 1));
+  assert.notDeepEqual([...first].sort(), [...sameCount].sort());
+
+  const seen = new Set<string>();
+  for (let seed = 0; seed < 80; seed += 1) {
+    const sample = featuredInPrompt('B2', seed);
+    assert.ok(sample.length >= 8 && sample.length <= 12, `seed ${seed} sampled ${sample.length}`);
+    assert.equal(new Set(sample).size, sample.length);
+    for (const phrase of sample) {
+      seen.add(phrase);
+      assert.equal(B2_PHRASALS.has(phrase), true, phrase);
+      assert.equal(BASIC_PHRASALS.has(phrase), false, phrase);
+      assert.equal(C1_PHRASALS.has(phrase), false, phrase);
+    }
+  }
+  assert.ok(seen.size >= 60, `featured samples only reached ${seen.size} verbs`);
+
+  const b1a = featuredInPrompt('B1', 3);
+  const b1b = featuredInPrompt('B1', 8);
+  assert.notDeepEqual([...b1a].sort(), [...b1b].sort());
+  for (const phrase of [...b1a, ...b1b]) {
+    assert.equal(BASIC_PHRASALS.has(phrase), true, phrase);
+    assert.equal(B2_PHRASALS.has(phrase), false, phrase);
+  }
+
+  const c1a = featuredInPrompt('C1', 2);
+  const c1b = featuredInPrompt('C1', 7);
+  assert.notDeepEqual([...c1a].sort(), [...c1b].sort());
+  for (const phrase of [...c1a, ...c1b]) {
+    assert.equal(C1_PHRASALS.has(phrase), true, phrase);
+    assert.equal(BASIC_PHRASALS.has(phrase), false, phrase);
+    assert.equal(B2_PHRASALS.has(phrase), false, phrase);
+  }
+});
+
+test('B2 scoring prefers B2 phrasals over basic ones', () => {
+  const phrasal = { level: 'B2' as const, exercise: 'phrasal' as const, topic: '' };
+  const result = normalizeGrammarSet({
+    items: [
+      choice(1, {
+        prompt: 'She could not _____ her parents expectations.',
+        options: ['live up to', 'live on', 'live through', 'live with'],
+        correctAnswer: 'live up to',
+      }),
+      choice(2, {
+        prompt: 'The team _____ a new plan.',
+        options: ['come up with', 'come across', 'come about', 'come out with'],
+        correctAnswer: 'come up with',
+      }),
+      choice(3, {
+        prompt: 'I cannot _____ the noise.',
+        options: ['put up with', 'put aside', 'put forward', 'put together'],
+        correctAnswer: 'put up with',
+      }),
+      choice(4, {
+        prompt: 'We _____ milk this morning.',
+        options: ['run out of', 'run into', 'run over', 'run down'],
+        correctAnswer: 'run out of',
+      }),
+      choice(5, {
+        prompt: 'A larger firm will _____ the shop.',
+        options: ['take over', 'take after', 'take on', 'take up'],
+        correctAnswer: 'take over',
+      }),
+      choice(6, {
+        prompt: 'The police will _____ the complaint.',
+        options: ['look into', 'look forward to', 'look down on', 'look up to'],
+        correctAnswer: 'look into',
+      }),
+      choice(7, {
+        prompt: 'The car may _____ on the hill.',
+        options: ['break down', 'break up', 'break off', 'break out'],
+        correctAnswer: 'break down',
+      }),
+      choice(8, {
+        prompt: 'The vote will _____ a new rule.',
+        options: ['bring about', 'bring off', 'bring in', 'bring out'],
+        correctAnswer: 'bring about',
+      }),
+      choice(9, {
+        prompt: 'I _____ at six.',
+        options: ['get up', 'get on', 'get off', 'get in'],
+        correctAnswer: 'get up',
+      }),
+      choice(10, {
+        prompt: 'Please _____ the radio.',
+        options: ['turn off', 'turn on', 'turn up', 'turn out'],
+        correctAnswer: 'turn off',
+      }),
+    ],
+  }, phrasal);
+  assert.equal(result.ok, true);
+  if (!result.ok) return;
+  assert.equal(result.set.items.length, GRAMMAR_ITEM_COUNT);
+  const answers = result.set.items.map((item) => item.kind === 'choice' ? item.correctAnswer : '');
+  assert.equal(answers.includes('live up to'), true);
+  assert.equal(answers.includes('come up with'), true);
+  assert.equal(answers.includes('bring about'), false);
+  assert.equal(answers.includes('get up'), false);
+  assert.equal(answers.includes('turn off'), false);
+  for (const answer of answers) assert.equal(B2_PHRASALS.has(answer), true, answer);
 });
