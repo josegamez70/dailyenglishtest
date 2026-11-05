@@ -87,10 +87,11 @@ test('an invite banner names the academy when it is known', () => {
   );
 });
 
-test('the academy pill uses the profile display name, then the academy name', () => {
+test('the public academy name is the owner display name, then the record name', () => {
   assert.equal(academyPillName('SUPER ACADEMIIA', 'Gamez'), 'SUPER ACADEMIIA');
-  assert.equal(academyPillName('  María  ', 'Gamez'), 'María');
+  assert.equal(academyPillName('  SUPER ACADEMIIA  ', 'Gamez'), 'SUPER ACADEMIIA');
   assert.equal(academyPillName('', 'Gamez'), 'Gamez');
+  assert.equal(academyPillName(null, 'Gamez'), 'Gamez');
   assert.equal(academyPillName('   ', null), 'Academy');
 });
 
