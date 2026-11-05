@@ -22,19 +22,22 @@ export function AcademyBadge({
   email,
   compact = false,
   role = 'owner',
+  person = false,
 }: {
   name: string;
-  /** Owner: their display name. Student: their own display name. */
+  /** Owner: their display name. Student menu: the student's own display name. */
   displayName?: string | null;
   email?: string | null;
   compact?: boolean;
   role?: 'owner' | 'student';
+  /** Student menu only. The bold line is the profile name, not the academy name. */
+  person?: boolean;
 }) {
   const academy = name.trim();
   const label = role === 'student' ? 'Student' : 'My academy';
-  const shown = role === 'student'
+  const shown = role === 'student' && person
     ? studentPillName(displayName, email)
-    : (compact ? academyPillName(displayName, academy) : (academy || 'Academy'));
+    : academyPillName(role === 'student' ? null : displayName, academy);
   if (compact) {
     return (
       <p
