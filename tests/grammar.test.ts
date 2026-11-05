@@ -745,6 +745,33 @@ function featuredInPrompt(level: GrammarLevel, seed: number): string[] {
   return match[1].split(', ').map((item) => item.trim()).filter(Boolean);
 }
 
+function particlesByVerb(phrases: Iterable<string>): Map<string, number> {
+  const counts = new Map<string, number>();
+  for (const phrase of phrases) {
+    const verb = phrase.split(' ')[0] ?? '';
+    counts.set(verb, (counts.get(verb) ?? 0) + 1);
+  }
+  return counts;
+}
+
+function featuredC1Groups(seed: number): string[][] {
+  const prompt = buildGrammarPrompt({ level: 'C1', exercise: 'phrasal', topic: '' }, undefined, { seed });
+  const match = prompt.match(/Include several of these in this set: ([^.]+)\./);
+  assert.ok(match, prompt);
+  return match[1].split('; ').map((group) => group.split(', ').map((item) => item.trim()).filter(Boolean));
+}
+
+function assertC1Group(group: string[]): void {
+  assert.ok(group.length >= 3 && group.length <= 4, group.join(', '));
+  const verbs = new Set(group.map((phrase) => phrase.split(' ')[0]));
+  assert.equal(verbs.size, 1, group.join(', '));
+  for (const phrase of group) {
+    assert.equal(C1_PHRASALS.has(phrase), true, phrase);
+    assert.equal(BASIC_PHRASALS.has(phrase), false, phrase);
+    assert.equal(B2_PHRASALS.has(phrase), false, phrase);
+  }
+}
+
 test('B2 phrasal pool is a large real upper-intermediate set', () => {
   const real = new Set(REAL_PHRASAL_VERBS);
   assert.ok(B2_PHRASALS.size >= 80, `B2 pool is ${B2_PHRASALS.size}`);
@@ -791,14 +818,99 @@ test('featured phrasal prompts differ across seeds', () => {
     assert.equal(B2_PHRASALS.has(phrase), false, phrase);
   }
 
-  const c1a = featuredInPrompt('C1', 2);
-  const c1b = featuredInPrompt('C1', 7);
-  assert.notDeepEqual([...c1a].sort(), [...c1b].sort());
-  for (const phrase of [...c1a, ...c1b]) {
-    assert.equal(C1_PHRASALS.has(phrase), true, phrase);
-    assert.equal(BASIC_PHRASALS.has(phrase), false, phrase);
-    assert.equal(B2_PHRASALS.has(phrase), false, phrase);
+  const c1a = featuredC1Groups(2);
+  const c1b = featuredC1Groups(7);
+  assert.notDeepEqual(c1a.map((group) => group.join('|')).sort(), c1b.map((group) => group.join('|')).sort());
+  assert.deepEqual(c1a, featuredC1Groups(2));
+  for (const group of [...c1a, ...c1b]) assertC1Group(group);
+});
+
+test('C1 phrasal pool is a large real advanced set that can form option groups', () => {
+  const real = new Set(REAL_PHRASAL_VERBS);
+  const whitelist = particlesByVerb(real);
+  assert.ok(C1_PHRASALS.size >= 80, `C1 pool is ${C1_PHRASALS.size}`);
+  assert.ok(C1_PHRASALS.size <= 150, `C1 pool is ${C1_PHRASALS.size}`);
+  const inPool = particlesByVerb(C1_PHRASALS);
+  for (const phrase of C1_PHRASALS) {
+    assert.equal(real.has(phrase), true, `${phrase} is not a listed real phrasal verb`);
+    assert.equal(BASIC_PHRASALS.has(phrase), false, `${phrase} is a basic B1 phrasal`);
+    assert.equal(B2_PHRASALS.has(phrase), false, `${phrase} belongs on the B2 list`);
+    const verb = phrase.split(' ')[0];
+    assert.ok((inPool.get(verb) ?? 0) >= 3, `${verb} has fewer than 3 C1 phrases`);
+    assert.ok((whitelist.get(verb) ?? 0) >= 3, `${verb} has fewer than 3 real particles`);
   }
+});
+
+test('C1 featured groups stay groupable and fill a six-item set', () => {
+  const seen = new Set<string>();
+  for (let seed = 0; seed < 80; seed += 1) {
+    const groups = featuredC1Groups(seed);
+    assert.ok(groups.length >= 5 && groups.length <= 7, `seed ${seed} featured ${groups.length} groups`);
+    assert.deepEqual(groups, featuredC1Groups(seed));
+    const verbs = groups.map((group) => group[0].split(' ')[0]);
+    assert.equal(new Set(verbs).size, verbs.length, `seed ${seed} repeats a verb`);
+    for (const group of groups) {
+      assertC1Group(group);
+      for (const phrase of group) seen.add(phrase);
+    }
+  }
+  assert.ok(seen.size >= 60, `featured C1 samples only reached ${seen.size} phrases`);
+
+  const c1 = buildGrammarPrompt({ level: 'C1', exercise: 'phrasal', topic: '' }, undefined, { seed: 3 });
+  const b2 = buildGrammarPrompt({ level: 'B2', exercise: 'phrasal', topic: '' }, undefined, { seed: 3 });
+  assert.match(c1, /Do not invent a particle/);
+  assert.match(c1, /one group below/);
+  assert.ok(c1.length < b2.length + 800, `C1 prompt is ${c1.length}, B2 is ${b2.length}`);
+
+  const groups = featuredC1Groups(4);
+  const items = groups.flatMap((group, groupIndex) => {
+    const other = groups[(groupIndex + 1) % groups.length];
+    const options = group.length >= 4 ? group.slice(0, 4) : [...group, other[0]];
+    return [0, 1].map((slot) => choice(groupIndex * 2 + slot + 1, {
+      prompt: `The committee will _____ proposal ${groupIndex}-${slot}.`,
+      options,
+      correctAnswer: group[slot],
+    }));
+  });
+  const result = normalizeGrammarSet(
+    { items },
+    { level: 'C1', exercise: 'phrasal', topic: '' },
+    { random: mulberry32(4) },
+  );
+  assert.equal(result.ok, true);
+  if (!result.ok) return;
+  assert.equal(result.set.items.length, GRAMMAR_ITEM_COUNT);
+  const letters: string[] = [];
+  for (const item of result.set.items) {
+    assert.equal(item.kind, 'choice');
+    if (item.kind !== 'choice') continue;
+    assert.equal(C1_PHRASALS.has(item.correctAnswer), true, item.correctAnswer);
+    const index = item.options.indexOf(item.correctAnswer);
+    assert.ok(index >= 0);
+    letters.push('ABCD'[index]);
+  }
+  assert.equal(letters.every((letter) => letter === 'A'), false, letters.join(' '));
+});
+
+test('one-particle verbs cannot fill a C1 phrasal set', () => {
+  const rows = [
+    ['gloss over', 'iron out', 'stave off', 'dwell on'],
+    ['shrug off', 'spell out', 'tone down', 'hinge on'],
+    ['paper over', 'fend off', 'weed out', 'pore over'],
+    ['water down', 'single out', 'thrash out', 'factor in'],
+    ['home in on', 'tide over', 'sound out', 'phase out'],
+    ['win over', 'smooth over', 'zero in on', 'dispense with'],
+  ];
+  const result = normalizeGrammarSet({
+    items: rows.map((options, index) => choice(index + 1, {
+      prompt: `They tried to _____ the issue ${index}.`,
+      options,
+      correctAnswer: options[0],
+    })),
+  }, { level: 'C1', exercise: 'phrasal', topic: '' });
+  assert.equal(result.ok, false);
+  if (result.ok) return;
+  assert.match(result.problems.join(' '), /real phrasal verb|same verb|usable/);
 });
 
 test('B2 scoring prefers B2 phrasals over basic ones', () => {
