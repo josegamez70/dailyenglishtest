@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { AcademyBadge } from './AcademyBadge';
 import HomeIcon from './icons/HomeIcon';
 
 export type ShellItem = 'lesson' | 'grammar' | 'progress' | 'saved' | 'academy' | 'profile' | 'join';
@@ -101,6 +102,7 @@ export function AppShell({
   email,
   status,
   showAcademy,
+  academyName,
   children,
 }: {
   active: ShellItem;
@@ -110,6 +112,8 @@ export function AppShell({
   email: string | null;
   status: string | null;
   showAcademy: boolean;
+  /** Set when this person belongs to an academy. Empty still shows a short Academy badge. */
+  academyName?: string | null;
   children: React.ReactNode;
 }) {
   const [open, setOpen] = useState(false);
@@ -145,16 +149,21 @@ export function AppShell({
             <span className="text-blue-800 dark:text-blue-300">Daily </span>
             <span className="text-red-700 dark:text-red-400">English Test</span>
           </p>
-          {onHome && (
-            <button
-              type="button"
-              onClick={onHome}
-              aria-label="Go to home screen"
-              className="ml-auto inline-flex shrink-0 items-center gap-1 rounded-lg bg-red-700 px-2.5 py-1.5 text-sm font-semibold text-white hover:bg-red-800"
-            >
-              <HomeIcon className="h-4 w-4" />
-              <span>Home</span>
-            </button>
+          {(academyName != null || onHome) && (
+            <div className="ml-auto flex shrink-0 items-center gap-1.5">
+              {academyName != null && <AcademyBadge name={academyName} compact />}
+              {onHome && (
+                <button
+                  type="button"
+                  onClick={onHome}
+                  aria-label="Go to home screen"
+                  className="inline-flex shrink-0 items-center gap-1 rounded-lg bg-red-700 px-2.5 py-1.5 text-sm font-semibold text-white hover:bg-red-800"
+                >
+                  <HomeIcon className="h-4 w-4" />
+                  <span>Home</span>
+                </button>
+              )}
+            </div>
           )}
         </div>
         <div className="flex flex-1 flex-col px-3 py-4 sm:px-5">{children}</div>
