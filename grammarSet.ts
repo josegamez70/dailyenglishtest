@@ -617,7 +617,7 @@ Make exactly ${count} ${itemWord}.
 ${levelGuide(request.level, request.exercise)}
 ${topicLine}
 ${taskGuide(request.exercise, request.level)}
-${c1BlankScenario(request)}
+${c1BlankScenario(request, seed)}
 ${variationNote(request, seed)}
 ${options?.extra ?? ''}
 Self-check every item before you keep it:
@@ -647,6 +647,8 @@ const B2_FEATURED = [...B2_PHRASALS];
 const C1_FEATURED = [...C1_PHRASALS];
 const FEATURED_SAMPLE_MIN = 8;
 const FEATURED_SAMPLE_SPAN = 5;
+const BLANKS_SAMPLE_MIN = 6;
+const BLANKS_SAMPLE_SPAN = 5;
 
 function randomFromSeed(seed: number): () => number {
   let state = seed >>> 0;
@@ -658,21 +660,219 @@ function randomFromSeed(seed: number): () => number {
   };
 }
 
-/** 8 to 12 verbs, chosen from the level pool by the variation seed. */
-function featuredPhrasals(pool: readonly string[], seed: number): string[] {
+/** `min` to `min + span - 1` entries, chosen from the pool by the variation seed. */
+function featuredSample(pool: readonly string[], seed: number, min: number, span: number): string[] {
   const stable = seed >>> 0;
-  const count = Math.min(pool.length, FEATURED_SAMPLE_MIN + (stable % FEATURED_SAMPLE_SPAN));
+  const count = Math.min(pool.length, min + (stable % span));
   return shuffleList(pool, randomFromSeed(stable)).slice(0, count);
 }
 
+/** 8 to 12 verbs, chosen from the level pool by the variation seed. */
+function featuredPhrasals(pool: readonly string[], seed: number): string[] {
+  return featuredSample(pool, seed, FEATURED_SAMPLE_MIN, FEATURED_SAMPLE_SPAN);
+}
+
+/** 6 to 10 structures, chosen from the level pool by the variation seed. */
+function featuredBlankTargets(pool: readonly string[], seed: number): string[] {
+  return featuredSample(pool, seed, BLANKS_SAMPLE_MIN, BLANKS_SAMPLE_SPAN);
+}
+
+// Single-gap structures for fill-in-the-blank MCQs. Each name is one teachable target.
+// Names stay free of commas and full stops so the prompt line can list them.
+export const B1_BLANK_TARGETS = [
+  'past simple with a finished time marker',
+  'past continuous for an action in progress',
+  'past simple versus past continuous',
+  'present simple for habits',
+  'present continuous for something happening now',
+  'present continuous for a fixed arrangement',
+  'present perfect for life experience',
+  'present perfect with for',
+  'present perfect with since',
+  'present perfect versus past simple with a finished time',
+  'going to for a plan already made',
+  'will for a decision made while speaking',
+  'zero conditional for general facts',
+  'first conditional with if plus present simple',
+  'used to for a past habit that stopped',
+  'comparative adjectives with than',
+  'superlative adjectives with the',
+  'as plus adjective plus as',
+  'too plus adjective',
+  'adjective plus enough',
+  'much versus many',
+  'a few versus a little',
+  'some versus any',
+  'a or an before a singular countable noun',
+  'the when the noun is already known',
+  'no article for general plural nouns',
+  'defining relative clause with who',
+  'defining relative clause with which',
+  'defining relative clause with where',
+  'must for a personal obligation',
+  'have to for an external rule',
+  'should for advice',
+  'can for present ability',
+  'could for past ability',
+  'preposition of time in',
+  'preposition of time on',
+  'preposition of time at',
+  'preposition of place in on or at',
+  'verb followed by a to-infinitive',
+  'verb followed by a gerund',
+  'so versus such',
+  'there is versus there are',
+  'something anything or nothing',
+  'possessive apostrophe s',
+  'whose in a question',
+  'adverb of frequency before the main verb',
+  'reflexive pronouns',
+  'might for present possibility',
+  'present simple passive',
+  'past simple passive',
+];
+
+export const B2_BLANK_TARGETS = [
+  'second conditional for an unreal present',
+  'third conditional for an unreal past',
+  'present perfect passive',
+  'passive with a by phrase',
+  'reported statements with backshift',
+  'reported questions with if or whether',
+  'reported commands with tell plus to-infinitive',
+  'non-defining relative clause',
+  'wish plus past simple for a present wish',
+  'wish plus would for another person habit',
+  'be used to plus gerund',
+  'get used to plus gerund',
+  'must for a present deduction',
+  'cannot for a negative present deduction',
+  'should have for past criticism',
+  'past perfect for the earlier past event',
+  'past perfect continuous',
+  'present perfect continuous for duration until now',
+  'future continuous',
+  'future perfect with by',
+  'causative have something done',
+  'so that for purpose',
+  'in order to for purpose',
+  'although or even though',
+  'despite plus a noun or gerund',
+  'unless in a real conditional',
+  'as long as',
+  'in case for a precaution',
+  'provided that',
+  'neither nor',
+  'so do I or neither do I',
+  'question tag',
+  'relative pronoun whose',
+  'preposition plus a relative pronoun',
+  'remember doing versus remember to do',
+  'stop doing versus stop to do',
+  'would rather plus the base verb',
+  'had better',
+  'it is time plus past simple',
+  'indirect question word order',
+  'must not versus do not have to',
+  'make someone do something',
+  'let someone do something',
+  'the more the more',
+  'so plus adjective plus that',
+  'such a plus noun plus that',
+  'was going to for a future in the past',
+  'be supposed to',
+  'was able to for a specific past success',
+  'by the time plus past perfect',
+  'whatever or whoever',
+  'it is said that for a report',
+  'a great deal of or plenty of',
+  'prefer plus gerund or to-infinitive',
+  'would rather someone did',
+  'future in time clauses with the present simple',
+];
+
+export const C1_BLANK_TARGETS = [
+  'cleft with it was and that',
+  'cleft with what',
+  'cleft with it was not until',
+  'mixed conditional past cause and present result',
+  'mixed conditional present cause and past result',
+  'mandative subjunctive after it is essential that',
+  'mandative subjunctive after demand that',
+  'present participle clause giving a reason',
+  'perfect participle with having plus past participle',
+  'must have for a past deduction',
+  'cannot have for a negative past deduction',
+  'need not have for an unnecessary past action',
+  'should have for past criticism with one modal only',
+  'might have for past possibility with one modal only',
+  'linker nevertheless',
+  'linker whereas',
+  'linker thereby plus participle',
+  'wish plus past perfect',
+  'if only plus past perfect',
+  'would rather plus past about another person',
+  'it is high time plus past simple',
+  'as if plus past for an unreal comparison',
+  'reduced relative clause',
+  'which referring to the whole clause',
+  'preposition before the relative pronoun',
+  'reporting passive is believed to',
+  'perfect infinitive is thought to have',
+  'passive infinitive such as needs to be done',
+  'but for plus a noun',
+  'if it were not for',
+  'given that',
+  'with a view to plus gerund',
+  'for fear of plus gerund',
+  'in the event of',
+  'on behalf of',
+  'in light of',
+  'with regard to',
+  'as opposed to',
+  'in terms of',
+  'irrespective of',
+  'result in versus result from',
+  'adjective plus preposition aware of',
+  'adjective plus preposition keen on',
+  'noun plus preposition an increase in',
+  'emphatic do does or did',
+  'substitution with do so',
+  'ellipsis so or not after hope or think',
+  'collocation make a decision or do research',
+  'hedging with appears to have',
+  'future perfect continuous',
+  'no matter how',
+  'on condition that',
+  'owing to',
+  'accuse someone of plus gerund',
+  'deny plus gerund',
+  'object to plus gerund',
+  'be bound to',
+  'be on the point of plus gerund',
+  'by means of',
+  'in accordance with',
+];
+
+function blankPool(level: GrammarLevel): readonly string[] {
+  if (level === 'C1') return C1_BLANK_TARGETS;
+  if (level === 'B2') return B2_BLANK_TARGETS;
+  return B1_BLANK_TARGETS;
+}
+
 function variationNote(request: GrammarRequest, seed: number): string {
-  if (request.level === 'C1' && request.exercise === 'blanks') return '';
-  if (request.exercise !== 'phrasal') {
-    return `Variation seed ${seed}. Vary the sentences so this set does not repeat an earlier one.`;
+  if (request.exercise === 'phrasal') {
+    const pool = request.level === 'C1' ? C1_FEATURED : request.level === 'B2' ? B2_FEATURED : B1_FEATURED;
+    const featured = featuredPhrasals(pool, seed);
+    return `Variation seed ${seed}. Use a fresh mix of phrasal verbs. Include several of these in this set: ${featured.join(', ')}. Do not repeat items from an earlier set.`;
   }
-  const pool = request.level === 'C1' ? C1_FEATURED : request.level === 'B2' ? B2_FEATURED : B1_FEATURED;
-  const featured = featuredPhrasals(pool, seed);
-  return `Variation seed ${seed}. Use a fresh mix of phrasal verbs. Include several of these in this set: ${featured.join(', ')}. Do not repeat items from an earlier set.`;
+  if (request.exercise === 'blanks') {
+    const featured = featuredBlankTargets(blankPool(request.level), seed);
+    const line = `Include several of these structures or contrasts in this set: ${featured.join(', ')}. Do not repeat structures from an earlier set.`;
+    if (request.level === 'C1') return line;
+    return `Variation seed ${seed}. ${line}`;
+  }
+  return `Variation seed ${seed}. Vary the sentences so this set does not repeat an earlier one.`;
 }
 
 function usedSentences(items: GrammarItem[]): string[] {
@@ -716,9 +916,9 @@ function levelGuide(level: GrammarLevel, exercise: GrammarExerciseType): string 
     if (level === 'B2') return 'Use B2 grammar in the paragraphs: conditionals, the passive, reported speech, or relative clauses. One logical order only. Vary the situation and the connectors.';
     return 'Write a short everyday paragraph in clear intermediate English. One logical order only. Vary the situation and the connectors.';
   }
-  if (level === 'C1') return 'Vary the structure of every item in this set, and do not repeat the same patterns you used in earlier sets. Do not keep using Not only, What ... needs is, Had ... known, Little did, Never before, or Should you require. Include cleft sentences, mixed conditionals, the subjunctive, participle clauses, modal perfects, advanced linkers, and collocations. Prefer natural, idiomatic sentences. Avoid awkward constructions built only to show a rule.';
-  if (level === 'B2') return 'Test conditionals, the passive, reported speech, and other upper-intermediate grammar. Add a time word or a reporting detail so only one option fits.';
-  return 'Test B1 grammar such as present and past tenses, the present perfect, going to, and common prepositions. Add a time word when the tense is what you are testing.';
+  if (level === 'C1') return 'Vary the structure of every item in this set, and do not repeat the same patterns you used in earlier sets. Do not keep using Not only, What ... needs is, Had ... known, Little did, Never before, or Should you require. Draw on advanced grammar such as cleft sentences, mixed conditionals, the subjunctive, participle clauses, modal perfects, advanced linkers, and collocations, and use several of the structures named for this set. Prefer natural, idiomatic sentences. Avoid awkward constructions built only to show a rule.';
+  if (level === 'B2') return 'Test a wide spread of upper-intermediate grammar, not the same few areas every time. Use several of the structures or contrasts named for this set. Add a time word or a reporting detail so only one option fits.';
+  return 'Test a wide spread of B1 grammar, not the same few tenses every time. Use several of the structures or contrasts named for this set. Add a time word when the tense is what you are testing.';
 }
 
 const C1_SCENES = [
@@ -732,10 +932,9 @@ const C1_SCENES = [
   'friends organising a weekend away',
 ];
 
-function c1BlankScenario(request: GrammarRequest): string {
+function c1BlankScenario(request: GrammarRequest, seed: number): string {
   if (request.level !== 'C1' || request.exercise !== 'blanks') return '';
   const scene = C1_SCENES[Math.floor(Math.random() * C1_SCENES.length)];
-  const seed = Math.floor(Math.random() * 10000);
   return `Variation seed ${seed}. Write new sentences about this situation: ${scene}. Do not reuse textbook lines from earlier sets, such as "Hardly had I entered".`;
 }
 
