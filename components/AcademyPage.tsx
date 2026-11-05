@@ -9,6 +9,32 @@ function studentLabel(student: AcademyStudent): string {
   return student.displayName.trim() || student.email || 'Student';
 }
 
+function SchoolIcon({ className = '' }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 48 48" className={className} aria-hidden="true">
+      <path d="M24 3v7" stroke="#e2e8f0" strokeWidth="1.6" strokeLinecap="round" />
+      <path d="M24 4h8l-1.6 2.4L32 9H24z" fill="#f87171" />
+      <path d="M6 22 24 10l18 12v2H6v-2z" fill="#ef4444" />
+      <rect x="11" y="23" width="26" height="20" rx="1.5" fill="#f8fafc" />
+      <rect x="15" y="27" width="5.5" height="5" rx="0.6" fill="#5eead4" />
+      <rect x="27.5" y="27" width="5.5" height="5" rx="0.6" fill="#5eead4" />
+      <rect x="20.5" y="32" width="7" height="11" rx="0.8" fill="#1e293b" />
+    </svg>
+  );
+}
+
+function AcademyBadge({ name }: { name: string }) {
+  return (
+    <h1 className="inline-flex max-w-full items-center gap-3 rounded-2xl border border-teal-600 bg-white px-3.5 py-2.5 dark:border-teal-400 dark:bg-slate-800">
+      <SchoolIcon className="h-12 w-12 shrink-0" />
+      <span className="min-w-0 pr-1 text-left">
+        <span className="block text-sm font-medium leading-tight text-slate-600 dark:text-slate-300">My academy</span>
+        <span className="mt-0.5 block truncate text-xl font-bold leading-tight">{name}</span>
+      </span>
+    </h1>
+  );
+}
+
 function readStudentParam(): string | null {
   if (typeof window === 'undefined') return null;
   return studentIdFromSearch(window.location.search);
@@ -225,8 +251,7 @@ export function AcademyPage() {
 
   return (
     <div className="mx-auto w-full max-w-3xl">
-      <h1 className="text-2xl font-bold">My academy</h1>
-      <p className="mt-2 text-base font-semibold">{academy.name}</p>
+      <AcademyBadge name={academy.name} />
       <div className="mt-4 rounded-xl border border-slate-300 bg-white p-4 dark:border-slate-600 dark:bg-slate-800">
         <p className="text-sm font-semibold">Invite code</p>
         <p className="mt-1 text-2xl font-bold tracking-widest">{academy.inviteCode}</p>
