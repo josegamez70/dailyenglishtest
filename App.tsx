@@ -1395,6 +1395,7 @@ const App: React.FC = () => {
   if (!account.ready) return <AuthLoading />;
 
   const showLanding = !account.signedIn;
+  const inAcademy = account.academyRole === 'owner' || account.academyRole === 'student';
   const statusText = planStatusText(account.plan, account.lessonsLeft, account.academyRole === 'student');
   const inviteCode = (() => {
     try {
@@ -1551,7 +1552,7 @@ const App: React.FC = () => {
       </>
       ) : (
       <main className="w-full">
-        {view === 'config' && statusText && (
+        {view === 'config' && statusText && !inAcademy && (
           <p className="mx-auto mb-4 w-fit rounded-full border border-slate-300 bg-white px-3 py-1 text-sm font-semibold text-slate-800 dark:border-slate-500 dark:bg-slate-800 dark:text-slate-100">
             {statusText}
           </p>
@@ -1612,6 +1613,7 @@ const App: React.FC = () => {
       email={account.email}
       status={statusText}
       showAcademy={account.plan === 'academy'}
+      academyName={inAcademy ? (account.academyName ?? '') : null}
       onHome={
         shellItem === 'lesson' && (view === 'story' || view === 'quiz' || view === 'results')
           ? resetApp

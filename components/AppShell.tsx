@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { AcademyBadge } from './AcademyBadge';
 import HomeIcon from './icons/HomeIcon';
 
 export type ShellItem = 'lesson' | 'grammar' | 'progress' | 'saved' | 'academy' | 'profile' | 'join';
@@ -19,6 +20,7 @@ function NavLinks({
   email,
   status,
   showAcademy,
+  academyName,
 }: {
   active: ShellItem;
   onNavigate: (path: string) => void;
@@ -27,6 +29,7 @@ function NavLinks({
   email: string | null;
   status: string | null;
   showAcademy: boolean;
+  academyName?: string | null;
 }) {
   const items = showAcademy
     ? [
@@ -48,9 +51,13 @@ function NavLinks({
         {email && (
           <p className="mt-3 truncate text-sm font-semibold text-slate-900 dark:text-slate-50">{email}</p>
         )}
-        {status && (
+        {academyName != null ? (
+          <div className="mt-3">
+            <AcademyBadge name={academyName} compact />
+          </div>
+        ) : status ? (
           <p className="mt-1 text-sm font-medium text-slate-700 dark:text-slate-200">{status}</p>
-        )}
+        ) : null}
       </div>
       <nav className="mt-4 flex flex-col gap-1 px-2" aria-label="App">
         {items.map((item) => {
@@ -101,6 +108,7 @@ export function AppShell({
   email,
   status,
   showAcademy,
+  academyName,
   children,
 }: {
   active: ShellItem;
@@ -110,6 +118,8 @@ export function AppShell({
   email: string | null;
   status: string | null;
   showAcademy: boolean;
+  /** Set when this person belongs to an academy. Empty still shows a short Academy badge. */
+  academyName?: string | null;
   children: React.ReactNode;
 }) {
   const [open, setOpen] = useState(false);
@@ -127,7 +137,7 @@ export function AppShell({
   return (
     <div className="min-h-screen bg-slate-100 text-slate-900 dark:bg-slate-900 dark:text-slate-50 md:pl-64">
       <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col border-r border-slate-300 bg-white dark:border-slate-600 dark:bg-slate-800 md:flex">
-        <NavLinks active={active} onNavigate={go} onSignOut={leave} signingOut={signingOut} email={email} status={status} showAcademy={showAcademy} />
+        <NavLinks active={active} onNavigate={go} onSignOut={leave} signingOut={signingOut} email={email} status={status} showAcademy={showAcademy} academyName={academyName} />
       </aside>
       <div className="flex min-h-screen flex-col">
         <div className={`sticky top-0 z-20 flex items-center gap-2 border-b border-slate-300 bg-slate-100 px-3 py-2 dark:border-slate-600 dark:bg-slate-900 ${onHome ? '' : 'md:hidden'}`}>
@@ -145,16 +155,21 @@ export function AppShell({
             <span className="text-blue-800 dark:text-blue-300">Daily </span>
             <span className="text-red-700 dark:text-red-400">English Test</span>
           </p>
-          {onHome && (
-            <button
-              type="button"
-              onClick={onHome}
-              aria-label="Go to home screen"
-              className="ml-auto inline-flex shrink-0 items-center gap-1 rounded-lg bg-red-700 px-2.5 py-1.5 text-sm font-semibold text-white hover:bg-red-800"
-            >
-              <HomeIcon className="h-4 w-4" />
-              <span>Home</span>
-            </button>
+          {(academyName != null || onHome) && (
+            <div className="ml-auto flex shrink-0 items-center gap-1.5">
+              {academyName != null && <AcademyBadge name={academyName} compact />}
+              {onHome && (
+                <button
+                  type="button"
+                  onClick={onHome}
+                  aria-label="Go to home screen"
+                  className="inline-flex shrink-0 items-center gap-1 rounded-lg bg-red-700 px-2.5 py-1.5 text-sm font-semibold text-white hover:bg-red-800"
+                >
+                  <HomeIcon className="h-4 w-4" />
+                  <span>Home</span>
+                </button>
+              )}
+            </div>
           )}
         </div>
         <div className="flex flex-1 flex-col px-3 py-4 sm:px-5">{children}</div>
@@ -169,7 +184,7 @@ export function AppShell({
             onClick={() => setOpen(false)}
           />
           <aside className="absolute inset-y-0 left-0 flex w-72 max-w-[85vw] flex-col bg-white shadow-xl dark:bg-slate-800">
-            <NavLinks active={active} onNavigate={go} onSignOut={leave} signingOut={signingOut} email={email} status={status} showAcademy={showAcademy} />
+            <NavLinks active={active} onNavigate={go} onSignOut={leave} signingOut={signingOut} email={email} status={status} showAcademy={showAcademy} academyName={academyName} />
           </aside>
         </div>
       )}
