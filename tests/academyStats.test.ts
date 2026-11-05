@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { copyInviteText, copyWithHiddenTextarea, countPhrase, countTestsThisWeek, inviteBannerText, inviteLink, joinResultMessage, normalizeInviteCode, startOfLocalWeek } from '../academyStats.ts';
+import { academyPillName, copyInviteText, copyWithHiddenTextarea, countPhrase, countTestsThisWeek, inviteBannerText, inviteLink, joinResultMessage, normalizeInviteCode, startOfLocalWeek } from '../academyStats.ts';
 
 test('the copied invite is the full join link for this site', () => {
   assert.equal(
@@ -85,6 +85,13 @@ test('an invite banner names the academy when it is known', () => {
     inviteBannerText('  '),
     'You have been invited to join an academy. Sign in or create an account to join.',
   );
+});
+
+test('the academy pill uses the profile display name, then the academy name', () => {
+  assert.equal(academyPillName('SUPER ACADEMIIA', 'Gamez'), 'SUPER ACADEMIIA');
+  assert.equal(academyPillName('  María  ', 'Gamez'), 'María');
+  assert.equal(academyPillName('', 'Gamez'), 'Gamez');
+  assert.equal(academyPillName('   ', null), 'Academy');
 });
 
 test('join errors use simple English', () => {

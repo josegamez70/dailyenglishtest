@@ -1,4 +1,5 @@
 import React from 'react';
+import { academyPillName } from '../academyStats';
 
 function SchoolIcon({ className = '' }: { className?: string }) {
   return (
@@ -17,25 +18,29 @@ function SchoolIcon({ className = '' }: { className?: string }) {
 /** Large badge on My academy, or a compact one for the header and sidebar. */
 export function AcademyBadge({
   name,
+  displayName,
   compact = false,
   role = 'owner',
 }: {
   name: string;
+  /** Profile display name. Compact pills prefer this over the academy name. */
+  displayName?: string | null;
   compact?: boolean;
   role?: 'owner' | 'student';
 }) {
   const academy = name.trim();
   const label = role === 'student' ? 'Student' : 'My academy';
+  const shown = compact ? academyPillName(displayName, academy) : (academy || 'Academy');
   if (compact) {
     return (
       <p
-        className="inline-flex max-w-[7.75rem] shrink-0 items-center gap-1.5 rounded-2xl border border-teal-600 bg-white py-1 pl-1 pr-2 dark:border-teal-400 dark:bg-slate-800"
-        title={academy ? `${label}: ${academy}` : label}
+        className="inline-flex max-w-[10.5rem] shrink-0 items-center gap-1.5 rounded-2xl border border-teal-600 bg-white py-1 pl-1 pr-2 dark:border-teal-400 dark:bg-slate-800"
+        title={`${label}: ${shown}`}
       >
         <SchoolIcon className="h-8 w-8 shrink-0" />
         <span className="min-w-0 text-left leading-tight">
           <span className="block text-[10px] font-medium leading-none text-slate-600 dark:text-slate-300">{label}</span>
-          <span className="mt-0.5 block truncate text-xs font-bold leading-tight">{academy || 'Academy'}</span>
+          <span className="mt-0.5 block truncate text-xs font-bold leading-tight">{shown}</span>
         </span>
       </p>
     );

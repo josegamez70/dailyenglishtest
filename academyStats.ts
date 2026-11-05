@@ -81,6 +81,14 @@ export async function copyInviteText(
   return fallback(text);
 }
 
+/** Name under My academy or Student. A saved display name wins. Otherwise the academy name. */
+export function academyPillName(displayName: string | null | undefined, academyName: string | null | undefined): string {
+  const person = String(displayName ?? '').replace(/\s+/g, ' ').trim();
+  if (person) return person;
+  const academy = String(academyName ?? '').trim();
+  return academy || 'Academy';
+}
+
 /** Signed-out invite banner. A null name means the academy name is not available yet. */
 export function inviteBannerText(name: string | null): string {
   const academy = name?.trim() || 'an academy';
