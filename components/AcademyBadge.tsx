@@ -1,5 +1,5 @@
 import React from 'react';
-import { academyPillName } from '../academyStats';
+import { academyPillName, studentPillName } from '../academyStats';
 
 function SchoolIcon({ className = '' }: { className?: string }) {
   return (
@@ -19,18 +19,22 @@ function SchoolIcon({ className = '' }: { className?: string }) {
 export function AcademyBadge({
   name,
   displayName,
+  email,
   compact = false,
   role = 'owner',
 }: {
   name: string;
-  /** Academy owner's profile display name. Compact pills prefer this over the record name. */
+  /** Owner: their display name. Student: their own display name. */
   displayName?: string | null;
+  email?: string | null;
   compact?: boolean;
   role?: 'owner' | 'student';
 }) {
   const academy = name.trim();
   const label = role === 'student' ? 'Student' : 'My academy';
-  const shown = compact ? academyPillName(displayName, academy) : (academy || 'Academy');
+  const shown = role === 'student'
+    ? studentPillName(displayName, email)
+    : (compact ? academyPillName(displayName, academy) : (academy || 'Academy'));
   if (compact) {
     return (
       <p

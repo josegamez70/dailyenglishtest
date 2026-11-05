@@ -57,7 +57,7 @@ function NavLinks({
         )}
         {academyName != null ? (
           <div className="mt-3">
-            <AcademyBadge name={academyName} displayName={displayName} compact role={academyRole === 'student' ? 'student' : 'owner'} />
+            <AcademyBadge name={academyName} displayName={displayName} email={email} compact role={academyRole === 'student' ? 'student' : 'owner'} />
           </div>
         ) : status ? (
           <p className="mt-1 text-sm font-medium text-slate-700 dark:text-slate-200">{status}</p>
@@ -165,7 +165,7 @@ export function AppShell({
           </p>
           {(academyName != null || onHome) && (
             <div className="ml-auto flex shrink-0 items-center gap-1.5">
-              {academyName != null && <AcademyBadge name={academyName} displayName={displayName} compact role={academyRole === 'student' ? 'student' : 'owner'} />}
+              {academyName != null && <AcademyBadge name={academyName} displayName={displayName} email={email} compact role={academyRole === 'student' ? 'student' : 'owner'} />}
               {onHome && (
                 <button
                   type="button"

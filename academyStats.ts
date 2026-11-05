@@ -81,6 +81,15 @@ export async function copyInviteText(
   return fallback(text);
 }
 
+/** Bold line on a student's pill. Display name, then the part of the email before @, then "Student". */
+export function studentPillName(displayName: string | null | undefined, email: string | null | undefined): string {
+  const person = String(displayName ?? '').replace(/\s+/g, ' ').trim();
+  if (person) return person;
+  const local = String(email ?? '').split('@')[0]?.trim() ?? '';
+  if (local) return local;
+  return 'Student';
+}
+
 /**
  * Public academy name. The owner's profile display name wins.
  * Otherwise the academy record name, then "Academy".
