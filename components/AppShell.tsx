@@ -163,9 +163,9 @@ export function AppShell({
             <span className="text-blue-800 dark:text-blue-300">Daily </span>
             <span className="text-red-700 dark:text-red-400">English Test</span>
           </p>
-          {(academyName != null || onHome) && (
+          {((academyName != null && academyRole !== 'student') || onHome) && (
             <div className="ml-auto flex shrink-0 items-center gap-1.5">
-              {academyName != null && <AcademyBadge name={academyName} displayName={displayName} email={email} compact role={academyRole === 'student' ? 'student' : 'owner'} />}
+              {academyName != null && academyRole !== 'student' && <AcademyBadge name={academyName} displayName={displayName} email={email} compact role="owner" />}
               {onHome && (
                 <button
                   type="button"
