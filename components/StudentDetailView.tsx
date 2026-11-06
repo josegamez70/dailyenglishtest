@@ -16,6 +16,8 @@ import {
   SKILLS,
   type SkillId,
 } from '../studentDetail';
+import { reportTestFromResult } from '../progressReport';
+import { DownloadProgressButton } from './DownloadProgressButton';
 import { WrongAnswerReview } from './WrongAnswerReview';
 
 const CARD = 'rounded-2xl border border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-800';
@@ -213,6 +215,13 @@ export function StudentDetailView({
             </span>
           )}
         </div>
+      </div>
+      <div className="mt-4">
+        <DownloadProgressButton
+          studentName={name}
+          profileLevel={student.profileLevel}
+          tests={tests.map((item) => reportTestFromResult(item))}
+        />
       </div>
       {message && <p className="mt-3 text-base">{message}</p>}
       <div className="mt-4 grid grid-cols-3 gap-2">
