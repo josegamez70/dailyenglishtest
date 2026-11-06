@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { PDFDocument, StandardFonts } from 'pdf-lib';
 import { buildProgressReport, type ReportTest } from '../progressReport.ts';
-import { recentTestsThatFit, renderProgressPdf } from '../progressPdf.ts';
+import { progressPageLayout, recentTestsThatFit, renderProgressPdf } from '../progressPdf.ts';
 
 test('the progress PDF is a real file and standard fonts keep Spanish names', async () => {
   const generatedAt = new Date(2026, 10, 6, 11, 28);
@@ -82,4 +82,15 @@ test('a full level breakdown and a long test list still fit on one page', async 
   assert.equal(recentTestsThatFit(5, 45, 10, 10), 3);
   assert.equal(recentTestsThatFit(0, 100, 10, 10), 0);
   assert.equal(recentTestsThatFit(4, 9, 10, 10), 0);
+});
+
+test('a short report gives the chart the spare page, and a long list keeps one page', () => {
+  const few = progressPageLayout(1, 4, 780);
+  const many = progressPageLayout(1, 40, 780);
+  assert.ok(few.chartHeight > many.chartHeight);
+  assert.ok(few.chartHeight > 300);
+  assert.equal(few.recentShown, 4);
+  assert.ok(many.recentShown < 40);
+  assert.ok(many.recentShown > 8);
+  assert.ok(many.chartHeight >= 200);
 });
