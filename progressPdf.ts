@@ -4,9 +4,12 @@ import { buildProgressReport, type ProgressReport, type RecentLine } from './pro
 
 const PAGE_W = 595.28;
 const PAGE_H = 841.89;
-const MARGIN = 40;
+const MARGIN = 32;
 const CONTENT_W = PAGE_W - MARGIN * 2;
-const BOTTOM = 40;
+/** Content stays above the footer. The report never opens a second page. */
+const BOTTOM = 28;
+const RECENT_ROW = 12;
+const RECENT_NOTE = 11;
 
 const INK = rgb(15 / 255, 23 / 255, 42 / 255);
 const MUTED = rgb(100 / 255, 116 / 255, 139 / 255);
@@ -44,42 +47,27 @@ function pdfText(font: PDFFont, value: string): string {
   }
 }
 
-function breakWord(font: PDFFont, word: string, size: number, maxWidth: number): string[] {
-  const parts: string[] = [];
-  let current = '';
-  for (const char of word) {
-    const next = current + char;
-    if (current && font.widthOfTextAtSize(next, size) > maxWidth) {
-      parts.push(current);
-      current = char;
-    } else {
-      current = next;
-    }
+function clipText(font: PDFFont, value: string, size: number, maxWidth: number): string {
+  const safe = pdfText(font, value).trim();
+  if (!safe || maxWidth <= 0) return '';
+  if (font.widthOfTextAtSize(safe, size) <= maxWidth) return safe;
+  let out = safe;
+  while (out.length > 1 && font.widthOfTextAtSize(`${out}...`, size) > maxWidth) {
+    out = out.slice(0, -1).trimEnd();
   }
-  if (current) parts.push(current);
-  return parts.length ? parts : [word];
+  return out ? `${out}...` : '';
 }
 
-function wrapPdfText(font: PDFFont, value: string, size: number, maxWidth: number): string[] {
-  const text = pdfText(font, value).trim();
-  if (!text) return [];
-  const lines: string[] = [];
-  let current = '';
-  const width = (line: string) => font.widthOfTextAtSize(line, size);
-  for (const word of text.split(/\s+/)) {
-    const chunks = width(word) <= maxWidth ? [word] : breakWord(font, word, size, maxWidth);
-    for (const chunk of chunks) {
-      const next = current ? `${current} ${chunk}` : chunk;
-      if (current && width(next) > maxWidth) {
-        lines.push(current);
-        current = chunk;
-      } else {
-        current = next;
-      }
-    }
-  }
-  if (current) lines.push(current);
-  return lines;
+/** Rows that fit in `room`, leaving one line for a truncation note when some tests remain. */
+export function recentTestsThatFit(total: number, room: number, rowHeight = RECENT_ROW, noteHeight = RECENT_NOTE): number {
+  if (total <= 0 || room < rowHeight || rowHeight <= 0) return 0;
+  if (total * rowHeight <= room) return total;
+  if (noteHeight >= room) return 0;
+  return Math.max(0, Math.min(total, Math.floor((room - noteHeight) / rowHeight)));
+}
+
+function roomLeft(pen: Pen): number {
+  return pen.y - BOTTOM;
 }
 
 function paint(pen: Pen, text: string, size: number, x: number, baseline: number, opts?: PaintOpts) {
@@ -93,44 +81,36 @@ function paint(pen: Pen, text: string, size: number, x: number, baseline: number
   });
 }
 
-function line(pen: Pen, text: string, size: number, opts?: PaintOpts & { gap?: number }) {
+function textLine(pen: Pen, text: string, size: number, opts?: PaintOpts & { gap?: number }) {
   const baseline = pen.y - size;
-  paint(pen, text, size, MARGIN, baseline, opts);
-  pen.y = baseline - (opts?.gap ?? 4);
-}
-
-function ensure(pen: Pen, height: number) {
-  if (pen.y - height < BOTTOM) {
-    pen.page = pen.doc.addPage([PAGE_W, PAGE_H]);
-    pen.y = PAGE_H - MARGIN;
-  }
-}
-
-function drawHeading(pen: Pen, text: string) {
-  ensure(pen, 24);
-  line(pen, text, 13, { bold: true, color: TEAL_DARK, gap: 8 });
+  const face = opts?.bold ? pen.bold : pen.font;
+  paint(pen, clipText(face, text, size, CONTENT_W), size, MARGIN, baseline, opts);
+  pen.y = baseline - (opts?.gap ?? 3);
 }
 
 function drawHeader(pen: Pen, report: ProgressReport) {
-  line(pen, 'Daily English Test', 9, { color: TEAL, gap: 4 });
-  const titleBaseline = pen.y - 18;
-  paint(pen, 'Progress report', 18, MARGIN, titleBaseline, { bold: true });
-  const date = pdfText(pen.font, report.generatedAtLabel);
-  const dateW = pen.font.widthOfTextAtSize(date, 9);
-  paint(pen, report.generatedAtLabel, 9, MARGIN + CONTENT_W - dateW, titleBaseline + 2, { color: MUTED });
-  pen.y = titleBaseline - 12;
-  const nameLines = wrapPdfText(pen.bold, report.studentName, 16, CONTENT_W);
-  for (const nameLine of nameLines) line(pen, nameLine, 16, { bold: true, gap: 2 });
-  pen.y -= 2;
-  if (report.level) line(pen, `Level ${report.level}`, 12, { bold: true, color: TEAL_DARK, gap: 12 });
-  else pen.y -= 8;
+  textLine(pen, 'Daily English Test', 8, { color: TEAL, gap: 2 });
+  const titleSize = 13;
+  const titleBaseline = pen.y - titleSize;
+  paint(pen, 'Progress report', titleSize, MARGIN, titleBaseline, { bold: true });
+  const date = clipText(pen.font, report.generatedAtLabel, 8, 180);
+  const dateW = pen.font.widthOfTextAtSize(date, 8);
+  paint(pen, date, 8, MARGIN + CONTENT_W - dateW, titleBaseline + 1, { color: MUTED });
+  pen.y = titleBaseline - 5;
+  const nameSize = 12;
+  const nameBaseline = pen.y - nameSize;
+  const level = report.level ? `Level ${report.level}` : '';
+  const levelW = level ? pen.bold.widthOfTextAtSize(pdfText(pen.bold, level), 11) : 0;
+  const nameMax = level ? CONTENT_W - levelW - 12 : CONTENT_W;
+  paint(pen, clipText(pen.bold, report.studentName, nameSize, nameMax), nameSize, MARGIN, nameBaseline, { bold: true });
+  if (level) paint(pen, level, 11, MARGIN + CONTENT_W - levelW, nameBaseline, { bold: true, color: TEAL_DARK });
+  pen.y = nameBaseline - 8;
 }
 
 function drawSkills(pen: Pen, report: ProgressReport) {
   const gap = 8;
   const cardW = (CONTENT_W - gap * 2) / 3;
-  const cardH = 58;
-  ensure(pen, cardH + 4);
+  const cardH = 36;
   const top = pen.y;
   report.skills.forEach((skill, index) => {
     const x = MARGIN + index * (cardW + gap);
@@ -143,110 +123,127 @@ function drawSkills(pen: Pen, report: ProgressReport) {
       borderColor: LINE,
       borderWidth: 1,
     });
-    paint(pen, skill.label, 9, x + 10, top - 18, { color: MUTED });
-    paint(pen, skill.average, 18, x + 10, top - 42, { bold: true, color: TEAL_DARK });
+    paint(pen, skill.label, 8, x + 8, top - 12, { color: MUTED });
+    paint(pen, skill.average, 14, x + 8, top - 28, { bold: true, color: TEAL_DARK });
   });
-  pen.y = top - cardH - 18;
+  pen.y = top - cardH - 10;
 }
 
 function drawLevels(pen: Pen, report: ProgressReport) {
-  drawHeading(pen, 'By level');
-  for (const section of report.levels) {
-    ensure(pen, 32);
-    line(pen, section.skill, 11, { bold: true, gap: 3 });
-    if (section.empty || section.rows.length === 0) {
-      line(pen, section.empty ?? 'No tests for this skill.', 10, { color: MUTED, gap: 8 });
-      continue;
-    }
-    for (const row of section.rows) {
-      ensure(pen, 16);
-      const baseline = pen.y - 11;
-      paint(pen, row.label, 10, MARGIN, baseline);
-      const detail = pdfText(pen.font, row.detail);
-      const detailW = pen.font.widthOfTextAtSize(detail, 10);
-      paint(pen, row.detail, 10, MARGIN + CONTENT_W - detailW, baseline, { color: TEAL_DARK });
-      pen.y = baseline - 6;
-    }
-    pen.y -= 6;
-  }
+  textLine(pen, 'By level', 11, { bold: true, color: TEAL_DARK, gap: 3 });
+  const gap = 10;
+  const colW = (CONTENT_W - gap * 2) / 3;
+  const rowH = 11;
+  const nameH = 13;
+  const maxRows = Math.max(1, ...report.levels.map((section) => Math.max(section.rows.length, 1)));
+  const top = pen.y;
+  report.levels.forEach((section, index) => {
+    const x = MARGIN + index * (colW + gap);
+    paint(pen, section.skill, 9, x, top - 9, { bold: true });
+    const rows = section.rows.length
+      ? section.rows
+      : [{ label: section.empty ?? 'No tests for this skill.', detail: '' }];
+    rows.forEach((row, rowIndex) => {
+      const baseline = top - nameH - rowIndex * rowH - 8;
+      if (!row.detail) {
+        paint(pen, clipText(pen.font, row.label, 8, colW), 8, x, baseline, { color: MUTED });
+        return;
+      }
+      const detail = clipText(pen.font, row.detail, 8, colW * 0.58);
+      const detailW = pen.font.widthOfTextAtSize(detail, 8);
+      paint(pen, clipText(pen.font, row.label, 8, Math.max(16, colW - detailW - 4)), 8, x, baseline);
+      paint(pen, detail, 8, x + colW - detailW, baseline, { color: TEAL_DARK });
+    });
+  });
+  pen.y = top - nameH - maxRows * rowH - 4;
 }
 
 function drawActivity(pen: Pen, report: ProgressReport) {
-  const summaryLines = wrapPdfText(pen.font, report.activitySummary, 10, CONTENT_W);
-  ensure(pen, 24 + summaryLines.length * 14 + 100);
-  drawHeading(pen, 'Last 14 days');
-  for (const summaryLine of summaryLines) line(pen, summaryLine, 10, { color: MUTED, gap: 2 });
-  pen.y -= 8;
-  const chartH = 78;
-  const labelH = 16;
-  ensure(pen, chartH + labelH);
+  const heading = 'Last 14 days';
+  const chartH = 44;
+  const labelH = 10;
+  const full = 16 + chartH + labelH;
+  if (roomLeft(pen) < 14) return;
+  if (roomLeft(pen) < full) {
+    textLine(pen, `${heading} · ${report.activitySummary}`, 8, { color: MUTED, gap: 4 });
+    return;
+  }
+  const headBaseline = pen.y - 10;
+  paint(pen, heading, 10, MARGIN, headBaseline, { bold: true, color: TEAL_DARK });
+  const headW = pen.bold.widthOfTextAtSize(heading, 10);
+  paint(
+    pen,
+    clipText(pen.font, report.activitySummary, 8, CONTENT_W - headW - 8),
+    8,
+    MARGIN + headW + 8,
+    headBaseline,
+    { color: MUTED },
+  );
+  pen.y = headBaseline - 5;
   const base = pen.y - chartH;
-  const barMax = chartH - 10;
+  const barMax = chartH - 6;
   for (const mark of [0, 0.5, 1]) {
     const y = base + mark * barMax;
     pen.page.drawLine({
       start: { x: MARGIN, y },
       end: { x: MARGIN + CONTENT_W, y },
-      thickness: 0.6,
+      thickness: 0.5,
       color: LINE,
     });
   }
   const slot = CONTENT_W / Math.max(1, report.activity.length);
   report.activity.forEach((day, index) => {
     if (day.percent != null) {
-      const barW = Math.max(2, slot - 5);
+      const barW = Math.max(3, slot - 4);
       pen.page.drawRectangle({
         x: MARGIN + index * slot + (slot - barW) / 2,
         y: base,
         width: barW,
-        height: Math.max(1.5, (day.percent / 100) * barMax),
+        height: Math.max(1.2, (day.percent / 100) * barMax),
         color: TEAL,
       });
     }
     if (index % 3 === 0) {
-      paint(pen, day.label, 7, MARGIN + index * slot, base - 12, { color: MUTED });
+      paint(pen, day.label, 6.5, MARGIN + index * slot, base - 8, { color: MUTED });
     }
   });
-  pen.y = base - labelH - 10;
+  pen.y = base - labelH - 2;
 }
 
-function drawRecentItem(pen: Pen, item: RecentLine) {
-  const titleLines = item.title ? wrapPdfText(pen.font, item.title, 10, CONTENT_W) : [];
-  ensure(pen, 28 + titleLines.length * 13);
-  line(pen, item.when || '—', 9, { color: MUTED, gap: 2 });
-  const baseline = pen.y - 11;
-  paint(pen, item.tags || '—', 10, MARGIN, baseline);
-  const score = pdfText(pen.bold, item.score);
-  const scoreW = pen.bold.widthOfTextAtSize(score, 11);
-  paint(pen, item.score, 11, MARGIN + CONTENT_W - scoreW, baseline, { bold: true, color: TEAL_DARK });
-  pen.y = baseline - 4;
-  for (const titleLine of titleLines) line(pen, titleLine, 10, { gap: 1 });
-  pen.y -= 5;
-  pen.page.drawLine({
-    start: { x: MARGIN, y: pen.y },
-    end: { x: MARGIN + CONTENT_W, y: pen.y },
-    thickness: 0.4,
-    color: LINE,
-  });
-  pen.y -= 8;
+function drawRecentRow(pen: Pen, item: RecentLine) {
+  const baseline = pen.y - 9;
+  const when = clipText(pen.font, item.when || '—', 8, 128);
+  paint(pen, when, 8, MARGIN, baseline, { color: MUTED });
+  const score = clipText(pen.bold, item.score, 9, 40);
+  const scoreW = pen.bold.widthOfTextAtSize(score, 9);
+  paint(pen, score, 9, MARGIN + CONTENT_W - scoreW, baseline, { bold: true, color: TEAL_DARK });
+  const tagsX = MARGIN + 132;
+  const tagsMax = CONTENT_W - 132 - scoreW - 8;
+  paint(pen, clipText(pen.font, item.tags || '—', 8, tagsMax), 8, tagsX, baseline);
+  pen.y = baseline - 3;
 }
 
 function drawRecent(pen: Pen, report: ProgressReport) {
-  drawHeading(pen, 'Recent tests');
+  if (roomLeft(pen) < 14) return;
+  textLine(pen, 'Recent tests', 11, { bold: true, color: TEAL_DARK, gap: 3 });
   if (!report.recent.length) {
-    line(pen, 'No tests yet.', 10, { color: MUTED });
+    if (roomLeft(pen) >= 11) textLine(pen, 'No tests yet.', 8, { color: MUTED, gap: 2 });
     return;
   }
-  for (const item of report.recent) drawRecentItem(pen, item);
+  const shown = recentTestsThatFit(report.recent.length, roomLeft(pen));
+  for (let index = 0; index < shown; index += 1) drawRecentRow(pen, report.recent[index]);
+  if (shown < report.recent.length && roomLeft(pen) >= RECENT_NOTE) {
+    textLine(pen, `Showing ${shown} of ${report.recent.length} tests.`, 8, { color: MUTED, gap: 2 });
+  }
 }
 
-function drawFooters(pen: Pen) {
-  const pages = pen.doc.getPages();
-  pages.forEach((page, index) => {
-    const label = `${index + 1} / ${pages.length}`;
-    const width = pen.font.widthOfTextAtSize(label, 9);
-    page.drawText('Daily English Test', { x: MARGIN, y: 22, size: 9, font: pen.font, color: MUTED });
-    page.drawText(label, { x: PAGE_W - MARGIN - width, y: 22, size: 9, font: pen.font, color: MUTED });
+function drawFooter(pen: Pen) {
+  pen.page.drawText('Daily English Test', {
+    x: MARGIN,
+    y: 14,
+    size: 8,
+    font: pen.font,
+    color: MUTED,
   });
 }
 
@@ -260,7 +257,7 @@ export async function renderProgressPdf(report: ProgressReport): Promise<Uint8Ar
   const pen: Pen = {
     doc,
     page: doc.addPage([PAGE_W, PAGE_H]),
-    y: PAGE_H - MARGIN,
+    y: PAGE_H - 26,
     font,
     bold,
   };
@@ -269,7 +266,7 @@ export async function renderProgressPdf(report: ProgressReport): Promise<Uint8Ar
   drawLevels(pen, report);
   drawActivity(pen, report);
   drawRecent(pen, report);
-  drawFooters(pen);
+  drawFooter(pen);
   return doc.save();
 }
 
