@@ -1636,7 +1636,13 @@ const App: React.FC = () => {
           onLessonsChanged={() => { void account.refreshProfile(); }}
         />
       )}
-      {shellItem === 'progress' && <ProgressPage onCreate={() => go('/')} />}
+      {shellItem === 'progress' && (
+        <ProgressPage
+          onCreate={() => go('/')}
+          studentName={account.displayName.trim() || account.email || 'Student'}
+          profileLevel={account.defaultLevel}
+        />
+      )}
       {shellItem === 'saved' && <SavedLessonsPage onOpen={openSaved} onCreate={() => go('/')} />}
       {shellItem === 'academy' && account.plan === 'academy' && <AcademyPage ownerDisplayName={account.displayName} />}
       {shellItem === 'academy' && account.plan !== 'academy' && (
