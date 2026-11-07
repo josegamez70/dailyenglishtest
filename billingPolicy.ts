@@ -5,6 +5,7 @@ import {
   BILLING_SUCCESS_PATH,
   planByKey,
   PUBLIC_PLANS,
+  VAT_PERCENT,
   type PlanKey,
   type PublicPlan,
 } from './billingPlans.ts';
@@ -40,12 +41,21 @@ export type PriceSnapshot = {
   livemode?: boolean;
   product?: string | { id?: string } | null;
   metadata?: Record<string, string> | null;
+  tax_behavior?: string | null;
   recurring?: {
     interval?: string;
     interval_count?: number;
     usage_type?: string;
     trial_period_days?: number | null;
   } | null;
+};
+
+export type TaxRateSnapshot = {
+  id?: string;
+  active?: boolean;
+  inclusive?: boolean;
+  percentage?: number | null;
+  livemode?: boolean;
 };
 
 export type BillingReadiness = {
@@ -115,7 +125,34 @@ export function billingReadiness(env: EnvMap): BillingReadiness {
       return { checkout: false, reason: 'incomplete' };
     }
   }
+  const taxRateId = env.STRIPE_TAX_RATE_IVA_21?.trim() ?? '';
+  if (!taxRateId.startsWith('txr_')) return { checkout: false, reason: 'incomplete' };
   return { checkout: true, reason: 'ready' };
+}
+
+/** Manual tax rates only. Exclusive or non-21 rates must not be attached. */
+export function taxRateMismatch(rate: TaxRateSnapshot, mode: 'live' | 'test'): string | null {
+  if (!rate.id?.startsWith('txr_')) return 'id';
+  if (rate.active !== true) return 'inactive';
+  if (rate.inclusive !== true) return 'exclusive';
+  if (rate.percentage !== VAT_PERCENT) return 'percentage';
+  if (rate.livemode !== (mode === 'live')) return 'livemode';
+  return null;
+}
+
+/**
+ * unspecified prices can take a manual inclusive tax rate.
+ * exclusive would add tax on top of the published total, so it is refused.
+ */
+export function priceTaxBehaviorMismatch(behavior: string | null | undefined): string | null {
+  if (behavior == null || behavior === '' || behavior === 'unspecified' || behavior === 'inclusive') return null;
+  if (behavior === 'exclusive') return 'exclusive_price';
+  return 'tax_behavior';
+}
+
+export function inclusiveTaxRateId(rate: TaxRateSnapshot, mode: 'live' | 'test'): string | null {
+  if (taxRateMismatch(rate, mode)) return null;
+  return rate.id ?? null;
 }
 
 export function priceMismatch(plan: PublicPlan, price: PriceSnapshot, mode: 'live' | 'test'): string | null {
@@ -143,6 +180,8 @@ export function priceMismatch(plan: PublicPlan, price: PriceSnapshot, mode: 'liv
   } else if (!productId || productId === candidate.productId) {
     return 'product';
   }
+  const taxBehavior = priceTaxBehaviorMismatch(price.tax_behavior);
+  if (taxBehavior) return taxBehavior;
   const seats = price.metadata?.max_students;
   if (plan.seats == null) {
     if (seats) return 'unexpected_capacity';

@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
-import { PUBLIC_PLANS, formatEuro, isHostedStripeUrl, planByKey } from '../billingPlans.ts';
+import { PUBLIC_PLANS, formatEuro, inclusiveVatBreakdown, isHostedStripeUrl, planByKey, renewalVatBreakdowns } from '../billingPlans.ts';
 import {
   LIVE_PRICE_CANDIDATES,
   RETIRED_LOOKUP_KEYS,
@@ -11,12 +11,15 @@ import {
   billingReadiness,
   checkoutEligibility,
   decideSubscriptionSync,
+  inclusiveTaxRateId,
   makeIntegrationIdentifier,
   priceMismatch,
+  priceTaxBehaviorMismatch,
   readPlanRequest,
   refundShouldSuspend,
   sessionShouldSync,
   subscriptionIdFromInvoice,
+  taxRateMismatch,
   type BillingProfile,
   type PriceSnapshot,
   type PublicPlan,
@@ -34,6 +37,7 @@ function env(extra: Record<string, string>): Record<string, string> {
     APP_BASE_URL: 'https://preview.example.test',
     SUPABASE_URL: 'https://example.supabase.co',
     SUPABASE_SERVICE_ROLE_KEY: 'service-role-example',
+    STRIPE_TAX_RATE_IVA_21: 'txr_test_iva21',
     ...extra,
   };
 }
@@ -112,6 +116,9 @@ test('billing stays off until flags, webhook, and price env are complete', () =>
     STRIPE_PRODUCT_ACADEMY_100: LIVE_PRICE_CANDIDATES.academy_100.productId,
   })).reason, 'live_not_allowed');
   assert.equal(billingReadiness(env(testPriceEnv())).reason, 'ready');
+  const withoutTax = env(testPriceEnv());
+  delete withoutTax.STRIPE_TAX_RATE_IVA_21;
+  assert.equal(billingReadiness(withoutTax).reason, 'incomplete');
   assert.equal(billingReadiness(env({
     ...testPriceEnv(),
     STRIPE_PRICE_PREMIUM: RETIRED_PREMIUM_PRICE_ID,
@@ -354,6 +361,45 @@ test('checkout success is not fulfillment, and only a full refund suspends', () 
     parent: { type: 'subscription_details', subscription_details: { subscription: 'sub_123' } },
   }), 'sub_123');
   assert.deepEqual(RETIRED_LOOKUP_KEYS, ['det_academy_8', 'det_academy_15', 'det_academy_30']);
+});
+
+test('21% VAT is included in every plan total and repeats on later invoices', () => {
+  const expected = [
+    [300, 248, 52],
+    [3000, 2479, 521],
+    [4500, 3719, 781],
+    [6000, 4959, 1041],
+    [8000, 6612, 1388],
+  ];
+  assert.deepEqual(PUBLIC_PLANS.map((plan) => plan.amountCents), expected.map((row) => row[0]));
+  for (const [total, base, vat] of expected) {
+    const split = inclusiveVatBreakdown(total);
+    assert.equal(split.baseCents, base);
+    assert.equal(split.vatCents, vat);
+    assert.equal(split.baseCents + split.vatCents, total);
+    assert.equal(split.ratePercent, 21);
+    const year = renewalVatBreakdowns(total, 12);
+    assert.equal(year.length, 12);
+    assert.ok(year.every((invoice) => invoice.baseCents === base && invoice.vatCents === vat && invoice.totalCents === total));
+  }
+  assert.equal(formatEuro(248), '2.48 €');
+  assert.equal(formatEuro(52), '0.52 €');
+});
+
+test('checkout accepts only an active inclusive 21% tax rate', () => {
+  const good = { id: 'txr_test_iva21', active: true, inclusive: true, percentage: 21, livemode: false };
+  assert.equal(taxRateMismatch(good, 'test'), null);
+  assert.equal(inclusiveTaxRateId(good, 'test'), 'txr_test_iva21');
+  assert.equal(taxRateMismatch({ ...good, inclusive: false }, 'test'), 'exclusive');
+  assert.equal(inclusiveTaxRateId({ ...good, inclusive: false }, 'test'), null);
+  assert.equal(taxRateMismatch({ ...good, percentage: 10 }, 'test'), 'percentage');
+  assert.equal(taxRateMismatch({ ...good, active: false }, 'test'), 'inactive');
+  assert.equal(taxRateMismatch({ ...good, livemode: true }, 'test'), 'livemode');
+  assert.equal(priceTaxBehaviorMismatch('unspecified'), null);
+  assert.equal(priceTaxBehaviorMismatch('inclusive'), null);
+  assert.equal(priceTaxBehaviorMismatch('exclusive'), 'exclusive_price');
+  assert.equal(priceMismatch(premium, priceFor(premium, 'test', { tax_behavior: 'exclusive' }), 'test'), 'exclusive_price');
+  assert.equal(priceMismatch(premium, priceFor(premium, 'test', { tax_behavior: 'unspecified' }), 'test'), null);
 });
 
 test('source does not contain Stripe secret keys', () => {
