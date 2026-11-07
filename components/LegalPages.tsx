@@ -92,7 +92,7 @@ function LegalNotice() {
       </Section>
       <Section heading="Payments">
         <p>
-          Paid plans are not on sale yet. The planned prices are in the <a className="underline" href="/terms">Terms of Use</a>. No payment is taken until billing is turned on. José María Gámez is not yet registered as self-employed (autónomo). He must confirm that status, and whether VAT is due, before any payment is taken.
+          Paid plans are not on sale yet. The prices in the <a className="underline" href="/terms">Terms of Use</a> include 21% VAT for one learner and for academies. The total is the amount payable. VAT is not added on top. No payment is taken until billing is turned on. José María Gámez is not yet registered as self-employed (autónomo). This page does not give a VAT number. He must confirm that invoices may show 21% VAT before any payment is taken.
         </p>
       </Section>
       <Section heading="Law">
@@ -126,7 +126,7 @@ function PrivacyPolicy() {
           <li>Words you tap, which are sent to a dictionary service to show a meaning.</li>
         </ul>
         <p>
-          We do not ask you to type a card number on this site. If you start checkout later, Stripe asks for payment details on Stripe’s own page. We store a Stripe customer id and the subscription status. We do not store the card number.
+          We do not ask you to type a card number or a VAT number on this site. If you start checkout later, Stripe asks for payment details on Stripe’s own page. We store a Stripe customer id and the subscription status. We do not store the card number.
         </p>
       </Section>
       <Section heading="Why we use it">
@@ -202,12 +202,12 @@ function TermsOfUse() {
       </Section>
       <Section heading="Premium plan">
         <p>
-          The planned Premium price is 3 € per month for one person, with unlimited lessons. It is not for sale until the site owner turns billing on. You are not charged unless you choose the plan and finish payment on Stripe’s page.
+          Premium is 3 € per month for one person, with unlimited lessons. That total includes 21% VAT: 2.48 € plus 0.52 € VAT. It is not for sale until the site owner turns billing on. You are not charged unless you choose the plan and finish payment on Stripe’s page.
         </p>
       </Section>
       <Section heading="Academy plans">
         <p>
-          Academy prices are a fixed monthly price, not a price per student. The planned prices are: up to 20 students, 30 € per month; up to 40, 45 €; up to 70, 60 €; up to 100, 80 €. Students are not charged. If an academy subscription ends, student names and results stay stored. New students cannot join while the academy plan is off.
+          Academy prices are a fixed monthly price, not a price per student. Each total includes 21% VAT. Up to 20 students is 30 € per month (24.79 € plus 5.21 € VAT). Up to 40 is 45 € (37.19 € plus 7.81 € VAT). Up to 70 is 60 € (49.59 € plus 10.41 € VAT). Up to 100 is 80 € (66.12 € plus 13.88 € VAT). Students are not charged. If an academy subscription ends, student names and results stay stored. New students cannot join while the academy plan is off.
         </p>
       </Section>
       <Section heading="Payments">
@@ -215,7 +215,7 @@ function TermsOfUse() {
           When billing is turned on, Stripe takes the payment. We do not store card numbers. The page you see after payment does not by itself turn on the plan. The plan changes only after Stripe sends a signed notice to our server. You can cancel on Stripe’s billing page. If you cancel, you keep the plan until the end of the period you already paid. A failed renewal can stop new lessons after Stripe ends the subscription. We do not delete lessons or the student list because a payment fails.
         </p>
         <p>
-          Prices are shown in euro per month. This site does not add tax in checkout. José María Gámez is not yet registered as self-employed (autónomo). Before any payment is taken, he must confirm with a tax adviser whether VAT is due and whether the price should be shown as including tax. This page is not tax advice.
+          Prices are in euro per month and include 21% VAT for individuals and academies. The amount you pay is the total. The breakdown is the base price plus 21% VAT. VAT is not added on top of the total. The same breakdown applies on each monthly invoice. José María Gámez is not yet registered as self-employed (autónomo). This page does not give a VAT number. Before any payment is taken, he must confirm that invoices may show 21% VAT. This page is not tax advice.
         </p>
         <p>
           Before payments start, the owner must also confirm the wording for the 14-day consumer withdrawal right, including what happens if digital lessons start right away. Until that confirmation, and until billing is explicitly turned on, no charge is made.

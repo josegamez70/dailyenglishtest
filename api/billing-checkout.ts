@@ -5,6 +5,7 @@ import {
   checkoutEligibility,
   checkoutIdempotencyKey,
   keyMode,
+  inclusiveTaxRateId,
   makeIntegrationIdentifier,
   priceMismatch,
   randomLetterSuffix,
@@ -95,8 +96,12 @@ export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => 
     }
 
     const priceId = process.env[plan.envPrice]?.trim() ?? '';
+    const taxRateId = process.env.STRIPE_TAX_RATE_IVA_21?.trim() ?? '';
     const price = await stripe.prices.retrieve(priceId);
-    if (priceMismatch(plan, price, mode)) return json(503, { ok: false, code: 'price_rejected', message: SAFE_FAILURE });
+    const taxRate = await stripe.taxRates.retrieve(taxRateId);
+    if (priceMismatch(plan, price, mode) || !inclusiveTaxRateId(taxRate, mode)) {
+      return json(503, { ok: false, code: 'price_rejected', message: SAFE_FAILURE });
+    }
 
     let customerId = profile.stripe_customer_id ?? null;
     if (!customerId) {
@@ -144,13 +149,14 @@ export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => 
       customer: customerId,
       client_reference_id: user.id,
       locale: 'en',
-      line_items: [{ price: price.id, quantity: 1 }],
+      line_items: [{ price: price.id, quantity: 1, tax_rates: [taxRate.id] }],
       success_url: urls.success,
       cancel_url: urls.cancel,
       integration_identifier: identifier,
       subscription_data: {
         description: plan.checkoutDescription,
         billing_mode: { type: 'flexible' },
+        default_tax_rates: [taxRate.id],
         metadata: { supabase_user_id: user.id, plan_key: plan.key },
       },
       metadata: { supabase_user_id: user.id, plan_key: plan.key },

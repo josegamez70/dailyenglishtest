@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { accessToken } from '../auth';
-import { formatEuro, isHostedStripeUrl, PUBLIC_PLANS, type PlanKey } from '../billingPlans';
+import { formatEuro, inclusiveVatBreakdown, isHostedStripeUrl, PUBLIC_PLANS, type PlanKey } from '../billingPlans';
 
 type PanelVariant = 'landing' | 'profile' | 'paywall';
 type ExampleState = 'paywall' | 'active' | null;
@@ -11,6 +11,23 @@ type BillingAccount = {
   cancelAtPeriodEnd: boolean;
   planKey: string | null;
 };
+
+function VatBreakdown({ totalCents }: { totalCents: number }) {
+  const split = inclusiveVatBreakdown(totalCents);
+  return (
+    <div className="mt-2 text-sm text-slate-700 dark:text-slate-200">
+      <p className="font-semibold text-teal-800 dark:text-teal-200">21% VAT included</p>
+      <dl className="mt-1 grid grid-cols-[auto_1fr] gap-x-3 gap-y-0.5">
+        <dt>Base</dt>
+        <dd className="text-right">{formatEuro(split.baseCents)}</dd>
+        <dt>VAT 21%</dt>
+        <dd className="text-right">{formatEuro(split.vatCents)}</dd>
+        <dt className="font-semibold">Total</dt>
+        <dd className="text-right font-semibold">{formatEuro(split.totalCents)}</dd>
+      </dl>
+    </div>
+  );
+}
 
 const BLOCKED: Record<string, string> = {
   tester: 'This tester account is managed by the site owner. Checkout is not used.',
@@ -172,6 +189,7 @@ export function PricingPanel({
         <article className="rounded-2xl border border-teal-700/40 bg-white p-5 dark:border-teal-300/40 dark:bg-[#22304a]">
           <h3 className="text-lg font-bold">{premium.name}</h3>
           <p className="mt-1 text-2xl font-bold text-teal-800 dark:text-teal-200">{formatEuro(premium.amountCents)} <span className="text-base font-semibold">/ month</span></p>
+          <VatBreakdown totalCents={premium.amountCents} />
           <p className="mt-2 text-base text-slate-700 dark:text-slate-200">{premium.summary}</p>
           <button
             type="button"
@@ -186,7 +204,7 @@ export function PricingPanel({
 
         <article className="rounded-2xl border border-teal-700/40 bg-white p-5 dark:border-teal-300/40 dark:bg-[#22304a]">
           <h3 className="text-lg font-bold">Academy</h3>
-          <p className="mt-2 text-base text-slate-700 dark:text-slate-200">A fixed monthly price for the whole academy. Not a charge per student.</p>
+          <p className="mt-2 text-base text-slate-700 dark:text-slate-200">A fixed monthly price for the whole academy. Not a charge per student. 21% VAT included.</p>
           <fieldset className="mt-3 space-y-2">
             <legend className="text-sm font-semibold">Package</legend>
             {academies.map((item) => (
@@ -205,6 +223,7 @@ export function PricingPanel({
               </label>
             ))}
           </fieldset>
+          <VatBreakdown totalCents={PUBLIC_PLANS.find((item) => item.key === academyKey)?.amountCents ?? 0} />
           <button
             type="button"
             onClick={() => { void start(academyKey); }}
@@ -217,7 +236,7 @@ export function PricingPanel({
         </article>
       </div>
       <p className="mt-3 text-sm text-slate-600 dark:text-slate-300">
-        Prices are in euro per month. Tax is not added in checkout. {plan === 'pro' ? 'Premium is on this account.' : ''}
+        Prices are in euro per month and include 21% VAT. VAT is not added on top. {plan === 'pro' ? 'Premium is on this account.' : ''}
         {' '}Card details stay on Stripe’s page. The plan updates only after Stripe notifies the server.
       </p>
       {note && <p className="mt-3 text-base font-semibold" role="status">{note}</p>}

@@ -16,11 +16,37 @@ Do **not** use the archived Premium price `price_1UZA5yD66URNCYcO98GAaLbD` (5 �
 
 Academy prices share one Stripe product, so Checkout and invoices show one product name for every academy package. The site labels the seat tier before redirect, and the subscription description names the package. Splitting into four products would make the invoice line clearer. That was not changed.
 
-Prices have `tax_behavior` unset. Stripe Tax and Managed Payments are not enabled. Do not turn tax on until a tax adviser confirms the autónomo position and a registration exists. Stripe Tax collects nothing in a country until a registration is active.
+## 21% VAT included
+
+Every displayed total already includes 21% VAT for one learner and for academies. VAT is not added on top. The base is the total divided by 1.21, rounded to the nearest cent. VAT is the remainder, so the two parts add up to the total.
+
+| Total | Base | VAT 21% |
+| --- | --- | --- |
+| 3 € | 2.48 € | 0.52 € |
+| 30 € | 24.79 € | 5.21 € |
+| 45 € | 37.19 € | 7.81 € |
+| 60 € | 49.59 € | 10.41 € |
+| 80 € | 66.12 € | 13.88 € |
+
+The same split applies to every monthly invoice. Checkout does not use Stripe Tax (`automatic_tax` is not set). It attaches one manual tax rate, and only after the server has read that rate and checked that it is active, inclusive, and exactly 21%. An exclusive rate, a different percentage, an inactive rate, or a missing rate keeps Checkout off.
+
+Read-only check on 7 Nov 2026:
+
+- All five live prices have `tax_behavior: unspecified`. That is compatible with a manual inclusive tax rate. The rate’s `inclusive: true` flag keeps the customer total equal to the price. The prices do not need to be replaced for this path.
+- `tax_behavior: exclusive` would put tax on top of the total. Checkout rejects that price.
+- Changing `unspecified` to `inclusive` on a price is permanent. This change does not do that. Do it only if you later choose Stripe Tax and do not want to rely on the account default.
+- Tax settings are `status: active`. The default tax behavior is `inferred_by_currency` (EUR would be inclusive if Stripe Tax were used). The preset tax code on the settings is `txcd_10000000`. No tax registrations are on the account, so Stripe Tax would collect nothing. Leave `automatic_tax` off. See [Tax rates](https://docs.stripe.com/tax/tax-rates) and [tax behavior](https://docs.stripe.com/tax/products-prices-tax-codes-tax-behavior).
+- No 21% tax rate was created or attached by this change.
+
+Create the rate in the Stripe Dashboard, test mode first: Tax rates → inclusive, 21%, display name `VAT`. Do not mark it exclusive. Copy its id into `STRIPE_TAX_RATE_IVA_21`. A test key must use a test-mode rate. A live key must use a live rate. The server checks that match.
+
+Checkout sets that rate on the line item and as the subscription’s default tax rate, so the first invoice and later renewal invoices show the included VAT. Do not turn on tax ID collection. An exempt or reverse-charge customer would pay less than the published total, and this integration does not do that.
+
+Before any charge, José María still has to confirm that invoices may show 21% VAT. The site does not state a VAT number, and it does not change the existing note that he is not registered as self-employed (autónomo). That confirmation is a blocker. This page is not tax advice.
 
 ## Environment names
 
-Set these in Netlify (or the host), not in the repo. Prefer a [restricted API key](https://docs.stripe.com/keys.md) (`rk_`) with Customers write, Checkout Sessions write, Customer Portal write, Subscriptions read/write, Prices read, Products read, Invoices read, Charges read, and Disputes read. Use a separate key for test and live. Do not put the key in client code, logs, or this file.
+Set these in Netlify (or the host), not in the repo. Prefer a [restricted API key](https://docs.stripe.com/keys.md) (`rk_`) with Customers write, Checkout Sessions write, Customer Portal write, Subscriptions read/write, Prices read, Products read, Tax Rates read, Invoices read, Charges read, and Disputes read. Use a separate key for test and live. Do not put the key in client code, logs, or this file.
 
 | Name | Purpose |
 | --- | --- |
@@ -41,6 +67,7 @@ Set these in Netlify (or the host), not in the repo. Prefer a [restricted API ke
 | `STRIPE_PRODUCT_ACADEMY_70` | Product id for that price. |
 | `STRIPE_PRICE_ACADEMY_100` | Price id for up to 100 students. |
 | `STRIPE_PRODUCT_ACADEMY_100` | Product id for that price. |
+| `STRIPE_TAX_RATE_IVA_21` | Id of the active inclusive 21% tax rate. Required before Checkout can start. |
 
 For a live key, the price and product values must be the ids in the table above. A test key must use **different** test-mode price and product ids with the same amounts, currency (`eur`), monthly interval, lookup keys, and metadata (`plan=pro` on Premium, `max_students` of `20`, `40`, `70`, or `100` on academy prices). This repo does not create those test prices.
 
@@ -96,11 +123,11 @@ Renewal retries are Stripe’s job. Smart Retries can be turned on under Billing
 ## Test checklist (no live charges)
 
 1. Apply the migration.
-2. In Stripe **test mode**, create prices that match the table (amounts, `eur`, month, lookup keys, metadata). Do not paste the live price ids into a test key.
+2. In Stripe **test mode**, create prices that match the table (amounts, `eur`, month, lookup keys, metadata). Do not paste the live price ids into a test key. Create an inclusive 21% tax rate named VAT and set `STRIPE_TAX_RATE_IVA_21` to its test id. Do not enable automatic tax.
 3. Set the env names with a test restricted key. Set `STRIPE_BILLING_ENABLED=true`. Leave `STRIPE_ALLOW_LIVE_CHARGES` unset.
 4. Set `APP_BASE_URL` to the preview or local origin.
 5. Register the test webhook and put its signing secret in `STRIPE_WEBHOOK_SECRET`.
-6. Sign in with a free test user. Choose Premium or an academy package. Complete Checkout with card `4242 4242 4242 4242`.
+6. Sign in with a free test user. Choose Premium or an academy package. Complete Checkout with card `4242 4242 4242 4242`. The invoice total must equal the plan total, with 21% VAT included, not added on top. The next renewal invoice must show the same total and the same VAT split.
 7. Confirm the profile stays on the free plan until the webhook runs, then shows Premium or Academy, and an academy’s `max_students` matches the package.
 8. Open Manage billing and confirm the portal return lands on `/profile`.
 9. Cancel at period end and confirm lessons still work. End the subscription with the test clock or by cancelling immediately in test mode and confirm the plan returns to free without deleting students.
@@ -111,7 +138,8 @@ Renewal retries are Stripe’s job. Smart Retries can be turned on under Billing
 ## Still needed before any real charge
 
 - Owner approval to set `STRIPE_ALLOW_LIVE_CHARGES` and `STRIPE_BILLING_ENABLED` on production only.
-- Confirmation that José María’s autónomo registration and VAT treatment are decided. The legal pages still say he is not registered as autónomo. They do not claim a VAT rate.
+- A test-mode inclusive 21% tax rate in `STRIPE_TAX_RATE_IVA_21`. Checkout stays off without it.
+- Confirmation that invoices may show 21% VAT. The legal pages still say José María is not registered as autónomo, and they do not state a VAT number. No tax registration is on the Stripe account. Stripe Tax stays off.
 - Confirmation of the 14-day withdrawal wording for digital lessons.
 - A test-mode catalog, webhook, and Customer Portal. None of these exist yet.
 - A decision on whether academy packages should be separate Stripe products so invoices name the seat tier.

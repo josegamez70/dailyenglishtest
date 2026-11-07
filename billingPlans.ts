@@ -103,6 +103,45 @@ export function formatEuro(cents: number): string {
   return Number.isInteger(euros) ? `${euros} €` : `${euros.toFixed(2)} €`;
 }
 
+/** Spanish VAT rate shown inside every plan total. Not added on top. */
+export const VAT_PERCENT = 21;
+
+export type VatBreakdown = {
+  baseCents: number;
+  vatCents: number;
+  totalCents: number;
+  ratePercent: number;
+};
+
+/**
+ * Base is the total divided by 1.21, rounded to the nearest cent.
+ * VAT is the remainder, so base + VAT equals the total exactly.
+ */
+export function inclusiveVatBreakdown(totalCents: number, ratePercent = VAT_PERCENT): VatBreakdown {
+  if (!Number.isInteger(totalCents) || totalCents < 0) {
+    throw new Error('total_cents');
+  }
+  if (ratePercent !== VAT_PERCENT) {
+    throw new Error('vat_rate');
+  }
+  const baseCents = Math.round(totalCents / (1 + ratePercent / 100));
+  return {
+    baseCents,
+    vatCents: totalCents - baseCents,
+    totalCents,
+    ratePercent,
+  };
+}
+
+/** Each renewal invoice uses the same inclusive total. The breakdown does not change. */
+export function renewalVatBreakdowns(totalCents: number, invoiceCount: number): VatBreakdown[] {
+  if (!Number.isInteger(invoiceCount) || invoiceCount < 1) {
+    throw new Error('invoice_count');
+  }
+  const breakdown = inclusiveVatBreakdown(totalCents);
+  return Array.from({ length: invoiceCount }, () => ({ ...breakdown }));
+}
+
 export function isHostedStripeUrl(url: string): boolean {
   try {
     const parsed = new URL(url);
