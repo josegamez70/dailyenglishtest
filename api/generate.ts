@@ -269,7 +269,7 @@ function limitBody(lessonsUsed: number, plan: string) {
     error: 'free_limit',
     lessonsUsed,
     plan,
-    message: 'You have used your 3 free lessons. Premium is coming soon: 5 € per month.',
+    message: 'You have used your 3 free lessons. Premium is 3 € per month. These 3 lessons do not expire.',
   });
 }
 

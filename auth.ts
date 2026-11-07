@@ -14,7 +14,7 @@ export function planStatusText(plan: string | null, lessonsLeft: number, academy
   return plan;
 }
 
-export const FREE_LIMIT_MESSAGE = 'You have used your 3 free lessons. Premium is coming soon: 5 € per month.';
+export const FREE_LIMIT_MESSAGE = 'You have used your 3 free lessons. Premium is 3 € per month. These 3 lessons do not expire.';
 
 let client: SupabaseClient | null | undefined;
 

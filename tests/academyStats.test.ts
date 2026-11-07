@@ -106,6 +106,7 @@ test('join errors use simple English', () => {
   assert.equal(joinResultMessage('ok'), null);
   assert.equal(joinResultMessage('invalid_code'), 'That code does not match an academy.');
   assert.equal(joinResultMessage('academy_full'), 'This academy is full.');
+  assert.equal(joinResultMessage('academy_inactive'), 'This academy is not accepting students right now.');
   assert.equal(joinResultMessage('already_member'), 'You already belong to an academy.');
 });
 
