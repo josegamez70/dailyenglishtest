@@ -111,6 +111,7 @@ export function joinResultMessage(result: string): string | null {
   if (result === 'ok') return null;
   if (result === 'invalid_code') return 'That code does not match an academy.';
   if (result === 'academy_full') return 'This academy is full.';
+  if (result === 'academy_inactive') return 'This academy is not accepting students right now.';
   if (result === 'already_member') return 'You already belong to an academy.';
   if (result === 'missing') return 'Academy joining will work after the database update.';
   return 'Could not join. Try again.';

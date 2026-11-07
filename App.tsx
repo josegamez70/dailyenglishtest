@@ -37,6 +37,7 @@ import { saveLesson, saveTestResult } from './studyStore';
 import { SignInBox } from './components/SignInBox';
 import { LegalDocument, SiteFooter, legalPageFromPath } from './components/LegalPages';
 import { AuthLoading, Landing, focusSignIn } from './components/Landing';
+import { PricingPanel } from './components/PricingPanel';
 import Configurator from './components/Configurator';
 import { DefinedText, DictionaryPopup } from './components/DefinedText';
 import Loader from './components/Loader';
@@ -166,6 +167,7 @@ const App: React.FC = () => {
   const [loadingEstimate, setLoadingEstimate] = useState(20);
   const [loadingNote, setLoadingNote] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [paywall, setPaywall] = useState(false);
   const [isVocabularyModalOpen, setIsVocabularyModalOpen] = useState(false);
   const [themeChoice, setThemeChoice] = useState<ThemeChoice>(() => {
     try {
@@ -344,6 +346,7 @@ const App: React.FC = () => {
     setLoadingStartedAt(null);
     setLoadingNote(null);
     setError(null);
+    setPaywall(false);
     setView('config');
   };
 
@@ -373,6 +376,7 @@ const App: React.FC = () => {
     setIsLoading(true);
     setQuizLoading(false);
     setError(null);
+    setPaywall(false);
     setSignInOpen(false);
     setSignInPrompt(false);
     setLoadingNote('Writing the story...');
@@ -437,6 +441,7 @@ const App: React.FC = () => {
         return;
       }
       setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
+      setPaywall(err instanceof Error && (err as { code?: string }).code === 'free_limit');
       if (!storyShown) setView('config');
     } finally {
       setIsLoading(false);
@@ -1562,6 +1567,14 @@ const App: React.FC = () => {
             <strong className="font-bold">Error: </strong>
             <span className="block sm:inline">{error}</span>
           </div>
+        )}
+        {paywall && (
+          <PricingPanel
+            signedIn={account.signedIn}
+            plan={account.plan}
+            academyRole={account.academyRole}
+            variant="paywall"
+          />
         )}
         {renderContent()}
       </main>

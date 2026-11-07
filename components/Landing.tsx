@@ -1,4 +1,5 @@
 import React from 'react';
+import { PricingPanel } from './PricingPanel';
 import { SignInBox } from './SignInBox';
 
 const points = [
@@ -185,11 +186,9 @@ export function Landing() {
         ))}
       </ul>
 
-      <p className="mt-8 text-center text-sm text-slate-600 dark:text-slate-300">
-        Premium: 5 € per month, coming soon.
-      </p>
-      <p className="mt-2 text-center text-sm text-slate-600 dark:text-slate-300">
-        Are you an academy? <a className="underline" href="mailto:josegamez70@hotmail.com">Contact us</a>
+      <PricingPanel signedIn={false} plan={null} academyRole={null} variant="landing" onSignIn={focusSignIn} />
+      <p className="mt-6 text-center text-sm text-slate-600 dark:text-slate-300">
+        Questions about an academy? <a className="underline" href="mailto:josegamez70@hotmail.com">Contact us</a>
       </p>
     </main>
   );

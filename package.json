@@ -6,14 +6,16 @@
   "scripts": {
     "dev": "netlify dev",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "node --experimental-strip-types --test tests/academyStats.test.ts tests/billing.test.ts tests/device.test.ts tests/dialogue.test.ts tests/dictionary.test.ts tests/lessonUtils.test.ts tests/modelFallback.test.ts tests/progressStats.test.ts tests/quizNormalize.test.ts tests/quizSession.test.ts tests/speechPosition.test.ts tests/speechVoices.test.ts"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
     "@supabase/supabase-js": "^2.118.0",
     "pdf-lib": "^1.17.1",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "stripe": "^23.0.0"
   },
   "devDependencies": {
     "@google/genai": "^1.9.0",

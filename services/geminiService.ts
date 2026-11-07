@@ -65,16 +65,20 @@ async function fetchWithRetry(
       if (!res.ok) {
         const text = await res.text().catch(() => '');
         let message = text || `HTTP ${res.status}`;
+        let code: string | undefined;
         try {
           const parsed = JSON.parse(text) as { message?: string; error?: string };
-          if (parsed?.error === 'free_limit') message = FREE_LIMIT_MESSAGE;
-          else if (parsed?.error === 'auth_required') message = 'Sign in free to get 3 free lessons.';
+          if (parsed?.error === 'free_limit') {
+            message = FREE_LIMIT_MESSAGE;
+            code = 'free_limit';
+          } else if (parsed?.error === 'auth_required') message = 'Sign in free to get 3 free lessons.';
           else if (parsed?.message) message = String(parsed.message);
         } catch {
           /* keep the raw text */
         }
-        const error = new Error(message);
-        (error as Error & { status?: number }).status = res.status;
+        const error = new Error(message) as Error & { status?: number; code?: string };
+        error.status = res.status;
+        if (code) error.code = code;
         throw error;
       }
       return res;

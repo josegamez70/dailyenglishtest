@@ -3,6 +3,7 @@ import { FREE_LESSON_LIMIT } from '../auth';
 import { updateProfileSettings } from '../studyStore';
 import type { CefrLevel } from '../progressStats';
 import { AcademyProfileSection } from './AcademyProfileSection';
+import { PricingPanel } from './PricingPanel';
 
 export type ThemeChoice = 'light' | 'dark' | 'system';
 /** Still stored on the profile. Playback ignores it and always uses American English. */
@@ -185,6 +186,7 @@ export function ProfilePage({
       </button>
       {note && <p className="text-base">{note}</p>}
     </form>
+    <PricingPanel signedIn={Boolean(userId)} plan={plan} academyRole={academyRole} variant="profile" />
     <AcademyProfileSection plan={plan} academyRole={academyRole} academyName={academyName} onChanged={onAcademyChanged} />
     </div>
   );

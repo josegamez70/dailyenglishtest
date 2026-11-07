@@ -2,7 +2,7 @@ import React from 'react';
 
 export type LegalPageId = 'legal' | 'privacy' | 'terms';
 
-const UPDATED = '30 October 2026';
+const UPDATED = '7 November 2026';
 
 export function legalPageFromPath(pathname: string): LegalPageId | null {
   const path = pathname.replace(/\/+$/, '') || '/';
@@ -90,6 +90,11 @@ function LegalNotice() {
           Lessons are created automatically. They may contain mistakes in facts, grammar, or answers. Do not use them as professional, medical, legal, or financial advice. José María Gámez is not responsible for choices you make because of a lesson, or for problems caused by your connection or by the companies that help run the site, except where Spanish law says otherwise.
         </p>
       </Section>
+      <Section heading="Payments">
+        <p>
+          Paid plans are not on sale yet. The planned prices are in the <a className="underline" href="/terms">Terms of Use</a>. No payment is taken until billing is turned on. José María Gámez is not yet registered as self-employed (autónomo). He must confirm that status, and whether VAT is due, before any payment is taken.
+        </p>
+      </Section>
       <Section heading="Law">
         <p>
           This notice follows Spanish law, including the Information Society Services Act (LSSI-CE). Privacy is explained in the <a className="underline" href="/privacy">Privacy Policy</a>. If there is a dispute, the courts of Málaga, Spain, will decide it, unless a consumer law lets you use the courts where you live.
@@ -101,7 +106,7 @@ function LegalNotice() {
 
 function PrivacyPolicy() {
   return (
-    <PageShell title="Privacy Policy" updated="31 October 2026">
+    <PageShell title="Privacy Policy" updated="7 November 2026">
       <p>
         This page explains what personal data Daily English Test uses, why, and what you can ask us to do. It is written in simple English.
       </p>
@@ -116,11 +121,13 @@ function PrivacyPolicy() {
       <Section heading="What we collect">
         <ul className="list-disc space-y-1 pl-5">
           <li>Your email address, so we can send you a sign-in link.</li>
-          <li>Your account plan and how many lessons you have used.</li>
+          <li>Your account plan, subscription status when billing is on, and how many lessons you have used.</li>
           <li>The lesson settings and text you send so we can create a lesson (level, topic, length, and the story text when we write the quiz).</li>
           <li>Words you tap, which are sent to a dictionary service to show a meaning.</li>
         </ul>
-        <p>We do not ask for your name, address, or payment details.</p>
+        <p>
+          We do not ask you to type a card number on this site. If you start checkout later, Stripe asks for payment details on Stripe’s own page. We store a Stripe customer id and the subscription status. We do not store the card number.
+        </p>
       </Section>
       <Section heading="Why we use it">
         <p>
@@ -135,6 +142,7 @@ function PrivacyPolicy() {
           <li>Google Gemini API: writes the lessons. We send lesson settings and story text. We do not send your email or other personal data to Gemini.</li>
           <li>Free Dictionary API and Wiktionary: look up words you tap.</li>
           <li>Cloudflare Web Analytics: anonymous visit counts, with no cookies. It is used only if it is turned on.</li>
+          <li>Stripe: payment processor, used only if you choose a paid plan after billing is turned on. We would send your email and account id so Stripe can take the payment and send receipts. Stripe has not been switched on.</li>
         </ul>
         <p>
           Some of these companies may be outside the EU. When that happens, the transfer is covered by an adequacy decision or by standard contractual clauses.
@@ -189,12 +197,28 @@ function TermsOfUse() {
       </Section>
       <Section heading="Free lessons">
         <p>
-          Each account can create 3 free lessons. After that, you cannot create more free lessons until a paid plan exists.
+          Each account can create 3 free lessons. These lessons do not expire. They are not a free trial, and you do not enter a card to get them. After 3 lessons, a free account cannot create more until a paid plan is active.
         </p>
       </Section>
       <Section heading="Premium plan">
         <p>
-          A premium plan is coming soon. The planned price is 5 € per month. These terms will be updated before any payment is taken. You will not be charged unless you choose to pay later.
+          The planned Premium price is 3 € per month for one person, with unlimited lessons. It is not for sale until the site owner turns billing on. You are not charged unless you choose the plan and finish payment on Stripe’s page.
+        </p>
+      </Section>
+      <Section heading="Academy plans">
+        <p>
+          Academy prices are a fixed monthly price, not a price per student. The planned prices are: up to 20 students, 30 € per month; up to 40, 45 €; up to 70, 60 €; up to 100, 80 €. Students are not charged. If an academy subscription ends, student names and results stay stored. New students cannot join while the academy plan is off.
+        </p>
+      </Section>
+      <Section heading="Payments">
+        <p>
+          When billing is turned on, Stripe takes the payment. We do not store card numbers. The page you see after payment does not by itself turn on the plan. The plan changes only after Stripe sends a signed notice to our server. You can cancel on Stripe’s billing page. If you cancel, you keep the plan until the end of the period you already paid. A failed renewal can stop new lessons after Stripe ends the subscription. We do not delete lessons or the student list because a payment fails.
+        </p>
+        <p>
+          Prices are shown in euro per month. This site does not add tax in checkout. José María Gámez is not yet registered as self-employed (autónomo). Before any payment is taken, he must confirm with a tax adviser whether VAT is due and whether the price should be shown as including tax. This page is not tax advice.
+        </p>
+        <p>
+          Before payments start, the owner must also confirm the wording for the 14-day consumer withdrawal right, including what happens if digital lessons start right away. Until that confirmation, and until billing is explicitly turned on, no charge is made.
         </p>
       </Section>
       <Section heading="Fair use">
