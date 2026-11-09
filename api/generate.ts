@@ -249,7 +249,7 @@ function bearerToken(event: HandlerEvent): string | null {
   return match?.[1] ?? null;
 }
 
-type LessonAllowance = { allowed: boolean; lessonsUsed: number; plan: string };
+type LessonAllowance = { allowed: boolean; lessonsUsed: number; plan: string; reason: string };
 
 function readAllowance(data: unknown): LessonAllowance | null {
   const row = Array.isArray(data) ? data[0] : data;
@@ -260,6 +260,7 @@ function readAllowance(data: unknown): LessonAllowance | null {
     allowed: record.allowed,
     lessonsUsed: Number(record.lessons_used ?? 0),
     plan: String(record.plan ?? 'free'),
+    reason: typeof record.reason === 'string' ? record.reason : '',
   };
 }
 
@@ -270,6 +271,14 @@ function limitBody(lessonsUsed: number, plan: string) {
     lessonsUsed,
     plan,
     message: 'You have used your 3 free lessons. Premium is 3 € per month. These 3 lessons do not expire.',
+  });
+}
+
+function pilotExpiredBody() {
+  return JSON.stringify({
+    ok: false,
+    error: 'pilot_expired',
+    message: 'This academy pilot has ended. Saved lessons and progress are still available. New lessons are paused. Academy up to 20 students is 30 € per month, 21% VAT included. No payment was started.',
   });
 }
 
@@ -818,10 +827,17 @@ async function freeLimitResponse(
   userId: string,
   headers: Record<string, string>,
 ): Promise<HandlerResponse | null> {
+  const gate = await admin.rpc('lesson_block_reason', { uid: userId, free_limit: FREE_LESSON_LIMIT });
   const { data: profile } = await admin.from('profiles').select('plan, lessons_used').eq('id', userId).maybeSingle();
   const used = Number(profile?.lessons_used ?? 0);
   const plan = String(profile?.plan ?? 'free');
-  if (plan === 'free' && used >= FREE_LESSON_LIMIT) {
+  if (!gate.error && gate.data === 'pilot_expired') {
+    return { statusCode: 402, headers, body: pilotExpiredBody() };
+  }
+  if (!gate.error && gate.data === 'free_limit') {
+    return { statusCode: 402, headers, body: limitBody(used, plan) };
+  }
+  if (gate.error && plan === 'free' && used >= FREE_LESSON_LIMIT) {
     const access = await admin.rpc('academy_lesson_access', { uid: userId });
     const academySeat = !access.error && access.data === true;
     if (!academySeat) return { statusCode: 402, headers, body: limitBody(used, plan) };
@@ -841,7 +857,7 @@ async function consumeLessonResponse(
       statusCode: allowance && !allowance.allowed ? 402 : 502,
       headers,
       body: allowance && !allowance.allowed
-        ? limitBody(allowance.lessonsUsed, allowance.plan)
+        ? (allowance.reason === 'pilot_expired' ? pilotExpiredBody() : limitBody(allowance.lessonsUsed, allowance.plan))
         : JSON.stringify({
           ok: false,
           code: 'LESSON_COUNT',

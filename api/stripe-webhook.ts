@@ -61,7 +61,9 @@ function holdOf(value: string | null): BillingProfile['billingHold'] {
 function profileFromRow(row: ProfileRow): BillingProfile {
   return {
     plan: row.plan ?? 'free',
-    billingProvider: row.billing_provider === 'stripe' || row.billing_provider === 'manual' ? row.billing_provider : null,
+    billingProvider: row.billing_provider === 'stripe' || row.billing_provider === 'manual' || row.billing_provider === 'pilot'
+      ? row.billing_provider
+      : null,
     stripeSubscriptionId: row.stripe_subscription_id,
     subscriptionStatus: row.subscription_status,
     billingEventCreated: Number(row.billing_event_created ?? 0),
@@ -313,7 +315,7 @@ async function applyDecision(
   });
   if (error) throw new Error('apply_failed');
   const code = typeof data === 'string' ? data : '';
-  if (code !== 'ok' && code !== 'manual' && code !== 'stale' && code !== 'duplicate') {
+  if (code !== 'ok' && code !== 'manual' && code !== 'pilot' && code !== 'stale' && code !== 'duplicate') {
     console.error('stripe billing apply refused', code || 'empty');
   }
   return code;

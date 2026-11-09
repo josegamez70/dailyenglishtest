@@ -4,6 +4,7 @@ import { academyPillName, copyInviteText, countPhrase, countTestsThisWeek, invit
 import { averagePercent, formatResultDate } from '../progressStats';
 import { scorePercent, studentIdFromSearch } from '../studentDetail';
 import { AcademyBadge } from './AcademyBadge';
+import { PilotStatusBanner } from './PilotPages';
 import { StudentDetailView } from './StudentDetailView';
 
 function studentLabel(student: AcademyStudent): string {
@@ -226,6 +227,7 @@ export function AcademyPage({ ownerDisplayName = '' }: { ownerDisplayName?: stri
 
   return (
     <div className="mx-auto w-full max-w-3xl">
+      <PilotStatusBanner />
       <AcademyBadge name={academyPillName(ownerDisplayName, academy.name)} />
       <div className="mt-4 rounded-xl border border-slate-300 bg-white p-4 dark:border-slate-600 dark:bg-slate-800">
         <p className="text-sm font-semibold">Invite code</p>
