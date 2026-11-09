@@ -188,7 +188,7 @@ export function Landing() {
 
       <PricingPanel signedIn={false} plan={null} academyRole={null} variant="landing" onSignIn={focusSignIn} />
       <p className="mt-6 text-center text-sm text-slate-600 dark:text-slate-300">
-        Questions about an academy? <a className="underline" href="mailto:josegamez70@hotmail.com">Contact us</a>
+        Questions about an academy? Contact us at <a className="underline" href="mailto:info@dailyenglishtest.es">info@dailyenglishtest.es</a>
       </p>
     </main>
   );
