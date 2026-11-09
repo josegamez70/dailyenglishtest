@@ -38,6 +38,7 @@ import { SignInBox } from './components/SignInBox';
 import { LegalDocument, SiteFooter, legalPageFromPath } from './components/LegalPages';
 import { AuthLoading, Landing, focusSignIn } from './components/Landing';
 import { PricingPanel } from './components/PricingPanel';
+import { ExpiredPilotNotice, PilotAdminPage, PilotRedeemPage } from './components/PilotPages';
 import Configurator from './components/Configurator';
 import { DefinedText, DictionaryPopup } from './components/DefinedText';
 import Loader from './components/Loader';
@@ -168,6 +169,7 @@ const App: React.FC = () => {
   const [loadingNote, setLoadingNote] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [paywall, setPaywall] = useState(false);
+  const [pilotExpired, setPilotExpired] = useState(false);
   const [isVocabularyModalOpen, setIsVocabularyModalOpen] = useState(false);
   const [themeChoice, setThemeChoice] = useState<ThemeChoice>(() => {
     try {
@@ -347,6 +349,7 @@ const App: React.FC = () => {
     setLoadingNote(null);
     setError(null);
     setPaywall(false);
+    setPilotExpired(false);
     setView('config');
   };
 
@@ -377,6 +380,7 @@ const App: React.FC = () => {
     setQuizLoading(false);
     setError(null);
     setPaywall(false);
+    setPilotExpired(false);
     setSignInOpen(false);
     setSignInPrompt(false);
     setLoadingNote('Writing the story...');
@@ -441,7 +445,9 @@ const App: React.FC = () => {
         return;
       }
       setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
-      setPaywall(err instanceof Error && (err as { code?: string }).code === 'free_limit');
+      const failure = err instanceof Error ? (err as { code?: string }).code : undefined;
+      setPaywall(failure === 'free_limit');
+      setPilotExpired(failure === 'pilot_expired');
       if (!storyShown) setView('config');
     } finally {
       setIsLoading(false);
@@ -1398,6 +1404,14 @@ const App: React.FC = () => {
   const legalPage = legalPageFromPath(window.location.pathname);
   if (legalPage) return <LegalDocument page={legalPage} />;
   if (!account.ready) return <AuthLoading />;
+  if (path === '/pilot' || path === '/admin/pilots') {
+    return (
+      <div className="flex min-h-screen flex-col bg-[#e7eef6] text-[#172033] dark:bg-[#172033] dark:text-slate-100">
+        {path === '/pilot' ? <PilotRedeemPage signedIn={account.signedIn} /> : <PilotAdminPage signedIn={account.signedIn} />}
+        <SiteFooter />
+      </div>
+    );
+  }
 
   const showLanding = !account.signedIn;
   const inAcademy = account.academyRole === 'owner' || account.academyRole === 'student';
@@ -1568,6 +1582,7 @@ const App: React.FC = () => {
             <span className="block sm:inline">{error}</span>
           </div>
         )}
+        {pilotExpired && <ExpiredPilotNotice />}
         {paywall && (
           <PricingPanel
             signedIn={account.signedIn}

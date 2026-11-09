@@ -238,7 +238,7 @@ export function checkoutEligibility(account: CheckoutAccount): CheckoutEligibili
 
 export type BillingProfile = {
   plan: string;
-  billingProvider: 'stripe' | 'manual' | null;
+  billingProvider: 'stripe' | 'manual' | 'pilot' | null;
   stripeSubscriptionId: string | null;
   subscriptionStatus: string | null;
   billingEventCreated: number;
@@ -277,7 +277,7 @@ export type SyncDecision =
   | { action: 'apply'; billing: ApplyBilling };
 
 export function stripeMayWrite(profile: BillingProfile): boolean {
-  if (profile.billingProvider === 'manual') return false;
+  if (profile.billingProvider === 'manual' || profile.billingProvider === 'pilot') return false;
   if (profile.billingProvider === 'stripe') return true;
   return profile.plan === 'free';
 }

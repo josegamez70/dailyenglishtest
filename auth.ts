@@ -26,12 +26,13 @@ export function getSupabase(): SupabaseClient | null {
   return client;
 }
 
-export async function sendMagicLink(email: string) {
+export async function sendMagicLink(email: string, redirectTo?: string) {
   const supabase = getSupabase();
   if (!supabase) throw new Error('Sign-in is not set up yet.');
+  const sameOrigin = redirectTo && redirectTo.startsWith(window.location.origin) ? redirectTo : window.location.origin;
   const { error } = await supabase.auth.signInWithOtp({
     email: email.trim(),
-    options: { emailRedirectTo: window.location.origin },
+    options: { emailRedirectTo: sameOrigin },
   });
   if (error) throw error;
 }

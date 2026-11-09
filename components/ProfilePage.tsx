@@ -4,6 +4,7 @@ import { updateProfileSettings } from '../studyStore';
 import type { CefrLevel } from '../progressStats';
 import { AcademyProfileSection } from './AcademyProfileSection';
 import { PricingPanel } from './PricingPanel';
+import { PilotStatusBanner } from './PilotPages';
 
 export type ThemeChoice = 'light' | 'dark' | 'system';
 /** Still stored on the profile. Playback ignores it and always uses American English. */
@@ -108,6 +109,7 @@ export function ProfilePage({
   const academyStudent = academyRole === 'student';
   return (
     <div className="mx-auto w-full max-w-xl">
+    <PilotStatusBanner />
     <form onSubmit={save} className="space-y-5">
       <h1 className="text-2xl font-bold">Profile</h1>
       <p className="text-base">{email}</p>

@@ -71,6 +71,9 @@ async function fetchWithRetry(
           if (parsed?.error === 'free_limit') {
             message = FREE_LIMIT_MESSAGE;
             code = 'free_limit';
+          } else if (parsed?.error === 'pilot_expired') {
+            message = parsed.message || 'This academy pilot has ended. Saved lessons are still available. New lessons are paused.';
+            code = 'pilot_expired';
           } else if (parsed?.error === 'auth_required') message = 'Sign in free to get 3 free lessons.';
           else if (parsed?.message) message = String(parsed.message);
         } catch {
