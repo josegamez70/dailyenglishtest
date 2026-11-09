@@ -69,7 +69,7 @@ function LegalNotice() {
           <li>Name: José María Gámez</li>
           <li>Tax number (NIF): 53681665X</li>
           <li>Place: Alhaurín de la Torre (Málaga), Spain</li>
-          <li>Email: <a className="underline" href="mailto:josegamez70@hotmail.com">josegamez70@hotmail.com</a></li>
+          <li>Email: <a className="underline" href="mailto:info@dailyenglishtest.es">info@dailyenglishtest.es</a></li>
         </ul>
       </Section>
       <Section heading="What this site is for">
@@ -115,7 +115,7 @@ function PrivacyPolicy() {
         <ul className="list-disc space-y-1 pl-5">
           <li>NIF: 53681665X</li>
           <li>Place: Alhaurín de la Torre (Málaga), Spain</li>
-          <li>Email: <a className="underline" href="mailto:josegamez70@hotmail.com">josegamez70@hotmail.com</a></li>
+          <li>Email: <a className="underline" href="mailto:info@dailyenglishtest.es">info@dailyenglishtest.es</a></li>
         </ul>
       </Section>
       <Section heading="What we collect">
@@ -164,7 +164,7 @@ function PrivacyPolicy() {
           <li>receive a copy (portability)</li>
         </ul>
         <p>
-          Email <a className="underline" href="mailto:josegamez70@hotmail.com">josegamez70@hotmail.com</a>. You can also complain to the Spanish Data Protection Agency (AEPD) at <a className="underline" href="https://www.aepd.es/">aepd.es</a>.
+          Email <a className="underline" href="mailto:info@dailyenglishtest.es">info@dailyenglishtest.es</a>. You can also complain to the Spanish Data Protection Agency (AEPD) at <a className="underline" href="https://www.aepd.es/">aepd.es</a>.
         </p>
       </Section>
       <Section heading="Cookies and local storage">
@@ -239,6 +239,11 @@ function TermsOfUse() {
       <Section heading="Law">
         <p>
           Spanish law applies. If there is a dispute, the courts of Málaga, Spain, will decide it, unless a consumer law lets you use the courts where you live.
+        </p>
+      </Section>
+      <Section heading="Contact">
+        <p>
+          Email <a className="underline" href="mailto:info@dailyenglishtest.es">info@dailyenglishtest.es</a>.
         </p>
       </Section>
     </PageShell>

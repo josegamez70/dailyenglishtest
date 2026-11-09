@@ -69,7 +69,7 @@ export function JoinAcademyPage({
 export function AcademyContact() {
   return (
     <p className="text-center text-sm text-slate-700 dark:text-slate-300">
-      Are you an academy? <a className="underline" href="mailto:josegamez70@hotmail.com">Contact us</a>
+      Are you an academy? Contact us at <a className="underline" href="mailto:info@dailyenglishtest.es">info@dailyenglishtest.es</a>
     </p>
   );
 }
