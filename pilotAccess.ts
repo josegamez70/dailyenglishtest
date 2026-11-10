@@ -94,6 +94,26 @@ export function pilotDaysLeft(now: number, expiresAt: number | null): number {
   return Math.ceil((expiresAt - now) / PILOT_DAY_MS);
 }
 
+/** Same screen as “My academy” in the menu. www redirects to the canonical host. */
+export const PILOT_ACADEMY_PATH = '/academy';
+export const PILOT_ACADEMY_URL = 'https://www.dailyenglishtest.es/academy';
+
+/** Stay on this site when the owner is already there, so the sign-in is kept. */
+export function pilotAcademyHref(origin: string): string {
+  try {
+    const host = new URL(origin).hostname.replace(/\.$/, '').toLowerCase();
+    if (host === 'dailyenglishtest.es' || host === 'www.dailyenglishtest.es') return PILOT_ACADEMY_PATH;
+  } catch {
+    /* use the public academy URL */
+  }
+  return PILOT_ACADEMY_URL;
+}
+
+/** Shown once this account’s academy pilot is active. The day count stays dynamic. */
+export function pilotActiveNotice(daysLeft: number, seats = PILOT_SEATS): string {
+  return `Your academy pilot is active: ${daysLeft} days left, up to ${seats} students. Go to www.dailyenglishtest.es and open My academy in the menu to name your academy and invite your students.`;
+}
+
 export function inviteStatus(invite: {
   revoked: boolean;
   redeemedBy: string | null;

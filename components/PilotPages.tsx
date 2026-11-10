@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { accessToken, sendMagicLink } from '../auth';
 import { formatEuro, inclusiveVatBreakdown } from '../billingPlans';
-import { PILOT_COHORT_LIMIT, PILOT_DAYS, PILOT_SEATS, PILOT_STORAGE_KEY, isPilotCode, pilotDaysLeft } from '../pilotAccess';
+import { PILOT_COHORT_LIMIT, PILOT_DAYS, PILOT_SEATS, PILOT_STORAGE_KEY, isPilotCode, pilotAcademyHref, pilotActiveNotice, pilotDaysLeft } from '../pilotAccess';
 
 const EXAMPLE_CODE = 'EXAMPLE-NOT-A-REAL-INVITE';
 const CONTACT = 'info@dailyenglishtest.es';
@@ -9,6 +9,33 @@ const price = inclusiveVatBreakdown(3000);
 
 function storeCode(code: string) {
   try { localStorage.setItem(PILOT_STORAGE_KEY, code); } catch { /* ignore */ }
+}
+
+const PILOT_SITE = 'www.dailyenglishtest.es';
+
+function ActivePilotMessage({ daysLeft }: { daysLeft: number }) {
+  const notice = pilotActiveNotice(daysLeft);
+  const at = notice.indexOf(PILOT_SITE);
+  const academyHref = pilotAcademyHref(window.location.origin);
+  return (
+    <div className="mt-4 rounded-xl border border-teal-700/40 bg-white px-4 py-3 dark:bg-[#22304a]" role="status">
+      <p>
+        {at < 0 ? notice : (
+          <>
+            {notice.slice(0, at)}
+            <a className="underline" href={academyHref}>{PILOT_SITE}</a>
+            {notice.slice(at + PILOT_SITE.length)}
+          </>
+        )}
+      </p>
+      <a
+        href={academyHref}
+        className="mt-3 flex w-full items-center justify-center rounded-lg bg-blue-700 px-4 py-3 text-center text-base font-bold text-white hover:bg-blue-800"
+      >
+        Open My academy
+      </a>
+    </div>
+  );
 }
 
 function readStoredCode(): string {
@@ -68,6 +95,10 @@ export function PilotRedeemPage({ signedIn }: { signedIn: boolean }) {
     : example === 'expired'
       ? { status: 'expired', daysLeft: 0, endsAt: '2026-11-01T00:00:00.000Z' }
       : pilot;
+  const pilotActive = shown?.status === 'active';
+  const daysLeft = shown
+    ? (shown.daysLeft ?? pilotDaysLeft(Date.now(), shown.endsAt ? Date.parse(shown.endsAt) : null))
+    : 0;
 
   return (
     <main className="mx-auto w-full max-w-xl px-4 py-8">
@@ -103,6 +134,7 @@ export function PilotRedeemPage({ signedIn }: { signedIn: boolean }) {
         className="mt-4 space-y-3"
         onSubmit={(event) => {
           event.preventDefault();
+          if (pilotActive) return;
           if (example) {
             setNote('Example only. This is not a real invitation and nothing was activated.');
             return;
@@ -129,7 +161,7 @@ export function PilotRedeemPage({ signedIn }: { signedIn: boolean }) {
               const body = await response.json() as { ok?: boolean; pilot?: { status: string; endsAt?: string | null; daysLeft?: number }; message?: string };
               if (body.ok && body.pilot) {
                 setPilot(body.pilot);
-                setNote(body.pilot.status === 'active' ? 'Your academy pilot is active.' : null);
+                setNote(null);
               } else setNote(body.message || 'The invitation could not be used.');
             } catch {
               setNote('The invitation could not be used.');
@@ -143,20 +175,31 @@ export function PilotRedeemPage({ signedIn }: { signedIn: boolean }) {
         <input
           id="pilot-code"
           value={example ? EXAMPLE_CODE : code}
-          onChange={(event) => { setCode(event.target.value.trim()); storeCode(event.target.value.trim()); }}
+          onChange={(event) => {
+            if (pilotActive) return;
+            const next = event.target.value.trim();
+            setCode(next);
+            storeCode(next);
+          }}
+          readOnly={pilotActive}
+          aria-readonly={pilotActive}
           autoComplete="off"
           spellCheck={false}
-          className="w-full rounded-lg border border-slate-400 px-3 py-3 text-base dark:border-slate-500 dark:bg-slate-900"
+          className={pilotActive
+            ? 'w-full cursor-default rounded-lg border border-slate-300 bg-slate-100 px-3 py-3 text-base text-slate-600 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300'
+            : 'w-full rounded-lg border border-slate-400 px-3 py-3 text-base dark:border-slate-500 dark:bg-slate-900'}
         />
-        <button type="submit" disabled={busy} className="w-full rounded-lg bg-teal-700 px-4 py-3 text-base font-bold text-white disabled:opacity-60 dark:bg-teal-400 dark:text-slate-950">
+        <button
+          type="submit"
+          disabled={busy || pilotActive}
+          className={pilotActive
+            ? 'w-full cursor-not-allowed rounded-lg bg-slate-300 px-4 py-3 text-base font-bold text-slate-600 dark:bg-slate-600 dark:text-slate-300'
+            : 'w-full rounded-lg bg-teal-700 px-4 py-3 text-base font-bold text-white disabled:cursor-not-allowed disabled:opacity-60 dark:bg-teal-400 dark:text-slate-950'}
+        >
           {busy ? 'Checking…' : 'Activate academy'}
         </button>
       </form>
-      {shown?.status === 'active' && (
-        <p className="mt-4 rounded-xl border border-teal-700/40 bg-white px-4 py-3 dark:bg-[#22304a]" role="status">
-          Academy pilot is active. {shown.daysLeft ?? pilotDaysLeft(Date.now(), shown.endsAt ? Date.parse(shown.endsAt) : null)} days left. Up to {PILOT_SEATS} students. Open My academy to name it and invite students.
-        </p>
-      )}
+      {pilotActive && <ActivePilotMessage daysLeft={daysLeft} />}
       {shown?.status === 'expired' && <ExpiredPilotNotice />}
       {note && <p className="mt-3 text-base font-semibold" role="status">{note}</p>}
     </main>
