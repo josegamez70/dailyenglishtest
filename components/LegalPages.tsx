@@ -16,6 +16,8 @@ export function SiteFooter() {
   return (
     <footer className="mt-auto w-full border-t border-slate-300 px-4 py-6 text-center text-sm text-slate-700 dark:border-slate-600 dark:text-slate-300">
       <nav className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1" aria-label="Legal">
+        <a href="/help" className="underline">How it works</a>
+        <span aria-hidden="true">·</span>
         <a href="/legal" className="underline">Legal Notice</a>
         <span aria-hidden="true">·</span>
         <a href="/privacy" className="underline">Privacy</a>

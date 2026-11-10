@@ -36,6 +36,8 @@ import { JoinAcademyPage } from './components/JoinAcademyPage';
 import { parseSavedGrammarLesson, type GrammarLaunch } from './savedLessonMeta';
 import { saveLesson, saveTestResult, type SavedLessonRow } from './studyStore';
 import { SignInBox } from './components/SignInBox';
+import { HelpPage } from './components/HelpPage';
+import { helpPageFromPath } from './helpContent';
 import { LegalDocument, SiteFooter, legalPageFromPath } from './components/LegalPages';
 import { AuthLoading, Landing, focusSignIn } from './components/Landing';
 import { PricingPanel } from './components/PricingPanel';
@@ -1406,6 +1408,7 @@ const App: React.FC = () => {
 
   const legalPage = legalPageFromPath(window.location.pathname);
   if (legalPage) return <LegalDocument page={legalPage} />;
+  if (helpPageFromPath(window.location.pathname)) return <HelpPage />;
   if (!account.ready) return <AuthLoading />;
   if (path === '/pilot' || path === '/admin/pilots') {
     return (

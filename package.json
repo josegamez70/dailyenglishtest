@@ -7,7 +7,7 @@
     "dev": "netlify dev",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "node --experimental-strip-types --test tests/academyStats.test.ts tests/billing.test.ts tests/pilot.test.ts tests/device.test.ts tests/dialogue.test.ts tests/dictionary.test.ts tests/lessonUtils.test.ts tests/modelFallback.test.ts tests/progressStats.test.ts tests/quizNormalize.test.ts tests/quizSession.test.ts tests/savedLessonMeta.test.ts tests/speechPosition.test.ts tests/speechVoices.test.ts"
+    "test": "node --experimental-strip-types --test tests/academyStats.test.ts tests/billing.test.ts tests/help.test.ts tests/pilot.test.ts tests/device.test.ts tests/dialogue.test.ts tests/dictionary.test.ts tests/lessonUtils.test.ts tests/modelFallback.test.ts tests/progressStats.test.ts tests/quizNormalize.test.ts tests/quizSession.test.ts tests/savedLessonMeta.test.ts tests/speechPosition.test.ts tests/speechVoices.test.ts"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
