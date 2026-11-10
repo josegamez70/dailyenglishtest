@@ -81,6 +81,19 @@ export async function copyInviteText(
   return fallback(text);
 }
 
+/**
+ * How an academy owner identifies a student.
+ * Display name and email when both exist. Email alone when the profile name is blank.
+ */
+export function studentRosterLabel(displayName: string | null | undefined, email: string | null | undefined): string {
+  const person = String(displayName ?? '').replace(/\s+/g, ' ').trim();
+  const address = String(email ?? '').trim();
+  if (person && address) return `${person} – ${address}`;
+  if (person) return person;
+  if (address) return address;
+  return 'Student';
+}
+
 /** Bold line on a student's pill. Display name, then the part of the email before @, then "Student". */
 export function studentPillName(displayName: string | null | undefined, email: string | null | undefined): string {
   const person = String(displayName ?? '').replace(/\s+/g, ' ').trim();

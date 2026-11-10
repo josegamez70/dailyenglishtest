@@ -2,7 +2,7 @@
 
 export const PILOT_DAYS = 20;
 export const PILOT_SEATS = 20;
-export const PILOT_COHORT_LIMIT = 4;
+export const PILOT_COHORT_LIMIT = 14;
 export const PILOT_DAY_MS = 24 * 60 * 60 * 1000;
 export const PILOT_CODE_PATTERN = /^[A-Za-z0-9_-]{43}$/;
 export const PILOT_STORAGE_KEY = 'pilot-invite-code';

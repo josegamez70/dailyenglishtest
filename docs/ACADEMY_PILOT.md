@@ -13,7 +13,7 @@ Admin actions fail closed until the server knows the owner’s Supabase user id.
 1. Sign in once on the site.
 2. In the Supabase dashboard, open Authentication → Users and copy only your own user id.
 3. In Netlify, set `PILOT_ADMIN_UIDS` to that id. Several ids can be separated by commas. A bad value, an email address, or a missing value denies everyone.
-4. Optional: `PILOT_COHORT_LIMIT` defaults to 4. Revoked invitations do not count. The maximum accepted value is 20.
+4. Optional: `PILOT_COHORT_LIMIT` defaults to 14. Revoked invitations do not count. The maximum accepted value is 20.
 
 The private page is `/admin/pilots`. It is not linked from the public menu. Anyone who is not in `PILOT_ADMIN_UIDS` sees “Not available”.
 

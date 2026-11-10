@@ -72,11 +72,16 @@ test('admin access is deny-by-default and ignores emails', () => {
   assert.equal(isPilotAdmin(OTHER, ADMIN), false);
 });
 
-test('cohort stays at four unless a valid limit is configured', () => {
-  assert.equal(cohortLimit(undefined), 4);
-  assert.equal(cohortLimit('nope'), 4);
-  assert.equal(cohortLimit('0'), 4);
+test('cohort defaults to fourteen and still accepts a configured limit', () => {
+  assert.equal(cohortLimit(undefined), 14);
+  assert.equal(cohortLimit(''), 14);
+  assert.equal(cohortLimit('nope'), 14);
+  assert.equal(cohortLimit('0'), 14);
+  assert.equal(cohortLimit('21'), 14);
   assert.equal(cohortLimit('4'), 4);
+  assert.equal(cohortLimit('14'), 14);
+  assert.equal(canCreateInvitation(13), true);
+  assert.equal(canCreateInvitation(14), false);
   assert.equal(canCreateInvitation(3, 4), true);
   assert.equal(canCreateInvitation(4, 4), false);
   assert.equal(PILOT_SEATS, 20);

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { countPhrase } from '../academyStats';
+import { countPhrase, studentRosterLabel } from '../academyStats';
 import type { AcademyStudent } from '../academy';
 import { chartY, lessonModeLabel } from '../progressStats';
 import {
@@ -184,6 +184,7 @@ export function StudentDetailView({
   const [confirmRemove, setConfirmRemove] = useState(false);
   const tests = newestFirst(student.tests);
   const name = student.displayName.trim() || student.email || 'Student';
+  const rosterLabel = studentRosterLabel(student.displayName, student.email);
   const level = badgeLevel(student.profileLevel, tests);
   const rows = levelBreakdown(tests, skill);
   const emptyLevels = levelEmptyMessage(tests, skill);
@@ -207,7 +208,7 @@ export function StudentDetailView({
           <UserIcon className="h-8 w-8" />
         </div>
         <div className="min-w-0">
-          <p className="truncate text-2xl font-bold leading-tight">{name}</p>
+          <p className="break-words text-2xl font-bold leading-tight">{rosterLabel}</p>
           {level && (
             <span className={`mt-1.5 inline-flex items-center gap-1 rounded-full border border-teal-600 px-2 py-0.5 text-sm font-semibold dark:border-teal-300 ${ACCENT}`}>
               <ShieldIcon className="h-3.5 w-3.5" />
