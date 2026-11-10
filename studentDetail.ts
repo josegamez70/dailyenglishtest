@@ -1,4 +1,4 @@
-import { averagePercent, localDayKey } from './progressStats';
+import { averagePercent, localDayKey } from './progressStats.ts';
 
 export type SkillId = 'reading' | 'listening' | 'grammar';
 

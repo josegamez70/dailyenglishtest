@@ -17,8 +17,9 @@ import {
   type GrammarOrder,
   type ItemGrade,
 } from '../grammarSet';
+import { grammarLessonRecord, type GrammarLaunch } from '../savedLessonMeta';
 import { generateGrammarSet } from '../services/geminiService';
-import { saveTestResult } from '../studyStore';
+import { saveGrammarLesson, saveTestResult, updateSavedGrammar } from '../studyStore';
 import { DefinedText, DictionaryPopup } from './DefinedText';
 import CheckCircleIcon from './icons/CheckCircleIcon';
 import Loader from './Loader';
@@ -96,6 +97,15 @@ function TextSizeControl({
   );
 }
 
+function SavedSetNote({ fromSaved, saveNote }: { fromSaved: boolean; saveNote: string | null }) {
+  if (!fromSaved && !saveNote) return null;
+  return (
+    <p className="mt-4 rounded-lg border border-emerald-700 bg-emerald-50 px-3 py-2 text-base text-emerald-950 dark:border-emerald-300 dark:bg-emerald-950 dark:text-emerald-50">
+      {fromSaved ? 'Saved set. Opening it does not use a lesson.' : saveNote}
+    </p>
+  );
+}
+
 export function GrammarPage({
   fontStep,
   fontClass,
@@ -105,6 +115,7 @@ export function GrammarPage({
   resetNonce,
   onActiveChange,
   onLessonsChanged,
+  launch = null,
 }: {
   fontStep: number;
   fontClass: string;
@@ -114,6 +125,7 @@ export function GrammarPage({
   resetNonce: number;
   onActiveChange: (active: boolean) => void;
   onLessonsChanged: () => void;
+  launch?: GrammarLaunch | null;
 }) {
   const [level, setLevel] = useState<GrammarLevel>(initialLevel);
   const [exercise, setExercise] = useState<GrammarExerciseType>('blanks');
@@ -129,8 +141,13 @@ export function GrammarPage({
   const [busy, setBusy] = useState(false);
   const [loadingStartedAt, setLoadingStartedAt] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [fromSaved, setFromSaved] = useState(false);
+  const [saveNote, setSaveNote] = useState<string | null>(null);
   const abortRef = useRef<AbortController | null>(null);
   const seenReset = useRef(resetNonce);
+  const seenLaunch = useRef<number | null>(null);
+  const persistedIdRef = useRef<string | null>(null);
+  const pendingRecordRef = useRef<Record<string, unknown> | null>(null);
 
   useEffect(() => {
     onActiveChange(phase !== 'setup');
@@ -146,6 +163,33 @@ export function GrammarPage({
     setError(null);
     setPhase('setup');
   }, [resetNonce]);
+
+  useEffect(() => {
+    if (!launch || seenLaunch.current === launch.token) return;
+    seenLaunch.current = launch.token;
+    abortRef.current?.abort();
+    setBusy(false);
+    setLoadingStartedAt(null);
+    setError(null);
+    setSaveNote(null);
+    setLevel(launch.level);
+    setExercise(launch.exercise);
+    setTopic(launch.topic);
+    setSavedTopic(launch.topic);
+    setTitle(launch.title);
+    const play = launch.items.map((item) => (
+      item.kind === 'order' ? { ...item, shuffled: shuffleChunks(item.chunks) } : item
+    ));
+    setItems(play);
+    setChoices(play.map(() => ''));
+    setPlaced(play.map(() => []));
+    setIndex(0);
+    setGrades(launch.grades ?? []);
+    persistedIdRef.current = launch.id;
+    pendingRecordRef.current = null;
+    setFromSaved(true);
+    setPhase(launch.grades && launch.grades.length === launch.items.length ? 'results' : 'play');
+  }, [launch]);
 
   const selected = EXERCISES.find((item) => item.id === exercise) ?? EXERCISES[0];
   const current = items[index];
@@ -174,8 +218,27 @@ export function GrammarPage({
       setPlaced(play.map(() => []));
       setIndex(0);
       setGrades([]);
+      setFromSaved(false);
+      setSaveNote(null);
+      persistedIdRef.current = null;
+      pendingRecordRef.current = null;
       setPhase('play');
       onLessonsChanged();
+      const record = grammarLessonRecord(set);
+      void saveGrammarLesson(record, String(record.title)).then((saved) => {
+        if (saved.id) {
+          persistedIdRef.current = saved.id;
+          if (pendingRecordRef.current) {
+            const pending = pendingRecordRef.current;
+            pendingRecordRef.current = null;
+            void updateSavedGrammar(saved.id, pending);
+          }
+          return;
+        }
+        if (saved.missing) {
+          setSaveNote('Grammar sets will appear in Saved lessons after the database update. Reading and listening lessons are unchanged.');
+        }
+      }).catch(() => undefined);
     } catch (err) {
       if (controller.signal.aborted || (err instanceof Error && err.name === 'AbortError')) return;
       setError(err instanceof Error ? err.message : 'The exercises could not be created. Please try again.');
@@ -193,6 +256,22 @@ export function GrammarPage({
     });
     setGrades(nextGrades);
     setPhase('results');
+    const sourceItems = items.map((item) => (
+      item.kind === 'order'
+        ? { kind: 'order' as const, prompt: item.prompt, chunks: item.chunks, explanation: item.explanation }
+        : { kind: 'choice' as const, prompt: item.prompt, options: item.options, correctAnswer: item.correctAnswer, explanation: item.explanation }
+    ));
+    const record = grammarLessonRecord({
+      level,
+      exercise,
+      topic: savedTopic,
+      title: title || grammarTitle(exercise),
+      items: sourceItems,
+      grades: nextGrades,
+    });
+    const savedId = persistedIdRef.current;
+    if (savedId) void updateSavedGrammar(savedId, record);
+    else pendingRecordRef.current = record;
     const score = nextGrades.filter((grade) => grade.correct).length;
     void saveTestResult({
       level,
@@ -205,6 +284,17 @@ export function GrammarPage({
         grade.correct ? [] : [{ question: grade.prompt, userAnswer: grade.userAnswer, correctAnswer: grade.correctAnswer }]
       )),
     }).catch(() => undefined);
+  };
+
+  const retrySet = () => {
+    setItems((current) => current.map((item) => (
+      item.kind === 'order' ? { ...item, shuffled: shuffleChunks(item.chunks) } : item
+    )));
+    setChoices(items.map(() => ''));
+    setPlaced(items.map(() => []));
+    setIndex(0);
+    setGrades([]);
+    setPhase('play');
   };
 
   const goNext = () => {
@@ -224,6 +314,7 @@ export function GrammarPage({
         <TextSizeControl fontStep={fontStep} labels={fontLabels} onFontStep={onFontStep} />
         <div className="mt-4 rounded-xl bg-white p-6 shadow-lg dark:bg-slate-800">
           <h1 className="text-center text-3xl font-bold">{title}</h1>
+          <SavedSetNote fromSaved={fromSaved} saveNote={saveNote} />
           <p className="mt-2 text-center text-xl">You scored {score} out of {grades.length} ({percentage}%)</p>
           <div className="mt-6 space-y-4">
             {grades.map((grade, gradeIndex) => (
@@ -250,8 +341,20 @@ export function GrammarPage({
           </div>
           <button
             type="button"
-            onClick={() => setPhase('setup')}
-            className="mt-8 w-full rounded-lg bg-blue-700 py-3 text-lg font-bold text-white hover:bg-blue-800"
+            onClick={retrySet}
+            className="mt-8 w-full rounded-lg border-2 border-blue-800 bg-white py-3 text-lg font-bold text-blue-800 hover:bg-blue-50 dark:bg-slate-900 dark:text-blue-100 dark:hover:bg-slate-700"
+          >
+            Try this set again
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setFromSaved(false);
+              persistedIdRef.current = null;
+              pendingRecordRef.current = null;
+              setPhase('setup');
+            }}
+            className="mt-3 w-full rounded-lg bg-blue-700 py-3 text-lg font-bold text-white hover:bg-blue-800"
           >
             Try another
           </button>
@@ -274,6 +377,7 @@ export function GrammarPage({
         <TextSizeControl fontStep={fontStep} labels={fontLabels} onFontStep={onFontStep} />
         <div className="mt-4 rounded-xl bg-white p-6 shadow-lg dark:bg-slate-800">
           <h1 className="text-center text-2xl font-bold">{title}</h1>
+          <SavedSetNote fromSaved={fromSaved} saveNote={saveNote} />
           <p className="mt-4 text-base font-semibold">Question {index + 1} of {items.length}</p>
           <div className="mt-1 h-2.5 w-full rounded-full bg-slate-300 dark:bg-slate-600">
             <div className="h-2.5 rounded-full bg-blue-700" style={{ width: `${((index + 1) / items.length) * 100}%` }} />

@@ -1,4 +1,4 @@
-import { INVENTED_PHRASALS, REAL_PHRASAL_VERBS } from './phrasalVerbs';
+import { INVENTED_PHRASALS, REAL_PHRASAL_VERBS } from './phrasalVerbs.ts';
 
 export type GrammarLevel = 'B1' | 'B2' | 'C1';
 export type GrammarExerciseType = 'blanks' | 'phrasal' | 'order';
