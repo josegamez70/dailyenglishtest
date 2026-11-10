@@ -86,6 +86,7 @@ function NavLinks({
       <div className="mt-auto border-t border-slate-300 px-4 py-4 dark:border-slate-600">
         <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">Help / Legal</p>
         <div className="mt-2 flex flex-col gap-1 text-sm">
+          <a href="/help" className="underline">How it works</a>
           <a href="/legal" className="underline">Legal Notice</a>
           <a href="/privacy" className="underline">Privacy</a>
           <a href="/terms" className="underline">Terms</a>
