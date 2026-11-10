@@ -33,7 +33,8 @@ import { lookupAcademyName } from './academy';
 import { ACADEMY_INVITE_DISMISSED_KEY, ACADEMY_INVITE_KEY, inviteBannerText, normalizeInviteCode } from './academyStats';
 import { AcademyPage } from './components/AcademyPage';
 import { JoinAcademyPage } from './components/JoinAcademyPage';
-import { saveLesson, saveTestResult } from './studyStore';
+import { parseSavedGrammarLesson, type GrammarLaunch } from './savedLessonMeta';
+import { saveLesson, saveTestResult, type SavedLessonRow } from './studyStore';
 import { SignInBox } from './components/SignInBox';
 import { LegalDocument, SiteFooter, legalPageFromPath } from './components/LegalPages';
 import { AuthLoading, Landing, focusSignIn } from './components/Landing';
@@ -181,6 +182,8 @@ const App: React.FC = () => {
   const [path, setPath] = useState(() => window.location.pathname.replace(/\/+$/, '') || '/');
   const [grammarActive, setGrammarActive] = useState(false);
   const [grammarResetNonce, setGrammarResetNonce] = useState(0);
+  const [grammarLaunch, setGrammarLaunch] = useState<GrammarLaunch | null>(null);
+  const grammarLaunchToken = useRef(0);
   const [fontStep, setFontStep] = useState(readFontStep);
 
   const [isSpeaking, setIsSpeaking] = useState(false);
@@ -1604,10 +1607,24 @@ const App: React.FC = () => {
     const current = window.location.pathname.replace(/\/+$/, '') || '/';
     if (current !== clean) window.history.pushState({}, '', clean);
     setPath(clean);
+    if (clean === '/grammar') setGrammarLaunch(null);
     if (clean === '/') resetApp();
     window.scrollTo({ top: 0 });
   };
-  const openSaved = (lesson: Record<string, unknown>) => {
+  const openSaved = (row: SavedLessonRow) => {
+    const lesson = row.lesson;
+    if (lesson.mode === 'grammar') {
+      const parsed = parseSavedGrammarLesson(lesson);
+      if (!parsed) return;
+      stopSpeaking();
+      grammarLaunchToken.current += 1;
+      setGrammarLaunch({ ...parsed, id: row.id, token: grammarLaunchToken.current });
+      const here = window.location.pathname.replace(/\/+$/, '') || '/';
+      if (here !== '/grammar') window.history.pushState({}, '', '/grammar');
+      setPath('/grammar');
+      window.scrollTo({ top: 0 });
+      return;
+    }
     stopSpeaking();
     const quizItems = Array.isArray(lesson.quiz) ? lesson.quiz as QuizQuestion[] : [];
     setStory(String(lesson.story ?? ''));
@@ -1662,6 +1679,7 @@ const App: React.FC = () => {
           resetNonce={grammarResetNonce}
           onActiveChange={setGrammarActive}
           onLessonsChanged={() => { void account.refreshProfile(); }}
+          launch={grammarLaunch}
         />
       )}
       {shellItem === 'progress' && (
@@ -1671,7 +1689,9 @@ const App: React.FC = () => {
           profileLevel={account.defaultLevel}
         />
       )}
-      {shellItem === 'saved' && <SavedLessonsPage onOpen={openSaved} onCreate={() => go('/')} />}
+      {shellItem === 'saved' && (
+        <SavedLessonsPage onOpen={openSaved} onCreate={() => go('/')} onPracticeGrammar={() => go('/grammar')} />
+      )}
       {shellItem === 'academy' && account.plan === 'academy' && <AcademyPage ownerDisplayName={account.displayName} />}
       {shellItem === 'academy' && account.plan !== 'academy' && (
         <p className="text-base">This page is for academy accounts.</p>
