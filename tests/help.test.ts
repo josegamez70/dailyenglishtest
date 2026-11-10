@@ -6,10 +6,13 @@ import {
   HELP_CONTACT,
   HELP_FAQ,
   HELP_STEPS,
+  helpCopy,
+  helpLangFromSearch,
   helpPageFromPath,
   helpParts,
   helpPlainText,
   helpVisibleText,
+  readHelpLang,
 } from '../helpContent.ts';
 
 test('help path matches /help and ignores other routes', () => {
@@ -64,6 +67,56 @@ test('help text follows the live academy behaviour', () => {
     assert.ok(text.includes(formatEuro(plan.amountCents)), plan.key);
   }
   assert.ok(text.includes(`${VAT_PERCENT}% VAT`));
+  assert.equal(text.includes('what the site does today'), false);
+  assert.equal(helpCopy('en').intro.includes('what the site does today'), false);
+});
+
+test('spanish help keeps the same outline and the English control names', () => {
+  const en = helpCopy('en');
+  const es = helpCopy('es');
+  assert.equal(es.htmlLang, 'es');
+  assert.deepEqual(es.steps.map((step) => step.id), en.steps.map((step) => step.id));
+  assert.deepEqual(es.faq.map((item) => item.id), en.faq.map((item) => item.id));
+  es.faq.forEach((item, index) => {
+    assert.equal(item.blocks.length, en.faq[index].blocks.length);
+    assert.ok(item.question.endsWith('?'));
+    assert.ok(item.question.startsWith('¿'));
+  });
+  const text = helpVisibleText('es');
+  for (const label of ['My academy', 'Student detail', 'Download PDF', 'Copy', 'New code', 'Saved lessons', 'My progress']) {
+    assert.ok(text.includes(`«${label}»`), label);
+  }
+  assert.match(text, /\/join\?code=/);
+  assert.match(text, /\/pilot\?code=/);
+  assert.match(text, new RegExp(`${PILOT_SEATS} alumnos`));
+  assert.match(text, new RegExp(`${PILOT_DAYS} días`));
+  assert.match(text, /No se pide tarjeta/);
+  assert.match(text, /no inicia ningún pago/);
+  assert.match(text, /La facturación no está activa/);
+  assert.match(text, /no cobra nada/);
+  assert.match(text, /B1, B2 y C1/);
+  assert.match(text, /«Fill in the blanks»/);
+  assert.match(text, /«Phrasal verbs»/);
+  assert.match(text, /«Put in order»/);
+  assert.match(text, /info@dailyenglishtest\.es/);
+  assert.equal(text.includes('lo que el sitio hace hoy'), false);
+  assert.equal(text.includes('/admin/pilots'), false);
+  assert.equal(text.toLowerCase().includes('pilot_admin'), false);
+  for (const plan of PUBLIC_PLANS) {
+    assert.ok(text.includes(formatEuro(plan.amountCents)), plan.key);
+  }
+});
+
+test('help language follows ?lang= and otherwise a saved es choice', () => {
+  assert.equal(helpLangFromSearch('?lang=es'), 'es');
+  assert.equal(helpLangFromSearch('?lang=EN'), 'en');
+  assert.equal(helpLangFromSearch('?lang=fr'), null);
+  assert.equal(readHelpLang('?lang=es', 'en'), 'es');
+  assert.equal(readHelpLang('?lang=en', 'es'), 'en');
+  assert.equal(readHelpLang('', 'es'), 'es');
+  assert.equal(readHelpLang('?lang=fr', 'es'), 'es');
+  assert.equal(readHelpLang('', null), 'en');
+  assert.equal(readHelpLang('', 'en'), 'en');
 });
 
 test('link markup keeps the label and the address', () => {

@@ -1,10 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   HELP_CONTACT,
-  HELP_FAQ,
-  HELP_STEPS,
+  HELP_LANG_KEY,
+  helpCopy,
+  helpLangFromSearch,
   helpParts,
+  readHelpLang,
   type HelpBlock,
+  type HelpLang,
 } from '../helpContent';
 import { SiteFooter } from './LegalPages';
 
@@ -92,32 +95,101 @@ export function AcademyHelpLink({ className = 'mt-3 text-base' }: { className?: 
   );
 }
 
+function initialLang(): HelpLang {
+  if (typeof window === 'undefined') return 'en';
+  let stored: string | null = null;
+  try {
+    stored = localStorage.getItem(HELP_LANG_KEY);
+  } catch {
+    stored = null;
+  }
+  return readHelpLang(window.location.search, stored);
+}
+
+function rememberLang(lang: HelpLang) {
+  try {
+    localStorage.setItem(HELP_LANG_KEY, lang);
+  } catch {
+    /* ignore blocked storage */
+  }
+}
+
 export function HelpPage() {
+  const [lang, setLang] = useState<HelpLang>(initialLang);
+  const copy = helpCopy(lang);
+
   useEffect(() => {
-    const previous = document.title;
-    document.title = 'How it works – Daily English Test';
-    return () => {
-      document.title = previous;
-    };
+    const fromUrl = helpLangFromSearch(window.location.search);
+    if (fromUrl) rememberLang(fromUrl);
   }, []);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    const previousLang = root.lang;
+    const previousTitle = document.title;
+    root.lang = copy.htmlLang;
+    document.title = copy.documentTitle;
+    return () => {
+      root.lang = previousLang;
+      document.title = previousTitle;
+    };
+  }, [copy.documentTitle, copy.htmlLang]);
+
+  const choose = (next: HelpLang) => {
+    setLang(next);
+    rememberLang(next);
+    const url = new URL(window.location.href);
+    url.searchParams.set('lang', next);
+    const nextUrl = `${url.pathname}${url.search}${url.hash}`;
+    const current = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+    if (nextUrl !== current) window.history.replaceState({}, '', nextUrl);
+  };
 
   return (
     <div className="flex min-h-screen flex-col bg-[#e7eef6] px-4 pb-4 pt-6 text-[#172033] dark:bg-[#172033] dark:text-slate-100 sm:px-6">
-      <header className="mx-auto mb-6 w-full max-w-3xl">
+      <header lang="en" className="mx-auto mb-6 w-full max-w-3xl">
         <a href="/" className="text-2xl font-fun leading-tight sm:text-3xl">
           <span className="text-blue-800 dark:text-blue-300">Your daily </span>
           <span className="text-red-700 dark:text-red-400">English Test!</span>
         </a>
       </header>
-      <main className="mx-auto w-full max-w-3xl">
-        <p className="text-sm font-bold uppercase tracking-wide text-blue-800 dark:text-blue-300">For academies</p>
-        <h1 className="mt-2 text-3xl font-bold leading-tight sm:text-4xl">How it works</h1>
+      <main lang={copy.htmlLang} className="mx-auto w-full max-w-3xl">
+        <p className="text-sm font-bold uppercase tracking-wide text-blue-800 dark:text-blue-300">{copy.kicker}</p>
+        <div className="mt-2 flex items-start justify-between gap-3">
+          <h1 className="min-w-0 text-3xl font-bold leading-tight sm:text-4xl">{copy.heading}</h1>
+          <div
+            role="group"
+            aria-label={copy.languageLabel}
+            className="inline-flex shrink-0 rounded-lg border-2 border-blue-800 p-0.5 dark:border-blue-300"
+          >
+            {(['en', 'es'] as const).map((code) => {
+              const selected = lang === code;
+              return (
+                <button
+                  key={code}
+                  type="button"
+                  aria-pressed={selected}
+                  lang={code}
+                  aria-label={code === 'en' ? 'English' : 'Español'}
+                  onClick={() => choose(code)}
+                  className={
+                    selected
+                      ? 'min-h-11 rounded-md bg-blue-700 px-3 text-sm font-bold text-white'
+                      : 'min-h-11 rounded-md px-3 text-sm font-bold text-blue-800 hover:bg-blue-50 dark:text-blue-200 dark:hover:bg-slate-800'
+                  }
+                >
+                  {code === 'en' ? 'EN' : 'ES'}
+                </button>
+              );
+            })}
+          </div>
+        </div>
         <p className="mt-3 text-base leading-relaxed text-slate-700 dark:text-slate-200">
-          A short guide for an academy owner and their students. It describes only what the site does today.
+          {copy.intro}
         </p>
 
-        <ol className="mt-6 space-y-4" aria-label="Steps">
-          {HELP_STEPS.map((step, index) => (
+        <ol className="mt-6 space-y-4" aria-label={copy.stepsLabel}>
+          {copy.steps.map((step, index) => (
             <li key={step.id} className="rounded-2xl border border-slate-300 bg-white p-5 dark:border-slate-600 dark:bg-[#22304a] sm:p-6">
               <div className="flex items-start gap-3">
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-blue-700 text-base font-bold text-white">
@@ -137,9 +209,9 @@ export function HelpPage() {
           ))}
         </ol>
 
-        <h2 id="questions" className="mt-10 text-2xl font-bold">Questions</h2>
+        <h2 id="questions" className="mt-10 text-2xl font-bold">{copy.questions}</h2>
         <div className="mt-4 space-y-3">
-          {HELP_FAQ.map((item) => (
+          {copy.faq.map((item) => (
             <details
               key={item.id}
               id={item.id}
@@ -159,11 +231,13 @@ export function HelpPage() {
         </div>
 
         <p className="mt-8 text-base leading-relaxed">
-          Still stuck? Email{' '}
+          {copy.stuck}{' '}
           <a className="font-semibold underline" href={`mailto:${HELP_CONTACT}`}>{HELP_CONTACT}</a>.
         </p>
       </main>
-      <SiteFooter />
+      <div lang="en">
+        <SiteFooter />
+      </div>
     </div>
   );
 }
