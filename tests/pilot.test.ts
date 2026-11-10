@@ -4,6 +4,9 @@ import { randomBytes } from 'node:crypto';
 import { inclusiveVatBreakdown } from '../billingPlans.ts';
 import { stripeMayWrite, type BillingProfile } from '../billingPolicy.ts';
 import {
+  PILOT_ACADEMY_PATH,
+  PILOT_ACADEMY_URL,
+  pilotAcademyHref,
   PILOT_DAYS,
   PILOT_SEATS,
   canCreateInvitation,
@@ -16,6 +19,7 @@ import {
   isPilotCode,
   lessonBlockReason,
   pilotAdminIds,
+  pilotActiveNotice,
   pilotDaysLeft,
   pilotExpiry,
   pilotIsActive,
@@ -177,6 +181,17 @@ test('expiry blocks owner and student generation without touching paid academies
     seats: 20,
   };
   assert.equal(stripeMayWrite(pilotProfile), false);
+  assert.equal(
+    pilotActiveNotice(20),
+    'Your academy pilot is active: 20 days left, up to 20 students. Go to www.dailyenglishtest.es and open My academy in the menu to name your academy and invite your students.',
+  );
+  assert.match(pilotActiveNotice(12), /: 12 days left, up to 20 students\./);
+  assert.equal(PILOT_ACADEMY_PATH, '/academy');
+  assert.equal(PILOT_ACADEMY_URL, 'https://www.dailyenglishtest.es/academy');
+  assert.equal(pilotAcademyHref('https://dailyenglishtest.es'), '/academy');
+  assert.equal(pilotAcademyHref('https://www.dailyenglishtest.es/pilot?code=abc'), '/academy');
+  assert.equal(pilotAcademyHref('https://deploy-preview-1--dailyenglishtest.netlify.app'), PILOT_ACADEMY_URL);
+  assert.equal(pilotAcademyHref('not a url'), PILOT_ACADEMY_URL);
   assert.equal(inviteStatus({ revoked: false, redeemedBy: OWNER, expiresAt: end }, end), 'ended');
   assert.equal(inviteStatus({ revoked: false, redeemedBy: null, expiresAt: null }, NOW), 'created');
   assert.equal(cleanPilotLabel('  North academy  '), 'North academy');
