@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { createAcademy, loadAcademyStudents, loadOwnedAcademy, regenerateInviteCode, removeStudent, type AcademyStudent, type OwnedAcademy } from '../academy';
-import { academyPillName, copyInviteText, countPhrase, countTestsThisWeek, inviteLink } from '../academyStats';
+import { academyPillName, copyInviteText, countPhrase, countTestsThisWeek, inviteLink, studentRosterLabel } from '../academyStats';
 import { averagePercent, formatResultDate } from '../progressStats';
 import { scorePercent, studentIdFromSearch } from '../studentDetail';
 import { AcademyBadge } from './AcademyBadge';
@@ -9,7 +9,7 @@ import { PilotStatusBanner } from './PilotPages';
 import { StudentDetailView } from './StudentDetailView';
 
 function studentLabel(student: AcademyStudent): string {
-  return student.displayName.trim() || student.email || 'Student';
+  return studentRosterLabel(student.displayName, student.email);
 }
 
 function readStudentParam(): string | null {
@@ -38,7 +38,7 @@ function AcademyStudentButton({
         className="flex w-full items-center gap-3 px-4 py-3 text-left"
       >
         <span className="min-w-0 flex-1">
-          <span className="block text-base font-semibold">{name}</span>
+          <span className="block break-words text-base font-semibold">{name}</span>
           <span className="mt-1 block text-sm text-slate-600 dark:text-slate-300">
             {countPhrase(tests.length, 'test')} · average {tests.length ? `${averagePercent(scores)}%` : '—'}
           </span>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { accessToken, sendMagicLink } from '../auth';
 import { formatEuro, inclusiveVatBreakdown } from '../billingPlans';
-import { PILOT_DAYS, PILOT_SEATS, PILOT_STORAGE_KEY, isPilotCode, pilotDaysLeft } from '../pilotAccess';
+import { PILOT_COHORT_LIMIT, PILOT_DAYS, PILOT_SEATS, PILOT_STORAGE_KEY, isPilotCode, pilotDaysLeft } from '../pilotAccess';
 
 const EXAMPLE_CODE = 'EXAMPLE-NOT-A-REAL-INVITE';
 const CONTACT = 'info@dailyenglishtest.es';
@@ -185,7 +185,7 @@ export function PilotAdminPage({ signedIn }: { signedIn: boolean }) {
   const [label, setLabel] = useState('');
   const [note, setNote] = useState<string | null>(example ? 'Example — not a real invitation. Nothing is stored.' : null);
   const [denied, setDenied] = useState(false);
-  const [limit, setLimit] = useState(4);
+  const [limit, setLimit] = useState(PILOT_COHORT_LIMIT);
 
   useEffect(() => {
     if (example) return;
@@ -203,7 +203,7 @@ export function PilotAdminPage({ signedIn }: { signedIn: boolean }) {
       }
       const body = await response.json() as { invitations?: AdminInvite[]; cohortLimit?: number };
       setRows(body.invitations ?? []);
-      setLimit(body.cohortLimit ?? 4);
+      setLimit(body.cohortLimit ?? PILOT_COHORT_LIMIT);
       setDenied(false);
     };
     void run();

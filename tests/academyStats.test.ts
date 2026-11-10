@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { academyPillName, copyInviteText, copyWithHiddenTextarea, countPhrase, countTestsThisWeek, inviteBannerText, inviteLink, joinResultMessage, normalizeInviteCode, startOfLocalWeek, studentPillName } from '../academyStats.ts';
+import { academyPillName, copyInviteText, copyWithHiddenTextarea, countPhrase, countTestsThisWeek, inviteBannerText, inviteLink, joinResultMessage, normalizeInviteCode, startOfLocalWeek, studentPillName, studentRosterLabel } from '../academyStats.ts';
 
 test('the copied invite is the full join link for this site', () => {
   assert.equal(
@@ -85,6 +85,15 @@ test('an invite banner names the academy when it is known', () => {
     inviteBannerText('  '),
     'You have been invited to join an academy. Sign in or create an account to join.',
   );
+});
+
+test('an owner identifies a student by display name and email', () => {
+  assert.equal(studentRosterLabel('Mighty J', 'student@example.com'), 'Mighty J – student@example.com');
+  assert.equal(studentRosterLabel('  Mighty   J  ', ' student@example.com '), 'Mighty J – student@example.com');
+  assert.equal(studentRosterLabel('', 'student@example.com'), 'student@example.com');
+  assert.equal(studentRosterLabel('   ', 'student@example.com'), 'student@example.com');
+  assert.equal(studentRosterLabel('Mighty J', ' '), 'Mighty J');
+  assert.equal(studentRosterLabel(null, null), 'Student');
 });
 
 test('a student pill uses their display name, not the academy name', () => {
