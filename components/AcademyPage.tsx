@@ -4,6 +4,7 @@ import { academyPillName, copyInviteText, countPhrase, countTestsThisWeek, invit
 import { averagePercent, formatResultDate } from '../progressStats';
 import { scorePercent, studentIdFromSearch } from '../studentDetail';
 import { AcademyBadge } from './AcademyBadge';
+import { AcademyHelpLink } from './HelpPage';
 import { PilotStatusBanner } from './PilotPages';
 import { StudentDetailView } from './StudentDetailView';
 
@@ -174,12 +175,20 @@ export function AcademyPage({ ownerDisplayName = '' }: { ownerDisplayName?: stri
   };
 
   if (!ready) return <p className="text-base">Loading...</p>;
-  if (missing) return <p className="text-base">Academy tools will appear after the database update.</p>;
+  if (missing) {
+    return (
+      <div>
+        <p className="text-base">Academy tools will appear after the database update.</p>
+        <AcademyHelpLink />
+      </div>
+    );
+  }
 
   if (!academy) {
     return (
       <form onSubmit={create} className="mx-auto w-full max-w-xl space-y-4">
         <h1 className="text-2xl font-bold">My academy</h1>
+        <AcademyHelpLink className="text-base" />
         <p className="text-base">Create your academy, then share the invite code with your students.</p>
         <label className="block text-sm font-semibold" htmlFor="academy-name">Academy name</label>
         <input
@@ -229,6 +238,7 @@ export function AcademyPage({ ownerDisplayName = '' }: { ownerDisplayName?: stri
     <div className="mx-auto w-full max-w-3xl">
       <PilotStatusBanner />
       <AcademyBadge name={academyPillName(ownerDisplayName, academy.name)} />
+      <AcademyHelpLink />
       <div className="mt-4 rounded-xl border border-slate-300 bg-white p-4 dark:border-slate-600 dark:bg-slate-800">
         <p className="text-sm font-semibold">Invite code</p>
         <p className="mt-1 text-2xl font-bold tracking-widest">{academy.inviteCode}</p>
