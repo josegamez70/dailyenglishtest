@@ -12,15 +12,16 @@ test('slower playback is 55 percent of the profile speed and does not change pit
   assert.equal(slower.pitch, pitch);
 });
 
-test('Azure slower playback is 15 percent faster and normal speed stays the same', () => {
+test('Azure slower playback is 26.5 percent above the browser slower rate and normal speed stays the same', () => {
   for (const profile of [0.75, 1, 1.25]) {
-    const before = slowerPlaybackRate(profile);
-    const after = azurePlaybackRate(before, profile);
-    assert.ok(Math.abs(after - before * AZURE_SLOWER_BOOST) < 1e-10);
-    assert.ok(Math.abs(after / before - 1.15) < 1e-10);
+    const browserSlower = slowerPlaybackRate(profile);
+    const after = azurePlaybackRate(browserSlower, profile);
+    assert.ok(Math.abs(after - browserSlower * AZURE_SLOWER_BOOST) < 1e-10);
+    assert.ok(Math.abs(after / browserSlower - 1.265) < 1e-10);
     assert.equal(azurePlaybackRate(profile, profile), profile);
   }
-  assert.ok(Math.abs(azurePlaybackRate(0.55, 1) - 0.6325) < 1e-10);
+  assert.ok(Math.abs(azurePlaybackRate(0.55, 1) - 0.69575) < 1e-10);
+  assert.equal(AZURE_SLOWER_BOOST, 1.265);
 });
 
 test('an empty voice list resolves after the timeout so playback can start', async () => {
