@@ -14,6 +14,7 @@ import {
   grammarBankPayload,
   grammarContentHash,
   grammarSetFromBankPayload,
+  grammarSlotKey,
   grammarSlots,
   grammarUsesBank,
   LISTENING_CHARS_PER_LESSON_HIGH,
@@ -21,8 +22,12 @@ import {
   listeningBankPayload,
   listeningBankQuery,
   listeningContentHash,
+  listeningFocuses,
   listeningLessonFromBankPayload,
+  listeningSlotKey,
   listeningSlots,
+  nextGrammarSlot,
+  nextListeningSlot,
   listeningWeeklyBatchSize,
   listeningWeeklyCharacters,
   overflowIds,
@@ -298,7 +303,122 @@ test('the Monday job starts the background refill and does not run the model its
   assert.match(background, /produceListeningLesson/);
   assert.match(background, /synthesizeNeuralMp3/);
   assert.match(background, /insertListeningBankItem/);
+  assert.match(background, /nextListeningSlot/);
+  assert.match(background, /nextGrammarSlot/);
+  assert.match(background, /exerciseBankFillCounts/);
   assert.equal(background.includes('Promise.all'), false);
+});
+
+test('a listening batch round-robins level and format before it repeats one', () => {
+  const counts = new Map<string, number>();
+  const seen: string[] = [];
+  for (let cursor = 0; cursor < listeningFocuses().length; cursor += 1) {
+    const slot = nextListeningSlot({ cursor, counts, random: () => 0 });
+    seen.push(`${slot.level}:${slot.format}`);
+    counts.set(listeningSlotKey(slot), 1);
+  }
+  assert.deepEqual(seen, [
+    'Beginner:text',
+    'Beginner:dialogue',
+    'Intermediate:text',
+    'Intermediate:dialogue',
+    'Advanced:text',
+    'Advanced:dialogue',
+  ]);
+});
+
+test('a 100-lesson listening batch gives every level and format about the same number', () => {
+  const counts = new Map<string, number>();
+  const focus = new Map<string, number>();
+  for (let cursor = 0; cursor < 100; cursor += 1) {
+    const slot = nextListeningSlot({ cursor, counts, random: () => 0 });
+    const key = `${slot.level}:${slot.format}`;
+    focus.set(key, (focus.get(key) ?? 0) + 1);
+    counts.set(listeningSlotKey(slot), (counts.get(listeningSlotKey(slot)) ?? 0) + 1);
+  }
+  assert.equal(focus.get('Beginner:text'), 17);
+  assert.equal(focus.get('Beginner:dialogue'), 17);
+  assert.equal(focus.get('Intermediate:text'), 17);
+  assert.equal(focus.get('Intermediate:dialogue'), 17);
+  assert.equal(focus.get('Advanced:text'), 16);
+  assert.equal(focus.get('Advanced:dialogue'), 16);
+  const beginner = (focus.get('Beginner:text') ?? 0) + (focus.get('Beginner:dialogue') ?? 0);
+  const intermediate = (focus.get('Intermediate:text') ?? 0) + (focus.get('Intermediate:dialogue') ?? 0);
+  const advanced = (focus.get('Advanced:text') ?? 0) + (focus.get('Advanced:dialogue') ?? 0);
+  assert.equal(beginner, 34);
+  assert.equal(intermediate, 34);
+  assert.equal(advanced, 32);
+  const text = [...focus.entries()].filter(([key]) => key.endsWith(':text')).reduce((sum, [, n]) => sum + n, 0);
+  const dialogue = 100 - text;
+  assert.equal(text, 50);
+  assert.equal(dialogue, 50);
+  assert.equal(Math.max(...counts.values()), 1);
+});
+
+test('listening refill prefers the thinnest cell and randomizes ties', () => {
+  const full = listeningSlotKey({
+    level: 'Beginner',
+    format: 'text',
+    topic: 'daily life',
+    wordCount: 60,
+    questionCount: 5,
+  });
+  const counts = new Map<string, number>([[full, 4]]);
+  const next = nextListeningSlot({ cursor: 0, counts, random: () => 0 });
+  assert.equal(`${next.level}:${next.format}`, 'Beginner:text');
+  assert.notEqual(listeningSlotKey(next), full);
+  assert.equal(next.topic, 'fantasy');
+  const last = nextListeningSlot({ cursor: 0, counts: new Map(), random: () => 0.999 });
+  assert.equal(last.level, 'Beginner');
+  assert.equal(last.format, 'text');
+  assert.equal(last.wordCount, 140);
+  assert.equal(last.questionCount, 10);
+  assert.equal(last.topic, 'culture_food');
+  const first = nextListeningSlot({ cursor: 0, counts: new Map(), random: () => 0 });
+  assert.equal(first.topic, 'daily life');
+  assert.equal(first.wordCount, 60);
+  assert.equal(first.questionCount, 5);
+});
+
+test('grammar refill walks levels in turn and fills the thinner exercise', () => {
+  const counts = new Map<string, number>();
+  const seen: string[] = [];
+  for (let cursor = 0; cursor < 9; cursor += 1) {
+    const slot = nextGrammarSlot({ cursor, counts, random: () => 0 });
+    seen.push(`${slot.level}:${slot.exercise}`);
+    counts.set(grammarSlotKey(slot), (counts.get(grammarSlotKey(slot)) ?? 0) + 1);
+  }
+  assert.deepEqual(seen, [
+    'B1:blanks', 'B2:blanks', 'C1:blanks',
+    'B1:phrasal', 'B2:phrasal', 'C1:phrasal',
+    'B1:order', 'B2:order', 'C1:order',
+  ]);
+  counts.set(grammarSlotKey({ level: 'B1', exercise: 'blanks' }), 10);
+  const behind = nextGrammarSlot({ cursor: 0, counts, random: () => 0 });
+  assert.equal(`${behind.level}:${behind.exercise}`, 'B1:phrasal');
+  const levels = new Map<string, number>();
+  const fresh = new Map<string, number>();
+  for (let cursor = 0; cursor < 250; cursor += 1) {
+    const slot = nextGrammarSlot({ cursor, counts: fresh, random: () => 0 });
+    levels.set(slot.level, (levels.get(slot.level) ?? 0) + 1);
+    fresh.set(grammarSlotKey(slot), (fresh.get(grammarSlotKey(slot)) ?? 0) + 1);
+  }
+  assert.equal(levels.get('B1'), 84);
+  assert.equal(levels.get('B2'), 83);
+  assert.equal(levels.get('C1'), 83);
+  assert.equal(Math.max(...fresh.values()) - Math.min(...fresh.values()), 1);
+});
+
+test('the fill-count migration does not expose lessons or touch billing', () => {
+  const sql = readFileSync(new URL('../supabase/migrations/20261115_exercise_bank_fill_counts.sql', import.meta.url), 'utf8');
+  assert.match(sql, /exercise_bank_fill_counts\(bank_kind text\)/);
+  assert.match(sql, /count\(\*\)::bigint/);
+  assert.match(sql, /bank_kind in \('grammar', 'listening'\)/);
+  assert.match(sql, /revoke all on function public\.exercise_bank_fill_counts\(text\)/);
+  assert.match(sql, /grant execute on function public\.exercise_bank_fill_counts\(text\) to service_role/);
+  assert.equal(sql.includes('payload'), false);
+  assert.equal(sql.toLowerCase().includes('stripe'), false);
+  assert.equal(sql.includes('consume_lesson'), false);
 });
 
 function words(count: number, label: string): string {
