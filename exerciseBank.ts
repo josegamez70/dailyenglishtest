@@ -329,12 +329,13 @@ export function listeningBankPayload(lesson: ListeningLesson) {
   };
 }
 
-export function listeningDimensions(lesson: ListeningLesson, audioPath: string) {
+export function listeningDimensions(lesson: ListeningLesson, audioPath: string, audioSlowPath?: string) {
   return {
     topic: lesson.topicValue,
     wordCount: lesson.wordCount,
     questionCount: lesson.questionCount,
     audioPath,
+    ...(audioSlowPath ? { audioSlowPath } : {}),
   };
 }
 

@@ -44,7 +44,7 @@ import {
   type GrammarSet,
 } from '../grammarSet';
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
-import { buildListeningSsml, synthesizeNeuralMp3 } from '../azureSpeech.ts';
+import { buildListeningSsml, listeningProfileSpeed, synthesizeNeuralMp3 } from '../azureSpeech.ts';
 import {
   grammarUsesBank,
   isListeningFormat,
@@ -93,6 +93,8 @@ export type LessonParams = {
   listTopic?: string;
   /** The exercise bank retries until the lesson has no validation problems. Live lessons do not. */
   strict?: boolean;
+  /** Profile playback speed. Live Azure speech bakes this into prosody. */
+  playbackSpeed?: number;
 };
 
 type VocabularyItem = { word: string; definition: string };
@@ -822,6 +824,7 @@ function readParams(bodyText: string | null | undefined): LessonParams | null {
     sourceStory,
     customTopic,
     listTopic,
+    playbackSpeed: listeningProfileSpeed(raw.speed),
   };
 }
 
@@ -1134,12 +1137,14 @@ async function createListeningLesson(
         return blocked;
       }
       const audioUrl = await signListeningAudio(admin, claimed.audioPath);
+      const audioSlowUrl = claimed.audioSlowPath ? await signListeningAudio(admin, claimed.audioSlowPath) : null;
       console.log(JSON.stringify({
         stage: audioUrl ? 'listening_bank' : 'listening_bank_sign_failed',
         level: claimed.lesson.level,
         format: claimed.lesson.format,
         topic: claimed.lesson.topicValue,
         bankId: claimed.id,
+        slow: Boolean(audioSlowUrl),
       }));
       return {
         statusCode: 200,
@@ -1157,6 +1162,7 @@ async function createListeningLesson(
           dialogue: claimed.lesson.dialogue,
           quiz: claimed.lesson.quiz,
           audioUrl: audioUrl ?? '',
+          ...(audioSlowUrl ? { audioSlowUrl } : {}),
         }),
       };
     }
@@ -1177,7 +1183,7 @@ async function createListeningLesson(
     format: params.format === 'dialogue' ? 'dialogue' : 'text',
     story: produced.lesson.story,
     dialogue: produced.lesson.dialogue,
-  });
+  }, { profileSpeed: params.playbackSpeed ?? 1 });
   const env = runtimeEnv();
   const audio = await synthesizeNeuralMp3({
     key: readEnvValue(env, 'AZURE_SPEECH_KEY'),

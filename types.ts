@@ -23,6 +23,8 @@ export interface ConfigOptions {
   speakers?: { name: string; gender: 'female' | 'male' }[];
   /** Listening only. When this is set, the lesson is generated live instead of from the bank. */
   customTopic?: string;
+  /** Profile speed baked into Azure speech. */
+  playbackSpeed?: number;
 }
 
 export type PracticeType = 'reading' | 'listening';

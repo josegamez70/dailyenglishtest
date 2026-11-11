@@ -49,14 +49,22 @@ export function savedListeningSpeech(lesson: Record<string, unknown>): Listening
 }
 
 /** Same spoken ssml is the same private-bucket object, so a replay does not synthesize again. */
-export function savedListeningCachePath(speech: ListeningSpeech): string {
-  const built = buildListeningSsml(speech);
+export function savedListeningCachePath(
+  speech: ListeningSpeech,
+  pace?: { profileSpeed?: number; slow?: boolean },
+): string {
+  const built = buildListeningSsml(speech, pace);
   const hash = createHash('sha256').update(built.ssml).digest('hex');
   return listeningAudioPath(hash);
 }
 
-export function storedSavedAudioPath(lesson: Record<string, unknown>, speech: ListeningSpeech): string | null {
-  const path = typeof lesson.audioPath === 'string' ? lesson.audioPath : '';
+export function storedSavedAudioPath(
+  lesson: Record<string, unknown>,
+  speech: ListeningSpeech,
+  pace?: { profileSpeed?: number; slow?: boolean },
+): string | null {
+  const key = pace?.slow ? 'audioSlowPath' : 'audioPath';
+  const path = typeof lesson[key] === 'string' ? lesson[key] : '';
   if (!path || !isListeningAudioPath(path)) return null;
-  return path === savedListeningCachePath(speech) ? path : null;
+  return path === savedListeningCachePath(speech, pace) ? path : null;
 }

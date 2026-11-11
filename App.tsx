@@ -18,10 +18,10 @@ import {
   type SpeakerVoice,
 } from './dialogue';
 import { clampedFontStep } from './fontStep';
-import { azurePlaybackRate, slowerPlaybackRate, whenVoicesReady } from './speechVoices';
+import { slowerPlaybackRate, whenVoicesReady } from './speechVoices';
 import { withStoryReview } from './quizSession';
 import { resumeWordIndex, textFromWordIndex } from './speechPosition';
-import { generateStoryAndQuiz, refreshListeningAudio, savedListeningAudio } from './services/geminiService';
+import { generateStoryAndQuiz, listeningSlowAudio, refreshListeningAudio, savedListeningAudio } from './services/geminiService';
 import { GrammarPage } from './components/GrammarPage';
 import { FREE_LESSON_LIMIT, planStatusText, signOut, useAccount } from './auth';
 import { AppShell, type ShellItem } from './components/AppShell';
@@ -231,6 +231,9 @@ const App: React.FC = () => {
   const lessonAudioUrlRef = useRef<string | null>(null);
   const lessonBankIdRef = useRef<string | null>(null);
   const lessonSavedIdRef = useRef<string | null>(null);
+  const lessonSlowUrlRef = useRef<string | null>(null);
+  const playModeRef = useRef<'normal' | 'slow'>('normal');
+  const [slowPreparing, setSlowPreparing] = useState(false);
   /** A banked or saved listening lesson must play Azure audio. Browser speech is only the last resort. */
   const lessonAzureOnlyRef = useRef(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -397,6 +400,7 @@ const App: React.FC = () => {
       format: contentFormat,
       speakers,
       customTopic,
+      playbackSpeed: speedRef.current,
     };
 
     if (!account.ready) return;
@@ -420,6 +424,8 @@ const App: React.FC = () => {
     setLoadingEstimate(12);
     lessonBankIdRef.current = null;
     lessonSavedIdRef.current = null;
+    lessonSlowUrlRef.current = null;
+    playModeRef.current = 'normal';
     lessonAzureOnlyRef.current = false;
     rememberAudio(null);
     let storyShown = false;
@@ -435,6 +441,7 @@ const App: React.FC = () => {
           setVocabulary(draft.vocabulary);
           lessonBankIdRef.current = draft.bankId ?? null;
           lessonAzureOnlyRef.current = Boolean(draft.bankId);
+          lessonSlowUrlRef.current = draft.audioSlowUrl ?? null;
           rememberAudio(draft.audioUrl ?? null);
           const readyQuiz = draft.banked && draft.quiz?.length ? draft.quiz : null;
           setQuiz(readyQuiz ?? []);
@@ -463,6 +470,7 @@ const App: React.FC = () => {
       setVocabulary(result.vocabulary);
       lessonBankIdRef.current = result.bankId ?? null;
       lessonAzureOnlyRef.current = Boolean(result.bankId);
+      lessonSlowUrlRef.current = result.audioSlowUrl ?? lessonSlowUrlRef.current;
       rememberAudio(result.audioUrl ?? null);
       setUserAnswers(new Array(result.quiz.length).fill(''));
       setCurrentQuestionIndex(0);
@@ -645,6 +653,8 @@ const App: React.FC = () => {
     setCurrentWordIndex(null);
     lessonBankIdRef.current = null;
     lessonSavedIdRef.current = null;
+    lessonSlowUrlRef.current = null;
+    playModeRef.current = 'normal';
     lessonAzureOnlyRef.current = false;
     rememberAudio(null);
     stopSpeaking();
@@ -675,7 +685,7 @@ const App: React.FC = () => {
       clearTimeout(boundaryFallbackTimerRef.current);
       boundaryFallbackTimerRef.current = null;
     }
-    const storedUrl = lessonAudioUrlRef.current;
+    const storedUrl = playModeRef.current === 'slow' ? lessonSlowUrlRef.current : lessonAudioUrlRef.current;
     const bankLesson = lessonAzureOnlyRef.current;
     if (bankLesson && !storedUrl) {
       const bankId = lessonBankIdRef.current;
@@ -721,9 +731,8 @@ const App: React.FC = () => {
         audioRef.current = audio;
       }
       if (audio.src !== storedUrl) audio.src = storedUrl;
-      const audioRate = azurePlaybackRate(rate, speedRef.current);
-      rateRef.current = audioRate;
-      audio.playbackRate = audioRate;
+      rateRef.current = 1;
+      audio.playbackRate = 1;
       if (!keepClock) {
         try { audio.currentTime = 0; } catch { /* metadata may not be loaded yet */ }
         elapsedMsRef.current = 0;
@@ -767,16 +776,28 @@ const App: React.FC = () => {
         const savedId = lessonAzureOnlyRef.current && !bankId ? lessonSavedIdRef.current : null;
         if ((bankId || savedId) && !refreshedBankAudio) {
           refreshedBankAudio = true;
-          const refresh = bankId ? refreshListeningAudio(bankId) : savedListeningAudio(savedId || '');
+          const refresh = playModeRef.current === 'slow'
+            ? listeningSlowAudio({
+              speed: speedRef.current,
+              bankId,
+              savedLessonId: savedId,
+              format: contentFormat,
+              story,
+              dialogue: dialogueTurns,
+            })
+            : bankId
+              ? refreshListeningAudio(bankId)
+              : savedListeningAudio(savedId || '', undefined, speedRef.current);
           void refresh.then((url) => {
             if (playId !== playIdRef.current || pausedRef.current) return;
             if (!url) {
-              console.log(JSON.stringify({ listening: 'bank_audio_failed', bankId }));
+              console.log(JSON.stringify({ listening: 'bank_audio_failed', bankId, slow: playModeRef.current === 'slow' }));
               setIsSpeaking(false);
               setError('Could not play audio. Please try again.');
               return;
             }
-            lessonAudioUrlRef.current = url;
+            if (playModeRef.current === 'slow') lessonSlowUrlRef.current = url;
+            else lessonAudioUrlRef.current = url;
             audio.src = url;
             void audio.play().catch(() => {
               if (playId !== playIdRef.current) return;
@@ -796,7 +817,7 @@ const App: React.FC = () => {
         setIsSpeaking(false);
         setError('Could not play audio. Your browser may not support this feature.');
       };
-      setPlaybackRate(audioRate);
+      setPlaybackRate(playModeRef.current === 'slow' ? 0.75 : 1);
       setIsSpeaking(true);
       isSpeakingRef.current = true;
       setCurrentWordIndex(null);
@@ -1292,23 +1313,73 @@ const App: React.FC = () => {
     </div>
   );
 
+  const playSlower = async () => {
+    const azure = Boolean(lessonAudioUrlRef.current)
+      || lessonAzureOnlyRef.current
+      || Boolean(lessonBankIdRef.current)
+      || Boolean(lessonSavedIdRef.current);
+    if (!azure) {
+      playModeRef.current = 'normal';
+      playSpeak(slowerPlaybackRate(speedRef.current));
+      return;
+    }
+    if (!lessonSlowUrlRef.current) {
+      setSlowPreparing(true);
+      try {
+        const url = await listeningSlowAudio({
+          speed: speedRef.current,
+          bankId: lessonBankIdRef.current,
+          savedLessonId: lessonSavedIdRef.current,
+          format: contentFormat,
+          story,
+          dialogue: dialogueTurns,
+        });
+        if (!url) {
+          console.log(JSON.stringify({ listening: 'browser_tts', reason: 'azure_unavailable', slow: true }));
+          playModeRef.current = 'normal';
+          playSpeak(slowerPlaybackRate(speedRef.current));
+          return;
+        }
+        lessonSlowUrlRef.current = url;
+      } catch {
+        console.log(JSON.stringify({ listening: 'browser_tts', reason: 'azure_unavailable', slow: true }));
+        playModeRef.current = 'normal';
+        playSpeak(slowerPlaybackRate(speedRef.current));
+        return;
+      } finally {
+        setSlowPreparing(false);
+      }
+    }
+    playModeRef.current = 'slow';
+    playSpeak(1);
+  };
+
   const ListeningControls = () => (
     <div className="mt-6">
       <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 justify-center">
         <button
           type="button"
-          onClick={() => playSpeak(speedRef.current)}
+          onClick={() => {
+            playModeRef.current = 'normal';
+            playSpeak(speedRef.current);
+          }}
           className="bg-green-700 hover:bg-green-800 text-white font-bold py-3 px-6 rounded-lg text-lg"
         >
           Play
         </button>
         <button
           type="button"
-          onClick={() => playSpeak(slowerPlaybackRate(speedRef.current))}
-          className="bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-6 rounded-lg text-lg"
+          onClick={() => { void playSlower(); }}
+          disabled={slowPreparing}
+          className="bg-amber-600 hover:bg-amber-700 disabled:cursor-wait disabled:opacity-70 text-white font-bold py-3 px-6 rounded-lg text-lg"
         >
-          Slower
+          {slowPreparing ? 'Preparing...' : 'Slower'}
         </button>
+        {slowPreparing && (
+          <p className="w-full text-center text-base font-semibold text-slate-900 dark:text-slate-50" role="status">
+            Preparing slower audio...
+          </p>
+        )}
         <button
           type="button"
           onClick={stopSpeaking}
@@ -1898,12 +1969,14 @@ const App: React.FC = () => {
     setStoryTopic({ label: String(lesson.title ?? lesson.topic ?? 'Lesson'), surprise: false });
     const savedListening = lesson.mode === 'listening';
     lessonBankIdRef.current = null;
+    lessonSlowUrlRef.current = null;
+    playModeRef.current = 'normal';
     lessonSavedIdRef.current = savedListening ? row.id : null;
     lessonAzureOnlyRef.current = savedListening;
     rememberAudio(null);
     if (savedListening) {
       const savedId = row.id;
-      void savedListeningAudio(savedId).then((url) => {
+      void savedListeningAudio(savedId, undefined, speedRef.current).then((url) => {
         if (lessonSavedIdRef.current !== savedId) return;
         if (url) rememberAudio(url);
       }).catch(() => undefined);
@@ -1933,6 +2006,8 @@ const App: React.FC = () => {
     setConfig((current) => ({ ...current, level: piece.level }));
     setStoryTopic({ label: piece.title, surprise: false });
     lessonSavedIdRef.current = null;
+    lessonSlowUrlRef.current = null;
+    playModeRef.current = 'normal';
     lessonBankIdRef.current = slot === 'listening' && piece.bankId ? piece.bankId : null;
     lessonAzureOnlyRef.current = Boolean(lessonBankIdRef.current);
     rememberAudio(null);

@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import { buildListeningSsml, synthesizeNeuralMp3 } from '../azureSpeech.ts';
+import { buildListeningSsml, listeningProfileSpeed, synthesizeNeuralMp3 } from '../azureSpeech.ts';
 import { isBankId } from '../exerciseBank.ts';
 import { listeningAudioPathForRow, signListeningAudio, uploadListeningAudio, userWasServedBankItem } from '../exerciseBankServer.ts';
 import { savedListeningCachePath, savedListeningSpeech, storedSavedAudioPath } from '../savedListeningAudio.ts';
@@ -42,9 +42,11 @@ export const handler = async (event: HandlerEvent) => {
   const token = bearer(event);
   if (!token) return json(401, { ok: false, error: 'auth_required' });
   let savedLessonId = '';
+  let profileSpeed = 1;
   try {
-    const body = JSON.parse(event.body || '{}') as { savedLessonId?: unknown };
+    const body = JSON.parse(event.body || '{}') as { savedLessonId?: unknown; speed?: unknown };
     savedLessonId = typeof body.savedLessonId === 'string' ? body.savedLessonId : '';
+    profileSpeed = listeningProfileSpeed(body.speed);
   } catch {
     savedLessonId = '';
   }
@@ -85,7 +87,8 @@ export const handler = async (event: HandlerEvent) => {
     console.log(JSON.stringify({ stage: 'listening_browser_tts', reason: 'no_story', savedLessonId }));
     return json(200, { ok: false, fallback: 'browser' });
   }
-  const cached = storedSavedAudioPath(lesson, speech);
+  const pace = { profileSpeed };
+  const cached = storedSavedAudioPath(lesson, speech, pace);
   if (cached) {
     const audioUrl = await signListeningAudio(admin, cached);
     if (audioUrl) {
@@ -94,7 +97,7 @@ export const handler = async (event: HandlerEvent) => {
     }
   }
 
-  const built = buildListeningSsml(speech);
+  const built = buildListeningSsml(speech, pace);
   const audio = await synthesizeNeuralMp3({
     key: readEnvValue(env, 'AZURE_SPEECH_KEY'),
     region: readEnvValue(env, 'AZURE_SPEECH_REGION'),
@@ -111,7 +114,7 @@ export const handler = async (event: HandlerEvent) => {
     }));
     return json(200, { ok: false, fallback: 'browser' });
   }
-  const audioPath = savedListeningCachePath(speech);
+  const audioPath = savedListeningCachePath(speech, pace);
   const uploaded = await uploadListeningAudio(admin, audioPath, audio.audio);
   if (uploaded !== 'ok' && uploaded !== 'exists') {
     console.log(JSON.stringify({ stage: 'listening_browser_tts', reason: 'audio_store_failed', savedLessonId, uploaded }));

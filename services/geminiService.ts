@@ -15,6 +15,7 @@ type GenResponse = {
   banked?: boolean;
   bankId?: string;
   audioUrl?: string;
+  audioSlowUrl?: string;
   audioBase64?: string;
 };
 
@@ -107,6 +108,7 @@ export type StoryDraft = {
   dialogue: DialogueTurn[];
   resolvedTopic?: string;
   audioUrl?: string;
+  audioSlowUrl?: string;
   banked?: boolean;
   bankId?: string;
   quiz?: QuizQuestion[];
@@ -124,6 +126,7 @@ function lessonPayload(config: ConfigOptions, extra: Record<string, unknown>) {
       format: config.format === 'dialogue' ? 'dialogue' : 'text',
       speakers: config.speakers ?? [],
       ...(config.customTopic ? { customTopic: config.customTopic } : {}),
+      ...(typeof config.playbackSpeed === 'number' ? { speed: config.playbackSpeed } : {}),
       ...extra,
     }),
   };
@@ -190,6 +193,7 @@ function readStory(data: GenResponse, config: ConfigOptions): StoryDraft {
     dialogue,
     resolvedTopic: data.resolvedTopic ? String(data.resolvedTopic) : undefined,
     audioUrl: lessonAudioUrl(data),
+    audioSlowUrl: typeof data.audioSlowUrl === 'string' && data.audioSlowUrl.startsWith('http') ? data.audioSlowUrl : undefined,
     banked,
     bankId: typeof data.bankId === 'string' ? data.bankId : undefined,
     quiz: quiz && quiz.length ? quiz : undefined,
@@ -198,14 +202,14 @@ function readStory(data: GenResponse, config: ConfigOptions): StoryDraft {
 
 /** A new signed URL for a listening mp3 this person was already given. */
 /** Azure mp3 for a saved listening lesson. A bank row is re-signed. Other lessons are spoken once and cached. */
-export async function savedListeningAudio(savedLessonId: string, signal?: AbortSignal): Promise<string | null> {
+export async function savedListeningAudio(savedLessonId: string, signal?: AbortSignal, speed = 1): Promise<string | null> {
   const token = await accessToken();
   const headers: Record<string, string> = { 'Content-Type': 'application/json' };
   if (token) headers.Authorization = `Bearer ${token}`;
   const res = await fetchWithRetry('/api/listening-saved-audio', {
     method: 'POST',
     headers,
-    body: JSON.stringify({ savedLessonId }),
+    body: JSON.stringify({ savedLessonId, speed }),
   }, signal, 1);
   let data: { audioUrl?: string; fallback?: string } = {};
   try {
@@ -215,6 +219,36 @@ export async function savedListeningAudio(savedLessonId: string, signal?: AbortS
   }
   if (data.fallback === 'browser' || !res.ok) return null;
   return typeof data.audioUrl === 'string' && data.audioUrl.startsWith('http') ? data.audioUrl : null;
+}
+
+/** A slower Azure mp3. Returns a URL, or a data URL when the lesson is not stored yet. */
+export async function listeningSlowAudio(input: {
+  speed: number;
+  bankId?: string | null;
+  savedLessonId?: string | null;
+  format?: string;
+  story?: string;
+  dialogue?: DialogueTurn[];
+}, signal?: AbortSignal): Promise<string | null> {
+  const token = await accessToken();
+  const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+  if (token) headers.Authorization = `Bearer ${token}`;
+  const res = await fetchWithRetry('/api/listening-slow-audio', {
+    method: 'POST',
+    headers,
+    body: JSON.stringify(input),
+  }, signal, 1);
+  let data: { audioUrl?: string; audioBase64?: string; fallback?: string } = {};
+  try {
+    data = await res.json() as { audioUrl?: string; audioBase64?: string; fallback?: string };
+  } catch {
+    data = {};
+  }
+  if (data.fallback === 'browser' || !res.ok) return null;
+  if (typeof data.audioUrl === 'string' && data.audioUrl.startsWith('http')) return data.audioUrl;
+  const encoded = typeof data.audioBase64 === 'string' ? data.audioBase64.replace(/\s+/g, '') : '';
+  if (encoded.length > 64) return `data:audio/mpeg;base64,${encoded}`;
+  return null;
 }
 
 export async function refreshListeningAudio(bankId: string, signal?: AbortSignal): Promise<string | null> {
@@ -240,6 +274,7 @@ export async function generateStoryAndQuiz(
   dialogue: DialogueTurn[];
   resolvedTopic?: string;
   audioUrl?: string;
+  audioSlowUrl?: string;
   banked?: boolean;
   bankId?: string;
 }> {

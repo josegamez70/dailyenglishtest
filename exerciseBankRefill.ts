@@ -162,7 +162,7 @@ async function produceListeningLesson(
   slot: ListeningSlot,
   deadline: number,
   log: (entry: AttemptLog) => Promise<void>,
-): Promise<{ lesson: NonNullable<ReturnType<typeof assembleListeningLesson>>; audio: Uint8Array } | null> {
+): Promise<{ lesson: NonNullable<ReturnType<typeof assembleListeningLesson>>; audio: Uint8Array; slowAudio: Uint8Array | null } | null> {
   const started = Date.now();
   const speakers = slot.format === 'dialogue' ? pickDialogueSpeakers() : [];
   const base = { level: slot.level, format: slot.format, topic: slot.topic };
@@ -256,6 +256,26 @@ async function produceListeningLesson(
       });
       return null;
     }
+    const slowSpeech = buildListeningSsml({
+      format: lesson.format,
+      story: lesson.story,
+      dialogue: lesson.dialogue,
+    }, { slow: true, profileSpeed: 1 });
+    const slow = await synthesizeNeuralMp3({
+      key: readEnvValue(env, 'AZURE_SPEECH_KEY'),
+      region: readEnvValue(env, 'AZURE_SPEECH_REGION'),
+      ssml: slowSpeech.ssml,
+      spokenCharacters: slowSpeech.spokenCharacters,
+    });
+    if (!slow.ok) {
+      await log({
+        ...base,
+        stage: 'audio_slow',
+        result: 'miss',
+        problems: `Slow Azure ${slow.status}: ${slow.detail}`,
+        durationMs: Date.now() - speechStarted,
+      });
+    }
     await log({
       ...base,
       stage: 'stored',
@@ -263,7 +283,7 @@ async function produceListeningLesson(
       problems: quiz.lesson.problems.slice(0, 2).join(' | '),
       durationMs: Date.now() - started,
     });
-    return { lesson, audio: audio.audio };
+    return { lesson, audio: audio.audio, slowAudio: slow.ok ? slow.audio : null };
   } catch (error) {
     if (isRefillPause(error)) throw error;
     const busy = /429|503|resource_exhausted|story service is busy/i.test(geminiProblemText(error));
@@ -367,7 +387,7 @@ export async function handleRefill(event: HandlerEvent) {
             });
             return 'invalid';
           }
-          const saved = await insertListeningBankItem(admin, produced.lesson, produced.audio, cap);
+          const saved = await insertListeningBankItem(admin, produced.lesson, produced.audio, cap, produced.slowAudio);
           if (saved === 'inserted') counts.set(listeningSlotKey(slot), (counts.get(listeningSlotKey(slot)) ?? 0) + 1);
           if (saved !== 'inserted') {
             await log({
