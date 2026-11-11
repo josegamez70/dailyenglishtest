@@ -72,6 +72,8 @@ export type GrammarPiece = {
   topic: string;
   title: string;
   items: unknown[];
+  /** Set when this piece came from the exercise bank, so a withheld pack can release it. */
+  bankId?: string;
 };
 
 const LEVEL_VALUES = new Set<TaskLevel>(['beginner', 'intermediate', 'advanced']);

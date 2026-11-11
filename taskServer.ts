@@ -3,6 +3,8 @@ import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import { resolveTopic } from './constants.ts';
 import { pickDialogueSpeakers } from './dialogue.ts';
 import { produceGrammar, producePractice, type LessonParams } from './api/generate.ts';
+import { grammarBankId, grammarUsesBank } from './exerciseBank.ts';
+import { claimGrammarFromBank, releaseGrammarBankItem } from './exerciseBankServer.ts';
 import { readEnvValue, runtimeEnv, secretMatches, sendTaskReminder, type EnvMap } from './taskMail.ts';
 import {
   isGrammarPiece,
@@ -223,8 +225,10 @@ async function maybeEmail(
     .is('emailed_at', null);
 }
 
-async function withhold(admin: SupabaseClient, pack: PackState, reason: TaskBlockReason): Promise<AdvanceResult> {
+async function withhold(admin: SupabaseClient, pack: PackState, reason: TaskBlockReason, userId: string): Promise<AdvanceResult> {
+  const bankId = grammarBankId(pack.grammar);
   await admin.from('task_pack_exercises').delete().eq('pack_id', pack.id);
+  if (bankId) await releaseGrammarBankItem(admin, userId, bankId);
   await admin.from('task_packs').update({
     status: 'blocked',
     block_reason: reason,
@@ -247,14 +251,14 @@ async function settlePack(
     const decision = taskGenerationDecision(reason);
     if (!decision.generate) {
       const blocked = decision.reason === 'ok' ? 'free_limit' : decision.reason;
-      return withhold(admin, pack, blocked);
+      return withhold(admin, pack, blocked, userId);
     }
     if (decision.consumeLessons === 1) {
       const consumed = await admin.rpc('consume_lesson', { uid: userId, free_limit: FREE_LESSON_LIMIT });
       const allowance = readAllowance(consumed.data);
       if (consumed.error || !allowance?.allowed) {
         const blocked = allowance?.reason === 'pilot_expired' ? 'pilot_expired' : 'free_limit';
-        return withhold(admin, pack, blocked);
+        return withhold(admin, pack, blocked, userId);
       }
     }
     const marked = await admin.from('task_packs').update({ status: 'ready', charged: true, block_reason: '' }).eq('id', pack.id);
@@ -266,6 +270,43 @@ async function settlePack(
   pack.status = 'ready';
   await maybeEmail(admin, userId, pack, settings, key);
   return { ok: true, step: 'done', packId: pack.id };
+}
+
+/** Bank first when the grammar topic is empty. A typed topic, or an empty unseen pool, stays on Gemini. */
+async function grammarPieceForPack(
+  admin: SupabaseClient,
+  userId: string,
+  request: { level: TaskSettings['grammarLevel']; exercise: TaskSettings['grammarExercise']; topic: string },
+  apiKey: string,
+  deadline: number,
+): Promise<{ piece: GrammarPiece; bankId: string | null } | null> {
+  if (grammarUsesBank(request.topic)) {
+    const claimed = await claimGrammarFromBank(admin, userId, request);
+    if (claimed) {
+      const piece: GrammarPiece = {
+        level: claimed.set.level,
+        exercise: claimed.set.exercise,
+        topic: claimed.set.topic,
+        title: claimed.set.title,
+        items: claimed.set.items,
+        bankId: claimed.id,
+      };
+      if (isGrammarPiece(piece)) return { piece, bankId: claimed.id };
+      await releaseGrammarBankItem(admin, userId, claimed.id);
+    }
+  }
+  if (!apiKey) return null;
+  const produced = await produceGrammar(apiKey, request, deadline);
+  if (!produced.ok) return null;
+  const piece: GrammarPiece = {
+    level: produced.set.level,
+    exercise: produced.set.exercise,
+    topic: produced.set.topic,
+    title: produced.set.title,
+    items: produced.set.items,
+  };
+  if (!isGrammarPiece(piece)) return null;
+  return { piece, bankId: null };
 }
 
 async function insertPack(admin: SupabaseClient, userId: string, key: string, settings: TaskSettings): Promise<PackState | null> {
@@ -325,29 +366,28 @@ export async function advanceTaskPack(userId: string, options?: { deadlineMs?: n
     const step = nextTaskStep(current);
     if (step === 'done') return await settlePack(admin, userId, current, settings, key);
     const apiKey = pickApiKey(runtimeEnv());
-    if (!apiKey) return { ok: false, message: 'Tasks are not available yet.', packId: current.id };
     const deadline = Date.now() + (options?.deadlineMs ?? 20000);
+    let claimedBankId: string | null = null;
     if (step === 'grammar') {
-      const request = {
+      const built = await grammarPieceForPack(admin, userId, {
         level: settings.grammarLevel,
         exercise: settings.grammarExercise,
         topic: settings.grammarTopic,
-      };
-      const produced = await produceGrammar(apiKey, request, deadline);
-      if (!produced.ok) {
-        return { ok: false, message: 'The grammar exercises could not be created. Please try again.', packId: current.id, step };
+      }, apiKey, deadline);
+      if (!built) {
+        return {
+          ok: false,
+          message: apiKey
+            ? 'The grammar exercises could not be created. Please try again.'
+            : 'Tasks are not available yet.',
+          packId: current.id,
+          step,
+        };
       }
-      const grammar: GrammarPiece = {
-        level: produced.set.level,
-        exercise: produced.set.exercise,
-        topic: produced.set.topic,
-        title: produced.set.title,
-        items: produced.set.items,
-      };
-      if (!isGrammarPiece(grammar)) {
-        return { ok: false, message: 'The grammar exercises could not be created. Please try again.', packId: current.id, step };
-      }
-      current.grammar = grammar;
+      claimedBankId = built.bankId;
+      current.grammar = built.piece;
+    } else if (!apiKey) {
+      return { ok: false, message: 'Tasks are not available yet.', packId: current.id };
     } else {
       const mode = step.startsWith('reading') ? 'reading' : 'listening';
       const stage = step.endsWith('story') ? 'story' : 'quiz';
@@ -375,7 +415,10 @@ export async function advanceTaskPack(userId: string, options?: { deadlineMs?: n
       else current.listening = piece;
     }
     const saved = await saveExercises(admin, current, userId);
-    if (!saved) return { ok: false, message: 'The task pack could not be saved. Please try again.', packId: current.id };
+    if (!saved) {
+      if (claimedBankId) await releaseGrammarBankItem(admin, userId, claimedBankId);
+      return { ok: false, message: 'The task pack could not be saved. Please try again.', packId: current.id };
+    }
     if (nextTaskStep(current) === 'done') return await settlePack(admin, userId, current, settings, key);
     return { ok: true, step: nextTaskStep(current), packId: current.id };
   } finally {

@@ -156,3 +156,7 @@
 # Pack generation needs several model calls. This file is a background function.
 [functions."tasks-generate-background"]
   timeout = 900
+
+# The Monday exercise-bank refill generates many grammar sets. This file is a background function.
+[functions."exercise-bank-refill-background"]
+  timeout = 900
