@@ -776,6 +776,9 @@ test('a standard listening request claims before it counts a lesson, and a custo
   assert.ok(claimAt >= 0 && claimAt < consumeAt && consumeAt < releaseAt);
   assert.ok(liveAt > releaseAt);
   assert.ok(azureAt > liveAt);
+  const liveTail = body.slice(liveAt);
+  assert.equal(liveTail.includes('if (!choice.bank)'), false);
+  assert.match(liveTail, /reason: choice\.bank \? 'bank_empty'/);
   assert.match(body, /listeningBankQuery/);
   assert.match(body, /audioBase64/);
   assert.match(generate, /freeLimitResponse/);
@@ -791,6 +794,9 @@ test('a standard listening request claims before it counts a lesson, and a custo
   assert.match(screen, /const configScreen = \(/);
   assert.doesNotMatch(screen, /<ConfigScreen/);
   assert.match(screen, /lessonAudioUrlRef/);
+  assert.match(screen, /lessonAzureOnlyRef/);
+  assert.match(screen, /listening: 'browser_tts'/);
+  assert.match(screen, /listening: 'bank_audio_missing'/);
   const grammar = readFileSync(new URL('../components/GrammarPage.tsx', import.meta.url), 'utf8');
   assert.match(grammar, /id="grammar-topic"/);
   assert.doesNotMatch(grammar, /const \w+ = \(\) => \([\s\S]*id="grammar-topic"/);

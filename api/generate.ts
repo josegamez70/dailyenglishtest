@@ -1099,9 +1099,9 @@ function practiceFailure(headers: Record<string, string>, stage: 'story' | 'quiz
 
 /**
  * A list topic (or "Any topic") takes one unseen banked lesson and its stored mp3.
- * A typed custom topic, or an empty bank for that combination, is generated live.
- * Only the custom topic is spoken with Azure on this request. A bank miss keeps
- * the browser speech path by leaving the audio off the response.
+ * A typed custom topic, or an empty bank for that combination, is generated live
+ * and spoken with Azure on this request. Browser speech is only used when Azure
+ * itself fails.
  */
 async function createListeningLesson(
   apiKey: string,
@@ -1135,10 +1135,11 @@ async function createListeningLesson(
       }
       const audioUrl = await signListeningAudio(admin, claimed.audioPath);
       console.log(JSON.stringify({
-        stage: 'listening_bank',
+        stage: audioUrl ? 'listening_bank' : 'listening_bank_sign_failed',
         level: claimed.lesson.level,
         format: claimed.lesson.format,
         topic: claimed.lesson.topicValue,
+        bankId: claimed.id,
       }));
       return {
         statusCode: 200,
@@ -1172,29 +1173,34 @@ async function createListeningLesson(
   if (!produced.ok) return practiceFailure(headers, 'story', produced.problems, produced.preview);
 
   let audioBase64 = '';
-  if (!choice.bank) {
-    const speech = buildListeningSsml({
-      format: params.format === 'dialogue' ? 'dialogue' : 'text',
-      story: produced.lesson.story,
-      dialogue: produced.lesson.dialogue,
-    });
-    const env = runtimeEnv();
-    const audio = await synthesizeNeuralMp3({
-      key: readEnvValue(env, 'AZURE_SPEECH_KEY'),
-      region: readEnvValue(env, 'AZURE_SPEECH_REGION'),
-      ssml: speech.ssml,
-      spokenCharacters: speech.spokenCharacters,
-    });
-    if (audio.ok) {
-      audioBase64 = Buffer.from(audio.audio).toString('base64');
-      console.log(JSON.stringify({
-        stage: 'listening_live_audio',
-        spokenCharacters: audio.spokenCharacters,
-        attempts: audio.attempts,
-      }));
-    } else {
-      console.log(JSON.stringify({ stage: 'listening_live_audio_miss', status: audio.status, attempts: audio.attempts }));
-    }
+  const speech = buildListeningSsml({
+    format: params.format === 'dialogue' ? 'dialogue' : 'text',
+    story: produced.lesson.story,
+    dialogue: produced.lesson.dialogue,
+  });
+  const env = runtimeEnv();
+  const audio = await synthesizeNeuralMp3({
+    key: readEnvValue(env, 'AZURE_SPEECH_KEY'),
+    region: readEnvValue(env, 'AZURE_SPEECH_REGION'),
+    ssml: speech.ssml,
+    spokenCharacters: speech.spokenCharacters,
+  });
+  if (audio.ok) {
+    audioBase64 = Buffer.from(audio.audio).toString('base64');
+    console.log(JSON.stringify({
+      stage: 'listening_live_audio',
+      reason: choice.bank ? 'bank_empty' : 'custom',
+      spokenCharacters: audio.spokenCharacters,
+      attempts: audio.attempts,
+    }));
+  } else {
+    console.log(JSON.stringify({
+      stage: 'listening_browser_tts',
+      reason: 'azure_failed',
+      bank: choice.bank,
+      status: audio.status,
+      attempts: audio.attempts,
+    }));
   }
 
   const blocked = await consumeLessonResponse(admin, userId, headers);

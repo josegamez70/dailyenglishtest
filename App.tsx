@@ -229,6 +229,9 @@ const App: React.FC = () => {
   const rateRef = useRef(1);
   const speedRef = useRef(1);
   const lessonAudioUrlRef = useRef<string | null>(null);
+  const lessonBankIdRef = useRef<string | null>(null);
+  /** A banked listening lesson must play its stored mp3. Browser speech is not a fallback. */
+  const lessonAzureOnlyRef = useRef(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const levelAppliedRef = useRef(false);
   const [finishing, setFinishing] = useState(false);
@@ -414,6 +417,8 @@ const App: React.FC = () => {
     setLoadingNote('Writing the story...');
     setLoadingStartedAt(Date.now());
     setLoadingEstimate(12);
+    lessonBankIdRef.current = null;
+    lessonAzureOnlyRef.current = false;
     rememberAudio(null);
     let storyShown = false;
 
@@ -426,6 +431,8 @@ const App: React.FC = () => {
           setStory(draft.story);
           setDialogueTurns(contentFormat === 'dialogue' ? draft.dialogue : []);
           setVocabulary(draft.vocabulary);
+          lessonBankIdRef.current = draft.bankId ?? null;
+          lessonAzureOnlyRef.current = Boolean(draft.bankId);
           rememberAudio(draft.audioUrl ?? null);
           const readyQuiz = draft.banked && draft.quiz?.length ? draft.quiz : null;
           setQuiz(readyQuiz ?? []);
@@ -452,6 +459,8 @@ const App: React.FC = () => {
       setDialogueTurns(contentFormat === 'dialogue' ? result.dialogue : []);
       setQuiz(result.quiz);
       setVocabulary(result.vocabulary);
+      lessonBankIdRef.current = result.bankId ?? null;
+      lessonAzureOnlyRef.current = Boolean(result.bankId);
       rememberAudio(result.audioUrl ?? null);
       setUserAnswers(new Array(result.quiz.length).fill(''));
       setCurrentQuestionIndex(0);
@@ -632,6 +641,8 @@ const App: React.FC = () => {
     setIsVocabularyModalOpen(false);
     setShowTranscript(false);
     setCurrentWordIndex(null);
+    lessonBankIdRef.current = null;
+    lessonAzureOnlyRef.current = false;
     rememberAudio(null);
     stopSpeaking();
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -662,7 +673,31 @@ const App: React.FC = () => {
       boundaryFallbackTimerRef.current = null;
     }
     const storedUrl = lessonAudioUrlRef.current;
-    if (storedUrl && options?.text == null) {
+    const bankLesson = lessonAzureOnlyRef.current;
+    if (bankLesson && !storedUrl) {
+      const bankId = lessonBankIdRef.current;
+      if (!bankId) {
+        console.log(JSON.stringify({ listening: 'bank_audio_missing' }));
+        setError('The audio could not be opened. Please try again.');
+        return;
+      }
+      void refreshListeningAudio(bankId).then((url) => {
+        if (playId !== playIdRef.current) return;
+        if (!url) {
+          console.log(JSON.stringify({ listening: 'bank_audio_missing', bankId }));
+          setError('The audio could not be opened. Please try again.');
+          return;
+        }
+        lessonAudioUrlRef.current = url;
+        playSpeak(rate, keepClock ? { keepClock: true } : undefined);
+      }).catch(() => {
+        if (playId !== playIdRef.current) return;
+        console.log(JSON.stringify({ listening: 'bank_audio_missing', bankId }));
+        setError('The audio could not be opened. Please try again.');
+      });
+      return;
+    }
+    if (storedUrl && (options?.text == null || bankLesson)) {
       let audio = audioRef.current;
       if (!audio) {
         audio = new Audio();
@@ -707,8 +742,37 @@ const App: React.FC = () => {
           setElapsedMs(end);
         }
       };
+      let refreshedBankAudio = false;
       audio.onerror = () => {
         if (playId !== playIdRef.current || pausedRef.current) return;
+        const bankId = lessonAzureOnlyRef.current ? lessonBankIdRef.current : null;
+        if (bankId && !refreshedBankAudio) {
+          refreshedBankAudio = true;
+          void refreshListeningAudio(bankId).then((url) => {
+            if (playId !== playIdRef.current || pausedRef.current) return;
+            if (!url) {
+              console.log(JSON.stringify({ listening: 'bank_audio_failed', bankId }));
+              setIsSpeaking(false);
+              setError('Could not play audio. Please try again.');
+              return;
+            }
+            lessonAudioUrlRef.current = url;
+            audio.src = url;
+            void audio.play().catch(() => {
+              if (playId !== playIdRef.current) return;
+              console.log(JSON.stringify({ listening: 'bank_audio_failed', bankId }));
+              setIsSpeaking(false);
+              setError('Could not play audio. Please try again.');
+            });
+          }).catch(() => {
+            if (playId !== playIdRef.current) return;
+            console.log(JSON.stringify({ listening: 'bank_audio_failed', bankId }));
+            setIsSpeaking(false);
+            setError('Could not play audio. Please try again.');
+          });
+          return;
+        }
+        if (bankId) console.log(JSON.stringify({ listening: 'bank_audio_failed', bankId }));
         setIsSpeaking(false);
         setError('Could not play audio. Your browser may not support this feature.');
       };
@@ -722,6 +786,9 @@ const App: React.FC = () => {
         setError('Could not play audio. Your browser may not support this feature.');
       });
       return;
+    }
+    if (practiceType === 'listening') {
+      console.log(JSON.stringify({ listening: 'browser_tts', reason: 'azure_unavailable' }));
     }
     if (keepClock) {
       setIsSpeaking(true);
@@ -973,7 +1040,7 @@ const App: React.FC = () => {
       }
       }, 60);
     });
-  }, [contentFormat, dialogueTurns, story, runProgressClock]);
+  }, [contentFormat, dialogueTurns, practiceType, story, runProgressClock]);
 
   const pausePlayback = useCallback(() => {
     if (pausedRef.current || !isSpeakingRef.current) return;
@@ -1809,11 +1876,23 @@ const App: React.FC = () => {
     setContentFormat(lesson.format === 'dialogue' ? 'dialogue' : 'text');
     if (typeof lesson.level === 'string') setConfig((current) => ({ ...current, level: lesson.level as string }));
     setStoryTopic({ label: String(lesson.title ?? lesson.topic ?? 'Lesson'), surprise: false });
+    lessonBankIdRef.current = lesson.mode === 'listening' && typeof lesson.bankId === 'string' ? lesson.bankId : null;
+    lessonAzureOnlyRef.current = Boolean(lessonBankIdRef.current);
     rememberAudio(null);
-    if (lesson.mode === 'listening' && typeof lesson.bankId === 'string') {
-      void refreshListeningAudio(lesson.bankId).then((url) => {
+    if (lessonBankIdRef.current) {
+      const bankId = lessonBankIdRef.current;
+      void refreshListeningAudio(bankId).then((url) => {
+        if (lessonBankIdRef.current !== bankId) return;
         if (url) rememberAudio(url);
-      }).catch(() => undefined);
+        else {
+          console.log(JSON.stringify({ listening: 'bank_audio_missing', bankId }));
+          setError('The audio could not be opened. Please try again.');
+        }
+      }).catch(() => {
+        if (lessonBankIdRef.current !== bankId) return;
+        console.log(JSON.stringify({ listening: 'bank_audio_missing', bankId }));
+        setError('The audio could not be opened. Please try again.');
+      });
     }
     setView('story');
     const current = window.location.pathname.replace(/\/+$/, '') || '/';
@@ -1839,11 +1918,23 @@ const App: React.FC = () => {
     setContentFormat(piece.format === 'dialogue' ? 'dialogue' : 'text');
     setConfig((current) => ({ ...current, level: piece.level }));
     setStoryTopic({ label: piece.title, surprise: false });
+    lessonBankIdRef.current = slot === 'listening' && piece.bankId ? piece.bankId : null;
+    lessonAzureOnlyRef.current = Boolean(lessonBankIdRef.current);
     rememberAudio(null);
-    if (slot === 'listening' && piece.bankId) {
-      void refreshListeningAudio(piece.bankId).then((url) => {
+    if (lessonBankIdRef.current) {
+      const bankId = lessonBankIdRef.current;
+      void refreshListeningAudio(bankId).then((url) => {
+        if (lessonBankIdRef.current !== bankId) return;
         if (url) rememberAudio(url);
-      }).catch(() => undefined);
+        else {
+          console.log(JSON.stringify({ listening: 'bank_audio_missing', bankId }));
+          setError('The audio could not be opened. Please try again.');
+        }
+      }).catch(() => {
+        if (lessonBankIdRef.current !== bankId) return;
+        console.log(JSON.stringify({ listening: 'bank_audio_missing', bankId }));
+        setError('The audio could not be opened. Please try again.');
+      });
     }
     setTaskSession({
       packId,
