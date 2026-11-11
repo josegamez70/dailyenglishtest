@@ -262,21 +262,41 @@ test('eight misses do not stop a refill that can still insert', async () => {
   assert.equal(calls, 10);
 });
 
-test('repeated model failures and duplicate hashes stop the chain', async () => {
+test('thrown attempts do not end the batch before the attempt cap', async () => {
+  let calls = 0;
   const failures = await runRefillHop({
     slots: grammarSlots(),
     target: 5,
     cursor: 0,
     deadline: 10_000_000,
     now: () => 0,
+    attemptLimit: 12,
+    produce: async (slot) => {
+      calls += 1;
+      if (calls < 5) throw new Error('busy');
+      return slotSet(slot);
+    },
+    insert: async () => 'inserted',
+  });
+  assert.equal(failures.stopped, 'target');
+  assert.equal(failures.inserted, 5);
+  assert.equal(calls, 9);
+
+  const capped = await runRefillHop({
+    slots: grammarSlots(),
+    target: 5,
+    cursor: 0,
+    deadline: 10_000_000,
+    now: () => 0,
+    attemptLimit: 4,
     produce: async () => {
       throw new Error('busy');
     },
     insert: async () => 'inserted',
   });
-  assert.equal(failures.stopped, 'failures');
-  assert.equal(failures.inserted, 0);
-  assert.equal(shouldChainRefill(failures, 0), false);
+  assert.equal(capped.stopped, 'attempts');
+  assert.equal(capped.inserted, 0);
+  assert.equal(shouldChainRefill(capped, 0), false);
 
   const duplicates = await runRefillHop({
     slots: grammarSlots(),
@@ -335,25 +355,30 @@ test('serving still uses the lesson gate, and tasks can take a banked grammar se
 test('the Monday job starts the background refill and does not run the model itself', () => {
   const schedule = readFileSync(new URL('../api/exercise-bank-schedule.ts', import.meta.url), 'utf8');
   const background = readFileSync(new URL('../api/exercise-bank-refill-background.ts', import.meta.url), 'utf8');
+  const refill = readFileSync(new URL('../exerciseBankRefill.ts', import.meta.url), 'utf8');
   const toml = readFileSync(new URL('../netlify.toml', import.meta.url), 'utf8');
   assert.match(schedule, /schedule: '30 5 \* \* 1'/);
   assert.match(schedule, /exercise-bank-refill-background/);
   assert.match(schedule, /EXERCISE_BANK_JOB_SECRET/);
   assert.equal(schedule.includes('produceGrammar'), false);
-  assert.match(background, /produceGrammar/);
-  assert.match(background, /x-exercise-bank-secret/);
-  assert.match(background, /insertGrammarBankItem/);
+  assert.match(refill, /produceGrammar/);
+  assert.match(refill, /x-exercise-bank-secret/);
+  assert.match(refill, /insertGrammarBankItem/);
+  assert.match(background, /recordExerciseBankCrash/);
+  assert.match(background, /import\('\.\.\/exerciseBankRefill\.ts'\)/);
   assert.match(toml, /\[functions\."exercise-bank-refill-background"\]/);
   assert.match(toml, /timeout = 900/);
   assert.match(schedule, /kind: 'listening'/);
   assert.match(schedule, /listeningWeeklyBatchSize\(env\)/);
   assert.match(schedule, /EXERCISE_BANK_LISTENING_WEEKLY_BATCH/);
-  assert.match(background, /produceListeningLesson/);
-  assert.match(background, /synthesizeNeuralMp3/);
-  assert.match(background, /insertListeningBankItem/);
-  assert.match(background, /nextListeningSlot/);
-  assert.match(background, /nextGrammarSlot/);
-  assert.match(background, /exerciseBankFillCounts/);
+  assert.match(refill, /produceListeningLesson/);
+  assert.match(refill, /synthesizeNeuralMp3/);
+  assert.match(refill, /insertListeningBankItem/);
+  assert.match(refill, /nextListeningSlot/);
+  assert.match(refill, /nextGrammarSlot/);
+  assert.match(refill, /exerciseBankFillCounts/);
+  assert.match(refill, /exercise_bank_runs|startExerciseBankRun/);
+  assert.equal(refill.includes('Promise.all'), false);
   assert.equal(background.includes('Promise.all'), false);
 });
 
@@ -485,6 +510,86 @@ test('grammar refill walks levels in turn and fills the thinner exercise', () =>
   assert.equal(levels.get('B2'), 83);
   assert.equal(levels.get('C1'), 83);
   assert.equal(Math.max(...fresh.values()) - Math.min(...fresh.values()), 1);
+});
+
+test('text and dialogue fixtures both satisfy the bank and the speech markup', async () => {
+  const { buildListeningSsml, AZURE_VOICE_FIRST, AZURE_VOICE_SECOND } = await import('../azureSpeech.ts');
+  const { assembleListeningLesson } = await import('../exerciseBank.ts');
+  const quiz = Array.from({ length: 5 }, (_, index) => ({
+    question: `What happens in part ${index}?`,
+    options: [`answer ${index}`, 'other idea', 'another idea', 'none of these'],
+    correctAnswer: `answer ${index}`,
+    explanation: 'The story says so.',
+    supportingSentence: 'A sentence from the story.',
+  }));
+  const text = words(60, 'word');
+  const textLesson = assembleListeningLesson({
+    slot: { level: 'Beginner', format: 'text', topic: 'daily life', wordCount: 60, questionCount: 5 },
+    story: text,
+    dialogue: [],
+    vocabulary: [{ word: 'word0', definition: 'A word.' }],
+    quiz,
+    speakers: [],
+  });
+  assert.ok(textLesson);
+  const textSpeech = buildListeningSsml({ format: 'text', story: text, dialogue: [] });
+  assert.match(textSpeech.ssml, new RegExp(AZURE_VOICE_FIRST));
+  assert.equal(textSpeech.ssml.includes(AZURE_VOICE_SECOND), false);
+  const lines = [
+    'I missed the early morning train and waited outside today.',
+    'We can take the next one together if we hurry now.',
+    'It leaves in about ten minutes from platform four today.',
+    'I will buy the tickets while we wait in line.',
+    'Thank you that gives us enough time for a coffee.',
+    'I already saved two seats by the window for us.',
+  ];
+  const prepared = listeningStoryForBank({
+    format: 'dialogue',
+    story: '',
+    dialogue: lines.map((line, index) => ({
+      speaker: index % 2 === 0 ? 'Emma' : 'Lucy',
+      line,
+      gender: 'female' as const,
+    })),
+    wordCount: 60,
+    speakers: [
+      { name: 'Anna', gender: 'female' },
+      { name: 'Sophie', gender: 'female' },
+    ],
+  });
+  assert.deepEqual(prepared.problems, []);
+  const dialogueLesson = assembleListeningLesson({
+    slot: { level: 'Intermediate', format: 'dialogue', topic: 'travel', wordCount: 60, questionCount: 5 },
+    story: prepared.story,
+    dialogue: prepared.dialogue,
+    vocabulary: [{ word: 'train', definition: 'A transport.' }],
+    quiz,
+    speakers: [
+      { name: 'Anna', gender: 'female' },
+      { name: 'Sophie', gender: 'female' },
+    ],
+  });
+  assert.ok(dialogueLesson);
+  const dialogueSpeech = buildListeningSsml({
+    format: 'dialogue',
+    story: prepared.story,
+    dialogue: prepared.dialogue,
+  });
+  assert.match(dialogueSpeech.ssml, new RegExp(AZURE_VOICE_FIRST));
+  assert.match(dialogueSpeech.ssml, new RegExp(AZURE_VOICE_SECOND));
+});
+
+test('the refill diagnostic tables are private and do not store the lesson', () => {
+  const sql = readFileSync(new URL('../supabase/migrations/20261116_exercise_bank_runs.sql', import.meta.url), 'utf8');
+  assert.match(sql, /create table if not exists public\.exercise_bank_runs/);
+  assert.match(sql, /create table if not exists public\.exercise_bank_attempts/);
+  assert.match(sql, /result in \('ok', 'miss', 'error'\)/);
+  assert.match(sql, /enable row level security/);
+  assert.match(sql, /grant select, insert, update, delete on public\.exercise_bank_runs to service_role/);
+  assert.match(sql, /revoke all on public\.exercise_bank_attempts from public, anon, authenticated/);
+  assert.equal(sql.includes('payload'), false);
+  assert.equal(sql.toLowerCase().includes('stripe'), false);
+  assert.equal(sql.includes('consume_lesson'), false);
 });
 
 test('the fill-count migration does not expose lessons or touch billing', () => {
