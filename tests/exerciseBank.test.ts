@@ -782,5 +782,10 @@ test('a standard listening request claims before it counts a lesson, and a custo
   assert.match(app, /placeholder="Any topic \(optional\)"/);
   const screen = readFileSync(new URL('../App.tsx', import.meta.url), 'utf8');
   assert.match(screen, /practiceType === 'listening' \? setListeningCustomTopic/);
+  assert.match(screen, /const configScreen = \(/);
+  assert.doesNotMatch(screen, /<ConfigScreen/);
   assert.match(screen, /lessonAudioUrlRef/);
+  const grammar = readFileSync(new URL('../components/GrammarPage.tsx', import.meta.url), 'utf8');
+  assert.match(grammar, /id="grammar-topic"/);
+  assert.doesNotMatch(grammar, /const \w+ = \(\) => \([\s\S]*id="grammar-topic"/);
 });

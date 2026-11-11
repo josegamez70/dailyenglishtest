@@ -1105,7 +1105,7 @@ const App: React.FC = () => {
         : 'bg-white text-slate-900 border-slate-500 hover:border-blue-700 dark:bg-slate-800 dark:text-slate-50 dark:border-slate-300'
     }`;
 
-  const ConfigScreen = () => (
+  const configScreen = (
     <div className="w-full max-w-2xl mx-auto">
       <div className="mb-4 text-center">
         <p className="text-lg font-semibold text-slate-900 dark:text-slate-50" role="status">
@@ -1552,7 +1552,7 @@ const App: React.FC = () => {
   const renderContent = () => {
     switch (view) {
       case 'config':
-        return <ConfigScreen />;
+        return configScreen;
       case 'story':
         return <StoryScreen />;
       case 'quiz':
@@ -1560,7 +1560,7 @@ const App: React.FC = () => {
       case 'results':
         return <ResultsScreen />;
       default:
-        return <ConfigScreen />;
+        return configScreen;
     }
   };
 
