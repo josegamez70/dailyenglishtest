@@ -28,6 +28,7 @@ export type AzureSpeechFailure = {
   status: number;
   attempts: number;
   retryable: boolean;
+  detail: string;
 };
 
 export class AzureSpeechError extends Error {
@@ -85,8 +86,8 @@ export function buildListeningSsml(speech: ListeningSpeech): { ssml: string; spo
       const speakerIndex = Math.max(0, order.findIndex((speaker) => speaker.toLowerCase() === name.toLowerCase()));
       const said = `${name}. ${line}`;
       lines.push(said);
-      if (parts.length) parts.push('<break time="350ms"/>');
-      parts.push(`<voice name="${voiceForSpeaker(speakerIndex)}">${escapeSsml(said)}</voice>`);
+      const pause = index < speech.dialogue.length - 1 ? '<break time="350ms"/>' : '';
+      parts.push(`<voice name="${voiceForSpeaker(speakerIndex)}">${escapeSsml(said)}${pause}</voice>`);
     });
     return {
       ssml: wrapSsml(parts.join('')),
@@ -136,12 +137,12 @@ export async function synthesizeNeuralMp3(input: {
   const fetchImpl = input.fetchImpl ?? fetch;
   const sleep = input.sleep ?? ((ms: number) => new Promise((resolve) => setTimeout(resolve, ms)));
   const maxAttempts = input.maxAttempts ?? RETRY_DELAYS_MS.length + 1;
-  if (!key || !input.ssml.trim()) return { ok: false, status: 0, attempts: 0, retryable: false };
+  if (!key || !input.ssml.trim()) return { ok: false, status: 0, attempts: 0, retryable: false, detail: 'missing speech settings' };
   let endpoint = '';
   try {
     endpoint = azureSpeechEndpoint(input.region);
   } catch {
-    return { ok: false, status: 0, attempts: 0, retryable: false };
+    return { ok: false, status: 0, attempts: 0, retryable: false, detail: 'bad speech region' };
   }
   let attempts = 0;
   for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
@@ -158,12 +159,18 @@ export async function synthesizeNeuralMp3(input: {
         },
         body: input.ssml,
       });
-    } catch {
-      return { ok: false, status: 0, attempts, retryable: true };
+    } catch (error) {
+      return {
+        ok: false,
+        status: 0,
+        attempts,
+        retryable: true,
+        detail: error instanceof Error ? error.message.slice(0, 180) : 'speech request failed',
+      };
     }
     if (response.ok) {
       const audio = new Uint8Array(await response.arrayBuffer());
-      if (audio.byteLength < 64) return { ok: false, status: 502, attempts, retryable: false };
+      if (audio.byteLength < 64) return { ok: false, status: 502, attempts, retryable: false, detail: 'empty audio' };
       return {
         ok: true,
         audio,
@@ -171,11 +178,12 @@ export async function synthesizeNeuralMp3(input: {
         spokenCharacters: input.spokenCharacters ?? 0,
       };
     }
+    const detail = (await response.text().catch(() => '')).replace(/\s+/g, ' ').trim().slice(0, 180);
     const retryable = response.status === 429 || response.status === 503;
     if (!retryable || attempt + 1 >= maxAttempts) {
-      return { ok: false, status: response.status, attempts, retryable };
+      return { ok: false, status: response.status, attempts, retryable, detail };
     }
     await sleep(retryDelayMs(response, attempt));
   }
-  return { ok: false, status: 429, attempts, retryable: true };
+  return { ok: false, status: 429, attempts, retryable: true, detail: 'speech throttled' };
 }

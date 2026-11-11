@@ -210,6 +210,35 @@ export function dialogueTurnPlan(wordCount: number): { turns: number; wordsPerTu
   return { turns, wordsPerTurn };
 }
 
+/**
+ * The bank asks for two named speakers, and the model often uses a different pair.
+ * Keep the lines and the order. The person who speaks first takes the first name.
+ */
+export function alignDialogueToCast(
+  turns: DialogueTurn[],
+  cast: { name: string; gender: SpeakerGender }[],
+): DialogueTurn[] | null {
+  if (cast.length !== 2 || turns.length < 4) return null;
+  const first = turns[0]?.speaker?.trim();
+  if (!first) return null;
+  const names = dialogueSpeakers(turns);
+  if (names.length !== 2) return null;
+  const second = names.find((name) => name.toLowerCase() !== first.toLowerCase());
+  if (!second) return null;
+  const map = new Map<string, { name: string; gender: SpeakerGender }>([
+    [first.toLowerCase(), cast[0]],
+    [second.toLowerCase(), cast[1]],
+  ]);
+  const aligned: DialogueTurn[] = [];
+  for (const turn of turns) {
+    const person = map.get(turn.speaker.toLowerCase());
+    const line = turn.line.replace(/\s+/g, ' ').trim();
+    if (!person || !line) return null;
+    aligned.push({ speaker: person.name, line, gender: person.gender });
+  }
+  return aligned;
+}
+
 /** Drop whole turns from the end until the spoken words fit the ±15% window. */
 export function trimDialogueToLength(turns: DialogueTurn[], target: number): DialogueTurn[] {
   const max = Math.ceil(Math.max(1, Math.round(target)) * 1.15);

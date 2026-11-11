@@ -90,6 +90,8 @@ export type LessonParams = {
   customTopic?: string;
   /** Topic value from the list, before a wildcard is turned into a concrete label. */
   listTopic?: string;
+  /** The exercise bank retries until the lesson has no validation problems. Live lessons do not. */
+  strict?: boolean;
 };
 
 type VocabularyItem = { word: string; definition: string };
@@ -963,7 +965,8 @@ export async function producePractice(
   let lastRaw = '';
   let prompt = buildPrompt(params);
 
-  for (let attempt = 0; attempt < 2; attempt++) {
+  const attempts = params.strict ? 3 : 2;
+  for (let attempt = 0; attempt < attempts; attempt++) {
     if (attempt > 0 && deadline - Date.now() < 10000) break;
     let raw = '';
     try {
@@ -987,12 +990,16 @@ export async function producePractice(
       wordCount: lesson.wordCount,
       wordCountOk: lesson.wordCountOk,
       problems: lesson.problems.length,
+      problem: lesson.problems[0]?.slice(0, 160) ?? '',
     }));
     if (!best || score > best.score) best = { lesson, score };
-    const countOk = params.stage === 'quiz'
-      ? lesson.quiz.length === params.questionCount
+    const storyDone = params.strict
+      ? Boolean(lesson.story) && lesson.wordCountOk && lesson.problems.length === 0
       : Boolean(lesson.story);
-    if (countOk) break;
+    const quizDone = params.strict
+      ? lesson.quiz.length === params.questionCount && lesson.problems.length === 0
+      : lesson.quiz.length === params.questionCount;
+    if (params.stage === 'quiz' ? quizDone : storyDone) break;
     if (deadline - Date.now() < 10000) break;
     prompt = buildPrompt(params, lesson.problems.slice(0, 6).join('\n') || 'Return only valid JSON.');
   }

@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
+  alignDialogueToCast,
   contentWordCount,
   dialogueSpeakers,
   dialogueTurnPlan,
@@ -30,6 +31,24 @@ test('dialogue keeps two speakers and ignores names in the word count', () => {
   const asText = renderDialogue(turns);
   assert.equal(contentWordCount(asText, 'dialogue'), 19);
   assert.equal(contentWordCount('One short narrative here.', 'text'), 4);
+});
+
+test('a dialogue with other names is renamed onto the requested pair', () => {
+  const turns = [
+    { speaker: 'Emma', line: 'I missed the morning train.', gender: 'female' as const },
+    { speaker: 'Lucy', line: 'We can take the next one.', gender: 'female' as const },
+    { speaker: 'Emma', line: 'It leaves in ten minutes.', gender: 'female' as const },
+    { speaker: 'Lucy', line: 'I will buy the tickets.', gender: 'female' as const },
+  ];
+  const aligned = alignDialogueToCast(turns, [
+    { name: 'Anna', gender: 'female' },
+    { name: 'Sophie', gender: 'female' },
+  ]);
+  assert.ok(aligned);
+  assert.equal(aligned?.[0].speaker, 'Anna');
+  assert.equal(aligned?.[1].speaker, 'Sophie');
+  assert.equal(aligned?.[0].line, 'I missed the morning train.');
+  assert.equal(alignDialogueToCast(turns.slice(0, 2), [{ name: 'Anna', gender: 'female' }, { name: 'Sophie', gender: 'female' }]), null);
 });
 
 test('dialogue lines become spoken lines with a speaker index', () => {

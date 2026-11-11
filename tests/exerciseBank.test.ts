@@ -26,6 +26,7 @@ import {
   listeningLessonFromBankPayload,
   listeningSlotKey,
   listeningSlots,
+  listeningStoryForBank,
   nextGrammarSlot,
   nextListeningSlot,
   listeningWeeklyBatchSize,
@@ -212,6 +213,53 @@ test('a hop stops on the clock and the next hop continues the same batch', async
   assert.equal(shouldChainRefill({ ...result, stopped: 'failures' }, 0), false);
   assert.equal(shouldChainRefill({ ...result, stopped: 'duplicates' }, 0), false);
   assert.equal(shouldChainRefill({ ...result, stopped: 'unavailable' }, 0), false);
+  assert.equal(shouldChainRefill({ ...result, stopped: 'attempts', inserted: 0 }, 0), false);
+  assert.equal(shouldChainRefill({ ...result, stopped: 'attempts', inserted: 2, remaining: 4 }, 0), true);
+});
+
+test('validation misses rotate to the next cell instead of ending the batch', async () => {
+  const seen: string[] = [];
+  const result = await runRefillHop({
+    slots: [],
+    target: 6,
+    cursor: 0,
+    deadline: 10_000_000,
+    now: () => 0,
+    attemptLimit: 36,
+    pick: (cursor) => nextListeningSlot({ cursor, random: () => 0 }),
+    label: (slot) => `${slot.level}/${slot.format}`,
+    produce: async (slot) => {
+      seen.push(`${slot.level}:${slot.format}`);
+      return slot.format === 'dialogue' ? null : slot;
+    },
+    insert: async () => 'inserted',
+  });
+  assert.equal(result.stopped, 'target');
+  assert.equal(result.inserted, 6);
+  assert.equal(seen.filter((item) => item.endsWith(':dialogue')).length > 0, true);
+  assert.deepEqual(seen.filter((item) => item.endsWith(':text')), [
+    'Beginner:text', 'Intermediate:text', 'Advanced:text',
+    'Beginner:text', 'Intermediate:text', 'Advanced:text',
+  ]);
+});
+
+test('eight misses do not stop a refill that can still insert', async () => {
+  let calls = 0;
+  const result = await runRefillHop({
+    slots: grammarSlots(),
+    target: 2,
+    cursor: 0,
+    deadline: 10_000_000,
+    now: () => 0,
+    produce: async (slot) => {
+      calls += 1;
+      return calls <= 8 ? null : slotSet(slot);
+    },
+    insert: async () => 'inserted',
+  });
+  assert.equal(result.stopped, 'target');
+  assert.equal(result.inserted, 2);
+  assert.equal(calls, 10);
 });
 
 test('repeated model failures and duplicate hashes stop the chain', async () => {
@@ -353,6 +401,36 @@ test('a 100-lesson listening batch gives every level and format about the same n
   assert.equal(text, 50);
   assert.equal(dialogue, 50);
   assert.equal(Math.max(...counts.values()), 1);
+});
+
+test('a dialogue with the wrong names can still be stored when the lines fit', () => {
+  const lines = [
+    'I missed the early morning train and waited outside today.',
+    'We can take the next one together if we hurry now.',
+    'It leaves in about ten minutes from platform four today.',
+    'I will buy the tickets while we wait in line.',
+    'Thank you that gives us enough time for a coffee.',
+    'I already saved two seats by the window for us.',
+  ];
+  const dialogue = lines.map((line, index) => ({
+    speaker: index % 2 === 0 ? 'Emma' : 'Lucy',
+    line,
+    gender: 'female' as const,
+  }));
+  const prepared = listeningStoryForBank({
+    format: 'dialogue',
+    story: '',
+    dialogue,
+    wordCount: 60,
+    speakers: [
+      { name: 'Anna', gender: 'female' },
+      { name: 'Sophie', gender: 'female' },
+    ],
+  });
+  assert.deepEqual(prepared.problems, []);
+  assert.equal(prepared.dialogue[0].speaker, 'Anna');
+  assert.equal(prepared.dialogue[1].speaker, 'Sophie');
+  assert.match(prepared.story, /^Anna: /);
 });
 
 test('listening refill prefers the thinnest cell and randomizes ties', () => {
