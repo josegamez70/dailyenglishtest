@@ -41,6 +41,7 @@ export const EXERCISE_BANK_CAP_DEFAULT = 1000;
 export const EXERCISE_BANK_CAP_MAX = 5000;
 export const EXERCISE_BANK_HOP_LIMIT = 200;
 export const REFILL_RESERVE_MS = 40_000;
+/** A thrown attempt used to stop the batch after this many in a row. The attempt cap does that now. */
 export const REFILL_HARD_FAILURE_LIMIT = 4;
 /** Kept so a reader can see the old streak. A miss now moves to the next cell. */
 export const REFILL_MISS_LIMIT = 8;
@@ -509,6 +510,25 @@ export function listeningStoryForBank(input: {
   return { story, dialogue, problems };
 }
 
+/** Structural quiz problems. Near-synonym notes do not block a stored lesson. */
+export function listeningQuizProblems(
+  quiz: { question: string; options: string[]; correctAnswer: string }[],
+  questionCount: number,
+): string[] {
+  const problems: string[] = [];
+  if (quiz.length !== questionCount) problems.push(`Need ${questionCount} questions. Got ${quiz.length}.`);
+  quiz.forEach((item, index) => {
+    const number = index + 1;
+    if (!item.question.trim()) problems.push(`Question ${number} is missing text.`);
+    if (item.options.length !== 4 || item.options.some((option) => !option.trim())) {
+      problems.push(`Question ${number} needs 4 options.`);
+    } else if (!item.correctAnswer || !item.options.includes(item.correctAnswer)) {
+      problems.push(`Question ${number} answer is not one of the options.`);
+    }
+  });
+  return problems;
+}
+
 export function isBankId(value: string): boolean {
   return UUID_RE.test(value);
 }
@@ -756,7 +776,6 @@ export async function runRefillHop<TSlot, TItem>(input: {
   }
   let inserted = 0;
   let cursor = input.cursor;
-  let hard = 0;
   let misses = 0;
   let duplicates = 0;
   let attempts = 0;
@@ -779,7 +798,6 @@ export async function runRefillHop<TSlot, TItem>(input: {
     try {
       produced = await input.produce(slot);
     } catch (error) {
-      hard += 1;
       misses = 0;
       duplicates = 0;
       console.log(JSON.stringify({
@@ -788,14 +806,9 @@ export async function runRefillHop<TSlot, TItem>(input: {
         attempt: attempts,
         message: error instanceof Error ? error.message.slice(0, 200) : 'error',
       }));
-      if (hard >= REFILL_HARD_FAILURE_LIMIT) {
-        stopped = 'failures';
-        break;
-      }
       continue;
     }
     if (!produced) {
-      hard = 0;
       duplicates = 0;
       misses += 1;
       console.log(JSON.stringify({
@@ -809,13 +822,11 @@ export async function runRefillHop<TSlot, TItem>(input: {
     const saved = await input.insert(slot, produced);
     if (saved === 'inserted') {
       inserted += 1;
-      hard = 0;
       misses = 0;
       duplicates = 0;
       continue;
     }
     if (saved === 'duplicate') {
-      hard = 0;
       misses = 0;
       duplicates += 1;
       if (duplicates >= REFILL_DUPLICATE_LIMIT) {
@@ -828,8 +839,6 @@ export async function runRefillHop<TSlot, TItem>(input: {
       stopped = 'unavailable';
       break;
     }
-    if (saved === 'error') hard += 1;
-    else hard = 0;
     misses += 1;
     duplicates = 0;
     console.log(JSON.stringify({
@@ -838,10 +847,6 @@ export async function runRefillHop<TSlot, TItem>(input: {
       attempt: attempts,
       result: saved,
     }));
-    if (hard >= REFILL_HARD_FAILURE_LIMIT) {
-      stopped = 'failures';
-      break;
-    }
   }
 
   if (!stopped && inserted >= input.target) stopped = 'target';

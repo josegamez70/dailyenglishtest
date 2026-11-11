@@ -64,7 +64,8 @@ export async function exerciseBankFillCounts(
     }
     return counts;
   }
-  for (const row of result.data ?? []) {
+  const rows = Array.isArray(result.data) ? result.data : [];
+  for (const row of rows) {
     const record = row as {
       level?: unknown;
       exercise_type?: unknown;
