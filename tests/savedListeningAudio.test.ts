@@ -26,6 +26,10 @@ test('a saved dialogue keeps each speaker on the matching Azure voice', () => {
   assert.equal(savedListeningCachePath(speech), path);
   assert.equal(storedSavedAudioPath({ audioPath: path }, speech), path);
   assert.equal(storedSavedAudioPath({ audioPath: 'listening/' + 'a'.repeat(64) + '.mp3' }, speech), null);
+  const slowPath = savedListeningCachePath(speech, { slow: true });
+  assert.notEqual(slowPath, path);
+  assert.match(slowPath, /^listening\/[0-9a-f]{64}\.mp3$/);
+  assert.equal(storedSavedAudioPath({ audioSlowPath: slowPath }, speech, { slow: true }), slowPath);
 });
 
 test('a saved text lesson is spoken as one story', () => {
@@ -49,7 +53,13 @@ test('opening a saved listening lesson asks for Azure audio', () => {
   assert.match(api, /userWasServedBankItem/);
   assert.match(api, /fallback: 'browser'/);
   assert.match(api, /audioPath/);
+  const slow = readFileSync(new URL('../api/listening-slow-audio.ts', import.meta.url), 'utf8');
+  assert.match(slow, /slow: true/);
+  assert.match(slow, /audioSlowPath/);
+  assert.match(slow, /fallback: 'browser'/);
   const screen = readFileSync(new URL('../App.tsx', import.meta.url), 'utf8');
+  assert.match(screen, /listeningSlowAudio/);
+  assert.match(screen, /playbackRate = 1/);
   assert.match(screen, /savedListeningAudio/);
   assert.match(screen, /lessonSavedIdRef/);
 });

@@ -6,6 +6,9 @@ export const AZURE_TTS_OUTPUT_FORMAT = 'audio-24khz-48kbitrate-mono-mp3';
 /** American English neural voices. A woman is Ava. A man is Andrew. Text uses Ava. */
 export const AZURE_VOICE_FEMALE = 'en-US-AvaMultilingualNeural';
 export const AZURE_VOICE_MALE = 'en-US-AndrewMultilingualNeural';
+
+/** Slower Azure audio is spoken at 75% of the normal pace. The player does not stretch the file. */
+export const AZURE_SLOW_OF_NORMAL = 0.75;
 export const AZURE_VOICE_FIRST = AZURE_VOICE_FEMALE;
 export const AZURE_VOICE_SECOND = AZURE_VOICE_MALE;
 
@@ -86,11 +89,39 @@ export function dialogueVoiceCast(dialogue: readonly { speaker: string; gender?:
   return cast;
 }
 
+/** Profile speeds the app offers. Anything else is the normal pace. */
+export function listeningProfileSpeed(value: unknown): number {
+  const speed = Number(value);
+  if (speed === 0.75 || speed === 1.25) return speed;
+  return 1;
+}
+
+/**
+ * Relative Azure prosody percent. 0 is the default pace and needs no tag.
+ * Slow is 75% of the profile speed. +25% is a 1.25 profile. -25% is either a
+ * 0.75 profile or the standard slower file.
+ */
+export function azureProsodyPercent(profileSpeed: number, slow = false): number {
+  const factor = listeningProfileSpeed(profileSpeed) * (slow ? AZURE_SLOW_OF_NORMAL : 1);
+  return Math.round((factor - 1) * 100);
+}
+
+export function azureProsodyRate(percent: number): string | null {
+  if (!percent) return null;
+  return `${percent > 0 ? '+' : ''}${percent}%`;
+}
+
 /**
  * One SSML document. A story is Ava. A conversation uses Ava or Andrew from the
  * speaker's gender, so a woman who speaks second is still Ava.
+ * A slower file wraps the words in prosody so Azure speaks more slowly.
  */
-export function buildListeningSsml(speech: ListeningSpeech): { ssml: string; spokenCharacters: number; lines: string[] } {
+export function buildListeningSsml(
+  speech: ListeningSpeech,
+  pace?: { profileSpeed?: number; slow?: boolean },
+): { ssml: string; spokenCharacters: number; lines: string[] } {
+  const prosody = azureProsodyRate(azureProsodyPercent(pace?.profileSpeed ?? 1, pace?.slow === true));
+  const voiced = (inner: string) => prosody ? `<prosody rate="${prosody}">${inner}</prosody>` : inner;
   if (speech.format === 'dialogue' && speech.dialogue.length > 0) {
     const lines: string[] = [];
     const parts: string[] = [];
@@ -101,7 +132,7 @@ export function buildListeningSsml(speech: ListeningSpeech): { ssml: string; spo
       const said = `${name}. ${line}`;
       lines.push(said);
       const pause = index < speech.dialogue.length - 1 ? '<break time="350ms"/>' : '';
-      parts.push(`<voice name="${azureVoiceForTurn(turn)}">${escapeSsml(said)}${pause}</voice>`);
+      parts.push(`<voice name="${azureVoiceForTurn(turn)}">${voiced(`${escapeSsml(said)}${pause}`)}</voice>`);
     });
     return {
       ssml: wrapSsml(parts.join('')),
@@ -111,7 +142,7 @@ export function buildListeningSsml(speech: ListeningSpeech): { ssml: string; spo
   }
   const line = spokenLine(speech.story);
   return {
-    ssml: wrapSsml(`<voice name="${AZURE_VOICE_FIRST}">${escapeSsml(line)}</voice>`),
+    ssml: wrapSsml(`<voice name="${AZURE_VOICE_FIRST}">${voiced(escapeSsml(line))}</voice>`),
     spokenCharacters: line.length,
     lines: line ? [line] : [],
   };

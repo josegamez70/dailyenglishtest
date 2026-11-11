@@ -68,6 +68,24 @@ test('Azure voice follows gender, not who speaks first', () => {
   assert.equal(AZURE_VOICE_SECOND, AZURE_VOICE_MALE);
 });
 
+test('slower Azure speech is a prosody rate, and the spoken text is unchanged', () => {
+  const speech = {
+    format: 'text' as const,
+    story: 'Anna walked to the market.',
+    dialogue: [],
+  };
+  const normal = buildListeningSsml(speech);
+  const slow = buildListeningSsml(speech, { slow: true });
+  assert.equal(normal.ssml.includes('<prosody'), false);
+  assert.match(slow.ssml, /<prosody rate="-25%">Anna walked to the market\.<\/prosody>/);
+  assert.equal(slow.spokenCharacters, normal.spokenCharacters);
+  const fast = buildListeningSsml(speech, { profileSpeed: 1.25 });
+  assert.match(fast.ssml, /<prosody rate="\+25%">/);
+  const fastSlow = buildListeningSsml(speech, { profileSpeed: 1.25, slow: true });
+  assert.match(fastSlow.ssml, /<prosody rate="-6%">/);
+  assert.equal(fastSlow.spokenCharacters, normal.spokenCharacters);
+});
+
 test('the speech endpoint is the regional Azure TTS URL', () => {
   assert.equal(
     azureSpeechEndpoint('swedencentral'),

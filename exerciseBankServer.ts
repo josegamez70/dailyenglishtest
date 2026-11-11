@@ -22,6 +22,7 @@ import {
   type ListeningSlot,
   type RefillInsertResult,
 } from './exerciseBank.ts';
+import { savedListeningCachePath, savedListeningSpeech } from './savedListeningAudio.ts';
 import type { GrammarRequest, GrammarSet } from './grammarSet.ts';
 
 const LISTENING_BUCKET = 'listening-audio';
@@ -212,6 +213,12 @@ function audioPathFromDimensions(dimensions: unknown): string {
   return isListeningAudioPath(path) ? path : '';
 }
 
+export function audioSlowPathFromDimensions(dimensions: unknown): string {
+  if (!dimensions || typeof dimensions !== 'object') return '';
+  const path = String((dimensions as { audioSlowPath?: unknown }).audioSlowPath ?? '');
+  return isListeningAudioPath(path) ? path : '';
+}
+
 async function deleteListeningObjects(admin: SupabaseClient, paths: string[]): Promise<void> {
   const clean = paths.filter(isListeningAudioPath);
   if (!clean.length) return;
@@ -260,7 +267,7 @@ export async function claimListeningFromBank(
   admin: SupabaseClient,
   userId: string,
   request: { level: string; format: string; topic: string | null; wordCount: number; questionCount: number },
-): Promise<{ id: string; lesson: ListeningLesson; audioPath: string } | null> {
+): Promise<{ id: string; lesson: ListeningLesson; audioPath: string; audioSlowPath: string } | null> {
   for (let attempt = 0; attempt < CLAIM_ATTEMPTS; attempt += 1) {
     const result = await admin.rpc('claim_listening_bank_item', {
       uid: userId,
@@ -286,7 +293,7 @@ export async function claimListeningFromBank(
       await releaseGrammarBankItem(admin, userId, claim.row.id);
       continue;
     }
-    return { id: claim.row.id, lesson, audioPath };
+    return { id: claim.row.id, lesson, audioPath, audioSlowPath: audioSlowPathFromDimensions(dimensions) };
   }
   return null;
 }
@@ -343,7 +350,10 @@ async function trimListeningSlot(admin: SupabaseClient, slot: ListeningSlot, cap
     const rows = listed.data ?? [];
     const ids = rows.map((row) => String(row.id ?? '')).filter(isBankId);
     if (!ids.length) return;
-    const paths = rows.map((row) => audioPathFromDimensions(row.dimensions));
+    const paths = rows.flatMap((row) => [
+      audioPathFromDimensions(row.dimensions),
+      audioSlowPathFromDimensions(row.dimensions),
+    ]);
     await deleteListeningObjects(admin, paths);
     const deleted = await admin.from('exercise_bank').delete().in('id', ids);
     if (deleted.error || ids.length < 200) {
@@ -361,13 +371,17 @@ export async function insertListeningBankItem(
   lesson: ListeningLesson,
   audio: Uint8Array,
   cap: number,
+  slowAudio?: Uint8Array | null,
 ): Promise<RefillInsertResult> {
   if (!canBankListeningLesson(lesson)) return 'invalid';
   const hash = listeningContentHash(lesson);
   const audioPath = listeningAudioPath(hash);
+  const speech = savedListeningSpeech({ format: lesson.format, story: lesson.story, dialogue: lesson.dialogue });
   const payload = listeningBankPayload(lesson);
-  const dimensions = listeningDimensions(lesson, audioPath);
-  if (!listeningLessonFromBankPayload(payload, dimensions, {
+  const plannedSlowPath = slowAudio && speech
+    ? savedListeningCachePath(speech, { slow: true, profileSpeed: 1 })
+    : '';
+  if (!listeningLessonFromBankPayload(payload, listeningDimensions(lesson, audioPath, plannedSlowPath || undefined), {
     level: lesson.level,
     format: lesson.format,
     topic: lesson.topicValue,
@@ -377,6 +391,13 @@ export async function insertListeningBankItem(
   const uploaded = await uploadListeningAudio(admin, audioPath, audio);
   if (uploaded === 'unavailable') return 'unavailable';
   if (uploaded === 'error') return 'error';
+  let audioSlowPath = '';
+  let slowUploaded: 'ok' | 'exists' | 'error' | 'unavailable' | '' = '';
+  if (plannedSlowPath && slowAudio) {
+    slowUploaded = await uploadListeningAudio(admin, plannedSlowPath, slowAudio);
+    if (slowUploaded === 'ok' || slowUploaded === 'exists') audioSlowPath = plannedSlowPath;
+  }
+  const dimensions = listeningDimensions(lesson, audioPath, audioSlowPath || undefined);
   const inserted = await admin.from('exercise_bank').insert({
     kind: 'listening',
     level: lesson.level,
@@ -387,7 +408,12 @@ export async function insertListeningBankItem(
   }).select('id').maybeSingle();
   if (inserted.error) {
     if (inserted.error.code === '23505') return 'duplicate';
-    if (uploaded === 'ok') await deleteListeningObjects(admin, [audioPath]);
+    if (uploaded === 'ok' || slowUploaded === 'ok') {
+      await deleteListeningObjects(admin, [
+        uploaded === 'ok' ? audioPath : '',
+        slowUploaded === 'ok' ? audioSlowPath : '',
+      ]);
+    }
     if (inserted.error.code === '23514') return 'invalid';
     if (bankUnavailable(inserted.error)) return 'unavailable';
     console.error(JSON.stringify({ exerciseBank: 'insert_failed', code: inserted.error.code ?? '' }));
