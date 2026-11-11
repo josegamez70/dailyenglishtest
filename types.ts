@@ -21,6 +21,8 @@ export interface ConfigOptions {
   practiceType?: PracticeType;
   format?: ContentFormat;
   speakers?: { name: string; gender: 'female' | 'male' }[];
+  /** Listening only. When this is set, the lesson is generated live instead of from the bank. */
+  customTopic?: string;
 }
 
 export type PracticeType = 'reading' | 'listening';

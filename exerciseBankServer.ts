@@ -2,19 +2,31 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import {
   bankUnavailable,
   canBankGrammarSet,
+  canBankListeningLesson,
   grammarBankPayload,
   grammarContentHash,
   grammarSetFromBankPayload,
   grammarUsesBank,
   isBankId,
+  isListeningAudioPath,
+  listeningAudioPath,
+  listeningBankPayload,
+  listeningContentHash,
+  listeningDimensions,
+  listeningLessonFromBankPayload,
   type GrammarSlot,
+  type ListeningLesson,
+  type ListeningSlot,
   type RefillInsertResult,
 } from './exerciseBank.ts';
 import type { GrammarRequest, GrammarSet } from './grammarSet.ts';
 
+const LISTENING_BUCKET = 'listening-audio';
+const SIGNED_URL_SECONDS = 60 * 60;
+
 const CLAIM_ATTEMPTS = 4;
 
-type ClaimRow = { id: string; payload: unknown };
+type ClaimRow = { id: string; payload: unknown; dimensions: unknown };
 
 function readClaim(data: unknown): { status: 'ok'; row: ClaimRow } | { status: 'empty' | 'conflict' | 'bad' } {
   let value = data;
@@ -30,7 +42,7 @@ function readClaim(data: unknown): { status: 'ok'; row: ClaimRow } | { status: '
   if (record.status === 'empty') return { status: 'empty' };
   if (record.status === 'conflict') return { status: 'conflict' };
   if (record.status !== 'ok' || typeof record.id !== 'string' || !isBankId(record.id)) return { status: 'bad' };
-  return { status: 'ok', row: { id: record.id, payload: record.payload } };
+  return { status: 'ok', row: { id: record.id, payload: record.payload, dimensions: record.dimensions ?? null } };
 }
 
 export async function exerciseBankReady(admin: SupabaseClient): Promise<boolean> {
@@ -143,5 +155,202 @@ export async function insertGrammarBankItem(
     return 'error';
   }
   await trimGrammarSlot(admin, { level: set.level, exercise: set.exercise }, cap);
+  return 'inserted';
+}
+
+function audioPathFromDimensions(dimensions: unknown): string {
+  if (!dimensions || typeof dimensions !== 'object') return '';
+  const path = String((dimensions as { audioPath?: unknown }).audioPath ?? '');
+  return isListeningAudioPath(path) ? path : '';
+}
+
+async function deleteListeningObjects(admin: SupabaseClient, paths: string[]): Promise<void> {
+  const clean = paths.filter(isListeningAudioPath);
+  if (!clean.length) return;
+  const removed = await admin.storage.from(LISTENING_BUCKET).remove(clean);
+  if (removed.error) {
+    console.error(JSON.stringify({ exerciseBank: 'audio_delete_failed', message: removed.error.message.slice(0, 160) }));
+  }
+}
+
+/** A private-bucket URL for one stored mp3. The path itself never leaves the server except as this signature. */
+export async function signListeningAudio(admin: SupabaseClient, audioPath: string): Promise<string | null> {
+  if (!isListeningAudioPath(audioPath)) return null;
+  const signed = await admin.storage.from(LISTENING_BUCKET).createSignedUrl(audioPath, SIGNED_URL_SECONDS);
+  if (signed.error || !signed.data?.signedUrl) {
+    if (signed.error) {
+      console.error(JSON.stringify({ exerciseBank: 'audio_sign_failed', message: signed.error.message.slice(0, 160) }));
+    }
+    return null;
+  }
+  return signed.data.signedUrl;
+}
+
+export async function uploadListeningAudio(
+  admin: SupabaseClient,
+  audioPath: string,
+  bytes: Uint8Array,
+): Promise<'ok' | 'exists' | 'error' | 'unavailable'> {
+  if (!isListeningAudioPath(audioPath) || bytes.byteLength < 64) return 'error';
+  const uploaded = await admin.storage.from(LISTENING_BUCKET).upload(audioPath, bytes, {
+    contentType: 'audio/mpeg',
+    upsert: false,
+  });
+  if (!uploaded.error) return 'ok';
+  const message = uploaded.error.message.toLowerCase();
+  if (message.includes('already exists') || message.includes('duplicate') || message.includes('409')) return 'exists';
+  if (message.includes('bucket') || message.includes('not found')) return 'unavailable';
+  console.error(JSON.stringify({ exerciseBank: 'audio_upload_failed', message: uploaded.error.message.slice(0, 160) }));
+  return 'error';
+}
+
+/**
+ * One unseen listening lesson for this person, already recorded as served.
+ * A missing table or a custom topic returns null so the caller can generate live.
+ */
+export async function claimListeningFromBank(
+  admin: SupabaseClient,
+  userId: string,
+  request: { level: string; format: string; topic: string | null; wordCount: number; questionCount: number },
+): Promise<{ id: string; lesson: ListeningLesson; audioPath: string } | null> {
+  for (let attempt = 0; attempt < CLAIM_ATTEMPTS; attempt += 1) {
+    const result = await admin.rpc('claim_listening_bank_item', {
+      uid: userId,
+      listening_level: request.level,
+      listening_format: request.format,
+      listening_topic: request.topic ?? '',
+      listening_words: request.wordCount,
+      listening_questions: request.questionCount,
+    });
+    if (result.error) {
+      if (!bankUnavailable(result.error)) {
+        console.error(JSON.stringify({ exerciseBank: 'listening_claim_failed', code: result.error.code ?? '' }));
+      }
+      return null;
+    }
+    const claim = readClaim(result.data);
+    if (claim.status === 'empty' || claim.status === 'bad') return null;
+    if (claim.status === 'conflict') continue;
+    const dimensions = claim.row.dimensions;
+    const lesson = listeningLessonFromBankPayload(claim.row.payload, dimensions, request);
+    const audioPath = audioPathFromDimensions(dimensions);
+    if (!lesson || !audioPath) {
+      await releaseGrammarBankItem(admin, userId, claim.row.id);
+      continue;
+    }
+    return { id: claim.row.id, lesson, audioPath };
+  }
+  return null;
+}
+
+/** True when this person was given this bank row. Used before signing its audio. */
+export async function userWasServedBankItem(
+  admin: SupabaseClient,
+  userId: string,
+  exerciseId: string,
+): Promise<boolean> {
+  if (!userId || !isBankId(exerciseId)) return false;
+  const row = await admin
+    .from('exercise_bank_serves')
+    .select('exercise_id')
+    .eq('user_id', userId)
+    .eq('exercise_id', exerciseId)
+    .maybeSingle();
+  if (row.error) return false;
+  return Boolean(row.data);
+}
+
+export async function listeningAudioPathForRow(admin: SupabaseClient, exerciseId: string): Promise<string | null> {
+  if (!isBankId(exerciseId)) return null;
+  const row = await admin
+    .from('exercise_bank')
+    .select('kind, dimensions')
+    .eq('id', exerciseId)
+    .maybeSingle();
+  if (row.error || !row.data || row.data.kind !== 'listening') return null;
+  const path = audioPathFromDimensions(row.data.dimensions);
+  return path || null;
+}
+
+async function trimListeningSlot(admin: SupabaseClient, slot: ListeningSlot, cap: number): Promise<void> {
+  for (let pass = 0; pass < 20; pass += 1) {
+    const listed = await admin
+      .from('exercise_bank')
+      .select('id, dimensions')
+      .eq('kind', 'listening')
+      .eq('level', slot.level)
+      .eq('exercise_type', slot.format)
+      .filter('dimensions->>topic', 'eq', slot.topic)
+      .filter('dimensions->>wordCount', 'eq', String(slot.wordCount))
+      .filter('dimensions->>questionCount', 'eq', String(slot.questionCount))
+      .order('created_at', { ascending: false })
+      .order('id', { ascending: false })
+      .range(cap, cap + 199);
+    if (listed.error) {
+      if (!bankUnavailable(listed.error)) {
+        console.error(JSON.stringify({ exerciseBank: 'trim_failed', code: listed.error.code ?? '' }));
+      }
+      return;
+    }
+    const rows = listed.data ?? [];
+    const ids = rows.map((row) => String(row.id ?? '')).filter(isBankId);
+    if (!ids.length) return;
+    const paths = rows.map((row) => audioPathFromDimensions(row.dimensions));
+    await deleteListeningObjects(admin, paths);
+    const deleted = await admin.from('exercise_bank').delete().in('id', ids);
+    if (deleted.error || ids.length < 200) {
+      if (deleted.error && !bankUnavailable(deleted.error)) {
+        console.error(JSON.stringify({ exerciseBank: 'trim_failed', code: deleted.error.code ?? '' }));
+      }
+      return;
+    }
+  }
+}
+
+/** Insert one validated listening lesson and its mp3. A repeated hash is skipped. Oldest rows past the cap are deleted, with their files. */
+export async function insertListeningBankItem(
+  admin: SupabaseClient,
+  lesson: ListeningLesson,
+  audio: Uint8Array,
+  cap: number,
+): Promise<RefillInsertResult> {
+  if (!canBankListeningLesson(lesson)) return 'invalid';
+  const hash = listeningContentHash(lesson);
+  const audioPath = listeningAudioPath(hash);
+  const payload = listeningBankPayload(lesson);
+  const dimensions = listeningDimensions(lesson, audioPath);
+  if (!listeningLessonFromBankPayload(payload, dimensions, {
+    level: lesson.level,
+    format: lesson.format,
+    topic: lesson.topicValue,
+    wordCount: lesson.wordCount,
+    questionCount: lesson.questionCount,
+  })) return 'invalid';
+  const uploaded = await uploadListeningAudio(admin, audioPath, audio);
+  if (uploaded === 'unavailable') return 'unavailable';
+  if (uploaded === 'error') return 'error';
+  const inserted = await admin.from('exercise_bank').insert({
+    kind: 'listening',
+    level: lesson.level,
+    exercise_type: lesson.format,
+    dimensions,
+    payload,
+    content_hash: hash,
+  }).select('id').maybeSingle();
+  if (inserted.error) {
+    if (inserted.error.code === '23505') return 'duplicate';
+    if (uploaded === 'ok') await deleteListeningObjects(admin, [audioPath]);
+    if (inserted.error.code === '23514') return 'invalid';
+    if (bankUnavailable(inserted.error)) return 'unavailable';
+    console.error(JSON.stringify({ exerciseBank: 'insert_failed', code: inserted.error.code ?? '' }));
+    return 'error';
+  }
+  await trimListeningSlot(admin, {
+    level: lesson.level,
+    format: lesson.format,
+    topic: lesson.topicValue,
+    wordCount: lesson.wordCount,
+    questionCount: lesson.questionCount,
+  }, cap);
   return 'inserted';
 }
