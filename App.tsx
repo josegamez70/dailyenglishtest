@@ -21,7 +21,7 @@ import { clampedFontStep } from './fontStep';
 import { azurePlaybackRate, slowerPlaybackRate, whenVoicesReady } from './speechVoices';
 import { withStoryReview } from './quizSession';
 import { resumeWordIndex, textFromWordIndex } from './speechPosition';
-import { generateStoryAndQuiz, refreshListeningAudio } from './services/geminiService';
+import { generateStoryAndQuiz, refreshListeningAudio, savedListeningAudio } from './services/geminiService';
 import { GrammarPage } from './components/GrammarPage';
 import { FREE_LESSON_LIMIT, planStatusText, signOut, useAccount } from './auth';
 import { AppShell, type ShellItem } from './components/AppShell';
@@ -230,7 +230,8 @@ const App: React.FC = () => {
   const speedRef = useRef(1);
   const lessonAudioUrlRef = useRef<string | null>(null);
   const lessonBankIdRef = useRef<string | null>(null);
-  /** A banked listening lesson must play its stored mp3. Browser speech is not a fallback. */
+  const lessonSavedIdRef = useRef<string | null>(null);
+  /** A banked or saved listening lesson must play Azure audio. Browser speech is only the last resort. */
   const lessonAzureOnlyRef = useRef(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const levelAppliedRef = useRef(false);
@@ -418,6 +419,7 @@ const App: React.FC = () => {
     setLoadingStartedAt(Date.now());
     setLoadingEstimate(12);
     lessonBankIdRef.current = null;
+    lessonSavedIdRef.current = null;
     lessonAzureOnlyRef.current = false;
     rememberAudio(null);
     let storyShown = false;
@@ -642,6 +644,7 @@ const App: React.FC = () => {
     setShowTranscript(false);
     setCurrentWordIndex(null);
     lessonBankIdRef.current = null;
+    lessonSavedIdRef.current = null;
     lessonAzureOnlyRef.current = false;
     rememberAudio(null);
     stopSpeaking();
@@ -676,14 +679,21 @@ const App: React.FC = () => {
     const bankLesson = lessonAzureOnlyRef.current;
     if (bankLesson && !storedUrl) {
       const bankId = lessonBankIdRef.current;
-      if (!bankId) {
-        console.log(JSON.stringify({ listening: 'bank_audio_missing' }));
-        setError('The audio could not be opened. Please try again.');
-        return;
-      }
-      void refreshListeningAudio(bankId).then((url) => {
+      const savedId = lessonSavedIdRef.current;
+      const load = bankId
+        ? refreshListeningAudio(bankId)
+        : savedId
+          ? savedListeningAudio(savedId)
+          : Promise.resolve(null);
+      void load.then((url) => {
         if (playId !== playIdRef.current) return;
         if (!url) {
+          if (savedId && !bankId) {
+            lessonAzureOnlyRef.current = false;
+            console.log(JSON.stringify({ listening: 'browser_tts', reason: 'azure_unavailable', saved: true }));
+            playSpeak(rate, options);
+            return;
+          }
           console.log(JSON.stringify({ listening: 'bank_audio_missing', bankId }));
           setError('The audio could not be opened. Please try again.');
           return;
@@ -692,6 +702,12 @@ const App: React.FC = () => {
         playSpeak(rate, keepClock ? { keepClock: true } : undefined);
       }).catch(() => {
         if (playId !== playIdRef.current) return;
+        if (savedId && !bankId) {
+          lessonAzureOnlyRef.current = false;
+          console.log(JSON.stringify({ listening: 'browser_tts', reason: 'azure_unavailable', saved: true }));
+          playSpeak(rate, options);
+          return;
+        }
         console.log(JSON.stringify({ listening: 'bank_audio_missing', bankId }));
         setError('The audio could not be opened. Please try again.');
       });
@@ -748,9 +764,11 @@ const App: React.FC = () => {
       audio.onerror = () => {
         if (playId !== playIdRef.current || pausedRef.current) return;
         const bankId = lessonAzureOnlyRef.current ? lessonBankIdRef.current : null;
-        if (bankId && !refreshedBankAudio) {
+        const savedId = lessonAzureOnlyRef.current && !bankId ? lessonSavedIdRef.current : null;
+        if ((bankId || savedId) && !refreshedBankAudio) {
           refreshedBankAudio = true;
-          void refreshListeningAudio(bankId).then((url) => {
+          const refresh = bankId ? refreshListeningAudio(bankId) : savedListeningAudio(savedId || '');
+          void refresh.then((url) => {
             if (playId !== playIdRef.current || pausedRef.current) return;
             if (!url) {
               console.log(JSON.stringify({ listening: 'bank_audio_failed', bankId }));
@@ -1878,23 +1896,17 @@ const App: React.FC = () => {
     setContentFormat(lesson.format === 'dialogue' ? 'dialogue' : 'text');
     if (typeof lesson.level === 'string') setConfig((current) => ({ ...current, level: lesson.level as string }));
     setStoryTopic({ label: String(lesson.title ?? lesson.topic ?? 'Lesson'), surprise: false });
-    lessonBankIdRef.current = lesson.mode === 'listening' && typeof lesson.bankId === 'string' ? lesson.bankId : null;
-    lessonAzureOnlyRef.current = Boolean(lessonBankIdRef.current);
+    const savedListening = lesson.mode === 'listening';
+    lessonBankIdRef.current = null;
+    lessonSavedIdRef.current = savedListening ? row.id : null;
+    lessonAzureOnlyRef.current = savedListening;
     rememberAudio(null);
-    if (lessonBankIdRef.current) {
-      const bankId = lessonBankIdRef.current;
-      void refreshListeningAudio(bankId).then((url) => {
-        if (lessonBankIdRef.current !== bankId) return;
+    if (savedListening) {
+      const savedId = row.id;
+      void savedListeningAudio(savedId).then((url) => {
+        if (lessonSavedIdRef.current !== savedId) return;
         if (url) rememberAudio(url);
-        else {
-          console.log(JSON.stringify({ listening: 'bank_audio_missing', bankId }));
-          setError('The audio could not be opened. Please try again.');
-        }
-      }).catch(() => {
-        if (lessonBankIdRef.current !== bankId) return;
-        console.log(JSON.stringify({ listening: 'bank_audio_missing', bankId }));
-        setError('The audio could not be opened. Please try again.');
-      });
+      }).catch(() => undefined);
     }
     setView('story');
     const current = window.location.pathname.replace(/\/+$/, '') || '/';
@@ -1920,6 +1932,7 @@ const App: React.FC = () => {
     setContentFormat(piece.format === 'dialogue' ? 'dialogue' : 'text');
     setConfig((current) => ({ ...current, level: piece.level }));
     setStoryTopic({ label: piece.title, surprise: false });
+    lessonSavedIdRef.current = null;
     lessonBankIdRef.current = slot === 'listening' && piece.bankId ? piece.bankId : null;
     lessonAzureOnlyRef.current = Boolean(lessonBankIdRef.current);
     rememberAudio(null);
