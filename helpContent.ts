@@ -1,5 +1,6 @@
 import { formatEuro, PUBLIC_PLANS, VAT_PERCENT } from './billingPlans.ts';
 import { PILOT_DAYS, PILOT_SEATS } from './pilotAccess.ts';
+import { SAVED_LESSON_LIMIT } from './savedLessonMeta.ts';
 
 export const HELP_PATH = '/help';
 export const HELP_CONTACT = 'info@dailyenglishtest.es';
@@ -115,7 +116,7 @@ const EN_STEPS: readonly HelpStep[] = [
   {
     id: 'pdf',
     title: 'Download the PDF',
-    body: 'On Student detail, press Download PDF. The student can press the same button on My progress. Saved lessons keeps that person’s latest 5 lessons. Opening one does not use a free lesson. The academy cannot see saved lessons.',
+    body: `On Student detail, press Download PDF. The student can press the same button on My progress. Saved lessons keeps that person’s latest ${SAVED_LESSON_LIMIT} reading and listening lessons and latest ${SAVED_LESSON_LIMIT} grammar sets. Opening one does not use a free lesson. The academy cannot see saved lessons.`,
   },
 ];
 
@@ -143,7 +144,7 @@ const ES_STEPS: readonly HelpStep[] = [
   {
     id: 'pdf',
     title: 'Descarga el PDF',
-    body: 'En «Student detail», pulsa «Download PDF» (Descargar PDF). El alumno puede pulsar el mismo botón en «My progress» (Mi progreso). «Saved lessons» (Lecciones guardadas) conserva las 5 últimas lecciones de esa persona. Abrir una no gasta una lección gratis. La academia no puede ver las lecciones guardadas.',
+    body: `En «Student detail», pulsa «Download PDF» (Descargar PDF). El alumno puede pulsar el mismo botón en «My progress» (Mi progreso). «Saved lessons» (Lecciones guardadas) conserva las ${SAVED_LESSON_LIMIT} últimas lecciones de lectura y audio y los ${SAVED_LESSON_LIMIT} últimos conjuntos de gramática de esa persona. Abrir una no gasta una lección gratis. La academia no puede ver las lecciones guardadas.`,
   },
 ];
 
@@ -273,7 +274,7 @@ const EN_FAQ: readonly HelpFaq[] = [
     blocks: [
       {
         type: 'p',
-        text: 'Saved lessons is in the menu. It keeps the latest 5 lessons for the signed-in person. Press Open to read or hear one again. Opening a saved lesson does not use a free lesson.',
+        text: `Saved lessons is in the menu. It keeps the latest ${SAVED_LESSON_LIMIT} reading and listening lessons, and the latest ${SAVED_LESSON_LIMIT} grammar sets, for the signed-in person. Filters show All, Reading, Listening, or Grammar. Press Open to read or hear one again. Opening a saved lesson does not use a free lesson.`,
       },
       {
         type: 'p',
@@ -513,7 +514,7 @@ const ES_FAQ: readonly HelpFaq[] = [
     blocks: [
       {
         type: 'p',
-        text: '«Saved lessons» (Lecciones guardadas) está en el menú. Guarda las 5 últimas lecciones de quien ha entrado. Pulsa «Open» (Abrir) para leer o escuchar una otra vez. Abrir una lección guardada no gasta una lección gratis.',
+        text: `«Saved lessons» (Lecciones guardadas) está en el menú. Guarda las ${SAVED_LESSON_LIMIT} últimas lecciones de lectura y audio, y los ${SAVED_LESSON_LIMIT} últimos conjuntos de gramática, de quien ha entrado. Los filtros son «All», «Reading», «Listening» y «Grammar». Pulsa «Open» (Abrir) para leer o escuchar una otra vez. Abrir una lección guardada no gasta una lección gratis.`,
       },
       {
         type: 'p',
