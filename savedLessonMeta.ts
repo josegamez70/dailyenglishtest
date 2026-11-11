@@ -13,7 +13,31 @@ export type SavedLessonBadge = {
   label: string;
 };
 
-export const SAVED_LESSON_LIMIT = 5;
+/** Newest reading/listening rows kept, and newest grammar sets kept. Each group has its own cap. */
+export const SAVED_LESSON_LIMIT = 10;
+
+export type SavedLessonFilter = 'all' | 'reading' | 'listening' | 'grammar';
+
+export const SAVED_LESSON_FILTERS: readonly { id: SavedLessonFilter; label: string; empty: string }[] = [
+  { id: 'all', label: 'All', empty: 'No saved lessons yet.' },
+  { id: 'reading', label: 'Reading', empty: 'No saved reading lessons yet.' },
+  { id: 'listening', label: 'Listening', empty: 'No saved listening lessons yet.' },
+  { id: 'grammar', label: 'Grammar', empty: 'No saved grammar sets yet.' },
+];
+
+/** Reading, listening, and grammar are stored on the lesson. Older rows with no mode stay in All. */
+export function savedLessonFilterMode(lesson: Record<string, unknown>): Exclude<SavedLessonFilter, 'all'> | null {
+  if (lesson.mode === 'reading' || lesson.mode === 'listening' || lesson.mode === 'grammar') return lesson.mode;
+  return null;
+}
+
+export function filterSavedLessons<T extends { lesson: Record<string, unknown> }>(
+  rows: T[],
+  filter: SavedLessonFilter,
+): T[] {
+  if (filter === 'all') return rows;
+  return rows.filter((row) => savedLessonFilterMode(row.lesson) === filter);
+}
 
 /**
  * A saved lesson keeps the practice mode and the format (`text` or `dialogue`).
@@ -61,7 +85,7 @@ function grammarSubtypeLabel(lesson: Record<string, unknown>): string {
   }) ?? '';
 }
 
-/** Show the newest reading/listening rows and the newest grammar rows together. */
+/** Show the newest reading/listening rows and the newest grammar rows together, each capped. */
 export function mergeSavedLessons<T extends { created_at: string }>(
   practice: T[],
   grammar: T[],

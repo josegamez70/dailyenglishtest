@@ -167,7 +167,7 @@ export async function listSavedLessons(): Promise<{ rows: SavedLessonRow[]; miss
   return { rows: mergeSavedLessons(practice, mapSavedRows(grammar.data)), missing: false, grammarMissing: false };
 }
 
-/** Store one grammar set. Older grammar sets past the newest 5 are removed. Reading and listening stay in saved_lessons. */
+/** Store one grammar set. Older grammar sets past the newest 10 are removed. Reading and listening stay in saved_lessons. */
 export async function saveGrammarLesson(lesson: Record<string, unknown>, title: string): Promise<{ ok: boolean; missing?: boolean; id?: string }> {
   const supabase = client();
   if (!supabase) return { ok: false };

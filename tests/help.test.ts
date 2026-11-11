@@ -39,7 +39,10 @@ test('help text follows the live academy behaviour', () => {
   assert.match(text, /Download PDF/);
   assert.match(text, /My progress/);
   assert.match(text, /Saved lessons/);
-  assert.match(text, /latest 5 lessons/);
+  assert.match(text, /latest 10 reading and listening lessons/);
+  assert.match(text, /latest 10 grammar sets/);
+  assert.match(text, /Filters show All, Reading, Listening, or Grammar/);
+  assert.equal(text.includes('latest 5'), false);
   assert.match(text, /does not use a free lesson/);
   assert.match(text, /Reading, Listening, and Grammar/);
   assert.match(text, /Last 14 days/);
@@ -98,6 +101,10 @@ test('spanish help keeps the same outline and the English control names', () => 
   assert.match(text, /«Fill in the blanks»/);
   assert.match(text, /«Phrasal verbs»/);
   assert.match(text, /«Put in order»/);
+  assert.match(text, /10 últimas lecciones de lectura y audio/);
+  assert.match(text, /10 últimos conjuntos de gramática/);
+  assert.match(text, /«All», «Reading», «Listening» y «Grammar»/);
+  assert.equal(text.includes('5 últimas'), false);
   assert.match(text, /info@dailyenglishtest\.es/);
   assert.equal(text.includes('lo que el sitio hace hoy'), false);
   assert.equal(text.includes('/admin/pilots'), false);
