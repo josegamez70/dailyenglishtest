@@ -217,6 +217,25 @@ test('a hop stops on the clock and the next hop continues the same batch', async
   assert.equal(shouldChainRefill({ ...result, stopped: 'attempts', inserted: 2, remaining: 4 }, 0), true);
 });
 
+test('a rate-limit pause retries the same cell on the next hop', async () => {
+  const result = await runRefillHop({
+    slots: grammarSlots(),
+    target: 3,
+    cursor: 4,
+    deadline: 10_000_000,
+    now: () => 0,
+    attemptLimit: 10,
+    produce: async () => {
+      throw Object.assign(new Error('refill_pause'), { refillPause: true });
+    },
+    insert: async () => 'inserted',
+  });
+  assert.equal(result.stopped, 'time');
+  assert.equal(result.cursor, 4);
+  assert.equal(result.inserted, 0);
+  assert.equal(shouldChainRefill(result, 0), true);
+});
+
 test('validation misses rotate to the next cell instead of ending the batch', async () => {
   const seen: string[] = [];
   const result = await runRefillHop({

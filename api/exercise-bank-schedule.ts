@@ -18,6 +18,8 @@ import { readEnvValue, runtimeEnv, type EnvMap } from '../taskMail.ts';
  * EXERCISE_BANK_WEEKLY_BATCH             optional, default 250 grammar sets, max 3000
  * EXERCISE_BANK_LISTENING_WEEKLY_BATCH   optional, default 100 listening lessons, max 3000
  * EXERCISE_BANK_CAP                      optional, default 1000 per combination, max 5000
+ * EXERCISE_BANK_GEMINI_GAP_MS            optional, default 5000. Minimum gap between Gemini calls.
+ * EXERCISE_BANK_GEMINI_MODEL             optional. Bank only. Empty uses the live model list.
  * AZURE_SPEECH_KEY and AZURE_SPEECH_REGION are required for the listening batch.
  */
 async function start(env: EnvMap, secret: string, base: string, kind: ExerciseBankKind, target: number): Promise<void> {
