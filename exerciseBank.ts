@@ -140,6 +140,79 @@ export function listeningSlots(): ListeningSlot[] {
   ));
 }
 
+/** The six choices a person makes first: level, then text or dialogue. */
+export function listeningFocuses(): { level: ListeningLevel; format: ListeningFormat }[] {
+  return LISTENING_LEVELS.flatMap((level) => (
+    LISTENING_FORMATS.map((format) => ({ level, format }))
+  ));
+}
+
+export function listeningSlotKey(slot: Pick<ListeningSlot, 'level' | 'format' | 'topic' | 'wordCount' | 'questionCount'>): string {
+  return `${slot.level}|${slot.format}|${slot.topic}|${slot.wordCount}|${slot.questionCount}`;
+}
+
+export function grammarSlotKey(slot: GrammarSlot): string {
+  return `${slot.level}|${slot.exercise}`;
+}
+
+function slotCount(counts: ReadonlyMap<string, number> | undefined, key: string): number {
+  return counts?.get(key) ?? 0;
+}
+
+/** Among the tied thinnest cells, random chooses topic, length, and question count. */
+function pickLeastFilled<T>(
+  candidates: readonly T[],
+  keyOf: (item: T) => string,
+  counts: ReadonlyMap<string, number> | undefined,
+  random: () => number,
+): T {
+  let min = Infinity;
+  const weighed = candidates.map((item) => {
+    const count = slotCount(counts, keyOf(item));
+    if (count < min) min = count;
+    return { item, count };
+  });
+  const tied = weighed.filter((row) => row.count === min).map((row) => row.item);
+  const roll = random();
+  const safe = Number.isFinite(roll) ? roll : 0;
+  const index = Math.min(tied.length - 1, Math.max(0, Math.floor(safe * tied.length)));
+  return tied[index];
+}
+
+/**
+ * Grammar walks levels in turn (B1, B2, C1). Inside a level it fills the exercise
+ * with the fewest stored sets. An empty bank therefore still visits every level
+ * before it repeats one, and a lagging exercise catches up.
+ */
+export function nextGrammarSlot(input: {
+  cursor: number;
+  counts?: ReadonlyMap<string, number>;
+  random?: () => number;
+}): GrammarSlot {
+  const levels = GRAMMAR_BANK_LEVELS;
+  const index = ((input.cursor % levels.length) + levels.length) % levels.length;
+  const level = levels[index];
+  const candidates = GRAMMAR_BANK_EXERCISES.map((exercise) => ({ level, exercise }));
+  return pickLeastFilled(candidates, grammarSlotKey, input.counts, input.random ?? Math.random);
+}
+
+/**
+ * Listening walks the six level × format pairs in turn. Inside that pair it fills
+ * the thinnest topic × length × question count, and breaks ties at random so a
+ * fresh bank does not spend the week on Daily Life, 60 words, and 5 questions.
+ */
+export function nextListeningSlot(input: {
+  cursor: number;
+  counts?: ReadonlyMap<string, number>;
+  random?: () => number;
+}): ListeningSlot {
+  const focuses = listeningFocuses();
+  const index = ((input.cursor % focuses.length) + focuses.length) % focuses.length;
+  const focus = focuses[index];
+  const candidates = listeningSlots().filter((slot) => slot.level === focus.level && slot.format === focus.format);
+  return pickLeastFilled(candidates, listeningSlotKey, input.counts, input.random ?? Math.random);
+}
+
 export function isListeningLevel(value: string): value is ListeningLevel {
   return (LISTENING_LEVELS as readonly string[]).includes(value);
 }
@@ -603,8 +676,9 @@ export function shouldChainRefill(result: RefillHopResult, hops: number, hopLimi
 }
 
 /**
- * One background invocation. It rotates through the 9 grammar combinations
- * and stops for the clock, a string of failures, or the target.
+ * One background invocation. `pick` chooses the next combination (level and
+ * format round-robin, thinnest cell inside that). Without `pick`, it walks
+ * `slots` in order. It stops for the clock, a string of failures, or the target.
  */
 export async function runRefillHop<TSlot, TItem>(input: {
   slots: readonly TSlot[];
@@ -613,16 +687,18 @@ export async function runRefillHop<TSlot, TItem>(input: {
   deadline: number;
   now?: () => number;
   reserveMs?: number;
+  pick?: (cursor: number) => TSlot;
   produce: (slot: TSlot) => Promise<TItem | null>;
   insert: (slot: TSlot, item: TItem) => Promise<RefillInsertResult>;
 }): Promise<RefillHopResult> {
   const now = input.now ?? (() => Date.now());
   const reserveMs = input.reserveMs ?? REFILL_RESERVE_MS;
   const slots = input.slots;
+  const pick = input.pick ?? ((cursor: number) => slots[((cursor % slots.length) + slots.length) % slots.length]);
   if (input.target <= 0) {
     return { inserted: 0, remaining: 0, cursor: input.cursor, stopped: 'target' };
   }
-  if (!slots.length) {
+  if (!input.pick && !slots.length) {
     return { inserted: 0, remaining: input.target, cursor: input.cursor, stopped: 'failures' };
   }
   let inserted = 0;
@@ -637,9 +713,9 @@ export async function runRefillHop<TSlot, TItem>(input: {
       stopped = 'time';
       break;
     }
-    const slot = slots[((cursor % slots.length) + slots.length) % slots.length];
+    const slot = pick(cursor);
     cursor += 1;
-    let produced: GrammarSet | null = null;
+    let produced: TItem | null = null;
     try {
       produced = await input.produce(slot);
     } catch {

@@ -14,6 +14,9 @@ import {
   listeningContentHash,
   listeningDimensions,
   listeningLessonFromBankPayload,
+  grammarSlotKey,
+  listeningSlotKey,
+  type ExerciseBankKind,
   type GrammarSlot,
   type ListeningLesson,
   type ListeningSlot,
@@ -43,6 +46,50 @@ function readClaim(data: unknown): { status: 'ok'; row: ClaimRow } | { status: '
   if (record.status === 'conflict') return { status: 'conflict' };
   if (record.status !== 'ok' || typeof record.id !== 'string' || !isBankId(record.id)) return { status: 'bad' };
   return { status: 'ok', row: { id: record.id, payload: record.payload, dimensions: record.dimensions ?? null } };
+}
+
+/**
+ * How many rows each combination already has. An empty map means the refill
+ * treats every cell as empty (the count function is not applied yet, or it failed).
+ */
+export async function exerciseBankFillCounts(
+  admin: SupabaseClient,
+  kind: ExerciseBankKind,
+): Promise<Map<string, number>> {
+  const result = await admin.rpc('exercise_bank_fill_counts', { bank_kind: kind });
+  const counts = new Map<string, number>();
+  if (result.error) {
+    if (!bankUnavailable(result.error)) {
+      console.error(JSON.stringify({ exerciseBank: 'counts_failed', code: result.error.code ?? '' }));
+    }
+    return counts;
+  }
+  for (const row of result.data ?? []) {
+    const record = row as {
+      level?: unknown;
+      exercise_type?: unknown;
+      topic?: unknown;
+      word_count?: unknown;
+      question_count?: unknown;
+      n?: unknown;
+    };
+    const n = Number(record.n ?? 0);
+    if (!Number.isFinite(n) || n <= 0) continue;
+    const key = kind === 'grammar'
+      ? grammarSlotKey({
+        level: String(record.level ?? '') as GrammarSlot['level'],
+        exercise: String(record.exercise_type ?? '') as GrammarSlot['exercise'],
+      })
+      : listeningSlotKey({
+        level: String(record.level ?? '') as ListeningSlot['level'],
+        format: String(record.exercise_type ?? '') as ListeningSlot['format'],
+        topic: String(record.topic ?? ''),
+        wordCount: Number(record.word_count ?? 0),
+        questionCount: Number(record.question_count ?? 0),
+      });
+    counts.set(key, n);
+  }
+  return counts;
 }
 
 export async function exerciseBankReady(admin: SupabaseClient): Promise<boolean> {

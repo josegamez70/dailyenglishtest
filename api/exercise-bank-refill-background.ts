@@ -7,9 +7,11 @@ import {
   assembleListeningLesson,
   exerciseBankCap,
   exerciseBankSecretOk,
-  grammarSlots,
-  listeningSlots,
   listeningTopicLabel,
+  nextGrammarSlot,
+  nextListeningSlot,
+  grammarSlotKey,
+  listeningSlotKey,
   readRefillRequest,
   runRefillHop,
   shouldChainRefill,
@@ -17,7 +19,7 @@ import {
   type ExerciseBankKind,
   type ListeningSlot,
 } from '../exerciseBank.ts';
-import { exerciseBankReady, insertGrammarBankItem, insertListeningBankItem } from '../exerciseBankServer.ts';
+import { exerciseBankFillCounts, exerciseBankReady, insertGrammarBankItem, insertListeningBankItem } from '../exerciseBankServer.ts';
 import { readEnvValue, runtimeEnv, type EnvMap } from '../taskMail.ts';
 
 type HandlerEvent = {
@@ -178,14 +180,16 @@ export const handler = async (event: HandlerEvent) => {
   const cap = exerciseBankCap(env);
   const started = Date.now();
   const kind = request.kind;
+  const counts = await exerciseBankFillCounts(admin, kind);
   try {
     const result = kind === 'listening'
       ? await runRefillHop({
-        slots: listeningSlots(),
+        slots: [],
         target: request.target,
         cursor: request.cursor,
         deadline: started + HOP_BUDGET_MS,
         reserveMs: 80_000,
+        pick: (cursor) => nextListeningSlot({ cursor, counts }),
         produce: (slot) => produceListeningLesson(apiKey, env, slot),
         insert: async (slot, produced) => {
           if (
@@ -195,14 +199,17 @@ export const handler = async (event: HandlerEvent) => {
             || produced.lesson.wordCount !== slot.wordCount
             || produced.lesson.questionCount !== slot.questionCount
           ) return 'invalid';
-          return insertListeningBankItem(admin, produced.lesson, produced.audio, cap);
+          const saved = await insertListeningBankItem(admin, produced.lesson, produced.audio, cap);
+          if (saved === 'inserted') counts.set(listeningSlotKey(slot), (counts.get(listeningSlotKey(slot)) ?? 0) + 1);
+          return saved;
         },
       })
       : await runRefillHop({
-        slots: grammarSlots(),
+        slots: [],
         target: request.target,
         cursor: request.cursor,
         deadline: started + HOP_BUDGET_MS,
+        pick: (cursor) => nextGrammarSlot({ cursor, counts }),
         produce: async (slot) => {
           const produced = await produceGrammar(
             apiKey,
@@ -223,7 +230,9 @@ export const handler = async (event: HandlerEvent) => {
         },
         insert: async (slot, set) => {
           if (set.level !== slot.level || set.exercise !== slot.exercise) return 'invalid';
-          return insertGrammarBankItem(admin, set, cap);
+          const saved = await insertGrammarBankItem(admin, set, cap);
+          if (saved === 'inserted') counts.set(grammarSlotKey(slot), (counts.get(grammarSlotKey(slot)) ?? 0) + 1);
+          return saved;
         },
       });
     console.log(JSON.stringify({ exerciseBank: 'hop', kind, hops: request.hops, cap, ...result }));
