@@ -9,7 +9,7 @@ import { lessonModeLabel } from './progressStats.ts';
 import { grammarSubtype, savedLevelLabel } from './studentDetail.ts';
 
 export type SavedLessonBadge = {
-  kind: 'mode' | 'format' | 'level' | 'subtype';
+  kind: 'mode' | 'format' | 'level' | 'subtype' | 'task';
   label: string;
 };
 
@@ -46,15 +46,16 @@ export function filterSavedLessons<T extends { lesson: Record<string, unknown> }
  * (Phrasal, Blanks, or Order), and the level.
  */
 export function savedLessonBadges(lesson: Record<string, unknown>): SavedLessonBadge[] {
+  const taskBadge: SavedLessonBadge[] = lesson.task === true ? [{ kind: 'task', label: 'Task' }] : [];
   if (lesson.mode === 'grammar') {
-    const badges: SavedLessonBadge[] = [{ kind: 'mode', label: 'Grammar' }];
+    const badges: SavedLessonBadge[] = [...taskBadge, { kind: 'mode', label: 'Grammar' }];
     const subtype = grammarSubtypeLabel(lesson);
     if (subtype) badges.push({ kind: 'subtype', label: subtype });
     const level = savedLessonLevelLabel(lesson);
     if (level) badges.push({ kind: 'level', label: level });
     return badges;
   }
-  const badges: SavedLessonBadge[] = [];
+  const badges: SavedLessonBadge[] = [...taskBadge];
   if (lesson.mode === 'reading' || lesson.mode === 'listening') {
     badges.push({ kind: 'mode', label: lessonModeLabel(lesson.mode) });
   }
@@ -111,6 +112,7 @@ export type SavedGrammarLesson = {
 export type GrammarLaunch = SavedGrammarLesson & {
   id: string;
   token: number;
+  task?: boolean;
 };
 
 function asRecord(value: unknown): Record<string, unknown> | null {
@@ -168,6 +170,7 @@ export function grammarLessonRecord(input: {
   title: string;
   items: GrammarItem[];
   grades?: ItemGrade[] | null;
+  task?: boolean;
 }): Record<string, unknown> {
   const title = input.title.trim() || grammarTitle(input.exercise);
   const items = input.items.map((item) => (
@@ -196,6 +199,7 @@ export function grammarLessonRecord(input: {
     items,
   };
   if (input.grades && input.grades.length === items.length) lesson.grades = input.grades;
+  if (input.task) lesson.task = true;
   return lesson;
 }
 

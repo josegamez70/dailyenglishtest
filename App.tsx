@@ -28,6 +28,8 @@ import { AppShell, type ShellItem } from './components/AppShell';
 import { ProfilePage, type ThemeChoice } from './components/ProfilePage';
 import { ProgressPage } from './components/ProgressPage';
 import { SavedLessonsPage } from './components/SavedLessonsPage';
+import { TasksPage } from './components/TasksPage';
+import { TasksPreview } from './components/TasksPreview';
 import { cefrToLessonLevel, type CefrLevel } from './progressStats';
 import { lookupAcademyName } from './academy';
 import { ACADEMY_INVITE_DISMISSED_KEY, ACADEMY_INVITE_KEY, inviteBannerText, normalizeInviteCode } from './academyStats';
@@ -35,6 +37,8 @@ import { AcademyPage } from './components/AcademyPage';
 import { JoinAcademyPage } from './components/JoinAcademyPage';
 import { parseSavedGrammarLesson, type GrammarLaunch } from './savedLessonMeta';
 import { saveLesson, saveTestResult, type SavedLessonRow } from './studyStore';
+import { markTaskDone, type TaskSlot } from './taskStore';
+import type { GrammarPiece, PracticePiece } from './tasks';
 import { SignInBox } from './components/SignInBox';
 import { HelpPage } from './components/HelpPage';
 import { helpPageFromPath } from './helpContent';
@@ -185,6 +189,15 @@ const App: React.FC = () => {
   const [grammarActive, setGrammarActive] = useState(false);
   const [grammarResetNonce, setGrammarResetNonce] = useState(0);
   const [grammarLaunch, setGrammarLaunch] = useState<GrammarLaunch | null>(null);
+  const [grammarTaskPackId, setGrammarTaskPackId] = useState<string | null>(null);
+  const [taskSession, setTaskSession] = useState<{
+    packId: string;
+    slot: TaskSlot;
+    level: string;
+    levelLabel: string;
+    format: ContentFormat;
+    title: string;
+  } | null>(null);
   const grammarLaunchToken = useRef(0);
   const [fontStep, setFontStep] = useState(readFontStep);
 
@@ -381,6 +394,8 @@ const App: React.FC = () => {
       return;
     }
 
+    setTaskSession(null);
+    setGrammarTaskPackId(null);
     setIsLoading(true);
     setQuizLoading(false);
     setError(null);
@@ -482,15 +497,32 @@ const App: React.FC = () => {
       return [{ question: question.question, userAnswer, correctAnswer: question.correctAnswer }];
     });
     setFinishing(true);
+    const session = taskSession;
     void saveTestResult({
-      level: LEVELS.find((level) => level.value === config.level)?.label ?? config.level,
-      topic: storyTopic?.label ?? config.topic,
-      title: storyTopic?.label ?? config.topic,
+      level: session?.levelLabel || (LEVELS.find((level) => level.value === config.level)?.label ?? config.level),
+      topic: session?.title || (storyTopic?.label ?? config.topic),
+      title: session?.title || (storyTopic?.label ?? config.topic),
       score,
       total: quiz.length,
-      mode: practiceType === 'listening' ? 'listening' : 'reading',
+      mode: session?.slot === 'listening' ? 'listening' : practiceType === 'listening' ? 'listening' : 'reading',
       wrongAnswers,
     }).catch(() => undefined).finally(() => {
+      if (session && (session.slot === 'reading' || session.slot === 'listening')) {
+        void saveLesson({
+          story,
+          quiz,
+          vocabulary,
+          dialogue: dialogueTurns,
+          level: session.level,
+          levelLabel: session.levelLabel,
+          topic: session.title,
+          title: session.title,
+          mode: session.slot,
+          format: session.format,
+          task: true,
+        }, session.title).catch(() => undefined);
+        void markTaskDone(session.packId, session.slot);
+      }
       const next = withStoryReview(
         { questionIndex: currentQuestionIndex, answers: userAnswers, reviewOpen: storyReviewOpen },
         false
@@ -557,6 +589,8 @@ const App: React.FC = () => {
   };
 
   const resetApp = () => {
+    setTaskSession(null);
+    setGrammarTaskPackId(null);
     setView('config');
     setStory('');
     setDialogueTurns([]);
@@ -1409,6 +1443,10 @@ const App: React.FC = () => {
   const legalPage = legalPageFromPath(window.location.pathname);
   if (legalPage) return <LegalDocument page={legalPage} />;
   if (helpPageFromPath(window.location.pathname)) return <HelpPage />;
+  if (import.meta.env.DEV && path.startsWith('/tasks-preview')) {
+    const scene = path.endsWith('/saved') ? 'saved' : path.endsWith('/email') ? 'email' : 'tasks';
+    return <TasksPreview scene={scene} />;
+  }
   if (!account.ready) return <AuthLoading />;
   if (path === '/pilot' || path === '/admin/pilots') {
     return (
@@ -1604,12 +1642,14 @@ const App: React.FC = () => {
     </div>
   );
 
-  const shellItem: ShellItem = path === '/progress' ? 'progress' : path === '/saved' ? 'saved' : path === '/profile' ? 'profile' : path === '/academy' ? 'academy' : path === '/join' ? 'join' : path === '/grammar' ? 'grammar' : 'lesson';
+  const shellItem: ShellItem = path === '/progress' ? 'progress' : path === '/saved' ? 'saved' : path === '/tasks' ? 'tasks' : path === '/profile' ? 'profile' : path === '/academy' ? 'academy' : path === '/join' ? 'join' : path === '/grammar' ? 'grammar' : 'lesson';
   const go = (next: string) => {
     const clean = next.replace(/\/+$/, '') || '/';
     const current = window.location.pathname.replace(/\/+$/, '') || '/';
     if (current !== clean) window.history.pushState({}, '', clean);
     setPath(clean);
+    setTaskSession(null);
+    if (clean !== '/grammar') setGrammarTaskPackId(null);
     if (clean === '/grammar') setGrammarLaunch(null);
     if (clean === '/') resetApp();
     window.scrollTo({ top: 0 });
@@ -1621,7 +1661,9 @@ const App: React.FC = () => {
       if (!parsed) return;
       stopSpeaking();
       grammarLaunchToken.current += 1;
-      setGrammarLaunch({ ...parsed, id: row.id, token: grammarLaunchToken.current });
+      setTaskSession(null);
+      setGrammarTaskPackId(null);
+      setGrammarLaunch({ ...parsed, id: row.id, token: grammarLaunchToken.current, task: row.lesson.task === true });
       const here = window.location.pathname.replace(/\/+$/, '') || '/';
       if (here !== '/grammar') window.history.pushState({}, '', '/grammar');
       setPath('/grammar');
@@ -1637,6 +1679,8 @@ const App: React.FC = () => {
     setUserAnswers(new Array(quizItems.length).fill(''));
     setCurrentQuestionIndex(0);
     setStoryReviewOpen(false);
+    setTaskSession(null);
+    setGrammarTaskPackId(null);
     setPracticeType(lesson.mode === 'listening' ? 'listening' : 'reading');
     setContentFormat(lesson.format === 'dialogue' ? 'dialogue' : 'text');
     if (typeof lesson.level === 'string') setConfig((current) => ({ ...current, level: lesson.level as string }));
@@ -1650,6 +1694,57 @@ const App: React.FC = () => {
   const cefr = (['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as const).includes(account.defaultLevel as CefrLevel)
     ? account.defaultLevel as CefrLevel
     : 'A2';
+
+  const openTaskPiece = (piece: PracticePiece, packId: string, slot: 'reading' | 'listening') => {
+    stopSpeaking();
+    const quizItems = Array.isArray(piece.quiz) ? piece.quiz as QuizQuestion[] : [];
+    setStory(piece.story);
+    setQuiz(quizItems);
+    setVocabulary(Array.isArray(piece.vocabulary) ? piece.vocabulary as VocabularyItem[] : []);
+    setDialogueTurns(Array.isArray(piece.dialogue) ? piece.dialogue as DialogueTurn[] : parseDialogue(piece.story));
+    setUserAnswers(new Array(quizItems.length).fill(''));
+    setCurrentQuestionIndex(0);
+    setStoryReviewOpen(false);
+    setPracticeType(slot);
+    setContentFormat(piece.format === 'dialogue' ? 'dialogue' : 'text');
+    setConfig((current) => ({ ...current, level: piece.level }));
+    setStoryTopic({ label: piece.title, surprise: false });
+    setTaskSession({
+      packId,
+      slot,
+      level: piece.level,
+      levelLabel: piece.levelLabel,
+      format: piece.format,
+      title: piece.title,
+    });
+    setGrammarTaskPackId(null);
+    setView('story');
+    const current = window.location.pathname.replace(/\/+$/, '') || '/';
+    if (current !== '/') window.history.pushState({}, '', '/');
+    setPath('/');
+    window.scrollTo({ top: 0 });
+  };
+  const openTaskGrammar = (piece: GrammarPiece, packId: string) => {
+    stopSpeaking();
+    grammarLaunchToken.current += 1;
+    setGrammarTaskPackId(packId);
+    setTaskSession(null);
+    setGrammarLaunch({
+      level: piece.level,
+      exercise: piece.exercise,
+      topic: piece.topic,
+      title: piece.title,
+      items: piece.items as GrammarLaunch['items'],
+      grades: null,
+      id: '',
+      token: grammarLaunchToken.current,
+      task: true,
+    });
+    const current = window.location.pathname.replace(/\/+$/, '') || '/';
+    if (current !== '/grammar') window.history.pushState({}, '', '/grammar');
+    setPath('/grammar');
+    window.scrollTo({ top: 0 });
+  };
 
   if (!account.signedIn) return signedOutPage;
 
@@ -1683,6 +1778,17 @@ const App: React.FC = () => {
           onActiveChange={setGrammarActive}
           onLessonsChanged={() => { void account.refreshProfile(); }}
           launch={grammarLaunch}
+          onTaskComplete={() => {
+            if (grammarTaskPackId) void markTaskDone(grammarTaskPackId, 'grammar');
+          }}
+        />
+      )}
+      {shellItem === 'tasks' && (
+        <TasksPage
+          userId={account.userId}
+          onOpenReading={(piece, packId) => openTaskPiece(piece, packId, 'reading')}
+          onOpenListening={(piece, packId) => openTaskPiece(piece, packId, 'listening')}
+          onOpenGrammar={openTaskGrammar}
         />
       )}
       {shellItem === 'progress' && (

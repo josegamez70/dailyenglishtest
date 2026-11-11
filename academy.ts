@@ -20,6 +20,14 @@ export type StudentTest = {
   wrongAnswers: WrongAnswer[];
 };
 
+export type StudentTaskStatus = {
+  enabled: boolean;
+  hasPack: boolean;
+  done: number;
+  total: 3;
+  complete: boolean;
+};
+
 export type AcademyStudent = {
   userId: string;
   email: string;
@@ -28,6 +36,8 @@ export type AcademyStudent = {
   profileLevel: string;
   joinedAt: string;
   tests: StudentTest[];
+  /** Missing when the tasks tables are not in the database yet. */
+  taskStatus?: StudentTaskStatus;
 };
 
 function supabaseOrNull() {
@@ -140,7 +150,7 @@ export async function loadAcademyStudents(academyId: string): Promise<{ students
     });
     testsByUser.set(userId, list);
   }
-  const students = (members.data ?? []).map((member) => {
+  const students: AcademyStudent[] = (members.data ?? []).map((member) => {
     const userId = String(member.user_id);
     const profile = profileById.get(userId);
     return {
@@ -152,6 +162,43 @@ export async function loadAcademyStudents(academyId: string): Promise<{ students
       tests: testsByUser.get(userId) ?? [],
     };
   });
+  const taskSettings = await supabase.from('task_settings').select('user_id, enabled').in('user_id', ids);
+  const taskPacks = taskSettings.error
+    ? null
+    : await supabase
+      .from('task_packs')
+      .select('user_id, created_at, status, reading_done, listening_done, grammar_done')
+      .in('user_id', ids)
+      .order('created_at', { ascending: false });
+  const tasksAvailable = !taskSettings.error && !taskPacks?.error && !isMissingTable(taskSettings.error) && !isMissingTable(taskPacks?.error ?? null);
+  const enabledByUser = new Map((taskSettings.data ?? []).map((row) => [String(row.user_id), row.enabled === true]));
+  const latestPack = new Map<string, { status: string; reading: boolean; listening: boolean; grammar: boolean }>();
+  if (tasksAvailable) {
+    for (const row of taskPacks?.data ?? []) {
+      const userId = String(row.user_id);
+      if (latestPack.has(userId)) continue;
+      latestPack.set(userId, {
+        status: String(row.status ?? ''),
+        reading: row.reading_done === true,
+        listening: row.listening_done === true,
+        grammar: row.grammar_done === true,
+      });
+    }
+  }
   students.sort((a, b) => (a.displayName || a.email).localeCompare(b.displayName || b.email));
+  if (tasksAvailable) {
+    for (const student of students) {
+      const pack = latestPack.get(student.userId);
+      const hasPack = Boolean(pack) && pack?.status !== 'blocked';
+      const done = pack && hasPack ? [pack.reading, pack.listening, pack.grammar].filter(Boolean).length : 0;
+      student.taskStatus = {
+        enabled: enabledByUser.get(student.userId) === true,
+        hasPack,
+        done,
+        total: 3,
+        complete: done === 3,
+      };
+    }
+  }
   return { students, missing: false };
 }

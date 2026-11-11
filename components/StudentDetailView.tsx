@@ -225,6 +225,21 @@ export function StudentDetailView({
         />
       </div>
       {message && <p className="mt-3 text-base">{message}</p>}
+      {student.taskStatus && (
+        <div className={`${CARD} mt-4 p-4`}>
+          <h2 className="text-base font-semibold">Tasks</h2>
+          <p className="mt-1 text-base">
+            {!student.taskStatus.enabled && 'Tasks are off.'}
+            {student.taskStatus.enabled && !student.taskStatus.hasPack && 'Tasks are on. No pack yet.'}
+            {student.taskStatus.enabled && student.taskStatus.hasPack && (
+              student.taskStatus.complete
+                ? 'Latest pack: all 3 done.'
+                : `Latest pack: ${student.taskStatus.done} of 3 done.`
+            )}
+          </p>
+          <p className={`mt-1 text-sm ${MUTED}`}>The exercises stay on the student account.</p>
+        </div>
+      )}
       <div className="mt-4 grid grid-cols-3 gap-2">
         {SKILLS.map((item) => {
           const average = skillAverage(tests, item.id);
