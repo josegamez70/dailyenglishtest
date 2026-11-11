@@ -44,9 +44,23 @@ import {
   type GrammarSet,
 } from '../grammarSet';
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
-import { grammarUsesBank } from '../exerciseBank.ts';
-import { claimGrammarFromBank, releaseGrammarBankItem } from '../exerciseBankServer.ts';
+import { buildListeningSsml, synthesizeNeuralMp3 } from '../azureSpeech.ts';
+import {
+  grammarUsesBank,
+  isListeningFormat,
+  isListeningLevel,
+  isListeningQuestionCount,
+  isListeningWordCount,
+  listeningBankQuery,
+} from '../exerciseBank.ts';
+import {
+  claimGrammarFromBank,
+  claimListeningFromBank,
+  releaseGrammarBankItem,
+  signListeningAudio,
+} from '../exerciseBankServer.ts';
 import { readHttpStatus, runModelLoop, type ModelAttemptFailure } from '../modelFallback';
+import { readEnvValue, runtimeEnv } from '../taskMail.ts';
 
 type HandlerEvent = {
   httpMethod?: string;
@@ -72,6 +86,10 @@ export type LessonParams = {
   surprise: boolean;
   stage: 'story' | 'quiz';
   sourceStory: string;
+  /** Typed on the Listening page. Empty means the topic list is the bank key. */
+  customTopic?: string;
+  /** Topic value from the list, before a wildcard is turned into a concrete label. */
+  listTopic?: string;
 };
 
 type VocabularyItem = { word: string; definition: string };
@@ -779,7 +797,9 @@ function readParams(bodyText: string | null | undefined): LessonParams | null {
     return null;
   }
   if (raw.mode === 'grammar') return null;
-  const topic = concreteTopic(raw.topic);
+  const customTopic = String(raw.customTopic ?? '').replace(/[\n\r"]/g, ' ').trim().slice(0, 80);
+  const listTopic = String(raw.topic ?? '').trim().slice(0, 80);
+  const topic = concreteTopic(customTopic || listTopic);
   const level = String(raw.level || 'Beginner');
   const mode = raw.mode === 'listening' ? 'listening' : 'reading';
   const stage = raw.stage === 'quiz' ? 'quiz' : 'story';
@@ -797,6 +817,8 @@ function readParams(bodyText: string | null | undefined): LessonParams | null {
     speakers: normalizeFormat(raw.format) === 'dialogue' ? resolveDialogueSpeakers(raw) : [],
     stage,
     sourceStory,
+    customTopic,
+    listTopic,
   };
 }
 
@@ -1051,6 +1073,141 @@ async function createGrammarSet(
   return { statusCode: 200, headers, body: grammarBody(produced.set) };
 }
 
+function practiceFailure(headers: Record<string, string>, stage: 'story' | 'quiz', problems: string[], preview: string): HandlerResponse {
+  return {
+    statusCode: 502,
+    headers,
+    body: JSON.stringify({
+      ok: false,
+      code: 'BAD_MODEL_OUTPUT',
+      message: stage === 'quiz'
+        ? 'The questions could not be created. Please try again.'
+        : 'The lesson could not be created. Please try again.',
+      debug: { problems, preview },
+    }),
+  };
+}
+
+/**
+ * A list topic (or "Any topic") takes one unseen banked lesson and its stored mp3.
+ * A typed custom topic, or an empty bank for that combination, is generated live.
+ * Only the custom topic is spoken with Azure on this request. A bank miss keeps
+ * the browser speech path by leaving the audio off the response.
+ */
+async function createListeningLesson(
+  apiKey: string,
+  admin: SupabaseClient,
+  userId: string,
+  params: LessonParams,
+  headers: Record<string, string>,
+): Promise<HandlerResponse> {
+  const choice = listeningBankQuery({
+    customTopic: params.customTopic ?? '',
+    topic: params.listTopic || params.topic,
+  });
+  const standard = isListeningLevel(params.level)
+    && isListeningFormat(params.format)
+    && isListeningWordCount(params.wordCount)
+    && isListeningQuestionCount(params.questionCount);
+
+  if (choice.bank && standard) {
+    const claimed = await claimListeningFromBank(admin, userId, {
+      level: params.level,
+      format: params.format,
+      topic: choice.topic,
+      wordCount: params.wordCount,
+      questionCount: params.questionCount,
+    });
+    if (claimed) {
+      const blocked = await consumeLessonResponse(admin, userId, headers);
+      if (blocked) {
+        await releaseGrammarBankItem(admin, userId, claimed.id);
+        return blocked;
+      }
+      const audioUrl = await signListeningAudio(admin, claimed.audioPath);
+      console.log(JSON.stringify({
+        stage: 'listening_bank',
+        level: claimed.lesson.level,
+        format: claimed.lesson.format,
+        topic: claimed.lesson.topicValue,
+      }));
+      return {
+        statusCode: 200,
+        headers,
+        body: JSON.stringify({
+          stage: 'story',
+          banked: true,
+          bankId: claimed.id,
+          story: claimed.lesson.story,
+          vocabulary: claimed.lesson.vocabulary,
+          resolvedTopic: claimed.lesson.topicLabel,
+          wordCount: claimed.lesson.wordCount,
+          wordCountOk: true,
+          format: claimed.lesson.format,
+          dialogue: claimed.lesson.dialogue,
+          quiz: claimed.lesson.quiz,
+          audioUrl: audioUrl ?? '',
+        }),
+      };
+    }
+    console.log(JSON.stringify({
+      stage: 'listening_live',
+      level: params.level,
+      format: params.format,
+      reason: 'bank_empty',
+    }));
+  }
+
+  if (!apiKey) return missingApiKey(headers);
+  const produced = await producePractice(apiKey, params, Date.now() + 23000);
+  if (!produced.ok) return practiceFailure(headers, 'story', produced.problems, produced.preview);
+
+  let audioBase64 = '';
+  if (!choice.bank) {
+    const speech = buildListeningSsml({
+      format: params.format === 'dialogue' ? 'dialogue' : 'text',
+      story: produced.lesson.story,
+      dialogue: produced.lesson.dialogue,
+    });
+    const env = runtimeEnv();
+    const audio = await synthesizeNeuralMp3({
+      key: readEnvValue(env, 'AZURE_SPEECH_KEY'),
+      region: readEnvValue(env, 'AZURE_SPEECH_REGION'),
+      ssml: speech.ssml,
+      spokenCharacters: speech.spokenCharacters,
+    });
+    if (audio.ok) {
+      audioBase64 = Buffer.from(audio.audio).toString('base64');
+      console.log(JSON.stringify({
+        stage: 'listening_live_audio',
+        spokenCharacters: audio.spokenCharacters,
+        attempts: audio.attempts,
+      }));
+    } else {
+      console.log(JSON.stringify({ stage: 'listening_live_audio_miss', status: audio.status, attempts: audio.attempts }));
+    }
+  }
+
+  const blocked = await consumeLessonResponse(admin, userId, headers);
+  if (blocked) return blocked;
+  return {
+    statusCode: 200,
+    headers,
+    body: JSON.stringify({
+      stage: 'story',
+      banked: false,
+      story: produced.lesson.story,
+      vocabulary: produced.lesson.vocabulary,
+      resolvedTopic: params.topic,
+      wordCount: produced.lesson.wordCount,
+      wordCountOk: produced.lesson.wordCountOk,
+      format: params.format,
+      dialogue: produced.lesson.dialogue,
+      ...(audioBase64 ? { audioBase64 } : {}),
+    }),
+  };
+}
+
 export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => {
   const corsHeaders = {
     'Access-Control-Allow-Origin': '*',
@@ -1073,9 +1230,10 @@ export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => 
 
     const grammarRequest = readGrammarRequest(event.body);
     const params = grammarRequest ? null : readParams(event.body);
-    // A standard grammar request can be served from the bank without Gemini.
-    // Reading, listening, and a typed grammar topic still need the key.
-    if (!apiKey && !grammarRequest) {
+    // A standard grammar or listening request can be served from the bank without Gemini.
+    // Reading, a typed grammar topic, a custom listening topic, and an empty listening bank still need the key.
+    const listeningStory = params?.mode === 'listening' && params.stage === 'story';
+    if (!apiKey && !grammarRequest && !listeningStory) {
       return {
         statusCode: 500,
         headers: corsHeaders,
@@ -1149,6 +1307,10 @@ export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => 
         headers: corsHeaders,
         body: JSON.stringify({ ok: false, code: 'BAD_REQUEST', message: 'Invalid prompt JSON' }),
       };
+    }
+
+    if (params.mode === 'listening' && params.stage === 'story') {
+      return await createListeningLesson(apiKey, admin, userId, params, corsHeaders);
     }
 
     const deadline = Date.now() + 23000;

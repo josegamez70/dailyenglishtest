@@ -64,6 +64,8 @@ export type PracticePiece = {
   speakers: { name: string; gender: 'female' | 'male' }[];
   wordCount: number;
   questionCount: number;
+  /** Set when this piece came from the exercise bank, so a withheld pack can release it. */
+  bankId?: string;
 };
 
 export type GrammarPiece = {

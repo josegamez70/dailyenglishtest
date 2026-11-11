@@ -12,6 +12,10 @@ type GenResponse = {
   resolvedTopic?: string;
   ok?: boolean;
   message?: string;
+  banked?: boolean;
+  bankId?: string;
+  audioUrl?: string;
+  audioBase64?: string;
 };
 
 const API_URL = '/api/generate';
@@ -102,6 +106,10 @@ export type StoryDraft = {
   vocabulary: VocabularyItem[];
   dialogue: DialogueTurn[];
   resolvedTopic?: string;
+  audioUrl?: string;
+  banked?: boolean;
+  bankId?: string;
+  quiz?: QuizQuestion[];
 };
 
 function lessonPayload(config: ConfigOptions, extra: Record<string, unknown>) {
@@ -115,6 +123,7 @@ function lessonPayload(config: ConfigOptions, extra: Record<string, unknown>) {
       mode: config.practiceType === 'listening' ? 'listening' : 'reading',
       format: config.format === 'dialogue' ? 'dialogue' : 'text',
       speakers: config.speakers ?? [],
+      ...(config.customTopic ? { customTopic: config.customTopic } : {}),
       ...extra,
     }),
   };
@@ -142,6 +151,14 @@ async function postGenerate(body: unknown, signal?: AbortSignal): Promise<GenRes
   }
 }
 
+function lessonAudioUrl(data: GenResponse): string | undefined {
+  const remote = typeof data.audioUrl === 'string' ? data.audioUrl.trim() : '';
+  if (remote.startsWith('https://') || remote.startsWith('http://')) return remote;
+  const encoded = typeof data.audioBase64 === 'string' ? data.audioBase64.replace(/\s+/g, '') : '';
+  if (encoded.length > 64 && /^[A-Za-z0-9+/=]+$/.test(encoded)) return `data:audio/mpeg;base64,${encoded}`;
+  return undefined;
+}
+
 function readStory(data: GenResponse, config: ConfigOptions): StoryDraft {
   if (data?.ok === false) {
     throw new Error(data.message || 'The lesson could not be created. Please try again.');
@@ -163,12 +180,34 @@ function readStory(data: GenResponse, config: ConfigOptions): StoryDraft {
   if (format === 'dialogue' && dialogue.length === 0) dialogue = parseDialogue(story);
   if (dialogue.length) story = renderDialogue(dialogue);
   if (!story) throw new Error('The lesson was incomplete. Please try again.');
+  const banked = data.banked === true;
+  const quiz = banked
+    ? normalizeQuiz(Array.isArray(data.quiz) ? data.quiz : []).filter((question) => question.question && question.options.length > 0)
+    : undefined;
   return {
     story,
     vocabulary,
     dialogue,
     resolvedTopic: data.resolvedTopic ? String(data.resolvedTopic) : undefined,
+    audioUrl: lessonAudioUrl(data),
+    banked,
+    bankId: typeof data.bankId === 'string' ? data.bankId : undefined,
+    quiz: quiz && quiz.length ? quiz : undefined,
   };
+}
+
+/** A new signed URL for a listening mp3 this person was already given. */
+export async function refreshListeningAudio(bankId: string, signal?: AbortSignal): Promise<string | null> {
+  const token = await accessToken();
+  const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+  if (token) headers.Authorization = `Bearer ${token}`;
+  const res = await fetchWithRetry('/api/listening-audio', {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({ bankId }),
+  }, signal, 1);
+  const data = await res.json() as { audioUrl?: string };
+  return typeof data.audioUrl === 'string' && data.audioUrl.startsWith('http') ? data.audioUrl : null;
 }
 
 export async function generateStoryAndQuiz(
@@ -180,10 +219,16 @@ export async function generateStoryAndQuiz(
   vocabulary: VocabularyItem[];
   dialogue: DialogueTurn[];
   resolvedTopic?: string;
+  audioUrl?: string;
+  banked?: boolean;
+  bankId?: string;
 }> {
   const storyData = await postGenerate(lessonPayload(config, { stage: 'story' }), options?.signal);
   const draft = readStory(storyData, config);
   options?.onStory?.(draft);
+  if (draft.banked && draft.quiz && draft.quiz.length) {
+    return { ...draft, quiz: draft.quiz };
+  }
 
   const quizData = await postGenerate(
     lessonPayload(config, { stage: 'quiz', story: draft.story }),

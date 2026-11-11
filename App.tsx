@@ -21,7 +21,7 @@ import { clampedFontStep } from './fontStep';
 import { slowerPlaybackRate, whenVoicesReady } from './speechVoices';
 import { withStoryReview } from './quizSession';
 import { resumeWordIndex, textFromWordIndex } from './speechPosition';
-import { generateStoryAndQuiz } from './services/geminiService';
+import { generateStoryAndQuiz, refreshListeningAudio } from './services/geminiService';
 import { GrammarPage } from './components/GrammarPage';
 import { FREE_LESSON_LIMIT, planStatusText, signOut, useAccount } from './auth';
 import { AppShell, type ShellItem } from './components/AppShell';
@@ -210,6 +210,7 @@ const App: React.FC = () => {
   const [playbackRate, setPlaybackRate] = useState<number | null>(null);
   const [activeTurn, setActiveTurn] = useState<number | null>(null);
   const [storyReviewOpen, setStoryReviewOpen] = useState(false);
+  const [listeningCustomTopic, setListeningCustomTopic] = useState('');
 
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
   const stoppedByUserRef = useRef(false);
@@ -227,6 +228,8 @@ const App: React.FC = () => {
   const pauseModeRef = useRef<'native' | 'restart' | null>(null);
   const rateRef = useRef(1);
   const speedRef = useRef(1);
+  const lessonAudioUrlRef = useRef<string | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
   const levelAppliedRef = useRef(false);
   const [finishing, setFinishing] = useState(false);
 
@@ -354,6 +357,7 @@ const App: React.FC = () => {
       if (highlightTimerRef.current) clearInterval(highlightTimerRef.current);
       if (progressTimerRef.current) clearInterval(progressTimerRef.current);
       if (boundaryFallbackTimerRef.current) clearTimeout(boundaryFallbackTimerRef.current);
+      if (audioRef.current) audioRef.current.pause();
     };
   }, []);
 
@@ -375,16 +379,20 @@ const App: React.FC = () => {
     const controller = new AbortController();
     abortRef.current = controller;
     const chosen = resolveTopic(config.topic);
+    const customTopic = practiceType === 'listening'
+      ? listeningCustomTopic.replace(/\s+/g, ' ').trim().slice(0, 80)
+      : '';
     const levelLabel = LEVELS.find((level) => level.value === config.level)?.label ?? config.level;
     const speakers = contentFormat === 'dialogue' ? nextDialogueSpeakers() : undefined;
     const requestConfig: ConfigOptions = {
       level: levelLabel,
-      topic: chosen.label,
+      topic: practiceType === 'listening' ? (customTopic || config.topic) : chosen.label,
       wordCount: config.wordCount,
       questionCount: config.questionCount,
       practiceType,
       format: contentFormat,
       speakers,
+      customTopic,
     };
 
     if (!account.ready) return;
@@ -406,6 +414,7 @@ const App: React.FC = () => {
     setLoadingNote('Writing the story...');
     setLoadingStartedAt(Date.now());
     setLoadingEstimate(12);
+    rememberAudio(null);
     let storyShown = false;
 
     try {
@@ -417,18 +426,20 @@ const App: React.FC = () => {
           setStory(draft.story);
           setDialogueTurns(contentFormat === 'dialogue' ? draft.dialogue : []);
           setVocabulary(draft.vocabulary);
-          setQuiz([]);
-          setUserAnswers([]);
+          rememberAudio(draft.audioUrl ?? null);
+          const readyQuiz = draft.banked && draft.quiz?.length ? draft.quiz : null;
+          setQuiz(readyQuiz ?? []);
+          setUserAnswers(readyQuiz ? new Array(readyQuiz.length).fill('') : []);
           setStoryTopic({
-            label: draft.resolvedTopic || chosen.label,
-            surprise: chosen.surprise,
+            label: draft.resolvedTopic || customTopic || chosen.label,
+            surprise: customTopic ? false : chosen.surprise,
           });
           setCurrentQuestionIndex(0);
           setShowTranscript(false);
           setIsLoading(false);
           setLoadingStartedAt(null);
           setLoadingNote(null);
-          setQuizLoading(true);
+          setQuizLoading(!readyQuiz);
           setView('story');
           void account.refreshProfile();
           window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -441,10 +452,11 @@ const App: React.FC = () => {
       setDialogueTurns(contentFormat === 'dialogue' ? result.dialogue : []);
       setQuiz(result.quiz);
       setVocabulary(result.vocabulary);
+      rememberAudio(result.audioUrl ?? null);
       setUserAnswers(new Array(result.quiz.length).fill(''));
       setCurrentQuestionIndex(0);
       setQuizLoading(false);
-      const title = result.resolvedTopic || chosen.label;
+      const title = result.resolvedTopic || customTopic || chosen.label;
       void saveLesson({
         story: result.story,
         quiz: result.quiz,
@@ -457,6 +469,7 @@ const App: React.FC = () => {
         mode: practiceType,
         format: contentFormat,
         wordCount: config.wordCount,
+        ...(result.bankId ? { bankId: result.bankId } : {}),
       }, title).catch(() => undefined);
     } catch (err) {
       setQuizLoading(false);
@@ -535,11 +548,26 @@ const App: React.FC = () => {
     });
   };
 
+  const rememberAudio = (url: string | null) => {
+    const next = url && url.trim() ? url.trim() : null;
+    if (lessonAudioUrlRef.current === next) return;
+    lessonAudioUrlRef.current = next;
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.removeAttribute('src');
+      audioRef.current.load();
+    }
+  };
+
   const stopSpeaking = useCallback(() => {
     stoppedByUserRef.current = true;
     pausedRef.current = false;
     pauseModeRef.current = null;
     playIdRef.current += 1;
+    if (audioRef.current) {
+      audioRef.current.pause();
+      try { audioRef.current.currentTime = 0; } catch { /* ignore */ }
+    }
     try {
       if (window.speechSynthesis.paused) window.speechSynthesis.resume();
       window.speechSynthesis.cancel();
@@ -604,6 +632,7 @@ const App: React.FC = () => {
     setIsVocabularyModalOpen(false);
     setShowTranscript(false);
     setCurrentWordIndex(null);
+    rememberAudio(null);
     stopSpeaking();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -631,6 +660,68 @@ const App: React.FC = () => {
     if (boundaryFallbackTimerRef.current) {
       clearTimeout(boundaryFallbackTimerRef.current);
       boundaryFallbackTimerRef.current = null;
+    }
+    const storedUrl = lessonAudioUrlRef.current;
+    if (storedUrl && options?.text == null) {
+      let audio = audioRef.current;
+      if (!audio) {
+        audio = new Audio();
+        audio.preload = 'auto';
+        audioRef.current = audio;
+      }
+      if (audio.src !== storedUrl) audio.src = storedUrl;
+      audio.playbackRate = rate;
+      if (!keepClock) {
+        try { audio.currentTime = 0; } catch { /* metadata may not be loaded yet */ }
+        elapsedMsRef.current = 0;
+        setElapsedMs(0);
+        setDurationMs(0);
+        durationMsRef.current = 0;
+      }
+      const applyTimes = () => {
+        if (playId !== playIdRef.current || pausedRef.current) return;
+        const duration = Number.isFinite(audio.duration) ? Math.round(audio.duration * 1000) : 0;
+        if (duration > 0) {
+          durationMsRef.current = duration;
+          setDurationMs(duration);
+        }
+        const elapsed = Math.min(duration || Number.MAX_SAFE_INTEGER, Math.round(audio.currentTime * 1000));
+        elapsedMsRef.current = elapsed;
+        setElapsedMs(elapsed);
+      };
+      audio.onloadedmetadata = applyTimes;
+      audio.ontimeupdate = applyTimes;
+      audio.onended = () => {
+        if (playId !== playIdRef.current) return;
+        pausedRef.current = false;
+        pauseModeRef.current = null;
+        setIsSpeaking(false);
+        setIsPaused(false);
+        setCurrentWordIndex(null);
+        setPlaybackRate(null);
+        if (Number.isFinite(audio.duration)) {
+          const end = Math.round(audio.duration * 1000);
+          durationMsRef.current = end;
+          elapsedMsRef.current = end;
+          setDurationMs(end);
+          setElapsedMs(end);
+        }
+      };
+      audio.onerror = () => {
+        if (playId !== playIdRef.current || pausedRef.current) return;
+        setIsSpeaking(false);
+        setError('Could not play audio. Your browser may not support this feature.');
+      };
+      setPlaybackRate(rate);
+      setIsSpeaking(true);
+      isSpeakingRef.current = true;
+      setCurrentWordIndex(null);
+      audio.play().catch(() => {
+        if (playId !== playIdRef.current) return;
+        setIsSpeaking(false);
+        setError('Could not play audio. Your browser may not support this feature.');
+      });
+      return;
     }
     if (keepClock) {
       setIsSpeaking(true);
@@ -886,6 +977,19 @@ const App: React.FC = () => {
 
   const pausePlayback = useCallback(() => {
     if (pausedRef.current || !isSpeakingRef.current) return;
+    const stored = audioRef.current;
+    if (stored && lessonAudioUrlRef.current && !stored.paused) {
+      stored.pause();
+      const elapsed = Math.round(stored.currentTime * 1000);
+      elapsedMsRef.current = elapsed;
+      setElapsedMs(elapsed);
+      pausedRef.current = true;
+      setIsPaused(true);
+      pauseModeRef.current = 'audio';
+      setIsSpeaking(false);
+      isSpeakingRef.current = false;
+      return;
+    }
     const frozen = Math.min(durationMsRef.current, Math.max(0, Date.now() - playbackStartRef.current));
     elapsedMsRef.current = frozen;
     setElapsedMs(frozen);
@@ -918,6 +1022,19 @@ const App: React.FC = () => {
 
   const resumePlayback = useCallback(() => {
     if (!pausedRef.current) return;
+    if (pauseModeRef.current === 'audio' && audioRef.current && lessonAudioUrlRef.current) {
+      pausedRef.current = false;
+      pauseModeRef.current = null;
+      setIsPaused(false);
+      setIsSpeaking(true);
+      isSpeakingRef.current = true;
+      audioRef.current.playbackRate = rateRef.current || 1;
+      void audioRef.current.play().catch(() => {
+        setIsSpeaking(false);
+        setError('Could not play audio. Your browser may not support this feature.');
+      });
+      return;
+    }
     const elapsed = elapsedMsRef.current;
     const rate = rateRef.current || 1;
     if (pauseModeRef.current === 'native') {
@@ -1046,7 +1163,14 @@ const App: React.FC = () => {
           </button>
         </div>
       </div>
-      <Configurator config={config} setConfig={setConfig} onGenerate={handleGenerate} isLoading={isLoading} />
+      <Configurator
+        config={config}
+        setConfig={setConfig}
+        onGenerate={handleGenerate}
+        isLoading={isLoading}
+        customTopic={practiceType === 'listening' ? listeningCustomTopic : undefined}
+        onCustomTopic={practiceType === 'listening' ? setListeningCustomTopic : undefined}
+      />
     </div>
   );
 
@@ -1685,6 +1809,12 @@ const App: React.FC = () => {
     setContentFormat(lesson.format === 'dialogue' ? 'dialogue' : 'text');
     if (typeof lesson.level === 'string') setConfig((current) => ({ ...current, level: lesson.level as string }));
     setStoryTopic({ label: String(lesson.title ?? lesson.topic ?? 'Lesson'), surprise: false });
+    rememberAudio(null);
+    if (lesson.mode === 'listening' && typeof lesson.bankId === 'string') {
+      void refreshListeningAudio(lesson.bankId).then((url) => {
+        if (url) rememberAudio(url);
+      }).catch(() => undefined);
+    }
     setView('story');
     const current = window.location.pathname.replace(/\/+$/, '') || '/';
     if (current !== '/') window.history.pushState({}, '', '/');
@@ -1709,6 +1839,12 @@ const App: React.FC = () => {
     setContentFormat(piece.format === 'dialogue' ? 'dialogue' : 'text');
     setConfig((current) => ({ ...current, level: piece.level }));
     setStoryTopic({ label: piece.title, surprise: false });
+    rememberAudio(null);
+    if (slot === 'listening' && piece.bankId) {
+      void refreshListeningAudio(piece.bankId).then((url) => {
+        if (url) rememberAudio(url);
+      }).catch(() => undefined);
+    }
     setTaskSession({
       packId,
       slot,

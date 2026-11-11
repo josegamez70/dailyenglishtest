@@ -3,8 +3,13 @@ import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import { resolveTopic } from './constants.ts';
 import { pickDialogueSpeakers } from './dialogue.ts';
 import { produceGrammar, producePractice, type LessonParams } from './api/generate.ts';
-import { grammarBankId, grammarUsesBank } from './exerciseBank.ts';
-import { claimGrammarFromBank, releaseGrammarBankItem } from './exerciseBankServer.ts';
+import {
+  exerciseBankId,
+  grammarUsesBank,
+  isListeningLevel,
+  listeningBankQuery,
+} from './exerciseBank.ts';
+import { claimGrammarFromBank, claimListeningFromBank, releaseGrammarBankItem } from './exerciseBankServer.ts';
 import { readEnvValue, runtimeEnv, secretMatches, sendTaskReminder, type EnvMap } from './taskMail.ts';
 import {
   isGrammarPiece,
@@ -226,9 +231,11 @@ async function maybeEmail(
 }
 
 async function withhold(admin: SupabaseClient, pack: PackState, reason: TaskBlockReason, userId: string): Promise<AdvanceResult> {
-  const bankId = grammarBankId(pack.grammar);
+  const grammarId = exerciseBankId(pack.grammar);
+  const listeningId = exerciseBankId(pack.listening);
   await admin.from('task_pack_exercises').delete().eq('pack_id', pack.id);
-  if (bankId) await releaseGrammarBankItem(admin, userId, bankId);
+  if (grammarId) await releaseGrammarBankItem(admin, userId, grammarId);
+  if (listeningId && listeningId !== grammarId) await releaseGrammarBankItem(admin, userId, listeningId);
   await admin.from('task_packs').update({
     status: 'blocked',
     block_reason: reason,
@@ -309,6 +316,45 @@ async function grammarPieceForPack(
   return { piece, bankId: null };
 }
 
+/** Bank first when the listening topic is a list topic. A custom topic is not stored on tasks. */
+async function listeningPieceFromBank(
+  admin: SupabaseClient,
+  userId: string,
+  settings: TaskSettings,
+): Promise<{ piece: PracticePiece; bankId: string } | null> {
+  const choice = listeningBankQuery({ customTopic: '', topic: settings.topic });
+  const level = taskLevelLabel(settings.level);
+  if (!choice.bank || !isListeningLevel(level)) return null;
+  const claimed = await claimListeningFromBank(admin, userId, {
+    level,
+    format: settings.listeningFormat,
+    topic: choice.topic,
+    wordCount: settings.wordCount,
+    questionCount: settings.questionCount,
+  });
+  if (!claimed) return null;
+  const piece: PracticePiece = {
+    story: claimed.lesson.story,
+    quiz: claimed.lesson.quiz,
+    vocabulary: claimed.lesson.vocabulary,
+    dialogue: claimed.lesson.dialogue,
+    format: claimed.lesson.format,
+    level: settings.level,
+    levelLabel: level,
+    topic: claimed.lesson.topicLabel,
+    title: claimed.lesson.title,
+    speakers: claimed.lesson.speakers,
+    wordCount: settings.wordCount,
+    questionCount: settings.questionCount,
+    bankId: claimed.id,
+  };
+  if (!isPracticePiece(piece) || !practiceHasQuiz(piece)) {
+    await releaseGrammarBankItem(admin, userId, claimed.id);
+    return null;
+  }
+  return { piece, bankId: claimed.id };
+}
+
 async function insertPack(admin: SupabaseClient, userId: string, key: string, settings: TaskSettings): Promise<PackState | null> {
   const inserted = await admin.from('task_packs').insert({
     user_id: userId,
@@ -386,6 +432,26 @@ export async function advanceTaskPack(userId: string, options?: { deadlineMs?: n
       }
       claimedBankId = built.bankId;
       current.grammar = built.piece;
+    } else if (step === 'listening-story') {
+      const banked = await listeningPieceFromBank(admin, userId, settings);
+      if (banked) {
+        claimedBankId = banked.bankId;
+        current.listening = banked.piece;
+      } else if (!apiKey) {
+        return { ok: false, message: 'Tasks are not available yet.', packId: current.id, step };
+      } else {
+        const params = practiceParams(settings, 'listening', 'story', null);
+        const produced = await producePractice(apiKey, params, deadline);
+        if (!produced.ok) {
+          return {
+            ok: false,
+            message: 'The listening text could not be created. Please try again.',
+            packId: current.id,
+            step,
+          };
+        }
+        current.listening = storyPiece(settings, params, produced.lesson);
+      }
     } else if (!apiKey) {
       return { ok: false, message: 'Tasks are not available yet.', packId: current.id };
     } else {

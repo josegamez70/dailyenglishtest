@@ -3,7 +3,10 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { normalizeGrammarSet, shuffleChoiceOptions, type GrammarSet } from '../grammarSet.ts';
 import { isGrammarPiece } from '../tasks.ts';
+import { TOPICS, WILDCARD_TOPIC } from '../constants.ts';
 import {
+  AZURE_NEURAL_FREE_CHARACTERS,
+  assembleListeningLesson,
   canBankGrammarSet,
   exerciseBankCap,
   exerciseBankSecretOk,
@@ -13,6 +16,15 @@ import {
   grammarSetFromBankPayload,
   grammarSlots,
   grammarUsesBank,
+  LISTENING_CHARS_PER_LESSON_HIGH,
+  listeningAudioPath,
+  listeningBankPayload,
+  listeningBankQuery,
+  listeningContentHash,
+  listeningLessonFromBankPayload,
+  listeningSlots,
+  listeningWeeklyBatchSize,
+  listeningWeeklyCharacters,
   overflowIds,
   bankUnavailable,
   readRefillRequest,
@@ -20,6 +32,8 @@ import {
   shouldChainRefill,
   weeklyBatchSize,
   type GrammarSlot,
+  type ListeningLesson,
+  type ListeningSlot,
 } from '../exerciseBank.ts';
 
 function blanks(topic: string) {
@@ -126,7 +140,7 @@ test('batch size and cap come from env and fall back when the value is out of ra
     },
     body: '{"target":250}',
     env: { EXERCISE_BANK_WEEKLY_BATCH: '250' },
-  }), { target: 40, cursor: 4, hops: 2 });
+  }), { target: 40, cursor: 4, hops: 2, kind: 'grammar' });
   assert.equal(readRefillRequest({
     headers: { 'x-exercise-bank-remaining': 'nope' },
     body: null,
@@ -278,4 +292,173 @@ test('the Monday job starts the background refill and does not run the model its
   assert.match(background, /insertGrammarBankItem/);
   assert.match(toml, /\[functions\."exercise-bank-refill-background"\]/);
   assert.match(toml, /timeout = 900/);
+  assert.match(schedule, /kind: 'listening'/);
+  assert.match(schedule, /listeningWeeklyBatchSize\(env\)/);
+  assert.match(schedule, /EXERCISE_BANK_LISTENING_WEEKLY_BATCH/);
+  assert.match(background, /produceListeningLesson/);
+  assert.match(background, /synthesizeNeuralMp3/);
+  assert.match(background, /insertListeningBankItem/);
+  assert.equal(background.includes('Promise.all'), false);
+});
+
+function words(count: number, label: string): string {
+  return Array.from({ length: count }, (_, index) => `${label}${index}`).join(' ');
+}
+
+function listeningFixture(slot: ListeningSlot, storyWords = slot.wordCount): ListeningLesson {
+  const story = words(storyWords, 'word');
+  const dialogue = slot.format === 'dialogue'
+    ? Array.from({ length: 6 }, (_, index) => ({
+      speaker: index % 2 === 0 ? 'Anna' : 'Sophie',
+      line: words(Math.ceil(storyWords / 6), `line${index}`),
+      gender: 'female' as const,
+    }))
+    : [];
+  const lesson = assembleListeningLesson({
+    slot,
+    story: slot.format === 'dialogue'
+      ? dialogue.map((turn) => `${turn.speaker}: ${turn.line}`).join('\n')
+      : story,
+    dialogue,
+    vocabulary: [{ word: 'word0', definition: 'A word.' }],
+    quiz: Array.from({ length: slot.questionCount }, (_, index) => ({
+      question: `What happens in part ${index}?`,
+      options: [`answer ${index}`, 'other', 'another', 'none'],
+      correctAnswer: `answer ${index}`,
+      explanation: 'The story says so.',
+      supportingSentence: 'word0 word1.',
+    })),
+    speakers: slot.format === 'dialogue'
+      ? [{ name: 'Anna', gender: 'female' }, { name: 'Sophie', gender: 'female' }]
+      : [],
+  });
+  if (!lesson) throw new Error(`fixture was not bankable for ${slot.level} ${slot.format}`);
+  return lesson;
+}
+
+test('listening combinations are the list topics, and a typed topic stays live', () => {
+  const topics = TOPICS.filter((topic) => topic.value !== WILDCARD_TOPIC);
+  const slots = listeningSlots();
+  assert.equal(slots.length, 3 * 2 * 3 * 3 * topics.length);
+  assert.equal(listeningBankQuery({ customTopic: '', topic: 'daily life' }).bank, true);
+  assert.equal(listeningBankQuery({ customTopic: '   ', topic: 'Travel' }).bank, true);
+  const any = listeningBankQuery({ customTopic: '', topic: 'wildcard' });
+  assert.equal(any.bank, true);
+  if (any.bank) assert.equal(any.topic, null);
+  const named = listeningBankQuery({ customTopic: '', topic: 'Daily Life' });
+  assert.equal(named.bank, true);
+  if (named.bank) assert.equal(named.topic, 'daily life');
+  assert.deepEqual(listeningBankQuery({ customTopic: 'my street market', topic: 'daily life' }), {
+    bank: false,
+    reason: 'custom',
+  });
+  assert.equal(listeningBankQuery({ customTopic: '', topic: 'not a list topic' }).bank, false);
+});
+
+test('a listening hash ignores option order and keeps the audio path off the payload', () => {
+  const slot = listeningSlots().find((item) => item.format === 'text' && item.wordCount === 60 && item.questionCount === 5);
+  assert.ok(slot);
+  if (!slot) return;
+  const lesson = listeningFixture(slot);
+  const shuffled = {
+    ...lesson,
+    quiz: lesson.quiz.map((item) => ({ ...item, options: [...item.options].reverse() })),
+  };
+  assert.equal(listeningContentHash(shuffled), listeningContentHash(lesson));
+  const payload = listeningBankPayload(lesson);
+  assert.equal(payload.mode, 'listening');
+  assert.equal(payload.topic, 'Daily Life');
+  assert.equal('audioPath' in payload, false);
+  assert.equal('audioUrl' in payload, false);
+  const path = listeningAudioPath(listeningContentHash(lesson));
+  const served = listeningLessonFromBankPayload(payload, {
+    topic: lesson.topicValue,
+    wordCount: lesson.wordCount,
+    questionCount: lesson.questionCount,
+    audioPath: path,
+  }, {
+    level: lesson.level,
+    format: lesson.format,
+    topic: lesson.topicValue,
+    wordCount: lesson.wordCount,
+    questionCount: lesson.questionCount,
+  });
+  assert.equal(served?.quiz.length, lesson.questionCount);
+  assert.equal(listeningLessonFromBankPayload(payload, {
+    topic: lesson.topicValue,
+    wordCount: lesson.wordCount,
+    questionCount: lesson.questionCount,
+    audioPath: path,
+  }, {
+    level: 'Advanced',
+    format: lesson.format,
+    topic: lesson.topicValue,
+    wordCount: lesson.wordCount,
+    questionCount: lesson.questionCount,
+  }), null);
+});
+
+test('the listening batch stays under the Azure free-tier month at the default size', () => {
+  assert.equal(listeningWeeklyBatchSize({}), 100);
+  assert.equal(listeningWeeklyBatchSize({ EXERCISE_BANK_LISTENING_WEEKLY_BATCH: '80' }), 80);
+  assert.equal(listeningWeeklyBatchSize({ EXERCISE_BANK_LISTENING_WEEKLY_BATCH: '9000' }), 100);
+  assert.equal(readRefillRequest({ headers: {}, body: '{"kind":"listening"}', env: {} }).target, 100);
+  assert.equal(readRefillRequest({ headers: {}, body: '{"kind":"listening","target":12}', env: {} }).target, 12);
+  assert.equal(readRefillRequest({ headers: {}, body: '{"kind":"reading"}', env: {} }).kind, null);
+  const weekly = listeningWeeklyCharacters(listeningWeeklyBatchSize({}), LISTENING_CHARS_PER_LESSON_HIGH);
+  assert.equal(weekly, 100 * 900);
+  assert.ok(weekly * 4 < AZURE_NEURAL_FREE_CHARACTERS);
+  assert.equal(readRefillRequest({
+    headers: {
+      'x-exercise-bank-remaining': '15',
+      'x-exercise-bank-kind': 'listening',
+    },
+    body: '{"kind":"grammar","target":250}',
+    env: {},
+  }).kind, 'listening');
+});
+
+test('the listening migration keeps audio private and does not touch billing', () => {
+  const sql = readFileSync(new URL('../supabase/migrations/20261114_listening_bank.sql', import.meta.url), 'utf8');
+  assert.match(sql, /exercise_bank_listening_slot_check/);
+  assert.match(sql, /listening-audio/);
+  assert.match(sql, /public = false/);
+  assert.match(sql, /listening_audio_no_client/);
+  assert.match(sql, /claim_listening_bank_item/);
+  assert.match(sql, /revoke all on function public\.claim_listening_bank_item/);
+  assert.match(sql, /grant execute on function public\.claim_listening_bank_item\(uuid, text, text, text, integer, integer\) to service_role/);
+  assert.match(sql, /audioPath/);
+  for (const topic of TOPICS) {
+    if (topic.value === WILDCARD_TOPIC) continue;
+    assert.match(sql, new RegExp(topic.value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+  }
+  assert.equal(sql.toLowerCase().includes('stripe'), false);
+  assert.equal(sql.includes('create or replace function public.consume_lesson'), false);
+  assert.equal(sql.includes('alter table public.saved_lessons'), false);
+});
+
+test('a standard listening request claims before it counts a lesson, and a custom topic does not', () => {
+  const generate = readFileSync(new URL('../api/generate.ts', import.meta.url), 'utf8');
+  const body = generate.slice(generate.indexOf('async function createListeningLesson'));
+  const claimAt = body.indexOf('claimListeningFromBank');
+  const consumeAt = body.indexOf('consumeLessonResponse');
+  const releaseAt = body.indexOf('releaseGrammarBankItem');
+  const liveAt = body.indexOf('producePractice');
+  const azureAt = body.indexOf('synthesizeNeuralMp3');
+  assert.ok(claimAt >= 0 && claimAt < consumeAt && consumeAt < releaseAt);
+  assert.ok(liveAt > releaseAt);
+  assert.ok(azureAt > liveAt);
+  assert.match(body, /listeningBankQuery/);
+  assert.match(body, /audioBase64/);
+  assert.match(generate, /freeLimitResponse/);
+  const tasks = readFileSync(new URL('../taskServer.ts', import.meta.url), 'utf8');
+  assert.match(tasks, /listeningPieceFromBank/);
+  assert.match(tasks, /claimListeningFromBank/);
+  assert.match(tasks, /releaseGrammarBankItem/);
+  const app = readFileSync(new URL('../components/Configurator.tsx', import.meta.url), 'utf8');
+  assert.match(app, /id="listening-topic"/);
+  assert.match(app, /placeholder="Any topic \(optional\)"/);
+  const screen = readFileSync(new URL('../App.tsx', import.meta.url), 'utf8');
+  assert.match(screen, /practiceType === 'listening' \? setListeningCustomTopic/);
+  assert.match(screen, /lessonAudioUrlRef/);
 });
