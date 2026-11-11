@@ -212,6 +212,21 @@ test('dialogue voices are one American woman at two pitches', () => {
   ]);
   assert.equal(narrationDefault.voiceURI, 'en-us-x-iom-local');
   assert.equal(narrationDefault.lang, 'en-US');
+
+  const mixed = voicesBySpeaker(
+    [
+      { name: 'James', gender: 'male' },
+      { name: 'Anna', gender: 'female' },
+    ],
+    [
+      { name: 'Microsoft David Desktop', lang: 'en-US' },
+      { name: 'Microsoft Zira Desktop', lang: 'en-US' },
+    ],
+  );
+  assert.equal(mixed.james.name, 'Microsoft David Desktop');
+  assert.equal(mixed.anna.name, 'Microsoft Zira Desktop');
+  assert.equal(mixed.james.pitch, 1);
+  assert.equal(mixed.anna.pitch, 1);
 });
 
 test('dialogue names rotate and long dialogues lose extra turns', () => {
@@ -221,12 +236,12 @@ test('dialogue names rotate and long dialogues lose extra turns', () => {
   const first = pickDialogueSpeakers([], () => 0);
   assert.equal(first[0].name, 'Anna');
   assert.equal(first[0].gender, 'female');
-  assert.equal(first[1].name, 'Sophie');
-  assert.equal(first[1].gender, 'female');
+  assert.equal(first[1].name, 'James');
+  assert.equal(first[1].gender, 'male');
   assert.notEqual(first[0].name, first[1].name);
   const again = pickDialogueSpeakers([first[0].name, first[1].name], () => 0);
-  assert.equal(again[0].gender, 'female');
-  assert.equal(again[1].gender, 'female');
+  const againGenders = again.map((speaker) => speaker.gender).sort().join();
+  assert.equal(againGenders, 'female,male');
   assert.notEqual(again[0].name, again[1].name);
   const samePair = [again[0].name, again[1].name].sort().join() === [first[0].name, first[1].name].sort().join();
   assert.equal(samePair, false);

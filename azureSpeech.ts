@@ -1,11 +1,13 @@
-import type { DialogueTurn } from './dialogue.ts';
+import { speakerFromName, type DialogueTurn, type SpeakerGender } from './dialogue.ts';
 
 /** Neural mp3 the bank stores and the player streams. */
 export const AZURE_TTS_OUTPUT_FORMAT = 'audio-24khz-48kbitrate-mono-mp3';
 
-/** American English neural voices. Text uses Ava. A conversation uses one voice per speaker. */
-export const AZURE_VOICE_FIRST = 'en-US-AvaMultilingualNeural';
-export const AZURE_VOICE_SECOND = 'en-US-AndrewMultilingualNeural';
+/** American English neural voices. A woman is Ava. A man is Andrew. Text uses Ava. */
+export const AZURE_VOICE_FEMALE = 'en-US-AvaMultilingualNeural';
+export const AZURE_VOICE_MALE = 'en-US-AndrewMultilingualNeural';
+export const AZURE_VOICE_FIRST = AZURE_VOICE_FEMALE;
+export const AZURE_VOICE_SECOND = AZURE_VOICE_MALE;
 
 const REGION_RE = /^[a-z0-9-]{1,40}$/i;
 const RETRY_DELAYS_MS = [1000, 2000, 4000, 8000];
@@ -61,33 +63,45 @@ export function spokenCharacterCount(lines: readonly string[]): number {
   return lines.reduce((total, line) => total + line.length, 0);
 }
 
-function voiceForSpeaker(index: number): string {
-  return index <= 0 ? AZURE_VOICE_FIRST : AZURE_VOICE_SECOND;
+/** Ava for a woman, Andrew for a man. A known name wins over a mismatched gender field. */
+export function azureVoiceForTurn(turn: { speaker: string; gender?: SpeakerGender | null }): string {
+  const listed = speakerFromName(turn.speaker);
+  const gender = listed?.gender ?? (turn.gender === 'male' ? 'male' : 'female');
+  return gender === 'male' ? AZURE_VOICE_MALE : AZURE_VOICE_FEMALE;
+}
+
+/** Distinct speakers in speaking order, with the Azure voice that matches each name. */
+export function dialogueVoiceCast(dialogue: readonly { speaker: string; gender?: SpeakerGender | null }[]): { speaker: string; gender: SpeakerGender; voice: string }[] {
+  const cast: { speaker: string; gender: SpeakerGender; voice: string }[] = [];
+  for (const turn of dialogue) {
+    const name = spokenLine(turn.speaker);
+    if (!name || cast.some((speaker) => speaker.speaker.toLowerCase() === name.toLowerCase())) continue;
+    const voice = azureVoiceForTurn({ speaker: name, gender: turn.gender });
+    cast.push({
+      speaker: name,
+      gender: voice === AZURE_VOICE_MALE ? 'male' : 'female',
+      voice,
+    });
+  }
+  return cast;
 }
 
 /**
- * One SSML document. A story is a single voice. A conversation gives each speaker
- * their own voice, in the order they first speak.
+ * One SSML document. A story is Ava. A conversation uses Ava or Andrew from the
+ * speaker's gender, so a woman who speaks second is still Ava.
  */
 export function buildListeningSsml(speech: ListeningSpeech): { ssml: string; spokenCharacters: number; lines: string[] } {
   if (speech.format === 'dialogue' && speech.dialogue.length > 0) {
-    const order: string[] = [];
-    for (const turn of speech.dialogue) {
-      const name = spokenLine(turn.speaker);
-      if (!name) continue;
-      if (!order.some((speaker) => speaker.toLowerCase() === name.toLowerCase())) order.push(name);
-    }
     const lines: string[] = [];
     const parts: string[] = [];
     speech.dialogue.forEach((turn, index) => {
       const line = spokenLine(turn.line);
       const name = spokenLine(turn.speaker);
       if (!line || !name) return;
-      const speakerIndex = Math.max(0, order.findIndex((speaker) => speaker.toLowerCase() === name.toLowerCase()));
       const said = `${name}. ${line}`;
       lines.push(said);
       const pause = index < speech.dialogue.length - 1 ? '<break time="350ms"/>' : '';
-      parts.push(`<voice name="${voiceForSpeaker(speakerIndex)}">${escapeSsml(said)}${pause}</voice>`);
+      parts.push(`<voice name="${azureVoiceForTurn(turn)}">${escapeSsml(said)}${pause}</voice>`);
     });
     return {
       ssml: wrapSsml(parts.join('')),

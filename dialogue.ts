@@ -42,33 +42,46 @@ function cleanLine(speaker: string, line: string): string {
 }
 
 export const FEMALE_NAMES = ['Anna', 'Sophie', 'Emma', 'Lucy', 'Laura', 'Kate', 'Julia', 'Mia'] as const;
+export const MALE_NAMES = ['James', 'Daniel', 'Leo', 'Noah', 'Owen', 'Ben', 'Luke', 'Sam'] as const;
 
 export type DialogueSpeaker = { name: string; gender: SpeakerGender };
 
-/** Two different women. The first speaks first. The pair changes each lesson. */
+/**
+ * One woman and one man. Either may speak first. The pair changes each lesson.
+ * Azure uses Ava for the woman and Andrew for the man, not the speaking order.
+ */
 export function pickDialogueSpeakers(previous: string[] = [], random: () => number = Math.random): DialogueSpeaker[] {
-  const pairs: [string, string][] = [];
-  for (let i = 0; i < FEMALE_NAMES.length; i += 1) {
-    for (let j = 0; j < FEMALE_NAMES.length; j += 1) {
-      if (i === j) continue;
-      pairs.push([FEMALE_NAMES[i], FEMALE_NAMES[j]]);
+  const pairs: DialogueSpeaker[][] = [];
+  for (const woman of FEMALE_NAMES) {
+    for (const man of MALE_NAMES) {
+      pairs.push([
+        { name: woman, gender: 'female' },
+        { name: man, gender: 'male' },
+      ]);
+      pairs.push([
+        { name: man, gender: 'male' },
+        { name: woman, gender: 'female' },
+      ]);
     }
   }
   const previousKey = previous.map((name) => name.toLowerCase()).sort().join('|');
-  const allowed = pairs.filter(([first, second]) => [first, second].map((name) => name.toLowerCase()).sort().join('|') !== previousKey);
+  const allowed = pairs.filter((pair) => pair.map((speaker) => speaker.name.toLowerCase()).sort().join('|') !== previousKey);
   const pool = allowed.length ? allowed : pairs;
   const index = Math.min(pool.length - 1, Math.floor(random() * pool.length));
-  const [first, second] = pool[index];
-  return [
-    { name: first, gender: 'female' },
-    { name: second, gender: 'female' },
-  ];
+  return pool[index].map((speaker) => ({ ...speaker }));
 }
 
-function knownName(raw: string): { name: string; gender: SpeakerGender } | null {
-  const key = raw.toLowerCase();
+/** A name from the fixed lists, with the gender that voice must match. */
+export function speakerFromName(raw: string): DialogueSpeaker | null {
+  return knownName(raw);
+}
+
+function knownName(raw: string): DialogueSpeaker | null {
+  const key = String(raw ?? '').replace(/[*_`]/g, '').replace(/\s+/g, ' ').trim().replace(/:$/, '').trim().toLowerCase();
   const woman = FEMALE_NAMES.find((name) => name.toLowerCase() === key);
   if (woman) return { name: woman, gender: 'female' };
+  const man = MALE_NAMES.find((name) => name.toLowerCase() === key);
+  if (man) return { name: man, gender: 'male' };
   return null;
 }
 
@@ -212,7 +225,8 @@ export function dialogueTurnPlan(wordCount: number): { turns: number; wordsPerTu
 
 /**
  * The bank asks for two named speakers, and the model often uses a different pair.
- * Keep the lines and the order. The person who speaks first takes the first name.
+ * Keep the lines and the order. The person who speaks first takes the first requested
+ * name, and each name keeps the gender on that cast entry.
  */
 export function alignDialogueToCast(
   turns: DialogueTurn[],
@@ -392,21 +406,29 @@ export function narrationVoice(voices: ListedVoice[]): SpeakerVoice {
 }
 
 /**
- * Both speakers share one female en-US voice. en-GB voices and male voices are never chosen.
- * Prefer a known female voice such as en-us-x-sfg or Google US English.
- * The first speaker uses pitch 1. The second uses 1.12. An empty voice list still requests en-US.
+ * Browser speech when Azure audio is not used. A woman gets one female en-US voice.
+ * A second woman is the same voice at a higher pitch. A man gets a male en-US voice.
+ * en-GB voices are never chosen. An empty list still requests en-US.
  */
 export function voicesBySpeaker(
   speakers: { name: string; gender: SpeakerGender | null }[],
   voices: ListedVoice[],
 ): Record<string, SpeakerVoice> {
-  const american = americanVoices(voices).filter((voice) => voice.heard !== 'male');
+  const american = americanVoices(voices);
   const females = american.filter((voice) => voice.heard === 'female').sort(byHint('female'));
-  const voice = females[0] ?? american[0];
+  const males = american.filter((voice) => voice.heard === 'male').sort(byHint('male'));
+  const femaleVoice = females[0] ?? american.find((voice) => voice.heard !== 'male');
+  const maleVoice = males[0];
   const result: Record<string, SpeakerVoice> = {};
-  speakers.forEach((speaker, index) => {
-    const pitch = index === 0 ? FIRST_SPEAKER_PITCH : SECOND_SPEAKER_PITCH;
-    result[speaker.name.toLowerCase()] = spokenVoice(voice, pitch, 1);
+  let femaleIndex = 0;
+  speakers.forEach((speaker) => {
+    if (speaker.gender === 'male') {
+      result[speaker.name.toLowerCase()] = spokenVoice(maleVoice, 1, 1);
+      return;
+    }
+    const pitch = femaleIndex === 0 ? FIRST_SPEAKER_PITCH : SECOND_SPEAKER_PITCH;
+    femaleIndex += 1;
+    result[speaker.name.toLowerCase()] = spokenVoice(femaleVoice, pitch, 1);
   });
   return result;
 }

@@ -4,6 +4,7 @@ import {
   alignDialogueToCast,
   dialogueSpeakers,
   renderDialogue,
+  speakerFromName,
   spokenWordCount,
   type DialogueTurn,
 } from './dialogue.ts';
@@ -375,7 +376,13 @@ export function canBankListeningLesson(lesson: ListeningLesson): boolean {
     if (lesson.dialogue.length < 4 || lesson.speakers.length !== 2) return false;
     const names = new Set(lesson.speakers.map((speaker) => speaker.name.toLowerCase()));
     if (names.size !== 2) return false;
+    if (lesson.speakers.some((speaker) => {
+      const listed = speakerFromName(speaker.name);
+      return listed != null && listed.gender !== speaker.gender;
+    })) return false;
+    const genderByName = new Map(lesson.speakers.map((speaker) => [speaker.name.toLowerCase(), speaker.gender]));
     if (lesson.dialogue.some((turn) => !names.has(turn.speaker.toLowerCase()) || !turn.line.trim())) return false;
+    if (lesson.dialogue.some((turn) => genderByName.get(turn.speaker.toLowerCase()) !== turn.gender)) return false;
   }
   return true;
 }
