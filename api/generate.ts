@@ -13,11 +13,11 @@ import {
   type QuestionSkill,
 } from '../lessonUtils';
 import {
-  FEMALE_NAMES,
   dialogueTurnPlan,
   dialogueSpeakers,
   normalizeFormat,
   pickDialogueSpeakers,
+  speakerFromName,
   speakersWithGender,
   parseDialogue,
   renderDialogue,
@@ -142,12 +142,12 @@ const LESSON_SCHEMA: ResponseSchema = {
     },
     dialogue: {
       type: SchemaType.ARRAY,
-      description: 'Dialogue turns. Empty for a Text lesson. Two women with different names. The first woman speaks first.',
+      description: 'Dialogue turns. Empty for a Text lesson. One woman and one man. The requested person speaks first.',
       items: {
         type: SchemaType.OBJECT,
         properties: {
-          speaker: { type: SchemaType.STRING, description: 'A short first name.' },
-          gender: { type: SchemaType.STRING, description: 'female. Both speakers are women.' },
+          speaker: { type: SchemaType.STRING, description: 'The requested first name.' },
+          gender: { type: SchemaType.STRING, description: 'female or male. It must match that speaker.' },
           line: { type: SchemaType.STRING, description: 'What that person says. Do not include the name.' },
         },
         required: ['speaker', 'gender', 'line'],
@@ -352,15 +352,17 @@ function formatRules(format: ContentFormat, speakers: { name: string; gender: Sp
   if (format === 'dialogue') {
     const [first, second] = speakers;
     const firstName = first?.name ?? 'Anna';
-    const secondName = second?.name && second.name !== firstName ? second.name : 'Sophie';
+    const firstGender = first?.gender ?? 'female';
+    const secondName = second?.name && second.name !== firstName ? second.name : 'James';
+    const secondGender = secondName === second?.name ? (second?.gender ?? 'male') : 'male';
     return [
       'FORMAT: Dialogue.',
-      `Write a conversation between exactly these two women: ${firstName} and ${secondName}.`,
-      'They must have different names.',
+      `Write a conversation between exactly these two people: ${firstName} (${firstGender}) and ${secondName} (${secondGender}).`,
+      'One is a woman and one is a man. They must have different names.',
       `${firstName} is the first speaker. ${secondName} is the second speaker.`,
       `speaker must be exactly "${firstName}" or "${secondName}".`,
       'Return a dialogue array. Each item has speaker, gender, and line.',
-      'gender for both speakers is female.',
+      `gender is "${firstGender}" when speaker is "${firstName}", and "${secondGender}" when speaker is "${secondName}".`,
       'Do not put the name inside line.',
       `Also set story to the same dialogue, one turn per line, like "${firstName}: Hello."`,
       'Count only the words inside line. Do not count the speaker names.',
@@ -444,7 +446,7 @@ ${params.sourceStory}
 
 ${levelRules(params.level)}
 ${modeRules(params.mode)}
-${params.format === 'dialogue' ? `In the questions, use ${params.speakers[0]?.name ?? 'the first woman'} and ${params.speakers[1]?.name ?? 'the second woman'} exactly as they appear in the story.` : ''}
+${params.format === 'dialogue' ? `In the questions, use ${params.speakers[0]?.name ?? 'the first speaker'} and ${params.speakers[1]?.name ?? 'the second speaker'} exactly as they appear in the story.` : ''}
 
 QUIZ:
 - Exactly ${params.questionCount} questions about the story above.
@@ -539,7 +541,7 @@ function prepareLesson(parsed: Record<string, unknown>, params: LessonParams): P
     const firstSpeaker = params.speakers[0];
     const secondSpeaker = params.speakers[1];
     if (firstSpeaker && dialogue[0] && dialogue[0].speaker.toLowerCase() !== firstSpeaker.name.toLowerCase()) {
-      problems.push(`${firstSpeaker.name} must speak first. ${secondSpeaker?.name ?? 'The other woman'} speaks second. Both speakers are women with different names.`);
+      problems.push(`${firstSpeaker.name} (${firstSpeaker.gender}) must speak first. ${secondSpeaker?.name ?? 'The other person'} (${secondSpeaker?.gender ?? 'male'}) speaks second. Use those names and those genders.`);
     }
   }
   if (!quizStage && !wordCountOk) {
@@ -764,22 +766,15 @@ async function generateRaw(
   });
 }
 
-function castName(raw: unknown, list: readonly string[]): string {
-  const text = String(raw ?? '').trim().toLowerCase();
-  return list.find((name) => name.toLowerCase() === text) ?? '';
-}
-
 function resolveDialogueSpeakers(raw: Record<string, unknown>): DialogueSpeaker[] {
   const incoming = Array.isArray(raw.speakers) ? raw.speakers : [];
-  const first = incoming[0] && typeof incoming[0] === 'object' ? (incoming[0] as Record<string, unknown>).name : '';
-  const second = incoming[1] && typeof incoming[1] === 'object' ? (incoming[1] as Record<string, unknown>).name : '';
-  const woman = castName(first, FEMALE_NAMES);
-  const otherWoman = castName(second, FEMALE_NAMES);
-  if (woman && otherWoman && woman !== otherWoman) {
-    return [
-      { name: woman, gender: 'female' },
-      { name: otherWoman, gender: 'female' },
-    ];
+  const people = incoming.slice(0, 2).map((speaker) => {
+    if (!speaker || typeof speaker !== 'object') return null;
+    return speakerFromName(String((speaker as Record<string, unknown>).name ?? ''));
+  });
+  const [first, second] = people;
+  if (first && second && first.name !== second.name && first.gender !== second.gender) {
+    return [first, second];
   }
   return pickDialogueSpeakers();
 }
@@ -1104,9 +1099,9 @@ function practiceFailure(headers: Record<string, string>, stage: 'story' | 'quiz
 
 /**
  * A list topic (or "Any topic") takes one unseen banked lesson and its stored mp3.
- * A typed custom topic, or an empty bank for that combination, is generated live.
- * Only the custom topic is spoken with Azure on this request. A bank miss keeps
- * the browser speech path by leaving the audio off the response.
+ * A typed custom topic, or an empty bank for that combination, is generated live
+ * and spoken with Azure on this request. Browser speech is only used when Azure
+ * itself fails.
  */
 async function createListeningLesson(
   apiKey: string,
@@ -1140,10 +1135,11 @@ async function createListeningLesson(
       }
       const audioUrl = await signListeningAudio(admin, claimed.audioPath);
       console.log(JSON.stringify({
-        stage: 'listening_bank',
+        stage: audioUrl ? 'listening_bank' : 'listening_bank_sign_failed',
         level: claimed.lesson.level,
         format: claimed.lesson.format,
         topic: claimed.lesson.topicValue,
+        bankId: claimed.id,
       }));
       return {
         statusCode: 200,
@@ -1177,29 +1173,34 @@ async function createListeningLesson(
   if (!produced.ok) return practiceFailure(headers, 'story', produced.problems, produced.preview);
 
   let audioBase64 = '';
-  if (!choice.bank) {
-    const speech = buildListeningSsml({
-      format: params.format === 'dialogue' ? 'dialogue' : 'text',
-      story: produced.lesson.story,
-      dialogue: produced.lesson.dialogue,
-    });
-    const env = runtimeEnv();
-    const audio = await synthesizeNeuralMp3({
-      key: readEnvValue(env, 'AZURE_SPEECH_KEY'),
-      region: readEnvValue(env, 'AZURE_SPEECH_REGION'),
-      ssml: speech.ssml,
-      spokenCharacters: speech.spokenCharacters,
-    });
-    if (audio.ok) {
-      audioBase64 = Buffer.from(audio.audio).toString('base64');
-      console.log(JSON.stringify({
-        stage: 'listening_live_audio',
-        spokenCharacters: audio.spokenCharacters,
-        attempts: audio.attempts,
-      }));
-    } else {
-      console.log(JSON.stringify({ stage: 'listening_live_audio_miss', status: audio.status, attempts: audio.attempts }));
-    }
+  const speech = buildListeningSsml({
+    format: params.format === 'dialogue' ? 'dialogue' : 'text',
+    story: produced.lesson.story,
+    dialogue: produced.lesson.dialogue,
+  });
+  const env = runtimeEnv();
+  const audio = await synthesizeNeuralMp3({
+    key: readEnvValue(env, 'AZURE_SPEECH_KEY'),
+    region: readEnvValue(env, 'AZURE_SPEECH_REGION'),
+    ssml: speech.ssml,
+    spokenCharacters: speech.spokenCharacters,
+  });
+  if (audio.ok) {
+    audioBase64 = Buffer.from(audio.audio).toString('base64');
+    console.log(JSON.stringify({
+      stage: 'listening_live_audio',
+      reason: choice.bank ? 'bank_empty' : 'custom',
+      spokenCharacters: audio.spokenCharacters,
+      attempts: audio.attempts,
+    }));
+  } else {
+    console.log(JSON.stringify({
+      stage: 'listening_browser_tts',
+      reason: 'azure_failed',
+      bank: choice.bank,
+      status: audio.status,
+      attempts: audio.attempts,
+    }));
   }
 
   const blocked = await consumeLessonResponse(admin, userId, headers);

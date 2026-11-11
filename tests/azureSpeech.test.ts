@@ -2,10 +2,14 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
   AZURE_TTS_OUTPUT_FORMAT,
+  AZURE_VOICE_FEMALE,
   AZURE_VOICE_FIRST,
+  AZURE_VOICE_MALE,
   AZURE_VOICE_SECOND,
   azureSpeechEndpoint,
+  azureVoiceForTurn,
   buildListeningSsml,
+  dialogueVoiceCast,
   spokenCharacterCount,
   synthesizeNeuralMp3,
 } from '../azureSpeech.ts';
@@ -29,18 +33,39 @@ test('a conversation gives each speaker a distinct voice', () => {
     format: 'dialogue',
     story: '',
     dialogue: [
-      { speaker: 'Anna', line: 'Hello Sophie.', gender: 'female' },
-      { speaker: 'Sophie', line: 'Hi Anna.', gender: 'female' },
+      { speaker: 'Anna', line: 'Hello James.', gender: 'female' },
+      { speaker: 'James', line: 'Hi Anna.', gender: 'male' },
       { speaker: 'Anna', line: 'How are you?', gender: 'female' },
     ],
   });
-  assert.match(speech.ssml, new RegExp(`<voice name="${AZURE_VOICE_FIRST}">Anna\\. Hello Sophie\\.<break time="350ms"/></voice>`));
-  assert.match(speech.ssml, new RegExp(`<voice name="${AZURE_VOICE_SECOND}">Sophie\\. Hi Anna\\.<break time="350ms"/></voice>`));
-  const ava = speech.ssml.split(AZURE_VOICE_FIRST).length - 1;
-  const andrew = speech.ssml.split(AZURE_VOICE_SECOND).length - 1;
+  assert.match(speech.ssml, new RegExp(`<voice name="${AZURE_VOICE_FEMALE}">Anna\\. Hello James\\.<break time="350ms"/></voice>`));
+  assert.match(speech.ssml, new RegExp(`<voice name="${AZURE_VOICE_MALE}">James\\. Hi Anna\\.<break time="350ms"/></voice>`));
+  const ava = speech.ssml.split(AZURE_VOICE_FEMALE).length - 1;
+  const andrew = speech.ssml.split(AZURE_VOICE_MALE).length - 1;
   assert.equal(ava, 2);
   assert.equal(andrew, 1);
-  assert.equal(speech.spokenCharacters, 'Anna. Hello Sophie.'.length + 'Sophie. Hi Anna.'.length + 'Anna. How are you?'.length);
+  assert.equal(speech.spokenCharacters, 'Anna. Hello James.'.length + 'James. Hi Anna.'.length + 'Anna. How are you?'.length);
+});
+
+test('Azure voice follows gender, not who speaks first', () => {
+  const dialogue = [
+    { speaker: 'James', line: 'The train is late.', gender: 'female' as const },
+    { speaker: 'Anna', line: 'We can wait inside.', gender: 'male' as const },
+    { speaker: 'James', line: 'I will buy the tickets.', gender: 'female' as const },
+    { speaker: 'Anna', line: 'Thank you.', gender: 'male' as const },
+  ];
+  assert.equal(azureVoiceForTurn(dialogue[0]), AZURE_VOICE_MALE);
+  assert.equal(azureVoiceForTurn(dialogue[1]), AZURE_VOICE_FEMALE);
+  assert.deepEqual(dialogueVoiceCast(dialogue), [
+    { speaker: 'James', gender: 'male', voice: AZURE_VOICE_MALE },
+    { speaker: 'Anna', gender: 'female', voice: AZURE_VOICE_FEMALE },
+  ]);
+  const speech = buildListeningSsml({ format: 'dialogue', story: '', dialogue });
+  assert.match(speech.ssml, new RegExp(`<voice name="${AZURE_VOICE_MALE}">James\\. The train is late\\.`));
+  assert.match(speech.ssml, new RegExp(`<voice name="${AZURE_VOICE_FEMALE}">Anna\\. We can wait inside\\.`));
+  assert.equal(speech.ssml.indexOf(AZURE_VOICE_MALE) < speech.ssml.indexOf(AZURE_VOICE_FEMALE), true);
+  assert.equal(AZURE_VOICE_FIRST, AZURE_VOICE_FEMALE);
+  assert.equal(AZURE_VOICE_SECOND, AZURE_VOICE_MALE);
 });
 
 test('the speech endpoint is the regional Azure TTS URL', () => {

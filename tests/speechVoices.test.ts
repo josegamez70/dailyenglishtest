@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { VOICE_LIST_TIMEOUT_MS, slowerPlaybackRate, whenVoicesReady } from '../speechVoices.ts';
+import { AZURE_SLOWER_BOOST, VOICE_LIST_TIMEOUT_MS, azurePlaybackRate, slowerPlaybackRate, whenVoicesReady } from '../speechVoices.ts';
 
 test('slower playback is 55 percent of the profile speed and does not change pitch', () => {
   assert.ok(Math.abs(slowerPlaybackRate(1) - 0.55) < 1e-10);
@@ -10,6 +10,17 @@ test('slower playback is 55 percent of the profile speed and does not change pit
   const slower = { rate: slowerPlaybackRate(1), pitch };
   assert.ok(Math.abs(slower.rate - 0.55) < 1e-10);
   assert.equal(slower.pitch, pitch);
+});
+
+test('Azure slower playback is 15 percent faster and normal speed stays the same', () => {
+  for (const profile of [0.75, 1, 1.25]) {
+    const before = slowerPlaybackRate(profile);
+    const after = azurePlaybackRate(before, profile);
+    assert.ok(Math.abs(after - before * AZURE_SLOWER_BOOST) < 1e-10);
+    assert.ok(Math.abs(after / before - 1.15) < 1e-10);
+    assert.equal(azurePlaybackRate(profile, profile), profile);
+  }
+  assert.ok(Math.abs(azurePlaybackRate(0.55, 1) - 0.6325) < 1e-10);
 });
 
 test('an empty voice list resolves after the timeout so playback can start', async () => {

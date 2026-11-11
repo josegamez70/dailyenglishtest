@@ -36,12 +36,12 @@ const reading: PracticePiece = {
 };
 
 const listening: PracticePiece = {
-  story: 'Sophie: What time is the train?\nEmma: It leaves at eight.',
+  story: 'Sophie: What time is the train?\nJames: It leaves at eight.',
   quiz: [{ question: 'What time is the train?' }],
   vocabulary: [],
   dialogue: [
     { speaker: 'Sophie', line: 'What time is the train?', gender: 'female' },
-    { speaker: 'Emma', line: 'It leaves at eight.', gender: 'female' },
+    { speaker: 'James', line: 'It leaves at eight.', gender: 'male' },
   ],
   format: 'dialogue',
   level: 'beginner',
@@ -50,7 +50,7 @@ const listening: PracticePiece = {
   title: 'Travel',
   speakers: [
     { name: 'Sophie', gender: 'female' },
-    { name: 'Emma', gender: 'female' },
+    { name: 'James', gender: 'male' },
   ],
   wordCount: 100,
   questionCount: 5,

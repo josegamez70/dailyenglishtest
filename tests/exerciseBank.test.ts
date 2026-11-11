@@ -457,9 +457,9 @@ test('a dialogue with the wrong names can still be stored when the lines fit', (
     'I already saved two seats by the window for us.',
   ];
   const dialogue = lines.map((line, index) => ({
-    speaker: index % 2 === 0 ? 'Emma' : 'Lucy',
+    speaker: index % 2 === 0 ? 'Emma' : 'Daniel',
     line,
-    gender: 'female' as const,
+    gender: index % 2 === 0 ? 'female' as const : 'male' as const,
   }));
   const prepared = listeningStoryForBank({
     format: 'dialogue',
@@ -468,12 +468,14 @@ test('a dialogue with the wrong names can still be stored when the lines fit', (
     wordCount: 60,
     speakers: [
       { name: 'Anna', gender: 'female' },
-      { name: 'Sophie', gender: 'female' },
+      { name: 'James', gender: 'male' },
     ],
   });
   assert.deepEqual(prepared.problems, []);
   assert.equal(prepared.dialogue[0].speaker, 'Anna');
-  assert.equal(prepared.dialogue[1].speaker, 'Sophie');
+  assert.equal(prepared.dialogue[0].gender, 'female');
+  assert.equal(prepared.dialogue[1].speaker, 'James');
+  assert.equal(prepared.dialogue[1].gender, 'male');
   assert.match(prepared.story, /^Anna: /);
 });
 
@@ -532,7 +534,7 @@ test('grammar refill walks levels in turn and fills the thinner exercise', () =>
 });
 
 test('text and dialogue fixtures both satisfy the bank and the speech markup', async () => {
-  const { buildListeningSsml, AZURE_VOICE_FIRST, AZURE_VOICE_SECOND } = await import('../azureSpeech.ts');
+  const { buildListeningSsml, AZURE_VOICE_FEMALE, AZURE_VOICE_MALE, dialogueVoiceCast } = await import('../azureSpeech.ts');
   const { assembleListeningLesson } = await import('../exerciseBank.ts');
   const quiz = Array.from({ length: 5 }, (_, index) => ({
     question: `What happens in part ${index}?`,
@@ -552,8 +554,8 @@ test('text and dialogue fixtures both satisfy the bank and the speech markup', a
   });
   assert.ok(textLesson);
   const textSpeech = buildListeningSsml({ format: 'text', story: text, dialogue: [] });
-  assert.match(textSpeech.ssml, new RegExp(AZURE_VOICE_FIRST));
-  assert.equal(textSpeech.ssml.includes(AZURE_VOICE_SECOND), false);
+  assert.match(textSpeech.ssml, new RegExp(AZURE_VOICE_FEMALE));
+  assert.equal(textSpeech.ssml.includes(AZURE_VOICE_MALE), false);
   const lines = [
     'I missed the early morning train and waited outside today.',
     'We can take the next one together if we hurry now.',
@@ -566,14 +568,14 @@ test('text and dialogue fixtures both satisfy the bank and the speech markup', a
     format: 'dialogue',
     story: '',
     dialogue: lines.map((line, index) => ({
-      speaker: index % 2 === 0 ? 'Emma' : 'Lucy',
+      speaker: index % 2 === 0 ? 'Emma' : 'Daniel',
       line,
-      gender: 'female' as const,
+      gender: index % 2 === 0 ? 'female' as const : 'male' as const,
     })),
     wordCount: 60,
     speakers: [
       { name: 'Anna', gender: 'female' },
-      { name: 'Sophie', gender: 'female' },
+      { name: 'James', gender: 'male' },
     ],
   });
   assert.deepEqual(prepared.problems, []);
@@ -585,7 +587,7 @@ test('text and dialogue fixtures both satisfy the bank and the speech markup', a
     quiz,
     speakers: [
       { name: 'Anna', gender: 'female' },
-      { name: 'Sophie', gender: 'female' },
+      { name: 'James', gender: 'male' },
     ],
   });
   assert.ok(dialogueLesson);
@@ -594,8 +596,12 @@ test('text and dialogue fixtures both satisfy the bank and the speech markup', a
     story: prepared.story,
     dialogue: prepared.dialogue,
   });
-  assert.match(dialogueSpeech.ssml, new RegExp(AZURE_VOICE_FIRST));
-  assert.match(dialogueSpeech.ssml, new RegExp(AZURE_VOICE_SECOND));
+  assert.deepEqual(dialogueVoiceCast(prepared.dialogue), [
+    { speaker: 'Anna', gender: 'female', voice: AZURE_VOICE_FEMALE },
+    { speaker: 'James', gender: 'male', voice: AZURE_VOICE_MALE },
+  ]);
+  assert.match(dialogueSpeech.ssml, new RegExp(`<voice name="${AZURE_VOICE_FEMALE}">Anna\\.`));
+  assert.match(dialogueSpeech.ssml, new RegExp(`<voice name="${AZURE_VOICE_MALE}">James\\.`));
 });
 
 test('the refill diagnostic tables are private and do not store the lesson', () => {
@@ -631,9 +637,9 @@ function listeningFixture(slot: ListeningSlot, storyWords = slot.wordCount): Lis
   const story = words(storyWords, 'word');
   const dialogue = slot.format === 'dialogue'
     ? Array.from({ length: 6 }, (_, index) => ({
-      speaker: index % 2 === 0 ? 'Anna' : 'Sophie',
+      speaker: index % 2 === 0 ? 'Anna' : 'James',
       line: words(Math.ceil(storyWords / 6), `line${index}`),
-      gender: 'female' as const,
+      gender: index % 2 === 0 ? 'female' as const : 'male' as const,
     }))
     : [];
   const lesson = assembleListeningLesson({
@@ -651,7 +657,7 @@ function listeningFixture(slot: ListeningSlot, storyWords = slot.wordCount): Lis
       supportingSentence: 'word0 word1.',
     })),
     speakers: slot.format === 'dialogue'
-      ? [{ name: 'Anna', gender: 'female' }, { name: 'Sophie', gender: 'female' }]
+      ? [{ name: 'Anna', gender: 'female' }, { name: 'James', gender: 'male' }]
       : [],
   });
   if (!lesson) throw new Error(`fixture was not bankable for ${slot.level} ${slot.format}`);
@@ -770,6 +776,9 @@ test('a standard listening request claims before it counts a lesson, and a custo
   assert.ok(claimAt >= 0 && claimAt < consumeAt && consumeAt < releaseAt);
   assert.ok(liveAt > releaseAt);
   assert.ok(azureAt > liveAt);
+  const liveTail = body.slice(liveAt);
+  assert.equal(liveTail.includes('if (!choice.bank)'), false);
+  assert.match(liveTail, /reason: choice\.bank \? 'bank_empty'/);
   assert.match(body, /listeningBankQuery/);
   assert.match(body, /audioBase64/);
   assert.match(generate, /freeLimitResponse/);
@@ -785,6 +794,9 @@ test('a standard listening request claims before it counts a lesson, and a custo
   assert.match(screen, /const configScreen = \(/);
   assert.doesNotMatch(screen, /<ConfigScreen/);
   assert.match(screen, /lessonAudioUrlRef/);
+  assert.match(screen, /lessonAzureOnlyRef/);
+  assert.match(screen, /listening: 'browser_tts'/);
+  assert.match(screen, /listening: 'bank_audio_missing'/);
   const grammar = readFileSync(new URL('../components/GrammarPage.tsx', import.meta.url), 'utf8');
   assert.match(grammar, /id="grammar-topic"/);
   assert.doesNotMatch(grammar, /const \w+ = \(\) => \([\s\S]*id="grammar-topic"/);
