@@ -2,6 +2,17 @@ import { buildListeningSsml, synthesizeNeuralMp3 } from './azureSpeech.ts';
 import { pickDialogueSpeakers } from './dialogue.ts';
 import { produceGrammar, producePractice, type LessonParams } from './api/generate.ts';
 import {
+  clearExerciseBankGemini,
+  geminiProblemText,
+  isRefillPause,
+  readBankGeminiModel,
+  readGeminiGapMs,
+  RefillPause,
+  retryWhileBusy,
+  setExerciseBankGemini,
+  geminiGapWaitMs,
+} from './geminiPace.ts';
+import {
   EXERCISE_BANK_HOP_LIMIT,
   assembleListeningLesson,
   canBankGrammarSet,
@@ -106,6 +117,34 @@ function slotLabel(slot: ListeningSlot): string {
   return `${slot.level}/${slot.format}/${slot.topic}/${slot.wordCount}w/${slot.questionCount}q`;
 }
 
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+/** Retries one Gemini step on the same cell. Rate-limit waits are not a failed cell. */
+async function retryBusy<T>(
+  deadline: number,
+  log: (entry: AttemptLog) => Promise<void>,
+  where: { level: string; format: string; topic: string; stage: string },
+  run: () => Promise<T>,
+): Promise<T> {
+  return retryWhileBusy({
+    run,
+    deadline,
+    reserveMs: 20_000,
+    sleep,
+    onBusy: async (info) => {
+      await log({
+        ...where,
+        stage: where.stage,
+        result: 'rate_limited',
+        problems: `wait ${Math.round(info.waitMs / 1000)}s. ${info.detail}`,
+        durationMs: info.waitMs,
+      });
+    },
+  });
+}
+
 type AttemptLog = {
   level: string;
   format: string;
@@ -121,13 +160,16 @@ async function produceListeningLesson(
   apiKey: string,
   env: EnvMap,
   slot: ListeningSlot,
+  deadline: number,
   log: (entry: AttemptLog) => Promise<void>,
 ): Promise<{ lesson: NonNullable<ReturnType<typeof assembleListeningLesson>>; audio: Uint8Array } | null> {
   const started = Date.now();
   const speakers = slot.format === 'dialogue' ? pickDialogueSpeakers() : [];
   const base = { level: slot.level, format: slot.format, topic: slot.topic };
   try {
-    const story = await producePractice(apiKey, listeningParams(slot, 'story', '', speakers), Date.now() + PRODUCE_DEADLINE_MS);
+    const story = await retryBusy(deadline, log, { ...base, stage: 'story' }, () => (
+      producePractice(apiKey, listeningParams(slot, 'story', '', speakers), Date.now() + PRODUCE_DEADLINE_MS)
+    ));
     if (!story.ok) {
       await log({
         ...base,
@@ -156,11 +198,13 @@ async function produceListeningLesson(
       return null;
     }
     const quizStarted = Date.now();
-    const quiz = await producePractice(
-      apiKey,
-      listeningParams(slot, 'quiz', prepared.story, speakers),
-      Date.now() + PRODUCE_DEADLINE_MS,
-    );
+    const quiz = await retryBusy(deadline, log, { ...base, stage: 'quiz' }, () => (
+      producePractice(
+        apiKey,
+        listeningParams(slot, 'quiz', prepared.story, speakers),
+        Date.now() + PRODUCE_DEADLINE_MS,
+      )
+    ));
     const quizProblems = quiz.ok ? listeningQuizProblems(quiz.lesson.quiz, slot.questionCount) : [];
     if (!quiz.ok || quizProblems.length > 0) {
       await log({
@@ -221,11 +265,13 @@ async function produceListeningLesson(
     });
     return { lesson, audio: audio.audio };
   } catch (error) {
+    if (isRefillPause(error)) throw error;
+    const busy = /429|503|resource_exhausted|story service is busy/i.test(geminiProblemText(error));
     await log({
       ...base,
-      stage: 'produce',
-      result: 'error',
-      problems: error instanceof Error ? error.message : 'produce failed',
+      stage: busy ? 'gemini' : 'produce',
+      result: busy ? 'rate_limited' : 'error',
+      problems: geminiProblemText(error),
       durationMs: Date.now() - started,
     });
     return null;
@@ -274,19 +320,34 @@ export async function handleRefill(event: HandlerEvent) {
     }
     const cap = exerciseBankCap(env);
     const started = Date.now();
+    const deadline = started + HOP_BUDGET_MS;
     const kind = request.kind;
     const counts = await exerciseBankFillCounts(admin, kind);
+    const gapMs = readGeminiGapMs(readEnvValue(env, 'EXERCISE_BANK_GEMINI_GAP_MS'));
+    const bankModel = readBankGeminiModel(readEnvValue(env, 'EXERCISE_BANK_GEMINI_MODEL'));
+    let lastGeminiAt = 0;
+    setExerciseBankGemini({
+      model: bankModel,
+      pace: async () => {
+        const wait = geminiGapWaitMs(lastGeminiAt, Date.now(), gapMs);
+        if (wait > 0) {
+          if (Date.now() + wait + 15_000 > deadline) throw new RefillPause();
+          await sleep(wait);
+        }
+        lastGeminiAt = Date.now();
+      },
+    });
     const log = (entry: AttemptLog) => recordExerciseBankAttempt(admin, { runId: runId ?? '', kind, ...entry });
     const result = kind === 'listening'
       ? await runRefillHop({
         slots: [],
         target: request.target,
         cursor: request.cursor,
-        deadline: started + HOP_BUDGET_MS,
+        deadline,
         reserveMs: 80_000,
         pick: (cursor) => nextListeningSlot({ cursor, counts }),
         label: (slot) => slotLabel(slot),
-        produce: (slot) => produceListeningLesson(apiKey, env, slot, log),
+        produce: (slot) => produceListeningLesson(apiKey, env, slot, deadline, log),
         insert: async (slot, produced) => {
           if (
             produced.lesson.level !== slot.level
@@ -326,16 +387,21 @@ export async function handleRefill(event: HandlerEvent) {
         slots: [],
         target: request.target,
         cursor: request.cursor,
-        deadline: started + HOP_BUDGET_MS,
+        deadline,
         pick: (cursor) => nextGrammarSlot({ cursor, counts }),
         label: (slot) => `${slot.level}/${slot.exercise}`,
         produce: async (slot) => {
           const attemptStarted = Date.now();
           try {
-            const produced = await produceGrammar(
-              apiKey,
-              { level: slot.level, exercise: slot.exercise, topic: '' },
-              Date.now() + PRODUCE_DEADLINE_MS,
+            const produced = await retryBusy(
+              deadline,
+              log,
+              { level: slot.level, format: slot.exercise, topic: '', stage: 'grammar' },
+              () => produceGrammar(
+                apiKey,
+                { level: slot.level, exercise: slot.exercise, topic: '' },
+                Date.now() + PRODUCE_DEADLINE_MS,
+              ),
             );
             if (!produced.ok || !canBankGrammarSet(produced.set)) {
               await log({
@@ -360,13 +426,14 @@ export async function handleRefill(event: HandlerEvent) {
             });
             return produced.set;
           } catch (error) {
+            if (isRefillPause(error)) throw error;
             await log({
               level: slot.level,
               format: slot.exercise,
               topic: '',
               stage: 'grammar',
-              result: 'error',
-              problems: error instanceof Error ? error.message : 'grammar failed',
+              result: geminiProblemText(error).match(/^(429|503)\b/) ? 'rate_limited' : 'error',
+              problems: geminiProblemText(error),
               durationMs: Date.now() - attemptStarted,
             });
             return null;
@@ -390,7 +457,7 @@ export async function handleRefill(event: HandlerEvent) {
           return saved;
         },
       });
-    await finish('finished', result.stopped ?? 'target', result.inserted, result.remaining, '');
+    await finish('finished', result.stopped ?? 'target', result.inserted, result.remaining, bankModel ? `model ${bankModel}` : '');
     if (shouldChainRefill(result, request.hops, EXERCISE_BANK_HOP_LIMIT)) {
       await chain(env, result.remaining, result.cursor, request.hops + 1, kind);
     }
@@ -399,5 +466,7 @@ export async function handleRefill(event: HandlerEvent) {
     const message = error instanceof Error ? `${error.name}: ${error.message}` : 'refill failed';
     await finish('error', 'exception', 0, request.target, message);
     return { statusCode: 202, body: '' };
+  } finally {
+    clearExerciseBankGemini();
   }
 }

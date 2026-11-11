@@ -1,7 +1,7 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import { readEnvValue, runtimeEnv } from './taskMail.ts';
 
-export type BankAttemptResult = 'ok' | 'miss' | 'error';
+export type BankAttemptResult = 'ok' | 'miss' | 'error' | 'rate_limited';
 
 export type BankAttemptInput = {
   runId: string;

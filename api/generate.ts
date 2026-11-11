@@ -59,6 +59,7 @@ import {
   releaseGrammarBankItem,
   signListeningAudio,
 } from '../exerciseBankServer.ts';
+import { exerciseBankGeminiModel, exerciseBankGeminiPace, isRefillPause } from '../geminiPace.ts';
 import { readHttpStatus, runModelLoop, type ModelAttemptFailure } from '../modelFallback';
 import { readEnvValue, runtimeEnv } from '../taskMail.ts';
 
@@ -732,22 +733,27 @@ async function generateRaw(
   schema?: ResponseSchema,
   temperature?: number,
 ): Promise<string> {
+  const bankModel = exerciseBankGeminiModel();
   return runModelLoop({
     deadline,
-    models: modelsToTry(),
+    models: bankModel ? [bankModel] : modelsToTry(),
     isUnavailable: (model) => unavailableModels.has(model),
     markUnavailable: (model) => { unavailableModels.add(model); },
-    call: (model, timeoutMs, thinking) => callModel(
-      apiKey,
-      model,
-      prompt,
-      timeoutMs,
-      false,
-      thinking,
-      maxOutputTokens,
-      schema,
-      temperature,
-    ),
+    call: async (model, timeoutMs, thinking) => {
+      const pace = exerciseBankGeminiPace();
+      if (pace) await pace();
+      return callModel(
+        apiKey,
+        model,
+        prompt,
+        timeoutMs,
+        false,
+        thinking,
+        maxOutputTokens,
+        schema,
+        temperature,
+      );
+    },
     scrub: scrubUpstream,
     log: (entry) => {
       const payload = { ...entry };
@@ -972,6 +978,7 @@ export async function producePractice(
     try {
       raw = await generateRaw(apiKey, prompt, deadline, outputTokenCap(params));
     } catch (error) {
+      if (isRefillPause(error)) throw error;
       if (!best) throw error;
       break;
     }

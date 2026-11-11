@@ -113,6 +113,7 @@ export async function runModelLoop(hooks: ModelLoopHooks): Promise<string> {
         return text;
       }
     } catch (error) {
+      if (error && typeof error === 'object' && (error as { refillPause?: boolean }).refillPause === true) throw error;
       const noted = note(error, modelName);
       if (noted.status === 404) markUnavailable(modelName);
       const laterNames = models.slice(index + 1).filter((name) => !isUnavailable(name));
@@ -138,6 +139,7 @@ export async function runModelLoop(hooks: ModelLoopHooks): Promise<string> {
               return text;
             }
           } catch (thinkingError) {
+            if (thinkingError && typeof thinkingError === 'object' && (thinkingError as { refillPause?: boolean }).refillPause === true) throw thinkingError;
             note(thinkingError, modelName);
           }
         }
@@ -158,6 +160,7 @@ export async function runModelLoop(hooks: ModelLoopHooks): Promise<string> {
       const text = await hooks.call(fallback, fallbackTimeout, true);
       if (text) return text;
     } catch (error) {
+      if (error && typeof error === 'object' && (error as { refillPause?: boolean }).refillPause === true) throw error;
       const noted = note(error, fallback);
       if (noted.status === 404) markUnavailable(fallback);
       if (noted.status === 400 && /invalid argument/i.test(noted.message) && hooks.deadline - now() > 5000) {
@@ -167,6 +170,7 @@ export async function runModelLoop(hooks: ModelLoopHooks): Promise<string> {
             const text = await hooks.call(fallback, retryTimeout, false);
             if (text) return text;
           } catch (retryError) {
+            if (retryError && typeof retryError === 'object' && (retryError as { refillPause?: boolean }).refillPause === true) throw retryError;
             note(retryError, fallback);
           }
         }

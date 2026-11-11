@@ -798,6 +798,12 @@ export async function runRefillHop<TSlot, TItem>(input: {
     try {
       produced = await input.produce(slot);
     } catch (error) {
+      if (error && typeof error === 'object' && (error as { refillPause?: boolean }).refillPause === true) {
+        cursor -= 1;
+        attempts -= 1;
+        stopped = 'time';
+        break;
+      }
       misses = 0;
       duplicates = 0;
       console.log(JSON.stringify({
