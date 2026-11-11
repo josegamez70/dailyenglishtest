@@ -1,6 +1,9 @@
 import { createHash, timingSafeEqual } from 'node:crypto';
 import { TOPICS, WILDCARD_TOPIC } from './constants.ts';
 import {
+  alignDialogueToCast,
+  dialogueSpeakers,
+  renderDialogue,
   spokenWordCount,
   type DialogueTurn,
 } from './dialogue.ts';
@@ -39,8 +42,17 @@ export const EXERCISE_BANK_CAP_MAX = 5000;
 export const EXERCISE_BANK_HOP_LIMIT = 200;
 export const REFILL_RESERVE_MS = 40_000;
 export const REFILL_HARD_FAILURE_LIMIT = 4;
+/** Kept so a reader can see the old streak. A miss now moves to the next cell. */
 export const REFILL_MISS_LIMIT = 8;
 export const REFILL_DUPLICATE_LIMIT = 12;
+/** Attempts per requested insert. A miss moves to the next cell instead of ending the batch. */
+export const REFILL_ATTEMPT_MULTIPLIER = 6;
+export const REFILL_ATTEMPT_MAX = 180;
+
+export function refillAttemptLimit(target: number): number {
+  if (target <= 0) return 0;
+  return Math.min(REFILL_ATTEMPT_MAX, Math.max(18, target * REFILL_ATTEMPT_MULTIPLIER));
+}
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
@@ -102,7 +114,7 @@ export function listeningCatalogTopics(): { value: string; label: string }[] {
 
 export type RefillInsertResult = 'inserted' | 'duplicate' | 'invalid' | 'error' | 'unavailable';
 
-export type RefillStop = 'target' | 'time' | 'failures' | 'duplicates' | 'unavailable';
+export type RefillStop = 'target' | 'time' | 'failures' | 'duplicates' | 'unavailable' | 'attempts';
 
 export type RefillHopResult = {
   inserted: number;
@@ -462,6 +474,41 @@ export function assembleListeningLesson(input: {
   return canBankListeningLesson(lesson) ? lesson : null;
 }
 
+/**
+ * Why a generated listening story cannot be stored.
+ * A dialogue whose speakers are not the requested pair is renamed onto that pair
+ * when there are still two people and at least four turns. Word count is not renamed away.
+ */
+export function listeningStoryForBank(input: {
+  format: 'text' | 'dialogue';
+  story: string;
+  dialogue: DialogueTurn[];
+  wordCount: number;
+  speakers: { name: string; gender: 'female' | 'male' }[];
+}): { story: string; dialogue: DialogueTurn[]; problems: string[] } {
+  const dialogue = input.format === 'dialogue'
+    ? (alignDialogueToCast(input.dialogue, input.speakers) ?? input.dialogue)
+    : [];
+  const story = input.format === 'dialogue' && dialogue.length ? renderDialogue(dialogue) : input.story.trim();
+  const problems: string[] = [];
+  if (!story) problems.push('The story is missing.');
+  const spoken = input.format === 'dialogue' ? spokenWordCount(dialogue) : countWords(story);
+  const bounds = wordCountBounds(input.wordCount);
+  if (story && (spoken < bounds.min || spoken > bounds.max)) {
+    problems.push(`Spoken words are ${spoken}. Need ${bounds.min} to ${bounds.max}.`);
+  }
+  if (input.format === 'dialogue') {
+    const names = dialogueSpeakers(dialogue);
+    if (names.length !== 2) problems.push('Need exactly 2 speakers.');
+    if (dialogue.length < 4) problems.push(`Need at least 4 turns. Got ${dialogue.length}.`);
+    const first = input.speakers[0]?.name.toLowerCase() ?? '';
+    if (first && dialogue[0] && dialogue[0].speaker.toLowerCase() !== first) {
+      problems.push(`${input.speakers[0].name} must speak first.`);
+    }
+  }
+  return { story, dialogue, problems };
+}
+
 export function isBankId(value: string): boolean {
   return UUID_RE.test(value);
 }
@@ -672,7 +719,9 @@ export function exerciseBankSecretOk(header: string | null | undefined, env: Env
 export function shouldChainRefill(result: RefillHopResult, hops: number, hopLimit = EXERCISE_BANK_HOP_LIMIT): boolean {
   if (result.remaining <= 0) return false;
   if (hops + 1 >= hopLimit) return false;
-  return result.stopped === 'time' || result.stopped === null;
+  if (result.stopped === 'time') return true;
+  if (result.stopped === 'attempts' && result.inserted > 0) return true;
+  return result.stopped === null;
 }
 
 /**
@@ -688,6 +737,9 @@ export async function runRefillHop<TSlot, TItem>(input: {
   now?: () => number;
   reserveMs?: number;
   pick?: (cursor: number) => TSlot;
+  /** Tries per hop. A validation miss or one thrown attempt does not end the batch. */
+  attemptLimit?: number;
+  label?: (slot: TSlot) => string;
   produce: (slot: TSlot) => Promise<TItem | null>;
   insert: (slot: TSlot, item: TItem) => Promise<RefillInsertResult>;
 }): Promise<RefillHopResult> {
@@ -695,6 +747,7 @@ export async function runRefillHop<TSlot, TItem>(input: {
   const reserveMs = input.reserveMs ?? REFILL_RESERVE_MS;
   const slots = input.slots;
   const pick = input.pick ?? ((cursor: number) => slots[((cursor % slots.length) + slots.length) % slots.length]);
+  const attemptLimit = input.attemptLimit ?? refillAttemptLimit(input.target);
   if (input.target <= 0) {
     return { inserted: 0, remaining: 0, cursor: input.cursor, stopped: 'target' };
   }
@@ -706,22 +759,35 @@ export async function runRefillHop<TSlot, TItem>(input: {
   let hard = 0;
   let misses = 0;
   let duplicates = 0;
+  let attempts = 0;
   let stopped: RefillStop | null = null;
 
   while (inserted < input.target) {
+    if (attempts >= attemptLimit) {
+      stopped = 'attempts';
+      break;
+    }
     if (now() + reserveMs >= input.deadline) {
       stopped = 'time';
       break;
     }
     const slot = pick(cursor);
+    const slotLabel = input.label?.(slot) ?? '';
     cursor += 1;
+    attempts += 1;
     let produced: TItem | null = null;
     try {
       produced = await input.produce(slot);
-    } catch {
+    } catch (error) {
       hard += 1;
       misses = 0;
       duplicates = 0;
+      console.log(JSON.stringify({
+        exerciseBank: 'attempt_error',
+        slot: slotLabel,
+        attempt: attempts,
+        message: error instanceof Error ? error.message.slice(0, 200) : 'error',
+      }));
       if (hard >= REFILL_HARD_FAILURE_LIMIT) {
         stopped = 'failures';
         break;
@@ -732,10 +798,12 @@ export async function runRefillHop<TSlot, TItem>(input: {
       hard = 0;
       duplicates = 0;
       misses += 1;
-      if (misses >= REFILL_MISS_LIMIT) {
-        stopped = 'failures';
-        break;
-      }
+      console.log(JSON.stringify({
+        exerciseBank: 'attempt_miss',
+        slot: slotLabel,
+        attempt: attempts,
+        misses,
+      }));
       continue;
     }
     const saved = await input.insert(slot, produced);
@@ -764,7 +832,13 @@ export async function runRefillHop<TSlot, TItem>(input: {
     else hard = 0;
     misses += 1;
     duplicates = 0;
-    if (hard >= REFILL_HARD_FAILURE_LIMIT || misses >= REFILL_MISS_LIMIT) {
+    console.log(JSON.stringify({
+      exerciseBank: 'attempt_rejected',
+      slot: slotLabel,
+      attempt: attempts,
+      result: saved,
+    }));
+    if (hard >= REFILL_HARD_FAILURE_LIMIT) {
       stopped = 'failures';
       break;
     }

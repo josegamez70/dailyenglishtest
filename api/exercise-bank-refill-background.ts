@@ -6,6 +6,7 @@ import {
   EXERCISE_BANK_HOP_LIMIT,
   assembleListeningLesson,
   exerciseBankCap,
+  listeningStoryForBank,
   exerciseBankSecretOk,
   listeningTopicLabel,
   nextGrammarSlot,
@@ -90,7 +91,27 @@ function listeningParams(slot: ListeningSlot, stage: 'story' | 'quiz', story: st
     speakers,
     stage,
     sourceStory: story,
+    strict: true,
   };
+}
+
+function slotLabel(slot: ListeningSlot): string {
+  return `${slot.level}/${slot.format}/${slot.topic}/${slot.wordCount}w/${slot.questionCount}q`;
+}
+
+function logMiss(slot: ListeningSlot, stage: string, reason: string, problems: string[] = []): void {
+  console.log(JSON.stringify({
+    exerciseBank: 'miss',
+    stage,
+    reason,
+    slot: slotLabel(slot),
+    level: slot.level,
+    format: slot.format,
+    topic: slot.topic,
+    wordCount: slot.wordCount,
+    questionCount: slot.questionCount,
+    problems: problems.slice(0, 4),
+  }));
 }
 
 /** Story, then quiz, then one Azure mp3. Lessons are synthesized one at a time. */
@@ -101,22 +122,46 @@ async function produceListeningLesson(
 ): Promise<{ lesson: NonNullable<ReturnType<typeof assembleListeningLesson>>; audio: Uint8Array } | null> {
   const speakers = slot.format === 'dialogue' ? pickDialogueSpeakers() : [];
   const story = await producePractice(apiKey, listeningParams(slot, 'story', '', speakers), Date.now() + PRODUCE_DEADLINE_MS);
-  if (!story.ok || !story.lesson.wordCountOk || story.lesson.problems.length > 0 || !story.lesson.story) return null;
-  const quiz = await producePractice(
-    apiKey,
-    listeningParams(slot, 'quiz', story.lesson.story, speakers),
-    Date.now() + PRODUCE_DEADLINE_MS,
-  );
-  if (!quiz.ok || quiz.lesson.problems.length > 0 || quiz.lesson.quiz.length !== slot.questionCount) return null;
-  const lesson = assembleListeningLesson({
-    slot,
+  if (!story.ok) {
+    logMiss(slot, 'story', 'no_story', story.problems);
+    return null;
+  }
+  const prepared = listeningStoryForBank({
+    format: slot.format,
     story: story.lesson.story,
     dialogue: story.lesson.dialogue,
+    wordCount: slot.wordCount,
+    speakers,
+  });
+  if (prepared.problems.length > 0) {
+    logMiss(slot, 'story', 'invalid_story', prepared.problems);
+    return null;
+  }
+  const quiz = await producePractice(
+    apiKey,
+    listeningParams(slot, 'quiz', prepared.story, speakers),
+    Date.now() + PRODUCE_DEADLINE_MS,
+  );
+  if (!quiz.ok || quiz.lesson.quiz.length !== slot.questionCount) {
+    logMiss(slot, 'quiz', quiz.ok ? 'quiz_count' : 'no_quiz', quiz.ok ? [] : quiz.problems);
+    return null;
+  }
+  if (quiz.lesson.problems.length > 0) {
+    logMiss(slot, 'quiz', 'invalid_quiz', quiz.lesson.problems);
+    return null;
+  }
+  const lesson = assembleListeningLesson({
+    slot,
+    story: prepared.story,
+    dialogue: prepared.dialogue,
     vocabulary: story.lesson.vocabulary,
     quiz: quiz.lesson.quiz,
     speakers,
   });
-  if (!lesson) return null;
+  if (!lesson) {
+    logMiss(slot, 'assemble', 'not_bankable');
+    return null;
+  }
   const speech = buildListeningSsml({
     format: lesson.format,
     story: lesson.story,
@@ -133,6 +178,8 @@ async function produceListeningLesson(
       exerciseBank: 'audio_miss',
       status: audio.status,
       attempts: audio.attempts,
+      detail: audio.detail,
+      slot: slotLabel(slot),
       level: slot.level,
       format: slot.format,
     }));
@@ -190,6 +237,7 @@ export const handler = async (event: HandlerEvent) => {
         deadline: started + HOP_BUDGET_MS,
         reserveMs: 80_000,
         pick: (cursor) => nextListeningSlot({ cursor, counts }),
+        label: (slot) => slotLabel(slot),
         produce: (slot) => produceListeningLesson(apiKey, env, slot),
         insert: async (slot, produced) => {
           if (
@@ -210,6 +258,7 @@ export const handler = async (event: HandlerEvent) => {
         cursor: request.cursor,
         deadline: started + HOP_BUDGET_MS,
         pick: (cursor) => nextGrammarSlot({ cursor, counts }),
+        label: (slot) => `${slot.level}/${slot.exercise}`,
         produce: async (slot) => {
           const produced = await produceGrammar(
             apiKey,

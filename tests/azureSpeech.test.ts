@@ -34,8 +34,8 @@ test('a conversation gives each speaker a distinct voice', () => {
       { speaker: 'Anna', line: 'How are you?', gender: 'female' },
     ],
   });
-  assert.match(speech.ssml, new RegExp(`<voice name="${AZURE_VOICE_FIRST}">Anna\\. Hello Sophie\\.</voice>`));
-  assert.match(speech.ssml, new RegExp(`<voice name="${AZURE_VOICE_SECOND}">Sophie\\. Hi Anna\\.</voice>`));
+  assert.match(speech.ssml, new RegExp(`<voice name="${AZURE_VOICE_FIRST}">Anna\\. Hello Sophie\\.<break time="350ms"/></voice>`));
+  assert.match(speech.ssml, new RegExp(`<voice name="${AZURE_VOICE_SECOND}">Sophie\\. Hi Anna\\.<break time="350ms"/></voice>`));
   const ava = speech.ssml.split(AZURE_VOICE_FIRST).length - 1;
   const andrew = speech.ssml.split(AZURE_VOICE_SECOND).length - 1;
   assert.equal(ava, 2);
