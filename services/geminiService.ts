@@ -197,6 +197,26 @@ function readStory(data: GenResponse, config: ConfigOptions): StoryDraft {
 }
 
 /** A new signed URL for a listening mp3 this person was already given. */
+/** Azure mp3 for a saved listening lesson. A bank row is re-signed. Other lessons are spoken once and cached. */
+export async function savedListeningAudio(savedLessonId: string, signal?: AbortSignal): Promise<string | null> {
+  const token = await accessToken();
+  const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+  if (token) headers.Authorization = `Bearer ${token}`;
+  const res = await fetchWithRetry('/api/listening-saved-audio', {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({ savedLessonId }),
+  }, signal, 1);
+  let data: { audioUrl?: string; fallback?: string } = {};
+  try {
+    data = await res.json() as { audioUrl?: string; fallback?: string };
+  } catch {
+    data = {};
+  }
+  if (data.fallback === 'browser' || !res.ok) return null;
+  return typeof data.audioUrl === 'string' && data.audioUrl.startsWith('http') ? data.audioUrl : null;
+}
+
 export async function refreshListeningAudio(bankId: string, signal?: AbortSignal): Promise<string | null> {
   const token = await accessToken();
   const headers: Record<string, string> = { 'Content-Type': 'application/json' };
