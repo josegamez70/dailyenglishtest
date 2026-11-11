@@ -44,6 +44,8 @@ import {
   type GrammarSet,
 } from '../grammarSet';
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
+import { grammarUsesBank } from '../exerciseBank.ts';
+import { claimGrammarFromBank, releaseGrammarBankItem } from '../exerciseBankServer.ts';
 import { readHttpStatus, runModelLoop, type ModelAttemptFailure } from '../modelFallback';
 
 type HandlerEvent = {
@@ -985,6 +987,25 @@ export async function producePractice(
   return { ok: true, lesson: best.lesson };
 }
 
+function grammarBody(set: GrammarSet): string {
+  return JSON.stringify({
+    mode: 'grammar',
+    level: set.level,
+    exercise: set.exercise,
+    topic: set.topic,
+    title: set.title,
+    items: set.items,
+  });
+}
+
+function missingApiKey(headers: Record<string, string>): HandlerResponse {
+  return {
+    statusCode: 500,
+    headers,
+    body: JSON.stringify({ ok: false, code: 'NO_API_KEY', message: 'Missing API key' }),
+  };
+}
+
 async function createGrammarSet(
   apiKey: string,
   admin: SupabaseClient,
@@ -992,6 +1013,22 @@ async function createGrammarSet(
   request: GrammarRequest,
   headers: Record<string, string>,
 ): Promise<HandlerResponse> {
+  // A typed topic is not in the bank. An empty topic uses an unseen banked set,
+  // and falls through to live generation when this person has seen them all.
+  if (grammarUsesBank(request.topic)) {
+    const claimed = await claimGrammarFromBank(admin, userId, request);
+    if (claimed) {
+      const blocked = await consumeLessonResponse(admin, userId, headers);
+      if (blocked) {
+        await releaseGrammarBankItem(admin, userId, claimed.id);
+        return blocked;
+      }
+      console.log(JSON.stringify({ stage: 'grammar_bank', level: claimed.set.level, exercise: claimed.set.exercise }));
+      return { statusCode: 200, headers, body: grammarBody(claimed.set) };
+    }
+    console.log(JSON.stringify({ stage: 'grammar_live', level: request.level, exercise: request.exercise }));
+  }
+  if (!apiKey) return missingApiKey(headers);
   const produced = await produceGrammar(apiKey, request);
   if (!produced.ok) {
     return {
@@ -1011,18 +1048,7 @@ async function createGrammarSet(
 
   const blocked = await consumeLessonResponse(admin, userId, headers);
   if (blocked) return blocked;
-  return {
-    statusCode: 200,
-    headers,
-    body: JSON.stringify({
-      mode: 'grammar',
-      level: produced.set.level,
-      exercise: produced.set.exercise,
-      topic: produced.set.topic,
-      title: produced.set.title,
-      items: produced.set.items,
-    }),
-  };
+  return { statusCode: 200, headers, body: grammarBody(produced.set) };
 }
 
 export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => {
@@ -1033,21 +1059,29 @@ export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => 
   };
 
   try {
-    const apiKey = pickApiKey();
-    if (!apiKey) {
+    const apiKey = pickApiKey() ?? '';
+    if (event.httpMethod === 'OPTIONS') {
+      if (!apiKey) {
+        return {
+          statusCode: 500,
+          headers: corsHeaders,
+          body: JSON.stringify({ ok: false, code: 'NO_API_KEY', message: 'Missing API key' }),
+        };
+      }
+      return { statusCode: 200, headers: corsHeaders, body: '' };
+    }
+
+    const grammarRequest = readGrammarRequest(event.body);
+    const params = grammarRequest ? null : readParams(event.body);
+    // A standard grammar request can be served from the bank without Gemini.
+    // Reading, listening, and a typed grammar topic still need the key.
+    if (!apiKey && !grammarRequest) {
       return {
         statusCode: 500,
         headers: corsHeaders,
         body: JSON.stringify({ ok: false, code: 'NO_API_KEY', message: 'Missing API key' }),
       };
     }
-
-    if (event.httpMethod === 'OPTIONS') {
-      return { statusCode: 200, headers: corsHeaders, body: '' };
-    }
-
-    const grammarRequest = readGrammarRequest(event.body);
-    const params = grammarRequest ? null : readParams(event.body);
     if (!grammarRequest && !params) {
       return {
         statusCode: 400,
