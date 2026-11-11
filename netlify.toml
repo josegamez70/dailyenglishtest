@@ -102,6 +102,16 @@
   status = 200
 
 [[redirects]]
+  from = "/tasks"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/tasks/"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
   from = "/grammar"
   to = "/index.html"
   status = 200
@@ -142,3 +152,7 @@
 # Aplica el timeout a TODAS las funciones
 [functions."*"]
   timeout = 26
+
+# Pack generation needs several model calls. This file is a background function.
+[functions."tasks-generate-background"]
+  timeout = 900

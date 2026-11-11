@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { AcademyBadge } from './AcademyBadge';
 import HomeIcon from './icons/HomeIcon';
 
-export type ShellItem = 'lesson' | 'grammar' | 'progress' | 'saved' | 'academy' | 'profile' | 'join';
+export type ShellItem = 'lesson' | 'grammar' | 'tasks' | 'progress' | 'saved' | 'academy' | 'profile' | 'join';
 
 const baseItems: { id: ShellItem; label: string; path: string }[] = [
   { id: 'lesson', label: 'Reading / Listening', path: '/' },
   { id: 'grammar', label: 'Grammar', path: '/grammar' },
+  { id: 'tasks', label: 'Tasks', path: '/tasks' },
   { id: 'progress', label: 'My progress', path: '/progress' },
   { id: 'saved', label: 'Saved lessons', path: '/saved' },
   { id: 'profile', label: 'Profile', path: '/profile' },
@@ -35,14 +36,12 @@ function NavLinks({
   academyRole?: 'owner' | 'student' | null;
   displayName?: string | null;
 }) {
+  const profile = baseItems[baseItems.length - 1];
   const items = showAcademy
     ? [
-      baseItems[0],
-      baseItems[1],
-      baseItems[2],
-      baseItems[3],
+      ...baseItems.slice(0, -1),
       { id: 'academy' as const, label: 'My academy', path: '/academy' },
-      baseItems[4],
+      profile,
     ]
     : baseItems;
   return (

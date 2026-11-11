@@ -274,11 +274,25 @@ const EN_FAQ: readonly HelpFaq[] = [
     blocks: [
       {
         type: 'p',
-        text: `Saved lessons is in the menu. It keeps the latest ${SAVED_LESSON_LIMIT} reading and listening lessons, and the latest ${SAVED_LESSON_LIMIT} grammar sets, for the signed-in person. Filters show All, Reading, Listening, or Grammar. Press Open to read or hear one again. Opening a saved lesson does not use a free lesson.`,
+        text: `Saved lessons is in the menu. It keeps the latest ${SAVED_LESSON_LIMIT} reading and listening lessons, and the latest ${SAVED_LESSON_LIMIT} grammar sets, for the signed-in person. Filters show All, Reading, Listening, or Grammar. A lesson from Tasks shows a Task badge. Press Open to read or hear one again. Opening a saved lesson does not use a free lesson.`,
       },
       {
         type: 'p',
         text: 'An academy can see a student’s name, email, and test results. It cannot see their saved lessons. Saved lessons and progress stay after a pilot ends. They are not deleted.',
+      },
+    ],
+  },
+  {
+    id: 'tasks',
+    question: 'What are Tasks?',
+    blocks: [
+      {
+        type: 'p',
+        text: 'Tasks is in the menu for every signed-in person, including academy students. Turn tasks on, then choose daily or weekly, the level, and the pack. A pack is one reading exercise, one listening exercise, and one grammar exercise. Reading and listening can be Text or Dialogue. Grammar can be Fill in the blanks, Phrasal verbs, or Put in order.',
+      },
+      {
+        type: 'p',
+        text: 'The pack is waiting when you open Tasks. One pack uses one free lesson. Premium and an active academy are not counted, and the 3 free lessons still work the same way on Reading, Listening, and Grammar. Opening a pack does not use another lesson. Only 5 task packs are kept. A reminder email can arrive when a pack is ready. That email has a link to turn tasks off.',
       },
     ],
   },
@@ -514,11 +528,25 @@ const ES_FAQ: readonly HelpFaq[] = [
     blocks: [
       {
         type: 'p',
-        text: `«Saved lessons» (Lecciones guardadas) está en el menú. Guarda las ${SAVED_LESSON_LIMIT} últimas lecciones de lectura y audio, y los ${SAVED_LESSON_LIMIT} últimos conjuntos de gramática, de quien ha entrado. Los filtros son «All», «Reading», «Listening» y «Grammar». Pulsa «Open» (Abrir) para leer o escuchar una otra vez. Abrir una lección guardada no gasta una lección gratis.`,
+        text: `«Saved lessons» (Lecciones guardadas) está en el menú. Guarda las ${SAVED_LESSON_LIMIT} últimas lecciones de lectura y audio, y los ${SAVED_LESSON_LIMIT} últimos conjuntos de gramática, de quien ha entrado. Los filtros son «All», «Reading», «Listening» y «Grammar». Una lección de «Tasks» (Tareas) muestra la marca «Task». Pulsa «Open» (Abrir) para leer o escuchar una otra vez. Abrir una lección guardada no gasta una lección gratis.`,
       },
       {
         type: 'p',
         text: 'Una academia puede ver el nombre, el correo y los resultados de los tests de un alumno. No puede ver sus lecciones guardadas. Las lecciones guardadas y el progreso siguen ahí cuando termina un piloto. No se borran.',
+      },
+    ],
+  },
+  {
+    id: 'tasks',
+    question: '¿Qué son las «Tasks»?',
+    blocks: [
+      {
+        type: 'p',
+        text: '«Tasks» (Tareas) está en el menú de quien ha entrado, también de los alumnos de una academia. Actívalas y elige cada día o cada semana, el nivel y el paquete. Un paquete tiene un ejercicio de lectura, uno de audio y uno de gramática. Lectura y audio pueden ser «Text» o «Dialogue». Gramática puede ser «Fill in the blanks», «Phrasal verbs» o «Put in order».',
+      },
+      {
+        type: 'p',
+        text: 'El paquete está listo al abrir «Tasks». Un paquete gasta una lección gratis. Premium y una academia activa no se cuentan, y las 3 lecciones gratis siguen igual en «Reading», «Listening» y «Grammar». Abrir un paquete no gasta otra lección. Solo se conservan 5 paquetes de tareas. Puede llegar un correo cuando hay un paquete nuevo. Ese correo tiene un enlace para apagar las tareas.',
       },
     ],
   },

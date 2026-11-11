@@ -11,6 +11,7 @@ import {
 import { listSavedLessons, type SavedLessonRow } from '../studyStore';
 
 function badgeClass(badge: SavedLessonBadge): string {
+  if (badge.kind === 'task') return 'border-amber-600 text-amber-800 dark:border-amber-300 dark:text-amber-200';
   if (badge.kind === 'level') return 'border-blue-600 text-blue-700 dark:border-blue-300 dark:text-blue-300';
   if (badge.kind === 'format' || badge.kind === 'subtype') return 'border-slate-500 text-slate-800 dark:border-slate-400 dark:text-slate-100';
   if (badge.label === 'Audio') return 'border-purple-600 text-purple-700 dark:border-purple-300 dark:text-purple-300';
@@ -19,6 +20,7 @@ function badgeClass(badge: SavedLessonBadge): string {
 }
 
 function badgePrefix(kind: SavedLessonBadge['kind']): string {
+  if (kind === 'task') return 'Source: ';
   if (kind === 'level') return 'Level: ';
   if (kind === 'format') return 'Format: ';
   if (kind === 'subtype') return 'Exercise: ';
@@ -67,7 +69,7 @@ export function SavedLessonsPage({
   return (
     <div className="mx-auto w-full max-w-3xl">
       <h1 className="text-2xl font-bold">Saved lessons</h1>
-      <p className="mt-2 text-base">Your latest {SAVED_LESSON_LIMIT} reading and listening lessons, and your latest {SAVED_LESSON_LIMIT} grammar sets. Filter them below. Opening one does not use a free lesson.</p>
+      <p className="mt-2 text-base">Your latest {SAVED_LESSON_LIMIT} reading and listening lessons, and your latest {SAVED_LESSON_LIMIT} grammar sets. Filter them below. A lesson from Tasks is marked Task. Opening one does not use a free lesson.</p>
       {missing && <p className="mt-3 text-base">Saved lessons will appear after the database update.</p>}
       {grammarMissing && !missing && (
         <p className="mt-3 text-base">Grammar sets will appear here after the database update. Reading and listening lessons are unchanged.</p>

@@ -108,7 +108,7 @@ function LegalNotice() {
 
 function PrivacyPolicy() {
   return (
-    <PageShell title="Privacy Policy" updated="7 November 2026">
+    <PageShell title="Privacy Policy" updated="11 November 2026">
       <p>
         This page explains what personal data Daily English Test uses, why, and what you can ask us to do. It is written in simple English.
       </p>
@@ -122,7 +122,8 @@ function PrivacyPolicy() {
       </Section>
       <Section heading="What we collect">
         <ul className="list-disc space-y-1 pl-5">
-          <li>Your email address, so we can send you a sign-in link.</li>
+          <li>Your email address, so we can send you a sign-in link and, if you turn Tasks on, a reminder when a pack is ready.</li>
+          <li>Your task settings and task packs, if you use Tasks. A pack is one reading exercise, one listening exercise, and one grammar exercise.</li>
           <li>Your account plan, subscription status when billing is on, and how many lessons you have used.</li>
           <li>The lesson settings and text you send so we can create a lesson (level, topic, length, and the story text when we write the quiz).</li>
           <li>Words you tap, which are sent to a dictionary service to show a meaning.</li>
@@ -140,6 +141,7 @@ function PrivacyPolicy() {
         <ul className="list-disc space-y-1 pl-5">
           <li>Supabase: sign-in and the account database. The project is in the EU/UK region.</li>
           <li>Resend: sends the sign-in emails.</li>
+          <li>The mailbox info@dailyenglishtest.es: sends a task reminder only when Tasks and the reminder are on, and only when that mail is configured. The message has a link that turns tasks off. If mail is not configured, Tasks still works and no email is sent.</li>
           <li>Netlify: hosts the website.</li>
           <li>Google Gemini API: writes the lessons. We send lesson settings and story text. We do not send your email or other personal data to Gemini.</li>
           <li>Free Dictionary API and Wiktionary: look up words you tap.</li>
@@ -176,7 +178,7 @@ function PrivacyPolicy() {
       </Section>
       <Section heading="Academies">
         <p>
-          If you join an academy, that academy can see your name, your email, and your test results. It cannot see your saved lessons. You can leave the academy at any time from Profile. Academies are responsible for consent for students under 14.
+          If you join an academy, that academy can see your name, your email, and your test results. It can also see whether your latest task pack is done. It cannot see your saved lessons or the text of your task exercises. You can leave the academy at any time from Profile. Academies are responsible for consent for students under 14.
         </p>
       </Section>
       <Section heading="Age">

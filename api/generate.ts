@@ -41,6 +41,7 @@ import {
   type GrammarExerciseType,
   type GrammarItem,
   type GrammarRequest,
+  type GrammarSet,
 } from '../grammarSet';
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import { readHttpStatus, runModelLoop, type ModelAttemptFailure } from '../modelFallback';
@@ -57,7 +58,7 @@ type HandlerResponse = {
   body: string;
 };
 
-type LessonParams = {
+export type LessonParams = {
   level: string;
   topic: string;
   wordCount: number;
@@ -875,15 +876,16 @@ function grammarModelPayload(parsed: Record<string, unknown> | null): unknown {
   return parsed;
 }
 
-async function createGrammarSet(
+export type ProducedGrammar =
+  | { ok: true; set: GrammarSet }
+  | { ok: false; problems: string[]; preview: string };
+
+/** Grammar generation only. The caller decides whether this uses a free lesson. */
+export async function produceGrammar(
   apiKey: string,
-  admin: SupabaseClient,
-  userId: string,
   request: GrammarRequest,
-  headers: Record<string, string>,
-): Promise<HandlerResponse> {
-  const deadline = Date.now() + 23000;
-  // A top-up has to fit a primary call plus the overload fallback inside this window.
+  deadline = Date.now() + 23000,
+): Promise<ProducedGrammar> {
   const topUpBudgetMs = 12000;
   let problems: string[] = [];
   let kept: GrammarItem[] = [];
@@ -918,6 +920,80 @@ async function createGrammarSet(
   else if (!normalized.ok) problems = normalized.problems;
 
   if (!set?.ok) {
+    return { ok: false, problems, preview: scrubUpstream(lastRaw).slice(0, 400) };
+  }
+  return { ok: true, set: set.set };
+}
+
+export type ProducedPractice =
+  | { ok: true; lesson: PreparedLesson }
+  | { ok: false; problems: string[]; preview: string };
+
+/** One story or one quiz. The caller decides whether this uses a free lesson. */
+export async function producePractice(
+  apiKey: string,
+  params: LessonParams,
+  deadline = Date.now() + 23000,
+): Promise<ProducedPractice> {
+  let best: { lesson: PreparedLesson; score: number } | null = null;
+  let lastRaw = '';
+  let prompt = buildPrompt(params);
+
+  for (let attempt = 0; attempt < 2; attempt++) {
+    if (attempt > 0 && deadline - Date.now() < 10000) break;
+    let raw = '';
+    try {
+      raw = await generateRaw(apiKey, prompt, deadline, outputTokenCap(params));
+    } catch (error) {
+      if (!best) throw error;
+      break;
+    }
+    lastRaw = raw;
+    const parsed = parseModelJson(raw);
+    if (!parsed) {
+      prompt = buildPrompt(params, 'Return only valid JSON. Do not use markdown.');
+      continue;
+    }
+    const lesson = prepareLesson(parsed, params);
+    const score = lessonScore(lesson, params);
+    console.log(JSON.stringify({
+      stage: 'validated',
+      requestStage: params.stage,
+      attempt,
+      wordCount: lesson.wordCount,
+      wordCountOk: lesson.wordCountOk,
+      problems: lesson.problems.length,
+    }));
+    if (!best || score > best.score) best = { lesson, score };
+    const countOk = params.stage === 'quiz'
+      ? lesson.quiz.length === params.questionCount
+      : Boolean(lesson.story);
+    if (countOk) break;
+    if (deadline - Date.now() < 10000) break;
+    prompt = buildPrompt(params, lesson.problems.slice(0, 6).join('\n') || 'Return only valid JSON.');
+  }
+
+  const storyReady = Boolean(best?.lesson.story);
+  const quizReady = (best?.lesson.quiz.length ?? 0) > 0;
+  if (!best || (params.stage === 'quiz' ? !quizReady : !storyReady)) {
+    return {
+      ok: false,
+      problems: best?.lesson.problems ?? [],
+      preview: scrubUpstream(lastRaw).slice(0, 400),
+    };
+  }
+  return { ok: true, lesson: best.lesson };
+}
+
+async function createGrammarSet(
+  apiKey: string,
+  admin: SupabaseClient,
+  userId: string,
+  request: GrammarRequest,
+  headers: Record<string, string>,
+): Promise<HandlerResponse> {
+  const produced = await produceGrammar(apiKey, request);
+  if (!produced.ok) {
     return {
       statusCode: 502,
       headers,
@@ -926,8 +1002,8 @@ async function createGrammarSet(
         code: 'BAD_MODEL_OUTPUT',
         message: 'The exercises could not be created. Please try again.',
         debug: {
-          problems,
-          preview: scrubUpstream(lastRaw).slice(0, 400),
+          problems: produced.problems,
+          preview: produced.preview,
         },
       }),
     };
@@ -940,11 +1016,11 @@ async function createGrammarSet(
     headers,
     body: JSON.stringify({
       mode: 'grammar',
-      level: set.set.level,
-      exercise: set.set.exercise,
-      topic: set.set.topic,
-      title: set.set.title,
-      items: set.set.items,
+      level: produced.set.level,
+      exercise: produced.set.exercise,
+      topic: produced.set.topic,
+      title: produced.set.title,
+      items: produced.set.items,
     }),
   };
 }
@@ -1042,48 +1118,8 @@ export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => 
     }
 
     const deadline = Date.now() + 23000;
-    let best: { lesson: PreparedLesson; score: number } | null = null;
-    let lastRaw = '';
-    let prompt = buildPrompt(params);
-
-    for (let attempt = 0; attempt < 2; attempt++) {
-      // A repair call only starts when it can still finish inside this function.
-      if (attempt > 0 && deadline - Date.now() < 10000) break;
-      let raw = '';
-      try {
-        raw = await generateRaw(apiKey, prompt, deadline, outputTokenCap(params));
-      } catch (error) {
-        if (!best) throw error;
-        break;
-      }
-      lastRaw = raw;
-      const parsed = parseModelJson(raw);
-      if (!parsed) {
-        prompt = buildPrompt(params, 'Return only valid JSON. Do not use markdown.');
-        continue;
-      }
-      const lesson = prepareLesson(parsed, params);
-      const score = lessonScore(lesson, params);
-      console.log(JSON.stringify({
-        stage: 'validated',
-        requestStage: params.stage,
-        attempt,
-        wordCount: lesson.wordCount,
-        wordCountOk: lesson.wordCountOk,
-        problems: lesson.problems.length,
-      }));
-      if (!best || score > best.score) best = { lesson, score };
-      const countOk = params.stage === 'quiz'
-        ? lesson.quiz.length === params.questionCount
-        : Boolean(lesson.story);
-      if (countOk) break;
-      if (deadline - Date.now() < 10000) break;
-      prompt = buildPrompt(params, lesson.problems.slice(0, 6).join('\n') || 'Return only valid JSON.');
-    }
-
-    const storyReady = Boolean(best?.lesson.story);
-    const quizReady = (best?.lesson.quiz.length ?? 0) > 0;
-    if (!best || (params.stage === 'quiz' ? !quizReady : !storyReady)) {
+    const produced = await producePractice(apiKey, params, deadline);
+    if (!produced.ok) {
       return {
         statusCode: 502,
         headers: corsHeaders,
@@ -1094,12 +1130,13 @@ export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => 
             ? 'The questions could not be created. Please try again.'
             : 'The lesson could not be created. Please try again.',
           debug: {
-            problems: best?.lesson.problems ?? [],
-            preview: scrubUpstream(lastRaw).slice(0, 400),
+            problems: produced.problems,
+            preview: produced.preview,
           },
         }),
       };
     }
+    const best = { lesson: produced.lesson };
 
     if (params.stage === 'quiz') {
       return {

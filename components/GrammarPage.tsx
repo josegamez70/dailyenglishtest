@@ -98,10 +98,11 @@ function TextSizeControl({
 }
 
 function SavedSetNote({ fromSaved, saveNote }: { fromSaved: boolean; saveNote: string | null }) {
-  if (!fromSaved && !saveNote) return null;
+  const text = saveNote || (fromSaved ? 'Saved set. Opening it does not use a lesson.' : '');
+  if (!text) return null;
   return (
     <p className="mt-4 rounded-lg border border-emerald-700 bg-emerald-50 px-3 py-2 text-base text-emerald-950 dark:border-emerald-300 dark:bg-emerald-950 dark:text-emerald-50">
-      {fromSaved ? 'Saved set. Opening it does not use a lesson.' : saveNote}
+      {text}
     </p>
   );
 }
@@ -116,6 +117,7 @@ export function GrammarPage({
   onActiveChange,
   onLessonsChanged,
   launch = null,
+  onTaskComplete,
 }: {
   fontStep: number;
   fontClass: string;
@@ -126,6 +128,8 @@ export function GrammarPage({
   onActiveChange: (active: boolean) => void;
   onLessonsChanged: () => void;
   launch?: GrammarLaunch | null;
+  /** Called when a task grammar set is finished, so the pack can be marked done. */
+  onTaskComplete?: () => void;
 }) {
   const [level, setLevel] = useState<GrammarLevel>(initialLevel);
   const [exercise, setExercise] = useState<GrammarExerciseType>('blanks');
@@ -148,6 +152,7 @@ export function GrammarPage({
   const seenLaunch = useRef<number | null>(null);
   const persistedIdRef = useRef<string | null>(null);
   const pendingRecordRef = useRef<Record<string, unknown> | null>(null);
+  const taskRef = useRef(false);
 
   useEffect(() => {
     onActiveChange(phase !== 'setup');
@@ -185,9 +190,11 @@ export function GrammarPage({
     setPlaced(play.map(() => []));
     setIndex(0);
     setGrades(launch.grades ?? []);
-    persistedIdRef.current = launch.id;
+    persistedIdRef.current = launch.id || null;
     pendingRecordRef.current = null;
-    setFromSaved(true);
+    taskRef.current = launch.task === true;
+    setFromSaved(Boolean(launch.id));
+    if (launch.task) setSaveNote('Task. Opening it does not use a free lesson.');
     setPhase(launch.grades && launch.grades.length === launch.items.length ? 'results' : 'play');
   }, [launch]);
 
@@ -221,6 +228,7 @@ export function GrammarPage({
       setFromSaved(false);
       setSaveNote(null);
       persistedIdRef.current = null;
+      taskRef.current = false;
       pendingRecordRef.current = null;
       setPhase('play');
       onLessonsChanged();
@@ -268,10 +276,13 @@ export function GrammarPage({
       title: title || grammarTitle(exercise),
       items: sourceItems,
       grades: nextGrades,
+      task: taskRef.current,
     });
     const savedId = persistedIdRef.current;
     if (savedId) void updateSavedGrammar(savedId, record);
+    else if (taskRef.current) void saveGrammarLesson(record, String(record.title));
     else pendingRecordRef.current = record;
+    if (taskRef.current) onTaskComplete?.();
     const score = nextGrades.filter((grade) => grade.correct).length;
     void saveTestResult({
       level,

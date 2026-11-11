@@ -50,6 +50,12 @@ test('saved lesson badges use the reading, audio, text, and dialogue labels', ()
   ]);
 });
 
+test('a lesson that came from a task adds a Task badge and stays in its filter', () => {
+  const badges = savedLessonBadges({ mode: 'listening', format: 'dialogue', levelLabel: 'B1', task: true });
+  assert.equal(badges[0]?.label, 'Task');
+  assert.equal(badges.some((badge) => badge.label === 'Audio'), true);
+});
+
 test('a saved lesson with no mode, format, or level adds no badges', () => {
   assert.deepEqual(savedLessonBadges({ story: 'Hello' }), []);
   assert.deepEqual(savedLessonBadges({ mode: 'grammar', format: 'other', level: '  ' }), [
