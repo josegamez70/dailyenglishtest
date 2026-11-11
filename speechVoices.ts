@@ -1,8 +1,19 @@
 export const VOICE_LIST_TIMEOUT_MS = 700;
 
-/** Slower is 55% of the saved profile speed. Pitch is not part of this. */
+/** Browser Slower is 55% of the saved profile speed. Pitch is not part of this. */
+export const SLOWER_SHARE = 0.55;
+
+/** Azure mp3 Slower is 15% faster than the browser slower rate. Normal speed is unchanged. */
+export const AZURE_SLOWER_BOOST = 1.15;
+
 export function slowerPlaybackRate(profileSpeed: number): number {
-  return profileSpeed * 0.55;
+  return profileSpeed * SLOWER_SHARE;
+}
+
+export function azurePlaybackRate(requested: number, profileSpeed: number): number {
+  const slower = slowerPlaybackRate(profileSpeed);
+  if (Math.abs(requested - slower) < 1e-9) return slower * AZURE_SLOWER_BOOST;
+  return requested;
 }
 
 type VoiceSource<T> = {

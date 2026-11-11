@@ -18,7 +18,7 @@ import {
   type SpeakerVoice,
 } from './dialogue';
 import { clampedFontStep } from './fontStep';
-import { slowerPlaybackRate, whenVoicesReady } from './speechVoices';
+import { azurePlaybackRate, slowerPlaybackRate, whenVoicesReady } from './speechVoices';
 import { withStoryReview } from './quizSession';
 import { resumeWordIndex, textFromWordIndex } from './speechPosition';
 import { generateStoryAndQuiz, refreshListeningAudio } from './services/geminiService';
@@ -705,7 +705,9 @@ const App: React.FC = () => {
         audioRef.current = audio;
       }
       if (audio.src !== storedUrl) audio.src = storedUrl;
-      audio.playbackRate = rate;
+      const audioRate = azurePlaybackRate(rate, speedRef.current);
+      rateRef.current = audioRate;
+      audio.playbackRate = audioRate;
       if (!keepClock) {
         try { audio.currentTime = 0; } catch { /* metadata may not be loaded yet */ }
         elapsedMsRef.current = 0;
@@ -776,7 +778,7 @@ const App: React.FC = () => {
         setIsSpeaking(false);
         setError('Could not play audio. Your browser may not support this feature.');
       };
-      setPlaybackRate(rate);
+      setPlaybackRate(audioRate);
       setIsSpeaking(true);
       isSpeakingRef.current = true;
       setCurrentWordIndex(null);
