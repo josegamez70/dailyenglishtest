@@ -24,6 +24,7 @@ import { resumeWordIndex, textFromWordIndex } from './speechPosition';
 import { generateStoryAndQuiz, listeningSlowAudio, refreshListeningAudio, savedListeningAudio } from './services/geminiService';
 import { GrammarPage } from './components/GrammarPage';
 import { FREE_LESSON_LIMIT, planStatusText, signOut, useAccount } from './auth';
+import { APP_RETURN_PATHS, returnPathAfterSignIn } from './returnPath';
 import { AppShell, type ShellItem } from './components/AppShell';
 import { ProfilePage, type ThemeChoice } from './components/ProfilePage';
 import { ProgressPage } from './components/ProgressPage';
@@ -55,6 +56,8 @@ import CheckCircleIcon from './components/icons/CheckCircleIcon';
 import XCircleIcon from './components/icons/XCircleIcon';
 import UKFlagIcon from './components/icons/UKFlagIcon';
 import VocabularyModal from './components/VocabularyModal';
+
+const RETURN_PATH_KEY = 'appReturnPath';
 
 const FONT_STEPS = [
   { label: 'Small', className: 'text-base' },
@@ -273,6 +276,27 @@ const App: React.FC = () => {
     window.addEventListener('popstate', onPop);
     return () => window.removeEventListener('popstate', onPop);
   }, []);
+
+  useEffect(() => {
+    if (!account.ready) return;
+    if (!account.signedIn) {
+      if (APP_RETURN_PATHS.has(path)) {
+        try { sessionStorage.setItem(RETURN_PATH_KEY, path); } catch { /* ignore */ }
+      }
+      return;
+    }
+    let stored: string | null = null;
+    try {
+      stored = sessionStorage.getItem(RETURN_PATH_KEY);
+      sessionStorage.removeItem(RETURN_PATH_KEY);
+    } catch {
+      return;
+    }
+    const next = returnPathAfterSignIn(stored, path);
+    if (!next) return;
+    window.history.replaceState({}, '', next);
+    setPath(next);
+  }, [account.ready, account.signedIn, path]);
 
   const leftLesson = useRef(false);
   useEffect(() => {
@@ -1738,7 +1762,7 @@ const App: React.FC = () => {
   if (legalPage) return <LegalDocument page={legalPage} />;
   if (helpPageFromPath(window.location.pathname)) return <HelpPage />;
   if (import.meta.env.DEV && path.startsWith('/tasks-preview')) {
-    const scene = path.endsWith('/saved') ? 'saved' : path.endsWith('/email') ? 'email' : 'tasks';
+    const scene = path.endsWith('/saved') ? 'saved' : path.endsWith('/email') ? 'email' : path.endsWith('/packs') ? 'packs' : 'tasks';
     return <TasksPreview scene={scene} />;
   }
   if (!account.ready) return <AuthLoading />;
@@ -1936,7 +1960,7 @@ const App: React.FC = () => {
     </div>
   );
 
-  const shellItem: ShellItem = path === '/progress' ? 'progress' : path === '/saved' ? 'saved' : path === '/tasks' ? 'tasks' : path === '/profile' ? 'profile' : path === '/academy' ? 'academy' : path === '/join' ? 'join' : path === '/grammar' ? 'grammar' : 'lesson';
+  const shellItem: ShellItem = path === '/progress' ? 'progress' : path === '/saved' ? 'saved' : path === '/tasks' ? 'tasks' : path === '/task-packs' ? 'packs' : path === '/profile' ? 'profile' : path === '/academy' ? 'academy' : path === '/join' ? 'join' : path === '/grammar' ? 'grammar' : 'lesson';
   const go = (next: string) => {
     const clean = next.replace(/\/+$/, '') || '/';
     const current = window.location.pathname.replace(/\/+$/, '') || '/';
@@ -2115,9 +2139,10 @@ const App: React.FC = () => {
           }}
         />
       )}
-      {shellItem === 'tasks' && (
+      {(shellItem === 'tasks' || shellItem === 'packs') && (
         <TasksPage
           userId={account.userId}
+          section={shellItem === 'packs' ? 'packs' : 'settings'}
           onOpenReading={(piece, packId) => openTaskPiece(piece, packId, 'reading')}
           onOpenListening={(piece, packId) => openTaskPiece(piece, packId, 'listening')}
           onOpenGrammar={openTaskGrammar}

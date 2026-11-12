@@ -112,6 +112,16 @@
   status = 200
 
 [[redirects]]
+  from = "/task-packs"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/task-packs/"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
   from = "/grammar"
   to = "/index.html"
   status = 200

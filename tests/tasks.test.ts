@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { filterSavedLessons, savedLessonBadges } from '../savedLessonMeta.ts';
+import { returnPathAfterSignIn, signInReturnUrl } from '../returnPath.ts';
 import {
   buildMimeMessage,
   readSmtpSettings,
@@ -102,7 +103,14 @@ test('the reminder email links to the pack and to turn tasks off', () => {
     frequency: 'daily',
     periodKey: '2026-11-11',
   });
-  assert.match(mail.html, /https:\/\/dailyenglishtest\.es\/tasks/);
+  assert.match(mail.html, /https:\/\/dailyenglishtest\.es\/task-packs/);
+  assert.match(mail.html, /Open task packs/);
+  assert.equal(mail.html.includes('https://dailyenglishtest.es/tasks"'), false);
+  assert.match(mail.text, /https:\/\/dailyenglishtest\.es\/task-packs/);
+  assert.equal(signInReturnUrl({ origin: 'https://dailyenglishtest.es', pathname: '/task-packs', search: '' }), 'https://dailyenglishtest.es/task-packs');
+  assert.equal(returnPathAfterSignIn('/task-packs', '/'), '/task-packs');
+  assert.equal(returnPathAfterSignIn('/task-packs', '/task-packs'), null);
+  assert.equal(returnPathAfterSignIn('https://evil.example/task-packs', '/'), null);
   assert.match(mail.html, /https:\/\/dailyenglishtest\.es\/api\/tasks-unsubscribe\?token=abc123/);
   assert.match(mail.text, /turn tasks off/i);
   assert.equal(mail.html.includes('TASK_SMTP'), false);
