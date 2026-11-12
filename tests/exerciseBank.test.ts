@@ -787,10 +787,14 @@ test('a standard listening request claims before it counts a lesson, and a custo
   assert.match(tasks, /claimListeningFromBank/);
   assert.match(tasks, /releaseGrammarBankItem/);
   const app = readFileSync(new URL('../components/Configurator.tsx', import.meta.url), 'utf8');
-  assert.match(app, /id="listening-topic"/);
+  assert.match(app, /topicInputId/);
   assert.match(app, /placeholder="Any topic \(optional\)"/);
   const screen = readFileSync(new URL('../App.tsx', import.meta.url), 'utf8');
-  assert.match(screen, /practiceType === 'listening' \? setListeningCustomTopic/);
+  assert.match(screen, /onCustomTopic=\{setCustomTopicText\}/);
+  assert.match(screen, /setCustomTopicText\(''\)/);
+  assert.match(readFileSync(new URL('../components/Configurator.tsx', import.meta.url), 'utf8'), /autoComplete="off"/);
+  assert.match(screen, /practiceType === 'listening' \? 'listening-topic' : 'reading-topic'/);
+  assert.match(screen, /customTopic \|\| \(practiceType === 'listening' \? config\.topic : chosen\.label\)/);
   assert.match(screen, /const configScreen = \(/);
   assert.doesNotMatch(screen, /<ConfigScreen/);
   assert.match(screen, /lessonAudioUrlRef/);

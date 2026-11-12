@@ -210,7 +210,7 @@ const App: React.FC = () => {
   const [playbackRate, setPlaybackRate] = useState<number | null>(null);
   const [activeTurn, setActiveTurn] = useState<number | null>(null);
   const [storyReviewOpen, setStoryReviewOpen] = useState(false);
-  const [listeningCustomTopic, setListeningCustomTopic] = useState('');
+  const [customTopicText, setCustomTopicText] = useState('');
 
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
   const stoppedByUserRef = useRef(false);
@@ -273,6 +273,17 @@ const App: React.FC = () => {
     window.addEventListener('popstate', onPop);
     return () => window.removeEventListener('popstate', onPop);
   }, []);
+
+  const leftLesson = useRef(false);
+  useEffect(() => {
+    if (path !== '/') {
+      leftLesson.current = true;
+      return;
+    }
+    if (!leftLesson.current) return;
+    leftLesson.current = false;
+    setCustomTopicText('');
+  }, [path]);
 
   const invitePrompted = useRef(false);
   const [inviteName, setInviteName] = useState<string | null>(null);
@@ -386,14 +397,12 @@ const App: React.FC = () => {
     const controller = new AbortController();
     abortRef.current = controller;
     const chosen = resolveTopic(config.topic);
-    const customTopic = practiceType === 'listening'
-      ? listeningCustomTopic.replace(/\s+/g, ' ').trim().slice(0, 80)
-      : '';
+    const customTopic = customTopicText.replace(/\s+/g, ' ').trim().slice(0, 80);
     const levelLabel = LEVELS.find((level) => level.value === config.level)?.label ?? config.level;
     const speakers = contentFormat === 'dialogue' ? nextDialogueSpeakers() : undefined;
     const requestConfig: ConfigOptions = {
       level: levelLabel,
-      topic: practiceType === 'listening' ? (customTopic || config.topic) : chosen.label,
+      topic: customTopic || (practiceType === 'listening' ? config.topic : chosen.label),
       wordCount: config.wordCount,
       questionCount: config.questionCount,
       practiceType,
@@ -456,6 +465,7 @@ const App: React.FC = () => {
           setLoadingStartedAt(null);
           setLoadingNote(null);
           setQuizLoading(!readyQuiz);
+          setCustomTopicText('');
           setView('story');
           void account.refreshProfile();
           window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -639,6 +649,7 @@ const App: React.FC = () => {
     setTaskSession(null);
     setGrammarTaskPackId(null);
     setView('config');
+    setCustomTopicText('');
     setStory('');
     setDialogueTurns([]);
     setQuiz([]);
@@ -1276,8 +1287,9 @@ const App: React.FC = () => {
         setConfig={setConfig}
         onGenerate={handleGenerate}
         isLoading={isLoading}
-        customTopic={practiceType === 'listening' ? listeningCustomTopic : undefined}
-        onCustomTopic={practiceType === 'listening' ? setListeningCustomTopic : undefined}
+        customTopic={customTopicText}
+        onCustomTopic={setCustomTopicText}
+        topicInputId={practiceType === 'listening' ? 'listening-topic' : 'reading-topic'}
       />
     </div>
   );
@@ -1933,7 +1945,10 @@ const App: React.FC = () => {
     setTaskSession(null);
     if (clean !== '/grammar') setGrammarTaskPackId(null);
     if (clean === '/grammar') setGrammarLaunch(null);
-    if (clean === '/') resetApp();
+    if (clean === '/') {
+      setCustomTopicText('');
+      resetApp();
+    }
     window.scrollTo({ top: 0 });
   };
   const openSaved = (row: SavedLessonRow) => {

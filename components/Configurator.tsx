@@ -9,6 +9,7 @@ interface ConfiguratorProps {
   isLoading: boolean;
   customTopic?: string;
   onCustomTopic?: (value: string) => void;
+  topicInputId?: string;
 }
 
 const SelectInput: React.FC<{
@@ -31,7 +32,7 @@ const SelectInput: React.FC<{
   </div>
 );
 
-const Configurator: React.FC<ConfiguratorProps> = ({ config, setConfig, onGenerate, isLoading, customTopic, onCustomTopic }) => {
+const Configurator: React.FC<ConfiguratorProps> = ({ config, setConfig, onGenerate, isLoading, customTopic, onCustomTopic, topicInputId = 'custom-topic' }) => {
   const handleConfigChange = <K extends keyof ConfigOptions>(field: K, value: ConfigOptions[K]) => {
     setConfig(prev => ({ ...prev, [field]: value }));
   };
@@ -71,13 +72,16 @@ const Configurator: React.FC<ConfiguratorProps> = ({ config, setConfig, onGenera
       )}
       {onCustomTopic && (
         <div>
-          <label className="block text-base font-semibold text-slate-900 dark:text-slate-50" htmlFor="listening-topic">Custom topic</label>
+          <label className="block text-base font-semibold text-slate-900 dark:text-slate-50" htmlFor={topicInputId}>Custom topic</label>
           <input
-            id="listening-topic"
+            id={topicInputId}
             value={customTopic ?? ''}
             onChange={(event) => onCustomTopic(event.target.value.slice(0, 80))}
             placeholder="Any topic (optional)"
             maxLength={80}
+            autoComplete="off"
+            autoCorrect="off"
+            spellCheck={false}
             className="mt-1 w-full rounded-lg border-2 border-slate-500 bg-white px-3 py-2.5 text-base text-slate-900 dark:border-slate-300 dark:bg-slate-800 dark:text-slate-50"
           />
           <p className="mt-1 text-base text-slate-700 dark:text-slate-200">
