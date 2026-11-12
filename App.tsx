@@ -210,7 +210,7 @@ const App: React.FC = () => {
   const [playbackRate, setPlaybackRate] = useState<number | null>(null);
   const [activeTurn, setActiveTurn] = useState<number | null>(null);
   const [storyReviewOpen, setStoryReviewOpen] = useState(false);
-  const [listeningCustomTopic, setListeningCustomTopic] = useState('');
+  const [customTopicText, setCustomTopicText] = useState('');
 
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
   const stoppedByUserRef = useRef(false);
@@ -386,14 +386,12 @@ const App: React.FC = () => {
     const controller = new AbortController();
     abortRef.current = controller;
     const chosen = resolveTopic(config.topic);
-    const customTopic = practiceType === 'listening'
-      ? listeningCustomTopic.replace(/\s+/g, ' ').trim().slice(0, 80)
-      : '';
+    const customTopic = customTopicText.replace(/\s+/g, ' ').trim().slice(0, 80);
     const levelLabel = LEVELS.find((level) => level.value === config.level)?.label ?? config.level;
     const speakers = contentFormat === 'dialogue' ? nextDialogueSpeakers() : undefined;
     const requestConfig: ConfigOptions = {
       level: levelLabel,
-      topic: practiceType === 'listening' ? (customTopic || config.topic) : chosen.label,
+      topic: customTopic || (practiceType === 'listening' ? config.topic : chosen.label),
       wordCount: config.wordCount,
       questionCount: config.questionCount,
       practiceType,
@@ -1276,8 +1274,9 @@ const App: React.FC = () => {
         setConfig={setConfig}
         onGenerate={handleGenerate}
         isLoading={isLoading}
-        customTopic={practiceType === 'listening' ? listeningCustomTopic : undefined}
-        onCustomTopic={practiceType === 'listening' ? setListeningCustomTopic : undefined}
+        customTopic={customTopicText}
+        onCustomTopic={setCustomTopicText}
+        topicInputId={practiceType === 'listening' ? 'listening-topic' : 'reading-topic'}
       />
     </div>
   );
