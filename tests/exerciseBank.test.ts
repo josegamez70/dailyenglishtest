@@ -449,8 +449,8 @@ test('a 100-lesson listening batch gives every level and format about the same n
 
 test('a dialogue with the wrong names can still be stored when the lines fit', () => {
   const lines = [
-    'I missed the early morning train and waited outside today.',
-    'We can take the next one together if we hurry now.',
+    'James, I missed the early train and waited outside today.',
+    'Anna, we can take the next one if we hurry now.',
     'It leaves in about ten minutes from platform four today.',
     'I will buy the tickets while we wait in line.',
     'Thank you that gives us enough time for a coffee.',
@@ -557,8 +557,8 @@ test('text and dialogue fixtures both satisfy the bank and the speech markup', a
   assert.match(textSpeech.ssml, new RegExp(AZURE_VOICE_FEMALE));
   assert.equal(textSpeech.ssml.includes(AZURE_VOICE_MALE), false);
   const lines = [
-    'I missed the early morning train and waited outside today.',
-    'We can take the next one together if we hurry now.',
+    'James, I missed the early train and waited outside today.',
+    'Anna, we can take the next one if we hurry now.',
     'It leaves in about ten minutes from platform four today.',
     'I will buy the tickets while we wait in line.',
     'Thank you that gives us enough time for a coffee.',
@@ -600,8 +600,10 @@ test('text and dialogue fixtures both satisfy the bank and the speech markup', a
     { speaker: 'Anna', gender: 'female', voice: AZURE_VOICE_FEMALE },
     { speaker: 'James', gender: 'male', voice: AZURE_VOICE_MALE },
   ]);
-  assert.match(dialogueSpeech.ssml, new RegExp(`<voice name="${AZURE_VOICE_FEMALE}">Anna\\.`));
-  assert.match(dialogueSpeech.ssml, new RegExp(`<voice name="${AZURE_VOICE_MALE}">James\\.`));
+  assert.match(dialogueSpeech.ssml, new RegExp(`<voice name="${AZURE_VOICE_FEMALE}">James, I missed`));
+  assert.match(dialogueSpeech.ssml, new RegExp(`<voice name="${AZURE_VOICE_MALE}">Anna, we can take`));
+  assert.equal(dialogueSpeech.ssml.includes('>Anna.'), false);
+  assert.equal(dialogueSpeech.ssml.includes('>James.'), false);
 });
 
 test('the refill diagnostic tables are private and do not store the lesson', () => {

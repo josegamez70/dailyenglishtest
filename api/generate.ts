@@ -14,6 +14,7 @@ import {
 } from '../lessonUtils';
 import {
   dialogueTurnPlan,
+  dialogueGreetingProblems,
   dialogueSpeakers,
   normalizeFormat,
   pickDialogueSpeakers,
@@ -365,9 +366,12 @@ function formatRules(format: ContentFormat, speakers: { name: string; gender: Sp
       `speaker must be exactly "${firstName}" or "${secondName}".`,
       'Return a dialogue array. Each item has speaker, gender, and line.',
       `gender is "${firstGender}" when speaker is "${firstName}", and "${secondGender}" when speaker is "${secondName}".`,
-      'Do not put the name inside line.',
-      `Also set story to the same dialogue, one turn per line, like "${firstName}: Hello."`,
-      'Count only the words inside line. Do not count the speaker names.',
+      `The audio speaks only the line. The transcript shows the speaker name separately, so do not start a line with "${firstName}:" or "${secondName}:".`,
+      `In the first line, ${firstName} addresses ${secondName} by name inside the sentence. Example: "Hi ${secondName}, have you got a minute?"`,
+      `In the second line, ${secondName} replies and uses ${firstName}'s name inside the sentence. Example: "Sure, ${firstName}, what's up?"`,
+      `After the second line, do not say ${firstName} or ${secondName} again. The two voices show who is speaking.`,
+      `Also set story to the same dialogue, one turn per line, like "${firstName}: Hi ${secondName}, have you got a minute?"`,
+      'Count every word inside line, including the names in the first two lines. Do not count the speaker field.',
       'Do not write Character 1, Character 2, Person 1, Person 2, or any other name.',
     ].join(' ');
   }
@@ -545,11 +549,14 @@ function prepareLesson(parsed: Record<string, unknown>, params: LessonParams): P
     if (firstSpeaker && dialogue[0] && dialogue[0].speaker.toLowerCase() !== firstSpeaker.name.toLowerCase()) {
       problems.push(`${firstSpeaker.name} (${firstSpeaker.gender}) must speak first. ${secondSpeaker?.name ?? 'The other person'} (${secondSpeaker?.gender ?? 'male'}) speaks second. Use those names and those genders.`);
     }
+    if (firstSpeaker?.name && secondSpeaker?.name) {
+      problems.push(...dialogueGreetingProblems(dialogue, firstSpeaker.name, secondSpeaker.name));
+    }
   }
   if (!quizStage && !wordCountOk) {
     problems.push(
       params.format === 'dialogue'
-        ? `The spoken lines are ${wordCount} words. Rewrite them so they are between ${min} and ${max} words (target ${params.wordCount}). Do not count the names.`
+        ? `The spoken lines are ${wordCount} words. Rewrite them so they are between ${min} and ${max} words (target ${params.wordCount}). Count the names inside the first two lines. Do not count the speaker field.`
         : `The story is ${wordCount} words. Rewrite it so it is between ${min} and ${max} words (target ${params.wordCount}).`
     );
   }

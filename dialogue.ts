@@ -304,9 +304,50 @@ export function speechLines(turns: DialogueTurn[]): SpeechLine[] {
   return turns.map((turn, turnIndex) => ({
     speaker: turn.speaker,
     speakerIndex: Math.max(0, names.findIndex((name) => name.toLowerCase() === turn.speaker.toLowerCase())),
-    text: `${turn.speaker}. ${turn.line}`,
+    text: turn.line,
     turnIndex,
   }));
+}
+
+function namePattern(name: string): RegExp {
+  const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return new RegExp(`\\b${escaped}\\b`, 'i');
+}
+
+export function lineMentionsName(line: string, name: string): boolean {
+  if (!name.trim()) return false;
+  return namePattern(name).test(line);
+}
+
+/**
+ * The first line addresses the other person by name. The reply uses the first
+ * speaker's name. Later lines do not say either name. Labels such as "Sophie:"
+ * belong in the transcript, not in the spoken line.
+ */
+export function dialogueGreetingProblems(
+  turns: { speaker: string; line: string }[],
+  firstName: string,
+  secondName: string,
+): string[] {
+  const problems: string[] = [];
+  if (!firstName || !secondName || turns.length < 2) return problems;
+  if (!lineMentionsName(turns[0].line, secondName)) {
+    problems.push(`The first line must address ${secondName} by name inside the sentence. Example: "Hi ${secondName}, have you got a minute?"`);
+  }
+  if (!lineMentionsName(turns[1].line, firstName)) {
+    problems.push(`The second line must use ${firstName}'s name inside the sentence. Example: "Sure, ${firstName}, what's up?"`);
+  }
+  const label = new RegExp(`^\\s*(?:${firstName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}|${secondName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})\\s*:`, 'i');
+  turns.forEach((turn, index) => {
+    if (label.test(turn.line)) {
+      problems.push(`Line ${index + 1} must not start with a speaker label. Put the name only in the speaker field, except for the greetings in the first two lines.`);
+    }
+    if (index < 2) return;
+    if (lineMentionsName(turn.line, firstName) || lineMentionsName(turn.line, secondName)) {
+      problems.push(`Do not say ${firstName} or ${secondName} after the second line. Line ${index + 1} still uses a name. The voices show who is speaking.`);
+    }
+  });
+  return problems;
 }
 
 export function resumeTurnIndex(durations: number[], elapsedMs: number): number {

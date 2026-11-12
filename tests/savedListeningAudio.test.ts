@@ -19,8 +19,10 @@ test('a saved dialogue keeps each speaker on the matching Azure voice', () => {
   assert.equal(speech.dialogue[0].gender, 'male');
   assert.equal(speech.dialogue[1].gender, 'female');
   const built = buildListeningSsml(speech);
-  assert.match(built.ssml, new RegExp(`<voice name="${AZURE_VOICE_MALE}">James\\.`));
-  assert.match(built.ssml, new RegExp(`<voice name="${AZURE_VOICE_FEMALE}">Anna\\.`));
+  assert.match(built.ssml, new RegExp(`<voice name="${AZURE_VOICE_MALE}">The train is late\\.`));
+  assert.match(built.ssml, new RegExp(`<voice name="${AZURE_VOICE_FEMALE}">We can wait inside\\.`));
+  assert.equal(built.ssml.includes('>James.'), false);
+  assert.equal(built.ssml.includes('>Anna.'), false);
   const path = savedListeningCachePath(speech);
   assert.match(path, /^listening\/[0-9a-f]{64}\.mp3$/);
   assert.equal(savedListeningCachePath(speech), path);

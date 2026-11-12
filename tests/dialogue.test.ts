@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {
   alignDialogueToCast,
   contentWordCount,
+  dialogueGreetingProblems,
   dialogueSpeakers,
   dialogueTurnPlan,
   parseDialogue,
@@ -53,7 +54,7 @@ test('a dialogue with other names is renamed onto the requested pair', () => {
 
 test('dialogue lines become spoken lines with a speaker index', () => {
   const lines = speechLines(parseDialogue('Person 1: Hello there.\nPerson 2: Good morning.'));
-  assert.equal(lines[0].text, 'Character 1. Hello there.');
+  assert.equal(lines[0].text, 'Hello there.');
   assert.equal(lines[0].speaker, 'Character 1');
   assert.equal(lines[1].speakerIndex, 1);
   assert.equal(resumeTurnIndex([1000, 1000, 1000], 1500), 1);
@@ -254,6 +255,29 @@ test('dialogue names rotate and long dialogues lose extra turns', () => {
   const trimmed = trimDialogueToLength(turns, 60);
   assert.equal(spokenWordCount(trimmed), 60);
   assert.equal(trimmed.length, 6);
+});
+
+test('names are spoken only in the first two lines', () => {
+  const market = [
+    { speaker: 'Sophie', line: 'Hi Noah, have you got a minute?' },
+    { speaker: 'Noah', line: 'Sure, Sophie, what\'s up?' },
+    { speaker: 'Sophie', line: 'The market closes in ten minutes.' },
+    { speaker: 'Noah', line: 'Then we should go now.' },
+  ];
+  assert.deepEqual(dialogueGreetingProblems(market, 'Sophie', 'Noah'), []);
+  const train = [
+    { speaker: 'James', line: 'Anna, the train is late again.' },
+    { speaker: 'Anna', line: 'Thanks for waiting, James. Shall we get a coffee?' },
+    { speaker: 'James', line: 'Yes. Platform four is still empty.' },
+    { speaker: 'Anna', line: 'I will buy the tickets.' },
+  ];
+  assert.deepEqual(dialogueGreetingProblems(train, 'James', 'Anna'), []);
+  const lateName = dialogueGreetingProblems([
+    { speaker: 'Sophie', line: 'Hi Noah, have you got a minute?' },
+    { speaker: 'Noah', line: 'Sure, what\'s up?' },
+    { speaker: 'Sophie', line: 'Noah, the market closes soon.' },
+  ], 'Sophie', 'Noah');
+  assert.equal(lateName.length, 2);
 });
 
 test('extra large text size becomes the largest remaining size', () => {
