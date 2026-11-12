@@ -129,7 +129,7 @@ export function buildListeningSsml(
       const line = spokenLine(turn.line);
       const name = spokenLine(turn.speaker);
       if (!line || !name) return;
-      const said = `${name}. ${line}`;
+      const said = line.replace(new RegExp(`^${name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*[:.]\\s*`, 'i'), '').trim() || line;
       lines.push(said);
       const pause = index < speech.dialogue.length - 1 ? '<break time="350ms"/>' : '';
       parts.push(`<voice name="${azureVoiceForTurn(turn)}">${voiced(`${escapeSsml(said)}${pause}`)}</voice>`);

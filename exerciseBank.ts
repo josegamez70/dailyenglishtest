@@ -2,6 +2,7 @@ import { createHash, timingSafeEqual } from 'node:crypto';
 import { TOPICS, WILDCARD_TOPIC } from './constants.ts';
 import {
   alignDialogueToCast,
+  dialogueGreetingProblems,
   dialogueSpeakers,
   renderDialogue,
   speakerFromName,
@@ -513,6 +514,10 @@ export function listeningStoryForBank(input: {
     const first = input.speakers[0]?.name.toLowerCase() ?? '';
     if (first && dialogue[0] && dialogue[0].speaker.toLowerCase() !== first) {
       problems.push(`${input.speakers[0].name} must speak first.`);
+    }
+    const second = input.speakers[1]?.name ?? '';
+    if (input.speakers[0]?.name && second) {
+      problems.push(...dialogueGreetingProblems(dialogue, input.speakers[0].name, second));
     }
   }
   return { story, dialogue, problems };

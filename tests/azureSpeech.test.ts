@@ -38,13 +38,15 @@ test('a conversation gives each speaker a distinct voice', () => {
       { speaker: 'Anna', line: 'How are you?', gender: 'female' },
     ],
   });
-  assert.match(speech.ssml, new RegExp(`<voice name="${AZURE_VOICE_FEMALE}">Anna\\. Hello James\\.<break time="350ms"/></voice>`));
-  assert.match(speech.ssml, new RegExp(`<voice name="${AZURE_VOICE_MALE}">James\\. Hi Anna\\.<break time="350ms"/></voice>`));
+  assert.match(speech.ssml, new RegExp(`<voice name="${AZURE_VOICE_FEMALE}">Hello James\\.<break time="350ms"/></voice>`));
+  assert.match(speech.ssml, new RegExp(`<voice name="${AZURE_VOICE_MALE}">Hi Anna\\.<break time="350ms"/></voice>`));
+  assert.equal(speech.ssml.includes('>Anna.'), false);
+  assert.equal(speech.ssml.includes('>James.'), false);
   const ava = speech.ssml.split(AZURE_VOICE_FEMALE).length - 1;
   const andrew = speech.ssml.split(AZURE_VOICE_MALE).length - 1;
   assert.equal(ava, 2);
   assert.equal(andrew, 1);
-  assert.equal(speech.spokenCharacters, 'Anna. Hello James.'.length + 'James. Hi Anna.'.length + 'Anna. How are you?'.length);
+  assert.equal(speech.spokenCharacters, 'Hello James.'.length + 'Hi Anna.'.length + 'How are you?'.length);
 });
 
 test('Azure voice follows gender, not who speaks first', () => {
@@ -61,8 +63,10 @@ test('Azure voice follows gender, not who speaks first', () => {
     { speaker: 'Anna', gender: 'female', voice: AZURE_VOICE_FEMALE },
   ]);
   const speech = buildListeningSsml({ format: 'dialogue', story: '', dialogue });
-  assert.match(speech.ssml, new RegExp(`<voice name="${AZURE_VOICE_MALE}">James\\. The train is late\\.`));
-  assert.match(speech.ssml, new RegExp(`<voice name="${AZURE_VOICE_FEMALE}">Anna\\. We can wait inside\\.`));
+  assert.match(speech.ssml, new RegExp(`<voice name="${AZURE_VOICE_MALE}">The train is late\\.`));
+  assert.match(speech.ssml, new RegExp(`<voice name="${AZURE_VOICE_FEMALE}">We can wait inside\\.`));
+  assert.equal(speech.ssml.includes('James.'), false);
+  assert.equal(speech.ssml.includes('Anna.'), false);
   assert.equal(speech.ssml.indexOf(AZURE_VOICE_MALE) < speech.ssml.indexOf(AZURE_VOICE_FEMALE), true);
   assert.equal(AZURE_VOICE_FIRST, AZURE_VOICE_FEMALE);
   assert.equal(AZURE_VOICE_SECOND, AZURE_VOICE_MALE);
