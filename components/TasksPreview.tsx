@@ -112,12 +112,15 @@ const mail = taskReminderMessage({
 export function TasksPreview({
   scene,
 }: {
-  scene: 'tasks' | 'saved' | 'email';
+  scene: 'tasks' | 'packs' | 'saved' | 'email';
 }) {
   return (
     <AppShell
-      active={scene === 'saved' ? 'saved' : 'tasks'}
-      onNavigate={() => undefined}
+      active={scene === 'saved' ? 'saved' : scene === 'packs' ? 'packs' : 'tasks'}
+      onNavigate={(next) => {
+        if (next === '/task-packs') window.location.assign('/tasks-preview/packs');
+        else if (next === '/tasks') window.location.assign('/tasks-preview');
+      }}
       onSignOut={() => undefined}
       email="student@example.com"
       status="Free lessons left: 2 of 3"
@@ -129,6 +132,17 @@ export function TasksPreview({
       {scene === 'tasks' && (
         <TasksPage
           userId="preview-user"
+          section="settings"
+          fixture={{ settings, pack }}
+          onOpenReading={() => undefined}
+          onOpenListening={() => undefined}
+          onOpenGrammar={() => undefined}
+        />
+      )}
+      {scene === 'packs' && (
+        <TasksPage
+          userId="preview-user"
+          section="packs"
           fixture={{ settings, pack }}
           onOpenReading={() => undefined}
           onOpenListening={() => undefined}

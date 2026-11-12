@@ -275,7 +275,7 @@ export type TaskEmailInput = {
 /** HTML and plain text for the pack reminder. The link turns tasks and reminders off. */
 export function taskReminderMessage(input: TaskEmailInput): { subject: string; html: string; text: string } {
   const base = input.baseUrl.replace(/\/+$/, '');
-  const openUrl = `${base}/tasks`;
+  const openUrl = `${base}/task-packs`;
   const offUrl = `${base}/api/tasks-unsubscribe?token=${encodeURIComponent(input.token)}`;
   const when = input.frequency === 'weekly' ? 'this week' : 'today';
   const subject = 'Your English tasks are ready';
@@ -293,7 +293,7 @@ export function taskReminderMessage(input: TaskEmailInput): { subject: string; h
     <p style="margin:0;font-size:20px;font-weight:700;">Daily English Test</p>
     <h1 style="margin:16px 0 8px;font-size:24px;">Your tasks are ready</h1>
     <p style="margin:0 0 12px;font-size:16px;line-height:1.5;">Your pack for ${when} is waiting. It has one reading exercise, one listening exercise, and one grammar exercise.</p>
-    <p style="margin:20px 0;"><a href="${openUrl}" style="display:inline-block;background:#1d4ed8;color:#ffffff;text-decoration:none;font-weight:700;padding:12px 18px;border-radius:8px;">Open tasks</a></p>
+    <p style="margin:20px 0;"><a href="${openUrl}" style="display:inline-block;background:#1d4ed8;color:#ffffff;text-decoration:none;font-weight:700;padding:12px 18px;border-radius:8px;">Open task packs</a></p>
     <p style="margin:0;font-size:14px;line-height:1.5;color:#334155;">If you do not want these emails, <a href="${offUrl}">turn tasks off</a>. You can turn them on again from the Tasks page after you sign in.</p>
   </div>
 </body>

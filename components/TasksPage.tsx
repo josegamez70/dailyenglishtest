@@ -74,6 +74,7 @@ function exerciseTitle(piece: PracticePiece | null, fallback: string): string {
 export function TasksPage({
   userId,
   fixture,
+  section = 'settings',
   onOpenReading,
   onOpenListening,
   onOpenGrammar,
@@ -81,6 +82,8 @@ export function TasksPage({
   userId: string | null;
   /** Sample data for a local preview. Skips the database. */
   fixture?: { settings: TaskSettings; pack: TaskPackClient | null };
+  /** Settings stay on Tasks. The generated lessons stay on Task packs. */
+  section?: 'settings' | 'packs';
   onOpenReading: (piece: PracticePiece, packId: string) => void;
   onOpenListening: (piece: PracticePiece, packId: string) => void;
   onOpenGrammar: (piece: GrammarPiece, packId: string) => void;
@@ -194,7 +197,7 @@ export function TasksPage({
       setError(saved.missing ? 'Tasks will be ready after the database update.' : 'The settings could not be saved.');
       return;
     }
-    setNote('Saved.');
+    setNote('Saved. The lessons appear in Task packs.');
     if (settings.enabled) void prepare(true);
     else {
       const loaded = await loadTaskScreen(settings);
@@ -208,16 +211,18 @@ export function TasksPage({
   const packReady = pack?.status === 'ready' && reading && listening && grammar;
   const when = periodLabel(settings.frequency, pack?.periodKey || periodKey(settings.frequency));
 
+  const showSettings = section === 'settings';
   return (
     <div className="mx-auto w-full max-w-3xl">
-      <h1 className="text-2xl font-bold">Tasks</h1>
+      <h1 className="text-2xl font-bold">{showSettings ? 'Tasks' : 'Task packs'}</h1>
       <p className="mt-2 text-base">
-        A pack is one reading exercise, one listening exercise, and one grammar exercise.
-        Choose how often it arrives, then the same options you use for a lesson.
+        {showSettings
+          ? 'Choose how often a pack arrives, and the same options you use for a lesson. The lessons themselves are in Task packs.'
+          : 'A pack is one reading exercise, one listening exercise, and one grammar exercise. Opening one does not use another lesson.'}
       </p>
       {missing && <p className="mt-3 text-base">Tasks will be ready after the database update.</p>}
       {!ready ? <p className="mt-6 text-base">Loading...</p> : null}
-      {ready && (
+      {ready && showSettings && (
         <div className="mt-4 rounded-xl border border-slate-300 bg-white p-4 dark:border-slate-600 dark:bg-slate-800">
           <h2 className="text-lg font-bold">Task settings</h2>
           <div className="mt-4 flex items-center justify-between gap-3">
@@ -391,16 +396,20 @@ export function TasksPage({
             {saving ? 'Saving...' : 'Save tasks'}
           </button>
           {note && <p className="mt-3 text-base">{note}</p>}
+          {error && <p className="mt-3 text-base text-red-800 dark:text-red-200" role="alert">{error}</p>}
         </div>
       )}
-      {error && <p className="mt-4 text-base text-red-800 dark:text-red-200" role="alert">{error}</p>}
-      {preparing && <p className="mt-4 text-base" role="status">{preparing}</p>}
-      {error && settings.enabled && !preparing && (
+      {!showSettings && error && <p className="mt-4 text-base text-red-800 dark:text-red-200" role="alert">{error}</p>}
+      {!showSettings && preparing && <p className="mt-4 text-base" role="status">{preparing}</p>}
+      {!showSettings && error && settings.enabled && !preparing && (
         <button type="button" onClick={() => { void prepare(true); }} className="mt-3 rounded-lg border-2 border-slate-900 px-4 py-2 text-base font-bold dark:border-slate-100">
           Try again
         </button>
       )}
-      {packReady && reading && listening && grammar && pack && (
+      {!showSettings && ready && !settings.enabled && !missing && (
+        <p className="mt-4 text-base">Tasks are off. Turn them on in Tasks to get a new pack.</p>
+      )}
+      {!showSettings && packReady && reading && listening && grammar && pack && (
         <div className="mt-4 rounded-xl border border-slate-300 bg-white p-4 dark:border-slate-600 dark:bg-slate-800">
           <h2 className="text-lg font-bold">This pack</h2>
           <p className="mt-1 text-base">{when}. It is ready to complete.</p>
@@ -426,7 +435,7 @@ export function TasksPage({
           </ul>
         </div>
       )}
-      {ready && settings.enabled && !packReady && !preparing && !error && !missing && (
+      {!showSettings && ready && settings.enabled && !packReady && !preparing && !error && !missing && (
         <p className="mt-4 text-base">Your pack is not ready yet.</p>
       )}
     </div>

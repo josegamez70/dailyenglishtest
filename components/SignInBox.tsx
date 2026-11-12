@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { sendMagicLink } from '../auth';
+import { signInReturnUrl } from '../returnPath';
 
 export function SignInBox({
   prompt,
@@ -22,7 +23,7 @@ export function SignInBox({
     setError(null);
     setBusy(true);
     try {
-      await sendMagicLink(email);
+      await sendMagicLink(email, signInReturnUrl(window.location));
       setSent(true);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'The email could not be sent. Try again.');
