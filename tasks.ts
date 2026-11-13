@@ -46,6 +46,7 @@ export type TaskStep =
   | 'reading-quiz'
   | 'listening-story'
   | 'listening-quiz'
+  | 'listening-audio'
   | 'grammar'
   | 'done';
 
@@ -66,6 +67,11 @@ export type PracticePiece = {
   questionCount: number;
   /** Set when this piece came from the exercise bank, so a withheld pack can release it. */
   bankId?: string;
+  /** Private-bucket mp3 for a live task listening piece. A bank piece uses bankId instead. */
+  audioPath?: string;
+  audioSlowPath?: string;
+  /** Set when Azure could not store the normal mp3, so pack creation can continue. */
+  audioAttempted?: boolean;
 };
 
 export type GrammarPiece = {
@@ -233,6 +239,23 @@ export function practiceHasQuiz(value: unknown): boolean {
   return Array.isArray(raw?.quiz) && raw.quiz.length > 0;
 }
 
+/** A live listening piece still needs its Azure mp3. A bank piece already has one. */
+export function listeningNeedsStoredAudio(piece: unknown): boolean {
+  const raw = asRecord(piece);
+  if (!raw) return false;
+  if (typeof raw.bankId === 'string' && raw.bankId.trim()) return false;
+  if (typeof raw.audioPath === 'string' && raw.audioPath.trim()) return false;
+  if (raw.audioAttempted === true) return false;
+  return true;
+}
+
+export function taskPackStatusLine(finished: boolean, when: string): { heading: string; line: string } {
+  if (finished) {
+    return { heading: 'This pack is complete', line: `${when}. You have finished this pack.` };
+  }
+  return { heading: 'This pack', line: `${when}. It is ready to complete.` };
+}
+
 export function isGrammarPiece(value: unknown): value is GrammarPiece {
   const raw = asRecord(value);
   if (!raw || !Array.isArray(raw.items) || raw.items.length === 0) return false;
@@ -244,6 +267,7 @@ export function nextTaskStep(pack: { reading: unknown; listening: unknown; gramm
   if (!practiceHasQuiz(pack.reading)) return 'reading-quiz';
   if (!isPracticePiece(pack.listening)) return 'listening-story';
   if (!practiceHasQuiz(pack.listening)) return 'listening-quiz';
+  if (listeningNeedsStoredAudio(pack.listening)) return 'listening-audio';
   if (!isGrammarPiece(pack.grammar)) return 'grammar';
   return 'done';
 }
@@ -253,6 +277,7 @@ export function taskStepLabel(step: TaskStep): string {
   if (step === 'reading-quiz') return 'Preparing the reading questions...';
   if (step === 'listening-story') return 'Preparing your listening...';
   if (step === 'listening-quiz') return 'Preparing the listening questions...';
+  if (step === 'listening-audio') return 'Preparing the listening audio...';
   if (step === 'grammar') return 'Preparing your grammar...';
   return 'Your tasks are ready.';
 }
@@ -282,7 +307,7 @@ export function taskReminderMessage(input: TaskEmailInput): { subject: string; h
   const text = [
     `Your English tasks for ${when} are ready.`,
     'The pack has one reading exercise, one listening exercise, and one grammar exercise.',
-    `Open them: ${openUrl}`,
+    `Open Task packs: ${openUrl}`,
     `Turn tasks off and stop these emails: ${offUrl}`,
   ].join('\n\n');
   const html = `<!DOCTYPE html>
@@ -293,7 +318,7 @@ export function taskReminderMessage(input: TaskEmailInput): { subject: string; h
     <p style="margin:0;font-size:20px;font-weight:700;">Daily English Test</p>
     <h1 style="margin:16px 0 8px;font-size:24px;">Your tasks are ready</h1>
     <p style="margin:0 0 12px;font-size:16px;line-height:1.5;">Your pack for ${when} is waiting. It has one reading exercise, one listening exercise, and one grammar exercise.</p>
-    <p style="margin:20px 0;"><a href="${openUrl}" style="display:inline-block;background:#1d4ed8;color:#ffffff;text-decoration:none;font-weight:700;padding:12px 18px;border-radius:8px;">Open task packs</a></p>
+    <p style="margin:20px 0;"><a href="${openUrl}" style="display:inline-block;background:#1d4ed8;color:#ffffff;text-decoration:none;font-weight:700;padding:12px 18px;border-radius:8px;">Open Task packs</a></p>
     <p style="margin:0;font-size:14px;line-height:1.5;color:#334155;">If you do not want these emails, <a href="${offUrl}">turn tasks off</a>. You can turn them on again from the Tasks page after you sign in.</p>
   </div>
 </body>

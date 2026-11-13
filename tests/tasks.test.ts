@@ -11,8 +11,10 @@ import {
 import {
   DEFAULT_TASK_SETTINGS,
   isoWeek,
+  listeningNeedsStoredAudio,
   nextTaskStep,
   normalizeTaskSettings,
+  taskPackStatusLine,
   periodKey,
   settingsToRow,
   taskGenerationDecision,
@@ -88,12 +90,43 @@ test('a pack is ready only after reading, listening, and grammar exist', () => {
     reading: { ...story, quiz: [{ question: 'Where?' }] },
     listening: { ...story, format: 'dialogue', quiz: [{ question: 'When?' }] },
     grammar: null,
+  }), 'listening-audio');
+  assert.equal(nextTaskStep({
+    reading: { ...story, quiz: [{ question: 'Where?' }] },
+    listening: { ...story, quiz: [{ question: 'When?' }], bankId: '11111111-1111-4111-8111-111111111111' },
+    grammar: null,
   }), 'grammar');
+  assert.equal(nextTaskStep({
+    reading: { ...story, quiz: [{ question: 'Where?' }] },
+    listening: { ...story, quiz: [{ question: 'When?' }], audioPath: 'listening/' + 'ab'.repeat(32) + '.mp3' },
+    grammar: null,
+  }), 'grammar');
+  assert.equal(listeningNeedsStoredAudio({ ...story, quiz: [{ question: 'When?' }], audioAttempted: true }), false);
   assert.equal(nextTaskStep({
     reading: { ...story, quiz: [{ question: 'Where?' }] },
     listening: { ...story, quiz: [{ question: 'When?' }] },
     grammar: { level: 'B1', exercise: 'blanks', items: [{ prompt: 'She _____.' }] },
+  }), 'listening-audio');
+  assert.equal(nextTaskStep({
+    reading: { ...story, quiz: [{ question: 'Where?' }] },
+    listening: { ...story, quiz: [{ question: 'When?' }], audioAttempted: true },
+    grammar: { level: 'B1', exercise: 'blanks', items: [{ prompt: 'She _____.' }] },
   }), 'done');
+  assert.equal(taskPackStatusLine(false, '11 November 2026').line, '11 November 2026. It is ready to complete.');
+  assert.equal(taskPackStatusLine(true, '11 November 2026').heading, 'This pack is complete');
+  assert.match(taskPackStatusLine(true, '11 November 2026').line, /finished this pack/);
+});
+
+test('task pack listening asks Azure for the mp3 instead of starting with browser speech', () => {
+  const app = readFileSync(new URL('../App.tsx', import.meta.url), 'utf8');
+  const server = readFileSync(new URL('../taskServer.ts', import.meta.url), 'utf8');
+  const api = readFileSync(new URL('../api/task-listening-audio.ts', import.meta.url), 'utf8');
+  assert.match(app, /lessonTaskPackIdRef\.current = slot === 'listening' \? packId : null/);
+  assert.match(app, /lessonAzureOnlyRef\.current = slot === 'listening'/);
+  assert.match(app, /taskListeningAudio\(\{ packId: taskPackId, speed: speedRef\.current, slow: true \}\)/);
+  assert.match(server, /step === 'listening-audio'/);
+  assert.match(server, /storeTaskListeningAudio/);
+  assert.match(api, /storeTaskListeningAudio/);
 });
 
 test('the reminder email links to the pack and to turn tasks off', () => {
@@ -103,10 +136,11 @@ test('the reminder email links to the pack and to turn tasks off', () => {
     frequency: 'daily',
     periodKey: '2026-11-11',
   });
-  assert.match(mail.html, /https:\/\/dailyenglishtest\.es\/task-packs/);
-  assert.match(mail.html, /Open task packs/);
-  assert.equal(mail.html.includes('https://dailyenglishtest.es/tasks"'), false);
-  assert.match(mail.text, /https:\/\/dailyenglishtest\.es\/task-packs/);
+  assert.match(mail.html, /href="https:\/\/dailyenglishtest\.es\/task-packs"/);
+  assert.match(mail.html, />Open Task packs</);
+  assert.equal(mail.html.includes('Open tasks'), false);
+  assert.equal(mail.html.includes('https://dailyenglishtest.es/tasks'), false);
+  assert.match(mail.text, /Open Task packs: https:\/\/dailyenglishtest\.es\/task-packs/);
   assert.equal(signInReturnUrl({ origin: 'https://dailyenglishtest.es', pathname: '/task-packs', search: '' }), 'https://dailyenglishtest.es/task-packs');
   assert.equal(returnPathAfterSignIn('/task-packs', '/'), '/task-packs');
   assert.equal(returnPathAfterSignIn('/task-packs', '/task-packs'), null);
