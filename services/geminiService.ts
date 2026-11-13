@@ -201,6 +201,30 @@ function readStory(data: GenResponse, config: ConfigOptions): StoryDraft {
 }
 
 /** A new signed URL for a listening mp3 this person was already given. */
+/** Azure mp3 for the listening exercise in a task pack. A bank piece is re-signed. A live piece is spoken once and stored on the pack. */
+export async function taskListeningAudio(input: {
+  packId: string;
+  speed?: number;
+  slow?: boolean;
+}, signal?: AbortSignal): Promise<string | null> {
+  const token = await accessToken();
+  const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+  if (token) headers.Authorization = `Bearer ${token}`;
+  const res = await fetchWithRetry('/api/task-listening-audio', {
+    method: 'POST',
+    headers,
+    body: JSON.stringify(input),
+  }, signal, 1);
+  let data: { audioUrl?: string; fallback?: string } = {};
+  try {
+    data = await res.json() as { audioUrl?: string; fallback?: string };
+  } catch {
+    data = {};
+  }
+  if (data.fallback === 'browser' || !res.ok) return null;
+  return typeof data.audioUrl === 'string' && data.audioUrl.startsWith('http') ? data.audioUrl : null;
+}
+
 /** Azure mp3 for a saved listening lesson. A bank row is re-signed. Other lessons are spoken once and cached. */
 export async function savedListeningAudio(savedLessonId: string, signal?: AbortSignal, speed = 1): Promise<string | null> {
   const token = await accessToken();

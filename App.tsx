@@ -21,7 +21,7 @@ import { clampedFontStep } from './fontStep';
 import { slowerPlaybackRate, whenVoicesReady } from './speechVoices';
 import { withStoryReview } from './quizSession';
 import { resumeWordIndex, textFromWordIndex } from './speechPosition';
-import { generateStoryAndQuiz, listeningSlowAudio, refreshListeningAudio, savedListeningAudio } from './services/geminiService';
+import { generateStoryAndQuiz, listeningSlowAudio, refreshListeningAudio, savedListeningAudio, taskListeningAudio } from './services/geminiService';
 import { GrammarPage } from './components/GrammarPage';
 import { FREE_LESSON_LIMIT, planStatusText, signOut, useAccount } from './auth';
 import { APP_RETURN_PATHS, returnPathAfterSignIn } from './returnPath';
@@ -234,10 +234,11 @@ const App: React.FC = () => {
   const lessonAudioUrlRef = useRef<string | null>(null);
   const lessonBankIdRef = useRef<string | null>(null);
   const lessonSavedIdRef = useRef<string | null>(null);
+  const lessonTaskPackIdRef = useRef<string | null>(null);
   const lessonSlowUrlRef = useRef<string | null>(null);
   const playModeRef = useRef<'normal' | 'slow'>('normal');
   const [slowPreparing, setSlowPreparing] = useState(false);
-  /** A banked or saved listening lesson must play Azure audio. Browser speech is only the last resort. */
+  /** Bank, saved, and task-pack listening must play Azure audio. Browser speech is only the last resort. */
   const lessonAzureOnlyRef = useRef(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const levelAppliedRef = useRef(false);
@@ -297,6 +298,32 @@ const App: React.FC = () => {
     window.history.replaceState({}, '', next);
     setPath(next);
   }, [account.ready, account.signedIn, path]);
+
+  useEffect(() => {
+    if (!import.meta.env.DEV || path !== '/listen-preview') return;
+    setPracticeType('listening');
+    setContentFormat('text');
+    setStory('Anna walks to the market every morning and buys fresh bread for her family.');
+    setDialogueTurns([]);
+    setStoryTopic({ label: 'Daily Life', surprise: false });
+    setConfig((current) => ({ ...current, level: 'beginner' }));
+    setView('story');
+    setTaskSession({
+      packId: '11111111-1111-4111-8111-111111111111',
+      slot: 'listening',
+      level: 'beginner',
+      levelLabel: 'Beginner',
+      format: 'text',
+      title: 'Daily Life',
+    });
+    lessonBankIdRef.current = null;
+    lessonSavedIdRef.current = null;
+    lessonTaskPackIdRef.current = '11111111-1111-4111-8111-111111111111';
+    lessonSlowUrlRef.current = null;
+    playModeRef.current = 'normal';
+    lessonAzureOnlyRef.current = true;
+    rememberAudio(null);
+  }, [path]);
 
   const leftLesson = useRef(false);
   useEffect(() => {
@@ -457,6 +484,7 @@ const App: React.FC = () => {
     setLoadingEstimate(12);
     lessonBankIdRef.current = null;
     lessonSavedIdRef.current = null;
+    lessonTaskPackIdRef.current = null;
     lessonSlowUrlRef.current = null;
     playModeRef.current = 'normal';
     lessonAzureOnlyRef.current = false;
@@ -586,6 +614,7 @@ const App: React.FC = () => {
           mode: session.slot,
           format: session.format,
           task: true,
+          ...(session.slot === 'listening' && lessonBankIdRef.current ? { bankId: lessonBankIdRef.current } : {}),
         }, session.title).catch(() => undefined);
         void markTaskDone(session.packId, session.slot);
       }
@@ -688,6 +717,7 @@ const App: React.FC = () => {
     setCurrentWordIndex(null);
     lessonBankIdRef.current = null;
     lessonSavedIdRef.current = null;
+    lessonTaskPackIdRef.current = null;
     lessonSlowUrlRef.current = null;
     playModeRef.current = 'normal';
     lessonAzureOnlyRef.current = false;
@@ -725,17 +755,25 @@ const App: React.FC = () => {
     if (bankLesson && !storedUrl) {
       const bankId = lessonBankIdRef.current;
       const savedId = lessonSavedIdRef.current;
-      const load = bankId
-        ? refreshListeningAudio(bankId)
-        : savedId
-          ? savedListeningAudio(savedId)
-          : Promise.resolve(null);
+      const taskPackId = lessonTaskPackIdRef.current;
+      const slow = playModeRef.current === 'slow';
+      const load = taskPackId
+        ? taskListeningAudio({ packId: taskPackId, speed: speedRef.current, slow })
+        : bankId
+          ? (slow
+            ? listeningSlowAudio({ speed: speedRef.current, bankId, format: contentFormat, story, dialogue: dialogueTurns })
+            : refreshListeningAudio(bankId))
+          : savedId
+            ? (slow
+              ? listeningSlowAudio({ speed: speedRef.current, savedLessonId: savedId, format: contentFormat, story, dialogue: dialogueTurns })
+              : savedListeningAudio(savedId, undefined, speedRef.current))
+            : Promise.resolve(null);
       void load.then((url) => {
         if (playId !== playIdRef.current) return;
         if (!url) {
-          if (savedId && !bankId) {
+          if (taskPackId || (savedId && !bankId)) {
             lessonAzureOnlyRef.current = false;
-            console.log(JSON.stringify({ listening: 'browser_tts', reason: 'azure_unavailable', saved: true }));
+            console.log(JSON.stringify({ listening: 'browser_tts', reason: 'azure_unavailable', saved: Boolean(savedId), task: Boolean(taskPackId) }));
             playSpeak(rate, options);
             return;
           }
@@ -743,13 +781,14 @@ const App: React.FC = () => {
           setError('The audio could not be opened. Please try again.');
           return;
         }
-        lessonAudioUrlRef.current = url;
+        if (slow) lessonSlowUrlRef.current = url;
+        else lessonAudioUrlRef.current = url;
         playSpeak(rate, keepClock ? { keepClock: true } : undefined);
       }).catch(() => {
         if (playId !== playIdRef.current) return;
-        if (savedId && !bankId) {
+        if (taskPackId || (savedId && !bankId)) {
           lessonAzureOnlyRef.current = false;
-          console.log(JSON.stringify({ listening: 'browser_tts', reason: 'azure_unavailable', saved: true }));
+          console.log(JSON.stringify({ listening: 'browser_tts', reason: 'azure_unavailable', saved: Boolean(savedId), task: Boolean(taskPackId) }));
           playSpeak(rate, options);
           return;
         }
@@ -808,10 +847,13 @@ const App: React.FC = () => {
       audio.onerror = () => {
         if (playId !== playIdRef.current || pausedRef.current) return;
         const bankId = lessonAzureOnlyRef.current ? lessonBankIdRef.current : null;
-        const savedId = lessonAzureOnlyRef.current && !bankId ? lessonSavedIdRef.current : null;
-        if ((bankId || savedId) && !refreshedBankAudio) {
+        const taskPackId = lessonAzureOnlyRef.current ? lessonTaskPackIdRef.current : null;
+        const savedId = lessonAzureOnlyRef.current && !bankId && !taskPackId ? lessonSavedIdRef.current : null;
+        if ((bankId || savedId || taskPackId) && !refreshedBankAudio) {
           refreshedBankAudio = true;
-          const refresh = playModeRef.current === 'slow'
+          const refresh = taskPackId
+            ? taskListeningAudio({ packId: taskPackId, speed: speedRef.current, slow: playModeRef.current === 'slow' })
+            : playModeRef.current === 'slow'
             ? listeningSlowAudio({
               speed: speedRef.current,
               bankId,
@@ -1350,10 +1392,12 @@ const App: React.FC = () => {
   );
 
   const playSlower = async () => {
+    const taskPackId = lessonTaskPackIdRef.current;
     const azure = Boolean(lessonAudioUrlRef.current)
       || lessonAzureOnlyRef.current
       || Boolean(lessonBankIdRef.current)
-      || Boolean(lessonSavedIdRef.current);
+      || Boolean(lessonSavedIdRef.current)
+      || Boolean(taskPackId);
     if (!azure) {
       playModeRef.current = 'normal';
       playSpeak(slowerPlaybackRate(speedRef.current));
@@ -1362,14 +1406,16 @@ const App: React.FC = () => {
     if (!lessonSlowUrlRef.current) {
       setSlowPreparing(true);
       try {
-        const url = await listeningSlowAudio({
-          speed: speedRef.current,
-          bankId: lessonBankIdRef.current,
-          savedLessonId: lessonSavedIdRef.current,
-          format: contentFormat,
-          story,
-          dialogue: dialogueTurns,
-        });
+        const url = taskPackId
+          ? await taskListeningAudio({ packId: taskPackId, speed: speedRef.current, slow: true })
+          : await listeningSlowAudio({
+            speed: speedRef.current,
+            bankId: lessonBankIdRef.current,
+            savedLessonId: lessonSavedIdRef.current,
+            format: contentFormat,
+            story,
+            dialogue: dialogueTurns,
+          });
         if (!url) {
           console.log(JSON.stringify({ listening: 'browser_tts', reason: 'azure_unavailable', slow: true }));
           playModeRef.current = 'normal';
@@ -1762,7 +1808,7 @@ const App: React.FC = () => {
   if (legalPage) return <LegalDocument page={legalPage} />;
   if (helpPageFromPath(window.location.pathname)) return <HelpPage />;
   if (import.meta.env.DEV && path.startsWith('/tasks-preview')) {
-    const scene = path.endsWith('/saved') ? 'saved' : path.endsWith('/email') ? 'email' : path.endsWith('/packs') ? 'packs' : 'tasks';
+    const scene = path.endsWith('/saved') ? 'saved' : path.endsWith('/email') ? 'email' : path.endsWith('/complete') ? 'complete' : path.endsWith('/packs') ? 'packs' : 'tasks';
     return <TasksPreview scene={scene} />;
   }
   if (!account.ready) return <AuthLoading />;
@@ -2008,6 +2054,7 @@ const App: React.FC = () => {
     setStoryTopic({ label: String(lesson.title ?? lesson.topic ?? 'Lesson'), surprise: false });
     const savedListening = lesson.mode === 'listening';
     lessonBankIdRef.current = null;
+    lessonTaskPackIdRef.current = null;
     lessonSlowUrlRef.current = null;
     playModeRef.current = 'normal';
     lessonSavedIdRef.current = savedListening ? row.id : null;
@@ -2048,22 +2095,15 @@ const App: React.FC = () => {
     lessonSlowUrlRef.current = null;
     playModeRef.current = 'normal';
     lessonBankIdRef.current = slot === 'listening' && piece.bankId ? piece.bankId : null;
-    lessonAzureOnlyRef.current = Boolean(lessonBankIdRef.current);
+    lessonTaskPackIdRef.current = slot === 'listening' ? packId : null;
+    lessonAzureOnlyRef.current = slot === 'listening';
     rememberAudio(null);
-    if (lessonBankIdRef.current) {
-      const bankId = lessonBankIdRef.current;
-      void refreshListeningAudio(bankId).then((url) => {
-        if (lessonBankIdRef.current !== bankId) return;
+    if (slot === 'listening') {
+      const taskPackId = packId;
+      void taskListeningAudio({ packId: taskPackId, speed: speedRef.current }).then((url) => {
+        if (lessonTaskPackIdRef.current !== taskPackId) return;
         if (url) rememberAudio(url);
-        else {
-          console.log(JSON.stringify({ listening: 'bank_audio_missing', bankId }));
-          setError('The audio could not be opened. Please try again.');
-        }
-      }).catch(() => {
-        if (lessonBankIdRef.current !== bankId) return;
-        console.log(JSON.stringify({ listening: 'bank_audio_missing', bankId }));
-        setError('The audio could not be opened. Please try again.');
-      });
+      }).catch(() => undefined);
     }
     setTaskSession({
       packId,

@@ -13,6 +13,7 @@ import {
   isPracticePiece,
   nextTaskStep,
   periodKey,
+  taskPackStatusLine,
   periodLabel,
   practiceHasQuiz,
   taskBlockMessage,
@@ -155,7 +156,7 @@ export function TasksPage({
         setPreparing(null);
         return;
       }
-      if (result.step === 'reading-story' || result.step === 'reading-quiz' || result.step === 'listening-story' || result.step === 'listening-quiz' || result.step === 'grammar' || result.step === 'done') {
+      if (result.step === 'reading-story' || result.step === 'reading-quiz' || result.step === 'listening-story' || result.step === 'listening-quiz' || result.step === 'listening-audio' || result.step === 'grammar' || result.step === 'done') {
         setPreparing(taskStepLabel(result.step));
       }
     }
@@ -210,6 +211,8 @@ export function TasksPage({
   const grammar = isGrammarPiece(pack?.grammar) ? pack?.grammar ?? null : null;
   const packReady = pack?.status === 'ready' && reading && listening && grammar;
   const when = periodLabel(settings.frequency, pack?.periodKey || periodKey(settings.frequency));
+  const finished = Boolean(pack?.readingDone && pack?.listeningDone && pack?.grammarDone);
+  const packStatus = taskPackStatusLine(finished, when);
 
   const showSettings = section === 'settings';
   return (
@@ -411,8 +414,10 @@ export function TasksPage({
       )}
       {!showSettings && packReady && reading && listening && grammar && pack && (
         <div className="mt-4 rounded-xl border border-slate-300 bg-white p-4 dark:border-slate-600 dark:bg-slate-800">
-          <h2 className="text-lg font-bold">This pack</h2>
-          <p className="mt-1 text-base">{when}. It is ready to complete.</p>
+          <h2 className="text-lg font-bold">{packStatus.heading}</h2>
+          <p className={`mt-1 text-base ${finished ? 'font-semibold text-emerald-800 dark:text-emerald-200' : ''}`}>
+            {packStatus.line}
+          </p>
           <ul className="mt-4 space-y-3">
             <PackRow
               label="Reading"

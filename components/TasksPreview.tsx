@@ -112,11 +112,14 @@ const mail = taskReminderMessage({
 export function TasksPreview({
   scene,
 }: {
-  scene: 'tasks' | 'packs' | 'saved' | 'email';
+  scene: 'tasks' | 'packs' | 'complete' | 'saved' | 'email';
 }) {
+  const packForScene = scene === 'complete'
+    ? { ...pack, readingDone: true, listeningDone: true, grammarDone: true }
+    : pack;
   return (
     <AppShell
-      active={scene === 'saved' ? 'saved' : scene === 'packs' ? 'packs' : 'tasks'}
+      active={scene === 'saved' ? 'saved' : scene === 'packs' || scene === 'complete' ? 'packs' : 'tasks'}
       onNavigate={(next) => {
         if (next === '/task-packs') window.location.assign('/tasks-preview/packs');
         else if (next === '/tasks') window.location.assign('/tasks-preview');
@@ -133,17 +136,17 @@ export function TasksPreview({
         <TasksPage
           userId="preview-user"
           section="settings"
-          fixture={{ settings, pack }}
+          fixture={{ settings, pack: packForScene }}
           onOpenReading={() => undefined}
           onOpenListening={() => undefined}
           onOpenGrammar={() => undefined}
         />
       )}
-      {scene === 'packs' && (
+      {(scene === 'packs' || scene === 'complete') && (
         <TasksPage
           userId="preview-user"
           section="packs"
-          fixture={{ settings, pack }}
+          fixture={{ settings, pack: packForScene }}
           onOpenReading={() => undefined}
           onOpenListening={() => undefined}
           onOpenGrammar={() => undefined}

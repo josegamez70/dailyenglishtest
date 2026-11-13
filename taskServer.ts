@@ -11,6 +11,7 @@ import {
 } from './exerciseBank.ts';
 import { claimGrammarFromBank, claimListeningFromBank, releaseGrammarBankItem } from './exerciseBankServer.ts';
 import { readEnvValue, runtimeEnv, secretMatches, sendTaskReminder, type EnvMap } from './taskMail.ts';
+import { storeTaskListeningAudio } from './taskListeningAudio.ts';
 import {
   isGrammarPiece,
   isPracticePiece,
@@ -451,6 +452,13 @@ export async function advanceTaskPack(userId: string, options?: { deadlineMs?: n
           };
         }
         current.listening = storyPiece(settings, params, produced.lesson);
+      }
+    } else if (step === 'listening-audio') {
+      const stored = await storeTaskListeningAudio(admin, runtimeEnv(), userId, current.id, { speed: 1, slow: false });
+      if (stored.piece) current.listening = stored.piece;
+      else {
+        const existing = asPiece(current.listening);
+        if (existing) current.listening = { ...existing, audioAttempted: true };
       }
     } else if (!apiKey) {
       return { ok: false, message: 'Tasks are not available yet.', packId: current.id };
