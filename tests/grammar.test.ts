@@ -15,8 +15,10 @@ import {
   GRAMMAR_MIN_ITEMS,
   gradeChoice,
   gradeOrder,
+  grammarChoiceGapProblem,
   grammarTitle,
   normalizeGrammarSet,
+  repairGrammarChoice,
   placeChunk,
   REAL_PHRASAL_COUNT,
   resetOrder,
@@ -1061,5 +1063,79 @@ test('featured blank structures follow the variation seed', () => {
 
   const phrasal = buildGrammarPrompt({ level: 'B2', exercise: 'phrasal', topic: '' }, undefined, { seed: 42 });
   assert.match(phrasal, /Include several of these in this set/);
+  assert.match(phrasal, /fell out/);
   assert.equal(phrasal.includes('structures or contrasts'), false);
+});
+
+test('a phrasal gap rejects a base-form answer that does not fit the words around it', () => {
+  const item: GrammarChoice = {
+    kind: 'choice',
+    prompt: 'They eventually _____ over a trivial disagreement regarding the office seating arrangement.',
+    options: ['fall in', 'fall back', 'fall over', 'fall out with'],
+    correctAnswer: 'fall out with',
+    explanation: 'Fall out means to quarrel.',
+  };
+  assert.match(grammarChoiceGapProblem(item, 'phrasal') ?? '', /does not fit|wrong tense/);
+  const repaired = repairGrammarChoice(item, 'phrasal');
+  assert.ok(repaired);
+  assert.equal(repaired?.correctAnswer, 'fell out');
+  assert.deepEqual(repaired?.options, ['fell in', 'fell back', 'fell over', 'fell out']);
+  assert.equal(grammarChoiceGapProblem(repaired as GrammarChoice, 'phrasal'), null);
+  const normalized = normalizeGrammarSet({
+    items: [item, {
+      kind: 'choice',
+      prompt: 'She looks after her brother every morning.',
+      options: ['looks after', 'looks for', 'looks up', 'looks into'],
+      correctAnswer: 'looks after',
+      explanation: 'Look after means to take care of someone.',
+    }],
+  }, { level: 'B2', exercise: 'phrasal', topic: '' }, { random: () => 0 });
+  const kept = normalized.items.filter((row) => row.kind === 'choice' && row.prompt.includes('eventually'));
+  assert.equal(kept.length, 1);
+  assert.equal(kept[0] && kept[0].kind === 'choice' ? kept[0].correctAnswer : '', 'fell out');
+});
+
+test('a gap after had uses the participle, and a fitting sentence is kept', () => {
+  const broken: GrammarChoice = {
+    kind: 'choice',
+    prompt: 'I was surprised to see that the two brothers had _____ over a trivial disagreement.',
+    options: ['fall back', 'fall out with', 'fall over', 'bear with'],
+    correctAnswer: 'fall out with',
+    explanation: 'Fall out means to quarrel.',
+  };
+  const repaired = repairGrammarChoice(broken, 'phrasal');
+  assert.equal(repaired?.correctAnswer, 'fallen out');
+  assert.equal(grammarChoiceGapProblem(repaired as GrammarChoice, 'phrasal'), null);
+  const sound: GrammarChoice = {
+    kind: 'choice',
+    prompt: 'They fell _____ over the seating plan.',
+    options: ['out', 'in', 'back', 'over'],
+    correctAnswer: 'out',
+    explanation: 'Fall out over something means to quarrel about it.',
+  };
+  assert.equal(grammarChoiceGapProblem(sound, 'phrasal'), null);
+  const polite: GrammarChoice = {
+    kind: 'choice',
+    prompt: 'Can you please _____ the money you borrowed last week?',
+    options: ['give back', 'give up', 'give in', 'give away'],
+    correctAnswer: 'give back',
+    explanation: 'Give back means to return something.',
+  };
+  assert.equal(grammarChoiceGapProblem(polite, 'phrasal'), null);
+  const did: GrammarChoice = {
+    kind: 'choice',
+    prompt: 'What time did you _____ to the hotel last night?',
+    options: ['get in', 'get on', 'get by', 'get over'],
+    correctAnswer: 'get in',
+    explanation: 'Get in means to arrive.',
+  };
+  assert.equal(grammarChoiceGapProblem(did, 'phrasal'), null);
+  const about: GrammarChoice = {
+    kind: 'choice',
+    prompt: 'Nobody knows exactly how the misunderstanding _____ in the first place.',
+    options: ['come about', 'come across', 'come off', 'come out'],
+    correctAnswer: 'come about',
+    explanation: 'Come about means to happen.',
+  };
+  assert.equal(grammarChoiceGapProblem(about, 'phrasal'), null);
 });

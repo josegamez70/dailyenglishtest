@@ -331,6 +331,13 @@ test('thrown attempts do not end the batch before the attempt cap', async () => 
   assert.equal(duplicates.cursor, 12);
 });
 
+test('retired bank rows stay stored but are not claimed or counted', () => {
+  const sql = readFileSync(new URL('../supabase/migrations/20261118_exercise_bank_active.sql', import.meta.url), 'utf8');
+  assert.match(sql, /add column if not exists active boolean not null default true/);
+  assert.match(sql, /and b\.active/);
+  assert.equal(sql.toLowerCase().includes('delete from public.exercise_bank'), false);
+});
+
 test('the migration locks the bank and the serves to the owner, and does not touch billing', () => {
   const sql = readFileSync(new URL('../supabase/migrations/20261113_exercise_bank.sql', import.meta.url), 'utf8');
   assert.match(sql, /create table if not exists public\.exercise_bank/);

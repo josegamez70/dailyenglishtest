@@ -125,6 +125,312 @@ function hasBareTenseClash(sentence: string): boolean {
   return false;
 }
 
+const GAP_ADVERBS = new Set('eventually finally suddenly quickly already just still also never always often usually really almost even then later soon recently previously actually simply'.split(' '));
+const OBJECT_PARTICLES = new Set('with for after at into onto from about of without to'.split(' '));
+const PAST_CUE = /\b(?:yesterday|ago|last\s+(?:night|week|month|year|monday|tuesday|wednesday|thursday|friday|saturday|sunday)|earlier|previously|afterwards|eventually|finally|subsequently|in\s+(?:19|20)\d{2})\b/i;
+const PRESENT_CUE = /\b(?:every\s+day|usually|always|often|nowadays|currently|these\s+days|each\s+(?:day|week|morning)|normally|every\s+morning)\b/i;
+const PAST_OF: Record<string, string> = {
+  fall: 'fell', bear: 'bore', get: 'got', go: 'went', take: 'took', come: 'came', break: 'broke',
+  give: 'gave', make: 'made', bring: 'brought', think: 'thought', catch: 'caught', find: 'found',
+  hold: 'held', keep: 'kept', leave: 'left', pay: 'paid', speak: 'spoke', stand: 'stood', write: 'wrote',
+  wake: 'woke', wear: 'wore', hang: 'hung', deal: 'dealt', grow: 'grew', draw: 'drew', drive: 'drove',
+  throw: 'threw', stick: 'stuck', lay: 'laid', send: 'sent', sell: 'sold', spend: 'spent', build: 'built',
+  choose: 'chose', forget: 'forgot', rise: 'rose', shake: 'shook', blow: 'blew', hide: 'hid', light: 'lit',
+  mean: 'meant', meet: 'met', shoot: 'shot', teach: 'taught', tell: 'told', understand: 'understood',
+  win: 'won', wind: 'wound', beat: 'beat', become: 'became', begin: 'began', eat: 'ate', drink: 'drank',
+  fly: 'flew', ride: 'rode', ring: 'rang', sing: 'sang', sink: 'sank', swim: 'swam', freeze: 'froze',
+  lose: 'lost', lead: 'led', feed: 'fed', sleep: 'slept', seek: 'sought', fight: 'fought', buy: 'bought',
+  put: 'put', cut: 'cut', set: 'set', let: 'let', read: 'read', run: 'ran', see: 'saw', do: 'did',
+};
+const PARTICIPLE_OF: Record<string, string> = {
+  fall: 'fallen', bear: 'borne', go: 'gone', take: 'taken', break: 'broken', give: 'given', write: 'written',
+  speak: 'spoken', wake: 'woken', wear: 'worn', choose: 'chosen', forget: 'forgotten', drive: 'driven',
+  throw: 'thrown', grow: 'grown', draw: 'drawn', blow: 'blown', hide: 'hidden', fly: 'flown', ride: 'ridden',
+  ring: 'rung', sing: 'sung', sink: 'sunk', swim: 'swum', begin: 'begun', drink: 'drunk', shake: 'shaken',
+  eat: 'eaten', freeze: 'frozen', rise: 'risen', beat: 'beaten', see: 'seen', do: 'done', get: 'got',
+  come: 'come', run: 'run', become: 'become', put: 'put', cut: 'cut', set: 'set', let: 'let', read: 'read',
+};
+
+function regularPast(base: string): string {
+  if (base.endsWith('e')) return `${base}d`;
+  if (/[^aeiou]y$/.test(base)) return `${base.slice(0, -1)}ied`;
+  if (/^[^aeiou]*[aeiou][^aeiou]$/.test(base)) return `${base}${base.slice(-1)}ed`;
+  return `${base}ed`;
+}
+
+function thirdPerson(base: string): string {
+  if (/[^aeiou]y$/.test(base)) return `${base.slice(0, -1)}ies`;
+  if (/(?:s|sh|ch|x|z|o)$/.test(base)) return `${base}es`;
+  return `${base}s`;
+}
+
+function pastOf(base: string): string {
+  return PAST_OF[base] ?? regularPast(base);
+}
+
+function participleOf(base: string): string {
+  return PARTICIPLE_OF[base] ?? PAST_OF[base] ?? regularPast(base);
+}
+
+function gapWords(text: string): string[] {
+  return text.toLowerCase().replace(/[^a-z'\s]/g, ' ').split(/\s+/).filter(Boolean);
+}
+
+function gapSides(prompt: string): { before: string; after: string } {
+  const parts = prompt.split('_____');
+  return { before: parts[0] ?? '', after: (parts[1] ?? '').replace(/^[\s,;:]+/, '') };
+}
+
+function lastLexical(before: string): string {
+  const list = gapWords(before);
+  while (list.length && (GAP_ADVERBS.has(list[list.length - 1]) || list[list.length - 1] === 'not')) list.pop();
+  return list[list.length - 1] ?? '';
+}
+
+function subjectPerson(before: string): 'third' | 'plural' | null {
+  const list = gapWords(before);
+  while (list.length && (GAP_ADVERBS.has(list[list.length - 1]) || list[list.length - 1] === 'not')) list.pop();
+  const word = list[list.length - 1] ?? '';
+  if (word === 'he' || word === 'she' || word === 'it') return 'third';
+  if (word === 'they' || word === 'we' || word === 'you' || word === 'i') return 'plural';
+  return null;
+}
+
+type VerbForm = 'base' | 'third' | 'past' | 'participle' | 'ing';
+
+function classifyVerb(word: string): { base: string; form: VerbForm } {
+  const lower = word.toLowerCase();
+  if (PAST_OF[lower] || PHRASAL_BY_VERB.has(lower)) return { base: lower, form: 'base' };
+  if (lower.endsWith('ing') && lower.length > 4) {
+    const base = verbBases(lower).find((item) => item !== lower) ?? lower;
+    return { base, form: 'ing' };
+  }
+  for (const [base, form] of Object.entries(PARTICIPLE_OF)) {
+    if (form === lower && form !== pastOf(base) && form !== base) return { base, form: 'participle' };
+  }
+  for (const [base, form] of Object.entries(PAST_OF)) {
+    if (form === lower && form !== base) return { base, form: 'past' };
+  }
+  const base = verbBases(lower).find((item) => item !== lower) ?? lower;
+  if (base !== lower) {
+    if (thirdPerson(base) === lower) return { base, form: 'third' };
+    if (pastOf(base) === lower) return { base, form: 'past' };
+    if (participleOf(base) === lower) return { base, form: 'participle' };
+  }
+  return { base: lower, form: 'base' };
+}
+
+function governingAux(before: string): string | null {
+  const list = gapWords(before);
+  const skip = new Set([...GAP_ADVERBS, 'please', 'not', 'i', 'you', 'he', 'she', 'it', 'we', 'they']);
+  let index = list.length - 1;
+  while (index >= 0 && skip.has(list[index])) index -= 1;
+  const word = list[index] ?? '';
+  if (['to', 'do', 'does', 'did', 'will', 'would', 'can', 'could', 'should', 'must', 'might', 'may', 'shall', 'had', 'have', 'has', 'having'].includes(word)) {
+    return word;
+  }
+  return null;
+}
+
+/** Time words after the gap count only until a new clause, so "money you borrowed last week" does not change "Can you". */
+function cueWindow(before: string, after: string): string {
+  const sameClause = after.split(/\b(?:that|which|who|whom|whose|where|when|you|he|she|they|we|i)\b/i)[0] ?? '';
+  return `${before} ${sameClause}`;
+}
+
+function neededVerbForm(before: string, prompt: string): VerbForm | 'third-or-past' | null {
+  const aux = governingAux(before);
+  if (aux === 'had' || aux === 'have' || aux === 'has' || aux === 'having') return 'participle';
+  if (aux) return 'base';
+  const { after } = gapSides(prompt);
+  const window = cueWindow(before, after);
+  const present = PRESENT_CUE.test(window);
+  const past = PAST_CUE.test(window) || /^after\b/i.test(prompt.trim());
+  if (past && !present) return 'past';
+  if (present && !past) return subjectPerson(before) === 'third' ? 'third' : 'base';
+  if (subjectPerson(before) === 'third') return 'third-or-past';
+  return null;
+}
+
+function expectedVerb(base: string, needed: VerbForm | 'third-or-past'): string | null {
+  if (needed === 'past' || needed === 'third-or-past') return pastOf(base);
+  if (needed === 'participle') return participleOf(base);
+  if (needed === 'third') return thirdPerson(base);
+  if (needed === 'base') return base;
+  return null;
+}
+
+function formFits(actualWord: string, needed: VerbForm | 'third-or-past', base: string): boolean {
+  const expected = expectedVerb(base, needed);
+  if (!expected) return true;
+  if (actualWord === expected) return true;
+  if (needed === 'third-or-past' && (actualWord === thirdPerson(base) || actualWord === participleOf(base))) return true;
+  if (needed === 'participle' && participleOf(base) === base && actualWord === base) return true;
+  if (needed === 'past' && pastOf(base) === base && actualWord === base) return true;
+  return false;
+}
+
+function contentVerb(option: string): { word: string; index: number; words: string[] } | null {
+  const words = option.trim().split(/\s+/);
+  const index = words.findIndex((word) => !AUXILIARIES.has(word.toLowerCase()));
+  if (index < 0) return null;
+  return { word: words[index], index, words };
+}
+
+function knownPhrasal(bases: string[], rest: string): boolean {
+  return bases.some((base) => PHRASAL_BY_VERB.get(base)?.has(rest));
+}
+
+/** The correct option must fit the gap: tense, person, and the words already around it. */
+export function grammarChoiceGapProblem(item: GrammarChoice, exercise: GrammarExerciseType): string | null {
+  const { before, after } = gapSides(item.prompt);
+  const next = gapWords(after)[0] ?? '';
+  const correctWords = normalizedOption(item.correctAnswer).split(' ').filter(Boolean);
+  if (!correctWords.length) return null;
+  const last = correctWords[correctWords.length - 1];
+  if (next && last === next) {
+    return 'The answer repeats a word that is already written after the gap.';
+  }
+  if (exercise === 'phrasal' && next && PARTICLES.has(next)) {
+    const core = phrasalCore(item.correctAnswer);
+    if (core && core.rest.split(' ').includes(next)) {
+      return 'The answer includes a particle that is already written after the gap.';
+    }
+    if (OBJECT_PARTICLES.has(last) && correctWords.length >= 3) {
+      const shorter = correctWords.slice(0, -1).join(' ');
+      const stripped = phrasalCore(shorter);
+      const extraParticle = Boolean(stripped && knownPhrasal(stripped.bases, stripped.rest));
+      const combined = `${core?.rest ?? ''} ${next}`.trim();
+      const continues = Boolean(core && knownPhrasal(core.bases, combined));
+      if (extraParticle && !continues) {
+        return 'The answer does not fit before the next word. Keep only the particles that belong in the gap.';
+      }
+    }
+  }
+  const verb = contentVerb(item.correctAnswer);
+  const needed = exercise === 'phrasal' ? neededVerbForm(before, item.prompt) : null;
+  if (verb && needed) {
+    const info = classifyVerb(verb.word);
+    const known = info.form !== 'base' || Boolean(PAST_OF[info.base] || PHRASAL_BY_VERB.has(info.base));
+    if (known && !formFits(verb.word.toLowerCase(), needed, info.base)) {
+      return 'The answer is the wrong tense or person for this gap. Inflect it so the full sentence is grammatical.';
+    }
+  }
+  if (verb && subjectPerson(before) === 'plural' && classifyVerb(verb.word).form === 'third') {
+    return 'The answer does not agree with the subject.';
+  }
+  return null;
+}
+
+function canInflectVerb(word: string): boolean {
+  const info = classifyVerb(word);
+  if (info.form !== 'base') return true;
+  return Boolean(PAST_OF[info.base] || PHRASAL_BY_VERB.has(info.base));
+}
+
+function inflectPhrase(option: string, form: VerbForm): string | null {
+  const found = contentVerb(option);
+  if (!found) return option;
+  if (!canInflectVerb(found.word)) return null;
+  const info = classifyVerb(found.word);
+  const next = form === 'past'
+    ? pastOf(info.base)
+    : form === 'participle'
+      ? participleOf(info.base)
+      : form === 'third'
+        ? thirdPerson(info.base)
+        : form === 'base'
+          ? info.base
+          : null;
+  if (!next) return null;
+  const words = found.words.slice();
+  words[found.index] = next;
+  return words.join(' ');
+}
+
+function stripBlockingParticle(option: string): string {
+  const words = option.trim().split(/\s+/);
+  const last = words[words.length - 1]?.toLowerCase() ?? '';
+  if (words.length >= 3 && OBJECT_PARTICLES.has(last)) return words.slice(0, -1).join(' ');
+  return option;
+}
+
+/**
+ * A mechanical fix when the verb form or a leftover particle is the only problem.
+ * Returns null when the item still would not fit, so generation can try again.
+ */
+export function reviewGrammarItems(exercise: GrammarExerciseType, items: GrammarItem[]): {
+  action: 'keep' | 'repair' | 'retire';
+  items: GrammarItem[];
+  flagged: { prompt: string; answer: string; problem: string; after: string | null }[];
+} {
+  if (exercise === 'order') return { action: 'keep', items, flagged: [] };
+  const flagged: { prompt: string; answer: string; problem: string; after: string | null }[] = [];
+  const next = items.map((item) => {
+    if (item.kind !== 'choice') return item;
+    const problem = grammarChoiceGapProblem(item, exercise);
+    if (!problem) return item;
+    const repaired = repairGrammarChoice(item, exercise);
+    const stillBad = !repaired || choiceQualityProblem(repaired, exercise);
+    flagged.push({
+      prompt: item.prompt,
+      answer: item.correctAnswer,
+      problem,
+      after: stillBad || !repaired ? null : repaired.correctAnswer,
+    });
+    return stillBad || !repaired ? item : repaired;
+  });
+  if (flagged.some((row) => !row.after)) return { action: 'retire', items, flagged };
+  if (flagged.length) return { action: 'repair', items: next, flagged };
+  return { action: 'keep', items, flagged };
+}
+
+export function repairGrammarChoice(item: GrammarChoice, exercise: GrammarExerciseType): GrammarChoice | null {
+  if (!grammarChoiceGapProblem(item, exercise)) return item;
+  const { before, after } = gapSides(item.prompt);
+  const next = gapWords(after)[0] ?? '';
+  let prompt = item.prompt;
+  let options = item.options.slice();
+  let correct = item.correctAnswer;
+  const answerWords = normalizedOption(correct).split(' ').filter(Boolean);
+  if (next && answerWords.at(-1) === next && !(exercise === 'phrasal' && PARTICLES.has(next))) {
+    const strippedAfter = after.replace(/^\s*[A-Za-z']+\b/, '').replace(/^\s+/, '');
+    prompt = `${before}_____${strippedAfter ? ` ${strippedAfter}` : ''}`;
+    const candidate: GrammarChoice = { ...item, prompt };
+    if (!grammarChoiceGapProblem(candidate, exercise)) return candidate;
+  }
+  const last = normalizedOption(correct).split(' ').filter(Boolean).at(-1) ?? '';
+  if (exercise === 'phrasal' && next && PARTICLES.has(next) && OBJECT_PARTICLES.has(last)) {
+    const stripped = stripBlockingParticle(correct);
+    if (stripped.toLowerCase() === correct.toLowerCase()) return null;
+    options = options.map((option) => option.toLowerCase() === correct.toLowerCase() ? stripped : option);
+    correct = stripped;
+    if (new Set(options.map((option) => option.toLowerCase())).size !== options.length) return null;
+  }
+  const needed = neededVerbForm(before, item.prompt);
+  const target: VerbForm | null = needed === 'third-or-past' ? 'third' : needed;
+  if (target && target !== 'ing') {
+    const inflected = options.map((option) => inflectPhrase(option, target));
+    if (inflected.some((option) => !option)) return null;
+    const nextOptions = inflected as string[];
+    if (new Set(nextOptions.map((option) => option.toLowerCase())).size !== nextOptions.length) return null;
+    const inflectedCorrect = inflectPhrase(correct, target);
+    if (!inflectedCorrect || !nextOptions.some((option) => option.toLowerCase() === inflectedCorrect.toLowerCase())) return null;
+    options = nextOptions;
+    correct = inflectedCorrect;
+  }
+  const repaired: GrammarChoice = {
+    ...item,
+    prompt,
+    options,
+    correctAnswer: options.find((option) => option.toLowerCase() === correct.toLowerCase()) ?? correct,
+  };
+  if (grammarChoiceGapProblem(repaired, exercise)) return null;
+  if (exercise === 'phrasal' && phrasalGroupProblem(repaired.options)) return null;
+  if (exercise === 'blanks' && ambiguousBlank(repaired)) return null;
+  return repaired;
+}
+
 function choiceQualityProblem(item: GrammarChoice, exercise: GrammarExerciseType): string | null {
   const filled = filledSentence(item.prompt, item.correctAnswer);
   if (hasDoubledFunctionWord(filled)) {
@@ -133,6 +439,8 @@ function choiceQualityProblem(item: GrammarChoice, exercise: GrammarExerciseType
   if (hasBareTenseClash(filled)) {
     return 'The sentence mixes present and past, such as "is" and "was". Use one natural tense.';
   }
+  const gap = grammarChoiceGapProblem(item, exercise);
+  if (gap) return gap;
   if (exercise === 'phrasal') {
     const grouped = phrasalGroupProblem(item.options);
     if (grouped) return grouped;
@@ -314,6 +622,7 @@ function verbBases(token: string): string[] {
     set: 'set', sets: 'set', setting: 'set',
     let: 'let', lets: 'let', letting: 'let',
     read: 'read', reads: 'read', reading: 'read',
+    bore: 'bear', borne: 'bear', bears: 'bear', bearing: 'bear',
   };
   if (irregular[word]) bases.add(irregular[word]);
   if (word.endsWith('ing') && word.length > 4) {
@@ -502,7 +811,11 @@ function validateChoice(raw: Record<string, unknown>, exercise: GrammarExerciseT
     explanation: explanation.slice(0, 220),
   };
   const quality = choiceQualityProblem(item, exercise);
-  if (quality) return { ok: false, problem: quality };
+  if (quality) {
+    const repaired = repairGrammarChoice(item, exercise);
+    if (!repaired || choiceQualityProblem(repaired, exercise)) return { ok: false, problem: quality };
+    return { ok: true, item: repaired };
+  }
   return { ok: true, item };
 }
 
@@ -657,6 +970,8 @@ ${variationNote(request, seed)}
 ${options?.extra ?? ''}
 Self-check every item before you keep it:
 - Put the correct answer into the gap and read the whole sentence. It must be natural, idiomatic, and fully correct.
+- Inflect every option to the tense and person the gap needs. A past sentence uses the past ("fell out", not "fall out"). A gap after had, have, or has uses the participle ("had fallen out"). He, she, or it in the present uses the -s form ("falls out").
+- Do not put a particle in the option when a preposition is already written after the gap. Bad: "They eventually _____ over a disagreement" with "fall out with", because that reads "fall out with over". Good: "fell out".
 - Do not repeat a word. Bad: "only after the meeting _____ that I realized" with the answer "that", because that makes "that that".
 - Do not mix tenses. Bad: "What _____ was a better sense" with the answer "is needed".
 - Then try each wrong option in the same gap. Exactly one option may be correct. If a second option also sounds acceptable, change the sentence or the options.
@@ -1017,7 +1332,7 @@ function taskGuide(exercise: GrammarExerciseType, level: GrammarLevel): string {
     return 'Each item is a different short paragraph of 4 to 6 sentences or clauses. Do not repeat the same scene, such as a morning routine, cooking, or the airport. Vary the connectors. Do not always use First, Then, After that, and Finally. Use because, once, when, after, before, meanwhile, as soon as, or later. Use "so" only for a result, not for a simple next step. Do not split one sentence into adverbials that could go in more than one place. The last part ends with . ! or ?';
   }
   if (exercise === 'phrasal') {
-    return 'Each prompt is one natural sentence with exactly one gap written as _____. Every option must be a real phrasal verb. Do not invent particles. Bad: "gloss up", "dream off". Good: "gloss over", "dream up". Use either at least three options with the same verb and different real particles, or two options with the same verb plus two other real phrasal verbs. Four real particles of the same verb is best, such as put off, put up, put out, and put on. Use each base verb in at most two items. Exactly one option may be the natural answer. Do not offer two particles that both fit, such as "call in" and "call up" for reservists, or "work out" and "work through" for details. Never use a single-word verb such as "shelve". Never use near-synonyms such as make out and catch on to, go over and iron out, or speak to and tell off.';
+    return 'Each prompt is one natural sentence with exactly one gap written as _____. Every option must be a real phrasal verb, inflected so it fits that gap. If the sentence is past, write "fell out", not "fall out". If the gap follows had, have, or has, write "fallen out". If the words after the gap already include a preposition, do not put another particle in the option. Bad: "They eventually _____ over a disagreement" with "fall out with". Good: options "fell in", "fell back", "fell over", and "fell out". Do not invent particles. Bad: "gloss up", "dream off". Good: "gloss over", "dream up". Use either at least three options with the same verb and different real particles, or two options with the same verb plus two other real phrasal verbs. Four real particles of the same verb is best, such as put off, put up, put out, and put on. Use each base verb in at most two items. Exactly one option may be the natural answer. Do not offer two particles that both fit, such as "call in" and "call up" for reservists, or "work out" and "work through" for details. Never use a single-word verb such as "shelve". Never use near-synonyms such as make out and catch on to, go over and iron out, or speak to and tell off.';
   }
   return 'Each prompt is one natural sentence with exactly one gap written as _____. The 4 options are single words or short phrases. Wrong options must be clearly wrong in this sentence, in British and American English. Do not pair "will" with "is going to" or "are going to". Do not make an item from degree adverbs such as somewhat, slightly, rather, fairly, quite, pretty, or a bit. Do not pair "going to" with "will", or two tenses that both fit. After suggest, recommend, or insist, do not offer both a gerund and a that-clause. Do not offer two modal perfects such as "might have" and "should have" unless the sentence forces one. A cleft starting "It was" or "It is" must not offer two of "that", "which", and "who".';
 }
