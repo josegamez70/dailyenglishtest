@@ -210,6 +210,7 @@ export async function sendTaskReminder(env: EnvMap, input: {
   token: string;
   frequency: TaskFrequency;
   periodKey: string;
+  packCount?: number;
 }): Promise<MailResult> {
   const settings = readSmtpSettings(env);
   const baseUrl = appBaseUrl(env);
@@ -221,6 +222,7 @@ export async function sendTaskReminder(env: EnvMap, input: {
     token: input.token,
     frequency: input.frequency,
     periodKey: input.periodKey,
+    packCount: input.packCount,
   };
   const mail = taskReminderMessage(message);
   try {

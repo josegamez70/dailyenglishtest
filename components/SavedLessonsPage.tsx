@@ -9,6 +9,7 @@ import {
   type SavedLessonFilter,
 } from '../savedLessonMeta';
 import { listSavedLessons, type SavedLessonRow } from '../studyStore';
+import { BackButton } from './BackButton';
 
 function badgeClass(badge: SavedLessonBadge): string {
   if (badge.kind === 'task') return 'border-amber-600 text-amber-800 dark:border-amber-300 dark:text-amber-200';
@@ -31,11 +32,13 @@ export function SavedLessonsPage({
   onOpen,
   onCreate,
   onPracticeGrammar,
+  onBack,
   initialRows,
 }: {
   onOpen: (row: SavedLessonRow) => void;
   onCreate: () => void;
   onPracticeGrammar: () => void;
+  onBack?: () => void;
   /** When set, show these rows and skip the database load. */
   initialRows?: SavedLessonRow[];
 }) {
@@ -68,6 +71,7 @@ export function SavedLessonsPage({
 
   return (
     <div className="mx-auto w-full max-w-3xl">
+      {onBack && <BackButton onClick={onBack} />}
       <h1 className="text-2xl font-bold">Saved lessons</h1>
       <p className="mt-2 text-base">Your latest {SAVED_LESSON_LIMIT} reading and listening lessons, and your latest {SAVED_LESSON_LIMIT} grammar sets. Filter them below. A lesson from Tasks is marked Task. Opening one does not use a free lesson.</p>
       {missing && <p className="mt-3 text-base">Saved lessons will appear after the database update.</p>}

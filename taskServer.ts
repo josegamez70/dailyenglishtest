@@ -16,6 +16,7 @@ import {
   isGrammarPiece,
   isPracticePiece,
   nextTaskStep,
+  issuedPackCount,
   periodKey,
   settingsFromRow,
   taskBlockMessage,
@@ -143,12 +144,13 @@ function storyPiece(settings: TaskSettings, params: LessonParams, lesson: { stor
   };
 }
 
-async function loadPack(admin: SupabaseClient, userId: string, key: string): Promise<PackState | null> {
+async function loadPack(admin: SupabaseClient, userId: string, key: string, slot = 1): Promise<PackState | null> {
   const pack = await admin
     .from('task_packs')
-    .select('id, status, charged, emailed_at, block_reason')
+    .select('id, status, charged, emailed_at, block_reason, pack_slot')
     .eq('user_id', userId)
     .eq('period_key', key)
+    .eq('pack_slot', slot)
     .maybeSingle();
   if (pack.error || !pack.data) return null;
   const exercises = await admin
@@ -205,14 +207,34 @@ async function ensureToken(admin: SupabaseClient, userId: string): Promise<strin
   return typeof again.data?.token === 'string' ? again.data.token : null;
 }
 
-async function maybeEmail(
+async function listPeriodPacks(admin: SupabaseClient, userId: string, key: string): Promise<{ id: string; slot: number; status: string; emailedAt: string | null }[]> {
+  const rows = await admin
+    .from('task_packs')
+    .select('id, pack_slot, status, emailed_at')
+    .eq('user_id', userId)
+    .eq('period_key', key);
+  if (rows.error || !rows.data) return [];
+  return rows.data.map((row) => ({
+    id: String(row.id),
+    slot: Number(row.pack_slot ?? 1),
+    status: String(row.status ?? 'generating'),
+    emailedAt: row.emailed_at ? String(row.emailed_at) : null,
+  }));
+}
+
+/** One message for the day, after every requested pack is ready or blocked. */
+async function maybeEmailDay(
   admin: SupabaseClient,
   userId: string,
-  pack: PackState,
   settings: TaskSettings,
   key: string,
 ): Promise<void> {
-  if (!settings.emailReminders || pack.emailedAt || pack.status !== 'ready') return;
+  const packs = await listPeriodPacks(admin, userId, key);
+  const wanted = issuedPackCount(settings);
+  const ready = packs.filter((pack) => pack.status === 'ready');
+  const open = packs.filter((pack) => pack.status !== 'ready' && pack.status !== 'blocked');
+  if (packs.length < wanted || open.length || !ready.length || ready.some((pack) => pack.emailedAt)) return;
+  if (!settings.emailReminders) return;
   const token = await ensureToken(admin, userId);
   if (!token) return;
   const user = await admin.auth.admin.getUserById(userId);
@@ -222,12 +244,15 @@ async function maybeEmail(
     token,
     frequency: settings.frequency,
     periodKey: key,
+    packCount: ready.length,
   });
   if (!sent.sent) return;
   await admin
     .from('task_packs')
     .update({ emailed_at: new Date().toISOString() })
-    .eq('id', pack.id)
+    .eq('user_id', userId)
+    .eq('period_key', key)
+    .eq('status', 'ready')
     .is('emailed_at', null);
 }
 
@@ -276,7 +301,7 @@ async function settlePack(
     await admin.from('task_packs').update({ status: 'ready', block_reason: '' }).eq('id', pack.id);
   }
   pack.status = 'ready';
-  await maybeEmail(admin, userId, pack, settings, key);
+  await maybeEmailDay(admin, userId, settings, key);
   return { ok: true, step: 'done', packId: pack.id };
 }
 
@@ -356,16 +381,17 @@ async function listeningPieceFromBank(
   return { piece, bankId: claimed.id };
 }
 
-async function insertPack(admin: SupabaseClient, userId: string, key: string, settings: TaskSettings): Promise<PackState | null> {
+async function insertPack(admin: SupabaseClient, userId: string, key: string, settings: TaskSettings, slot: number): Promise<PackState | null> {
   const inserted = await admin.from('task_packs').insert({
     user_id: userId,
     period_key: key,
+    pack_slot: slot,
     frequency: settings.frequency,
     status: 'generating',
     charged: false,
   }).select('id').maybeSingle();
   if (inserted.error && !isConflict(inserted.error)) return null;
-  return loadPack(admin, userId, key);
+  return loadPack(admin, userId, key, slot);
 }
 
 /** Create the next missing piece of this period's pack, or finish it. One model step. */
@@ -383,16 +409,31 @@ export async function advanceTaskPack(userId: string, options?: { deadlineMs?: n
   const settings = settingsFromRow(settingsRow.data);
   if (!settings.enabled) return { ok: true, step: 'done', message: 'Tasks are off.' };
   const key = periodKey(settings.frequency);
-  let pack = await loadPack(admin, userId, key);
+  const wanted = issuedPackCount(settings);
+  const existing = await listPeriodPacks(admin, userId, key);
+  let slot = 0;
+  for (let index = 1; index <= wanted; index += 1) {
+    const found = existing.find((pack) => pack.slot === index);
+    if (!found || (found.status !== 'ready' && found.status !== 'blocked')) {
+      slot = index;
+      break;
+    }
+  }
+  if (!slot) {
+    await maybeEmailDay(admin, userId, settings, key);
+    const blocked = existing.find((pack) => pack.status === 'blocked');
+    if (blocked && !existing.some((pack) => pack.status === 'ready')) {
+      const reason: TaskBlockReason = 'free_limit';
+      return { ok: false, blocked: reason, message: taskBlockMessage(reason), packId: blocked.id, step: 'done' };
+    }
+    return { ok: true, step: 'done', packId: existing[0]?.id };
+  }
+  let pack = await loadPack(admin, userId, key, slot);
   if (pack?.status === 'blocked') {
     const reason: TaskBlockReason = pack.blockReason === 'pilot_expired' || pack.blockReason === 'missing'
       ? pack.blockReason
       : 'free_limit';
     return { ok: false, blocked: reason, message: taskBlockMessage(reason), packId: pack.id, step: 'done' };
-  }
-  if (pack?.status === 'ready') {
-    await maybeEmail(admin, userId, pack, settings, key);
-    return { ok: true, step: 'done', packId: pack.id };
   }
   if (!pack) {
     const reason = await blockReason(admin, userId);
@@ -402,7 +443,7 @@ export async function advanceTaskPack(userId: string, options?: { deadlineMs?: n
       const blocked = decision.reason === 'ok' ? 'free_limit' : decision.reason;
       return { ok: false, blocked, message: taskBlockMessage(blocked) };
     }
-    pack = await insertPack(admin, userId, key, settings);
+    pack = await insertPack(admin, userId, key, settings, slot);
     if (!pack) return { ok: false, message: 'The task pack could not be saved. Please try again.' };
   }
   if (pack.status === 'ready') return { ok: true, step: 'done', packId: pack.id };
@@ -503,7 +544,7 @@ export async function advanceTaskPack(userId: string, options?: { deadlineMs?: n
 /** Finish one user's current pack. Used by the scheduled job, which has more time than a page request. */
 export async function completeTaskPack(userId: string): Promise<AdvanceResult> {
   let latest: AdvanceResult = { ok: false, message: 'The task pack could not be created.' };
-  for (let attempt = 0; attempt < 8; attempt += 1) {
+  for (let attempt = 0; attempt < 24; attempt += 1) {
     latest = await advanceTaskPack(userId, { deadlineMs: 40000 });
     if (latest.busy) {
       await new Promise((resolve) => setTimeout(resolve, 1500));
@@ -528,14 +569,21 @@ export async function generateDuePacks(limit = 3): Promise<{ worked: number; rem
     const key = periodKey(parsed.frequency);
     const pack = await admin
       .from('task_packs')
-      .select('status, emailed_at')
+      .select('status, emailed_at, pack_slot')
       .eq('user_id', userId)
-      .eq('period_key', key)
-      .maybeSingle();
+      .eq('period_key', key);
     if (pack.error) continue;
-    const status = String(pack.data?.status ?? '');
-    if (status === 'blocked') continue;
-    if (status === 'ready' && (pack.data?.emailed_at || !parsed.emailReminders)) continue;
+    const rows = pack.data ?? [];
+    const wanted = issuedPackCount(parsed);
+    let needsWork = false;
+    for (let slot = 1; slot <= wanted; slot += 1) {
+      const found = rows.find((row) => Number(row.pack_slot ?? 1) === slot);
+      const status = String(found?.status ?? '');
+      if (!found || (status !== 'ready' && status !== 'blocked')) needsWork = true;
+    }
+    const readyUnsent = rows.some((row) => String(row.status) === 'ready' && !row.emailed_at);
+    const finished = rows.filter((row) => String(row.status) === 'ready' || String(row.status) === 'blocked').length >= wanted && !needsWork;
+    if (!needsWork && !(finished && readyUnsent && parsed.emailReminders)) continue;
     due.push(userId);
   }
   let worked = 0;

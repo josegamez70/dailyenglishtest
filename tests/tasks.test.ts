@@ -10,16 +10,19 @@ import {
 } from '../taskMail.ts';
 import {
   DEFAULT_TASK_SETTINGS,
+  groupTaskPacks,
   isoWeek,
+  issuedPackCount,
   listeningNeedsStoredAudio,
   nextTaskStep,
   normalizeTaskSettings,
   taskPackStatusLine,
   periodKey,
+  settingsFromRow,
   settingsToRow,
   taskGenerationDecision,
   taskReminderMessage,
-  TASK_PACK_LIMIT,
+  TASK_DAY_LIMIT,
   unsubscribeResultHtml,
 } from '../tasks.ts';
 
@@ -176,9 +179,42 @@ test('email is skipped when the mailbox settings are missing', () => {
   assert.equal(secretMatches('wrong', { TASKS_JOB_SECRET: 'right' }), false);
 });
 
+test('a daily schedule can issue 1, 2, or 3 packs, and a week stays at one', () => {
+  assert.equal(issuedPackCount({ frequency: 'daily', packsPerDay: 1 }), 1);
+  assert.equal(issuedPackCount({ frequency: 'daily', packsPerDay: 3 }), 3);
+  assert.equal(issuedPackCount({ frequency: 'weekly', packsPerDay: 3 }), 1);
+  const settings = settingsFromRow({ enabled: true, frequency: 'daily', level: 'beginner', topic: 'daily life', word_count: 100, question_count: 5, reading_format: 'text', listening_format: 'text', grammar_level: 'B1', grammar_exercise: 'blanks', grammar_topic: '' });
+  assert.equal(settings.packsPerDay, 1);
+  assert.equal(settingsToRow('user', { ...settings, packsPerDay: 2 }).packs_per_day, 2);
+  const groups = groupTaskPacks([
+    { createdAt: '2026-11-14T10:00:00.000Z', packSlot: 2 },
+    { createdAt: '2026-11-14T09:00:00.000Z', packSlot: 1 },
+    { createdAt: '2026-11-13T10:00:00.000Z', packSlot: 1 },
+  ], new Date('2026-11-14T12:00:00.000Z'));
+  assert.deepEqual(groups.map((group) => group.label), ['Today', 'Yesterday']);
+  assert.deepEqual(groups[0].packs.map((pack) => pack.packSlot), [1, 2]);
+  const many = taskReminderMessage({
+    baseUrl: 'https://dailyenglishtest.es',
+    token: 'abc123',
+    frequency: 'daily',
+    periodKey: '2026-11-14',
+    packCount: 3,
+  });
+  assert.match(many.html, /Your 3 packs for today/);
+  assert.equal(many.html.match(/Open Task packs/g)?.length, 1);
+  assert.match(many.html, /href="https:\/\/dailyenglishtest\.es\/task-packs"/);
+  const sql = readFileSync(new URL('../supabase/migrations/20261119_task_packs_per_day.sql', import.meta.url), 'utf8');
+  assert.match(sql, /packs_per_day integer not null default 1/);
+  assert.match(sql, /packs_per_day in \(1, 2, 3\)/);
+  assert.match(sql, /unique \(user_id, period_key, pack_slot\)/);
+  assert.match(sql, /limit 5/);
+  assert.match(sql, /Europe\/Madrid/);
+  assert.equal(sql.toLowerCase().includes('delete from public.task_pack_exercises'), false);
+});
+
 test('task packs keep the newest 5 and exercises stay on the owner row', () => {
   const sql = readFileSync(new URL('../supabase/migrations/20261112_tasks.sql', import.meta.url), 'utf8');
-  assert.equal(TASK_PACK_LIMIT, 5);
+  assert.equal(TASK_DAY_LIMIT, 5);
   assert.match(sql, /keep_latest_task_packs/);
   assert.match(sql, /limit 5/);
   assert.match(sql, /enable row level security/);

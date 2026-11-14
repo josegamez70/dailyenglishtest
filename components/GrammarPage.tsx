@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { BackButton } from './BackButton';
 import {
   exerciseLabel,
   GRAMMAR_ITEM_COUNT,
@@ -118,6 +119,7 @@ export function GrammarPage({
   onLessonsChanged,
   launch = null,
   onTaskComplete,
+  onBack,
 }: {
   fontStep: number;
   fontClass: string;
@@ -130,6 +132,7 @@ export function GrammarPage({
   launch?: GrammarLaunch | null;
   /** Called when a task grammar set is finished, so the pack can be marked done. */
   onTaskComplete?: () => void;
+  onBack?: () => void;
 }) {
   const [level, setLevel] = useState<GrammarLevel>(initialLevel);
   const [exercise, setExercise] = useState<GrammarExerciseType>('blanks');
@@ -316,11 +319,27 @@ export function GrammarPage({
     finish();
   };
 
+  const leaveGrammar = () => {
+    if (phase !== 'setup' && !fromSaved && !launch?.task) {
+      setPhase('setup');
+      return;
+    }
+    onBack?.();
+  };
+  const grammarBackLabel = phase !== 'setup' && !fromSaved && !launch?.task
+    ? 'Back'
+    : launch?.task
+      ? 'Back to Task packs'
+      : fromSaved
+        ? 'Back to Saved lessons'
+        : 'Back';
+
   if (phase === 'results') {
     const score = grades.filter((grade) => grade.correct).length;
     const percentage = grades.length ? Math.round((score / grades.length) * 100) : 0;
     return (
       <div className="mx-auto w-full max-w-2xl">
+        {onBack && <BackButton onClick={leaveGrammar} label={grammarBackLabel} />}
         <DictionaryPopup />
         <TextSizeControl fontStep={fontStep} labels={fontLabels} onFontStep={onFontStep} />
         <div className="mt-4 rounded-xl bg-white p-6 shadow-lg dark:bg-slate-800">
@@ -384,6 +403,7 @@ export function GrammarPage({
     const chosen = current.kind === 'order' && orderState ? placedTexts(orderState.placed, current.shuffled) : [];
     return (
       <div className="mx-auto w-full max-w-2xl">
+        {onBack && <BackButton onClick={leaveGrammar} label={grammarBackLabel} />}
         <DictionaryPopup />
         <TextSizeControl fontStep={fontStep} labels={fontLabels} onFontStep={onFontStep} />
         <div className="mt-4 rounded-xl bg-white p-6 shadow-lg dark:bg-slate-800">
@@ -488,6 +508,7 @@ export function GrammarPage({
 
   return (
     <div className="mx-auto w-full max-w-2xl">
+      {onBack && <BackButton onClick={leaveGrammar} label={grammarBackLabel} />}
       <h1 className="text-3xl font-bold">Grammar</h1>
       <p className="mt-2 text-base text-slate-800 dark:text-slate-100">Practice grammar with {GRAMMAR_ITEM_COUNT} short exercises. One set uses one free lesson.</p>
       <fieldset className="mt-6">

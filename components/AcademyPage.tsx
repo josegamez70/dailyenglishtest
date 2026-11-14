@@ -7,6 +7,7 @@ import { AcademyBadge } from './AcademyBadge';
 import { AcademyHelpLink } from './HelpPage';
 import { PilotStatusBanner } from './PilotPages';
 import { StudentDetailView } from './StudentDetailView';
+import { BackButton } from './BackButton';
 
 function studentLabel(student: AcademyStudent): string {
   return studentRosterLabel(student.displayName, student.email);
@@ -56,7 +57,7 @@ function AcademyStudentButton({
   );
 }
 
-export function AcademyPage({ ownerDisplayName = '' }: { ownerDisplayName?: string }) {
+export function AcademyPage({ ownerDisplayName = '', onBack }: { ownerDisplayName?: string; onBack?: () => void }) {
   const [academy, setAcademy] = useState<OwnedAcademy | null>(null);
   const [students, setStudents] = useState<AcademyStudent[]>([]);
   const [missing, setMissing] = useState(false);
@@ -178,6 +179,7 @@ export function AcademyPage({ ownerDisplayName = '' }: { ownerDisplayName?: stri
   if (missing) {
     return (
       <div>
+        {onBack && <BackButton onClick={onBack} />}
         <p className="text-base">Academy tools will appear after the database update.</p>
         <AcademyHelpLink />
       </div>
@@ -187,6 +189,7 @@ export function AcademyPage({ ownerDisplayName = '' }: { ownerDisplayName?: stri
   if (!academy) {
     return (
       <form onSubmit={create} className="mx-auto w-full max-w-xl space-y-4">
+        {onBack && <BackButton onClick={onBack} />}
         <h1 className="text-2xl font-bold">My academy</h1>
         <AcademyHelpLink className="text-base" />
         <p className="text-base">Create your academy, then share the invite code with your students.</p>
@@ -236,6 +239,7 @@ export function AcademyPage({ ownerDisplayName = '' }: { ownerDisplayName?: stri
 
   return (
     <div className="mx-auto w-full max-w-3xl">
+      {onBack && <BackButton onClick={onBack} />}
       <PilotStatusBanner />
       <AcademyBadge name={academyPillName(ownerDisplayName, academy.name)} />
       <AcademyHelpLink />

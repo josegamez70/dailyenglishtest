@@ -2,6 +2,7 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { averagePercent, bestPercent, chartX, chartY, dayStreak, formatResultDate, lessonModeLabel } from '../progressStats';
 import { reportTestFromResult } from '../progressReport';
 import { listTestResults, type TestResultRow } from '../studyStore';
+import { BackButton } from './BackButton';
 import { DownloadProgressButton } from './DownloadProgressButton';
 import { WrongAnswerReview } from './WrongAnswerReview';
 
@@ -106,10 +107,12 @@ export function ProgressPage({
   onCreate,
   studentName,
   profileLevel,
+  onBack,
 }: {
   onCreate: () => void;
   studentName: string;
   profileLevel?: string | null;
+  onBack?: () => void;
 }) {
   const [rows, setRows] = useState<TestResultRow[]>([]);
   const [missing, setMissing] = useState(false);
@@ -135,6 +138,7 @@ export function ProgressPage({
 
   return (
     <div className="mx-auto w-full max-w-3xl">
+      {onBack && <BackButton onClick={onBack} />}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <h1 className="text-2xl font-bold">My progress</h1>
         <DownloadProgressButton

@@ -1,4 +1,5 @@
 import React from 'react';
+import { BackButton } from './BackButton';
 
 export type LegalPageId = 'legal' | 'privacy' | 'terms';
 
@@ -38,6 +39,9 @@ function PageShell({ title, updated = UPDATED, children }: { title: string; upda
           <span className="text-red-700 dark:text-red-400">English Test!</span>
         </a>
       </header>
+      <div className="mx-auto w-full max-w-3xl">
+        <BackButton onClick={() => { window.location.href = '/'; }} />
+      </div>
       <article className="mx-auto w-full max-w-3xl text-base leading-relaxed">
         <h1 className="text-2xl font-bold sm:text-3xl">{title}</h1>
         <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">Last updated: {updated}</p>

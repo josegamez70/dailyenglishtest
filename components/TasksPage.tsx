@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { BackButton } from './BackButton';
 import { QUESTION_COUNTS, WORD_COUNTS } from '../constants';
 import { exerciseLabel } from '../grammarSet';
 import {
@@ -11,9 +12,12 @@ import {
   DEFAULT_TASK_SETTINGS,
   isGrammarPiece,
   isPracticePiece,
+  groupTaskPacks,
+  issuedPackCount,
   nextTaskStep,
   periodKey,
   taskPackStatusLine,
+  type PacksPerDay,
   periodLabel,
   practiceHasQuiz,
   taskBlockMessage,
@@ -79,18 +83,21 @@ export function TasksPage({
   onOpenReading,
   onOpenListening,
   onOpenGrammar,
+  onBack,
 }: {
   userId: string | null;
   /** Sample data for a local preview. Skips the database. */
-  fixture?: { settings: TaskSettings; pack: TaskPackClient | null };
+  fixture?: { settings: TaskSettings; pack: TaskPackClient | null; packs?: TaskPackClient[] };
   /** Settings stay on Tasks. The generated lessons stay on Task packs. */
   section?: 'settings' | 'packs';
   onOpenReading: (piece: PracticePiece, packId: string) => void;
   onOpenListening: (piece: PracticePiece, packId: string) => void;
   onOpenGrammar: (piece: GrammarPiece, packId: string) => void;
+  onBack?: () => void;
 }) {
   const [settings, setSettings] = useState<TaskSettings>(fixture?.settings ?? DEFAULT_TASK_SETTINGS);
   const [pack, setPack] = useState<TaskPackClient | null>(fixture?.pack ?? null);
+  const [packs, setPacks] = useState<TaskPackClient[]>(fixture?.packs ?? (fixture?.pack ? [fixture.pack] : []));
   const [missing, setMissing] = useState(false);
   const [ready, setReady] = useState(Boolean(fixture));
   const [saving, setSaving] = useState(false);
@@ -99,9 +106,10 @@ export function TasksPage({
   const [error, setError] = useState<string | null>(null);
   const alive = useRef(true);
 
-  const applyLoaded = (loaded: { settings: TaskSettings; pack: TaskPackClient | null; missing: boolean }) => {
+  const applyLoaded = (loaded: { settings: TaskSettings; pack: TaskPackClient | null; packs?: TaskPackClient[]; missing: boolean }) => {
     setSettings(loaded.settings);
     setPack(loaded.pack);
+    setPacks(loaded.packs ?? (loaded.pack ? [loaded.pack] : []));
     setMissing(loaded.missing);
     if (loaded.pack?.status === 'blocked') {
       const reason = loaded.pack.blockReason === 'pilot_expired' || loaded.pack.blockReason === 'missing'
@@ -114,11 +122,15 @@ export function TasksPage({
   const prepare = async (enabled: boolean) => {
     if (!enabled || fixture) return;
     setError(null);
-    for (let attempt = 0; attempt < 8; attempt += 1) {
+    for (let attempt = 0; attempt < 24; attempt += 1) {
       const current = await loadTaskScreen();
       applyLoaded(current);
       if (!alive.current || current.missing || !current.settings.enabled) return;
-      if (current.pack?.status === 'ready' || current.pack?.status === 'blocked') return;
+      const todayKey = periodKey(current.settings.frequency);
+      const today = current.packs.filter((item) => item.periodKey === todayKey);
+      const wanted = issuedPackCount(current.settings);
+      const finished = today.filter((item) => item.status === 'ready' || item.status === 'blocked');
+      if (finished.length >= wanted && today.length >= wanted) return;
       const step = nextTaskStep({
         reading: current.pack?.reading ?? null,
         listening: current.pack?.listening ?? null,
@@ -210,13 +222,11 @@ export function TasksPage({
   const listening = isPracticePiece(pack?.listening) && practiceHasQuiz(pack?.listening) ? pack?.listening ?? null : null;
   const grammar = isGrammarPiece(pack?.grammar) ? pack?.grammar ?? null : null;
   const packReady = pack?.status === 'ready' && reading && listening && grammar;
-  const when = periodLabel(settings.frequency, pack?.periodKey || periodKey(settings.frequency));
-  const finished = Boolean(pack?.readingDone && pack?.listeningDone && pack?.grammarDone);
-  const packStatus = taskPackStatusLine(finished, when);
 
   const showSettings = section === 'settings';
   return (
     <div className="mx-auto w-full max-w-3xl">
+      {onBack && <BackButton onClick={onBack} />}
       <h1 className="text-2xl font-bold">{showSettings ? 'Tasks' : 'Task packs'}</h1>
       <p className="mt-2 text-base">
         {showSettings
@@ -259,7 +269,26 @@ export function TasksPage({
               ))}
             </div>
             <p className="mt-2 text-sm text-slate-700 dark:text-slate-200">
-              A new pack starts at midnight in Spain. A week starts on Monday.
+              A new pack starts at midnight in Spain. A week starts on Monday. A weekly schedule still issues one pack.
+            </p>
+          </fieldset>
+          <fieldset className="mt-4">
+            <legend className="text-base font-semibold">Packs per day</legend>
+            <div className="mt-2 grid grid-cols-3 gap-2">
+              {([1, 2, 3] as PacksPerDay[]).map((item) => (
+                <button
+                  key={item}
+                  type="button"
+                  aria-pressed={settings.packsPerDay === item}
+                  onClick={() => setSettings((current) => ({ ...current, packsPerDay: item }))}
+                  className={choiceClass(settings.packsPerDay === item)}
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
+            <p className="mt-2 text-sm text-slate-700 dark:text-slate-200">
+              Each pack is one reading, one listening, and one grammar exercise. This applies to a daily schedule.
             </p>
           </fieldset>
           <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -412,34 +441,34 @@ export function TasksPage({
       {!showSettings && ready && !settings.enabled && !missing && (
         <p className="mt-4 text-base">Tasks are off. Turn them on in Tasks to get a new pack.</p>
       )}
-      {!showSettings && packReady && reading && listening && grammar && pack && (
-        <div className="mt-4 rounded-xl border border-slate-300 bg-white p-4 dark:border-slate-600 dark:bg-slate-800">
-          <h2 className="text-lg font-bold">{packStatus.heading}</h2>
-          <p className={`mt-1 text-base ${finished ? 'font-semibold text-emerald-800 dark:text-emerald-200' : ''}`}>
-            {packStatus.line}
-          </p>
-          <ul className="mt-4 space-y-3">
-            <PackRow
-              label="Reading"
-              title={exerciseTitle(reading, 'Reading')}
-              done={pack.readingDone}
-              onOpen={() => onOpenReading(reading, pack.id)}
-            />
-            <PackRow
-              label="Listening"
-              title={exerciseTitle(listening, 'Listening')}
-              done={pack.listeningDone}
-              onOpen={() => onOpenListening(listening, pack.id)}
-            />
-            <PackRow
-              label="Grammar"
-              title={`${grammar.title} · ${grammar.level}`}
-              done={pack.grammarDone}
-              onOpen={() => onOpenGrammar(grammar, pack.id)}
-            />
-          </ul>
-        </div>
-      )}
+      {!showSettings && groupTaskPacks(packs).map((day) => (
+        <section key={day.key} className="mt-6">
+          <h2 className="text-xl font-bold">{day.label}</h2>
+          {day.packs.map((item) => {
+            const itemReading = isPracticePiece(item.reading) && practiceHasQuiz(item.reading) ? item.reading : null;
+            const itemListening = isPracticePiece(item.listening) && practiceHasQuiz(item.listening) ? item.listening : null;
+            const itemGrammar = isGrammarPiece(item.grammar) ? item.grammar : null;
+            const itemReady = item.status === 'ready' && itemReading && itemListening && itemGrammar;
+            const itemDone = item.readingDone && item.listeningDone && item.grammarDone;
+            const itemStatus = taskPackStatusLine(itemDone, periodLabel(settings.frequency, item.periodKey));
+            return (
+              <div key={item.id} className="mt-3 rounded-xl border border-slate-300 bg-white p-4 dark:border-slate-600 dark:bg-slate-800">
+                <h3 className="text-lg font-bold">{day.packs.length > 1 ? `Pack ${item.packSlot}` : itemStatus.heading}</h3>
+                <p className={`mt-1 text-base ${itemDone ? 'font-semibold text-emerald-800 dark:text-emerald-200' : ''}`}>
+                  {item.status === 'blocked' ? 'This pack is paused.' : itemReady ? itemStatus.line : 'This pack is still being prepared.'}
+                </p>
+                {itemReady && (
+                  <ul className="mt-4 space-y-3">
+                    <PackRow label="Reading" title={exerciseTitle(itemReading, 'Reading')} done={item.readingDone} onOpen={() => onOpenReading(itemReading, item.id)} />
+                    <PackRow label="Listening" title={exerciseTitle(itemListening, 'Listening')} done={item.listeningDone} onOpen={() => onOpenListening(itemListening, item.id)} />
+                    <PackRow label="Grammar" title={`${itemGrammar.title} · ${itemGrammar.level}`} done={item.grammarDone} onOpen={() => onOpenGrammar(itemGrammar, item.id)} />
+                  </ul>
+                )}
+              </div>
+            );
+          })}
+        </section>
+      ))}
       {!showSettings && ready && settings.enabled && !packReady && !preparing && !error && !missing && (
         <p className="mt-4 text-base">Your pack is not ready yet.</p>
       )}

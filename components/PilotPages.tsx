@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { accessToken, sendMagicLink } from '../auth';
+import { BackButton } from './BackButton';
 import { formatEuro, inclusiveVatBreakdown } from '../billingPlans';
 import { PILOT_COHORT_LIMIT, PILOT_DAYS, PILOT_SEATS, PILOT_STORAGE_KEY, isPilotCode, pilotAcademyHref, pilotActiveNotice, pilotDaysLeft } from '../pilotAccess';
 
@@ -102,6 +103,7 @@ export function PilotRedeemPage({ signedIn }: { signedIn: boolean }) {
 
   return (
     <main className="mx-auto w-full max-w-xl px-4 py-8">
+      <BackButton onClick={() => { window.location.href = '/'; }} />
       <p className="text-sm font-bold uppercase tracking-wide text-teal-800 dark:text-teal-200">Private academy pilot</p>
       <h1 className="mt-2 text-3xl font-bold">Activate one academy</h1>
       <p className="mt-3 text-base">
@@ -262,11 +264,12 @@ export function PilotAdminPage({ signedIn }: { signedIn: boolean }) {
   };
 
   if (!example && denied) {
-    return <main className="mx-auto max-w-xl px-4 py-8"><h1 className="text-2xl font-bold">Not available</h1></main>;
+    return <main className="mx-auto max-w-xl px-4 py-8"><BackButton onClick={() => { window.location.href = '/'; }} /><h1 className="text-2xl font-bold">Not available</h1></main>;
   }
 
   return (
     <main className="mx-auto w-full max-w-3xl px-4 py-8">
+      <BackButton onClick={() => { window.location.href = '/'; }} />
       <p className="text-sm font-bold uppercase tracking-wide text-teal-800 dark:text-teal-200">Private</p>
       <h1 className="mt-2 text-3xl font-bold">Academy pilot invitations</h1>
       <p className="mt-2 text-base">Create a code and send it yourself. This page does not email anyone. Cohort limit: {limit}. Each code activates one academy, up to 20 students, for 20 days after redemption.</p>
