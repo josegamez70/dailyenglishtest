@@ -18,6 +18,7 @@ const settings: TaskSettings = {
   grammarLevel: 'B1',
   grammarExercise: 'blanks',
   grammarTopic: 'travel',
+  packsPerDay: 2,
 };
 
 const reading: PracticePiece = {
@@ -58,7 +59,9 @@ const listening: PracticePiece = {
 
 const pack: TaskPackClient = {
   id: 'preview-pack',
-  periodKey: '2026-11-11',
+  periodKey: '2026-11-14',
+  packSlot: 1,
+  createdAt: '2026-11-14T10:00:00.000Z',
   status: 'ready',
   blockReason: '',
   readingDone: false,
@@ -114,9 +117,31 @@ export function TasksPreview({
 }: {
   scene: 'tasks' | 'packs' | 'complete' | 'saved' | 'email';
 }) {
-  const packForScene = scene === 'complete'
+  const todayPack = scene === 'complete'
     ? { ...pack, readingDone: true, listeningDone: true, grammarDone: true }
     : pack;
+  const secondToday: TaskPackClient = {
+    ...pack,
+    id: 'preview-pack-2',
+    packSlot: 2,
+    readingDone: false,
+    listeningDone: false,
+    grammarDone: false,
+  };
+  const yesterday: TaskPackClient = {
+    ...pack,
+    id: 'preview-pack-yesterday',
+    periodKey: '2026-11-13',
+    packSlot: 1,
+    createdAt: '2026-11-13T10:00:00.000Z',
+    readingDone: true,
+    listeningDone: true,
+    grammarDone: true,
+  };
+  const packForScene = todayPack;
+  const packsForScene = scene === 'packs' || scene === 'complete'
+    ? [todayPack, ...(scene === 'packs' ? [secondToday] : []), yesterday]
+    : [todayPack];
   return (
     <AppShell
       active={scene === 'saved' ? 'saved' : scene === 'packs' || scene === 'complete' ? 'packs' : 'tasks'}
@@ -136,20 +161,22 @@ export function TasksPreview({
         <TasksPage
           userId="preview-user"
           section="settings"
-          fixture={{ settings, pack: packForScene }}
+          fixture={{ settings, pack: packForScene, packs: packsForScene }}
           onOpenReading={() => undefined}
           onOpenListening={() => undefined}
           onOpenGrammar={() => undefined}
+          onBack={() => undefined}
         />
       )}
       {(scene === 'packs' || scene === 'complete') && (
         <TasksPage
           userId="preview-user"
           section="packs"
-          fixture={{ settings, pack: packForScene }}
+          fixture={{ settings, pack: packForScene, packs: packsForScene }}
           onOpenReading={() => undefined}
           onOpenListening={() => undefined}
           onOpenGrammar={() => undefined}
+          onBack={() => undefined}
         />
       )}
       {scene === 'saved' && (
@@ -158,6 +185,7 @@ export function TasksPreview({
           onOpen={() => undefined}
           onCreate={() => undefined}
           onPracticeGrammar={() => undefined}
+          onBack={() => undefined}
         />
       )}
       {scene === 'email' && (

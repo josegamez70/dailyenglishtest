@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { joinAcademy, lookupAcademyName } from '../academy';
 import { joinResultMessage } from '../academyStats';
+import { BackButton } from './BackButton';
 
 export function JoinAcademyPage({
   code,
@@ -44,6 +45,7 @@ export function JoinAcademyPage({
 
   return (
     <div className="mx-auto w-full max-w-xl">
+      <BackButton onClick={onNotNow} />
       <h1 className="text-2xl font-bold">Join an academy</h1>
       {!ready && <p className="mt-3 text-base">Loading...</p>}
       {ready && missing && <p className="mt-3 text-base">Academy joining will work after the database update.</p>}

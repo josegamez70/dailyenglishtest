@@ -26,6 +26,7 @@ import { GrammarPage } from './components/GrammarPage';
 import { FREE_LESSON_LIMIT, planStatusText, signOut, useAccount } from './auth';
 import { APP_RETURN_PATHS, returnPathAfterSignIn } from './returnPath';
 import { AppShell, type ShellItem } from './components/AppShell';
+import { BackButton } from './components/BackButton';
 import { ProfilePage, type ThemeChoice } from './components/ProfilePage';
 import { ProgressPage } from './components/ProgressPage';
 import { SavedLessonsPage } from './components/SavedLessonsPage';
@@ -189,6 +190,7 @@ const App: React.FC = () => {
     return 'system';
   });
   const [path, setPath] = useState(() => window.location.pathname.replace(/\/+$/, '') || '/');
+  const [returnPlace, setReturnPlace] = useState<'home' | 'saved' | 'packs'>('home');
   const [grammarActive, setGrammarActive] = useState(false);
   const [grammarResetNonce, setGrammarResetNonce] = useState(0);
   const [grammarLaunch, setGrammarLaunch] = useState<GrammarLaunch | null>(null);
@@ -518,6 +520,7 @@ const App: React.FC = () => {
           setLoadingNote(null);
           setQuizLoading(!readyQuiz);
           setCustomTopicText('');
+          setReturnPlace('home');
           setView('story');
           void account.refreshProfile();
           window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1569,8 +1572,19 @@ const App: React.FC = () => {
     );
   };
 
+  const leaveExercise = () => {
+    if (returnPlace === 'packs') go('/task-packs');
+    else if (returnPlace === 'saved') go('/saved');
+    else {
+      setView('config');
+      window.scrollTo({ top: 0 });
+    }
+  };
+  const exerciseBackLabel = returnPlace === 'packs' ? 'Back to Task packs' : returnPlace === 'saved' ? 'Back to Saved lessons' : 'Back';
+
   const StoryScreen = () => (
     <>
+      <BackButton onClick={leaveExercise} label={exerciseBackLabel} />
       <div className="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-xl shadow-lg w-full max-w-3xl mx-auto">
         <h2 className="text-lg sm:text-3xl font-bold text-center text-slate-900 dark:text-slate-50 whitespace-nowrap">
           {practiceType === 'reading' ? 'Read the Story' : 'Listen to the Story'}
@@ -1635,6 +1649,7 @@ const App: React.FC = () => {
     const question = quiz[currentQuestionIndex];
     return (
       <>
+        <BackButton label={practiceType === 'listening' ? 'Back to listening' : 'Back to story'} onClick={() => { setView('story'); window.scrollTo({ top: 0 }); }} />
         <div className="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-xl shadow-lg w-full max-w-2xl mx-auto">
           <h2 className="text-2xl font-bold text-center mb-4 text-slate-900 dark:text-slate-50">
             {practiceType === 'reading' ? 'Reading Comprehension Quiz' : 'Listening Comprehension Quiz'}
@@ -1706,6 +1721,7 @@ const App: React.FC = () => {
 
     return (
       <>
+        <BackButton onClick={leaveExercise} label={exerciseBackLabel} />
         <div className="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-xl shadow-lg w-full max-w-3xl mx-auto">
           <h2 className="text-3xl font-bold text-center mb-2 text-slate-900 dark:text-slate-50">Quiz Complete!</h2>
           <p className="text-center text-xl text-slate-800 dark:text-slate-100 mb-2">
@@ -2012,6 +2028,7 @@ const App: React.FC = () => {
     const current = window.location.pathname.replace(/\/+$/, '') || '/';
     if (current !== clean) window.history.pushState({}, '', clean);
     setPath(clean);
+    setReturnPlace('home');
     setTaskSession(null);
     if (clean !== '/grammar') setGrammarTaskPackId(null);
     if (clean === '/grammar') setGrammarLaunch(null);
@@ -2027,6 +2044,7 @@ const App: React.FC = () => {
       const parsed = parseSavedGrammarLesson(lesson);
       if (!parsed) return;
       stopSpeaking();
+      setReturnPlace('saved');
       grammarLaunchToken.current += 1;
       setTaskSession(null);
       setGrammarTaskPackId(null);
@@ -2037,7 +2055,8 @@ const App: React.FC = () => {
       window.scrollTo({ top: 0 });
       return;
     }
-    stopSpeaking();
+      stopSpeaking();
+    setReturnPlace('saved');
     const quizItems = Array.isArray(lesson.quiz) ? lesson.quiz as QuizQuestion[] : [];
     setStory(String(lesson.story ?? ''));
     setQuiz(quizItems);
@@ -2079,6 +2098,7 @@ const App: React.FC = () => {
 
   const openTaskPiece = (piece: PracticePiece, packId: string, slot: 'reading' | 'listening') => {
     stopSpeaking();
+    setReturnPlace('packs');
     const quizItems = Array.isArray(piece.quiz) ? piece.quiz as QuizQuestion[] : [];
     setStory(piece.story);
     setQuiz(quizItems);
@@ -2122,6 +2142,7 @@ const App: React.FC = () => {
   };
   const openTaskGrammar = (piece: GrammarPiece, packId: string) => {
     stopSpeaking();
+    setReturnPlace('packs');
     grammarLaunchToken.current += 1;
     setGrammarTaskPackId(packId);
     setTaskSession(null);
@@ -2177,6 +2198,11 @@ const App: React.FC = () => {
           onTaskComplete={() => {
             if (grammarTaskPackId) void markTaskDone(grammarTaskPackId, 'grammar');
           }}
+          onBack={() => {
+            if (grammarLaunch?.task || returnPlace === 'packs') go('/task-packs');
+            else if (grammarLaunch?.id || returnPlace === 'saved') go('/saved');
+            else go('/');
+          }}
         />
       )}
       {(shellItem === 'tasks' || shellItem === 'packs') && (
@@ -2186,6 +2212,7 @@ const App: React.FC = () => {
           onOpenReading={(piece, packId) => openTaskPiece(piece, packId, 'reading')}
           onOpenListening={(piece, packId) => openTaskPiece(piece, packId, 'listening')}
           onOpenGrammar={openTaskGrammar}
+          onBack={() => go('/')}
         />
       )}
       {shellItem === 'progress' && (
@@ -2193,14 +2220,18 @@ const App: React.FC = () => {
           onCreate={() => go('/')}
           studentName={account.displayName.trim() || account.email || 'Student'}
           profileLevel={account.defaultLevel}
+          onBack={() => go('/')}
         />
       )}
       {shellItem === 'saved' && (
-        <SavedLessonsPage onOpen={openSaved} onCreate={() => go('/')} onPracticeGrammar={() => go('/grammar')} />
+        <SavedLessonsPage onOpen={openSaved} onCreate={() => go('/')} onPracticeGrammar={() => go('/grammar')} onBack={() => go('/')} />
       )}
-      {shellItem === 'academy' && account.plan === 'academy' && <AcademyPage ownerDisplayName={account.displayName} />}
+      {shellItem === 'academy' && account.plan === 'academy' && <AcademyPage ownerDisplayName={account.displayName} onBack={() => go('/')} />}
       {shellItem === 'academy' && account.plan !== 'academy' && (
-        <p className="text-base">This page is for academy accounts.</p>
+        <div>
+          <BackButton onClick={() => go('/')} />
+          <p className="text-base">This page is for academy accounts.</p>
+        </div>
       )}
       {shellItem === 'join' && (
         <JoinAcademyPage
@@ -2240,6 +2271,7 @@ const App: React.FC = () => {
             void account.refreshProfile();
           }}
           onAcademyChanged={() => { void account.refreshProfile(); }}
+          onBack={() => go('/')}
         />
       )}
       {shellItem === 'lesson' && signedOutPage}

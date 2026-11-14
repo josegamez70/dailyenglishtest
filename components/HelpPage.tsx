@@ -10,6 +10,7 @@ import {
   type HelpLang,
 } from '../helpContent';
 import { SiteFooter } from './LegalPages';
+import { BackButton } from './BackButton';
 
 function HelpText({ value }: { value: string }) {
   return (
@@ -154,6 +155,7 @@ export function HelpPage() {
         </a>
       </header>
       <main lang={copy.htmlLang} className="mx-auto w-full max-w-3xl">
+        <BackButton onClick={() => { window.location.href = '/'; }} />
         <p className="text-sm font-bold uppercase tracking-wide text-blue-800 dark:text-blue-300">{copy.kicker}</p>
         <div className="mt-2 flex items-start justify-between gap-3">
           <h1 className="min-w-0 text-3xl font-bold leading-tight sm:text-4xl">{copy.heading}</h1>

@@ -12,6 +12,8 @@ export type TaskSlot = 'reading' | 'listening' | 'grammar';
 export type TaskPackClient = {
   id: string;
   periodKey: string;
+  packSlot: number;
+  createdAt: string;
   status: 'generating' | 'ready' | 'blocked' | string;
   blockReason: string;
   readingDone: boolean;
@@ -38,18 +40,19 @@ function client() {
 
 export async function loadTaskScreen(settingsHint?: TaskSettings): Promise<{
   settings: TaskSettings;
+  packs: TaskPackClient[];
   pack: TaskPackClient | null;
   missing: boolean;
 }> {
   const supabase = client();
   const fallback = settingsFromRow(null);
-  if (!supabase) return { settings: settingsHint ?? fallback, pack: null, missing: false };
+  if (!supabase) return { settings: settingsHint ?? fallback, packs: [], pack: null, missing: false };
   const { data: userData } = await supabase.auth.getUser();
   const userId = userData.user?.id;
-  if (!userId) return { settings: settingsHint ?? fallback, pack: null, missing: false };
+  if (!userId) return { settings: settingsHint ?? fallback, packs: [], pack: null, missing: false };
   const settingsResult = await supabase.from('task_settings').select('*').eq('user_id', userId).maybeSingle();
   if (settingsResult.error) {
-    return { settings: settingsHint ?? fallback, pack: null, missing: isMissingTable(settingsResult.error) };
+    return { settings: settingsHint ?? fallback, packs: [], pack: null, missing: isMissingTable(settingsResult.error) };
   }
   const settings = settingsResult.data
     ? settingsFromRow(settingsResult.data as Record<string, unknown>)
@@ -57,34 +60,42 @@ export async function loadTaskScreen(settingsHint?: TaskSettings): Promise<{
   const key = periodKey(settings.frequency);
   const packResult = await supabase
     .from('task_packs')
-    .select('id, period_key, status, block_reason, reading_done, listening_done, grammar_done')
+    .select('id, period_key, pack_slot, status, block_reason, reading_done, listening_done, grammar_done, created_at')
     .eq('user_id', userId)
-    .eq('period_key', key)
-    .maybeSingle();
+    .order('created_at', { ascending: false });
   if (packResult.error) {
-    return { settings, pack: null, missing: isMissingTable(packResult.error) };
+    return { settings, packs: [], pack: null, missing: isMissingTable(packResult.error) };
   }
-  if (!packResult.data) return { settings, pack: null, missing: false };
+  const rows = packResult.data ?? [];
+  if (!rows.length) return { settings, packs: [], pack: null, missing: false };
   const exercises = await supabase
     .from('task_pack_exercises')
-    .select('reading, listening, grammar')
-    .eq('pack_id', packResult.data.id)
-    .maybeSingle();
+    .select('pack_id, reading, listening, grammar')
+    .in('pack_id', rows.map((row) => row.id));
+  const byPack = new Map((exercises.data ?? []).map((row) => [String(row.pack_id), row]));
+  const packs: TaskPackClient[] = rows.map((row) => {
+    const exercise = byPack.get(String(row.id));
+    return {
+      id: String(row.id),
+      periodKey: String(row.period_key ?? key),
+      packSlot: Number(row.pack_slot ?? 1),
+      createdAt: String(row.created_at ?? new Date().toISOString()),
+      status: String(row.status ?? 'generating'),
+      blockReason: String(row.block_reason ?? ''),
+      readingDone: row.reading_done === true,
+      listeningDone: row.listening_done === true,
+      grammarDone: row.grammar_done === true,
+      reading: exercise?.reading ?? null,
+      listening: exercise?.listening ?? null,
+      grammar: exercise?.grammar ?? null,
+    };
+  });
+  const today = packs.filter((item) => item.periodKey === key);
   return {
     settings,
     missing: false,
-    pack: {
-      id: String(packResult.data.id),
-      periodKey: String(packResult.data.period_key ?? key),
-      status: String(packResult.data.status ?? 'generating'),
-      blockReason: String(packResult.data.block_reason ?? ''),
-      readingDone: packResult.data.reading_done === true,
-      listeningDone: packResult.data.listening_done === true,
-      grammarDone: packResult.data.grammar_done === true,
-      reading: exercises.data?.reading ?? null,
-      listening: exercises.data?.listening ?? null,
-      grammar: exercises.data?.grammar ?? null,
-    },
+    packs,
+    pack: today.find((item) => item.status !== 'ready' && item.status !== 'blocked') ?? today[0] ?? packs[0] ?? null,
   };
 }
 

@@ -5,6 +5,7 @@ import type { CefrLevel } from '../progressStats';
 import { AcademyProfileSection } from './AcademyProfileSection';
 import { PricingPanel } from './PricingPanel';
 import { PilotStatusBanner } from './PilotPages';
+import { BackButton } from './BackButton';
 
 export type ThemeChoice = 'light' | 'dark' | 'system';
 /** Still stored on the profile. Playback ignores it and always uses American English. */
@@ -35,6 +36,7 @@ export function ProfilePage({
   onTheme,
   onSaved,
   onAcademyChanged,
+  onBack,
 }: {
   userId: string | null;
   email: string | null;
@@ -49,6 +51,7 @@ export function ProfilePage({
   onTheme: (theme: ThemeChoice) => void;
   onSaved: (next: { theme: ThemeChoice; defaultLevel: CefrLevel; speed: number; displayName: string }) => void;
   onAcademyChanged: () => void;
+  onBack?: () => void;
 }) {
   const [name, setName] = useState(displayName);
   const [level, setLevel] = useState<CefrLevel>(defaultLevel);
@@ -109,6 +112,7 @@ export function ProfilePage({
   const academyStudent = academyRole === 'student';
   return (
     <div className="mx-auto w-full max-w-xl">
+    {onBack && <BackButton onClick={onBack} />}
     <PilotStatusBanner />
     <form onSubmit={save} className="space-y-5">
       <h1 className="text-2xl font-bold">Profile</h1>

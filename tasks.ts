@@ -1,7 +1,9 @@
 import { LEVELS, QUESTION_COUNTS, TOPICS, WILDCARD_TOPIC, WORD_COUNTS } from './constants.ts';
 
-/** Newest task packs kept per person. Older packs are deleted by a database trigger. */
-export const TASK_PACK_LIMIT = 5;
+/** Newest days of task packs kept per person. Older days are deleted by a database trigger. */
+export const TASK_DAY_LIMIT = 5;
+
+export type PacksPerDay = 1 | 2 | 3;
 
 export const TASK_PERIOD_ZONE = 'Europe/Madrid';
 
@@ -24,6 +26,8 @@ export type TaskSettings = {
   grammarLevel: TaskGrammarLevel;
   grammarExercise: TaskGrammarExercise;
   grammarTopic: string;
+  /** How many packs a daily schedule issues. A weekly schedule still issues one. */
+  packsPerDay: PacksPerDay;
 };
 
 export const DEFAULT_TASK_SETTINGS: TaskSettings = {
@@ -39,6 +43,7 @@ export const DEFAULT_TASK_SETTINGS: TaskSettings = {
   grammarLevel: 'B1',
   grammarExercise: 'blanks',
   grammarTopic: '',
+  packsPerDay: 1,
 };
 
 export type TaskStep =
@@ -117,6 +122,8 @@ export function normalizeTaskSettings(input: unknown): TaskSettings | null {
   if (!WORD_VALUES.has(wordCount) || !QUESTION_VALUES.has(questionCount)) return null;
   if (!TOPIC_VALUES.has(topic)) return null;
   const grammarTopic = typeof raw.grammarTopic === 'string' ? raw.grammarTopic.replace(/\s+/g, ' ').trim().slice(0, 80) : '';
+  const packsRaw = Number(raw.packsPerDay);
+  const packsPerDay: PacksPerDay = packsRaw === 2 || packsRaw === 3 ? packsRaw : 1;
   return {
     enabled: raw.enabled === true,
     emailReminders: raw.emailReminders !== false,
@@ -130,7 +137,14 @@ export function normalizeTaskSettings(input: unknown): TaskSettings | null {
     grammarLevel,
     grammarExercise,
     grammarTopic,
+    packsPerDay,
   };
+}
+
+/** Daily schedules issue 1, 2, or 3 packs. Weekly stays one pack for the week. */
+export function issuedPackCount(settings: Pick<TaskSettings, 'frequency' | 'packsPerDay'>): number {
+  if (settings.frequency === 'weekly') return 1;
+  return settings.packsPerDay;
 }
 
 export function settingsFromRow(row: Record<string, unknown> | null): TaskSettings {
@@ -148,6 +162,7 @@ export function settingsFromRow(row: Record<string, unknown> | null): TaskSettin
     grammarLevel: row.grammar_level,
     grammarExercise: row.grammar_exercise,
     grammarTopic: row.grammar_topic,
+    packsPerDay: row.packs_per_day,
   }) ?? { ...DEFAULT_TASK_SETTINGS };
 }
 
@@ -166,6 +181,7 @@ export function settingsToRow(userId: string, settings: TaskSettings): Record<st
     grammar_level: settings.grammarLevel,
     grammar_exercise: settings.grammarExercise,
     grammar_topic: settings.grammarTopic,
+    packs_per_day: settings.packsPerDay,
   };
 }
 
@@ -199,6 +215,45 @@ export function periodKey(frequency: TaskFrequency, now = new Date()): string {
     return `${week.weekYear}-W${String(week.week).padStart(2, '0')}`;
   }
   return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+}
+
+export function madridDayKey(now = new Date()): string {
+  return periodKey('daily', now);
+}
+
+export function shiftMadridDay(key: string, days: number): string {
+  const [year, month, day] = key.split('-').map((part) => Number(part));
+  if (!year || !month || !day) return key;
+  const date = new Date(Date.UTC(year, month - 1, day));
+  date.setUTCDate(date.getUTCDate() + days);
+  return date.toISOString().slice(0, 10);
+}
+
+export function packDayHeading(dayKey: string, todayKey: string): string {
+  if (dayKey === todayKey) return 'Today';
+  if (dayKey === shiftMadridDay(todayKey, -1)) return 'Yesterday';
+  return periodLabel('daily', dayKey);
+}
+
+export function groupTaskPacks<T extends { createdAt: string; packSlot: number }>(
+  packs: T[],
+  today = new Date(),
+): { key: string; label: string; packs: T[] }[] {
+  const todayKey = madridDayKey(today);
+  const groups = new Map<string, T[]>();
+  for (const pack of packs) {
+    const key = madridDayKey(new Date(pack.createdAt));
+    const list = groups.get(key) ?? [];
+    list.push(pack);
+    groups.set(key, list);
+  }
+  return [...groups.entries()]
+    .sort((left, right) => right[0].localeCompare(left[0]))
+    .map(([key, items]) => ({
+      key,
+      label: packDayHeading(key, todayKey),
+      packs: [...items].sort((left, right) => left.packSlot - right.packSlot),
+    }));
 }
 
 export function periodLabel(frequency: TaskFrequency, key: string): string {
@@ -295,6 +350,8 @@ export type TaskEmailInput = {
   token: string;
   frequency: TaskFrequency;
   periodKey: string;
+  /** Ready packs covered by this one daily message. */
+  packCount?: number;
 };
 
 /** HTML and plain text for the pack reminder. The link turns tasks and reminders off. */
@@ -303,10 +360,14 @@ export function taskReminderMessage(input: TaskEmailInput): { subject: string; h
   const openUrl = `${base}/task-packs`;
   const offUrl = `${base}/api/tasks-unsubscribe?token=${encodeURIComponent(input.token)}`;
   const when = input.frequency === 'weekly' ? 'this week' : 'today';
+  const count = input.packCount && input.packCount > 1 ? input.packCount : 1;
+  const summary = count === 1
+    ? `Your pack for ${when} is waiting. It has one reading exercise, one listening exercise, and one grammar exercise.`
+    : `Your ${count} packs for ${when} are waiting. Each pack has one reading exercise, one listening exercise, and one grammar exercise.`;
   const subject = 'Your English tasks are ready';
   const text = [
     `Your English tasks for ${when} are ready.`,
-    'The pack has one reading exercise, one listening exercise, and one grammar exercise.',
+    summary,
     `Open Task packs: ${openUrl}`,
     `Turn tasks off and stop these emails: ${offUrl}`,
   ].join('\n\n');
@@ -317,7 +378,7 @@ export function taskReminderMessage(input: TaskEmailInput): { subject: string; h
   <div style="max-width:520px;margin:0 auto;background:#ffffff;border:1px solid #cbd5e1;border-radius:12px;padding:24px;">
     <p style="margin:0;font-size:20px;font-weight:700;">Daily English Test</p>
     <h1 style="margin:16px 0 8px;font-size:24px;">Your tasks are ready</h1>
-    <p style="margin:0 0 12px;font-size:16px;line-height:1.5;">Your pack for ${when} is waiting. It has one reading exercise, one listening exercise, and one grammar exercise.</p>
+    <p style="margin:0 0 12px;font-size:16px;line-height:1.5;">${summary}</p>
     <p style="margin:20px 0;"><a href="${openUrl}" style="display:inline-block;background:#1d4ed8;color:#ffffff;text-decoration:none;font-weight:700;padding:12px 18px;border-radius:8px;">Open Task packs</a></p>
     <p style="margin:0;font-size:14px;line-height:1.5;color:#334155;">If you do not want these emails, <a href="${offUrl}">turn tasks off</a>. You can turn them on again from the Tasks page after you sign in.</p>
   </div>
