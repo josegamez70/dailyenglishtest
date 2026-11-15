@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { createAcademy, loadAcademyStudents, loadOwnedAcademy, regenerateInviteCode, removeStudent, type AcademyStudent, type OwnedAcademy } from '../academy';
-import { academyPillName, copyInviteText, countPhrase, countTestsThisWeek, inviteLink, studentRosterLabel } from '../academyStats';
+import { academyPillName, copyInviteText, countPhrase, countTestsThisWeek, studentRosterLabel } from '../academyStats';
+import { inviteShareText } from '../invitePreview';
 import { averagePercent, formatResultDate } from '../progressStats';
 import { scorePercent, studentIdFromSearch } from '../studentDetail';
 import { AcademyBadge } from './AcademyBadge';
@@ -143,7 +144,7 @@ export function AcademyPage({ ownerDisplayName = '', onBack }: { ownerDisplayNam
 
   const copyCode = async () => {
     if (!academy) return;
-    const link = inviteLink(window.location.origin, academy.inviteCode);
+    const link = inviteShareText(window.location.origin, academy.inviteCode);
     const copied = await copyInviteText(link);
     setNote(copied ? 'Link copied.' : 'Select the link and copy it.');
   };
@@ -235,7 +236,7 @@ export function AcademyPage({ ownerDisplayName = '', onBack }: { ownerDisplayNam
 
   const allTests = students.flatMap((student) => student.tests);
   const weekCount = countTestsThisWeek(allTests.map((item) => new Date(item.createdAt)));
-  const shareLink = inviteLink(window.location.origin, academy.inviteCode);
+  const shareLink = inviteShareText(window.location.origin, academy.inviteCode);
 
   return (
     <div className="mx-auto w-full max-w-3xl">
@@ -255,6 +256,7 @@ export function AcademyPage({ ownerDisplayName = '', onBack }: { ownerDisplayNam
           </button>
         </div>
         <p className="mt-3 break-all text-sm text-slate-700 dark:text-slate-200">{shareLink}</p>
+        <p className="mt-2 text-sm text-slate-700 dark:text-slate-200">Send only this link. Do not add the site address on its own.</p>
       </div>
       <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-3">
         {[
