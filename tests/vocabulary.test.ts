@@ -64,6 +64,8 @@ test('the quiz is built only from saved words and needs four of them', () => {
   assert.match(sql, /auth.uid\(\) = user_id/);
   const shell = readFileSync(new URL('../components/AppShell.tsx', import.meta.url), 'utf8');
   assert.match(shell, /My vocabulary/);
+  const netlify = readFileSync(new URL('../netlify.toml', import.meta.url), 'utf8');
+  assert.match(netlify, /from = "\/vocabulary"/);
   const list = readFileSync(new URL('../components/KeyVocabularyList.tsx', import.meta.url), 'utf8');
   assert.match(list, /type="checkbox"/);
   const popup = readFileSync(new URL('../components/DefinedText.tsx', import.meta.url), 'utf8');
