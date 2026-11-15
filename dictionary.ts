@@ -124,7 +124,7 @@ function isFormPointer(definition: string): boolean {
 function commonScore(definition: string): number {
   const text = definition.toLowerCase();
   let score = 0;
-  if (/\b(fun|playful|joke|laugh|annoy|friend|person|school|learn|study)\b/.test(text)) score += 3;
+  if (/\b(fun|playful|joke|laugh)\b/.test(text)) score += 3;
   if (/\b(fibre|fiber|fibrous|teasel|backcomb|textile|obsolete|archaic|rare|dialect|nautical|zoology|botany)\b/.test(text)) score -= 5;
   return score;
 }

@@ -78,6 +78,22 @@ test('an inflected word keeps the base form’s common sense first', () => {
   assert.equal(merged.senses[0].definition, 'To make fun of someone playfully.');
   assert.equal(meaningToSave(merged.senses).startsWith('To make fun of someone playfully. · '), true);
   assert.equal(merged.senses.length <= 3, true);
+  const ranked = collectSenses([{
+    partOfSpeech: 'verb',
+    definitions: [
+      { definition: 'To separate the fibres of a fibrous material.' },
+      { definition: 'To poke fun at someone playfully.' },
+    ],
+  }]);
+  assert.equal(ranked.senses[0].definition, 'To poke fun at someone playfully.');
+  const fruit = collectSenses([{
+    partOfSpeech: 'noun',
+    definitions: [
+      { definition: 'A round fruit that grows on a tree.' },
+      { definition: 'The round part of a cheek when a person is smiling.' },
+    ],
+  }]);
+  assert.equal(fruit.senses[0].definition, 'A round fruit that grows on a tree.');
 });
 
 test('an inflection pointer names the base word', () => {
