@@ -24,7 +24,7 @@ import { resumeWordIndex, textFromWordIndex } from './speechPosition';
 import { generateStoryAndQuiz, listeningSlowAudio, refreshListeningAudio, savedListeningAudio, taskListeningAudio } from './services/geminiService';
 import { GrammarPage } from './components/GrammarPage';
 import { FREE_LESSON_LIMIT, planStatusText, signOut, useAccount } from './auth';
-import { APP_RETURN_PATHS, returnPathAfterSignIn } from './returnPath';
+import { isAppReturnPath, isTaskPacksPath, returnPathAfterSignIn, taskPackIdFromPath } from './returnPath';
 import { AppShell, type ShellItem } from './components/AppShell';
 import { BackButton } from './components/BackButton';
 import { ProfilePage, type ThemeChoice } from './components/ProfilePage';
@@ -289,7 +289,7 @@ const App: React.FC = () => {
   useEffect(() => {
     if (!account.ready) return;
     if (!account.signedIn) {
-      if (APP_RETURN_PATHS.has(path)) {
+      if (isAppReturnPath(path)) {
         try { sessionStorage.setItem(RETURN_PATH_KEY, path); } catch { /* ignore */ }
       }
       return;
@@ -1587,7 +1587,7 @@ const App: React.FC = () => {
   };
 
   const leaveExercise = () => {
-    if (returnPlace === 'packs') go('/task-packs');
+    if (returnPlace === 'packs') window.history.back();
     else if (returnPlace === 'saved') go('/saved');
     else {
       setView('config');
@@ -2111,7 +2111,23 @@ const App: React.FC = () => {
     </div>
   );
 
-  const shellItem: ShellItem = path === '/progress' ? 'progress' : path === '/saved' ? 'saved' : path === '/vocabulary' ? 'vocabulary' : path === '/tasks' ? 'tasks' : path === '/task-packs' ? 'packs' : path === '/profile' ? 'profile' : path === '/academy' ? 'academy' : path === '/join' ? 'join' : path === '/grammar' ? 'grammar' : 'lesson';
+  const shellItem: ShellItem = path === '/progress' ? 'progress' : path === '/saved' ? 'saved' : path === '/vocabulary' ? 'vocabulary' : path === '/tasks' ? 'tasks' : isTaskPacksPath(path) ? 'packs' : path === '/profile' ? 'profile' : path === '/academy' ? 'academy' : path === '/join' ? 'join' : path === '/grammar' ? 'grammar' : 'lesson';
+  const openPack = (id: string) => {
+    const next = `/task-packs/${id}`;
+    window.history.pushState({ taskPack: id }, '', next);
+    setPath(next);
+    window.scrollTo({ top: 0 });
+  };
+  const closePack = () => {
+    const state = window.history.state as { taskPack?: string } | null;
+    if (state?.taskPack) {
+      window.history.back();
+      return;
+    }
+    window.history.replaceState({}, '', '/task-packs');
+    setPath('/task-packs');
+    window.scrollTo({ top: 0 });
+  };
   const go = (next: string, vocab?: { packId: string; mode: 'flashcards' | 'quiz' } | null) => {
     const clean = next.replace(/\/+$/, '') || '/';
     const current = window.location.pathname.replace(/\/+$/, '') || '/';
@@ -2257,7 +2273,7 @@ const App: React.FC = () => {
     return (
       <div className="min-h-screen bg-slate-100 px-3 py-6 text-slate-900 dark:bg-slate-900 dark:text-slate-50">
         <div className="mx-auto w-full max-w-xl">
-          <h1 className="text-2xl font-bold">My vocabulary</h1>
+          <h1 className="text-2xl font-bold">Vocabulary builder</h1>
           <p className="mt-2 text-base">Sign in to save words from your lessons and practice them. Academy students can use this too.</p>
           <div className="mt-4">
             <SignInBox />
@@ -2303,7 +2319,8 @@ const App: React.FC = () => {
             if (grammarTaskPackId) void markTaskDone(grammarTaskPackId, 'grammar');
           }}
           onBack={() => {
-            if (grammarLaunch?.task || returnPlace === 'packs') go('/task-packs');
+            if (returnPlace === 'packs') window.history.back();
+            else if (grammarLaunch?.task) go('/task-packs');
             else if (grammarLaunch?.id || returnPlace === 'saved') go('/saved');
             else go('/');
           }}
@@ -2319,6 +2336,9 @@ const App: React.FC = () => {
           onOpenVocabulary={(packId, mode) => go('/vocabulary', { packId, mode })}
           onGoLessons={() => go('/')}
           onBack={() => go('/')}
+          selectedPackId={taskPackIdFromPath(path)}
+          onOpenPack={openPack}
+          onClosePack={closePack}
         />
       )}
       {shellItem === 'progress' && (
@@ -2336,7 +2356,10 @@ const App: React.FC = () => {
         <VocabularyPage
           userId={account.userId}
           onSignIn={() => { setSignInOpen(true); setSignInPrompt(true); }}
-          onBack={() => go(vocabTask ? '/task-packs' : '/')}
+          onBack={() => {
+            if (vocabTask) window.history.back();
+            else go('/');
+          }}
           practice={vocabTask?.mode ?? null}
           onFinished={() => { if (vocabTask) void markTaskDone(vocabTask.packId, 'vocabulary'); }}
           onGoLessons={() => go('/')}

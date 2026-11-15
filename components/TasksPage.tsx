@@ -17,7 +17,7 @@ import {
   nextTaskStep,
   periodKey,
   taskPackIsComplete,
-  taskPackStatusLine,
+  taskPackProgress,
   vocabularyPracticeReady,
   type PacksPerDay,
   periodLabel,
@@ -82,6 +82,30 @@ function exerciseTitle(piece: PracticePiece | null, fallback: string): string {
   return `${piece.title || fallback} · ${format} · ${piece.levelLabel || taskLevelLabel(piece.level)}`;
 }
 
+function describePack(item: TaskPackClient, settings: TaskSettings, words: readonly { meaning: string }[]) {
+  const itemReading = isPracticePiece(item.reading) && practiceHasQuiz(item.reading) ? item.reading : null;
+  const itemListening = isPracticePiece(item.listening) && practiceHasQuiz(item.listening) ? item.listening : null;
+  const itemGrammar = isGrammarPiece(item.grammar) ? item.grammar : null;
+  const itemReady = item.status === 'ready' && Boolean(itemReading && itemListening && itemGrammar);
+  const vocabularyReady = vocabularyPracticeReady(settings.vocabularyMode, words);
+  const progressInput = {
+    readingDone: item.readingDone,
+    listeningDone: item.listeningDone,
+    grammarDone: item.grammarDone,
+    vocabularyMode: settings.vocabularyMode,
+    vocabularyDone: item.vocabularyDone,
+    vocabularyReady,
+  };
+  const progress = taskPackProgress(progressInput);
+  const finished = taskPackIsComplete(progressInput);
+  const when = periodLabel(settings.frequency, item.periodKey);
+  let status = 'This pack is still being prepared.';
+  if (item.status === 'blocked') status = 'This pack is paused.';
+  else if (itemReady && finished) status = 'Complete';
+  else if (itemReady) status = `${progress.done} of ${progress.total} done`;
+  return { itemReading, itemListening, itemGrammar, itemReady, vocabularyReady, when, status, finished };
+}
+
 export function TasksPage({
   userId,
   fixture,
@@ -92,6 +116,9 @@ export function TasksPage({
   onOpenVocabulary,
   onGoLessons,
   onBack,
+  selectedPackId = null,
+  onOpenPack,
+  onClosePack,
 }: {
   userId: string | null;
   /** Sample data for a local preview. Skips the database. */
@@ -104,6 +131,10 @@ export function TasksPage({
   onOpenVocabulary?: (packId: string, mode: Exclude<TaskVocabularyMode, ''>) => void;
   onGoLessons?: () => void;
   onBack?: () => void;
+  /** Set from /task-packs/:id. Null shows the pack list. */
+  selectedPackId?: string | null;
+  onOpenPack?: (packId: string) => void;
+  onClosePack?: () => void;
 }) {
   const [settings, setSettings] = useState<TaskSettings>(fixture?.settings ?? DEFAULT_TASK_SETTINGS);
   const [pack, setPack] = useState<TaskPackClient | null>(fixture?.pack ?? null);
@@ -226,7 +257,7 @@ export function TasksPage({
       return;
     }
     setNote(saved.vocabularyLocal
-      ? 'Saved on this device. My vocabulary in tasks is kept for every device after the database update. The lessons appear in Task packs.'
+      ? 'Saved on this device. Vocabulary builder in tasks is kept for every device after the database update. The lessons appear in Task packs.'
       : 'Saved. The lessons appear in Task packs.');
     if (settings.enabled) void prepare(true);
     else {
@@ -241,6 +272,30 @@ export function TasksPage({
   const packReady = pack?.status === 'ready' && reading && listening && grammar;
 
   const showSettings = section === 'settings';
+  const selectedPack = !showSettings && selectedPackId
+    ? packs.find((item) => item.id === selectedPackId) ?? null
+    : null;
+  if (!showSettings && selectedPackId) {
+    return (
+      <div className="mx-auto w-full max-w-3xl">
+        <BackButton onClick={() => onClosePack?.()} label="Back" />
+        {!ready && <p className="text-base">Loading...</p>}
+        {ready && !selectedPack && <p className="text-base">This pack is not in the list.</p>}
+        {selectedPack && (
+          <PackExercises
+            item={selectedPack}
+            settings={settings}
+            words={vocabState.rows}
+            onOpenReading={onOpenReading}
+            onOpenListening={onOpenListening}
+            onOpenGrammar={onOpenGrammar}
+            onOpenVocabulary={onOpenVocabulary}
+            onGoLessons={onGoLessons}
+          />
+        )}
+      </div>
+    );
+  }
   return (
     <div className="mx-auto w-full max-w-3xl">
       {onBack && <BackButton onClick={onBack} />}
@@ -248,7 +303,7 @@ export function TasksPage({
       <p className="mt-2 text-base">
         {showSettings
           ? 'Choose how often a pack arrives, and the same options you use for a lesson. The lessons themselves are in Task packs.'
-          : 'A pack is one reading exercise, one listening exercise, and one grammar exercise. Opening one does not use another lesson.'}
+          : 'Each card is one pack. Open it to start Reading, Listening, Grammar, and Vocabulary builder when that is on. Opening a pack does not use another lesson.'}
       </p>
       {missing && <p className="mt-3 text-base">Tasks will be ready after the database update.</p>}
       {!ready ? <p className="mt-6 text-base">Loading...</p> : null}
@@ -435,7 +490,7 @@ export function TasksPage({
             </div>
           </fieldset>
           <fieldset className="mt-4">
-            <legend className="text-base font-semibold">My vocabulary</legend>
+            <legend className="text-base font-semibold">Vocabulary builder</legend>
             <p className="mt-1 text-sm text-slate-700 dark:text-slate-200">Add saved words to each pack. Leave this off to keep packs as they are.</p>
             <div className="mt-2 grid gap-2">
               {([
@@ -510,56 +565,20 @@ export function TasksPage({
         <section key={day.key} className="mt-6">
           <h2 className="text-xl font-bold">{day.label}</h2>
           {day.packs.map((item) => {
-            const itemReading = isPracticePiece(item.reading) && practiceHasQuiz(item.reading) ? item.reading : null;
-            const itemListening = isPracticePiece(item.listening) && practiceHasQuiz(item.listening) ? item.listening : null;
-            const itemGrammar = isGrammarPiece(item.grammar) ? item.grammar : null;
-            const itemReady = item.status === 'ready' && itemReading && itemListening && itemGrammar;
-            const vocabularyReady = vocabularyPracticeReady(settings.vocabularyMode, vocabState.rows);
-            const itemDone = taskPackIsComplete({
-              readingDone: item.readingDone,
-              listeningDone: item.listeningDone,
-              grammarDone: item.grammarDone,
-              vocabularyMode: settings.vocabularyMode,
-              vocabularyDone: item.vocabularyDone,
-              vocabularyReady,
-            });
-            const itemStatus = taskPackStatusLine(itemDone, periodLabel(settings.frequency, item.periodKey));
+            const summary = describePack(item, settings, vocabState.rows);
             return (
-              <div key={item.id} className="mt-3 rounded-xl border border-slate-300 bg-white p-4 dark:border-slate-600 dark:bg-slate-800">
-                <h3 className="text-lg font-bold">{day.packs.length > 1 ? `Pack ${item.packSlot}` : itemStatus.heading}</h3>
-                <p className={`mt-1 text-base ${itemDone ? 'font-semibold text-emerald-800 dark:text-emerald-200' : ''}`}>
-                  {item.status === 'blocked' ? 'This pack is paused.' : itemReady ? itemStatus.line : 'This pack is still being prepared.'}
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => onOpenPack?.(item.id)}
+                className="mt-3 w-full rounded-xl border border-slate-300 bg-white p-4 text-left active:border-blue-700 dark:border-slate-600 dark:bg-slate-800 dark:active:border-blue-300"
+              >
+                <h3 className="text-lg font-bold">Pack {item.packSlot}</h3>
+                <p className="mt-1 text-base">{summary.when}</p>
+                <p className={`mt-1 text-base ${summary.finished ? 'font-semibold text-emerald-800 dark:text-emerald-200' : ''}`}>
+                  {summary.status}
                 </p>
-                {itemReady && (
-                  <ul className="mt-4 space-y-3">
-                    <PackRow label="Reading" title={exerciseTitle(itemReading, 'Reading')} done={item.readingDone} onOpen={() => onOpenReading(itemReading, item.id)} />
-                    <PackRow label="Listening" title={exerciseTitle(itemListening, 'Listening')} done={item.listeningDone} onOpen={() => onOpenListening(itemListening, item.id)} />
-                    <PackRow label="Grammar" title={`${itemGrammar.title} · ${itemGrammar.level}`} done={item.grammarDone} onOpen={() => onOpenGrammar(itemGrammar, item.id)} />
-                    {settings.vocabularyMode === 'flashcards' && !vocabularyReady && (
-                      <li className="rounded-lg border border-slate-300 p-3 dark:border-slate-600">
-                        <p className="text-sm font-semibold text-slate-600 dark:text-slate-300">My vocabulary</p>
-                        <p className="text-base">Save a word in a lesson to start flashcards. The rest of this pack is not waiting.</p>
-                        {onGoLessons && <button type="button" onClick={onGoLessons} className="mt-2 text-base font-bold text-blue-800 underline dark:text-blue-200">Go to lessons</button>}
-                      </li>
-                    )}
-                    {settings.vocabularyMode === 'quiz' && !vocabularyReady && (
-                      <li className="rounded-lg border border-slate-300 p-3 dark:border-slate-600">
-                        <p className="text-sm font-semibold text-slate-600 dark:text-slate-300">My vocabulary</p>
-                        <p className="text-base">A quiz needs at least 4 saved words with a meaning. The rest of this pack is not waiting.</p>
-                        {onGoLessons && <button type="button" onClick={onGoLessons} className="mt-2 text-base font-bold text-blue-800 underline dark:text-blue-200">Go to lessons</button>}
-                      </li>
-                    )}
-                    {settings.vocabularyMode && vocabularyReady && onOpenVocabulary && (
-                      <PackRow
-                        label="My vocabulary"
-                        title={settings.vocabularyMode === 'quiz' ? 'Quiz' : 'Flashcards'}
-                        done={item.vocabularyDone}
-                        onOpen={() => onOpenVocabulary(item.id, settings.vocabularyMode as 'flashcards' | 'quiz')}
-                      />
-                    )}
-                  </ul>
-                )}
-              </div>
+              </button>
             );
           })}
         </section>
@@ -568,6 +587,66 @@ export function TasksPage({
         <p className="mt-4 text-base">Your pack is not ready yet.</p>
       )}
     </div>
+  );
+}
+
+function PackExercises({
+  item,
+  settings,
+  words,
+  onOpenReading,
+  onOpenListening,
+  onOpenGrammar,
+  onOpenVocabulary,
+  onGoLessons,
+}: {
+  item: TaskPackClient;
+  settings: TaskSettings;
+  words: readonly { meaning: string }[];
+  onOpenReading: (piece: PracticePiece, packId: string) => void;
+  onOpenListening: (piece: PracticePiece, packId: string) => void;
+  onOpenGrammar: (piece: GrammarPiece, packId: string) => void;
+  onOpenVocabulary?: (packId: string, mode: Exclude<TaskVocabularyMode, ''>) => void;
+  onGoLessons?: () => void;
+}) {
+  const summary = describePack(item, settings, words);
+  return (
+    <>
+      <h1 className="text-2xl font-bold">Pack {item.packSlot}</h1>
+      <p className="mt-1 text-base">{summary.when}</p>
+      <p className={`mt-1 text-base ${summary.finished ? 'font-semibold text-emerald-800 dark:text-emerald-200' : ''}`}>
+        {summary.status}
+      </p>
+      {summary.itemReady && summary.itemReading && summary.itemListening && summary.itemGrammar && (
+        <ul className="mt-4 space-y-3">
+          <PackRow label="Reading" title={exerciseTitle(summary.itemReading, 'Reading')} done={item.readingDone} onOpen={() => onOpenReading(summary.itemReading as PracticePiece, item.id)} />
+          <PackRow label="Listening" title={exerciseTitle(summary.itemListening, 'Listening')} done={item.listeningDone} onOpen={() => onOpenListening(summary.itemListening as PracticePiece, item.id)} />
+          <PackRow label="Grammar" title={`${summary.itemGrammar.title} · ${summary.itemGrammar.level}`} done={item.grammarDone} onOpen={() => onOpenGrammar(summary.itemGrammar as GrammarPiece, item.id)} />
+          {settings.vocabularyMode === 'flashcards' && !summary.vocabularyReady && (
+            <li className="rounded-lg border border-slate-300 p-3 dark:border-slate-600">
+              <p className="text-sm font-semibold text-slate-600 dark:text-slate-300">Vocabulary builder</p>
+              <p className="text-base">Save a word in a lesson to start flashcards. The rest of this pack is not waiting.</p>
+              {onGoLessons && <button type="button" onClick={onGoLessons} className="mt-2 text-base font-bold text-blue-800 underline dark:text-blue-200">Go to lessons</button>}
+            </li>
+          )}
+          {settings.vocabularyMode === 'quiz' && !summary.vocabularyReady && (
+            <li className="rounded-lg border border-slate-300 p-3 dark:border-slate-600">
+              <p className="text-sm font-semibold text-slate-600 dark:text-slate-300">Vocabulary builder</p>
+              <p className="text-base">A quiz needs at least 4 saved words with a meaning. The rest of this pack is not waiting.</p>
+              {onGoLessons && <button type="button" onClick={onGoLessons} className="mt-2 text-base font-bold text-blue-800 underline dark:text-blue-200">Go to lessons</button>}
+            </li>
+          )}
+          {settings.vocabularyMode && summary.vocabularyReady && onOpenVocabulary && (
+            <PackRow
+              label="Vocabulary builder"
+              title={settings.vocabularyMode === 'quiz' ? 'Quiz' : 'Flashcards'}
+              done={item.vocabularyDone}
+              onOpen={() => onOpenVocabulary(item.id, settings.vocabularyMode as 'flashcards' | 'quiz')}
+            />
+          )}
+        </ul>
+      )}
+    </>
   );
 }
 

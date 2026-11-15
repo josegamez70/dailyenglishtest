@@ -16,8 +16,25 @@ export function signInReturnUrl(location: { origin: string; pathname: string; se
   return `${location.origin}${location.pathname}${location.search}`;
 }
 
+const TASK_PACK_PATH = /^\/task-packs\/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$/i;
+
+export function taskPackIdFromPath(path: string): string | null {
+  const clean = path.replace(/\/+$/, '') || '/';
+  return clean.match(TASK_PACK_PATH)?.[1] ?? null;
+}
+
+export function isTaskPacksPath(path: string): boolean {
+  const clean = path.replace(/\/+$/, '') || '/';
+  return clean === '/task-packs' || taskPackIdFromPath(clean) !== null;
+}
+
+export function isAppReturnPath(path: string): boolean {
+  const clean = path.replace(/\/+$/, '') || '/';
+  return APP_RETURN_PATHS.has(clean) || taskPackIdFromPath(clean) !== null;
+}
+
 /** After sign-in, open the stored page when this tab landed somewhere else. */
 export function returnPathAfterSignIn(stored: string | null, current: string): string | null {
-  if (!stored || !APP_RETURN_PATHS.has(stored) || stored === current) return null;
+  if (!stored || !isAppReturnPath(stored) || stored === current) return null;
   return stored;
 }

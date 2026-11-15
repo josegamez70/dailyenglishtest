@@ -179,7 +179,7 @@ export function vocabularyPracticeReady(mode: TaskVocabularyMode, words: readonl
 
 /**
  * The three exercises still complete a pack.
- * My vocabulary counts only when it is turned on and there are enough saved words.
+ * Vocabulary builder counts only when it is turned on and there are enough saved words.
  */
 export function taskPackIsComplete(input: {
   readingDone: boolean;
@@ -192,6 +192,20 @@ export function taskPackIsComplete(input: {
   const core = input.readingDone && input.listeningDone && input.grammarDone;
   if (!input.vocabularyMode || !input.vocabularyReady) return core;
   return core && input.vocabularyDone;
+}
+
+/** How many exercises count toward the pack the learner is looking at. */
+export function taskPackProgress(input: {
+  readingDone: boolean;
+  listeningDone: boolean;
+  grammarDone: boolean;
+  vocabularyMode: TaskVocabularyMode;
+  vocabularyDone: boolean;
+  vocabularyReady: boolean;
+}): { done: number; total: number } {
+  const slots = [input.readingDone, input.listeningDone, input.grammarDone];
+  if (input.vocabularyMode && input.vocabularyReady) slots.push(input.vocabularyDone);
+  return { done: slots.filter(Boolean).length, total: slots.length };
 }
 
 const VOCAB_MODE_KEY = 'taskVocabularyMode';
