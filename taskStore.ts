@@ -1,14 +1,19 @@
 import { accessToken, getSupabase } from './auth';
-import { isMissingTable } from './studyStore';
+import { isMissingColumn, isMissingTable } from './studyStore';
 import {
   isMissingListeningTopicColumn,
+  isMissingVocabularyColumn,
   periodKey,
+  readStoredVocabularyDone,
+  readStoredVocabularyMode,
   settingsFromRow,
   settingsToRow,
+  storeVocabularyDone,
+  storeVocabularyMode,
   type TaskSettings,
 } from './tasks';
 
-export type TaskSlot = 'reading' | 'listening' | 'grammar';
+export type TaskSlot = 'reading' | 'listening' | 'grammar' | 'vocabulary';
 
 export type TaskPackClient = {
   id: string;
@@ -20,6 +25,7 @@ export type TaskPackClient = {
   readingDone: boolean;
   listeningDone: boolean;
   grammarDone: boolean;
+  vocabularyDone: boolean;
   reading: unknown;
   listening: unknown;
   grammar: unknown;
@@ -55,9 +61,14 @@ export async function loadTaskScreen(settingsHint?: TaskSettings): Promise<{
   if (settingsResult.error) {
     return { settings: settingsHint ?? fallback, packs: [], pack: null, missing: isMissingTable(settingsResult.error) };
   }
-  const settings = settingsResult.data
-    ? settingsFromRow(settingsResult.data as Record<string, unknown>)
+  const settingsRow = settingsResult.data as Record<string, unknown> | null;
+  const modeColumn = !!settingsRow && Object.prototype.hasOwnProperty.call(settingsRow, 'vocabulary_mode');
+  let settings = settingsRow
+    ? settingsFromRow(settingsRow)
     : (settingsHint ?? fallback);
+  if (!modeColumn && userId) {
+    settings = { ...settings, vocabularyMode: readStoredVocabularyMode(userId) };
+  }
   const key = periodKey(settings.frequency);
   const packResult = await supabase
     .from('task_packs')
@@ -86,6 +97,7 @@ export async function loadTaskScreen(settingsHint?: TaskSettings): Promise<{
       readingDone: row.reading_done === true,
       listeningDone: row.listening_done === true,
       grammarDone: row.grammar_done === true,
+      vocabularyDone: row.vocabulary_done === true || readStoredVocabularyDone(String(row.id)),
       reading: exercise?.reading ?? null,
       listening: exercise?.listening ?? null,
       grammar: exercise?.grammar ?? null,
@@ -100,9 +112,10 @@ export async function loadTaskScreen(settingsHint?: TaskSettings): Promise<{
   };
 }
 
-export async function saveTaskSettings(userId: string, settings: TaskSettings): Promise<{ ok: boolean; missing?: boolean }> {
+export async function saveTaskSettings(userId: string, settings: TaskSettings): Promise<{ ok: boolean; missing?: boolean; vocabularyLocal?: boolean }> {
   const supabase = client();
   if (!supabase) return { ok: false };
+  storeVocabularyMode(userId, settings.vocabularyMode);
   const row = settingsToRow(userId, settings);
   const existing = await supabase.from('task_settings').select('user_id').eq('user_id', userId).maybeSingle();
   if (existing.error) return { ok: false, missing: isMissingTable(existing.error) };
@@ -112,18 +125,38 @@ export async function saveTaskSettings(userId: string, settings: TaskSettings): 
       : supabase.from('task_settings').insert(payload)
   );
   let saved = await write(row);
-  if (saved.error && isMissingListeningTopicColumn(saved.error)) {
-    const withoutListeningTopic = { ...row };
-    delete withoutListeningTopic.listening_topic;
-    saved = await write(withoutListeningTopic);
+  let vocabularyLocal = false;
+  if (saved.error && (isMissingListeningTopicColumn(saved.error) || isMissingVocabularyColumn(saved.error))) {
+    const reduced = { ...row };
+    if (isMissingListeningTopicColumn(saved.error)) delete reduced.listening_topic;
+    if (isMissingVocabularyColumn(saved.error)) {
+      delete reduced.vocabulary_mode;
+      vocabularyLocal = true;
+    }
+    saved = await write(reduced);
+    if (saved.error && isMissingVocabularyColumn(saved.error)) {
+      delete reduced.vocabulary_mode;
+      vocabularyLocal = true;
+      saved = await write(reduced);
+    }
+    if (saved.error && isMissingListeningTopicColumn(saved.error)) {
+      delete reduced.listening_topic;
+      saved = await write(reduced);
+    }
   }
   if (saved.error) return { ok: false, missing: isMissingTable(saved.error) };
-  return { ok: true };
+  return { ok: true, vocabularyLocal };
 }
 
 export async function markTaskDone(packId: string, slot: TaskSlot): Promise<{ ok: boolean }> {
   const supabase = client();
   if (!supabase || !packId) return { ok: false };
+  if (slot === 'vocabulary') {
+    storeVocabularyDone(packId);
+    const { error } = await supabase.from('task_packs').update({ vocabulary_done: true }).eq('id', packId);
+    if (error && (isMissingColumn(error, 'vocabulary_done') || isMissingVocabularyColumn(error))) return { ok: true };
+    return { ok: !error };
+  }
   const column = slot === 'reading' ? 'reading_done' : slot === 'listening' ? 'listening_done' : 'grammar_done';
   const { error } = await supabase.from('task_packs').update({ [column]: true }).eq('id', packId);
   return { ok: !error };

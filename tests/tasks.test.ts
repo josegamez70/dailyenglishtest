@@ -20,7 +20,10 @@ import {
   normalizeTaskSettings,
   shuffleTaskChoices,
   taskGrammarRequest,
+  taskPackIsComplete,
   taskPackStatusLine,
+  taskVocabularyMode,
+  vocabularyPracticeReady,
   topicsForTaskLevel,
   periodKey,
   settingsFromRow,
@@ -336,4 +339,46 @@ test('a task lesson keeps the Task badge inside the existing filters', () => {
   assert.deepEqual(filterSavedLessons(rows, 'grammar').map((row) => row.id), ['task-grammar']);
   assert.deepEqual(filterSavedLessons(rows, 'all').map((row) => row.id), ['task-reading', 'plain', 'task-grammar']);
   assert.equal(savedLessonBadges(rows[2].lesson).some((badge) => badge.label === 'Task'), true);
+});
+
+test('my vocabulary is optional and does not hold a pack that cannot play it', () => {
+  assert.equal(taskVocabularyMode('quiz'), 'quiz');
+  assert.equal(taskVocabularyMode('custom'), '');
+  const off = normalizeTaskSettings({ ...DEFAULT_TASK_SETTINGS, enabled: true });
+  assert.equal(off?.vocabularyMode, '');
+  const quiz = normalizeTaskSettings({ ...DEFAULT_TASK_SETTINGS, vocabularyMode: 'quiz' });
+  assert.equal(quiz?.vocabularyMode, 'quiz');
+  const words = [
+    { meaning: 'one' },
+    { meaning: 'two' },
+    { meaning: '' },
+  ];
+  assert.equal(vocabularyPracticeReady('flashcards', words), true);
+  assert.equal(vocabularyPracticeReady('flashcards', []), false);
+  assert.equal(vocabularyPracticeReady('quiz', words), false);
+  assert.equal(vocabularyPracticeReady('quiz', [{ meaning: 'a' }, { meaning: 'b' }, { meaning: 'c' }, { meaning: 'd' }]), true);
+  const core = { readingDone: true, listeningDone: true, grammarDone: true, vocabularyDone: false };
+  assert.equal(taskPackIsComplete({ ...core, vocabularyMode: '', vocabularyReady: false }), true);
+  assert.equal(taskPackIsComplete({ ...core, vocabularyMode: 'quiz', vocabularyReady: false }), true);
+  assert.equal(taskPackIsComplete({ ...core, vocabularyMode: 'quiz', vocabularyReady: true }), false);
+  assert.equal(taskPackIsComplete({ ...core, vocabularyMode: 'flashcards', vocabularyReady: true, vocabularyDone: true }), true);
+  const mail = taskReminderMessage({
+    baseUrl: 'https://dailyenglishtest.es',
+    token: 'abc',
+    frequency: 'daily',
+    periodKey: '2026-11-15',
+    vocabularyMode: 'quiz',
+  });
+  assert.match(mail.text, /vocabulary quiz/);
+  const plain = taskReminderMessage({
+    baseUrl: 'https://dailyenglishtest.es',
+    token: 'abc',
+    frequency: 'daily',
+    periodKey: '2026-11-15',
+  });
+  assert.equal(plain.text.includes('vocabulary'), false);
+  const sql = readFileSync(new URL('../supabase/migrations/20261121_task_vocabulary.sql', import.meta.url), 'utf8');
+  assert.match(sql, /vocabulary_mode text not null default ''/);
+  assert.match(sql, /vocabulary_mode in \('', 'flashcards', 'quiz'\)/);
+  assert.match(sql, /vocabulary_done boolean not null default false/);
 });

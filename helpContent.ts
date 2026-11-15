@@ -298,7 +298,7 @@ const EN_FAQ: readonly HelpFaq[] = [
     blocks: [
       {
         type: 'p',
-        text: 'Tasks is in the menu for every signed-in person, including academy students. Turn tasks on, then choose daily or weekly, the level, and the pack. A pack is one reading exercise, one listening exercise, and one grammar exercise. Reading and listening can be Text or Dialogue. Grammar can be Fill in the blanks, Phrasal verbs, or Put in order. Shuffle picks a reading topic, a listening topic, and a grammar exercise for the level you selected. You can change those choices before you save.',
+        text: 'Tasks is in the menu for every signed-in person, including academy students. Turn tasks on, then choose daily or weekly, the level, and the pack. A pack is one reading exercise, one listening exercise, and one grammar exercise. Reading and listening can be Text or Dialogue. Grammar can be Fill in the blanks, Phrasal verbs, or Put in order. My vocabulary can be added as Flashcards or a Quiz. Leave it off and the pack stays the same. Shuffle picks a reading topic, a listening topic, and a grammar exercise for the level you selected. You can change those choices before you save.',
       },
       {
         type: 'p',
@@ -562,7 +562,7 @@ const ES_FAQ: readonly HelpFaq[] = [
     blocks: [
       {
         type: 'p',
-        text: '«Tasks» (Tareas) está en el menú de quien ha entrado, también de los alumnos de una academia. Actívalas y elige cada día o cada semana, el nivel y el paquete. Un paquete tiene un ejercicio de lectura, uno de audio y uno de gramática. Lectura y audio pueden ser «Text» o «Dialogue». Gramática puede ser «Fill in the blanks», «Phrasal verbs» o «Put in order». «Shuffle» elige un tema de lectura, un tema de audio y un ejercicio de gramática para el nivel elegido. Puedes cambiarlos antes de guardar.',
+        text: '«Tasks» (Tareas) está en el menú de quien ha entrado, también de los alumnos de una academia. Actívalas y elige cada día o cada semana, el nivel y el paquete. Un paquete tiene un ejercicio de lectura, uno de audio y uno de gramática. Lectura y audio pueden ser «Text» o «Dialogue». Gramática puede ser «Fill in the blanks», «Phrasal verbs» o «Put in order». «My vocabulary» puede añadirse como «Flashcards» o «Quiz». Si lo dejas en «Off», el paquete sigue igual. «Shuffle» elige un tema de lectura, un tema de audio y un ejercicio de gramática para el nivel elegido. Puedes cambiarlos antes de guardar.',
       },
       {
         type: 'p',

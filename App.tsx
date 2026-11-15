@@ -200,6 +200,7 @@ const App: React.FC = () => {
   const [grammarResetNonce, setGrammarResetNonce] = useState(0);
   const [grammarLaunch, setGrammarLaunch] = useState<GrammarLaunch | null>(null);
   const [grammarTaskPackId, setGrammarTaskPackId] = useState<string | null>(null);
+  const [vocabTask, setVocabTask] = useState<{ packId: string; mode: 'flashcards' | 'quiz' } | null>(null);
   const [taskSession, setTaskSession] = useState<{
     packId: string;
     slot: TaskSlot;
@@ -2103,12 +2104,13 @@ const App: React.FC = () => {
   );
 
   const shellItem: ShellItem = path === '/progress' ? 'progress' : path === '/saved' ? 'saved' : path === '/vocabulary' ? 'vocabulary' : path === '/tasks' ? 'tasks' : path === '/task-packs' ? 'packs' : path === '/profile' ? 'profile' : path === '/academy' ? 'academy' : path === '/join' ? 'join' : path === '/grammar' ? 'grammar' : 'lesson';
-  const go = (next: string) => {
+  const go = (next: string, vocab?: { packId: string; mode: 'flashcards' | 'quiz' } | null) => {
     const clean = next.replace(/\/+$/, '') || '/';
     const current = window.location.pathname.replace(/\/+$/, '') || '/';
     if (current !== clean) window.history.pushState({}, '', clean);
     setPath(clean);
     setReturnPlace('home');
+    setVocabTask(clean === '/vocabulary' ? vocab ?? null : null);
     setTaskSession(null);
     if (clean !== '/grammar') setGrammarTaskPackId(null);
     if (clean === '/grammar') setGrammarLaunch(null);
@@ -2306,6 +2308,8 @@ const App: React.FC = () => {
           onOpenReading={(piece, packId) => openTaskPiece(piece, packId, 'reading')}
           onOpenListening={(piece, packId) => openTaskPiece(piece, packId, 'listening')}
           onOpenGrammar={openTaskGrammar}
+          onOpenVocabulary={(packId, mode) => go('/vocabulary', { packId, mode })}
+          onGoLessons={() => go('/')}
           onBack={() => go('/')}
         />
       )}
@@ -2321,7 +2325,14 @@ const App: React.FC = () => {
         <SavedLessonsPage onOpen={openSaved} onCreate={() => go('/')} onPracticeGrammar={() => go('/grammar')} onBack={() => go('/')} />
       )}
       {shellItem === 'vocabulary' && (
-        <VocabularyPage userId={account.userId} onSignIn={() => { setSignInOpen(true); setSignInPrompt(true); }} onBack={() => go('/')} />
+        <VocabularyPage
+          userId={account.userId}
+          onSignIn={() => { setSignInOpen(true); setSignInPrompt(true); }}
+          onBack={() => go(vocabTask ? '/task-packs' : '/')}
+          practice={vocabTask?.mode ?? null}
+          onFinished={() => { if (vocabTask) void markTaskDone(vocabTask.packId, 'vocabulary'); }}
+          onGoLessons={() => go('/')}
+        />
       )}
       {shellItem === 'academy' && account.plan === 'academy' && <AcademyPage ownerDisplayName={account.displayName} onBack={() => go('/')} />}
       {shellItem === 'academy' && account.plan !== 'academy' && (

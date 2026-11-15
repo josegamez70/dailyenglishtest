@@ -1,4 +1,4 @@
-import { useEffect, useState, useSyncExternalStore } from 'react';
+import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { BackButton } from './BackButton';
 import {
   buildVocabQuiz,
@@ -31,20 +31,29 @@ function Flashcards({
   rows,
   onExit,
   persistGrades,
+  onFinished,
 }: {
   rows: SavedWord[];
   onExit: () => void;
   persistGrades: boolean;
+  onFinished?: () => void;
 }) {
   const [order, setOrder] = useState(() => shuffleItems(rows));
   const [index, setIndex] = useState(0);
   const [flipped, setFlipped] = useState(false);
   const card = order[index];
+  const finished = !card && order.length > 0;
+  const told = useRef(false);
+  useEffect(() => {
+    if (!finished || told.current) return;
+    told.current = true;
+    onFinished?.();
+  }, [finished, onFinished]);
 
   if (!rows.length) {
     return <p className="mt-4 text-base">Save a word to start flashcards.</p>;
   }
-  if (!card) {
+  if (finished) {
     return (
       <div className="mt-4">
         <p className="text-xl font-bold">You finished this set.</p>
@@ -113,15 +122,23 @@ function Quiz({
   rows,
   onExit,
   persistGrades,
+  onFinished,
 }: {
   rows: SavedWord[];
   onExit: () => void;
   persistGrades: boolean;
+  onFinished?: () => void;
 }) {
   const [questions, setQuestions] = useState<VocabQuizQuestion[] | null>(() => buildVocabQuiz(rows));
   const [index, setIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [done, setDone] = useState(false);
+  const told = useRef(false);
+  useEffect(() => {
+    if (!done || told.current) return;
+    told.current = true;
+    onFinished?.();
+  }, [done, onFinished]);
 
   if (!questions) {
     return (
@@ -191,18 +208,25 @@ export function VocabularyPage({
   fixture,
   onBack,
   onSignIn,
+  practice = null,
+  onFinished,
+  onGoLessons,
 }: {
   userId: string | null;
   /** Sample rows for a local preview. Skips the database. */
   fixture?: SavedWord[];
   onBack?: () => void;
   onSignIn?: () => void;
+  /** Opened from a task pack. Skips the word list and starts this activity. */
+  practice?: 'flashcards' | 'quiz' | null;
+  onFinished?: () => void;
+  onGoLessons?: () => void;
 }) {
   const live = useSyncExternalStore(subscribeVocabulary, getVocabularyState, getVocabularyState);
   const [localRows, setLocalRows] = useState<SavedWord[]>(fixture ?? []);
   const [query, setQuery] = useState('');
   const [source, setSource] = useState<SourceFilter>('all');
-  const [mode, setMode] = useState<Mode>('list');
+  const [mode, setMode] = useState<Mode>(practice === 'flashcards' ? 'cards' : practice === 'quiz' ? 'quiz' : 'list');
   const [ready, setReady] = useState(Boolean(fixture) || !userId);
 
   useEffect(() => {
@@ -219,6 +243,12 @@ export function VocabularyPage({
   const rows = fixture ? localRows : live.rows;
   const missing = fixture ? false : live.missing;
   const visible = filterVocabulary(rows, query, source);
+  const withMeaning = rows.filter((row) => row.meaning.trim()).length;
+  const practiceBlocked = practice === 'flashcards'
+    ? rows.length === 0
+    : practice === 'quiz'
+      ? withMeaning < 4
+      : false;
 
   const remove = (term: string) => {
     if (fixture) {
@@ -230,8 +260,8 @@ export function VocabularyPage({
 
   return (
     <div className="mx-auto w-full max-w-3xl">
-      {onBack && mode === 'list' && <BackButton onClick={onBack} />}
-      {mode !== 'list' && (
+      {onBack && (mode === 'list' || practice) && <BackButton onClick={onBack} label={practice ? 'Back to Task packs' : 'Back'} />}
+      {!practice && mode !== 'list' && (
         <BackButton onClick={() => setMode('list')} label="Back to My vocabulary" />
       )}
       <h1 className="text-2xl font-bold">My vocabulary</h1>
@@ -312,8 +342,26 @@ export function VocabularyPage({
           </ul>
         </>
       )}
-      {mode === 'cards' && <Flashcards rows={rows} onExit={() => setMode('list')} persistGrades={!fixture && Boolean(userId)} />}
-      {mode === 'quiz' && <Quiz rows={rows} onExit={() => setMode('list')} persistGrades={!fixture && Boolean(userId)} />}
+      {practice && practiceBlocked && (
+        <div className="mt-4">
+          <p className="text-base">
+            {practice === 'quiz'
+              ? 'A quiz needs at least 4 saved words with a meaning. Save more words in a reading or listening lesson. The rest of the pack is not waiting on this.'
+              : 'Save a word in a reading or listening lesson to start flashcards. The rest of the pack is not waiting on this.'}
+          </p>
+          {onGoLessons && (
+            <button type="button" onClick={onGoLessons} className="mt-4 w-full rounded-lg bg-blue-700 py-3 text-lg font-bold text-white hover:bg-blue-800">
+              Go to lessons
+            </button>
+          )}
+        </div>
+      )}
+      {mode === 'cards' && !practiceBlocked && (
+        <Flashcards rows={rows} onExit={practice ? (onBack ?? (() => setMode('list'))) : () => setMode('list')} persistGrades={!fixture && Boolean(userId)} onFinished={onFinished} />
+      )}
+      {mode === 'quiz' && !practiceBlocked && (
+        <Quiz rows={rows} onExit={practice ? (onBack ?? (() => setMode('list'))) : () => setMode('list')} persistGrades={!fixture && Boolean(userId)} onFinished={onFinished} />
+      )}
     </div>
   );
 }

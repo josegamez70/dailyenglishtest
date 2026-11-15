@@ -20,6 +20,7 @@ const settings: TaskSettings = {
   grammarExercise: 'blanks',
   grammarTopic: 'travel',
   packsPerDay: 2,
+  vocabularyMode: '',
 };
 
 const reading: PracticePiece = {
@@ -68,6 +69,7 @@ const pack: TaskPackClient = {
   readingDone: false,
   listeningDone: true,
   grammarDone: false,
+  vocabularyDone: false,
   reading,
   listening,
   grammar: {
