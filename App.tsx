@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef, useSyncExternalStore } from 'react';
 import type { QuizQuestion, ConfigOptions, PracticeType, AppView, VocabularyItem } from './types';
 import { LEVELS, QUESTION_COUNTS, resolveTopic, TOPICS, WORD_COUNTS } from './constants';
 import { isAndroidUserAgent } from './device';
@@ -40,6 +40,8 @@ import { JoinAcademyPage } from './components/JoinAcademyPage';
 import { parseSavedGrammarLesson, type GrammarLaunch } from './savedLessonMeta';
 import { saveLesson, saveTestResult, type SavedLessonRow } from './studyStore';
 import { markTaskDone, type TaskSlot } from './taskStore';
+import { sentenceWith, setVocabLessonContext, setVocabSignInHandler, termKey } from './vocabulary';
+import { getVocabularyState, loadVocabulary, removeVocabularyWord, saveVocabularyWord, savedTermSet, subscribeVocabulary } from './vocabularyStore';
 import type { GrammarPiece, PracticePiece } from './tasks';
 import { SignInBox } from './components/SignInBox';
 import { HelpPage } from './components/HelpPage';
@@ -50,6 +52,9 @@ import { PricingPanel } from './components/PricingPanel';
 import { ExpiredPilotNotice, PilotAdminPage, PilotRedeemPage } from './components/PilotPages';
 import Configurator from './components/Configurator';
 import { DefinedText, DictionaryPopup } from './components/DefinedText';
+import { KeyVocabularyList } from './components/KeyVocabularyList';
+import { VocabularyPage } from './components/VocabularyPage';
+import { VocabularyPreview } from './components/VocabularyPreview';
 import Loader from './components/Loader';
 import BookOpenIcon from './components/icons/BookOpenIcon';
 import HeadphonesIcon from './components/icons/HeadphonesIcon';
@@ -1610,6 +1615,19 @@ const App: React.FC = () => {
 
         {practiceType === 'listening' && <TranscriptText />}
 
+        {vocabulary.length > 0 && (
+          <div className="mt-6">
+            <KeyVocabularyList
+              items={vocabulary}
+              savedKeys={savedTerms}
+              signedIn={account.signedIn}
+              missing={vocabState.missing}
+              pendingKey={vocabPending}
+              onToggle={(item) => { void toggleVocab(item); }}
+            />
+          </div>
+        )}
+
         {quizLoading && (
           <div className="mt-6 flex items-center justify-center gap-3 text-slate-900 dark:text-slate-50" role="status">
             <span className="h-5 w-5 shrink-0 animate-spin rounded-full border-4 border-blue-700 border-t-transparent" aria-hidden="true"></span>
@@ -1641,6 +1659,11 @@ const App: React.FC = () => {
         isOpen={isVocabularyModalOpen}
         onClose={() => setIsVocabularyModalOpen(false)}
         vocabulary={vocabulary}
+        savedKeys={savedTerms}
+        signedIn={account.signedIn}
+        missing={vocabState.missing}
+        pendingKey={vocabPending}
+        onToggle={(item) => { void toggleVocab(item); }}
       />
     </>
   );
@@ -1820,9 +1843,66 @@ const App: React.FC = () => {
     }
   };
 
+  const vocabState = useSyncExternalStore(subscribeVocabulary, getVocabularyState, getVocabularyState);
+  const savedTerms = savedTermSet(vocabState.rows);
+  const [vocabPending, setVocabPending] = useState<string | null>(null);
+  useEffect(() => {
+    setVocabSignInHandler(() => {
+      setSignInOpen(true);
+      setSignInPrompt(true);
+    });
+    return () => setVocabSignInHandler(null);
+  }, []);
+  useEffect(() => {
+    if (path.startsWith('/vocabulary-preview')) return;
+    const levelLabel = LEVELS.find((level) => level.value === config.level)?.label ?? config.level;
+    const title = storyTopic?.label || '';
+    const inLesson = view !== 'config';
+    setVocabLessonContext({
+      signedIn: account.signedIn,
+      sourceType: inLesson ? practiceType : 'lookup',
+      lessonTitle: inLesson ? title : '',
+      topic: inLesson ? title : '',
+      level: inLesson ? levelLabel : '',
+      story: inLesson ? story : '',
+    });
+  }, [account.signedIn, view, practiceType, config.level, storyTopic, story, path]);
+  useEffect(() => {
+    if (!account.signedIn) return;
+    void loadVocabulary();
+  }, [account.signedIn, account.userId]);
+  const toggleVocab = async (item: VocabularyItem) => {
+    if (!account.signedIn) {
+      setSignInOpen(true);
+      setSignInPrompt(true);
+      return;
+    }
+    const key = termKey(item.word);
+    if (!key) return;
+    setVocabPending(key);
+    const levelLabel = LEVELS.find((level) => level.value === config.level)?.label ?? config.level;
+    const title = storyTopic?.label || '';
+    const result = savedTerms.has(key)
+      ? await removeVocabularyWord(item.word)
+      : await saveVocabularyWord({
+        term: item.word,
+        meaning: item.definition,
+        example: sentenceWith(story, item.word),
+        sourceType: practiceType,
+        lessonTitle: title,
+        topic: title,
+        level: levelLabel,
+      });
+    setVocabPending((current) => (current === key ? null : current));
+    if (result.missing) return;
+  };
+
   const legalPage = legalPageFromPath(window.location.pathname);
   if (legalPage) return <LegalDocument page={legalPage} />;
   if (helpPageFromPath(window.location.pathname)) return <HelpPage />;
+  if (import.meta.env.DEV && path.startsWith('/vocabulary-preview')) {
+    return <VocabularyPreview scene={path.endsWith('/lesson') ? 'lesson' : 'list'} />;
+  }
   if (import.meta.env.DEV && path.startsWith('/tasks-preview')) {
     const scene = path.endsWith('/saved') ? 'saved' : path.endsWith('/email') ? 'email' : path.endsWith('/complete') ? 'complete' : path.endsWith('/packs') ? 'packs' : 'tasks';
     return <TasksPreview scene={scene} />;
@@ -2022,7 +2102,7 @@ const App: React.FC = () => {
     </div>
   );
 
-  const shellItem: ShellItem = path === '/progress' ? 'progress' : path === '/saved' ? 'saved' : path === '/tasks' ? 'tasks' : path === '/task-packs' ? 'packs' : path === '/profile' ? 'profile' : path === '/academy' ? 'academy' : path === '/join' ? 'join' : path === '/grammar' ? 'grammar' : 'lesson';
+  const shellItem: ShellItem = path === '/progress' ? 'progress' : path === '/saved' ? 'saved' : path === '/vocabulary' ? 'vocabulary' : path === '/tasks' ? 'tasks' : path === '/task-packs' ? 'packs' : path === '/profile' ? 'profile' : path === '/academy' ? 'academy' : path === '/join' ? 'join' : path === '/grammar' ? 'grammar' : 'lesson';
   const go = (next: string) => {
     const clean = next.replace(/\/+$/, '') || '/';
     const current = window.location.pathname.replace(/\/+$/, '') || '/';
@@ -2163,6 +2243,20 @@ const App: React.FC = () => {
     window.scrollTo({ top: 0 });
   };
 
+  if (!account.signedIn && path === '/vocabulary') {
+    return (
+      <div className="min-h-screen bg-slate-100 px-3 py-6 text-slate-900 dark:bg-slate-900 dark:text-slate-50">
+        <div className="mx-auto w-full max-w-xl">
+          <h1 className="text-2xl font-bold">My vocabulary</h1>
+          <p className="mt-2 text-base">Sign in to save words from your lessons and practice them. Academy students can use this too.</p>
+          <div className="mt-4">
+            <SignInBox />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   if (!account.signedIn) return signedOutPage;
 
   return (
@@ -2225,6 +2319,9 @@ const App: React.FC = () => {
       )}
       {shellItem === 'saved' && (
         <SavedLessonsPage onOpen={openSaved} onCreate={() => go('/')} onPracticeGrammar={() => go('/grammar')} onBack={() => go('/')} />
+      )}
+      {shellItem === 'vocabulary' && (
+        <VocabularyPage userId={account.userId} onSignIn={() => { setSignInOpen(true); setSignInPrompt(true); }} onBack={() => go('/')} />
       )}
       {shellItem === 'academy' && account.plan === 'academy' && <AcademyPage ownerDisplayName={account.displayName} onBack={() => go('/')} />}
       {shellItem === 'academy' && account.plan !== 'academy' && (

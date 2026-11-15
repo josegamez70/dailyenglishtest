@@ -4,6 +4,7 @@ export const APP_RETURN_PATHS = new Set([
   '/tasks',
   '/grammar',
   '/saved',
+  '/vocabulary',
   '/progress',
   '/profile',
   '/academy',
