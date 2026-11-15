@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { BackButton } from './BackButton';
+import { defineSearchText, searchLookupTerm, type DictEntry } from '../dictionary';
 import {
   buildVocabQuiz,
   filterVocabulary,
   shuffleItems,
   sourceLabel,
+  termKey,
   VOCAB_QUIZ_MIN,
   type SavedWord,
   type VocabQuizQuestion,
@@ -15,11 +17,92 @@ import {
   loadVocabulary,
   recordVocabAnswer,
   removeVocabularyWord,
+  saveVocabularyWord,
   subscribeVocabulary,
 } from '../vocabularyStore';
 
 type Mode = 'list' | 'cards' | 'quiz';
 type SourceFilter = 'all' | VocabSource;
+
+function SearchLookup({
+  query,
+  rows,
+  ready,
+  onSave,
+}: {
+  query: string;
+  rows: SavedWord[];
+  ready: boolean;
+  onSave: (entry: DictEntry) => Promise<void>;
+}) {
+  const [shown, setShown] = useState('');
+  const [status, setStatus] = useState<'idle' | 'loading' | 'ready' | 'missing'>('idle');
+  const [entry, setEntry] = useState<DictEntry | null>(null);
+  const [saving, setSaving] = useState(false);
+  const term = searchLookupTerm(query);
+  const unmatched = Boolean(term) && ready && filterVocabulary(rows, query, 'all').length === 0;
+
+  useEffect(() => {
+    setShown('');
+    setStatus('idle');
+    setEntry(null);
+    if (!unmatched || !term) return undefined;
+    let ignore = false;
+    const timer = window.setTimeout(() => {
+      setShown(term);
+      setStatus('loading');
+      setEntry(null);
+      defineSearchText(term).then((result) => {
+        if (ignore) return;
+        setEntry(result);
+        setStatus(result ? 'ready' : 'missing');
+      }).catch(() => {
+        if (!ignore) {
+          setEntry(null);
+          setStatus('missing');
+        }
+      });
+    }, 500);
+    return () => {
+      ignore = true;
+      window.clearTimeout(timer);
+    };
+  }, [unmatched, term]);
+
+  if (!unmatched || !shown || status === 'idle') return null;
+
+  return (
+    <div className="mt-3 rounded-xl border border-slate-300 bg-white p-4 dark:border-slate-600 dark:bg-slate-800">
+      {status === 'loading' && <p className="text-base">Looking up...</p>}
+      {status === 'missing' && <p className="text-base">No meaning found for &quot;{shown}&quot;.</p>}
+      {status === 'ready' && entry && (
+        <>
+          <h2 className="text-xl font-bold">{entry.word}</h2>
+          <div className="mt-2 space-y-2">
+            {entry.senses.map((sense, index) => (
+              <p key={`${sense.partOfSpeech}-${index}`} className="text-base">
+                <span className="font-semibold italic">{sense.partOfSpeech}. </span>
+                {sense.definition}
+              </p>
+            ))}
+          </div>
+          {entry.example && <p className="mt-2 text-base text-slate-800 dark:text-slate-100">Example: {entry.example}</p>}
+          <button
+            type="button"
+            disabled={saving}
+            onClick={() => {
+              setSaving(true);
+              void onSave(entry).finally(() => setSaving(false));
+            }}
+            className="mt-3 w-full rounded-lg border-2 border-slate-900 bg-white py-2 text-base font-bold text-slate-900 hover:bg-slate-100 disabled:opacity-60 dark:border-slate-100 dark:bg-slate-900 dark:text-slate-50"
+          >
+            Save word
+          </button>
+        </>
+      )}
+    </div>
+  );
+}
 
 function formatSavedDate(value: string): string {
   const date = new Date(value);
@@ -291,12 +374,47 @@ export function VocabularyPage({
             placeholder="Word or meaning"
             className="mt-1 w-full rounded-lg border-2 border-slate-500 bg-white px-3 py-2.5 text-base dark:border-slate-300 dark:bg-slate-900"
           />
+          <SearchLookup
+            query={query}
+            rows={rows}
+            ready={ready && !missing}
+            onSave={async (entry) => {
+              const meaning = entry.senses.map((sense) => sense.definition).filter(Boolean).slice(0, 2).join(' ');
+              const example = entry.example || '';
+              const term = entry.word || searchLookupTerm(query) || query.trim();
+              if (fixture) {
+                setLocalRows((current) => [{
+                  id: term,
+                  term,
+                  meaning,
+                  example,
+                  sourceType: 'lookup',
+                  lessonTitle: '',
+                  topic: '',
+                  level: '',
+                  createdAt: new Date().toISOString(),
+                  correctCount: 0,
+                  wrongCount: 0,
+                }, ...current.filter((row) => termKey(row.term) !== termKey(term))]);
+                return;
+              }
+              await saveVocabularyWord({
+                term,
+                meaning,
+                example,
+                sourceType: 'lookup',
+                lessonTitle: '',
+                topic: '',
+                level: '',
+              });
+            }}
+          />
           <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4" role="group" aria-label="Filter by source">
             {([
               ['all', 'All'],
               ['reading', 'Reading'],
               ['listening', 'Listening'],
-              ['lookup', 'Word lookup'],
+              ['lookup', 'From popup'],
             ] as const).map(([id, label]) => (
               <button
                 key={id}
@@ -320,8 +438,20 @@ export function VocabularyPage({
             </button>
           </div>
           {!ready && <p className="mt-4 text-base">Loading...</p>}
-          {ready && visible.length === 0 && !missing && (
+          {ready && visible.length === 0 && !missing && rows.length === 0 && (
             <p className="mt-4 text-base">You have no saved words yet. Tick a key word in a lesson, or press Save word in the word popup.</p>
+          )}
+          {ready && visible.length === 0 && !missing && rows.length > 0 && (
+            <div className="mt-4">
+              <p className="text-base">No words match this search or filter.</p>
+              <button
+                type="button"
+                onClick={() => { setQuery(''); setSource('all'); }}
+                className="mt-3 rounded-lg border-2 border-slate-900 px-4 py-2 text-base font-bold dark:border-slate-100"
+              >
+                Clear search and filters
+              </button>
+            </div>
           )}
           <ul className="mt-4 space-y-3">
             {visible.map((row) => (

@@ -5,6 +5,7 @@ import {
   buildVocabQuiz,
   filterVocabulary,
   normalizeTerm,
+  sourceLabel,
   sentenceWith,
   shuffleItems,
   termKey,
@@ -39,6 +40,18 @@ test('search and source filters keep the matching words', () => {
   assert.equal(filterVocabulary(items, 'rails', 'all').length, 1);
   assert.equal(filterVocabulary(items, '', 'listening')[0].term, 'train');
   assert.equal(filterVocabulary(items, 'food', 'listening').length, 0);
+  assert.equal(sourceLabel('lookup'), 'From popup');
+  const page = readFileSync(new URL('../components/VocabularyPage.tsx', import.meta.url), 'utf8');
+  assert.match(page, /\['lookup', 'From popup'\]/);
+  assert.equal(page.includes('Word lookup'), false);
+  assert.match(page, /rows\.length === 0/);
+  assert.match(page, /No words match this search or filter\./);
+  assert.match(page, /Clear search and filters/);
+  assert.match(page, /setQuery\(''\); setSource\('all'\)/);
+  assert.match(page, /defineSearchText/);
+  assert.match(page, /No meaning found for/);
+  assert.match(page, /sourceType: 'lookup'/);
+  assert.match(page, /500/);
 });
 
 test('the quiz is built only from saved words and needs four of them', () => {

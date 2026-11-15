@@ -295,6 +295,41 @@ async function followInflection(entry: DictEntry, surface: string, depth = 0): P
   };
 }
 
+/** A single word or a short phrase worth sending to the dictionary. */
+export function searchLookupTerm(raw: string): string | null {
+  const text = String(raw ?? '').replace(/\s+/g, ' ').trim();
+  if (!text || text.length > 48) return null;
+  if (!/^[A-Za-z]+(?:[ '-][A-Za-z]+)*$/.test(text)) return null;
+  if (text.split(' ').length > 4) return null;
+  if (text.replace(/[^A-Za-z]/g, '').length < 2) return null;
+  return text;
+}
+
+/** Same dictionary as the word popup. A short phrase keeps its spaces. */
+export async function defineSearchText(raw: string): Promise<DictEntry | null> {
+  const term = searchLookupTerm(raw);
+  if (!term) return null;
+  if (!term.includes(' ')) return defineWord(term);
+  const word = term.toLowerCase();
+  const resultKey = `result:${word}`;
+  const saved = cached(resultKey);
+  if (saved === 'missing') return null;
+  if (saved && saved !== 'missing') return saved;
+  let result = await lookupForm(word, true);
+  if (!isEntry(result)) {
+    const wiki = await fetchWiktionary(word);
+    if (isEntry(wiki)) result = wiki;
+    else if (wiki === 'failed' && result === 'failed') throw new Error('lookup failed');
+  }
+  if (!isEntry(result)) {
+    if (result === 'failed') throw new Error('lookup failed');
+    remember(resultKey, 'missing');
+    return null;
+  }
+  remember(resultKey, result);
+  return result;
+}
+
 export async function defineWord(raw: string): Promise<DictEntry | null> {
   const word = normalizeLookupWord(raw);
   if (!word) return null;

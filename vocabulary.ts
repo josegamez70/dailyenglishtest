@@ -69,7 +69,7 @@ export function termKey(raw: string): string {
 
 export function sourceLabel(source: VocabSource): string {
   if (source === 'listening') return 'Listening';
-  if (source === 'lookup') return 'Word lookup';
+  if (source === 'lookup') return 'From popup';
   if (source === 'reading') return 'Reading';
   return 'Lesson';
 }
