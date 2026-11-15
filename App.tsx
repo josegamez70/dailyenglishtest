@@ -2363,6 +2363,7 @@ const App: React.FC = () => {
           practice={vocabTask?.mode ?? null}
           onFinished={() => { if (vocabTask) void markTaskDone(vocabTask.packId, 'vocabulary'); }}
           onGoLessons={() => go('/')}
+          voice={account.voice}
         />
       )}
       {shellItem === 'academy' && account.plan === 'academy' && <AcademyPage ownerDisplayName={account.displayName} onBack={() => go('/')} />}

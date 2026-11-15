@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { BackButton } from './BackButton';
 import { defineSearchText, searchLookupTerm, type DictEntry } from '../dictionary';
+import { PronounceButton, stopPronunciation } from './PronounceButton';
+import type { PronunciationAccent } from '../pronounce';
 import {
   buildVocabQuiz,
   filterVocabulary,
@@ -28,11 +30,13 @@ function SearchLookup({
   query,
   rows,
   ready,
+  accent,
   onSave,
 }: {
   query: string;
   rows: SavedWord[];
   ready: boolean;
+  accent: PronunciationAccent;
   onSave: (entry: DictEntry) => Promise<void>;
 }) {
   const [shown, setShown] = useState('');
@@ -77,7 +81,10 @@ function SearchLookup({
       {status === 'missing' && <p className="text-base">No meaning found for &quot;{shown}&quot;.</p>}
       {status === 'ready' && entry && (
         <>
-          <h2 className="text-xl font-bold">{entry.word}</h2>
+          <div className="flex items-center gap-2">
+            <h2 className="text-xl font-bold">{entry.word}</h2>
+            <PronounceButton term={entry.word} accent={accent} />
+          </div>
           <div className="mt-2 space-y-2">
             {entry.senses.map((sense, index) => (
               <p key={`${sense.partOfSpeech}-${index}`} className="text-base">
@@ -116,12 +123,14 @@ function Flashcards({
   exitLabel = 'Back to Vocabulary builder',
   persistGrades,
   onFinished,
+  accent,
 }: {
   rows: SavedWord[];
   onExit: () => void;
   exitLabel?: string;
   persistGrades: boolean;
   onFinished?: () => void;
+  accent: PronunciationAccent;
 }) {
   const [order, setOrder] = useState(() => shuffleItems(rows));
   const [index, setIndex] = useState(0);
@@ -166,21 +175,34 @@ function Flashcards({
   return (
     <div className="mt-4">
       <p className="text-base font-semibold">Card {Math.min(index + 1, order.length)} of {order.length}</p>
-      <button
-        type="button"
-        onClick={() => setFlipped((current) => !current)}
-        aria-pressed={flipped}
-        className="mt-3 flex min-h-48 w-full flex-col items-center justify-center rounded-xl border-2 border-slate-900 bg-white p-6 text-center dark:border-slate-100 dark:bg-slate-800"
-      >
-        {flipped ? (
-          <>
-            <p className="text-xl font-bold">{card.meaning || 'No meaning saved.'}</p>
-            {card.example && <p className="mt-3 text-base">Example: {card.example}</p>}
-          </>
-        ) : (
-          <p className="text-3xl font-bold capitalize">{card.term}</p>
+      <div className="relative mt-3">
+        <div
+          role="button"
+          tabIndex={0}
+          onClick={() => setFlipped((current) => !current)}
+          onKeyDown={(event) => {
+            if (event.key !== 'Enter' && event.key !== ' ') return;
+            event.preventDefault();
+            setFlipped((current) => !current);
+          }}
+          aria-pressed={flipped}
+          className="flex min-h-48 w-full flex-col items-center justify-center rounded-xl border-2 border-slate-900 bg-white p-6 text-center dark:border-slate-100 dark:bg-slate-800"
+        >
+          {flipped ? (
+            <>
+              <p className="text-xl font-bold">{card.meaning || 'No meaning saved.'}</p>
+              {card.example && <p className="mt-3 text-base">Example: {card.example}</p>}
+            </>
+          ) : (
+            <p className="text-3xl font-bold capitalize">{card.term}</p>
+          )}
+        </div>
+        {!flipped && (
+          <div className="absolute right-3 top-3">
+            <PronounceButton term={card.term} accent={accent} />
+          </div>
         )}
-      </button>
+      </div>
       <p className="mt-2 text-center text-sm text-slate-700 dark:text-slate-200">Tap the card to flip.</p>
       {flipped && (
         <div className="mt-4 grid grid-cols-2 gap-2">
@@ -298,6 +320,7 @@ export function VocabularyPage({
   practice = null,
   onFinished,
   onGoLessons,
+  voice = 'british',
 }: {
   userId: string | null;
   /** Sample rows for a local preview. Skips the database. */
@@ -308,7 +331,10 @@ export function VocabularyPage({
   practice?: 'flashcards' | 'quiz' | null;
   onFinished?: () => void;
   onGoLessons?: () => void;
+  /** Profile accent. British uses en-GB speech when the dictionary has no recording. */
+  voice?: PronunciationAccent;
 }) {
+  useEffect(() => () => stopPronunciation(), []);
   const live = useSyncExternalStore(subscribeVocabulary, getVocabularyState, getVocabularyState);
   const [localRows, setLocalRows] = useState<SavedWord[]>(fixture ?? []);
   const [query, setQuery] = useState('');
@@ -378,6 +404,7 @@ export function VocabularyPage({
             query={query}
             rows={rows}
             ready={ready && !missing}
+            accent={voice}
             onSave={async (entry) => {
               const meaning = entry.senses.map((sense) => sense.definition).filter(Boolean).slice(0, 2).join(' ');
               const example = entry.example || '';
@@ -457,7 +484,10 @@ export function VocabularyPage({
             {visible.map((row) => (
               <li key={row.id || row.term} className="rounded-xl border border-slate-300 bg-white p-4 dark:border-slate-600 dark:bg-slate-800">
                 <div className="flex items-start justify-between gap-3">
-                  <h2 className="text-xl font-bold capitalize">{row.term}</h2>
+                  <div className="flex min-w-0 flex-1 items-center gap-2">
+                    <h2 className="text-xl font-bold capitalize">{row.term}</h2>
+                    <PronounceButton term={row.term} accent={voice} />
+                  </div>
                   <button type="button" onClick={() => remove(row.term)} className="shrink-0 rounded-lg border-2 border-slate-900 px-3 py-1 text-sm font-bold dark:border-slate-100">
                     Delete
                   </button>
@@ -491,7 +521,7 @@ export function VocabularyPage({
         </div>
       )}
       {mode === 'cards' && !practiceBlocked && (
-        <Flashcards rows={rows} onExit={practice ? (onBack ?? (() => setMode('list'))) : () => setMode('list')} exitLabel={practice ? 'Back to Task packs' : 'Back to Vocabulary builder'} persistGrades={!fixture && Boolean(userId)} onFinished={onFinished} />
+        <Flashcards rows={rows} onExit={practice ? (onBack ?? (() => setMode('list'))) : () => setMode('list')} exitLabel={practice ? 'Back to Task packs' : 'Back to Vocabulary builder'} persistGrades={!fixture && Boolean(userId)} onFinished={onFinished} accent={voice} />
       )}
       {mode === 'quiz' && !practiceBlocked && (
         <Quiz rows={rows} onExit={practice ? (onBack ?? (() => setMode('list'))) : () => setMode('list')} exitLabel={practice ? 'Back to Task packs' : 'Back to Vocabulary builder'} persistGrades={!fixture && Boolean(userId)} onFinished={onFinished} />
