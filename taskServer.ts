@@ -19,6 +19,7 @@ import {
   issuedPackCount,
   periodKey,
   settingsFromRow,
+  taskGrammarRequest,
   taskBlockMessage,
   taskGenerationDecision,
   taskLevelLabel,
@@ -103,9 +104,10 @@ function practiceParams(
   existing: PracticePiece | null,
 ): LessonParams {
   const format = mode === 'reading' ? settings.readingFormat : settings.listeningFormat;
+  const topicValue = mode === 'listening' ? settings.listeningTopic : settings.topic;
   const resolved = existing
     ? { label: existing.topic, surprise: false }
-    : resolveTopic(settings.topic);
+    : resolveTopic(topicValue);
   const storedSpeakers = existing && Array.isArray(existing.speakers) ? existing.speakers : [];
   const speakers = storedSpeakers.length > 0
     ? storedSpeakers
@@ -348,7 +350,7 @@ async function listeningPieceFromBank(
   userId: string,
   settings: TaskSettings,
 ): Promise<{ piece: PracticePiece; bankId: string } | null> {
-  const choice = listeningBankQuery({ customTopic: '', topic: settings.topic });
+  const choice = listeningBankQuery({ customTopic: '', topic: settings.listeningTopic });
   const level = taskLevelLabel(settings.level);
   if (!choice.bank || !isListeningLevel(level)) return null;
   const claimed = await claimListeningFromBank(admin, userId, {
@@ -457,11 +459,7 @@ export async function advanceTaskPack(userId: string, options?: { deadlineMs?: n
     const deadline = Date.now() + (options?.deadlineMs ?? 20000);
     let claimedBankId: string | null = null;
     if (step === 'grammar') {
-      const built = await grammarPieceForPack(admin, userId, {
-        level: settings.grammarLevel,
-        exercise: settings.grammarExercise,
-        topic: settings.grammarTopic,
-      }, apiKey, deadline);
+      const built = await grammarPieceForPack(admin, userId, taskGrammarRequest(settings), apiKey, deadline);
       if (!built) {
         return {
           ok: false,

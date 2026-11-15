@@ -15,8 +15,13 @@ import {
   issuedPackCount,
   listeningNeedsStoredAudio,
   nextTaskStep,
+  grammarExercisesForLevel,
+  isMissingListeningTopicColumn,
   normalizeTaskSettings,
+  shuffleTaskChoices,
+  taskGrammarRequest,
   taskPackStatusLine,
+  topicsForTaskLevel,
   periodKey,
   settingsFromRow,
   settingsToRow,
@@ -55,17 +60,100 @@ test('task settings keep the lesson options the app already offers', () => {
     listeningFormat: 'text',
     grammarLevel: 'C1',
     grammarExercise: 'order',
+    listeningTopic: 'travel',
     grammarTopic: '  travel  ',
     emailReminders: false,
   });
   assert.ok(settings);
-  assert.equal(settings?.grammarTopic, 'travel');
+  assert.equal(settings?.listeningTopic, 'travel');
+  assert.equal(settings?.grammarTopic, '');
   assert.equal(settings?.emailReminders, false);
   assert.equal(normalizeTaskSettings({ ...DEFAULT_TASK_SETTINGS, wordCount: 90 }), null);
   assert.equal(normalizeTaskSettings({ ...DEFAULT_TASK_SETTINGS, topic: 'not-a-topic' }), null);
   const row = settingsToRow('user-1', settings ?? DEFAULT_TASK_SETTINGS);
   assert.equal(row.reading_format, 'dialogue');
+  assert.equal(row.listening_topic, 'travel');
+  assert.equal(row.grammar_topic, '');
   assert.equal(row.word_count, 60);
+});
+
+test('a saved custom grammar exercise falls back without dropping the other settings', () => {
+  const settings = normalizeTaskSettings({
+    ...DEFAULT_TASK_SETTINGS,
+    enabled: true,
+    level: 'advanced',
+    topic: 'science',
+    listeningTopic: 'hobbies',
+    grammarLevel: 'C1',
+    grammarExercise: 'custom',
+    grammarTopic: 'relative pronouns',
+  });
+  assert.ok(settings);
+  assert.equal(settings?.enabled, true);
+  assert.equal(settings?.level, 'advanced');
+  assert.equal(settings?.topic, 'science');
+  assert.equal(settings?.listeningTopic, 'hobbies');
+  assert.equal(settings?.grammarLevel, 'C1');
+  assert.equal(settings?.grammarExercise, 'blanks');
+  assert.equal(settings?.grammarTopic, '');
+  assert.deepEqual(taskGrammarRequest(settings ?? DEFAULT_TASK_SETTINGS), {
+    level: 'C1',
+    exercise: 'blanks',
+    topic: '',
+  });
+  const fromRow = settingsFromRow({
+    enabled: true,
+    frequency: 'daily',
+    level: 'intermediate',
+    topic: 'travel',
+    word_count: 100,
+    question_count: 5,
+    reading_format: 'text',
+    listening_format: 'dialogue',
+    grammar_level: 'B2',
+    grammar_exercise: 'custom',
+    grammar_topic: 'my own topic',
+  });
+  assert.equal(fromRow.grammarExercise, 'blanks');
+  assert.equal(fromRow.grammarTopic, '');
+  assert.equal(fromRow.topic, 'travel');
+  assert.equal(fromRow.listeningTopic, 'travel');
+  assert.equal(fromRow.enabled, true);
+});
+
+test('shuffle picks a different reading topic, listening topic, and grammar exercise for the level', () => {
+  const beginnerTopics = topicsForTaskLevel('beginner').map((topic) => topic.value);
+  const advancedTopics = topicsForTaskLevel('advanced').map((topic) => topic.value);
+  assert.deepEqual(beginnerTopics, advancedTopics);
+  assert.equal(beginnerTopics.includes('wildcard'), false);
+  assert.deepEqual(grammarExercisesForLevel('B1'), ['blanks', 'phrasal', 'order']);
+  assert.equal(grammarExercisesForLevel('C1').includes('custom' as never), false);
+  const shuffled = shuffleTaskChoices({
+    level: 'beginner',
+    grammarLevel: 'B1',
+    topic: 'daily life',
+    listeningTopic: 'travel',
+    grammarExercise: 'blanks',
+  }, () => 0);
+  assert.equal(shuffled.topic, 'fantasy');
+  assert.equal(shuffled.listeningTopic, 'daily life');
+  assert.equal(shuffled.grammarExercise, 'phrasal');
+  assert.equal(beginnerTopics.includes(shuffled.topic), true);
+  assert.equal(beginnerTopics.includes(shuffled.listeningTopic), true);
+  assert.equal(isMissingListeningTopicColumn({ code: 'PGRST204', message: "Could not find the 'listening_topic' column" }), true);
+  assert.equal(isMissingListeningTopicColumn({ message: 'permission denied' }), false);
+  const sql = readFileSync(new URL('../supabase/migrations/20261120_task_listening_topic.sql', import.meta.url), 'utf8');
+  assert.match(sql, /add column if not exists listening_topic text/);
+  assert.match(sql, /set listening_topic = topic/);
+  const page = readFileSync(new URL('../components/TasksPage.tsx', import.meta.url), 'utf8');
+  assert.match(page, /id="task-reading-topic"/);
+  assert.match(page, /id="task-listening-topic"/);
+  assert.match(page, /id="task-shuffle"/);
+  assert.equal(page.includes('task-grammar-topic'), false);
+  assert.equal(page.includes("'custom'"), false);
+  const grammar = readFileSync(new URL('../components/GrammarPage.tsx', import.meta.url), 'utf8');
+  assert.match(grammar, /id="grammar-topic"/);
+  assert.match(grammar, /Any topic \(optional\)/);
 });
 
 test('one task pack spends one free lesson and does not touch an unlimited plan', () => {
