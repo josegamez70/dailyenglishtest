@@ -139,6 +139,8 @@ export function TasksPreview({
     listeningDone: true,
     grammarDone: true,
   };
+  const role = new URLSearchParams(window.location.search).get('role');
+  const academyPreview = role === 'owner' || role === 'student';
   const packForScene = todayPack;
   const packsForScene = scene === 'packs' || scene === 'complete'
     ? [todayPack, ...(scene === 'packs' ? [secondToday] : []), yesterday]
@@ -153,9 +155,9 @@ export function TasksPreview({
       onSignOut={() => undefined}
       email="student@example.com"
       status="Free lessons left: 2 of 3"
-      showAcademy={false}
-      academyName="North Academy"
-      academyRole="student"
+      showAcademy={academyPreview}
+      academyName={academyPreview ? 'North Academy' : null}
+      academyRole={role === 'student' ? 'student' : academyPreview ? 'owner' : null}
       displayName="Ana"
     >
       {scene === 'tasks' && (

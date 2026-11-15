@@ -3,7 +3,7 @@
 <html lang="en" translate="no" class="notranslate">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="google" content="notranslate" />
     <title>Daily English Test – Free AI Reading &amp; Listening Practice</title>
     <meta name="description" content="Free AI reading and listening practice. Hear or read a short English story, then answer a quiz. For beginner, intermediate, and advanced learners." />
@@ -59,6 +59,16 @@
       html.dark button:active:not(:disabled):not([data-press="off"]) {
         filter: brightness(1.12);
         transform: scale(0.95);
+      }
+      /* 100vh is the fallback. 100dvh follows the visible screen when the Android bar shows. */
+      .menu-drawer {
+        height: 100vh;
+        height: 100dvh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain;
+        padding-bottom: env(safe-area-inset-bottom);
+        touch-action: pan-y;
       }
     </style>
     <script>

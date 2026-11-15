@@ -46,7 +46,7 @@ function NavLinks({
     ]
     : baseItems;
   return (
-    <div className="flex h-full flex-col">
+    <div className="flex min-h-full flex-col">
       <div className="px-4 pt-4">
         <p className="text-lg font-fun leading-tight">
           <span className="text-blue-800 dark:text-blue-300">Daily </span>
@@ -145,7 +145,7 @@ export function AppShell({
 
   return (
     <div className="min-h-screen bg-slate-100 text-slate-900 dark:bg-slate-900 dark:text-slate-50 md:pl-64">
-      <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col border-r border-slate-300 bg-white dark:border-slate-600 dark:bg-slate-800 md:flex">
+      <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col overflow-y-auto overscroll-contain border-r border-slate-300 bg-white dark:border-slate-600 dark:bg-slate-800 md:flex">
         <NavLinks active={active} onNavigate={go} onSignOut={leave} signingOut={signingOut} email={email} status={status} showAcademy={showAcademy} academyName={academyName} academyRole={academyRole} displayName={displayName} />
       </aside>
       <div className="flex min-h-screen flex-col">
@@ -184,7 +184,7 @@ export function AppShell({
         <div className="flex flex-1 flex-col px-3 py-4 sm:px-5">{children}</div>
       </div>
       {open && (
-        <div className="fixed inset-0 z-40 md:hidden">
+        <div className="fixed inset-0 z-40 overflow-hidden md:hidden">
           <button
             type="button"
             aria-label="Close menu"
@@ -192,7 +192,8 @@ export function AppShell({
             className="absolute inset-0 bg-slate-900/50"
             onClick={() => setOpen(false)}
           />
-          <aside className="absolute inset-y-0 left-0 flex w-72 max-w-[85vw] flex-col bg-white shadow-xl dark:bg-slate-800">
+          {/* The page behind stays put. Touch scrolling stays on this panel, not on the body. */}
+          <aside className="menu-drawer absolute left-0 top-0 w-72 max-w-[85vw] bg-white shadow-xl dark:bg-slate-800">
             <NavLinks active={active} onNavigate={go} onSignOut={leave} signingOut={signingOut} email={email} status={status} showAcademy={showAcademy} academyName={academyName} academyRole={academyRole} displayName={displayName} />
           </aside>
         </div>
