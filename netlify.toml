@@ -62,6 +62,16 @@
   status = 200
 
 [[redirects]]
+  from = "/vocabulary"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/vocabulary/"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
   from = "/profile"
   to = "/index.html"
   status = 200

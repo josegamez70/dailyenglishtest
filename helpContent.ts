@@ -283,6 +283,16 @@ const EN_FAQ: readonly HelpFaq[] = [
     ],
   },
   {
+    id: 'vocabulary',
+    question: 'What is My vocabulary?',
+    blocks: [
+      {
+        type: 'p',
+        text: 'My vocabulary is in the menu for a signed-in person, including academy students. Tick a key word in a reading or listening lesson, or press Save word in the word popup. The list shows the meaning, an example, where the word came from, and the date. You can search, filter by Reading or Listening, and delete a word. Flashcards and a short quiz use only the saved words. The quiz needs at least 4 words.',
+      },
+    ],
+  },
+  {
     id: 'tasks',
     question: 'What are Tasks?',
     blocks: [
@@ -533,6 +543,16 @@ const ES_FAQ: readonly HelpFaq[] = [
       {
         type: 'p',
         text: 'Una academia puede ver el nombre, el correo y los resultados de los tests de un alumno. No puede ver sus lecciones guardadas. Las lecciones guardadas y el progreso siguen ahí cuando termina un piloto. No se borran.',
+      },
+    ],
+  },
+  {
+    id: 'vocabulary',
+    question: '¿Qué es «My vocabulary»?',
+    blocks: [
+      {
+        type: 'p',
+        text: '«My vocabulary» (Mi vocabulario) está en el menú de quien ha entrado, también de los alumnos de una academia. Marca una palabra clave en una lección de lectura o de audio, o pulsa «Save word» (Guardar palabra) en la ventana de la palabra. La lista muestra el significado, un ejemplo, de dónde viene y la fecha. Puedes buscar, filtrar por «Reading» o «Listening» y borrar una palabra. «Flashcards» y un quiz corto usan solo las palabras guardadas. El quiz necesita al menos 4 palabras.',
       },
     ],
   },

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { AcademyBadge } from './AcademyBadge';
 import HomeIcon from './icons/HomeIcon';
 
-export type ShellItem = 'lesson' | 'grammar' | 'tasks' | 'packs' | 'progress' | 'saved' | 'academy' | 'profile' | 'join';
+export type ShellItem = 'lesson' | 'grammar' | 'tasks' | 'packs' | 'progress' | 'saved' | 'vocabulary' | 'academy' | 'profile' | 'join';
 
 const baseItems: { id: ShellItem; label: string; path: string }[] = [
   { id: 'lesson', label: 'Reading / Listening', path: '/' },
@@ -11,6 +11,7 @@ const baseItems: { id: ShellItem; label: string; path: string }[] = [
   { id: 'packs', label: 'Task packs', path: '/task-packs' },
   { id: 'progress', label: 'My progress', path: '/progress' },
   { id: 'saved', label: 'Saved lessons', path: '/saved' },
+  { id: 'vocabulary', label: 'My vocabulary', path: '/vocabulary' },
   { id: 'profile', label: 'Profile', path: '/profile' },
 ];
 

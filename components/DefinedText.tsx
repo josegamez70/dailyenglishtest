@@ -1,7 +1,21 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState, useSyncExternalStore } from 'react';
 import { createPortal } from 'react-dom';
 import { isEnUsLang, narrationVoice, type ListedVoice } from '../dialogue';
 import { defineWord, normalizeLookupWord, popupPosition, type DictEntry } from '../dictionary';
+import {
+  getVocabLessonContext,
+  requestVocabSignIn,
+  sentenceWith,
+  subscribeVocabContext,
+  termKey,
+} from '../vocabulary';
+import {
+  getVocabularyState,
+  removeVocabularyWord,
+  saveVocabularyWord,
+  savedTermSet,
+  subscribeVocabulary,
+} from '../vocabularyStore';
 
 type Anchor = { top: number; bottom: number; left: number; width: number; height: number };
 
@@ -77,6 +91,11 @@ export function DictionaryPopup() {
   const [position, setPosition] = useState({ top: 8, left: 8 });
   const [placed, setPlaced] = useState(false);
   const popupRef = React.useRef<HTMLDivElement>(null);
+  const [saving, setSaving] = useState(false);
+  const lesson = useSyncExternalStore(subscribeVocabContext, getVocabLessonContext, getVocabLessonContext);
+  const vocab = useSyncExternalStore(subscribeVocabulary, getVocabularyState, getVocabularyState);
+  const headword = entry?.word || normalizeLookupWord(open?.surface ?? '') || open?.surface || '';
+  const saved = savedTermSet(vocab.rows).has(termKey(headword));
 
   useEffect(() => {
     listener = setOpen;
@@ -124,7 +143,30 @@ export function DictionaryPopup() {
       height: window.innerHeight,
     }));
     setPlaced(true);
-  }, [open, status, entry]);
+  }, [open, status, entry, saved]);
+
+  const toggleSaved = () => {
+    if (!lesson?.signedIn) {
+      requestVocabSignIn();
+      return;
+    }
+    if (!headword || saving || status === 'loading') return;
+    const meaning = entry?.senses.map((sense) => sense.definition).filter(Boolean).slice(0, 2).join(' ') || '';
+    const example = entry?.example || sentenceWith(lesson.story, headword);
+    setSaving(true);
+    const task = saved
+      ? removeVocabularyWord(headword)
+      : saveVocabularyWord({
+        term: headword,
+        meaning,
+        example,
+        sourceType: lesson.sourceType,
+        lessonTitle: lesson.lessonTitle,
+        topic: lesson.topic,
+        level: lesson.level,
+      });
+    void task.finally(() => setSaving(false));
+  };
 
   if (!open) return null;
 
@@ -136,7 +178,7 @@ export function DictionaryPopup() {
       data-lookup-popup
       onMouseEnter={cancelClose}
       onMouseLeave={scheduleClose}
-      className="fixed z-[70] w-[min(18rem,calc(100vw-1rem))] max-h-[50vh] overflow-y-auto rounded-lg border border-slate-300 bg-white p-3 text-sm text-slate-900 shadow-lg dark:border-slate-500 dark:bg-slate-800 dark:text-slate-50"
+      className="fixed z-[70] w-[min(18rem,calc(100vw-1rem))] max-h-[70vh] overflow-y-auto rounded-lg border border-slate-300 bg-white p-3 text-sm text-slate-900 shadow-lg dark:border-slate-500 dark:bg-slate-800 dark:text-slate-50"
       style={{ top: position.top, left: position.left, visibility: placed ? 'visible' : 'hidden' }}
     >
       <div className="flex items-start gap-2">
@@ -166,6 +208,17 @@ export function DictionaryPopup() {
           X
         </button>
       </div>
+      <button
+        type="button"
+        aria-pressed={saved}
+        disabled={saving || status === 'loading'}
+        onClick={toggleSaved}
+        className={saved
+          ? 'mt-3 w-full rounded-lg border-2 border-blue-800 bg-blue-700 py-2 text-base font-bold text-white'
+          : 'mt-3 w-full rounded-lg border-2 border-slate-900 bg-white py-2 text-base font-bold text-slate-900 hover:bg-slate-100 dark:border-slate-100 dark:bg-slate-900 dark:text-slate-50'}
+      >
+        {lesson?.signedIn ? (saved ? 'Saved' : 'Save word') : 'Sign in to save'}
+      </button>
       {status === 'loading' && <p className="mt-2">Looking up...</p>}
       {status === 'missing' && <p className="mt-2">No definition found.</p>}
       {status === 'error' && <p className="mt-2">Could not load the definition. Try again.</p>}
