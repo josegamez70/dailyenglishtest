@@ -113,7 +113,7 @@ function formatSavedDate(value: string): string {
 function Flashcards({
   rows,
   onExit,
-  exitLabel = 'Back to My vocabulary',
+  exitLabel = 'Back to Vocabulary builder',
   persistGrades,
   onFinished,
 }: {
@@ -206,7 +206,7 @@ function Flashcards({
 function Quiz({
   rows,
   onExit,
-  exitLabel = 'Back to My vocabulary',
+  exitLabel = 'Back to Vocabulary builder',
   persistGrades,
   onFinished,
 }: {
@@ -349,9 +349,9 @@ export function VocabularyPage({
     <div className="mx-auto w-full max-w-3xl">
       {onBack && (mode === 'list' || practice) && <BackButton onClick={onBack} label={practice ? 'Back to Task packs' : 'Back'} />}
       {!practice && mode !== 'list' && (
-        <BackButton onClick={() => setMode('list')} label="Back to My vocabulary" />
+        <BackButton onClick={() => setMode('list')} label="Back to Vocabulary builder" />
       )}
-      <h1 className="text-2xl font-bold">My vocabulary</h1>
+      <h1 className="text-2xl font-bold">Vocabulary builder</h1>
       {!userId && !fixture && (
         <div className="mt-3">
           <p className="text-base">Sign in to save words and practice them. Academy students can use this too.</p>
@@ -362,7 +362,7 @@ export function VocabularyPage({
           )}
         </div>
       )}
-      {missing && <p className="mt-3 text-base">My vocabulary will be ready after the database update.</p>}
+      {missing && <p className="mt-3 text-base">Vocabulary builder will be ready after the database update.</p>}
       {mode === 'list' && (userId || fixture) && (
         <>
           <p className="mt-2 text-base">Words you save from a lesson or from the word popup.</p>
@@ -491,10 +491,10 @@ export function VocabularyPage({
         </div>
       )}
       {mode === 'cards' && !practiceBlocked && (
-        <Flashcards rows={rows} onExit={practice ? (onBack ?? (() => setMode('list'))) : () => setMode('list')} exitLabel={practice ? 'Back to Task packs' : 'Back to My vocabulary'} persistGrades={!fixture && Boolean(userId)} onFinished={onFinished} />
+        <Flashcards rows={rows} onExit={practice ? (onBack ?? (() => setMode('list'))) : () => setMode('list')} exitLabel={practice ? 'Back to Task packs' : 'Back to Vocabulary builder'} persistGrades={!fixture && Boolean(userId)} onFinished={onFinished} />
       )}
       {mode === 'quiz' && !practiceBlocked && (
-        <Quiz rows={rows} onExit={practice ? (onBack ?? (() => setMode('list'))) : () => setMode('list')} exitLabel={practice ? 'Back to Task packs' : 'Back to My vocabulary'} persistGrades={!fixture && Boolean(userId)} onFinished={onFinished} />
+        <Quiz rows={rows} onExit={practice ? (onBack ?? (() => setMode('list'))) : () => setMode('list')} exitLabel={practice ? 'Back to Task packs' : 'Back to Vocabulary builder'} persistGrades={!fixture && Boolean(userId)} onFinished={onFinished} />
       )}
     </div>
   );

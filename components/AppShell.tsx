@@ -7,11 +7,11 @@ export type ShellItem = 'lesson' | 'grammar' | 'tasks' | 'packs' | 'progress' | 
 const baseItems: { id: ShellItem; label: string; path: string }[] = [
   { id: 'lesson', label: 'Reading / Listening', path: '/' },
   { id: 'grammar', label: 'Grammar', path: '/grammar' },
+  { id: 'vocabulary', label: 'Vocabulary builder', path: '/vocabulary' },
   { id: 'tasks', label: 'Tasks', path: '/tasks' },
   { id: 'packs', label: 'Task packs', path: '/task-packs' },
   { id: 'progress', label: 'My progress', path: '/progress' },
   { id: 'saved', label: 'Saved lessons', path: '/saved' },
-  { id: 'vocabulary', label: 'My vocabulary', path: '/vocabulary' },
   { id: 'profile', label: 'Profile', path: '/profile' },
 ];
 

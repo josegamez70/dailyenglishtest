@@ -284,11 +284,11 @@ const EN_FAQ: readonly HelpFaq[] = [
   },
   {
     id: 'vocabulary',
-    question: 'What is My vocabulary?',
+    question: 'What is Vocabulary builder?',
     blocks: [
       {
         type: 'p',
-        text: 'My vocabulary is in the menu for a signed-in person, including academy students. Tick a key word in a reading or listening lesson, or press Save word in the word popup. The list shows the meaning, an example, where the word came from, and the date. You can search, filter by Reading or Listening, and delete a word. Flashcards and a short quiz use only the saved words. The quiz needs at least 4 words.',
+        text: 'Vocabulary builder is in the menu, under Grammar, for a signed-in person, including academy students. Tick a key word in a reading or listening lesson, or press Save word in the word popup. The list shows the meaning, an example, where the word came from, and the date. You can search, filter by Reading, Listening, or From popup, and delete a word. Flashcards and a short quiz use only the saved words. The quiz needs at least 4 words.',
       },
     ],
   },
@@ -298,11 +298,11 @@ const EN_FAQ: readonly HelpFaq[] = [
     blocks: [
       {
         type: 'p',
-        text: 'Tasks is in the menu for every signed-in person, including academy students. Turn tasks on, then choose daily or weekly, the level, and the pack. A pack is one reading exercise, one listening exercise, and one grammar exercise. Reading and listening can be Text or Dialogue. Grammar can be Fill in the blanks, Phrasal verbs, or Put in order. My vocabulary can be added as Flashcards or a Quiz. Leave it off and the pack stays the same. Shuffle picks a reading topic, a listening topic, and a grammar exercise for the level you selected. You can change those choices before you save.',
+        text: 'Tasks is in the menu for every signed-in person, including academy students. Turn tasks on, then choose daily or weekly, the level, and the pack. A pack is one reading exercise, one listening exercise, and one grammar exercise. Reading and listening can be Text or Dialogue. Grammar can be Fill in the blanks, Phrasal verbs, or Put in order. Vocabulary builder can be added as Flashcards or a Quiz. Leave it off and the pack stays the same. Shuffle picks a reading topic, a listening topic, and a grammar exercise for the level you selected. You can change those choices before you save.',
       },
       {
         type: 'p',
-        text: 'The pack is waiting when you open Tasks. One pack uses one free lesson. Premium and an active academy are not counted, and the 3 free lessons still work the same way on Reading, Listening, and Grammar. Opening a pack does not use another lesson. Only 5 task packs are kept. A reminder email can arrive when a pack is ready. That email has a link to turn tasks off.',
+        text: 'Task packs lists each pack. Open a pack to start its exercises. One pack uses one free lesson. Premium and an active academy are not counted, and the 3 free lessons still work the same way on Reading, Listening, and Grammar. Opening a pack does not use another lesson. Only 5 task packs are kept. A reminder email can arrive when a pack is ready. That email has a link to turn tasks off.',
       },
     ],
   },
@@ -548,11 +548,11 @@ const ES_FAQ: readonly HelpFaq[] = [
   },
   {
     id: 'vocabulary',
-    question: '¿Qué es «My vocabulary»?',
+    question: '¿Qué es «Vocabulary builder»?',
     blocks: [
       {
         type: 'p',
-        text: '«My vocabulary» (Mi vocabulario) está en el menú de quien ha entrado, también de los alumnos de una academia. Marca una palabra clave en una lección de lectura o de audio, o pulsa «Save word» (Guardar palabra) en la ventana de la palabra. La lista muestra el significado, un ejemplo, de dónde viene y la fecha. Puedes buscar, filtrar por «Reading» o «Listening» y borrar una palabra. «Flashcards» y un quiz corto usan solo las palabras guardadas. El quiz necesita al menos 4 palabras.',
+        text: '«Vocabulary builder» (Constructor de vocabulario) está en el menú, debajo de «Grammar», para quien ha entrado, también para los alumnos de una academia. Marca una palabra clave en una lección de lectura o de audio, o pulsa «Save word» (Guardar palabra) en la ventana de la palabra. La lista muestra el significado, un ejemplo, de dónde viene y la fecha. Puedes buscar, filtrar por «Reading», «Listening» o «From popup» y borrar una palabra. «Flashcards» y un quiz corto usan solo las palabras guardadas. El quiz necesita al menos 4 palabras.',
       },
     ],
   },
@@ -562,11 +562,11 @@ const ES_FAQ: readonly HelpFaq[] = [
     blocks: [
       {
         type: 'p',
-        text: '«Tasks» (Tareas) está en el menú de quien ha entrado, también de los alumnos de una academia. Actívalas y elige cada día o cada semana, el nivel y el paquete. Un paquete tiene un ejercicio de lectura, uno de audio y uno de gramática. Lectura y audio pueden ser «Text» o «Dialogue». Gramática puede ser «Fill in the blanks», «Phrasal verbs» o «Put in order». «My vocabulary» puede añadirse como «Flashcards» o «Quiz». Si lo dejas en «Off», el paquete sigue igual. «Shuffle» elige un tema de lectura, un tema de audio y un ejercicio de gramática para el nivel elegido. Puedes cambiarlos antes de guardar.',
+        text: '«Tasks» (Tareas) está en el menú de quien ha entrado, también de los alumnos de una academia. Actívalas y elige cada día o cada semana, el nivel y el paquete. Un paquete tiene un ejercicio de lectura, uno de audio y uno de gramática. Lectura y audio pueden ser «Text» o «Dialogue». Gramática puede ser «Fill in the blanks», «Phrasal verbs» o «Put in order». «Vocabulary builder» puede añadirse como «Flashcards» o «Quiz». Si lo dejas en «Off», el paquete sigue igual. «Shuffle» elige un tema de lectura, un tema de audio y un ejercicio de gramática para el nivel elegido. Puedes cambiarlos antes de guardar.',
       },
       {
         type: 'p',
-        text: 'El paquete está listo al abrir «Tasks». Un paquete gasta una lección gratis. Premium y una academia activa no se cuentan, y las 3 lecciones gratis siguen igual en «Reading», «Listening» y «Grammar». Abrir un paquete no gasta otra lección. Solo se conservan 5 paquetes de tareas. Puede llegar un correo cuando hay un paquete nuevo. Ese correo tiene un enlace para apagar las tareas.',
+        text: '«Task packs» muestra cada paquete. Abre un paquete para empezar sus ejercicios. Un paquete gasta una lección gratis. Premium y una academia activa no se cuentan, y las 3 lecciones gratis siguen igual en «Reading», «Listening» y «Grammar». Abrir un paquete no gasta otra lección. Solo se conservan 5 paquetes de tareas. Puede llegar un correo cuando hay un paquete nuevo. Ese correo tiene un enlace para apagar las tareas.',
       },
     ],
   },

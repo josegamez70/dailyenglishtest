@@ -76,7 +76,11 @@ test('the quiz is built only from saved words and needs four of them', () => {
   assert.match(sql, /enable row level security/);
   assert.match(sql, /auth.uid\(\) = user_id/);
   const shell = readFileSync(new URL('../components/AppShell.tsx', import.meta.url), 'utf8');
-  assert.match(shell, /My vocabulary/);
+  assert.match(shell, /Vocabulary builder/);
+  assert.equal(shell.includes('My vocabulary'), false);
+  const menu = shell.slice(shell.indexOf('baseItems'), shell.indexOf('function NavLinks'));
+  assert.ok(menu.indexOf("label: 'Grammar'") < menu.indexOf("label: 'Vocabulary builder'"));
+  assert.ok(menu.indexOf("label: 'Vocabulary builder'") < menu.indexOf("label: 'Tasks'"));
   const netlify = readFileSync(new URL('../netlify.toml', import.meta.url), 'utf8');
   assert.match(netlify, /from = "\/vocabulary"/);
   const list = readFileSync(new URL('../components/KeyVocabularyList.tsx', import.meta.url), 'utf8');

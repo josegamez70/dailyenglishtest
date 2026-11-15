@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { filterSavedLessons, savedLessonBadges } from '../savedLessonMeta.ts';
-import { returnPathAfterSignIn, signInReturnUrl } from '../returnPath.ts';
+import { isAppReturnPath, returnPathAfterSignIn, signInReturnUrl, taskPackIdFromPath } from '../returnPath.ts';
 import {
   buildMimeMessage,
   readSmtpSettings,
@@ -21,6 +21,7 @@ import {
   shuffleTaskChoices,
   taskGrammarRequest,
   taskPackIsComplete,
+  taskPackProgress,
   taskPackStatusLine,
   taskVocabularyMode,
   vocabularyPracticeReady,
@@ -362,6 +363,18 @@ test('my vocabulary is optional and does not hold a pack that cannot play it', (
   assert.equal(taskPackIsComplete({ ...core, vocabularyMode: 'quiz', vocabularyReady: false }), true);
   assert.equal(taskPackIsComplete({ ...core, vocabularyMode: 'quiz', vocabularyReady: true }), false);
   assert.equal(taskPackIsComplete({ ...core, vocabularyMode: 'flashcards', vocabularyReady: true, vocabularyDone: true }), true);
+  assert.deepEqual(taskPackProgress({ ...core, vocabularyMode: '', vocabularyReady: false }), { done: 3, total: 3 });
+  assert.deepEqual(taskPackProgress({ ...core, vocabularyMode: 'quiz', vocabularyReady: true }), { done: 3, total: 4 });
+  const packId = '238b32a1-c266-48ae-8537-f961d2ae08d8';
+  assert.equal(taskPackIdFromPath(`/task-packs/${packId}`), packId);
+  assert.equal(taskPackIdFromPath('/task-packs'), null);
+  assert.equal(isAppReturnPath(`/task-packs/${packId}`), true);
+  assert.equal(returnPathAfterSignIn(`/task-packs/${packId}`, '/'), `/task-packs/${packId}`);
+  const packsPage = readFileSync(new URL('../components/TasksPage.tsx', import.meta.url), 'utf8');
+  assert.match(packsPage, /Pack \{item\.packSlot\}/);
+  assert.match(packsPage, /label="Back"/);
+  assert.match(packsPage, /Vocabulary builder/);
+  assert.equal(packsPage.includes('My vocabulary'), false);
   const mail = taskReminderMessage({
     baseUrl: 'https://dailyenglishtest.es',
     token: 'abc',
