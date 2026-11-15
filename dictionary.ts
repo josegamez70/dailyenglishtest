@@ -120,6 +120,15 @@ function isFormPointer(definition: string): boolean {
   return /(?:plural|past|participle|gerund|superlative|comparative|third-person|tense) of\b/i.test(definition);
 }
 
+/** Everyday senses outrank specialist ones such as an old textile meaning. */
+function commonScore(definition: string): number {
+  const text = definition.toLowerCase();
+  let score = 0;
+  if (/\b(fun|playful|joke|laugh|annoy|friend|person|school|learn|study)\b/.test(text)) score += 3;
+  if (/\b(fibre|fiber|fibrous|teasel|backcomb|textile|obsolete|archaic|rare|dialect|nautical|zoology|botany)\b/.test(text)) score -= 5;
+  return score;
+}
+
 type RawMeaning = {
   partOfSpeech: string;
   definitions: { definition: string; example?: string }[];
@@ -133,12 +142,14 @@ export function collectSenses(meanings: readonly RawMeaning[]): { senses: DictSe
   let example: string | null = null;
   for (const meaning of meanings) {
     const partOfSpeech = meaning.partOfSpeech.trim() || 'word';
-    const definitions = meaning.definitions.filter((item) => item.definition.trim());
+    const definitions = meaning.definitions
+      .filter((item) => item.definition.trim() && !isFormPointer(item.definition))
+      .sort((left, right) => commonScore(right.definition) - commonScore(left.definition));
     if (!definitions.length) continue;
-    if (!example && definitions[0].example?.trim()) example = definitions[0].example.trim();
     if (!seen.has(partOfSpeech)) {
       seen.add(partOfSpeech);
       firsts.push({ partOfSpeech, definition: shortenDefinition(definitions[0].definition) });
+      if (!example && definitions[0].example?.trim()) example = definitions[0].example.trim();
       if (!extra.length && definitions[1]) {
         extra.push({ partOfSpeech, definition: shortenDefinition(definitions[1].definition) });
       }

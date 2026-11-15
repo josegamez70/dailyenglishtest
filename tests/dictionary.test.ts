@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { baseFormCandidates, inflectionPointer, lemmaCandidates, lookupCandidates, meaningToSave, mergeBaseEntry, normalizeLookupWord, parseDictionary, popupPosition, searchLookupTerm, type DictEntry } from '../dictionary.ts';
+import { baseFormCandidates, collectSenses, inflectionPointer, lemmaCandidates, lookupCandidates, meaningToSave, mergeBaseEntry, normalizeLookupWord, parseDictionary, popupPosition, searchLookupTerm, type DictEntry } from '../dictionary.ts';
 
 test('word lookup tries a simple plural or verb ending when needed', () => {
   assert.equal(normalizeLookupWord("Sophie's"), 'sophie');
