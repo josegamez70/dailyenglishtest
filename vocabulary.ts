@@ -121,14 +121,15 @@ export function buildVocabQuiz(items: readonly SavedWord[], random: () => number
   const chosen = shuffleItems(usable, random).slice(0, Math.min(VOCAB_QUIZ_COUNT, usable.length));
   return chosen.map((item, index) => {
     const askMeaning = index % 2 === 0;
-    const answer = askMeaning ? item.meaning.trim() : item.term;
+    const meaning = item.meaning.split(' · ')[0]?.trim() || item.meaning.trim();
+    const answer = askMeaning ? meaning : item.term;
     const distractors = shuffleItems(usable.filter((other) => termKey(other.term) !== termKey(item.term)), random)
-      .map((other) => (askMeaning ? other.meaning.trim() : other.term))
+      .map((other) => (askMeaning ? (other.meaning.split(' · ')[0]?.trim() || other.meaning.trim()) : other.term))
       .filter((value, valueIndex, list) => value && value.toLowerCase() !== answer.toLowerCase() && list.findIndex((entry) => entry.toLowerCase() === value.toLowerCase()) === valueIndex)
       .slice(0, 3);
     return {
       term: item.term,
-      prompt: askMeaning ? `What does “${item.term}” mean?` : `Which word means “${item.meaning.trim()}”?`,
+      prompt: askMeaning ? `What does “${item.term}” mean?` : `Which word means “${meaning}”?`,
       choices: shuffleItems([answer, ...distractors], random),
       answer,
     };

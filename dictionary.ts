@@ -12,7 +12,9 @@ export type DictEntry = {
 };
 
 const memory = new Map<string, DictEntry | 'missing'>();
-const STORAGE_KEY = 'dictionaryCacheV1';
+const STORAGE_KEY = 'dictionaryCacheV2';
+const MAX_SENSES = 3;
+const MAX_DEFINITION = 160;
 
 /** Lowercase, drop punctuation and curly quotes, and remove a possessive 's. */
 export function normalizeLookupWord(raw: string): string {
@@ -67,30 +69,154 @@ export function lookupCandidates(raw: string): string[] {
   return [word, ...lemmaCandidates(word)];
 }
 
+function silentEBase(surface: string, base: string): boolean {
+  if (!base.endsWith('e')) return false;
+  const stem = base.slice(0, -1);
+  if (!/[aeiou][^aeiou]$/.test(stem)) return false;
+  return surface === `${stem}ing` || surface === `${stem}ed`;
+}
+
+function relatedBase(surface: string, base: string): boolean {
+  if (base.length < 2 || base === surface) return false;
+  if (base.endsWith('y')) {
+    const stem = base.slice(0, -1);
+    if (surface === `${stem}ies` || surface === `${stem}ied`) return true;
+  }
+  if (silentEBase(surface, base)) return true;
+  if (!surface.startsWith(base)) return false;
+  if (base.length >= surface.length - 3) return true;
+  return surface.startsWith(base + base.charAt(base.length - 1));
+}
+
+function baseScore(surface: string, base: string): number {
+  let score = base.length;
+  if (base.endsWith('y') && (surface.endsWith('ies') || surface.endsWith('ied'))) score += 10;
+  if (silentEBase(surface, base)) score += 8;
+  else if (base.endsWith('e') && surface.startsWith(base.slice(0, -1))) score -= 6;
+  const last = base.charAt(base.length - 1);
+  if (surface.startsWith(base + last)) score += 5;
+  return score;
+}
+
+/** The likely dictionary headword for an inflected form, longest and simplest first. */
+export function baseFormCandidates(word: string): string[] {
+  const surface = normalizeLookupWord(word);
+  if (!surface) return [];
+  return lemmaCandidates(surface)
+    .filter((base) => relatedBase(surface, base))
+    .sort((left, right) => baseScore(surface, right) - baseScore(surface, left))
+    .slice(0, 2);
+}
+
+function shortenDefinition(definition: string): string {
+  const text = definition.replace(/\s+/g, ' ').trim();
+  if (text.length <= MAX_DEFINITION) return text;
+  const cut = text.slice(0, MAX_DEFINITION);
+  const space = cut.lastIndexOf(' ');
+  return `${(space > 80 ? cut.slice(0, space) : cut).replace(/[;,:\s]+$/, '')}…`;
+}
+
+function isFormPointer(definition: string): boolean {
+  return /(?:plural|past|participle|gerund|superlative|comparative|third-person|tense) of\b/i.test(definition);
+}
+
+/** Everyday senses outrank specialist ones such as an old textile meaning. */
+function commonScore(definition: string): number {
+  const text = definition.toLowerCase();
+  let score = 0;
+  if (/\b(fun|playful|joke|laugh)\b/.test(text)) score += 3;
+  if (/\b(fibre|fiber|fibrous|teasel|backcomb|textile|obsolete|archaic|rare|dialect|nautical|zoology|botany)\b/.test(text)) score -= 5;
+  return score;
+}
+
+type RawMeaning = {
+  partOfSpeech: string;
+  definitions: { definition: string; example?: string }[];
+};
+
+/** First sense of each part of speech, then one extra, at most three. */
+export function collectSenses(meanings: readonly RawMeaning[]): { senses: DictSense[]; example: string | null } {
+  const firsts: DictSense[] = [];
+  const extra: DictSense[] = [];
+  const seen = new Set<string>();
+  let example: string | null = null;
+  for (const meaning of meanings) {
+    const partOfSpeech = meaning.partOfSpeech.trim() || 'word';
+    const definitions = meaning.definitions
+      .filter((item) => item.definition.trim() && !isFormPointer(item.definition))
+      .sort((left, right) => commonScore(right.definition) - commonScore(left.definition));
+    if (!definitions.length) continue;
+    if (!seen.has(partOfSpeech)) {
+      seen.add(partOfSpeech);
+      firsts.push({ partOfSpeech, definition: shortenDefinition(definitions[0].definition) });
+      if (!example && definitions[0].example?.trim()) example = definitions[0].example.trim();
+      if (!extra.length && definitions[1]) {
+        extra.push({ partOfSpeech, definition: shortenDefinition(definitions[1].definition) });
+      }
+    }
+  }
+  return { senses: [...firsts, ...extra].slice(0, MAX_SENSES), example };
+}
+
+function dedupeSenses(senses: readonly DictSense[]): DictSense[] {
+  const seen = new Set<string>();
+  const result: DictSense[] = [];
+  for (const sense of senses) {
+    const key = sense.definition.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    result.push(sense);
+  }
+  return result;
+}
+
+/** Base-form senses come first. The looked-up word stays the headword. */
+export function mergeBaseEntry(surface: DictEntry, base: DictEntry): DictEntry {
+  const baseReal = base.senses.filter((sense) => !isFormPointer(sense.definition));
+  const surfaceReal = surface.senses.filter((sense) => !isFormPointer(sense.definition));
+  const senses = dedupeSenses(baseReal.length ? [...baseReal, ...surfaceReal] : surface.senses).slice(0, MAX_SENSES);
+  return {
+    word: surface.word || base.word,
+    phonetic: surface.phonetic || base.phonetic,
+    senses: senses.length ? senses : surface.senses.slice(0, MAX_SENSES),
+    example: (baseReal.length ? base.example : surface.example) || surface.example || base.example,
+    note: baseReal.length ? `from: ${base.word.toLowerCase()}` : null,
+  };
+}
+
+/** The text stored on a saved word: main sense first, extras after a dot. */
+export function meaningToSave(senses: readonly DictSense[]): string {
+  return senses
+    .map((sense) => sense.definition.trim())
+    .filter(Boolean)
+    .join(' · ')
+    .slice(0, 400);
+}
+
 export function parseDictionary(data: unknown, fallbackWord: string): DictEntry | null {
   const entry = Array.isArray(data) ? data[0] : null;
   if (!entry || typeof entry !== 'object') return null;
   const record = entry as Record<string, unknown>;
   const phonetic = firstPhonetic(record);
-  const senses: DictSense[] = [];
-  let example: string | null = null;
   const meanings = Array.isArray(record.meanings) ? record.meanings : [];
+  const raw: RawMeaning[] = [];
   for (const meaning of meanings) {
-    if (!meaning || typeof meaning !== 'object' || senses.length >= 2) break;
+    if (!meaning || typeof meaning !== 'object') continue;
     const meaningRecord = meaning as Record<string, unknown>;
-    const partOfSpeech = String(meaningRecord.partOfSpeech ?? '').trim();
     const definitions = Array.isArray(meaningRecord.definitions) ? meaningRecord.definitions : [];
-    for (const item of definitions) {
-      if (!item || typeof item !== 'object' || senses.length >= 2) break;
-      const definition = String((item as Record<string, unknown>).definition ?? '').trim();
-      if (!definition) continue;
-      senses.push({ partOfSpeech: partOfSpeech || 'word', definition });
-      if (!example) {
-        const sample = String((item as Record<string, unknown>).example ?? '').trim();
-        if (sample) example = sample;
-      }
-    }
+    raw.push({
+      partOfSpeech: String(meaningRecord.partOfSpeech ?? ''),
+      definitions: definitions.flatMap((item) => {
+        if (!item || typeof item !== 'object') return [];
+        const recordItem = item as Record<string, unknown>;
+        return [{
+          definition: String(recordItem.definition ?? ''),
+          example: String(recordItem.example ?? ''),
+        }];
+      }),
+    });
   }
+  const { senses, example } = collectSenses(raw);
   if (!senses.length) return null;
   const word = String(record.word ?? fallbackWord).trim() || fallbackWord;
   return { word, phonetic, senses, example };
@@ -202,27 +328,27 @@ export function parseWiktionary(data: unknown, fallbackWord: string): DictEntry 
   if (!data || typeof data !== 'object') return null;
   const groups = (data as Record<string, unknown>).en;
   if (!Array.isArray(groups)) return null;
-  const senses: DictSense[] = [];
-  let example: string | null = null;
+  const raw: RawMeaning[] = [];
   for (const group of groups) {
-    if (!group || typeof group !== 'object' || senses.length >= 2) break;
+    if (!group || typeof group !== 'object') continue;
     const record = group as Record<string, unknown>;
-    const partOfSpeech = String(record.partOfSpeech ?? '').trim() || 'word';
     const definitions = Array.isArray(record.definitions) ? record.definitions : [];
-    for (const item of definitions) {
-      if (!item || typeof item !== 'object' || senses.length >= 2) break;
-      const definition = stripHtml(String((item as Record<string, unknown>).definition ?? ''));
-      if (!definition || /^ISO\b/i.test(definition)) continue;
-      senses.push({ partOfSpeech, definition });
-      if (!example) {
-        const examples = (item as Record<string, unknown>).parsedExamples;
+    raw.push({
+      partOfSpeech: String(record.partOfSpeech ?? ''),
+      definitions: definitions.flatMap((item) => {
+        if (!item || typeof item !== 'object') return [];
+        const recordItem = item as Record<string, unknown>;
+        const definition = stripHtml(String(recordItem.definition ?? ''));
+        if (!definition || /^ISO\b/i.test(definition)) return [];
+        const examples = recordItem.parsedExamples;
         const sample = Array.isArray(examples) && examples[0] && typeof examples[0] === 'object'
           ? stripHtml(String((examples[0] as Record<string, unknown>).example ?? ''))
           : '';
-        if (sample) example = sample;
-      }
-    }
+        return [{ definition, example: sample }];
+      }),
+    });
   }
+  const { senses, example } = collectSenses(raw);
   if (!senses.length) return null;
   return { word: fallbackWord, phonetic: null, senses, example };
 }
@@ -274,25 +400,20 @@ async function lookupForm(word: string, retryMiss: boolean): Promise<FetchResult
   return result;
 }
 
-async function followInflection(entry: DictEntry, surface: string, depth = 0): Promise<DictEntry> {
-  if (depth >= 2) return entry;
-  const pointer = inflectionPointer(entry);
-  if (!pointer) return entry;
-  let base = await lookupForm(pointer.base, true);
-  if (!isEntry(base)) {
-    const wiki = await fetchWiktionary(pointer.base);
-    if (!isEntry(wiki)) return entry;
-    base = wiki;
+async function attachBase(entry: DictEntry, surface: string): Promise<DictEntry> {
+  const hinted = inflectionPointer(entry)?.base;
+  const bases = [hinted, ...baseFormCandidates(surface)]
+    .filter((base, index, all): base is string => Boolean(base) && all.indexOf(base) === index && base !== surface);
+  for (const base of bases.slice(0, 2)) {
+    let found = await lookupForm(base, false);
+    if (found === 'missing') continue;
+    if (!isEntry(found)) {
+      found = await fetchWiktionary(base);
+    }
+    if (!isEntry(found)) continue;
+    return mergeBaseEntry(entry, found);
   }
-  const followed = inflectionPointer(base) ? await followInflection(base, surface, depth + 1) : base;
-  if (inflectionPointer(followed)) return entry;
-  return {
-    word: followed.word,
-    phonetic: followed.phonetic,
-    senses: followed.senses,
-    example: followed.example,
-    note: `(${pointer.label}: ${surface})`,
-  };
+  return entry;
 }
 
 /** A single word or a short phrase worth sending to the dictionary. */
@@ -344,7 +465,7 @@ export async function defineWord(raw: string): Promise<DictEntry | null> {
   for (let index = 0; index < forms.length; index += 1) {
     const result = await lookupForm(forms[index], index === 0);
     if (isEntry(result)) {
-      const shown = await followInflection(result, word);
+      const shown = await attachBase(result, word);
       remember(resultKey, shown);
       return shown;
     }
@@ -354,7 +475,7 @@ export async function defineWord(raw: string): Promise<DictEntry | null> {
   for (const form of forms) {
     const result = await fetchWiktionary(form);
     if (isEntry(result)) {
-      const shown = await followInflection(result, word);
+      const shown = await attachBase(result, word);
       remember(resultKey, shown);
       return shown;
     }

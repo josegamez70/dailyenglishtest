@@ -1,3 +1,5 @@
+import { baseFormCandidates } from './dictionary.ts';
+
 export type PronunciationAccent = 'british' | 'american';
 
 export type PronunciationVoice = {
@@ -52,29 +54,50 @@ export function pronunciationLang(accent: PronunciationAccent): 'en-GB' | 'en-US
   return accent === 'american' ? 'en-US' : 'en-GB';
 }
 
-/** Cached dictionary audio for this term. Null means the dictionary has no recording. */
-export async function pronunciationUrl(term: string): Promise<string | null> {
-  const key = audioKey(term);
-  if (!key) return null;
-  if (cache.has(key)) return cache.get(key) ?? null;
+async function fetchPronunciation(key: string): Promise<string | null | 'missing'> {
   try {
     const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(key)}`, {
       signal: AbortSignal.timeout(8000),
     });
-    if (response.status === 404) {
-      cache.set(key, null);
-      return null;
-    }
+    if (response.status === 404) return 'missing';
     if (!response.ok) return null;
     const data = await response.json() as unknown;
     const entry = Array.isArray(data) ? data[0] : null;
     const phonetics = entry && typeof entry === 'object' ? (entry as { phonetics?: unknown }).phonetics : null;
-    const url = pickPronunciationAudio(phonetics);
-    cache.set(key, url);
-    return url;
+    return pickPronunciationAudio(phonetics);
   } catch {
     return null;
   }
+}
+
+/** Cached dictionary audio. An inflected form with no file uses the base form. */
+export async function pronunciationUrl(term: string): Promise<string | null> {
+  const key = audioKey(term);
+  if (!key) return null;
+  if (cache.has(key)) return cache.get(key) ?? null;
+  const own = await fetchPronunciation(key);
+  if (typeof own === 'string' && own) {
+    cache.set(key, own);
+    return own;
+  }
+  for (const base of baseFormCandidates(key)) {
+    if (cache.get(base)) {
+      const saved = cache.get(base) ?? null;
+      if (saved) {
+        cache.set(key, saved);
+        return saved;
+      }
+    }
+    const audio = await fetchPronunciation(base);
+    if (typeof audio === 'string' && audio) {
+      cache.set(base, audio);
+      cache.set(key, audio);
+      return audio;
+    }
+    if (audio === 'missing') cache.set(base, null);
+  }
+  if (own === 'missing' || own === null) cache.set(key, null);
+  return null;
 }
 
 export function cachedPronunciationUrl(term: string): string | null | undefined {
