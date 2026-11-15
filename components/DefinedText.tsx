@@ -1,7 +1,7 @@
 import React, { useEffect, useLayoutEffect, useState, useSyncExternalStore } from 'react';
 import { createPortal } from 'react-dom';
 import { isEnUsLang, narrationVoice, type ListedVoice } from '../dialogue';
-import { defineWord, normalizeLookupWord, popupPosition, type DictEntry } from '../dictionary';
+import { defineWord, meaningToSave, normalizeLookupWord, popupPosition, type DictEntry } from '../dictionary';
 import {
   getVocabLessonContext,
   requestVocabSignIn,
@@ -16,6 +16,7 @@ import {
   savedTermSet,
   subscribeVocabulary,
 } from '../vocabularyStore';
+import { SenseText } from './SenseText';
 
 type Anchor = { top: number; bottom: number; left: number; width: number; height: number };
 
@@ -151,7 +152,7 @@ export function DictionaryPopup() {
       return;
     }
     if (!headword || saving || status === 'loading') return;
-    const meaning = entry?.senses.map((sense) => sense.definition).filter(Boolean).slice(0, 2).join(' ') || '';
+    const meaning = entry ? meaningToSave(entry.senses) : '';
     const example = entry?.example || sentenceWith(lesson.story, headword);
     setSaving(true);
     const task = saved
@@ -223,14 +224,9 @@ export function DictionaryPopup() {
       {status === 'missing' && <p className="mt-2">No definition found.</p>}
       {status === 'error' && <p className="mt-2">Could not load the definition. Try again.</p>}
       {status === 'ready' && entry && (
-        <div className="mt-2 space-y-2">
-          {entry.senses.map((sense, index) => (
-            <p key={`${sense.partOfSpeech}-${index}`}>
-              <span className="font-semibold italic">{sense.partOfSpeech}. </span>
-              {sense.definition}
-            </p>
-          ))}
-          {entry.example && <p className="text-slate-700 dark:text-slate-200">Example: {entry.example}</p>}
+        <div className="mt-2">
+          <SenseText senses={entry.senses} />
+          {entry.example && <p className="mt-2 text-slate-700 dark:text-slate-200">Example: {entry.example}</p>}
         </div>
       )}
     </div>,

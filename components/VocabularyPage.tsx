@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { BackButton } from './BackButton';
-import { defineSearchText, searchLookupTerm, type DictEntry } from '../dictionary';
+import { defineSearchText, meaningToSave, searchLookupTerm, type DictEntry } from '../dictionary';
 import { PronounceButton, stopPronunciation } from './PronounceButton';
+import { SavedMeaning, SenseText } from './SenseText';
 import type { PronunciationAccent } from '../pronounce';
 import {
   buildVocabQuiz,
@@ -85,14 +86,7 @@ function SearchLookup({
             <h2 className="text-xl font-bold">{entry.word}</h2>
             <PronounceButton term={entry.word} accent={accent} />
           </div>
-          <div className="mt-2 space-y-2">
-            {entry.senses.map((sense, index) => (
-              <p key={`${sense.partOfSpeech}-${index}`} className="text-base">
-                <span className="font-semibold italic">{sense.partOfSpeech}. </span>
-                {sense.definition}
-              </p>
-            ))}
-          </div>
+          <SenseText senses={entry.senses} note={entry.note} />
           {entry.example && <p className="mt-2 text-base text-slate-800 dark:text-slate-100">Example: {entry.example}</p>}
           <button
             type="button"
@@ -190,7 +184,7 @@ function Flashcards({
         >
           {flipped ? (
             <>
-              <p className="text-xl font-bold">{card.meaning || 'No meaning saved.'}</p>
+              <SavedMeaning text={card.meaning} prominent />
               {card.example && <p className="mt-3 text-base">Example: {card.example}</p>}
             </>
           ) : (
@@ -406,7 +400,7 @@ export function VocabularyPage({
             ready={ready && !missing}
             accent={voice}
             onSave={async (entry) => {
-              const meaning = entry.senses.map((sense) => sense.definition).filter(Boolean).slice(0, 2).join(' ');
+              const meaning = meaningToSave(entry.senses);
               const example = entry.example || '';
               const term = entry.word || searchLookupTerm(query) || query.trim();
               if (fixture) {
@@ -492,7 +486,7 @@ export function VocabularyPage({
                     Delete
                   </button>
                 </div>
-                <p className="mt-2 text-base">{row.meaning || 'No meaning saved.'}</p>
+                <SavedMeaning text={row.meaning} />
                 {row.example && <p className="mt-2 text-base text-slate-800 dark:text-slate-100">Example: {row.example}</p>}
                 <p className="mt-2 text-sm text-slate-700 dark:text-slate-200">
                   {sourceLabel(row.sourceType)}

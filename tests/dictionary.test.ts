@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { inflectionPointer, lemmaCandidates, lookupCandidates, normalizeLookupWord, parseDictionary, popupPosition, searchLookupTerm } from '../dictionary.ts';
+import { baseFormCandidates, inflectionPointer, lemmaCandidates, lookupCandidates, meaningToSave, mergeBaseEntry, normalizeLookupWord, parseDictionary, popupPosition, searchLookupTerm, type DictEntry } from '../dictionary.ts';
 
 test('word lookup tries a simple plural or verb ending when needed', () => {
   assert.equal(normalizeLookupWord("Sophie's"), 'sophie');
@@ -44,9 +44,40 @@ test('dictionary payload keeps a short meaning and one example', () => {
   ], 'walk');
   assert.equal(entry?.word, 'walk');
   assert.equal(entry?.phonetic, '/wɔːk/');
-  assert.equal(entry?.senses.length, 2);
+  assert.equal(entry?.senses.length, 3);
   assert.equal(entry?.senses[0].partOfSpeech, 'verb');
+  assert.equal(entry?.senses[0].definition, 'To move on foot.');
+  assert.equal(entry?.senses[1].partOfSpeech, 'noun');
+  assert.equal(entry?.senses[2].definition, 'To go with someone.');
   assert.equal(entry?.example, 'They walk to school.');
+});
+
+test('an inflected word keeps the base form’s common sense first', () => {
+  assert.equal(baseFormCandidates('teasing')[0], 'tease');
+  assert.equal(baseFormCandidates('running')[0], 'run');
+  assert.equal(baseFormCandidates('studies')[0], 'study');
+  assert.deepEqual(baseFormCandidates('strife'), []);
+  const surface: DictEntry = {
+    word: 'teasing',
+    phonetic: null,
+    senses: [{ partOfSpeech: 'verb', definition: 'To separate the fibres of a fibrous material.' }],
+    example: null,
+  };
+  const base: DictEntry = {
+    word: 'tease',
+    phonetic: '/tiːz/',
+    senses: [
+      { partOfSpeech: 'verb', definition: 'To make fun of someone playfully.' },
+      { partOfSpeech: 'noun', definition: 'A person who teases.' },
+    ],
+    example: 'They tease their friend.',
+  };
+  const merged = mergeBaseEntry(surface, base);
+  assert.equal(merged.word, 'teasing');
+  assert.equal(merged.note, 'from: tease');
+  assert.equal(merged.senses[0].definition, 'To make fun of someone playfully.');
+  assert.equal(meaningToSave(merged.senses).startsWith('To make fun of someone playfully. · '), true);
+  assert.equal(merged.senses.length <= 3, true);
 });
 
 test('an inflection pointer names the base word', () => {
