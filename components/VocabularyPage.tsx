@@ -30,11 +30,13 @@ function formatSavedDate(value: string): string {
 function Flashcards({
   rows,
   onExit,
+  exitLabel = 'Back to My vocabulary',
   persistGrades,
   onFinished,
 }: {
   rows: SavedWord[];
   onExit: () => void;
+  exitLabel?: string;
   persistGrades: boolean;
   onFinished?: () => void;
 }) {
@@ -65,7 +67,7 @@ function Flashcards({
           Shuffle
         </button>
         <button type="button" onClick={onExit} className="mt-3 w-full rounded-lg border-2 border-slate-900 py-3 text-lg font-bold dark:border-slate-100">
-          Back to My vocabulary
+          {exitLabel}
         </button>
       </div>
     );
@@ -121,11 +123,13 @@ function Flashcards({
 function Quiz({
   rows,
   onExit,
+  exitLabel = 'Back to My vocabulary',
   persistGrades,
   onFinished,
 }: {
   rows: SavedWord[];
   onExit: () => void;
+  exitLabel?: string;
   persistGrades: boolean;
   onFinished?: () => void;
 }) {
@@ -145,7 +149,7 @@ function Quiz({
       <div className="mt-4">
         <p className="text-base">Save at least {VOCAB_QUIZ_MIN} words with a meaning to start a quiz.</p>
         <button type="button" onClick={onExit} className="mt-4 w-full rounded-lg border-2 border-slate-900 py-3 text-lg font-bold dark:border-slate-100">
-          Back to My vocabulary
+          {exitLabel}
         </button>
       </div>
     );
@@ -168,7 +172,7 @@ function Quiz({
           Try again
         </button>
         <button type="button" onClick={onExit} className="mt-3 w-full rounded-lg border-2 border-slate-900 py-3 text-lg font-bold dark:border-slate-100">
-          Back to My vocabulary
+          {exitLabel}
         </button>
       </div>
     );
@@ -357,10 +361,10 @@ export function VocabularyPage({
         </div>
       )}
       {mode === 'cards' && !practiceBlocked && (
-        <Flashcards rows={rows} onExit={practice ? (onBack ?? (() => setMode('list'))) : () => setMode('list')} persistGrades={!fixture && Boolean(userId)} onFinished={onFinished} />
+        <Flashcards rows={rows} onExit={practice ? (onBack ?? (() => setMode('list'))) : () => setMode('list')} exitLabel={practice ? 'Back to Task packs' : 'Back to My vocabulary'} persistGrades={!fixture && Boolean(userId)} onFinished={onFinished} />
       )}
       {mode === 'quiz' && !practiceBlocked && (
-        <Quiz rows={rows} onExit={practice ? (onBack ?? (() => setMode('list'))) : () => setMode('list')} persistGrades={!fixture && Boolean(userId)} onFinished={onFinished} />
+        <Quiz rows={rows} onExit={practice ? (onBack ?? (() => setMode('list'))) : () => setMode('list')} exitLabel={practice ? 'Back to Task packs' : 'Back to My vocabulary'} persistGrades={!fixture && Boolean(userId)} onFinished={onFinished} />
       )}
     </div>
   );
