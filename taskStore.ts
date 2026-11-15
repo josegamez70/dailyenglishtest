@@ -1,6 +1,7 @@
 import { accessToken, getSupabase } from './auth';
 import { isMissingTable } from './studyStore';
 import {
+  isMissingListeningTopicColumn,
   periodKey,
   settingsFromRow,
   settingsToRow,
@@ -105,9 +106,17 @@ export async function saveTaskSettings(userId: string, settings: TaskSettings): 
   const row = settingsToRow(userId, settings);
   const existing = await supabase.from('task_settings').select('user_id').eq('user_id', userId).maybeSingle();
   if (existing.error) return { ok: false, missing: isMissingTable(existing.error) };
-  const saved = existing.data
-    ? await supabase.from('task_settings').update(row).eq('user_id', userId)
-    : await supabase.from('task_settings').insert(row);
+  const write = (payload: Record<string, unknown>) => (
+    existing.data
+      ? supabase.from('task_settings').update(payload).eq('user_id', userId)
+      : supabase.from('task_settings').insert(payload)
+  );
+  let saved = await write(row);
+  if (saved.error && isMissingListeningTopicColumn(saved.error)) {
+    const withoutListeningTopic = { ...row };
+    delete withoutListeningTopic.listening_topic;
+    saved = await write(withoutListeningTopic);
+  }
   if (saved.error) return { ok: false, missing: isMissingTable(saved.error) };
   return { ok: true };
 }

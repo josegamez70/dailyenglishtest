@@ -1,4 +1,4 @@
-import { LEVELS, QUESTION_COUNTS, TOPICS, WILDCARD_TOPIC, WORD_COUNTS } from './constants.ts';
+import { LEVELS, QUESTION_COUNTS, selectableTopics, TOPICS, WILDCARD_TOPIC, WORD_COUNTS } from './constants.ts';
 
 /** Newest days of task packs kept per person. Older days are deleted by a database trigger. */
 export const TASK_DAY_LIMIT = 5;
@@ -23,8 +23,11 @@ export type TaskSettings = {
   questionCount: number;
   readingFormat: TaskFormat;
   listeningFormat: TaskFormat;
+  /** Reading topic. Listening has its own topic. */
+  listeningTopic: string;
   grammarLevel: TaskGrammarLevel;
   grammarExercise: TaskGrammarExercise;
+  /** Unused. Tasks no longer accept a typed grammar topic. Kept so older rows still load. */
   grammarTopic: string;
   /** How many packs a daily schedule issues. A weekly schedule still issues one. */
   packsPerDay: PacksPerDay;
@@ -40,6 +43,7 @@ export const DEFAULT_TASK_SETTINGS: TaskSettings = {
   questionCount: 5,
   readingFormat: 'text',
   listeningFormat: 'text',
+  listeningTopic: 'daily life',
   grammarLevel: 'B1',
   grammarExercise: 'blanks',
   grammarTopic: '',
@@ -93,6 +97,76 @@ const LEVEL_VALUES = new Set<TaskLevel>(['beginner', 'intermediate', 'advanced']
 const FORMATS = new Set<TaskFormat>(['text', 'dialogue']);
 const GRAMMAR_LEVELS = new Set<TaskGrammarLevel>(['B1', 'B2', 'C1']);
 const GRAMMAR_EXERCISES = new Set<TaskGrammarExercise>(['blanks', 'phrasal', 'order']);
+
+/** A saved "custom" grammar exercise, or any unknown value, uses the default exercise. */
+export function taskGrammarExercise(value: unknown): TaskGrammarExercise {
+  return value === 'phrasal' || value === 'order' || value === 'blanks' ? value : 'blanks';
+}
+
+/**
+ * Topics a task pack may use at this level.
+ * Beginner, Intermediate, and Advanced all use the same catalog.
+ * Any topic is a separate manual choice. Shuffle does not pick it.
+ */
+export function topicsForTaskLevel(level: TaskLevel): { value: string; label: string }[] {
+  if (!LEVEL_VALUES.has(level)) return [];
+  return selectableTopics().map((topic) => ({ value: topic.value, label: topic.label }));
+}
+
+/** Grammar exercises a task pack may use at this level. Custom is not one of them. */
+export function grammarExercisesForLevel(level: TaskGrammarLevel): TaskGrammarExercise[] {
+  if (!GRAMMAR_LEVELS.has(level)) return [];
+  return ['blanks', 'phrasal', 'order'];
+}
+
+export function taskTopicOptions(level: TaskLevel): { value: string; label: string }[] {
+  const allowed = new Set(topicsForTaskLevel(level).map((topic) => topic.value));
+  return TOPICS
+    .filter((topic) => topic.value === WILDCARD_TOPIC || allowed.has(topic.value))
+    .map((topic) => ({ value: topic.value, label: topic.label }));
+}
+
+export function taskGrammarRequest(settings: Pick<TaskSettings, 'grammarLevel' | 'grammarExercise'>): {
+  level: TaskGrammarLevel;
+  exercise: TaskGrammarExercise;
+  topic: string;
+} {
+  return {
+    level: settings.grammarLevel,
+    exercise: taskGrammarExercise(settings.grammarExercise),
+    topic: '',
+  };
+}
+
+function pickOther<T>(items: readonly T[], current: T, random: () => number): T {
+  if (items.length === 0) return current;
+  const others = items.filter((item) => item !== current);
+  const pool = others.length > 0 ? others : items;
+  const roll = random();
+  const safe = Number.isFinite(roll) ? roll : 0;
+  const index = Math.min(pool.length - 1, Math.max(0, Math.floor(safe * pool.length)));
+  return pool[index];
+}
+
+/** Fills the reading topic, the listening topic, and the grammar exercise. Does not save. */
+export function shuffleTaskChoices(
+  settings: Pick<TaskSettings, 'level' | 'grammarLevel' | 'topic' | 'listeningTopic' | 'grammarExercise'>,
+  random: () => number = Math.random,
+): Pick<TaskSettings, 'topic' | 'listeningTopic' | 'grammarExercise'> {
+  const topics = topicsForTaskLevel(settings.level).map((topic) => topic.value);
+  return {
+    topic: pickOther(topics, settings.topic, random),
+    listeningTopic: pickOther(topics, settings.listeningTopic, random),
+    grammarExercise: pickOther(grammarExercisesForLevel(settings.grammarLevel), settings.grammarExercise, random),
+  };
+}
+
+export function isMissingListeningTopicColumn(error: { message?: string; code?: string; details?: string } | null): boolean {
+  if (!error) return false;
+  const text = `${error.code ?? ''} ${error.message ?? ''} ${error.details ?? ''}`.toLowerCase();
+  return text.includes('listening_topic');
+}
+
 const WORD_VALUES = new Set(WORD_COUNTS.map((item) => item.value));
 const QUESTION_VALUES = new Set(QUESTION_COUNTS.map((item) => item.value));
 const TOPIC_VALUES = new Set(TOPICS.map((item) => item.value));
@@ -114,14 +188,15 @@ export function normalizeTaskSettings(input: unknown): TaskSettings | null {
   const readingFormat = FORMATS.has(raw.readingFormat as TaskFormat) ? raw.readingFormat as TaskFormat : null;
   const listeningFormat = FORMATS.has(raw.listeningFormat as TaskFormat) ? raw.listeningFormat as TaskFormat : null;
   const grammarLevel = GRAMMAR_LEVELS.has(raw.grammarLevel as TaskGrammarLevel) ? raw.grammarLevel as TaskGrammarLevel : null;
-  const grammarExercise = GRAMMAR_EXERCISES.has(raw.grammarExercise as TaskGrammarExercise) ? raw.grammarExercise as TaskGrammarExercise : null;
   const wordCount = Number(raw.wordCount);
   const questionCount = Number(raw.questionCount);
   const topic = typeof raw.topic === 'string' ? raw.topic.trim() : '';
-  if (!frequency || !level || !readingFormat || !listeningFormat || !grammarLevel || !grammarExercise) return null;
+  if (!frequency || !level || !readingFormat || !listeningFormat || !grammarLevel) return null;
   if (!WORD_VALUES.has(wordCount) || !QUESTION_VALUES.has(questionCount)) return null;
   if (!TOPIC_VALUES.has(topic)) return null;
-  const grammarTopic = typeof raw.grammarTopic === 'string' ? raw.grammarTopic.replace(/\s+/g, ' ').trim().slice(0, 80) : '';
+  const listeningRaw = typeof raw.listeningTopic === 'string' ? raw.listeningTopic.trim() : '';
+  const listeningTopic = TOPIC_VALUES.has(listeningRaw) ? listeningRaw : topic;
+  const grammarExercise = taskGrammarExercise(raw.grammarExercise);
   const packsRaw = Number(raw.packsPerDay);
   const packsPerDay: PacksPerDay = packsRaw === 2 || packsRaw === 3 ? packsRaw : 1;
   return {
@@ -134,9 +209,10 @@ export function normalizeTaskSettings(input: unknown): TaskSettings | null {
     questionCount,
     readingFormat,
     listeningFormat,
+    listeningTopic,
     grammarLevel,
     grammarExercise,
-    grammarTopic,
+    grammarTopic: '',
     packsPerDay,
   };
 }
@@ -159,6 +235,7 @@ export function settingsFromRow(row: Record<string, unknown> | null): TaskSettin
     questionCount: row.question_count,
     readingFormat: row.reading_format,
     listeningFormat: row.listening_format,
+    listeningTopic: row.listening_topic,
     grammarLevel: row.grammar_level,
     grammarExercise: row.grammar_exercise,
     grammarTopic: row.grammar_topic,
@@ -178,9 +255,10 @@ export function settingsToRow(userId: string, settings: TaskSettings): Record<st
     question_count: settings.questionCount,
     reading_format: settings.readingFormat,
     listening_format: settings.listeningFormat,
+    listening_topic: settings.listeningTopic,
     grammar_level: settings.grammarLevel,
-    grammar_exercise: settings.grammarExercise,
-    grammar_topic: settings.grammarTopic,
+    grammar_exercise: taskGrammarExercise(settings.grammarExercise),
+    grammar_topic: '',
     packs_per_day: settings.packsPerDay,
   };
 }

@@ -11,6 +11,7 @@ const settings: TaskSettings = {
   frequency: 'daily',
   level: 'beginner',
   topic: 'daily life',
+  listeningTopic: 'travel',
   wordCount: 100,
   questionCount: 5,
   readingFormat: 'text',

@@ -21,15 +21,17 @@ import {
   periodLabel,
   practiceHasQuiz,
   taskBlockMessage,
+  grammarExercisesForLevel,
+  shuffleTaskChoices,
+  taskGrammarExercise,
   taskLevelLabel,
   taskStepLabel,
-  topicChoices,
+  taskTopicOptions,
   WILDCARD_TOPIC,
   type GrammarPiece,
   type PracticePiece,
   type TaskFormat,
   type TaskFrequency,
-  type TaskGrammarExercise,
   type TaskGrammarLevel,
   type TaskSettings,
 } from '../tasks';
@@ -292,23 +294,41 @@ export function TasksPage({
             </p>
           </fieldset>
           <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div className="md:col-span-2 md:max-w-[calc(50%-0.5rem)]">
             <SelectField
               id="task-level"
               label="Level"
               value={settings.level}
-              onChange={(value) => setSettings((current) => ({ ...current, level: value as TaskSettings['level'] }))}
+              onChange={(value) => setSettings((current) => {
+                const level = value as TaskSettings['level'];
+                const allowed = new Set(taskTopicOptions(level).map((option) => String(option.value)));
+                return {
+                  ...current,
+                  level,
+                  topic: allowed.has(current.topic) ? current.topic : 'daily life',
+                  listeningTopic: allowed.has(current.listeningTopic) ? current.listeningTopic : 'daily life',
+                };
+              })}
               options={[
                 { value: 'beginner', label: 'Beginner' },
                 { value: 'intermediate', label: 'Intermediate' },
                 { value: 'advanced', label: 'Advanced' },
               ]}
             />
+            </div>
             <SelectField
-              id="task-topic"
-              label="Topic"
+              id="task-reading-topic"
+              label="Reading topic"
               value={settings.topic}
               onChange={(value) => setSettings((current) => ({ ...current, topic: value }))}
-              options={topicChoices()}
+              options={taskTopicOptions(settings.level)}
+            />
+            <SelectField
+              id="task-listening-topic"
+              label="Listening topic"
+              value={settings.listeningTopic}
+              onChange={(value) => setSettings((current) => ({ ...current, listeningTopic: value }))}
+              options={taskTopicOptions(settings.level)}
             />
             <SelectField
               id="task-words"
@@ -325,7 +345,7 @@ export function TasksPage({
               options={QUESTION_COUNTS}
             />
           </div>
-          {settings.topic === WILDCARD_TOPIC && (
+          {(settings.topic === WILDCARD_TOPIC || settings.listeningTopic === WILDCARD_TOPIC) && (
             <p className="mt-3 text-base">We will choose a topic for you at random.</p>
           )}
           <fieldset className="mt-4">
@@ -368,7 +388,14 @@ export function TasksPage({
                   key={item}
                   type="button"
                   aria-pressed={settings.grammarLevel === item}
-                  onClick={() => setSettings((current) => ({ ...current, grammarLevel: item }))}
+                  onClick={() => setSettings((current) => {
+                    const allowed = grammarExercisesForLevel(item);
+                    return {
+                      ...current,
+                      grammarLevel: item,
+                      grammarExercise: allowed.includes(current.grammarExercise) ? current.grammarExercise : taskGrammarExercise(allowed[0]),
+                    };
+                  })}
                   className={choiceClass(settings.grammarLevel === item)}
                 >
                   {item}
@@ -379,7 +406,7 @@ export function TasksPage({
           <fieldset className="mt-4">
             <legend className="text-base font-semibold">Grammar exercise</legend>
             <div className="mt-2 grid gap-2">
-              {(['blanks', 'phrasal', 'order'] as TaskGrammarExercise[]).map((item) => (
+              {grammarExercisesForLevel(settings.grammarLevel).map((item) => (
                 <button
                   key={item}
                   type="button"
@@ -392,15 +419,17 @@ export function TasksPage({
               ))}
             </div>
           </fieldset>
-          <label className="mt-4 block text-base font-semibold" htmlFor="task-grammar-topic">Grammar topic</label>
-          <input
-            id="task-grammar-topic"
-            value={settings.grammarTopic}
-            onChange={(event) => setSettings((current) => ({ ...current, grammarTopic: event.target.value.slice(0, 80) }))}
-            placeholder="Any topic (optional)"
-            maxLength={80}
-            className="mt-1 w-full rounded-lg border-2 border-slate-500 bg-white px-3 py-2.5 text-base dark:border-slate-300 dark:bg-slate-900"
-          />
+          <button
+            type="button"
+            id="task-shuffle"
+            onClick={() => setSettings((current) => ({ ...current, ...shuffleTaskChoices(current) }))}
+            className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-lg border-2 border-slate-900 bg-white px-3 py-3 text-lg font-bold text-slate-900 hover:bg-slate-100 dark:border-slate-100 dark:bg-slate-900 dark:text-slate-50 dark:hover:bg-slate-700"
+          >
+            Shuffle
+          </button>
+          <p className="mt-2 text-sm text-slate-700 dark:text-slate-200">
+            Picks a reading topic, a listening topic, and a grammar exercise for this level. You can change them before you save.
+          </p>
           <div className="mt-4 flex items-center justify-between gap-3">
             <div>
               <p className="text-base font-semibold">Email reminder</p>
