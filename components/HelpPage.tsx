@@ -129,6 +129,8 @@ export function HelpPage() {
     const previousLang = root.lang;
     const previousTitle = document.title;
     root.lang = copy.htmlLang;
+    root.setAttribute('translate', 'no');
+    root.classList.add('notranslate');
     document.title = copy.documentTitle;
     return () => {
       root.lang = previousLang;

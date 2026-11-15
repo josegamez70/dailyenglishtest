@@ -12,10 +12,16 @@ if (analyticsToken) {
   document.head.appendChild(beacon);
 }
 
+document.documentElement.lang = document.documentElement.lang || 'en';
+document.documentElement.setAttribute('translate', 'no');
+document.documentElement.classList.add('notranslate');
+
 const rootElement = document.getElementById('root');
 if (!rootElement) {
   throw new Error("Could not find root element to mount to");
 }
+rootElement.setAttribute('translate', 'no');
+rootElement.classList.add('notranslate');
 
 const root = ReactDOM.createRoot(rootElement);
 root.render(
