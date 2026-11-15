@@ -247,6 +247,7 @@ async function maybeEmailDay(
     frequency: settings.frequency,
     periodKey: key,
     packCount: ready.length,
+    vocabularyMode: settings.vocabularyMode,
   });
   if (!sent.sent) return;
   await admin

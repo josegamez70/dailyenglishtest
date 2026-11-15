@@ -1,6 +1,6 @@
 import { timingSafeEqual } from 'node:crypto';
 import tls from 'node:tls';
-import { taskReminderMessage, type TaskEmailInput, type TaskFrequency } from './tasks.ts';
+import { taskReminderMessage, type TaskEmailInput, type TaskFrequency, type TaskVocabularyMode } from './tasks.ts';
 
 /**
  * Reminder mail is sent only when every required variable is set.
@@ -211,6 +211,7 @@ export async function sendTaskReminder(env: EnvMap, input: {
   frequency: TaskFrequency;
   periodKey: string;
   packCount?: number;
+  vocabularyMode?: TaskVocabularyMode;
 }): Promise<MailResult> {
   const settings = readSmtpSettings(env);
   const baseUrl = appBaseUrl(env);
@@ -223,6 +224,7 @@ export async function sendTaskReminder(env: EnvMap, input: {
     frequency: input.frequency,
     periodKey: input.periodKey,
     packCount: input.packCount,
+    vocabularyMode: input.vocabularyMode,
   };
   const mail = taskReminderMessage(message);
   try {

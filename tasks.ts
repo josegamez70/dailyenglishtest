@@ -12,6 +12,8 @@ export type TaskLevel = 'beginner' | 'intermediate' | 'advanced';
 export type TaskFormat = 'text' | 'dialogue';
 export type TaskGrammarLevel = 'B1' | 'B2' | 'C1';
 export type TaskGrammarExercise = 'blanks' | 'phrasal' | 'order';
+/** Empty means the pack stays reading, listening, and grammar only. */
+export type TaskVocabularyMode = '' | 'flashcards' | 'quiz';
 
 export type TaskSettings = {
   enabled: boolean;
@@ -31,6 +33,8 @@ export type TaskSettings = {
   grammarTopic: string;
   /** How many packs a daily schedule issues. A weekly schedule still issues one. */
   packsPerDay: PacksPerDay;
+  /** Optional extra activity. Empty leaves existing packs unchanged. */
+  vocabularyMode: TaskVocabularyMode;
 };
 
 export const DEFAULT_TASK_SETTINGS: TaskSettings = {
@@ -48,6 +52,7 @@ export const DEFAULT_TASK_SETTINGS: TaskSettings = {
   grammarExercise: 'blanks',
   grammarTopic: '',
   packsPerDay: 1,
+  vocabularyMode: '',
 };
 
 export type TaskStep =
@@ -161,6 +166,75 @@ export function shuffleTaskChoices(
   };
 }
 
+export function taskVocabularyMode(value: unknown): TaskVocabularyMode {
+  return value === 'flashcards' || value === 'quiz' ? value : '';
+}
+
+/** Flashcards need one saved word. A quiz needs four words that have a meaning. */
+export function vocabularyPracticeReady(mode: TaskVocabularyMode, words: readonly { meaning: string }[]): boolean {
+  if (mode === 'flashcards') return words.length > 0;
+  if (mode === 'quiz') return words.filter((word) => word.meaning.trim()).length >= 4;
+  return false;
+}
+
+/**
+ * The three exercises still complete a pack.
+ * My vocabulary counts only when it is turned on and there are enough saved words.
+ */
+export function taskPackIsComplete(input: {
+  readingDone: boolean;
+  listeningDone: boolean;
+  grammarDone: boolean;
+  vocabularyMode: TaskVocabularyMode;
+  vocabularyDone: boolean;
+  vocabularyReady: boolean;
+}): boolean {
+  const core = input.readingDone && input.listeningDone && input.grammarDone;
+  if (!input.vocabularyMode || !input.vocabularyReady) return core;
+  return core && input.vocabularyDone;
+}
+
+const VOCAB_MODE_KEY = 'taskVocabularyMode';
+const VOCAB_DONE_KEY = 'taskVocabularyDone';
+
+export function readStoredVocabularyMode(userId: string): TaskVocabularyMode {
+  try {
+    return taskVocabularyMode(localStorage.getItem(`${VOCAB_MODE_KEY}:${userId}`));
+  } catch {
+    return '';
+  }
+}
+
+export function storeVocabularyMode(userId: string, mode: TaskVocabularyMode) {
+  try {
+    localStorage.setItem(`${VOCAB_MODE_KEY}:${userId}`, mode);
+  } catch {
+    /* private browsing */
+  }
+}
+
+export function readStoredVocabularyDone(packId: string): boolean {
+  try {
+    return localStorage.getItem(`${VOCAB_DONE_KEY}:${packId}`) === '1';
+  } catch {
+    return false;
+  }
+}
+
+export function storeVocabularyDone(packId: string) {
+  try {
+    localStorage.setItem(`${VOCAB_DONE_KEY}:${packId}`, '1');
+  } catch {
+    /* private browsing */
+  }
+}
+
+export function isMissingVocabularyColumn(error: { message?: string; code?: string; details?: string } | null): boolean {
+  if (!error) return false;
+  const text = `${error.code ?? ''} ${error.message ?? ''} ${error.details ?? ''}`.toLowerCase();
+  return text.includes('vocabulary_mode') || text.includes('vocabulary_done');
+}
+
 export function isMissingListeningTopicColumn(error: { message?: string; code?: string; details?: string } | null): boolean {
   if (!error) return false;
   const text = `${error.code ?? ''} ${error.message ?? ''} ${error.details ?? ''}`.toLowerCase();
@@ -199,6 +273,7 @@ export function normalizeTaskSettings(input: unknown): TaskSettings | null {
   const grammarExercise = taskGrammarExercise(raw.grammarExercise);
   const packsRaw = Number(raw.packsPerDay);
   const packsPerDay: PacksPerDay = packsRaw === 2 || packsRaw === 3 ? packsRaw : 1;
+  const vocabularyMode = taskVocabularyMode(raw.vocabularyMode);
   return {
     enabled: raw.enabled === true,
     emailReminders: raw.emailReminders !== false,
@@ -214,6 +289,7 @@ export function normalizeTaskSettings(input: unknown): TaskSettings | null {
     grammarExercise,
     grammarTopic: '',
     packsPerDay,
+    vocabularyMode,
   };
 }
 
@@ -240,6 +316,7 @@ export function settingsFromRow(row: Record<string, unknown> | null): TaskSettin
     grammarExercise: row.grammar_exercise,
     grammarTopic: row.grammar_topic,
     packsPerDay: row.packs_per_day,
+    vocabularyMode: row.vocabulary_mode,
   }) ?? { ...DEFAULT_TASK_SETTINGS };
 }
 
@@ -260,6 +337,7 @@ export function settingsToRow(userId: string, settings: TaskSettings): Record<st
     grammar_exercise: taskGrammarExercise(settings.grammarExercise),
     grammar_topic: '',
     packs_per_day: settings.packsPerDay,
+    vocabulary_mode: taskVocabularyMode(settings.vocabularyMode),
   };
 }
 
@@ -430,6 +508,7 @@ export type TaskEmailInput = {
   periodKey: string;
   /** Ready packs covered by this one daily message. */
   packCount?: number;
+  vocabularyMode?: TaskVocabularyMode;
 };
 
 /** HTML and plain text for the pack reminder. The link turns tasks and reminders off. */
@@ -439,9 +518,14 @@ export function taskReminderMessage(input: TaskEmailInput): { subject: string; h
   const offUrl = `${base}/api/tasks-unsubscribe?token=${encodeURIComponent(input.token)}`;
   const when = input.frequency === 'weekly' ? 'this week' : 'today';
   const count = input.packCount && input.packCount > 1 ? input.packCount : 1;
-  const summary = count === 1
+  const vocabLine = input.vocabularyMode === 'quiz'
+    ? ' It also includes a vocabulary quiz when you have at least 4 saved words.'
+    : input.vocabularyMode === 'flashcards'
+      ? ' It also includes vocabulary flashcards when you have saved words.'
+      : '';
+  const summary = (count === 1
     ? `Your pack for ${when} is waiting. It has one reading exercise, one listening exercise, and one grammar exercise.`
-    : `Your ${count} packs for ${when} are waiting. Each pack has one reading exercise, one listening exercise, and one grammar exercise.`;
+    : `Your ${count} packs for ${when} are waiting. Each pack has one reading exercise, one listening exercise, and one grammar exercise.`) + vocabLine;
   const subject = 'Your English tasks are ready';
   const text = [
     `Your English tasks for ${when} are ready.`,
