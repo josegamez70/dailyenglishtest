@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { inflectionPointer, lemmaCandidates, lookupCandidates, normalizeLookupWord, parseDictionary, popupPosition } from '../dictionary.ts';
+import { inflectionPointer, lemmaCandidates, lookupCandidates, normalizeLookupWord, parseDictionary, popupPosition, searchLookupTerm } from '../dictionary.ts';
 
 test('word lookup tries a simple plural or verb ending when needed', () => {
   assert.equal(normalizeLookupWord("Sophie's"), 'sophie');
@@ -15,6 +15,11 @@ test('word lookup tries a simple plural or verb ending when needed', () => {
   assert.ok(lemmaCandidates('liked').includes('like'));
   assert.ok(lemmaCandidates('happiest').includes('happy'));
   assert.deepEqual(lookupCandidates('...'), []);
+  assert.equal(searchLookupTerm('  strife '), 'strife');
+  assert.equal(searchLookupTerm('ice cream'), 'ice cream');
+  assert.equal(searchLookupTerm('a'), null);
+  assert.equal(searchLookupTerm('one two three four five'), null);
+  assert.equal(searchLookupTerm('hello!'), null);
 });
 
 test('dictionary payload keeps a short meaning and one example', () => {
