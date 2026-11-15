@@ -114,6 +114,26 @@ export function academyPillName(ownerDisplayName: string | null | undefined, aca
   return academy || 'Academy';
 }
 
+/**
+ * After sign-in, send the person back to the stored invite.
+ * Already being on /join does not navigate again. Members are left alone.
+ */
+export function resumeInvitePath(input: {
+  signedIn: boolean;
+  academyRole: 'owner' | 'student' | null;
+  plan: string | null;
+  path: string;
+  code: string;
+  dismissed: string;
+}): string | null {
+  if (!input.signedIn) return null;
+  if (input.academyRole === 'student' || input.plan === 'academy') return null;
+  const code = normalizeInviteCode(input.code);
+  if (!code || input.dismissed === code) return null;
+  if (input.path === '/join') return null;
+  return `/join?code=${code}`;
+}
+
 /** Signed-out invite banner. A null name means the academy name is not available yet. */
 export function inviteBannerText(name: string | null): string {
   const academy = name?.trim() || 'an academy';

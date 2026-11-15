@@ -159,7 +159,7 @@ const EN_FAQ: readonly HelpFaq[] = [
       },
       {
         type: 'p',
-        text: 'Copy places the join link on the clipboard. If the browser blocks it, the page says “Select the link and copy it.” The link is written out under the buttons, so you can select it. Share the link by the channel you already use with your students. The site does not email them.',
+        text: 'Copy places only the full join link on the clipboard, with the code in the address. Send that one link. Do not add the site address on its own, or a chat app can open the general page instead of the invite. If the browser blocks the copy, the page says “Select the link and copy it.” The link is written out under the buttons. The site does not email the students.',
       },
       {
         type: 'p',
@@ -423,7 +423,7 @@ const ES_FAQ: readonly HelpFaq[] = [
       },
       {
         type: 'p',
-        text: '«Copy» copia el enlace de unión en el portapapeles. Si el navegador lo bloquea, la página dice «Select the link and copy it.» (Selecciona el enlace y cópialo). El enlace está escrito debajo de los botones, así que puedes seleccionarlo. Compártelo por el canal que ya uses con tus alumnos. La web no les envía el correo.',
+        text: '«Copy» copia solo el enlace completo de unión, con el código en la dirección. Envía solo ese enlace. No añadas la dirección de la web aparte, o un chat puede abrir la página general en lugar de la invitación. Si el navegador lo bloquea, la página dice «Select the link and copy it.» (Selecciona el enlace y cópialo). El enlace está escrito debajo de los botones. La web no les envía el correo.',
       },
       {
         type: 'p',

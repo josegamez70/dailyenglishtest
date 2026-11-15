@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { academyPillName, copyInviteText, copyWithHiddenTextarea, countPhrase, countTestsThisWeek, inviteBannerText, inviteLink, joinResultMessage, normalizeInviteCode, startOfLocalWeek, studentPillName, studentRosterLabel } from '../academyStats.ts';
+import { academyPillName, copyInviteText, copyWithHiddenTextarea, countPhrase, countTestsThisWeek, inviteBannerText, inviteLink, joinResultMessage, normalizeInviteCode, resumeInvitePath, startOfLocalWeek, studentPillName, studentRosterLabel } from '../academyStats.ts';
+import { inviteShareText, inviteTextIsSingleJoinLink } from '../invitePreview.ts';
 
 test('the copied invite is the full join link for this site', () => {
   assert.equal(
@@ -56,6 +57,38 @@ test('copy uses the clipboard and a hidden field when that fails', async () => {
   assert.equal(command, 'copy');
   assert.equal(area.value, 'https://dailyenglishtest.es/join?code=4WFXV3ZL');
   assert.equal(attached, false);
+});
+
+test('the shared invite is one join link and survives sign-in from another page', () => {
+  const text = inviteShareText('https://dailyenglishtest.es/', '4wfxv3zl');
+  assert.equal(text, 'https://dailyenglishtest.es/join?code=4WFXV3ZL');
+  assert.equal(inviteTextIsSingleJoinLink(text), true);
+  assert.equal(inviteTextIsSingleJoinLink(`${text}\nhttps://dailyenglishtest.es`), false);
+  assert.equal(inviteTextIsSingleJoinLink('https://dailyenglishtest.es'), false);
+  assert.equal(resumeInvitePath({
+    signedIn: true,
+    academyRole: null,
+    plan: 'free',
+    path: '/profile',
+    code: '4WFXV3ZL',
+    dismissed: '',
+  }), '/join?code=4WFXV3ZL');
+  assert.equal(resumeInvitePath({
+    signedIn: true,
+    academyRole: 'student',
+    plan: 'free',
+    path: '/',
+    code: '4WFXV3ZL',
+    dismissed: '',
+  }), null);
+  assert.equal(resumeInvitePath({
+    signedIn: false,
+    academyRole: null,
+    plan: 'free',
+    path: '/',
+    code: '4WFXV3ZL',
+    dismissed: '',
+  }), null);
 });
 
 test('invite codes keep 6 to 8 letters and digits', () => {

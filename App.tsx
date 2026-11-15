@@ -34,7 +34,7 @@ import { TasksPage } from './components/TasksPage';
 import { TasksPreview } from './components/TasksPreview';
 import { cefrToLessonLevel, type CefrLevel } from './progressStats';
 import { lookupAcademyName } from './academy';
-import { ACADEMY_INVITE_DISMISSED_KEY, ACADEMY_INVITE_KEY, inviteBannerText, normalizeInviteCode } from './academyStats';
+import { ACADEMY_INVITE_DISMISSED_KEY, ACADEMY_INVITE_KEY, inviteBannerText, normalizeInviteCode, resumeInvitePath } from './academyStats';
 import { AcademyPage } from './components/AcademyPage';
 import { JoinAcademyPage } from './components/JoinAcademyPage';
 import { parseSavedGrammarLesson, type GrammarLaunch } from './savedLessonMeta';
@@ -370,8 +370,6 @@ const App: React.FC = () => {
 
   useEffect(() => {
     if (invitePrompted.current || !account.ready || !account.signedIn || !account.academyChecked) return;
-    if (account.academyRole === 'student' || account.plan === 'academy') return;
-    if (path !== '/' && path !== '/join') return;
     let code = '';
     let dismissed = '';
     try {
@@ -380,12 +378,22 @@ const App: React.FC = () => {
     } catch {
       return;
     }
-    if (!code || dismissed === code) return;
-    invitePrompted.current = true;
-    if (path !== '/join') {
-      window.history.replaceState({}, '', `/join?code=${code}`);
-      setPath('/join');
+    if (path === '/join' && code) {
+      const current = normalizeInviteCode(new URLSearchParams(window.location.search).get('code') || '');
+      if (current !== code) window.history.replaceState({}, '', `/join?code=${code}`);
     }
+    const next = resumeInvitePath({
+      signedIn: true,
+      academyRole: account.academyRole,
+      plan: account.plan,
+      path,
+      code,
+      dismissed,
+    });
+    if (!next) return;
+    invitePrompted.current = true;
+    window.history.replaceState({}, '', next);
+    setPath('/join');
   }, [account.ready, account.signedIn, account.academyChecked, account.academyRole, account.plan, path]);
 
   useEffect(() => {
