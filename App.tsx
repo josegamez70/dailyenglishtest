@@ -43,7 +43,7 @@ import { ACADEMY_INVITE_DISMISSED_KEY, ACADEMY_INVITE_KEY, inviteBannerText, nor
 import { AcademyPage } from './components/AcademyPage';
 import { JoinAcademyPage } from './components/JoinAcademyPage';
 import { parseSavedGrammarLesson, type GrammarLaunch } from './savedLessonMeta';
-import { saveLesson, saveTestResult, type SavedLessonRow } from './studyStore';
+import { saveLesson, saveTestResult, updateProfileSettings, type SavedLessonRow } from './studyStore';
 import { markTaskDone, type TaskSlot } from './taskStore';
 import { sentenceWith, setVocabLessonContext, setVocabSignInHandler, termKey } from './vocabulary';
 import { getVocabularyState, loadVocabulary, removeVocabularyWord, saveVocabularyWord, savedTermSet, subscribeVocabulary } from './vocabularyStore';
@@ -161,6 +161,7 @@ const App: React.FC = () => {
     questionCount: QUESTION_COUNTS[0].value,
   });
   const [story, setStory] = useState<string>('');
+  const [vocabOpen, setVocabOpen] = useState(false);
   const [quiz, setQuiz] = useState<QuizQuestion[]>([]);
   const [vocabulary, setVocabulary] = useState<VocabularyItem[]>([]);
   const [storyTopic, setStoryTopic] = useState<{ label: string; surprise: boolean } | null>(null);
@@ -204,7 +205,9 @@ const App: React.FC = () => {
 
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
-  const [showTranscript, setShowTranscript] = useState(false);
+  useEffect(() => {
+    setVocabOpen(false);
+  }, [story]);
   const [currentWordIndex, setCurrentWordIndex] = useState<number | null>(null);
   const [elapsedMs, setElapsedMs] = useState(0);
   const [durationMs, setDurationMs] = useState(0);
@@ -241,6 +244,10 @@ const App: React.FC = () => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const levelAppliedRef = useRef(false);
   const [finishing, setFinishing] = useState(false);
+
+  useEffect(() => {
+    setVocabOpen(false);
+  }, [story]);
 
   useEffect(() => {
     isSpeakingRef.current = isSpeaking;
@@ -396,6 +403,7 @@ const App: React.FC = () => {
   const pickTheme = (next: ThemeChoice) => {
     themeLock.current = true;
     setThemeChoice(next);
+    if (account.userId) void updateProfileSettings(account.userId, { theme: next });
   };
 
   useEffect(() => {
@@ -1597,7 +1605,11 @@ const App: React.FC = () => {
         {practiceType === 'listening' && <TranscriptText />}
 
         {vocabulary.length > 0 && (
-          <details className="vocab-fold mt-6 rounded-lg border-2 border-slate-400 bg-white p-3 dark:border-slate-500 dark:bg-slate-900">
+          <details
+            className="vocab-fold mt-6 rounded-lg border-2 border-slate-400 bg-white p-3 dark:border-slate-500 dark:bg-slate-900"
+            open={vocabOpen}
+            onToggle={(event) => setVocabOpen(event.currentTarget.open)}
+          >
             <summary className="cursor-pointer text-lg font-bold text-slate-900 dark:text-slate-50">View vocabulary</summary>
             <KeyVocabularyList
               items={vocabulary}

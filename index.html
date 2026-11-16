@@ -114,6 +114,17 @@
 </head>
 <body class="bg-slate-100 dark:bg-slate-900 text-base text-slate-900 dark:text-slate-50">
     <div id="root" class="notranslate" translate="no"></div>
+    <script>
+    (function () {
+      try {
+        var theme = localStorage.getItem('theme');
+        var systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var dark = theme === 'dark' || ((theme === 'system' || theme == null) && systemDark);
+        document.documentElement.classList.toggle('dark', dark);
+        if (theme === 'retro95') document.documentElement.setAttribute('data-theme', 'retro95');
+      } catch (e) { /* storage can be blocked */ }
+    })();
+    </script>
     <script type="module" src="/index.tsx"></script>
 </body>
 </html>
