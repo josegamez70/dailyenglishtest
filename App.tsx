@@ -190,6 +190,7 @@ const App: React.FC = () => {
   const [paywall, setPaywall] = useState(false);
   const [pilotExpired, setPilotExpired] = useState(false);
   const [isVocabularyModalOpen, setIsVocabularyModalOpen] = useState(false);
+  const themeLock = useRef(false);
   const [themeChoice, setThemeChoice] = useState<ThemeChoice>(() => {
     try {
       const stored = localStorage.getItem('theme');
@@ -406,10 +407,14 @@ const App: React.FC = () => {
     speedRef.current = account.speed;
   }, [account.speed]);
 
+  const pickTheme = (next: ThemeChoice) => {
+    themeLock.current = true;
+    setThemeChoice(next);
+  };
+
   useEffect(() => {
-    if (isThemeChoice(account.theme)) {
-      setThemeChoice(account.theme);
-    }
+    if (themeLock.current || !isThemeChoice(account.theme)) return;
+    setThemeChoice(account.theme);
   }, [account.theme]);
 
   useEffect(() => {
@@ -2047,7 +2052,7 @@ const App: React.FC = () => {
               {view === 'config' && (
                 <button
                   type="button"
-                  onClick={() => setThemeChoice(darkOn ? 'light' : 'dark')}
+                  onClick={() => pickTheme(darkOn ? 'light' : 'dark')}
                   aria-pressed={darkOn}
                   className="inline-flex shrink-0 items-center rounded-lg border-2 border-slate-900 bg-white px-3 py-1.5 text-sm font-semibold text-slate-900 hover:bg-slate-100 sm:px-4 sm:py-2 sm:text-base dark:border-slate-100 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
                 >
@@ -2422,8 +2427,9 @@ const App: React.FC = () => {
           displayName={account.displayName}
           academyRole={account.academyRole}
           academyName={account.academyName}
-          onTheme={setThemeChoice}
+          onTheme={pickTheme}
           onSaved={(next) => {
+            themeLock.current = false;
             setThemeChoice(next.theme);
             speedRef.current = next.speed;
             levelAppliedRef.current = true;
