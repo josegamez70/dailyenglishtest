@@ -9,6 +9,8 @@ import { AcademyHelpLink } from './HelpPage';
 import { PilotStatusBanner } from './PilotPages';
 import { StudentDetailView } from './StudentDetailView';
 import { BackButton } from './BackButton';
+import { useRetroTheme } from '../retroTheme';
+import { PixelIcon } from './PixelIcon';
 
 function studentLabel(student: AcademyStudent): string {
   return studentRosterLabel(student.displayName, student.email);
@@ -31,6 +33,7 @@ function AcademyStudentButton({
   const scores = tests.map((item) => ({ score: item.score, total: item.total }));
   const latestPercent = latest ? scorePercent(latest.score, latest.total) : null;
   const name = studentLabel(student);
+  const retro = useRetroTheme();
   return (
     <li className="rounded-xl border border-slate-300 bg-white dark:border-slate-600 dark:bg-slate-800">
       <button
@@ -50,9 +53,11 @@ function AcademyStudentButton({
             </span>
           )}
         </span>
+        {retro ? <PixelIcon name="chevron" /> : (
         <svg viewBox="0 0 24 24" className="h-5 w-5 shrink-0 text-slate-400" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
           <path strokeLinecap="round" strokeLinejoin="round" d="M9 6l6 6-6 6" />
         </svg>
+        )}
       </button>
     </li>
   );

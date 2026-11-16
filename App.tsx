@@ -28,6 +28,10 @@ import { isAppReturnPath, isTaskPacksPath, returnPathAfterSignIn, taskPackIdFrom
 import { AppShell, type ShellItem } from './components/AppShell';
 import { BackButton } from './components/BackButton';
 import { ProfilePage, type ThemeChoice } from './components/ProfilePage';
+import { RetroWindow } from './components/RetroWindow';
+import { PixelIcon } from './components/PixelIcon';
+import { setRetroActive, useRetroTheme } from './retroTheme';
+import { isDarkTheme, isThemeChoice } from './themeChoice';
 import { ProgressPage } from './components/ProgressPage';
 import { SavedLessonsPage } from './components/SavedLessonsPage';
 import { TasksPage } from './components/TasksPage';
@@ -187,10 +191,12 @@ const App: React.FC = () => {
   const [paywall, setPaywall] = useState(false);
   const [pilotExpired, setPilotExpired] = useState(false);
   const [isVocabularyModalOpen, setIsVocabularyModalOpen] = useState(false);
+  const themeLock = useRef(false);
+  const retro = useRetroTheme();
   const [themeChoice, setThemeChoice] = useState<ThemeChoice>(() => {
     try {
       const stored = localStorage.getItem('theme');
-      if (stored === 'light' || stored === 'dark' || stored === 'system') return stored;
+      if (isThemeChoice(stored)) return stored;
     } catch { /* ignore */ }
     return 'system';
   });
@@ -256,12 +262,15 @@ const App: React.FC = () => {
     isSpeakingRef.current = isSpeaking;
   }, [isSpeaking]);
 
-  const darkOn = themeChoice === 'dark' || (themeChoice !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  const darkOn = isDarkTheme(themeChoice, window.matchMedia('(prefers-color-scheme: dark)').matches);
 
   useEffect(() => {
-    const dark = themeChoice === 'dark' || (themeChoice !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    const dark = isDarkTheme(themeChoice, window.matchMedia('(prefers-color-scheme: dark)').matches);
     document.documentElement.classList.toggle('dark', dark);
     document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
+    if (themeChoice === 'retro95') document.documentElement.setAttribute('data-theme', 'retro95');
+    else document.documentElement.removeAttribute('data-theme');
+    setRetroActive(themeChoice === 'retro95');
     try {
       localStorage.setItem('theme', themeChoice);
     } catch {
@@ -400,10 +409,14 @@ const App: React.FC = () => {
     speedRef.current = account.speed;
   }, [account.speed]);
 
+  const pickTheme = (next: ThemeChoice) => {
+    themeLock.current = true;
+    setThemeChoice(next);
+  };
+
   useEffect(() => {
-    if (account.theme === 'light' || account.theme === 'dark' || account.theme === 'system') {
-      setThemeChoice(account.theme);
-    }
+    if (themeLock.current || !isThemeChoice(account.theme)) return;
+    setThemeChoice(account.theme);
   }, [account.theme]);
 
   useEffect(() => {
@@ -1321,7 +1334,9 @@ const App: React.FC = () => {
           aria-pressed={practiceType === 'reading'}
           className={modeButtonClass(practiceType === 'reading')}
         >
-          <BookOpenIcon className={`w-8 h-8 mb-2 ${practiceType === 'reading' ? 'text-white' : 'text-blue-700 dark:text-blue-300'}`} />
+          {retro
+            ? <span className="mb-2"><PixelIcon name="book" size={32} /></span>
+            : <BookOpenIcon className={`w-8 h-8 mb-2 ${practiceType === 'reading' ? 'text-white' : 'text-blue-700 dark:text-blue-300'}`} />}
           <span className="font-semibold text-lg">Reading</span>
           {practiceType === 'reading' && <span className="mt-1 text-base text-blue-50">Selected</span>}
         </button>
@@ -1331,7 +1346,9 @@ const App: React.FC = () => {
           aria-pressed={practiceType === 'listening'}
           className={modeButtonClass(practiceType === 'listening')}
         >
-          <HeadphonesIcon className={`w-8 h-8 mb-2 ${practiceType === 'listening' ? 'text-white' : 'text-blue-700 dark:text-blue-300'}`} />
+          {retro
+            ? <span className="mb-2"><PixelIcon name="headphones" size={32} /></span>
+            : <HeadphonesIcon className={`w-8 h-8 mb-2 ${practiceType === 'listening' ? 'text-white' : 'text-blue-700 dark:text-blue-300'}`} />}
           <span className="font-semibold text-lg">Listening</span>
           {practiceType === 'listening' && <span className="mt-1 text-base text-blue-50">Selected</span>}
         </button>
@@ -1347,6 +1364,7 @@ const App: React.FC = () => {
             aria-pressed={contentFormat === 'text'}
             className={formatButtonClass(contentFormat === 'text')}
           >
+            {retro && <span className="mb-1"><PixelIcon name="document" size={32} /></span>}
             <span className="font-semibold text-base">Text</span>
             <span className={`mt-0.5 text-sm ${contentFormat === 'text' ? 'text-blue-50' : 'text-slate-700 dark:text-slate-200'}`}>
               A story or monologue
@@ -1358,6 +1376,7 @@ const App: React.FC = () => {
             aria-pressed={contentFormat === 'dialogue'}
             className={formatButtonClass(contentFormat === 'dialogue')}
           >
+            {retro && <span className="mb-1"><PixelIcon name="bubbles" size={32} /></span>}
             <span className="font-semibold text-base">Dialogue</span>
             <span className={`mt-0.5 text-sm ${contentFormat === 'dialogue' ? 'text-blue-50' : 'text-slate-700 dark:text-slate-200'}`}>
               Two speakers
@@ -1572,7 +1591,7 @@ const App: React.FC = () => {
         <DefinedText
           text={story}
           transcript="static"
-          className={`mt-4 block whitespace-pre-wrap leading-relaxed text-slate-900 dark:text-slate-50 ${fontClass}`}
+          className={`lesson-copy mt-4 block whitespace-pre-wrap leading-relaxed text-slate-900 dark:text-slate-50 ${fontClass}`}
         />
       );
     }
@@ -1581,7 +1600,7 @@ const App: React.FC = () => {
         text={story}
         transcript="synced"
         highlightIndex={currentWordIndex}
-        className={`mt-4 block leading-relaxed text-slate-900 dark:text-slate-50 ${fontClass}`}
+        className={`lesson-copy mt-4 block leading-relaxed text-slate-900 dark:text-slate-50 ${fontClass}`}
       />
     );
   };
@@ -1617,7 +1636,7 @@ const App: React.FC = () => {
           ) : (
             <DefinedText
               text={story}
-              className={`mt-6 block whitespace-pre-wrap leading-relaxed text-slate-900 dark:text-slate-50 ${fontClass}`}
+              className={`lesson-copy mt-6 block whitespace-pre-wrap leading-relaxed text-slate-900 dark:text-slate-50 ${fontClass}`}
             />
           )
         )}
@@ -1704,7 +1723,7 @@ const App: React.FC = () => {
               ></div>
             </div>
           </div>
-          <h3 className="text-xl md:text-2xl font-semibold mb-6 text-slate-900 dark:text-slate-50">{question.question}</h3>
+          <h3 className="lesson-copy text-xl md:text-2xl font-semibold mb-6 text-slate-900 dark:text-slate-50">{question.question}</h3>
           <div className="space-y-3">
             {question.options.map((option, index) => {
               const letter = getLetter(index);
@@ -1981,7 +2000,7 @@ const App: React.FC = () => {
               ) : (
                 <DefinedText
                   text={story}
-                  className={`mt-6 block whitespace-pre-wrap leading-relaxed text-slate-900 dark:text-slate-50 ${fontClass}`}
+                  className={`lesson-copy mt-6 block whitespace-pre-wrap leading-relaxed text-slate-900 dark:text-slate-50 ${fontClass}`}
                 />
               )
             )}
@@ -2041,7 +2060,7 @@ const App: React.FC = () => {
               {view === 'config' && (
                 <button
                   type="button"
-                  onClick={() => setThemeChoice(darkOn ? 'light' : 'dark')}
+                  onClick={() => pickTheme(darkOn ? 'light' : 'dark')}
                   aria-pressed={darkOn}
                   className="inline-flex shrink-0 items-center rounded-lg border-2 border-slate-900 bg-white px-3 py-1.5 text-sm font-semibold text-slate-900 hover:bg-slate-100 sm:px-4 sm:py-2 sm:text-base dark:border-slate-100 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
                 >
@@ -2302,6 +2321,7 @@ const App: React.FC = () => {
       }
     >
       {shellItem === 'grammar' && (
+        <RetroWindow title="Grammar">
         <GrammarPage
           fontStep={fontStep}
           fontClass={fontClass}
@@ -2322,8 +2342,10 @@ const App: React.FC = () => {
             else go('/');
           }}
         />
+        </RetroWindow>
       )}
       {(shellItem === 'tasks' || shellItem === 'packs') && (
+        <RetroWindow title={shellItem === 'packs' ? 'Task packs' : 'Tasks'}>
         <TasksPage
           userId={account.userId}
           section={shellItem === 'packs' ? 'packs' : 'settings'}
@@ -2337,19 +2359,25 @@ const App: React.FC = () => {
           onOpenPack={openPack}
           onClosePack={closePack}
         />
+        </RetroWindow>
       )}
       {shellItem === 'progress' && (
+        <RetroWindow title="My progress">
         <ProgressPage
           onCreate={() => go('/')}
           studentName={account.displayName.trim() || account.email || 'Student'}
           profileLevel={account.defaultLevel}
           onBack={() => go('/')}
         />
+        </RetroWindow>
       )}
       {shellItem === 'saved' && (
+        <RetroWindow title="Saved lessons">
         <SavedLessonsPage onOpen={openSaved} onCreate={() => go('/')} onPracticeGrammar={() => go('/grammar')} onBack={() => go('/')} />
+        </RetroWindow>
       )}
       {shellItem === 'vocabulary' && (
+        <RetroWindow title="Vocabulary builder">
         <VocabularyPage
           userId={account.userId}
           onSignIn={() => { setSignInOpen(true); setSignInPrompt(true); }}
@@ -2362,13 +2390,20 @@ const App: React.FC = () => {
           onGoLessons={() => go('/')}
           voice={account.voice}
         />
+        </RetroWindow>
       )}
-      {shellItem === 'academy' && account.plan === 'academy' && <AcademyPage ownerDisplayName={account.displayName} onBack={() => go('/')} />}
+      {shellItem === 'academy' && account.plan === 'academy' && (
+        <RetroWindow title="My academy" sober>
+          <AcademyPage ownerDisplayName={account.displayName} onBack={() => go('/')} />
+        </RetroWindow>
+      )}
       {shellItem === 'academy' && account.plan !== 'academy' && (
-        <div>
-          <BackButton onClick={() => go('/')} />
-          <p className="text-base">This page is for academy accounts.</p>
-        </div>
+        <RetroWindow title="My academy" sober>
+          <div>
+            <BackButton onClick={() => go('/')} />
+            <p className="text-base">This page is for academy accounts.</p>
+          </div>
+        </RetroWindow>
       )}
       {shellItem === 'join' && (
         <JoinAcademyPage
@@ -2388,6 +2423,7 @@ const App: React.FC = () => {
         />
       )}
       {shellItem === 'profile' && (
+        <RetroWindow title="Profile">
         <ProfilePage
           userId={account.userId}
           email={account.email}
@@ -2399,8 +2435,9 @@ const App: React.FC = () => {
           displayName={account.displayName}
           academyRole={account.academyRole}
           academyName={account.academyName}
-          onTheme={setThemeChoice}
+          onTheme={pickTheme}
           onSaved={(next) => {
+            themeLock.current = false;
             setThemeChoice(next.theme);
             speedRef.current = next.speed;
             levelAppliedRef.current = true;
@@ -2410,8 +2447,9 @@ const App: React.FC = () => {
           onAcademyChanged={() => { void account.refreshProfile(); }}
           onBack={() => go('/')}
         />
+        </RetroWindow>
       )}
-      {shellItem === 'lesson' && signedOutPage}
+      {shellItem === 'lesson' && <RetroWindow title={view === 'quiz' ? 'Quiz' : view === 'story' ? 'Lesson' : 'New exercise'}>{signedOutPage}</RetroWindow>}
     </AppShell>
   );
 };

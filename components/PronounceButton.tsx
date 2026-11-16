@@ -7,6 +7,8 @@ import {
   type PronunciationAccent,
 } from '../pronounce';
 import { termKey } from '../vocabulary';
+import { useRetroTheme } from '../retroTheme';
+import { PixelIcon } from './PixelIcon';
 
 type Phase = 'idle' | 'loading' | 'playing';
 type Live = { key: string; phase: Exclude<Phase, 'idle'> } | null;
@@ -138,6 +140,7 @@ export function PronounceButton({
 }) {
   const current = useSyncExternalStore(subscribe, readLive, () => null);
   const phase: Phase = current?.key === termKey(term) ? current.phase : 'idle';
+  const retro = useRetroTheme();
 
   useEffect(() => {
     void pronunciationUrl(term);
@@ -158,6 +161,7 @@ export function PronounceButton({
         ? 'inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border-2 border-blue-800 bg-blue-700 text-white'
         : `inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border-2 border-slate-900 bg-white text-slate-900 dark:border-slate-100 dark:bg-slate-900 dark:text-slate-50 ${phase === 'loading' ? 'opacity-60' : ''}`}
     >
+      {retro ? <PixelIcon name="speaker" size={20} /> : (
       <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
         <path strokeLinecap="round" strokeLinejoin="round" d="M4 10v4h3l5 4V6L7 10H4z" />
         {phase === 'playing' ? (
@@ -166,6 +170,7 @@ export function PronounceButton({
           <path strokeLinecap="round" d="M16 9a4 4 0 010 6" />
         )}
       </svg>
+      )}
     </button>
   );
 }

@@ -1,5 +1,7 @@
 import React from 'react';
 import { academyPillName, studentPillName } from '../academyStats';
+import { useRetroTheme } from '../retroTheme';
+import { PixelIcon } from './PixelIcon';
 
 function SchoolIcon({ className = '' }: { className?: string }) {
   return (
@@ -38,13 +40,17 @@ export function AcademyBadge({
   const shown = role === 'student' && person
     ? studentPillName(displayName, email)
     : academyPillName(role === 'student' ? null : displayName, academy);
+  const retro = useRetroTheme();
+  const mark = retro
+    ? <PixelIcon name="house" size={compact ? 16 : 24} />
+    : <SchoolIcon className={compact ? 'h-8 w-8 shrink-0' : 'h-12 w-12 shrink-0'} />;
   if (compact) {
     return (
       <p
         className="inline-flex max-w-[10.5rem] shrink-0 items-center gap-1.5 rounded-2xl border border-teal-600 bg-white py-1 pl-1 pr-2 dark:border-teal-400 dark:bg-slate-800"
         title={`${label}: ${shown}`}
       >
-        <SchoolIcon className="h-8 w-8 shrink-0" />
+        {mark}
         <span className="min-w-0 text-left leading-tight">
           <span className="block text-[10px] font-medium leading-none text-slate-600 dark:text-slate-300">{label}</span>
           <span className="mt-0.5 block truncate text-xs font-bold leading-tight">{shown}</span>
@@ -54,7 +60,7 @@ export function AcademyBadge({
   }
   return (
     <h1 className="inline-flex max-w-full items-center gap-3 rounded-2xl border border-teal-600 bg-white px-3.5 py-2.5 dark:border-teal-400 dark:bg-slate-800">
-      <SchoolIcon className="h-12 w-12 shrink-0" />
+      {mark}
       <span className="min-w-0 pr-1 text-left">
         <span className="block text-sm font-medium leading-tight text-slate-600 dark:text-slate-300">My academy</span>
         <span className="mt-0.5 block truncate text-xl font-bold leading-tight">{academy || 'Academy'}</span>

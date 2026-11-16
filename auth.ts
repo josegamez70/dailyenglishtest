@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 
 export const FREE_LESSON_LIMIT = 3;
@@ -64,6 +64,7 @@ export function useAccount() {
   const [academyRole, setAcademyRole] = useState<'owner' | 'student' | null>(null);
   const [academyName, setAcademyName] = useState<string | null>(null);
   const [academyChecked, setAcademyChecked] = useState(false);
+  const profileRequest = useRef(0);
 
   const applyProfile = (data: Record<string, unknown>) => {
     setPlan(String(data.plan ?? 'free'));
@@ -93,18 +94,22 @@ export function useAccount() {
     const supabase = getSupabase();
     const profileId = id ?? userId;
     if (!supabase || !profileId) return;
+    const request = ++profileRequest.current;
     const full = await supabase
       .from('profiles')
       .select('plan, lessons_used, theme, default_level, voice, speed, display_name')
       .eq('id', profileId)
       .maybeSingle();
+    if (request !== profileRequest.current) return;
     if (!full.error && full.data) {
       applyProfile(full.data as Record<string, unknown>);
     } else {
       const basic = await supabase.from('profiles').select('plan, lessons_used').eq('id', profileId).maybeSingle();
+      if (request !== profileRequest.current) return;
       if (!basic.error && basic.data) applyProfile(basic.data as Record<string, unknown>);
     }
     const membership = await supabase.rpc('my_academy');
+    if (request !== profileRequest.current) return;
     if (!membership.error) applyMembership(membership.data);
     else {
       setAcademyRole(null);

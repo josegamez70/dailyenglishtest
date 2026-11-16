@@ -7,7 +7,9 @@ import { PricingPanel } from './PricingPanel';
 import { PilotStatusBanner } from './PilotPages';
 import { BackButton } from './BackButton';
 
-export type ThemeChoice = 'light' | 'dark' | 'system';
+import { type ThemeChoice } from '../themeChoice';
+
+export type { ThemeChoice };
 /** Still stored on the profile. Playback ignores it and always uses American English. */
 export type VoiceChoice = 'british' | 'american';
 
@@ -136,8 +138,13 @@ export function ProfilePage({
       />
       <fieldset>
         <legend className="text-sm font-semibold">Theme</legend>
-        <div className="mt-2 flex flex-wrap gap-2">
-          {(['light', 'dark', 'system'] as ThemeChoice[]).map((choice) => (
+        <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-4">
+          {([
+            ['light', 'Light', 'bg-white'],
+            ['dark', 'Dark', 'bg-slate-900'],
+            ['system', 'System', 'bg-gradient-to-r from-white to-slate-900'],
+            ['retro95', 'Retro 95', 'bg-[#000080]'],
+          ] as const).map(([choice, label, swatch]) => (
             <button
               key={choice}
               type="button"
@@ -147,10 +154,11 @@ export function ProfilePage({
                 onTheme(choice);
               }}
               className={theme === choice
-                ? 'rounded-lg bg-blue-700 px-3 py-2 text-sm font-bold text-white'
-                : 'rounded-lg border-2 border-slate-700 px-3 py-2 text-sm font-semibold dark:border-slate-200'}
+                ? 'rounded-lg bg-blue-700 px-2 py-2 text-sm font-bold text-white'
+                : 'rounded-lg border-2 border-slate-700 bg-white px-2 py-2 text-sm font-semibold text-slate-900 dark:border-slate-200 dark:bg-slate-900 dark:text-slate-50'}
             >
-              {choice === 'light' ? 'Light' : choice === 'dark' ? 'Dark' : 'System'}
+              <span className={`mx-auto mb-1 block h-8 w-full border border-slate-500 ${swatch}`} aria-hidden="true" />
+              {label}
             </button>
           ))}
         </div>
