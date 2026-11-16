@@ -381,6 +381,17 @@ html[data-theme="retro95"] .retro-improve li {
   font-size: 1.15rem;
 }
 
+html[data-theme="retro95"] .retro-tick {
+  display: inline-block;
+  width: 0.55rem;
+  height: 0.3rem;
+  margin: 0 0.45rem 0.15rem 0;
+  border-left: 3px solid #00ff00;
+  border-bottom: 3px solid #00ff00;
+  transform: rotate(-45deg);
+  vertical-align: middle;
+}
+
 html[data-theme="retro95"] .retro-improve .pixel-globe {
   color: #7fffff;
 }

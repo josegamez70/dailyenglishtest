@@ -1308,10 +1308,10 @@ const App: React.FC = () => {
             <h2>Improve your English</h2>
           </div>
           <ul>
-            <li>Listen and understand</li>
-            <li>Read and learn</li>
-            <li>Build your vocabulary</li>
-            <li>Track your progress</li>
+            <li><span className="retro-tick" aria-hidden="true" />Listen and understand</li>
+            <li><span className="retro-tick" aria-hidden="true" />Read and learn</li>
+            <li><span className="retro-tick" aria-hidden="true" />Build your vocabulary</li>
+            <li><span className="retro-tick" aria-hidden="true" />Track your progress</li>
           </ul>
         </section>
       )}
