@@ -12,16 +12,17 @@ export function RetroWindow({
   children: React.ReactNode;
 }) {
   const retro = useSyncExternalStore(subscribeRetro, useRetro, () => false);
-  if (!retro) return <>{children}</>;
   return (
-    <section className={sober ? 'retro-window retro-sober' : 'retro-window'}>
-      <div className="retro-titlebar">
-        <span>{title}</span>
-        <span className="retro-win-buttons" aria-hidden="true">
-          <i /><i /><i />
-        </span>
-      </div>
-      <div className="retro-window-body">{children}</div>
-    </section>
+    <div className={retro ? (sober ? 'retro-window retro-sober' : 'retro-window') : undefined}>
+      {retro && (
+        <div className="retro-titlebar">
+          <span>{title}</span>
+          <span className="retro-win-buttons" aria-hidden="true">
+            <i /><i /><i />
+          </span>
+        </div>
+      )}
+      <div className={retro ? 'retro-window-body' : undefined}>{children}</div>
+    </div>
   );
 }
