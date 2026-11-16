@@ -156,6 +156,7 @@ html[data-theme="retro95"] .retro-window-body {
 
 html[data-theme="retro95"] .retro-sober .retro-titlebar {
   background: #000080;
+  border-bottom-color: #000080;
 }
 
 html[data-theme="retro95"] .retro-sober {
