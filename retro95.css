@@ -208,32 +208,42 @@ html[data-theme="retro95"] .retro-pill-large .retro-pill-name {
 }
 
 html[data-theme="retro95"] .header-row .retro-pill {
-  flex: 0 1 auto;
+  flex: 1 1 auto;
   min-width: 0;
-  max-width: 6.5rem;
+  max-width: none;
   min-height: 0;
   gap: 0.2rem;
-  padding: 0.1rem 0.28rem;
+  padding: 0.1rem 0.35rem;
+}
+
+html[data-theme="retro95"] .header-row .retro-pill-copy {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-align: center;
 }
 
 html[data-theme="retro95"] .header-row .retro-pill,
 html[data-theme="retro95"] .header-row .retro-pill span {
-  font-size: 0.85rem;
+  font-size: 1.15rem;
   line-height: 1;
 }
 
-html[data-theme="retro95"] .header-row .retro-pill-name {
-  max-width: 4.4rem;
+html[data-theme="retro95"] .header-row .retro-pill-name,
+html[data-theme="retro95"] .header-row .retro-pill-copy > span {
+  max-width: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+html[data-theme="retro95"] .header-row:has(.retro-pill) [aria-label="Go to home screen"] {
+  margin-left: 0;
 }
 
 @media (max-width: 359px) {
   html[data-theme="retro95"] .header-row .retro-pill-copy {
     display: none;
-  }
-
-  html[data-theme="retro95"] .header-row .retro-pill {
-    max-width: none;
-    padding: 0.15rem;
   }
 }
 
