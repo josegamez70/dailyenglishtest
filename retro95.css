@@ -129,6 +129,7 @@ html[data-theme="retro95"] .retro-titlebar {
   gap: 0.5rem;
   background: #000080;
   color: #fff;
+  border-bottom: 3px solid var(--r-yellow);
   padding: 0.2rem 0.35rem;
   font-size: 1.15rem;
   line-height: 1.1;

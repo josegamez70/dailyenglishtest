@@ -15,5 +15,6 @@ test('retro 95 is optional and does not turn on dark mode', () => {
   assert.match(css, /html\[data-theme="retro95"\]/);
   assert.match(css, /prefers-reduced-motion/);
   assert.match(css, /VT323/);
+  assert.match(css, /--r-yellow/);
   assert.equal(css.includes('html:not([data-theme'), false);
 });
