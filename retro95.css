@@ -131,11 +131,17 @@ html[data-theme="retro95"] .retro-side-mark {
   font-family: "VT323", ui-monospace, monospace !important;
 }
 
+html[data-theme="retro95"] .retro-wordmark {
+  flex: 1 0 auto !important;
+  min-width: max-content !important;
+  overflow: visible !important;
+}
+
 html[data-theme="retro95"] .retro-wordmark,
 html[data-theme="retro95"] .retro-wordmark span {
   color: #fff !important;
   font-family: "VT323", ui-monospace, monospace !important;
-  font-size: 1.2rem;
+  font-size: 1.45rem;
   line-height: 1;
   white-space: nowrap;
 }
@@ -199,6 +205,21 @@ html[data-theme="retro95"] .retro-pill-large {
 html[data-theme="retro95"] .retro-pill-large .retro-pill-name {
   max-width: 16rem;
   font-size: 1.35rem;
+}
+
+html[data-theme="retro95"] .sticky > .retro-pill {
+  max-width: 100%;
+  width: 100%;
+}
+
+html[data-theme="retro95"] .sticky > .retro-pill .retro-pill-name {
+  max-width: none;
+}
+
+@media (max-width: 420px) {
+  html[data-theme="retro95"] .home-label {
+    display: none;
+  }
 }
 
 html[data-theme="retro95"] nav button {
@@ -360,9 +381,19 @@ html[data-theme="retro95"] .retro-improve li {
   font-size: 1.15rem;
 }
 
-html[data-theme="retro95"] .retro-improve li::before {
-  content: "✓ ";
-  color: #00ff00;
+html[data-theme="retro95"] .retro-improve .pixel-globe {
+  color: #7fffff;
+}
+
+html[data-theme="retro95"] .vocab-fold {
+  background: #c0c0c0 !important;
+  color: #000 !important;
+}
+
+html[data-theme="retro95"] .vocab-fold summary {
+  font-family: "VT323", ui-monospace, monospace;
+  font-size: 1.35rem;
+  cursor: pointer;
 }
 
 html[data-theme="retro95"] .retro-win-buttons i {

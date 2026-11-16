@@ -199,7 +199,7 @@ export function AppShell({
                 className="inline-flex shrink-0 items-center gap-1 rounded-lg bg-red-700 px-2.5 py-1.5 text-sm font-semibold text-white hover:bg-red-800"
               >
                 <HomeMark />
-                <span>Home</span>
+                <span className="home-label">Home</span>
               </button>
             )}
           </div>
