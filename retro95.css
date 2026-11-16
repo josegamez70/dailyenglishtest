@@ -128,6 +128,51 @@ html[data-theme="retro95"] .retro-side-mark span + span {
   color: #000 !important;
 }
 
+html[data-theme="retro95"] .retro-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  max-width: 9.5rem;
+  min-height: 2.4rem;
+  margin: 0;
+  padding: 0.2rem 0.45rem;
+  background: #c0c0c0 !important;
+  color: #000 !important;
+  border-radius: 0 !important;
+  border: 2px solid #fff !important;
+  border-right-color: #404040 !important;
+  border-bottom-color: #404040 !important;
+  box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #dfdfdf;
+  font-family: "VT323", ui-monospace, monospace !important;
+  font-size: 1.15rem;
+  line-height: 1;
+}
+
+html[data-theme="retro95"] .retro-pill,
+html[data-theme="retro95"] .retro-pill span {
+  color: #000 !important;
+  font-family: "VT323", ui-monospace, monospace !important;
+  font-size: 1.05rem;
+  line-height: 1.05;
+}
+
+html[data-theme="retro95"] .retro-pill-name {
+  display: block;
+  overflow: hidden;
+  max-width: 7.2rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+html[data-theme="retro95"] .retro-pill-large {
+  max-width: 100%;
+}
+
+html[data-theme="retro95"] .retro-pill-large .retro-pill-name {
+  max-width: 16rem;
+  font-size: 1.35rem;
+}
+
 html[data-theme="retro95"] nav button {
   display: inline-flex !important;
   align-items: center;

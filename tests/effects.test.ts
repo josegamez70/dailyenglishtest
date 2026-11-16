@@ -21,7 +21,9 @@ test('motion and the completion window respect reduced motion', () => {
   const css = readFileSync(new URL('../phase2.css', import.meta.url), 'utf8');
   assert.match(css, /prefers-reduced-motion: reduce/);
   assert.match(css, /Exercise complete!|phase2-heading/);
-  assert.match(css, /phase2-seg/);
+  assert.match(css, /pointer-events: none/);
+  assert.match(css, /data-open="true"/);
+  assert.equal(/\.phase2-enter\s*\{[^}]*opacity/.test(css), false);
   const dialog = readFileSync(new URL('../components/ExerciseComplete.tsx', import.meta.url), 'utf8');
   assert.match(dialog, /Exercise complete!/);
   assert.match(dialog, /Review answers/);

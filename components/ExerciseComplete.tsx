@@ -58,7 +58,7 @@ export function ExerciseComplete({
   useEffect(() => playResultSounds(marks, retro), []);
 
   const dialog = (
-    <div className="phase2-dialog" role="dialog" aria-modal="true" aria-labelledby="exercise-complete-title">
+    <div className="phase2-dialog" data-open="true" role="dialog" aria-modal="true" aria-labelledby="exercise-complete-title">
       <div className="phase2-dialog-card">
         <RetroWindow title="Exercise complete!">
           <h2 id="exercise-complete-title" className="phase2-heading">Exercise complete!</h2>
