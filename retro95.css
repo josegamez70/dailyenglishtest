@@ -132,7 +132,7 @@ html[data-theme="retro95"] .retro-side-mark {
 }
 
 html[data-theme="retro95"] .retro-wordmark {
-  flex: 1 0 auto !important;
+  flex: 0 0 auto !important;
   min-width: max-content !important;
   overflow: visible !important;
 }
@@ -141,7 +141,7 @@ html[data-theme="retro95"] .retro-wordmark,
 html[data-theme="retro95"] .retro-wordmark span {
   color: #fff !important;
   font-family: "VT323", ui-monospace, monospace !important;
-  font-size: 1.45rem;
+  font-size: 1.2rem;
   line-height: 1;
   white-space: nowrap;
 }
@@ -207,13 +207,34 @@ html[data-theme="retro95"] .retro-pill-large .retro-pill-name {
   font-size: 1.35rem;
 }
 
-html[data-theme="retro95"] .sticky > .retro-pill {
-  max-width: 100%;
-  width: 100%;
+html[data-theme="retro95"] .header-row .retro-pill {
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 6.5rem;
+  min-height: 0;
+  gap: 0.2rem;
+  padding: 0.1rem 0.28rem;
 }
 
-html[data-theme="retro95"] .sticky > .retro-pill .retro-pill-name {
-  max-width: none;
+html[data-theme="retro95"] .header-row .retro-pill,
+html[data-theme="retro95"] .header-row .retro-pill span {
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+html[data-theme="retro95"] .header-row .retro-pill-name {
+  max-width: 4.4rem;
+}
+
+@media (max-width: 359px) {
+  html[data-theme="retro95"] .header-row .retro-pill-copy {
+    display: none;
+  }
+
+  html[data-theme="retro95"] .header-row .retro-pill {
+    max-width: none;
+    padding: 0.15rem;
+  }
 }
 
 @media (max-width: 420px) {
@@ -338,8 +359,26 @@ html[data-theme="retro95"] [aria-label="Format"] {
   border: 2px solid #fff;
   border-right-color: #404040;
   border-bottom-color: #404040;
-  padding: 0.5rem;
+  padding: 0.35rem;
   background: #c0c0c0;
+}
+
+html[data-theme="retro95"] [aria-label="Practice mode"] button,
+html[data-theme="retro95"] [aria-label="Format"] button {
+  padding: 0.55rem 0.3rem !important;
+}
+
+html[data-theme="retro95"] [aria-label="Practice mode"] .choice-title,
+html[data-theme="retro95"] [aria-label="Format"] .choice-title {
+  font-size: 1.375rem !important;
+  line-height: 1.05;
+}
+
+html[data-theme="retro95"] [aria-label="Practice mode"] .choice-note,
+html[data-theme="retro95"] [aria-label="Format"] .choice-note {
+  font-size: 1.0625rem !important;
+  line-height: 1.1;
+  color: inherit !important;
 }
 
 html[data-theme="retro95"] button.retro-generate {
@@ -356,44 +395,6 @@ html[data-theme="retro95"] .retro-play {
   border-width: 7px 0 7px 12px;
   border-color: transparent transparent transparent #008000;
   vertical-align: middle;
-}
-
-html[data-theme="retro95"] .retro-improve {
-  margin-bottom: 1rem;
-  background: #000080;
-  color: #fff;
-  border: 2px solid #fff;
-  border-right-color: #404040;
-  border-bottom-color: #404040;
-  padding: 0.75rem;
-  font-family: "VT323", ui-monospace, monospace;
-}
-
-html[data-theme="retro95"] .retro-improve h2 {
-  margin: 0;
-  color: #ffff00;
-  font-size: 1.35rem;
-}
-
-html[data-theme="retro95"] .retro-improve li {
-  margin-top: 0.25rem;
-  color: #fff;
-  font-size: 1.15rem;
-}
-
-html[data-theme="retro95"] .retro-tick {
-  display: inline-block;
-  width: 0.55rem;
-  height: 0.3rem;
-  margin: 0 0.45rem 0.15rem 0;
-  border-left: 3px solid #00ff00;
-  border-bottom: 3px solid #00ff00;
-  transform: rotate(-45deg);
-  vertical-align: middle;
-}
-
-html[data-theme="retro95"] .retro-improve .pixel-globe {
-  color: #7fffff;
 }
 
 html[data-theme="retro95"] .vocab-fold {
