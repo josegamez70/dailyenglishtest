@@ -62,7 +62,8 @@ html.dark .phase2-seg {
   background: #334155;
 }
 
-.phase2-seg.on {
+.phase2-seg.on,
+html.dark .phase2-seg.on {
   background: #1d4ed8;
 }
 
