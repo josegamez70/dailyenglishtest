@@ -1,5 +1,5 @@
 import type { VocabularyItem } from '../types';
-import { termKey } from '../vocabulary';
+import { lessonWordSaved, termKey } from '../vocabulary';
 
 export function KeyVocabularyList({
   items,
@@ -34,7 +34,7 @@ export function KeyVocabularyList({
       <ul className="mt-3 space-y-2">
         {items.map((item) => {
           const key = termKey(item.word);
-          const saved = savedKeys.has(key);
+          const saved = lessonWordSaved(savedKeys, item.word);
           return (
             <li key={key || item.word} className="rounded-lg bg-slate-50 p-3 dark:bg-slate-700">
               <label className="flex items-start gap-3">

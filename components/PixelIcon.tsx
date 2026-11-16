@@ -41,3 +41,68 @@ export function menuPixelIcon(id: string) {
   if (id === 'profile') return 'person' as const;
   return 'help' as const;
 }
+
+type Dot = readonly [number, number, number, number, string];
+
+/** 32×32 coloured menu icons. Drawn here, not loaded from outside. */
+const MENU_PIXELS: Record<IconName, readonly Dot[]> = {
+  book: [
+    [1, 8, 14, 20, '#1d4ed8'], [17, 8, 14, 20, '#1e40af'], [14, 8, 4, 20, '#1e3a8a'],
+    [3, 10, 10, 16, '#fff'], [19, 10, 10, 16, '#fff'],
+    [4, 13, 8, 2, '#93c5fd'], [4, 17, 8, 2, '#93c5fd'], [4, 21, 6, 2, '#93c5fd'],
+    [20, 13, 8, 2, '#93c5fd'], [20, 17, 8, 2, '#93c5fd'], [20, 21, 6, 2, '#93c5fd'],
+  ],
+  cap: [
+    [2, 13, 28, 5, '#111827'], [8, 6, 16, 8, '#111827'], [14, 3, 4, 4, '#111827'],
+    [15, 8, 3, 3, '#fbbf24'], [22, 16, 3, 8, '#fbbf24'], [18, 23, 8, 3, '#fbbf24'],
+  ],
+  books: [
+    [3, 8, 22, 6, '#dc2626'], [5, 9, 18, 4, '#fecaca'],
+    [6, 15, 22, 6, '#16a34a'], [8, 16, 18, 4, '#bbf7d0'],
+    [4, 22, 24, 6, '#1d4ed8'], [6, 23, 20, 4, '#bfdbfe'],
+  ],
+  calendar: [
+    [6, 7, 20, 22, '#fff'], [6, 7, 20, 7, '#dc2626'],
+    [9, 3, 3, 6, '#111827'], [20, 3, 3, 6, '#111827'],
+    [9, 17, 3, 3, '#111827'], [14, 17, 3, 3, '#111827'], [19, 17, 3, 3, '#111827'],
+    [9, 22, 3, 3, '#2563eb'], [14, 22, 3, 3, '#2563eb'],
+  ],
+  folder: [
+    [4, 8, 12, 6, '#eab308'], [4, 12, 24, 14, '#facc15'], [6, 14, 20, 2, '#fde047'],
+  ],
+  chart: [
+    [4, 26, 24, 2, '#111827'],
+    [6, 16, 4, 10, '#2563eb'], [12, 10, 4, 16, '#16a34a'], [18, 14, 4, 12, '#dc2626'], [24, 6, 4, 20, '#f59e0b'],
+  ],
+  floppy: [
+    [6, 4, 20, 24, '#374151'], [8, 4, 12, 8, '#e5e7eb'], [10, 6, 6, 4, '#9ca3af'],
+    [8, 16, 16, 9, '#2563eb'], [10, 18, 12, 2, '#fff'], [10, 21, 8, 2, '#fff'],
+  ],
+  house: [
+    [14, 3, 4, 4, '#dc2626'], [10, 7, 12, 4, '#dc2626'], [6, 11, 20, 4, '#dc2626'],
+    [8, 15, 16, 13, '#fde047'], [13, 20, 6, 8, '#1d4ed8'],
+    [10, 17, 4, 4, '#fff'], [18, 17, 4, 4, '#fff'],
+  ],
+  person: [
+    [12, 3, 8, 8, '#60a5fa'], [14, 5, 4, 4, '#dbeafe'],
+    [8, 13, 16, 6, '#2563eb'], [11, 19, 4, 9, '#1d4ed8'], [17, 19, 4, 9, '#1d4ed8'],
+  ],
+  help: [
+    [4, 4, 24, 24, '#7c3aed'],
+    [10, 8, 12, 4, '#fff'], [18, 12, 4, 4, '#fff'], [14, 16, 4, 4, '#fff'], [14, 22, 4, 4, '#fff'],
+  ],
+  headphones: [], document: [], bubbles: [], speaker: [], menu: [], chevron: [], shield: [],
+};
+
+/** Coloured 32×32 menu icon for Retro 95. Other themes do not use it. */
+export function MenuPixelIcon({ name }: { name: IconName }) {
+  const dots = MENU_PIXELS[name];
+  if (!dots.length) return <PixelIcon name={name} size={32} />;
+  return (
+    <svg viewBox="0 0 32 32" width={32} height={32} aria-hidden="true" shapeRendering="crispEdges" className="shrink-0">
+      {dots.map(([x, y, w, h, fill], index) => (
+        <rect key={index} x={x} y={y} width={w} height={h} fill={fill} />
+      ))}
+    </svg>
+  );
+}

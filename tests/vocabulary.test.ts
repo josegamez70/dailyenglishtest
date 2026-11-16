@@ -8,6 +8,9 @@ import {
   sourceLabel,
   sentenceWith,
   rowsWithSaved,
+  savedMatchKeys,
+  lessonWordSaved,
+  matchedSavedTerm,
   shuffleItems,
   termKey,
   VOCAB_QUIZ_MIN,
@@ -34,6 +37,14 @@ test('a saved term ignores case and extra spaces', () => {
   assert.equal(normalizeTerm('  Fresh  bread '), 'Fresh bread');
   assert.equal(termKey('  Market '), termKey('market'));
   assert.equal(sentenceWith('Anna walks to the market. She buys bread.', 'Market'), 'Anna walks to the market.');
+});
+
+test('a lesson word is already saved when only the base form is in the builder', () => {
+  const saved = savedMatchKeys(['Wake up', 'Teasing']);
+  assert.equal(lessonWordSaved(saved, 'wakes up'), true);
+  assert.equal(lessonWordSaved(saved, 'teased'), true);
+  assert.equal(lessonWordSaved(saved, 'market'), false);
+  assert.equal(matchedSavedTerm(['Wake up', 'city'], 'wakes up'), 'Wake up');
 });
 
 test('search and source filters keep the matching words', () => {
