@@ -205,6 +205,7 @@ const App: React.FC = () => {
 
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
+  const [showTranscript, setShowTranscript] = useState(false);
   useEffect(() => {
     setVocabOpen(false);
   }, [story]);
