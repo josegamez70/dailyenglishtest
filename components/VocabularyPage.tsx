@@ -468,10 +468,10 @@ export function VocabularyPage({
             ))}
           </div>
           <div className="mt-4 grid grid-cols-2 gap-2">
-            <button type="button" onClick={() => setMode('cards')} className="rounded-lg bg-blue-700 py-3 text-base font-bold text-white hover:bg-blue-800">
+            <button type="button" onClick={() => setMode('cards')} className="quiz-advance rounded-lg bg-blue-700 py-3 text-base font-bold text-white hover:bg-blue-800">
               Flashcards
             </button>
-            <button type="button" onClick={() => setMode('quiz')} className="rounded-lg border-2 border-slate-900 py-3 text-base font-bold dark:border-slate-100">
+            <button type="button" onClick={() => setMode('quiz')} className="quiz-advance rounded-lg border-2 border-slate-900 py-3 text-base font-bold dark:border-slate-100">
               Quiz
             </button>
           </div>
