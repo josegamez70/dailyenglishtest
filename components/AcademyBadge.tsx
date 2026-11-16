@@ -75,12 +75,18 @@ export function AcademyBadge({
 }) {
   const academy = name.trim();
   const label = role === 'student' ? 'Student' : 'My academy';
+  const personName = studentPillName(displayName, email);
   const shown = role === 'student' && person
-    ? studentPillName(displayName, email)
+    ? personName
     : academyPillName(role === 'student' ? null : displayName, academy);
   const retro = useRetroTheme();
   const copyRef = useRef<HTMLSpanElement>(null);
   const fit = Boolean(fitWidth && retro && compact);
+  const headerStudent = fit && role === 'student';
+  const topLine = headerStudent ? (academy || 'Academy') : label;
+  const bottomLine = headerStudent
+    ? (personName === 'Student' ? 'Student' : `Student · ${personName}`)
+    : shown;
   useLayoutEffect(() => {
     if (!fit || !copyRef.current) return undefined;
     const copy = copyRef.current;
@@ -90,7 +96,7 @@ export function AcademyBadge({
     observer.observe(copy);
     document.fonts?.ready.then(run).catch(() => {});
     return () => observer.disconnect();
-  }, [fit, label, shown]);
+  }, [fit, topLine, bottomLine]);
   const mark = retro
     ? <PixelIcon name="house" size={fit ? 22 : compact ? 16 : 24} />
     : <SchoolIcon className={compact ? 'h-8 w-8 shrink-0' : 'h-12 w-12 shrink-0'} />;
@@ -100,12 +106,12 @@ export function AcademyBadge({
         className={retro
           ? 'retro-pill'
           : 'inline-flex max-w-[10.5rem] shrink-0 items-center gap-1.5 rounded-2xl border border-teal-600 bg-white py-1 pl-1 pr-2 dark:border-teal-400 dark:bg-slate-800'}
-        title={`${label}: ${shown}`}
+        title={headerStudent ? `${topLine}: ${bottomLine}` : `${label}: ${shown}`}
       >
         {mark}
         <span ref={copyRef} className="retro-pill-copy min-w-0 text-left leading-tight">
-          <span className="block text-[10px] font-medium leading-none text-slate-600 dark:text-slate-300">{label}</span>
-          <span className="retro-pill-name mt-0.5 block truncate text-xs font-bold leading-tight">{shown}</span>
+          <span className="block text-[10px] font-medium leading-none text-slate-600 dark:text-slate-300">{topLine}</span>
+          <span className="retro-pill-name mt-0.5 block truncate text-xs font-bold leading-tight">{bottomLine}</span>
         </span>
       </p>
     );
