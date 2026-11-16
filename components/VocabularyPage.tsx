@@ -313,7 +313,7 @@ function Quiz({
             key={choice}
             type="button"
             onClick={() => choose(choice)}
-            className="w-full rounded-lg border-2 border-slate-500 bg-white px-3 py-3 text-left text-base font-semibold text-slate-900 hover:border-blue-700 dark:border-slate-300 dark:bg-slate-800 dark:text-slate-50"
+            className="w-full rounded-lg border-2 border-slate-500 bg-white px-3 py-3 text-left text-lg font-semibold text-slate-900 hover:border-blue-700 dark:border-slate-300 dark:bg-slate-800 dark:text-slate-50 quiz-option"
           >
             {choice}
           </button>

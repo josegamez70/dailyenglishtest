@@ -1,4 +1,4 @@
-type IconName = 'book' | 'cap' | 'books' | 'calendar' | 'folder' | 'chart' | 'floppy' | 'house' | 'person' | 'help' | 'headphones' | 'document' | 'bubbles' | 'speaker' | 'menu' | 'chevron' | 'shield';
+type IconName = 'book' | 'cap' | 'books' | 'calendar' | 'folder' | 'chart' | 'floppy' | 'house' | 'person' | 'help' | 'headphones' | 'document' | 'bubbles' | 'speaker' | 'menu' | 'chevron' | 'shield' | 'globe';
 
 /** 16×16 pixel icons drawn in the repo. No outside images. */
 const PIXELS: Record<IconName, string> = {
@@ -12,6 +12,7 @@ const PIXELS: Record<IconName, string> = {
   house: 'M8 2l6 5v7H2V7zM6 9h4v5H6z',
   person: 'M6 2h4v4H6zM3 8h10v2H3zM4 10h3v4H4zm5 0h3v4H9z',
   help: 'M3 2h10v12H3zM6 5h4v1H8v2H7V6H6zM7 10h2v2H7z',
+  globe: 'M6 1h4v1H6zM4 2h8v1H4zM3 3h10v1H3zM2 4h12v8H2zM7 4h2v8H7zM3 7h10v2H3zM3 12h10v1H3zM4 13h8v1H4zM6 14h4v1H6z',
   headphones: 'M4 2h8v2H4zM3 4h2v3H3zM11 4h2v3h-2zM2 7h4v6H2zM10 7h4v6h-4z',
   document: 'M3 1h10v14H3zM5 4h6v1H5zM5 7h6v1H5zM5 10h4v1H5z',
   bubbles: 'M1 2h7v4H5v1H4v1H3V6H1zM8 6h7v4h-2v1h-1v1h-1v-2H8z',
@@ -23,7 +24,7 @@ const PIXELS: Record<IconName, string> = {
 
 export function PixelIcon({ name, size = 16 }: { name: IconName; size?: number }) {
   return (
-    <svg viewBox="0 0 16 16" width={size} height={size} aria-hidden="true" shapeRendering="crispEdges" className="shrink-0">
+    <svg viewBox="0 0 16 16" width={size} height={size} aria-hidden="true" shapeRendering="crispEdges" className={`pixel-${name} shrink-0`}>
       <path fill="currentColor" fillRule="evenodd" d={PIXELS[name]} />
     </svg>
   );

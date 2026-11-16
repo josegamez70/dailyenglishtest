@@ -17,7 +17,6 @@ import {
   type ListedVoice,
   type SpeakerVoice,
 } from './dialogue';
-import { clampedFontStep } from './fontStep';
 import { slowerPlaybackRate, whenVoicesReady } from './speechVoices';
 import { withStoryReview } from './quizSession';
 import { resumeWordIndex, textFromWordIndex } from './speechPosition';
@@ -71,12 +70,6 @@ import VocabularyModal from './components/VocabularyModal';
 
 const RETURN_PATH_KEY = 'appReturnPath';
 
-const FONT_STEPS = [
-  { label: 'Small', className: 'text-base' },
-  { label: 'Medium', className: 'text-lg' },
-  { label: 'Large', className: 'text-xl' },
-] as const;
-
 function nextDialogueSpeakers() {
   let previous: string[] = [];
   try {
@@ -120,17 +113,6 @@ function estimateSpeechMs(text: string, rate: number): number {
     else if (/[,:;]$/.test(last)) total += timing.commaPause;
   }
   return Math.max(total, 1000);
-}
-
-function readFontStep(): number {
-  try {
-    const raw = localStorage.getItem('storyFontStep');
-    if (raw == null) return 1;
-    return clampedFontStep(Number(raw), FONT_STEPS.length);
-  } catch {
-    /* ignore blocked storage */
-  }
-  return 1;
 }
 
 function listedVoices(live: SpeechSynthesisVoice[]): ListedVoice[] {
@@ -219,7 +201,6 @@ const App: React.FC = () => {
     title: string;
   } | null>(null);
   const grammarLaunchToken = useRef(0);
-  const [fontStep, setFontStep] = useState(readFontStep);
 
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
@@ -427,14 +408,6 @@ const App: React.FC = () => {
     levelAppliedRef.current = true;
     setConfig((current) => ({ ...current, level: cefrToLessonLevel(account.defaultLevel || 'A2') }));
   }, [account.defaultLevel]);
-
-  useEffect(() => {
-    try {
-      localStorage.setItem('storyFontStep', String(fontStep));
-    } catch {
-      /* ignore blocked storage */
-    }
-  }, [fontStep]);
 
   useEffect(() => {
     try {
@@ -1328,6 +1301,20 @@ const App: React.FC = () => {
 
   const configScreen = (
     <div className="w-full max-w-2xl mx-auto">
+      {retro && (
+        <section className="retro-improve">
+          <div className="flex items-center gap-2">
+            <PixelIcon name="globe" size={28} />
+            <h2>Improve your English</h2>
+          </div>
+          <ul>
+            <li>Listen and understand</li>
+            <li>Read and learn</li>
+            <li>Build your vocabulary</li>
+            <li>Track your progress</li>
+          </ul>
+        </section>
+      )}
       <div className="mb-4 text-center">
         <p className="text-lg font-semibold text-slate-900 dark:text-slate-50" role="status">
           Selected mode: {practiceType === 'reading' ? 'Reading' : 'Listening'}
@@ -1402,36 +1389,8 @@ const App: React.FC = () => {
     </div>
   );
 
-  const fontClass = FONT_STEPS[fontStep].className;
+  const fontClass = 'text-xl';
   const androidDevice = isAndroidUserAgent(typeof navigator === 'undefined' ? '' : navigator.userAgent);
-
-  const TextSizeControl = () => (
-    <div className="mt-4">
-      <p className="text-center text-base font-semibold text-slate-900 dark:text-slate-50 mb-2">
-        Text size: {FONT_STEPS[fontStep].label}
-      </p>
-      <div className="flex w-full flex-nowrap items-stretch gap-1.5" role="group" aria-label="Text size">
-        {FONT_STEPS.map((step, index) => {
-          const selected = index === fontStep;
-          return (
-            <button
-              key={step.label}
-              type="button"
-              aria-pressed={selected}
-              onClick={() => setFontStep(index)}
-              className={
-                selected
-                  ? 'min-w-0 flex-1 whitespace-nowrap rounded-lg border-2 border-blue-800 bg-blue-700 px-1 py-2 text-sm font-bold text-white'
-                  : 'min-w-0 flex-1 whitespace-nowrap rounded-lg border-2 border-slate-700 bg-white px-1 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-100 dark:border-slate-200 dark:bg-slate-800 dark:text-slate-50 dark:hover:bg-slate-700'
-              }
-            >
-              {step.label}
-            </button>
-          );
-        })}
-      </div>
-    </div>
-  );
 
   const playSlower = async () => {
     const taskPackId = lessonTaskPackIdRef.current;
@@ -1488,6 +1447,7 @@ const App: React.FC = () => {
             playSpeak(speedRef.current);
           }}
           className="bg-green-700 hover:bg-green-800 text-white font-bold py-3 px-6 rounded-lg text-lg"
+          data-audio="play"
         >
           Play
         </button>
@@ -1495,7 +1455,8 @@ const App: React.FC = () => {
           type="button"
           onClick={() => { void playSlower(); }}
           disabled={slowPreparing}
-          className="bg-amber-600 hover:bg-amber-700 disabled:cursor-wait disabled:opacity-70 text-white font-bold py-3 px-6 rounded-lg text-lg"
+          className="bg-teal-700 hover:bg-teal-800 disabled:cursor-wait disabled:opacity-70 text-white font-bold py-3 px-6 rounded-lg text-lg"
+          data-audio="slower"
         >
           {slowPreparing ? 'Preparing...' : 'Slower'}
         </button>
@@ -1507,14 +1468,16 @@ const App: React.FC = () => {
         <button
           type="button"
           onClick={stopSpeaking}
-          className="bg-red-300 hover:bg-red-400 text-red-950 font-bold py-3 px-6 rounded-lg text-lg"
+          className="bg-red-700 hover:bg-red-800 text-white font-bold py-3 px-6 rounded-lg text-lg"
+          data-audio="stop"
         >
           Stop
         </button>
         <button
           type="button"
           onClick={() => setShowTranscript(!showTranscript)}
-          className="bg-white hover:bg-slate-100 text-slate-900 border-2 border-slate-700 font-bold py-3 px-6 rounded-lg text-lg dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-white dark:border-slate-200"
+          className="bg-amber-200 hover:bg-amber-300 text-slate-900 border-2 border-amber-700 font-bold py-3 px-6 rounded-lg text-lg dark:bg-amber-300 dark:text-slate-900 dark:border-amber-200"
+          data-audio="transcript"
         >
           {showTranscript ? 'Hide Transcript' : 'Show Transcript'}
         </button>
@@ -1632,8 +1595,6 @@ const App: React.FC = () => {
           Topic: {storyTopic?.label ?? TOPICS.find((topic) => topic.value === config.topic)?.label ?? config.topic} · Level: {LEVELS.find((level) => level.value === config.level)?.label ?? config.level} · Format: {contentFormat === 'dialogue' ? 'Dialogue' : 'Text'}
         </p>
 
-        <TextSizeControl />
-
         {practiceType === 'listening' && <ListeningControls />}
 
         {practiceType === 'reading' && (
@@ -1650,7 +1611,8 @@ const App: React.FC = () => {
         {practiceType === 'listening' && <TranscriptText />}
 
         {vocabulary.length > 0 && (
-          <div className="mt-6">
+          <details className="vocab-fold mt-6 rounded-lg border-2 border-slate-400 bg-white p-3 dark:border-slate-500 dark:bg-slate-900">
+            <summary className="cursor-pointer text-lg font-bold text-slate-900 dark:text-slate-50">View vocabulary</summary>
             <KeyVocabularyList
               items={vocabulary}
               savedKeys={savedTerms}
@@ -1659,7 +1621,7 @@ const App: React.FC = () => {
               notice={vocabState.notice}
               onToggle={(item) => { void toggleVocab(item); }}
             />
-          </div>
+          </details>
         )}
 
         {quizLoading && (
@@ -1678,15 +1640,6 @@ const App: React.FC = () => {
           >
             {quizLoading ? 'Writing the questions...' : 'Start Quiz'}
           </button>
-          {vocabulary.length > 0 && (
-            <button
-              type="button"
-              onClick={() => setIsVocabularyModalOpen(true)}
-              className="w-full sm:w-auto bg-indigo-700 hover:bg-indigo-800 text-white font-bold py-3 px-8 rounded-lg text-lg"
-            >
-              View Vocabulary
-            </button>
-          )}
         </div>
       </div>
       <VocabularyModal
@@ -1740,7 +1693,7 @@ const App: React.FC = () => {
                   key={index}
                   aria-pressed={selected}
                   onClick={() => handleAnswerSelect(option)}
-                  className={`w-full text-left p-4 rounded-lg border-2 text-base md:text-lg transition-colors ${
+                  className={`quiz-option w-full text-left p-4 rounded-lg border-2 text-lg transition-colors ${
                     selected
                       ? 'border-blue-800 bg-blue-700 font-bold text-white dark:border-blue-200 dark:bg-blue-600'
                       : 'border-slate-400 bg-white text-slate-900 hover:bg-slate-100 dark:border-slate-400 dark:bg-slate-700 dark:text-slate-50 dark:hover:bg-slate-600'
@@ -1995,7 +1948,6 @@ const App: React.FC = () => {
             </div>
           </div>
           <div className="mx-auto w-full max-w-3xl px-4 py-6">
-            <TextSizeControl />
             {practiceType === 'listening' ? (
               <>
                 <ListeningControls />
@@ -2332,10 +2284,7 @@ const App: React.FC = () => {
       {shellItem === 'grammar' && (
         <RetroWindow title="Grammar">
         <GrammarPage
-          fontStep={fontStep}
           fontClass={fontClass}
-          fontLabels={FONT_STEPS.map((step) => step.label)}
-          onFontStep={setFontStep}
           initialLevel={cefr === 'B1' || cefr === 'B2' || cefr === 'C1' ? cefr : 'B1'}
           resetNonce={grammarResetNonce}
           onActiveChange={setGrammarActive}

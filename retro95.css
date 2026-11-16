@@ -10,18 +10,18 @@ html[data-theme="retro95"] {
   --r-navy: #000080;
   --r-face: #c0c0c0;
   --r-yellow: #ffff00;
-  --r-teal: #008080;
+  --r-teal: #c0c0c0;
   color-scheme: light;
-  background: #008080;
+  background: #c0c0c0;
 }
 
 html[data-theme="retro95"] body {
-  background: #008080 !important;
+  background: #c0c0c0 !important;
   color: #000 !important;
 }
 
 html[data-theme="retro95"] .min-h-screen.bg-slate-100 {
-  background-color: #008080 !important;
+  background-color: #c0c0c0 !important;
   color: #000 !important;
 }
 
@@ -60,13 +60,40 @@ html[data-theme="retro95"] button[aria-pressed="true"] {
 }
 
 html[data-theme="retro95"] button[aria-current="page"],
-html[data-theme="retro95"] button[aria-pressed="true"] {
+html[data-theme="retro95"] button[aria-pressed="true"],
+html[data-theme="retro95"] button[aria-selected="true"] {
   background: #000080 !important;
+  color: #fff !important;
+  border-color: #404040 #fff #fff #404040 !important;
+  box-shadow: inset 1px 1px 0 #808080 !important;
+}
+
+html[data-theme="retro95"] button[data-audio="play"] {
+  background: #008000 !important;
   color: #fff !important;
 }
 
+html[data-theme="retro95"] button[data-audio="slower"] {
+  background: #008080 !important;
+  color: #fff !important;
+}
+
+html[data-theme="retro95"] button[data-audio="stop"] {
+  background: #c00000 !important;
+  color: #fff !important;
+}
+
+html[data-theme="retro95"] button[data-audio="transcript"] {
+  background: #ffff00 !important;
+  color: #000 !important;
+}
+
+html[data-theme="retro95"] button.quiz-option {
+  font-size: 1.25rem !important;
+  line-height: 1.3;
+}
+
 html[data-theme="retro95"] input,
-html[data-theme="retro95"] select,
 html[data-theme="retro95"] textarea {
   background: #fff !important;
   color: #000 !important;
@@ -108,8 +135,9 @@ html[data-theme="retro95"] .retro-wordmark,
 html[data-theme="retro95"] .retro-wordmark span {
   color: #fff !important;
   font-family: "VT323", ui-monospace, monospace !important;
-  font-size: 1.35rem;
+  font-size: 1.2rem;
   line-height: 1;
+  white-space: nowrap;
 }
 
 html[data-theme="retro95"] .retro-wordmark span + span {
@@ -220,6 +248,121 @@ html[data-theme="retro95"] .retro-titlebar {
 html[data-theme="retro95"] .retro-win-buttons {
   display: inline-flex;
   gap: 2px;
+}
+
+html[data-theme="retro95"] .retro-win-buttons i {
+  width: 14px;
+  height: 14px;
+  background: #c0c0c0;
+  border: 2px solid #fff;
+  border-right-color: #404040;
+  border-bottom-color: #404040;
+  box-sizing: border-box;
+}
+
+html[data-theme="retro95"] .retro-win-buttons i.retro-close {
+  background: #c00000;
+  position: relative;
+}
+
+html[data-theme="retro95"] .retro-win-buttons i.retro-close::before,
+html[data-theme="retro95"] .retro-win-buttons i.retro-close::after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 1px;
+  width: 2px;
+  height: 10px;
+  background: #fff;
+}
+
+html[data-theme="retro95"] .retro-win-buttons i.retro-close::before {
+  transform: rotate(45deg);
+}
+
+html[data-theme="retro95"] .retro-win-buttons i.retro-close::after {
+  transform: rotate(-45deg);
+}
+
+html[data-theme="retro95"] nav .pixel-book { color: #000080; }
+html[data-theme="retro95"] nav .pixel-cap { color: #800080; }
+html[data-theme="retro95"] nav .pixel-books { color: #800000; }
+html[data-theme="retro95"] nav .pixel-calendar { color: #008000; }
+html[data-theme="retro95"] nav .pixel-folder { color: #c0a000; }
+html[data-theme="retro95"] nav .pixel-chart { color: #0000aa; }
+html[data-theme="retro95"] nav .pixel-floppy { color: #404040; }
+html[data-theme="retro95"] nav .pixel-house { color: #800000; }
+html[data-theme="retro95"] nav .pixel-person { color: #000080; }
+html[data-theme="retro95"] nav .pixel-help { color: #008000; }
+html[data-theme="retro95"] nav button[aria-current="page"] svg { color: #ffff00 !important; }
+
+html[data-theme="retro95"] select {
+  appearance: none;
+  background-color: #fff !important;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28'><rect width='28' height='28' fill='%23c0c0c0'/><polygon points='8,11 20,11 14,18' fill='%23000'/></svg>") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 0 center !important;
+  background-size: 1.7rem 100% !important;
+  color: #000 !important;
+  border-radius: 0 !important;
+  border: 2px solid #404040 !important;
+  border-right-color: #fff !important;
+  border-bottom-color: #fff !important;
+  box-shadow: inset 1px 1px 0 #808080 !important;
+  padding-right: 2rem;
+}
+
+html[data-theme="retro95"] [aria-label="Practice mode"],
+html[data-theme="retro95"] [aria-label="Format"] {
+  border: 2px solid #fff;
+  border-right-color: #404040;
+  border-bottom-color: #404040;
+  padding: 0.5rem;
+  background: #c0c0c0;
+}
+
+html[data-theme="retro95"] button.retro-generate {
+  background: #c0c0c0 !important;
+  color: #000 !important;
+}
+
+html[data-theme="retro95"] .retro-play {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-right: 0.45rem;
+  border-style: solid;
+  border-width: 7px 0 7px 12px;
+  border-color: transparent transparent transparent #008000;
+  vertical-align: middle;
+}
+
+html[data-theme="retro95"] .retro-improve {
+  margin-bottom: 1rem;
+  background: #000080;
+  color: #fff;
+  border: 2px solid #fff;
+  border-right-color: #404040;
+  border-bottom-color: #404040;
+  padding: 0.75rem;
+  font-family: "VT323", ui-monospace, monospace;
+}
+
+html[data-theme="retro95"] .retro-improve h2 {
+  margin: 0;
+  color: #ffff00;
+  font-size: 1.35rem;
+}
+
+html[data-theme="retro95"] .retro-improve li {
+  margin-top: 0.25rem;
+  color: #fff;
+  font-size: 1.15rem;
+}
+
+html[data-theme="retro95"] .retro-improve li::before {
+  content: "✓ ";
+  color: #00ff00;
 }
 
 html[data-theme="retro95"] .retro-win-buttons i {

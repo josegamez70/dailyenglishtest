@@ -21,7 +21,7 @@ function Wordmark({ variant }: { variant: 'header' | 'side' }) {
   const retro = useRetroTheme();
   return (
     <p className={variant === 'header'
-      ? 'retro-wordmark min-w-0 flex-1 truncate font-fun text-base leading-tight sm:text-lg md:hidden'
+      ? 'retro-wordmark min-w-0 flex-1 font-fun text-base leading-none md:hidden'
       : 'retro-side-mark text-lg font-fun leading-tight'}>
       {retro && <PixelIcon name="book" />}
       <span className="text-blue-800 dark:text-blue-300">Daily </span>
@@ -180,31 +180,31 @@ export function AppShell({
         <NavLinks active={active} onNavigate={go} onSignOut={leave} signingOut={signingOut} email={email} status={status} showAcademy={showAcademy} academyName={academyName} academyRole={academyRole} displayName={displayName} />
       </aside>
       <div className="flex min-h-screen flex-col">
-        <div className={`sticky top-0 z-20 flex items-center gap-2 border-b border-slate-300 bg-slate-100 px-3 py-2 dark:border-slate-600 dark:bg-slate-900 ${onHome ? '' : 'md:hidden'}`}>
-          <button
-            type="button"
-            aria-label="Open menu"
-            onClick={() => setOpen(true)}
-            className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border-2 border-slate-900 dark:border-slate-100 md:hidden"
-          >
-            <MenuMark />
-          </button>
-          <Wordmark variant="header" />
-          {(academyName != null || onHome) && (
-            <div className="ml-auto flex shrink-0 items-center gap-1.5">
-              {academyName != null && <AcademyBadge name={academyName} displayName={displayName} email={email} compact role={academyRole === 'student' ? 'student' : 'owner'} person={academyRole === 'student'} />}
-              {onHome && (
-                <button
-                  type="button"
-                  onClick={onHome}
-                  aria-label="Go to home screen"
-                  className="inline-flex shrink-0 items-center gap-1 rounded-lg bg-red-700 px-2.5 py-1.5 text-sm font-semibold text-white hover:bg-red-800"
-                >
-                  <HomeMark />
-                  <span>Home</span>
-                </button>
-              )}
-            </div>
+        <div className={`sticky top-0 z-20 flex flex-col gap-1 border-b border-slate-300 bg-slate-100 px-3 py-2 dark:border-slate-600 dark:bg-slate-900 ${onHome ? '' : 'md:hidden'}`}>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              aria-label="Open menu"
+              onClick={() => setOpen(true)}
+              className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border-2 border-slate-900 dark:border-slate-100 md:hidden"
+            >
+              <MenuMark />
+            </button>
+            <Wordmark variant="header" />
+            {onHome && (
+              <button
+                type="button"
+                onClick={onHome}
+                aria-label="Go to home screen"
+                className="inline-flex shrink-0 items-center gap-1 rounded-lg bg-red-700 px-2.5 py-1.5 text-sm font-semibold text-white hover:bg-red-800"
+              >
+                <HomeMark />
+                <span>Home</span>
+              </button>
+            )}
+          </div>
+          {academyName != null && (
+            <AcademyBadge name={academyName} displayName={displayName} email={email} compact role={academyRole === 'student' ? 'student' : 'owner'} person={academyRole === 'student'} />
           )}
         </div>
         <div className="flex flex-1 flex-col px-3 py-4 sm:px-5">{children}</div>
