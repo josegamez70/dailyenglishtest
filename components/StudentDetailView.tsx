@@ -19,6 +19,8 @@ import {
 import { reportTestFromResult } from '../progressReport';
 import { DownloadProgressButton } from './DownloadProgressButton';
 import { WrongAnswerReview } from './WrongAnswerReview';
+import { useRetroTheme } from '../retroTheme';
+import { PixelIcon } from './PixelIcon';
 
 const CARD = 'rounded-2xl border border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-800';
 const MUTED = 'text-slate-500 dark:text-slate-400';
@@ -27,6 +29,8 @@ const MARKS = [100, 75, 50, 25, 0];
 const RECENT_PREVIEW = 4;
 
 function Chevron({ className = '' }: { className?: string }) {
+  const retro = useRetroTheme();
+  if (retro) return <span className={`inline-flex ${className}`}><PixelIcon name="chevron" /></span>;
   return (
     <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
       <path strokeLinecap="round" strokeLinejoin="round" d="M9 6l6 6-6 6" />
@@ -35,6 +39,8 @@ function Chevron({ className = '' }: { className?: string }) {
 }
 
 function UserIcon({ className = '' }: { className?: string }) {
+  const retro = useRetroTheme();
+  if (retro) return <PixelIcon name="person" size={32} />;
   return (
     <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden="true">
       <circle cx="12" cy="8" r="3.4" />
@@ -44,6 +50,8 @@ function UserIcon({ className = '' }: { className?: string }) {
 }
 
 function ShieldIcon({ className = '' }: { className?: string }) {
+  const retro = useRetroTheme();
+  if (retro) return <PixelIcon name="shield" />;
   return (
     <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
       <path strokeLinecap="round" strokeLinejoin="round" d="M12 3.5l6.5 2.5v5.5c0 4.2-2.7 7-6.5 8.5-3.8-1.5-6.5-4.3-6.5-8.5V6L12 3.5z" />
@@ -53,6 +61,8 @@ function ShieldIcon({ className = '' }: { className?: string }) {
 }
 
 function BookIcon({ className = '' }: { className?: string }) {
+  const retro = useRetroTheme();
+  if (retro) return <PixelIcon name="book" />;
   return (
     <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
       <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.2v12.2M12 6.2C10.8 5.4 9.3 5 7.6 5 6 5 4.6 5.4 3.5 6.1V18c1.1-.7 2.5-1.1 4.1-1.1 1.7 0 3.2.4 4.4 1.2M12 6.2c1.2-.8 2.7-1.2 4.4-1.2 1.6 0 3 .4 4.1 1.1V18c-1.1-.7-2.5-1.1-4.1-1.1-1.7 0-3.2.4-4.4 1.2" />
@@ -61,6 +71,8 @@ function BookIcon({ className = '' }: { className?: string }) {
 }
 
 function HeadphonesIcon({ className = '' }: { className?: string }) {
+  const retro = useRetroTheme();
+  if (retro) return <PixelIcon name="headphones" />;
   return (
     <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
       <path strokeLinecap="round" d="M4.5 13a7.5 7.5 0 0115 0" />
@@ -71,6 +83,8 @@ function HeadphonesIcon({ className = '' }: { className?: string }) {
 }
 
 function GrammarIcon({ className = '' }: { className?: string }) {
+  const retro = useRetroTheme();
+  if (retro) return <PixelIcon name="cap" />;
   return (
     <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
       <path strokeLinecap="round" strokeLinejoin="round" d="M7 3.5h7.2L19 8.2V20a1 1 0 01-1 1H7a1 1 0 01-1-1V4.5a1 1 0 011-1z" />
@@ -81,6 +95,8 @@ function GrammarIcon({ className = '' }: { className?: string }) {
 }
 
 function TrendIcon({ className = '' }: { className?: string }) {
+  const retro = useRetroTheme();
+  if (retro) return <PixelIcon name="chart" />;
   return (
     <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
       <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l5-5 3.5 3.5L20 7" />

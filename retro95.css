@@ -96,6 +96,38 @@ html[data-theme="retro95"] header span {
   color: #fff !important;
 }
 
+html[data-theme="retro95"] .retro-wordmark,
+html[data-theme="retro95"] .retro-side-mark {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: "VT323", ui-monospace, monospace !important;
+}
+
+html[data-theme="retro95"] .retro-wordmark,
+html[data-theme="retro95"] .retro-wordmark span {
+  color: #fff !important;
+  font-family: "VT323", ui-monospace, monospace !important;
+  font-size: 1.35rem;
+  line-height: 1;
+}
+
+html[data-theme="retro95"] .retro-wordmark span + span {
+  color: #ffff00 !important;
+}
+
+html[data-theme="retro95"] .retro-side-mark,
+html[data-theme="retro95"] .retro-side-mark span {
+  color: #000080 !important;
+  font-family: "VT323", ui-monospace, monospace !important;
+  font-size: 1.35rem;
+  line-height: 1.05;
+}
+
+html[data-theme="retro95"] .retro-side-mark span + span {
+  color: #000 !important;
+}
+
 html[data-theme="retro95"] nav button {
   display: inline-flex !important;
   align-items: center;

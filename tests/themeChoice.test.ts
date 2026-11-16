@@ -16,5 +16,7 @@ test('retro 95 is optional and does not turn on dark mode', () => {
   assert.match(css, /prefers-reduced-motion/);
   assert.match(css, /VT323/);
   assert.match(css, /--r-yellow/);
+  assert.match(css, /\.retro-wordmark span \+ span/);
+  assert.match(readFileSync(new URL('../components/PixelIcon.tsx', import.meta.url), 'utf8'), /headphones/);
   assert.equal(css.includes('html:not([data-theme'), false);
 });

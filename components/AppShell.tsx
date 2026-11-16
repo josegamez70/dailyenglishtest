@@ -1,5 +1,5 @@
 import React, { useState, useSyncExternalStore } from 'react';
-import { subscribeRetro, useRetro } from '../retroTheme';
+import { subscribeRetro, useRetro, useRetroTheme } from '../retroTheme';
 import { AcademyBadge } from './AcademyBadge';
 import HomeIcon from './icons/HomeIcon';
 import { menuPixelIcon, PixelIcon } from './PixelIcon';
@@ -16,6 +16,35 @@ const baseItems: { id: ShellItem; label: string; path: string }[] = [
   { id: 'saved', label: 'Saved lessons', path: '/saved' },
   { id: 'profile', label: 'Profile', path: '/profile' },
 ];
+
+function Wordmark({ variant }: { variant: 'header' | 'side' }) {
+  const retro = useRetroTheme();
+  return (
+    <p className={variant === 'header'
+      ? 'retro-wordmark min-w-0 flex-1 truncate font-fun text-base leading-tight sm:text-lg md:hidden'
+      : 'retro-side-mark text-lg font-fun leading-tight'}>
+      {retro && <PixelIcon name="book" />}
+      <span className="text-blue-800 dark:text-blue-300">Daily </span>
+      <span className="text-red-700 dark:text-red-400">English Test</span>
+    </p>
+  );
+}
+
+function MenuMark() {
+  const retro = useRetroTheme();
+  if (retro) return <PixelIcon name="menu" size={20} />;
+  return (
+    <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+      <path strokeLinecap="round" d="M4 7h16M4 12h16M4 17h16" />
+    </svg>
+  );
+}
+
+function HomeMark() {
+  const retro = useRetroTheme();
+  if (retro) return <PixelIcon name="house" />;
+  return <HomeIcon className="h-4 w-4" />;
+}
 
 function NavLinks({
   active,
@@ -52,10 +81,7 @@ function NavLinks({
   return (
     <div className="flex min-h-full flex-col">
       <div className="px-4 pt-4">
-        <p className="text-lg font-fun leading-tight">
-          <span className="text-blue-800 dark:text-blue-300">Daily </span>
-          <span className="text-red-700 dark:text-red-400">English Test</span>
-        </p>
+        <Wordmark variant="side" />
         {email && (
           <p className="mt-3 truncate text-sm font-semibold text-slate-900 dark:text-slate-50">{email}</p>
         )}
@@ -161,14 +187,9 @@ export function AppShell({
             onClick={() => setOpen(true)}
             className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border-2 border-slate-900 dark:border-slate-100 md:hidden"
           >
-            <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-              <path strokeLinecap="round" d="M4 7h16M4 12h16M4 17h16" />
-            </svg>
+            <MenuMark />
           </button>
-          <p className="min-w-0 flex-1 truncate font-fun text-base leading-tight sm:text-lg md:hidden">
-            <span className="text-blue-800 dark:text-blue-300">Daily </span>
-            <span className="text-red-700 dark:text-red-400">English Test</span>
-          </p>
+          <Wordmark variant="header" />
           {(academyName != null || onHome) && (
             <div className="ml-auto flex shrink-0 items-center gap-1.5">
               {academyName != null && <AcademyBadge name={academyName} displayName={displayName} email={email} compact role={academyRole === 'student' ? 'student' : 'owner'} />}
@@ -179,7 +200,7 @@ export function AppShell({
                   aria-label="Go to home screen"
                   className="inline-flex shrink-0 items-center gap-1 rounded-lg bg-red-700 px-2.5 py-1.5 text-sm font-semibold text-white hover:bg-red-800"
                 >
-                  <HomeIcon className="h-4 w-4" />
+                  <HomeMark />
                   <span>Home</span>
                 </button>
               )}

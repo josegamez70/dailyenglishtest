@@ -29,7 +29,8 @@ import { AppShell, type ShellItem } from './components/AppShell';
 import { BackButton } from './components/BackButton';
 import { ProfilePage, type ThemeChoice } from './components/ProfilePage';
 import { RetroWindow } from './components/RetroWindow';
-import { setRetroActive } from './retroTheme';
+import { PixelIcon } from './components/PixelIcon';
+import { setRetroActive, useRetroTheme } from './retroTheme';
 import { isDarkTheme, isThemeChoice } from './themeChoice';
 import { ProgressPage } from './components/ProgressPage';
 import { SavedLessonsPage } from './components/SavedLessonsPage';
@@ -191,6 +192,7 @@ const App: React.FC = () => {
   const [pilotExpired, setPilotExpired] = useState(false);
   const [isVocabularyModalOpen, setIsVocabularyModalOpen] = useState(false);
   const themeLock = useRef(false);
+  const retro = useRetroTheme();
   const [themeChoice, setThemeChoice] = useState<ThemeChoice>(() => {
     try {
       const stored = localStorage.getItem('theme');
@@ -1332,7 +1334,9 @@ const App: React.FC = () => {
           aria-pressed={practiceType === 'reading'}
           className={modeButtonClass(practiceType === 'reading')}
         >
-          <BookOpenIcon className={`w-8 h-8 mb-2 ${practiceType === 'reading' ? 'text-white' : 'text-blue-700 dark:text-blue-300'}`} />
+          {retro
+            ? <span className="mb-2"><PixelIcon name="book" size={32} /></span>
+            : <BookOpenIcon className={`w-8 h-8 mb-2 ${practiceType === 'reading' ? 'text-white' : 'text-blue-700 dark:text-blue-300'}`} />}
           <span className="font-semibold text-lg">Reading</span>
           {practiceType === 'reading' && <span className="mt-1 text-base text-blue-50">Selected</span>}
         </button>
@@ -1342,7 +1346,9 @@ const App: React.FC = () => {
           aria-pressed={practiceType === 'listening'}
           className={modeButtonClass(practiceType === 'listening')}
         >
-          <HeadphonesIcon className={`w-8 h-8 mb-2 ${practiceType === 'listening' ? 'text-white' : 'text-blue-700 dark:text-blue-300'}`} />
+          {retro
+            ? <span className="mb-2"><PixelIcon name="headphones" size={32} /></span>
+            : <HeadphonesIcon className={`w-8 h-8 mb-2 ${practiceType === 'listening' ? 'text-white' : 'text-blue-700 dark:text-blue-300'}`} />}
           <span className="font-semibold text-lg">Listening</span>
           {practiceType === 'listening' && <span className="mt-1 text-base text-blue-50">Selected</span>}
         </button>
@@ -1358,6 +1364,7 @@ const App: React.FC = () => {
             aria-pressed={contentFormat === 'text'}
             className={formatButtonClass(contentFormat === 'text')}
           >
+            {retro && <span className="mb-1"><PixelIcon name="document" size={32} /></span>}
             <span className="font-semibold text-base">Text</span>
             <span className={`mt-0.5 text-sm ${contentFormat === 'text' ? 'text-blue-50' : 'text-slate-700 dark:text-slate-200'}`}>
               A story or monologue
@@ -1369,6 +1376,7 @@ const App: React.FC = () => {
             aria-pressed={contentFormat === 'dialogue'}
             className={formatButtonClass(contentFormat === 'dialogue')}
           >
+            {retro && <span className="mb-1"><PixelIcon name="bubbles" size={32} /></span>}
             <span className="font-semibold text-base">Dialogue</span>
             <span className={`mt-0.5 text-sm ${contentFormat === 'dialogue' ? 'text-blue-50' : 'text-slate-700 dark:text-slate-200'}`}>
               Two speakers

@@ -1,3 +1,5 @@
+import { useSyncExternalStore } from 'react';
+
 let retro = false;
 const listeners = new Set<() => void>();
 
@@ -9,6 +11,10 @@ export function setRetroActive(on: boolean) {
 
 export function useRetro(): boolean {
   return retro;
+}
+
+export function useRetroTheme() {
+  return useSyncExternalStore(subscribeRetro, useRetro, () => false);
 }
 
 export function subscribeRetro(listener: () => void) {
