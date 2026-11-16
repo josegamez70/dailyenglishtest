@@ -1631,7 +1631,7 @@ const App: React.FC = () => {
               savedKeys={savedTerms}
               signedIn={account.signedIn}
               missing={vocabState.missing}
-              pendingKey={vocabPending}
+              notice={vocabState.notice}
               onToggle={(item) => { void toggleVocab(item); }}
             />
           </div>
@@ -1671,7 +1671,7 @@ const App: React.FC = () => {
         savedKeys={savedTerms}
         signedIn={account.signedIn}
         missing={vocabState.missing}
-        pendingKey={vocabPending}
+        notice={vocabState.notice}
         onToggle={(item) => { void toggleVocab(item); }}
       />
     </>
@@ -1854,7 +1854,6 @@ const App: React.FC = () => {
 
   const vocabState = useSyncExternalStore(subscribeVocabulary, getVocabularyState, getVocabularyState);
   const savedTerms = savedTermSet(vocabState.rows);
-  const [vocabPending, setVocabPending] = useState<string | null>(null);
   useEffect(() => {
     setVocabSignInHandler(() => {
       setSignInOpen(true);
@@ -1888,7 +1887,6 @@ const App: React.FC = () => {
     }
     const key = termKey(item.word);
     if (!key) return;
-    setVocabPending(key);
     const levelLabel = LEVELS.find((level) => level.value === config.level)?.label ?? config.level;
     const title = storyTopic?.label || '';
     const result = savedTerms.has(key)
@@ -1902,7 +1900,6 @@ const App: React.FC = () => {
         topic: title,
         level: levelLabel,
       });
-    setVocabPending((current) => (current === key ? null : current));
     if (result.missing) return;
   };
 

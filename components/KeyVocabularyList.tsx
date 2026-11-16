@@ -6,14 +6,16 @@ export function KeyVocabularyList({
   savedKeys,
   signedIn,
   missing,
-  pendingKey,
+  notice,
   onToggle,
 }: {
   items: VocabularyItem[];
   savedKeys: Set<string>;
   signedIn: boolean;
   missing: boolean;
+  /** Kept so older callers compile. The tick no longer waits on it. */
   pendingKey?: string | null;
+  notice?: string | null;
   onToggle: (item: VocabularyItem) => void;
 }) {
   if (!items.length) return null;
@@ -26,6 +28,9 @@ export function KeyVocabularyList({
       {missing && (
         <p className="mt-2 text-base">Vocabulary will be saved after the database update.</p>
       )}
+      {notice && (
+        <p className="mt-2 text-sm text-red-800 dark:text-red-200" role="status">{notice}</p>
+      )}
       <ul className="mt-3 space-y-2">
         {items.map((item) => {
           const key = termKey(item.word);
@@ -35,9 +40,11 @@ export function KeyVocabularyList({
               <label className="flex items-start gap-3">
                 <input
                   type="checkbox"
-                  className="mt-1 h-5 w-5 shrink-0"
+                  className={saved
+                    ? 'mt-1 h-6 w-6 shrink-0 rounded border-2 border-blue-800 bg-blue-700 accent-blue-700'
+                    : 'mt-1 h-6 w-6 shrink-0 rounded border-2 border-slate-900 bg-white accent-slate-700 dark:border-slate-100 dark:bg-slate-900'}
                   checked={saved}
-                  disabled={!signedIn || pendingKey === key}
+                  disabled={!signedIn}
                   aria-label={saved ? `Remove ${item.word}` : `Save ${item.word}`}
                   onChange={() => onToggle(item)}
                 />

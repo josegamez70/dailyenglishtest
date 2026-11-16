@@ -7,6 +7,7 @@ import {
   normalizeTerm,
   sourceLabel,
   sentenceWith,
+  rowsWithSaved,
   shuffleItems,
   termKey,
   VOCAB_QUIZ_MIN,
@@ -85,6 +86,41 @@ test('the quiz is built only from saved words and needs four of them', () => {
   assert.match(netlify, /from = "\/vocabulary"/);
   const list = readFileSync(new URL('../components/KeyVocabularyList.tsx', import.meta.url), 'utf8');
   assert.match(list, /type="checkbox"/);
+  assert.match(list, /bg-blue-700/);
+  assert.equal(list.includes('pendingKey === key'), false);
+  const store = readFileSync(new URL('../vocabularyStore.ts', import.meta.url), 'utf8');
+  const commit = store.slice(store.indexOf('async function commitVocabulary'));
+  assert.ok(commit.indexOf('rowsWithSaved') < commit.indexOf('await persist'));
+  assert.equal(rowsWithSaved([], {
+    term: 'market',
+    meaning: 'A place to buy food.',
+    example: '',
+    sourceType: 'reading',
+    lessonTitle: 'Daily Life',
+    topic: 'Daily Life',
+    level: 'Beginner',
+  }, true)[0].term, 'market');
+  assert.equal(rowsWithSaved([{
+    id: '1',
+    term: 'market',
+    meaning: 'A place to buy food.',
+    example: '',
+    sourceType: 'reading',
+    lessonTitle: '',
+    topic: '',
+    level: '',
+    createdAt: '',
+    correctCount: 0,
+    wrongCount: 0,
+  }], {
+    term: 'market',
+    meaning: '',
+    example: '',
+    sourceType: 'reading',
+    lessonTitle: '',
+    topic: '',
+    level: '',
+  }, false).length, 0);
   const popup = readFileSync(new URL('../components/DefinedText.tsx', import.meta.url), 'utf8');
   assert.match(popup, /Save word/);
   assert.match(popup, /Sign in to save/);
