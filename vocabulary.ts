@@ -1,3 +1,5 @@
+import { lemmaCandidates, normalizeLookupWord } from './dictionary.ts';
+
 export type VocabSource = 'reading' | 'listening' | 'lookup' | '';
 
 export type SavedWord = {
@@ -65,6 +67,59 @@ export function normalizeTerm(raw: string): string {
 
 export function termKey(raw: string): string {
   return normalizeTerm(raw).toLowerCase();
+}
+
+/** Spellings that count as the same saved word: the word itself and its base forms. */
+export function vocabMatchKeys(raw: string): string[] {
+  const tokens = normalizeTerm(raw).toLowerCase().split(' ').filter(Boolean);
+  if (!tokens.length) return [];
+  const perToken = tokens.map((token) => {
+    const surface = normalizeLookupWord(token);
+    return surface ? [surface, ...lemmaCandidates(surface)] : [];
+  });
+  if (perToken.some((keys) => keys.length === 0)) {
+    const direct = termKey(raw);
+    return direct ? [direct] : [];
+  }
+  let phrases = [''];
+  for (const keys of perToken) {
+    const next: string[] = [];
+    for (const phrase of phrases) {
+      for (const key of keys) {
+        next.push(phrase ? `${phrase} ${key}` : key);
+        if (next.length >= 24) break;
+      }
+      if (next.length >= 24) break;
+    }
+    phrases = next;
+  }
+  const direct = termKey(raw);
+  if (direct && !phrases.includes(direct)) phrases.unshift(direct);
+  return phrases;
+}
+
+export function savedMatchKeys(terms: readonly string[]): Set<string> {
+  const keys = new Set<string>();
+  for (const term of terms) {
+    for (const key of vocabMatchKeys(term)) keys.add(key);
+  }
+  return keys;
+}
+
+export function lessonWordSaved(savedKeys: ReadonlySet<string>, word: string): boolean {
+  return vocabMatchKeys(word).some((key) => savedKeys.has(key));
+}
+
+/** Every stored term a lesson word already refers to. */
+export function matchedSavedTerms(terms: readonly string[], word: string): string[] {
+  const wanted = new Set(vocabMatchKeys(word));
+  if (!wanted.size) return [];
+  return terms.filter((term) => vocabMatchKeys(term).some((key) => wanted.has(key)));
+}
+
+/** The stored term a lesson word already refers to, if one is saved. */
+export function matchedSavedTerm(terms: readonly string[], word: string): string | null {
+  return matchedSavedTerms(terms, word)[0] ?? null;
 }
 
 export function sourceLabel(source: VocabSource): string {

@@ -45,8 +45,8 @@ import { JoinAcademyPage } from './components/JoinAcademyPage';
 import { parseSavedGrammarLesson, type GrammarLaunch } from './savedLessonMeta';
 import { saveLesson, saveTestResult, updateProfileSettings, type SavedLessonRow } from './studyStore';
 import { markTaskDone, type TaskSlot } from './taskStore';
-import { sentenceWith, setVocabLessonContext, setVocabSignInHandler, termKey } from './vocabulary';
-import { getVocabularyState, loadVocabulary, removeVocabularyWord, saveVocabularyWord, savedTermSet, subscribeVocabulary } from './vocabularyStore';
+import { sentenceWith, setVocabLessonContext, setVocabSignInHandler, matchedSavedTerms, savedMatchKeys, termKey } from './vocabulary';
+import { getVocabularyState, loadVocabulary, removeVocabularyWord, saveVocabularyWord, subscribeVocabulary } from './vocabularyStore';
 import type { GrammarPiece, PracticePiece } from './tasks';
 import { SignInBox } from './components/SignInBox';
 import { HelpPage } from './components/HelpPage';
@@ -1830,7 +1830,7 @@ const App: React.FC = () => {
   };
 
   const vocabState = useSyncExternalStore(subscribeVocabulary, getVocabularyState, getVocabularyState);
-  const savedTerms = savedTermSet(vocabState.rows);
+  const savedTerms = savedMatchKeys(vocabState.rows.map((row) => row.term));
   useEffect(() => {
     setVocabSignInHandler(() => {
       setSignInOpen(true);
@@ -1866,8 +1866,9 @@ const App: React.FC = () => {
     if (!key) return;
     const levelLabel = LEVELS.find((level) => level.value === config.level)?.label ?? config.level;
     const title = storyTopic?.label || '';
-    const result = savedTerms.has(key)
-      ? await removeVocabularyWord(item.word)
+    const already = matchedSavedTerms(vocabState.rows.map((row) => row.term), item.word);
+    const result = already.length
+      ? await removeVocabularyWord(already[0])
       : await saveVocabularyWord({
         term: item.word,
         meaning: item.definition,

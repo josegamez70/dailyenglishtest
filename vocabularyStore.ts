@@ -4,6 +4,7 @@ import {
   normalizeTerm,
   rowsWithSaved,
   termKey,
+  vocabMatchKeys,
   type SavedWord,
   type VocabSource,
 } from './vocabulary';
@@ -123,9 +124,11 @@ async function persistSave(draft: VocabDraft): Promise<{ ok: boolean; missing?: 
   const key = termKey(term);
   if (!term || !key) return { ok: false };
   if (!supabase || !uid) return { ok: false };
+  const wanted = new Set(vocabMatchKeys(term));
+  const existing = state.rows.find((row) => row.id && vocabMatchKeys(row.term).some((key) => wanted.has(key)));
   const payload = {
     user_id: uid,
-    term,
+    term: existing?.term || term,
     meaning: draft.meaning.replace(/\s+/g, ' ').trim().slice(0, 400),
     example: draft.example.replace(/\s+/g, ' ').trim().slice(0, 240),
     source_type: draft.sourceType,
@@ -133,7 +136,6 @@ async function persistSave(draft: VocabDraft): Promise<{ ok: boolean; missing?: 
     topic: draft.topic.slice(0, 80),
     level: draft.level.slice(0, 40),
   };
-  const existing = state.rows.find((row) => termKey(row.term) === key && row.id);
   const saved = existing
     ? await supabase.from('saved_vocabulary').update(payload).eq('id', existing.id).eq('user_id', uid).select('id, term, meaning, example, source_type, lesson_title, topic, level, created_at, correct_count, wrong_count').maybeSingle()
     : await supabase.from('saved_vocabulary').insert(payload).select('id, term, meaning, example, source_type, lesson_title, topic, level, created_at, correct_count, wrong_count').maybeSingle();
