@@ -220,11 +220,12 @@ html[data-theme="retro95"] .header-row .retro-pill-copy {
   flex: 1 1 auto;
   min-width: 0;
   overflow: hidden;
+  text-align: center;
 }
 
 html[data-theme="retro95"] .header-row .retro-pill,
 html[data-theme="retro95"] .header-row .retro-pill span {
-  font-size: 0.85rem;
+  font-size: 1.15rem;
   line-height: 1;
 }
 

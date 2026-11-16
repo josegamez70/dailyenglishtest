@@ -166,7 +166,7 @@ export function AppShell({
   const [signingOut, setSigningOut] = useState(false);
   const retro = useRetroTheme();
   const headerBadge = academyName != null
-    ? <AcademyBadge name={academyName} displayName={displayName} email={email} compact role={academyRole === 'student' ? 'student' : 'owner'} person={academyRole === 'student'} />
+    ? <AcademyBadge name={academyName} displayName={displayName} email={email} compact fitWidth role={academyRole === 'student' ? 'student' : 'owner'} person={academyRole === 'student'} />
     : null;
   const go = (path: string) => {
     setOpen(false);
