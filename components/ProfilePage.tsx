@@ -6,6 +6,7 @@ import { AcademyProfileSection } from './AcademyProfileSection';
 import { PricingPanel } from './PricingPanel';
 import { PilotStatusBanner } from './PilotPages';
 import { BackButton } from './BackButton';
+import { soundEffectsEnabled, writeSoundEffects } from '../effects';
 
 import { type ThemeChoice } from '../themeChoice';
 
@@ -61,6 +62,7 @@ export function ProfilePage({
   const [note, setNote] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [saved, setSaved] = useState({ name: displayName, level: defaultLevel, rate: speed, theme });
+  const [sounds, setSounds] = useState(() => soundEffectsEnabled());
   const touched = useRef({ name: false, level: false, rate: false, theme: false });
 
   useEffect(() => {
@@ -188,6 +190,22 @@ export function ProfilePage({
         {SPEEDS.map((item) => <option key={item} value={item}>{item}x</option>)}
       </select>
       <p className="text-sm text-slate-600 dark:text-slate-300">Audio uses an American English voice.</p>
+      <fieldset>
+        <legend className="text-sm font-semibold">Sound effects</legend>
+        <label className="mt-2 flex items-center gap-2 text-base">
+          <input
+            type="checkbox"
+            checked={sounds}
+            onChange={(event) => {
+              const next = event.target.checked;
+              setSounds(next);
+              writeSoundEffects(next);
+            }}
+          />
+          Play short sounds for right answers, wrong answers, and a finished exercise
+        </label>
+        <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">This choice stays on this device.</p>
+      </fieldset>
       <button
         type="submit"
         disabled={busy || !dirty}

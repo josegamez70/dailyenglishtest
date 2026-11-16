@@ -31,6 +31,8 @@ import { ProfilePage, type ThemeChoice } from './components/ProfilePage';
 import { RetroWindow } from './components/RetroWindow';
 import { PixelIcon } from './components/PixelIcon';
 import { setRetroActive, useRetroTheme } from './retroTheme';
+import { primeAudio } from './effects';
+import { ExerciseComplete } from './components/ExerciseComplete';
 import { isDarkTheme, isThemeChoice } from './themeChoice';
 import { ProgressPage } from './components/ProgressPage';
 import { SavedLessonsPage } from './components/SavedLessonsPage';
@@ -193,6 +195,7 @@ const App: React.FC = () => {
   const [isVocabularyModalOpen, setIsVocabularyModalOpen] = useState(false);
   const themeLock = useRef(false);
   const retro = useRetroTheme();
+  const [resultCelebrate, setResultCelebrate] = useState(false);
   const [themeChoice, setThemeChoice] = useState<ThemeChoice>(() => {
     try {
       const stored = localStorage.getItem('theme');
@@ -613,6 +616,7 @@ const App: React.FC = () => {
       return;
     }
     if (finishing) return;
+    primeAudio();
     stopSpeaking();
     const score = quiz.reduce((acc, question, index) => acc + (question.correctAnswer === userAnswers[index] ? 1 : 0), 0);
     const wrongAnswers = quiz.flatMap((question, index) => {
@@ -656,6 +660,7 @@ const App: React.FC = () => {
       setUserAnswers(next.answers);
       setStoryReviewOpen(next.reviewOpen);
       setFinishing(false);
+      setResultCelebrate(true);
       setView('results');
     });
   };
@@ -729,6 +734,7 @@ const App: React.FC = () => {
   };
 
   const resetApp = () => {
+    setResultCelebrate(false);
     setTaskSession(null);
     setGrammarTaskPackId(null);
     setView('config');
@@ -1618,7 +1624,7 @@ const App: React.FC = () => {
   const StoryScreen = () => (
     <>
       <BackButton onClick={leaveExercise} label={exerciseBackLabel} />
-      <div className="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-xl shadow-lg w-full max-w-3xl mx-auto">
+      <div className="phase2-lift bg-white dark:bg-slate-800 p-6 md:p-8 rounded-xl shadow-lg w-full max-w-3xl mx-auto">
         <h2 className="text-lg sm:text-3xl font-bold text-center text-slate-900 dark:text-slate-50 whitespace-nowrap">
           {practiceType === 'reading' ? 'Read the Story' : 'Listen to the Story'}
         </h2>
@@ -1701,7 +1707,7 @@ const App: React.FC = () => {
     return (
       <>
         <BackButton label={practiceType === 'listening' ? 'Back to listening' : 'Back to story'} onClick={() => { setView('story'); window.scrollTo({ top: 0 }); }} />
-        <div className="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-xl shadow-lg w-full max-w-2xl mx-auto">
+        <div className="phase2-lift bg-white dark:bg-slate-800 p-6 md:p-8 rounded-xl shadow-lg w-full max-w-2xl mx-auto">
           <h2 className="text-2xl font-bold text-center mb-4 text-slate-900 dark:text-slate-50">
             {practiceType === 'reading' ? 'Reading Comprehension Quiz' : 'Listening Comprehension Quiz'}
           </h2>
@@ -1773,7 +1779,7 @@ const App: React.FC = () => {
     return (
       <>
         <BackButton onClick={leaveExercise} label={exerciseBackLabel} />
-        <div className="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-xl shadow-lg w-full max-w-3xl mx-auto">
+        <div className="phase2-lift bg-white dark:bg-slate-800 p-6 md:p-8 rounded-xl shadow-lg w-full max-w-3xl mx-auto">
           <h2 className="text-3xl font-bold text-center mb-2 text-slate-900 dark:text-slate-50">Quiz Complete!</h2>
           <p className="text-center text-xl text-slate-800 dark:text-slate-100 mb-2">
             You scored {score} out of {quiz.length} ({percentage}%)
@@ -2120,7 +2126,9 @@ const App: React.FC = () => {
             variant="paywall"
           />
         )}
-        {renderContent()}
+        <div key={`${view}-${view === 'quiz' ? currentQuestionIndex : 'page'}`} className="phase2-enter">
+          {renderContent()}
+        </div>
       </main>
       )}
       {!account.signedIn && <SiteFooter />}
@@ -2450,6 +2458,15 @@ const App: React.FC = () => {
         </RetroWindow>
       )}
       {shellItem === 'lesson' && <RetroWindow title={view === 'quiz' ? 'Quiz' : view === 'story' ? 'Lesson' : 'New exercise'}>{signedOutPage}</RetroWindow>}
+      {resultCelebrate && view === 'results' && shellItem === 'lesson' && (
+        <ExerciseComplete
+          score={quiz.reduce((acc, question, index) => acc + (question.correctAnswer === userAnswers[index] ? 1 : 0), 0)}
+          total={quiz.length}
+          marks={quiz.map((question, index) => question.correctAnswer === userAnswers[index])}
+          onReview={() => setResultCelebrate(false)}
+          onNew={resetApp}
+        />
+      )}
     </AppShell>
   );
 };

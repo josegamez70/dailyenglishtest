@@ -1,0 +1,193 @@
+.phase2-enter {
+  animation: phase2-fade 160ms ease-out;
+}
+
+.phase2-dialog {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgb(15 23 42 / 0.45);
+}
+
+.phase2-dialog-card {
+  width: min(100%, 26rem);
+  max-height: calc(100vh - 2rem);
+  overflow: auto;
+  border-radius: 1rem;
+  background: #fff !important;
+  opacity: 1 !important;
+  padding: 1.25rem;
+  box-shadow: 0 18px 40px rgb(15 23 42 / 0.22);
+  animation: phase2-card 180ms ease-out forwards;
+}
+
+html.dark .phase2-dialog-card {
+  background: #1e293b !important;
+  color: #f8fafc;
+}
+
+.phase2-heading {
+  text-align: center;
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.phase2-score {
+  margin-top: 0.75rem;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.phase2-segments {
+  display: flex;
+  gap: 4px;
+  margin-top: 1rem;
+}
+
+.phase2-seg {
+  flex: 1;
+  height: 0.85rem;
+  border-radius: 999px;
+  background: #e2e8f0;
+}
+
+html.dark .phase2-seg {
+  background: #334155;
+}
+
+.phase2-seg.on,
+html.dark .phase2-seg.on {
+  background: #1d4ed8;
+}
+
+.phase2-meter {
+  margin-top: 0.5rem;
+  height: 0.45rem;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e2e8f0;
+}
+
+html.dark .phase2-meter {
+  background: #334155;
+}
+
+.phase2-meter > span {
+  display: block;
+  height: 100%;
+  width: var(--phase2-to, 0%);
+  background: #1d4ed8;
+  transform-origin: left center;
+  animation: phase2-bar 500ms ease-out;
+}
+
+html:not([data-theme="retro95"]) .phase2-lift {
+  transition: transform 140ms ease, box-shadow 140ms ease;
+}
+
+html:not([data-theme="retro95"]) .phase2-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 18px rgb(15 23 42 / 0.12);
+}
+
+html:not([data-theme="retro95"]) .phase2-lift:active {
+  transform: translateY(0);
+}
+
+html[data-theme="retro95"] .phase2-dialog {
+  background: rgb(0 0 128 / 0.35);
+}
+
+html[data-theme="retro95"] .phase2-dialog-card {
+  border-radius: 0;
+  background: transparent !important;
+  padding: 0;
+  box-shadow: none;
+  animation: phase2-win 140ms steps(3, end);
+}
+
+html[data-theme="retro95"] .phase2-heading {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+html[data-theme="retro95"] .phase2-seg {
+  height: 1.15rem;
+  border-radius: 0;
+  border: 2px solid #000;
+  background: #fff;
+}
+
+html[data-theme="retro95"] .phase2-seg.on {
+  background: #000080;
+}
+
+html[data-theme="retro95"] .phase2-meter {
+  border-radius: 0;
+  border: 2px solid #000;
+  background: #fff;
+}
+
+html[data-theme="retro95"] .phase2-meter > span {
+  border-radius: 0;
+  background: #000080;
+}
+
+html[data-theme="retro95"] .retro-window {
+  animation: phase2-win 140ms steps(3, end);
+}
+
+@keyframes phase2-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes phase2-card {
+  from { transform: translateY(10px); }
+  to { transform: none; }
+}
+
+@keyframes phase2-win {
+  from { transform: scale(0.96); }
+  to { transform: none; }
+}
+
+@keyframes phase2-bar {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .phase2-enter,
+  .phase2-dialog-card,
+  html[data-theme="retro95"] .phase2-dialog-card,
+  html[data-theme="retro95"] .retro-window,
+  .phase2-meter > span,
+  html:not([data-theme="retro95"]) .phase2-lift,
+  html:not([data-theme="retro95"]) .phase2-lift:hover,
+  html:not([data-theme="retro95"]) .phase2-lift:active {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+
+  .phase2-meter > span {
+    transform: none;
+    width: var(--phase2-to, 0%);
+  }
+
+  .phase2-dialog-card {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
