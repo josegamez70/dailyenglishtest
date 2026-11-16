@@ -19,10 +19,14 @@ function ScoreSegments({ score, total }: { score: number; total: number }) {
     let next = 0;
     const id = window.setInterval(() => {
       next += 1;
-      setShown(next);
+      setShown(Math.min(next, goal));
       if (next >= goal) window.clearInterval(id);
     }, 70);
-    return () => window.clearInterval(id);
+    const done = window.setTimeout(() => setShown(goal), goal * 70 + 80);
+    return () => {
+      window.clearInterval(id);
+      window.clearTimeout(done);
+    };
   }, [goal, reduce]);
 
   if (count === 0) return null;

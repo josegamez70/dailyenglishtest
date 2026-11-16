@@ -19,9 +19,10 @@
   overflow: auto;
   border-radius: 1rem;
   background: #fff !important;
+  opacity: 1 !important;
   padding: 1.25rem;
   box-shadow: 0 18px 40px rgb(15 23 42 / 0.22);
-  animation: phase2-fade 180ms ease-out;
+  animation: phase2-card 180ms ease-out forwards;
 }
 
 html.dark .phase2-dialog-card {
@@ -150,6 +151,11 @@ html[data-theme="retro95"] .retro-window {
   to { opacity: 1; }
 }
 
+@keyframes phase2-card {
+  from { transform: translateY(10px); }
+  to { transform: none; }
+}
+
 @keyframes phase2-win {
   from { transform: scale(0.96); }
   to { transform: none; }
@@ -177,5 +183,10 @@ html[data-theme="retro95"] .retro-window {
   .phase2-meter > span {
     transform: none;
     width: var(--phase2-to, 0%);
+  }
+
+  .phase2-dialog-card {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
