@@ -20,6 +20,11 @@ html[data-theme="retro95"] body {
   color: #000 !important;
 }
 
+html[data-theme="retro95"] .min-h-screen.bg-slate-100 {
+  background-color: #008080 !important;
+  color: #000 !important;
+}
+
 html[data-theme="retro95"] h1,
 html[data-theme="retro95"] h2,
 html[data-theme="retro95"] h3,
