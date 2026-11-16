@@ -85,6 +85,40 @@ export function sentenceWith(text: string, term: string): string {
   return (found ?? '').slice(0, 240);
 }
 
+/** The rows to show the moment a word is ticked or unticked, before the network answers. */
+export function rowsWithSaved(
+  rows: readonly SavedWord[],
+  draft: {
+    term: string;
+    meaning: string;
+    example: string;
+    sourceType: VocabSource;
+    lessonTitle: string;
+    topic: string;
+    level: string;
+  },
+  saved: boolean,
+): SavedWord[] {
+  const term = normalizeTerm(draft.term);
+  const key = termKey(term);
+  const rest = rows.filter((row) => termKey(row.term) !== key);
+  if (!saved || !key) return rest;
+  const existing = rows.find((row) => termKey(row.term) === key);
+  return [{
+    id: existing?.id || '',
+    term,
+    meaning: draft.meaning.replace(/\s+/g, ' ').trim().slice(0, 400),
+    example: draft.example.replace(/\s+/g, ' ').trim().slice(0, 240),
+    sourceType: draft.sourceType || existing?.sourceType || '',
+    lessonTitle: draft.lessonTitle.slice(0, 120),
+    topic: draft.topic.slice(0, 80),
+    level: draft.level.slice(0, 40),
+    createdAt: existing?.createdAt || '',
+    correctCount: existing?.correctCount || 0,
+    wrongCount: existing?.wrongCount || 0,
+  }, ...rest];
+}
+
 export function filterVocabulary(items: readonly SavedWord[], query: string, source: 'all' | VocabSource): SavedWord[] {
   const needle = query.trim().toLowerCase();
   return items.filter((item) => {

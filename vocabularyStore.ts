@@ -2,6 +2,7 @@ import { getSupabase } from './auth';
 import { isMissingTable } from './studyStore';
 import {
   normalizeTerm,
+  rowsWithSaved,
   termKey,
   type SavedWord,
   type VocabSource,
@@ -17,14 +18,28 @@ export type VocabDraft = {
   level: string;
 };
 
-type VocabState = { rows: SavedWord[]; missing: boolean };
+type VocabState = { rows: SavedWord[]; missing: boolean; notice: string | null };
 
-let state: VocabState = { rows: [], missing: false };
+let state: VocabState = { rows: [], missing: false, notice: null };
 const listeners = new Set<() => void>();
+const intent = new Map<string, { saved: boolean; draft: VocabDraft }>();
+const running = new Set<string>();
+const priorRows = new Map<string, SavedWord[]>();
 
-function publish(next: VocabState) {
-  state = next;
+function publish(next: { rows: SavedWord[]; missing?: boolean; notice?: string | null }) {
+  state = {
+    rows: next.rows,
+    missing: next.missing ?? state.missing,
+    notice: next.notice === undefined ? state.notice : next.notice,
+  };
   listeners.forEach((listener) => listener());
+}
+
+function showNotice(message: string) {
+  publish({ rows: state.rows, notice: message });
+  window.setTimeout(() => {
+    if (state.notice === message) publish({ rows: state.rows, notice: null });
+  }, 3200);
 }
 
 export function getVocabularyState(): VocabState {
@@ -93,11 +108,20 @@ export function savedTermSet(rows: readonly SavedWord[] = state.rows): Set<strin
   return new Set(rows.map((row) => termKey(row.term)));
 }
 
-export async function saveVocabularyWord(draft: VocabDraft): Promise<{ ok: boolean; missing?: boolean }> {
+function restoreTerm(key: string) {
+  const prior = priorRows.get(key) ?? [];
+  publish({
+    rows: [...prior, ...state.rows.filter((row) => termKey(row.term) !== key)],
+  });
+  showNotice('Could not update that word.');
+}
+
+async function persistSave(draft: VocabDraft): Promise<{ ok: boolean; missing?: boolean }> {
   const supabase = getSupabase();
   const uid = await userId();
   const term = normalizeTerm(draft.term);
-  if (!term) return { ok: false };
+  const key = termKey(term);
+  if (!term || !key) return { ok: false };
   if (!supabase || !uid) return { ok: false };
   const payload = {
     user_id: uid,
@@ -109,47 +133,88 @@ export async function saveVocabularyWord(draft: VocabDraft): Promise<{ ok: boole
     topic: draft.topic.slice(0, 80),
     level: draft.level.slice(0, 40),
   };
-  const key = termKey(term);
-  const existing = state.rows.find((row) => termKey(row.term) === key);
+  const existing = state.rows.find((row) => termKey(row.term) === key && row.id);
   const saved = existing
     ? await supabase.from('saved_vocabulary').update(payload).eq('id', existing.id).eq('user_id', uid).select('id, term, meaning, example, source_type, lesson_title, topic, level, created_at, correct_count, wrong_count').maybeSingle()
     : await supabase.from('saved_vocabulary').insert(payload).select('id, term, meaning, example, source_type, lesson_title, topic, level, created_at, correct_count, wrong_count').maybeSingle();
   if (saved.error) {
-    if (isMissingTable(saved.error)) {
-      publish({ rows: state.rows, missing: true });
-      return { ok: false, missing: true };
-    }
+    if (isMissingTable(saved.error)) return { ok: false, missing: true };
     return { ok: false };
   }
   const parsed = saved.data ? rowFrom(saved.data as Record<string, unknown>) : null;
-  const rows = parsed
-    ? [parsed, ...state.rows.filter((row) => termKey(row.term) !== key)]
-    : state.rows;
-  publish({ rows, missing: false });
+  if (parsed) priorRows.set(key, [parsed]);
+  if (intent.get(key)?.saved === false) return { ok: true };
+  if (parsed) {
+    publish({ rows: [parsed, ...state.rows.filter((row) => termKey(row.term) !== key)], missing: false });
+  }
   return { ok: true };
 }
 
-export async function removeVocabularyWord(term: string): Promise<{ ok: boolean; missing?: boolean }> {
+async function persistRemove(term: string): Promise<{ ok: boolean; missing?: boolean }> {
   const supabase = getSupabase();
   const uid = await userId();
   const key = termKey(term);
   if (!key) return { ok: false };
   if (!supabase || !uid) return { ok: false };
-  const matches = state.rows.filter((row) => termKey(row.term) === key);
-  if (!matches.length) {
-    publish({ rows: state.rows.filter((row) => termKey(row.term) !== key), missing: state.missing });
-    return { ok: true };
-  }
-  const removed = await supabase.from('saved_vocabulary').delete().eq('user_id', uid).in('id', matches.map((row) => row.id));
+  const matches = [...(priorRows.get(key) ?? []), ...state.rows.filter((row) => termKey(row.term) === key && row.id)];
+  const ids = [...new Set(matches.map((row) => row.id).filter(Boolean))];
+  if (!ids.length) return { ok: true };
+  const removed = await supabase.from('saved_vocabulary').delete().eq('user_id', uid).in('id', ids);
   if (removed.error) {
-    if (isMissingTable(removed.error)) {
-      publish({ rows: state.rows, missing: true });
-      return { ok: false, missing: true };
-    }
+    if (isMissingTable(removed.error)) return { ok: false, missing: true };
     return { ok: false };
   }
+  priorRows.set(key, []);
+  if (intent.get(key)?.saved === true) return { ok: true };
   publish({ rows: state.rows.filter((row) => termKey(row.term) !== key), missing: false });
   return { ok: true };
+}
+
+async function commitVocabulary(draft: VocabDraft, saved: boolean): Promise<{ ok: boolean; missing?: boolean }> {
+  const term = normalizeTerm(draft.term);
+  const key = termKey(term);
+  if (!key) return { ok: false };
+  const nextDraft = { ...draft, term };
+  if (!running.has(key)) priorRows.set(key, state.rows.filter((row) => termKey(row.term) === key));
+  intent.set(key, { saved, draft: nextDraft });
+  publish({ rows: rowsWithSaved(state.rows, nextDraft, saved), notice: null });
+  if (running.has(key)) return { ok: true };
+  running.add(key);
+  let result: { ok: boolean; missing?: boolean } = { ok: true };
+  try {
+    while (intent.has(key)) {
+      const next = intent.get(key)!;
+      intent.delete(key);
+      result = next.saved ? await persistSave(next.draft) : await persistRemove(next.draft.term);
+      if (!result.ok) {
+        if (intent.has(key)) continue;
+        if (result.missing) publish({ rows: state.rows, missing: true });
+        restoreTerm(key);
+        break;
+      }
+    }
+  } finally {
+    running.delete(key);
+    if (!intent.has(key)) priorRows.delete(key);
+  }
+  return result;
+}
+
+export async function saveVocabularyWord(draft: VocabDraft): Promise<{ ok: boolean; missing?: boolean }> {
+  return commitVocabulary(draft, true);
+}
+
+export async function removeVocabularyWord(term: string): Promise<{ ok: boolean; missing?: boolean }> {
+  const existing = state.rows.find((row) => termKey(row.term) === termKey(term));
+  return commitVocabulary({
+    term,
+    meaning: existing?.meaning || '',
+    example: existing?.example || '',
+    sourceType: existing?.sourceType || '',
+    lessonTitle: existing?.lessonTitle || '',
+    topic: existing?.topic || '',
+    level: existing?.level || '',
+  }, false);
 }
 
 export async function recordVocabAnswer(term: string, correct: boolean): Promise<void> {

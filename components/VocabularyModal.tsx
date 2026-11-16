@@ -11,6 +11,7 @@ interface VocabularyModalProps {
     signedIn: boolean;
     missing: boolean;
     pendingKey?: string | null;
+    notice?: string | null;
     onToggle: (item: VocabularyItem) => void;
 }
 
@@ -22,6 +23,7 @@ const VocabularyModal: React.FC<VocabularyModalProps> = ({
     signedIn,
     missing,
     pendingKey,
+    notice,
     onToggle,
 }) => {
     if (!isOpen) {
@@ -53,6 +55,7 @@ const VocabularyModal: React.FC<VocabularyModalProps> = ({
                     signedIn={signedIn}
                     missing={missing}
                     pendingKey={pendingKey}
+                    notice={notice}
                     onToggle={onToggle}
                   />
                 </div>
