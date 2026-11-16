@@ -2,7 +2,7 @@ type IconName = 'book' | 'cap' | 'books' | 'calendar' | 'folder' | 'chart' | 'fl
 
 /** 16×16 pixel icons drawn in the repo. No outside images. */
 const PIXELS: Record<IconName, string> = {
-  book: 'M2 2h5v12H2zm6 0h6v12H8zM3 4h3v1H3zm6 0h4v1H9z',
+  book: 'M1 2h6v12H1zM2 4h4v1H2zM2 6h4v1H2zM2 8h4v1H2zM2 10h3v1H2zM9 2h6v12H9zM10 4h4v1h-4zM10 6h4v1h-4zM10 8h4v1h-4zM10 10h3v1h-4z',
   cap: 'M1 8h14v2H1zM3 6h10v2H3zM7 3h2v3H7zM2 10h3v2H2zm9 0h3v2h-3z',
   books: 'M1 3h4v10H1zm5 1h4v10H6zm5-2h4v11h-4zM2 5h2v1H2zm5 1h2v1H7zm5-1h2v1h-2z',
   calendar: 'M2 3h12v11H2zM2 3h12v3H2zM4 1h2v3H4zm6 0h2v3h-2zM4 8h2v2H4zm3 0h2v2H7zm3 0h2v2h-2z',
