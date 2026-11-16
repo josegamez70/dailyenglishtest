@@ -1,0 +1,176 @@
+@font-face {
+  font-family: "VT323";
+  src: url("/fonts/VT323-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+html[data-theme="retro95"] {
+  --r-navy: #000080;
+  --r-face: #c0c0c0;
+  --r-yellow: #ffff00;
+  --r-teal: #008080;
+  color-scheme: light;
+  background: #008080;
+}
+
+html[data-theme="retro95"] body {
+  background: #008080 !important;
+  color: #000 !important;
+}
+
+html[data-theme="retro95"] h1,
+html[data-theme="retro95"] h2,
+html[data-theme="retro95"] h3,
+html[data-theme="retro95"] button,
+html[data-theme="retro95"] label,
+html[data-theme="retro95"] legend,
+html[data-theme="retro95"] nav,
+html[data-theme="retro95"] .retro-titlebar {
+  font-family: "VT323", ui-monospace, monospace;
+}
+
+html[data-theme="retro95"] .lesson-copy,
+html[data-theme="retro95"] .lesson-copy * {
+  font-family: Inter, sans-serif !important;
+}
+
+html[data-theme="retro95"] button {
+  background: #c0c0c0 !important;
+  color: #000 !important;
+  border-radius: 0 !important;
+  border: 2px solid #fff !important;
+  border-right-color: #404040 !important;
+  border-bottom-color: #404040 !important;
+  box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #dfdfdf !important;
+}
+
+html[data-theme="retro95"] button:active:not(:disabled),
+html[data-theme="retro95"] button[aria-pressed="true"] {
+  border-color: #404040 #fff #fff #404040 !important;
+  box-shadow: inset 1px 1px 0 #808080 !important;
+  transform: none !important;
+  filter: none !important;
+}
+
+html[data-theme="retro95"] button[aria-current="page"],
+html[data-theme="retro95"] button[aria-pressed="true"] {
+  background: #000080 !important;
+  color: #fff !important;
+}
+
+html[data-theme="retro95"] input,
+html[data-theme="retro95"] select,
+html[data-theme="retro95"] textarea {
+  background: #fff !important;
+  color: #000 !important;
+  border-radius: 0 !important;
+  border: 2px solid #404040 !important;
+  border-right-color: #fff !important;
+  border-bottom-color: #fff !important;
+  box-shadow: inset 1px 1px 0 #808080 !important;
+}
+
+html[data-theme="retro95"] .rounded-xl,
+html[data-theme="retro95"] .rounded-lg,
+html[data-theme="retro95"] .rounded-md,
+html[data-theme="retro95"] .rounded-full {
+  border-radius: 0 !important;
+}
+
+html[data-theme="retro95"] header,
+html[data-theme="retro95"] .sticky {
+  background: #000080 !important;
+  color: #fff !important;
+  border-color: #000 !important;
+}
+
+html[data-theme="retro95"] header p,
+html[data-theme="retro95"] header span {
+  color: #fff !important;
+}
+
+html[data-theme="retro95"] nav button {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+html[data-theme="retro95"] aside,
+html[data-theme="retro95"] .menu-drawer {
+  background: #c0c0c0 !important;
+  color: #000 !important;
+  border-color: #fff !important;
+}
+
+html[data-theme="retro95"] aside p,
+html[data-theme="retro95"] .menu-drawer p,
+html[data-theme="retro95"] aside a,
+html[data-theme="retro95"] .menu-drawer a {
+  color: #000 !important;
+}
+
+html[data-theme="retro95"] .retro-window {
+  background: #c0c0c0;
+  color: #000;
+  border: 2px solid #fff;
+  border-right-color: #404040;
+  border-bottom-color: #404040;
+  box-shadow: 2px 2px 0 #000;
+  margin-bottom: 1rem;
+}
+
+html[data-theme="retro95"] .retro-titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  background: #000080;
+  color: #fff;
+  padding: 0.2rem 0.35rem;
+  font-size: 1.15rem;
+  line-height: 1.1;
+}
+
+html[data-theme="retro95"] .retro-win-buttons {
+  display: inline-flex;
+  gap: 2px;
+}
+
+html[data-theme="retro95"] .retro-win-buttons i {
+  width: 14px;
+  height: 14px;
+  background: #c0c0c0;
+  border: 2px solid #fff;
+  border-right-color: #404040;
+  border-bottom-color: #404040;
+  box-sizing: border-box;
+}
+
+html[data-theme="retro95"] .retro-window-body {
+  padding: 0.75rem;
+}
+
+html[data-theme="retro95"] .retro-sober .retro-titlebar {
+  background: #000080;
+}
+
+html[data-theme="retro95"] .retro-sober {
+  box-shadow: none;
+}
+
+html[data-theme="retro95"] .retro-sober li,
+html[data-theme="retro95"] .retro-sober table {
+  background: #fff;
+  border: 1px solid #808080;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-theme="retro95"] button,
+  html[data-theme="retro95"] button:active {
+    transition: none !important;
+    transform: none !important;
+  }
+}

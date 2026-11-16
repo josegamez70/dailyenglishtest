@@ -2,6 +2,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
+import './retro95.css';
 
 const analyticsToken = import.meta.env.VITE_CF_ANALYTICS_TOKEN;
 if (analyticsToken) {

@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useSyncExternalStore } from 'react';
+import { subscribeRetro, useRetro } from '../retroTheme';
 import { AcademyBadge } from './AcademyBadge';
 import HomeIcon from './icons/HomeIcon';
+import { menuPixelIcon, PixelIcon } from './PixelIcon';
 
 export type ShellItem = 'lesson' | 'grammar' | 'tasks' | 'packs' | 'progress' | 'saved' | 'vocabulary' | 'academy' | 'profile' | 'join';
 
@@ -38,6 +40,7 @@ function NavLinks({
   academyRole?: 'owner' | 'student' | null;
   displayName?: string | null;
 }) {
+  const retro = useSyncExternalStore(subscribeRetro, useRetro, () => false);
   const profile = baseItems[baseItems.length - 1];
   const items = showAcademy
     ? [
@@ -79,6 +82,7 @@ function NavLinks({
                   : 'rounded-lg px-3 py-3 text-left text-base font-semibold text-slate-900 hover:bg-slate-100 dark:text-slate-50 dark:hover:bg-slate-700'
               }
             >
+              {retro && <PixelIcon name={menuPixelIcon(item.id)} />}
               {item.label}
             </button>
           );
@@ -87,7 +91,7 @@ function NavLinks({
       <div className="mt-auto border-t border-slate-300 px-4 py-4 dark:border-slate-600">
         <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">Help / Legal</p>
         <div className="mt-2 flex flex-col gap-1 text-sm">
-          <a href="/help" className="underline">How it works</a>
+          <a href="/help" className="inline-flex items-center gap-2 underline">{retro && <PixelIcon name="help" />}How it works</a>
           <a href="/legal" className="underline">Legal Notice</a>
           <a href="/privacy" className="underline">Privacy</a>
           <a href="/terms" className="underline">Terms</a>

@@ -1,0 +1,36 @@
+type IconName = 'book' | 'cap' | 'books' | 'calendar' | 'folder' | 'chart' | 'floppy' | 'house' | 'person' | 'help';
+
+/** 16×16 pixel icons drawn in the repo. No outside images. */
+const PIXELS: Record<IconName, string> = {
+  book: 'M2 2h5v12H2zm6 0h6v12H8zM3 4h3v1H3zm6 0h4v1H9z',
+  cap: 'M1 8h14v2H1zM3 6h10v2H3zM7 3h2v3H7zM2 10h3v2H2zm9 0h3v2h-3z',
+  books: 'M1 3h4v10H1zm5 1h4v10H6zm5-2h4v11h-4zM2 5h2v1H2zm5 1h2v1H7zm5-1h2v1h-2z',
+  calendar: 'M2 3h12v11H2zM2 3h12v3H2zM4 1h2v3H4zm6 0h2v3h-2zM4 8h2v2H4zm3 0h2v2H7zm3 0h2v2h-2z',
+  folder: 'M1 4h6l1 2h7v8H1zM1 6h14v1H1z',
+  chart: 'M2 13h12v1H2zM3 8h2v5H3zm3-3h2v8H6zm3 2h2v6H9zm3-4h2v10h-2z',
+  floppy: 'M2 2h9l3 3v9H2zM4 2h5v4H4zM4 9h8v5H4z',
+  house: 'M8 2l6 5v7H2V7zM6 9h4v5H6z',
+  person: 'M6 2h4v4H6zM3 8h10v2H3zM4 10h3v4H4zm5 0h3v4H9z',
+  help: 'M3 2h10v12H3zM6 5h4v1H8v2H7V6H6zM7 10h2v2H7z',
+};
+
+export function PixelIcon({ name }: { name: IconName }) {
+  return (
+    <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" shapeRendering="crispEdges" className="shrink-0">
+      <path fill="currentColor" d={PIXELS[name]} />
+    </svg>
+  );
+}
+
+export function menuPixelIcon(id: string) {
+  if (id === 'lesson') return 'book' as const;
+  if (id === 'grammar') return 'cap' as const;
+  if (id === 'vocabulary') return 'books' as const;
+  if (id === 'tasks') return 'calendar' as const;
+  if (id === 'packs') return 'folder' as const;
+  if (id === 'progress') return 'chart' as const;
+  if (id === 'saved') return 'floppy' as const;
+  if (id === 'academy') return 'house' as const;
+  if (id === 'profile') return 'person' as const;
+  return 'help' as const;
+}

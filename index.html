@@ -75,9 +75,11 @@
       try {
         var theme = localStorage.getItem('theme') || 'system';
         var systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        var dark = theme === 'dark' || (theme !== 'light' && systemDark);
+        var dark = theme === 'dark' || (theme === 'system' && systemDark);
         document.documentElement.classList.toggle('dark', dark);
         document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
+        if (theme === 'retro95') document.documentElement.setAttribute('data-theme', 'retro95');
+        else document.documentElement.removeAttribute('data-theme');
       } catch (e) {}
     </script>
     <script src="https://cdn.tailwindcss.com"></script>

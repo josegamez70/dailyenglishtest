@@ -28,6 +28,9 @@ import { isAppReturnPath, isTaskPacksPath, returnPathAfterSignIn, taskPackIdFrom
 import { AppShell, type ShellItem } from './components/AppShell';
 import { BackButton } from './components/BackButton';
 import { ProfilePage, type ThemeChoice } from './components/ProfilePage';
+import { RetroWindow } from './components/RetroWindow';
+import { setRetroActive } from './retroTheme';
+import { isDarkTheme, isThemeChoice } from './themeChoice';
 import { ProgressPage } from './components/ProgressPage';
 import { SavedLessonsPage } from './components/SavedLessonsPage';
 import { TasksPage } from './components/TasksPage';
@@ -190,7 +193,7 @@ const App: React.FC = () => {
   const [themeChoice, setThemeChoice] = useState<ThemeChoice>(() => {
     try {
       const stored = localStorage.getItem('theme');
-      if (stored === 'light' || stored === 'dark' || stored === 'system') return stored;
+      if (isThemeChoice(stored)) return stored;
     } catch { /* ignore */ }
     return 'system';
   });
@@ -256,12 +259,15 @@ const App: React.FC = () => {
     isSpeakingRef.current = isSpeaking;
   }, [isSpeaking]);
 
-  const darkOn = themeChoice === 'dark' || (themeChoice !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  const darkOn = isDarkTheme(themeChoice, window.matchMedia('(prefers-color-scheme: dark)').matches);
 
   useEffect(() => {
-    const dark = themeChoice === 'dark' || (themeChoice !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    const dark = isDarkTheme(themeChoice, window.matchMedia('(prefers-color-scheme: dark)').matches);
     document.documentElement.classList.toggle('dark', dark);
     document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
+    if (themeChoice === 'retro95') document.documentElement.setAttribute('data-theme', 'retro95');
+    else document.documentElement.removeAttribute('data-theme');
+    setRetroActive(themeChoice === 'retro95');
     try {
       localStorage.setItem('theme', themeChoice);
     } catch {
@@ -401,7 +407,7 @@ const App: React.FC = () => {
   }, [account.speed]);
 
   useEffect(() => {
-    if (account.theme === 'light' || account.theme === 'dark' || account.theme === 'system') {
+    if (isThemeChoice(account.theme)) {
       setThemeChoice(account.theme);
     }
   }, [account.theme]);
@@ -1572,7 +1578,7 @@ const App: React.FC = () => {
         <DefinedText
           text={story}
           transcript="static"
-          className={`mt-4 block whitespace-pre-wrap leading-relaxed text-slate-900 dark:text-slate-50 ${fontClass}`}
+          className={`lesson-copy mt-4 block whitespace-pre-wrap leading-relaxed text-slate-900 dark:text-slate-50 ${fontClass}`}
         />
       );
     }
@@ -1581,7 +1587,7 @@ const App: React.FC = () => {
         text={story}
         transcript="synced"
         highlightIndex={currentWordIndex}
-        className={`mt-4 block leading-relaxed text-slate-900 dark:text-slate-50 ${fontClass}`}
+        className={`lesson-copy mt-4 block leading-relaxed text-slate-900 dark:text-slate-50 ${fontClass}`}
       />
     );
   };
@@ -1617,7 +1623,7 @@ const App: React.FC = () => {
           ) : (
             <DefinedText
               text={story}
-              className={`mt-6 block whitespace-pre-wrap leading-relaxed text-slate-900 dark:text-slate-50 ${fontClass}`}
+              className={`lesson-copy mt-6 block whitespace-pre-wrap leading-relaxed text-slate-900 dark:text-slate-50 ${fontClass}`}
             />
           )
         )}
@@ -1704,7 +1710,7 @@ const App: React.FC = () => {
               ></div>
             </div>
           </div>
-          <h3 className="text-xl md:text-2xl font-semibold mb-6 text-slate-900 dark:text-slate-50">{question.question}</h3>
+          <h3 className="lesson-copy text-xl md:text-2xl font-semibold mb-6 text-slate-900 dark:text-slate-50">{question.question}</h3>
           <div className="space-y-3">
             {question.options.map((option, index) => {
               const letter = getLetter(index);
@@ -1981,7 +1987,7 @@ const App: React.FC = () => {
               ) : (
                 <DefinedText
                   text={story}
-                  className={`mt-6 block whitespace-pre-wrap leading-relaxed text-slate-900 dark:text-slate-50 ${fontClass}`}
+                  className={`lesson-copy mt-6 block whitespace-pre-wrap leading-relaxed text-slate-900 dark:text-slate-50 ${fontClass}`}
                 />
               )
             )}
@@ -2302,6 +2308,7 @@ const App: React.FC = () => {
       }
     >
       {shellItem === 'grammar' && (
+        <RetroWindow title="Grammar">
         <GrammarPage
           fontStep={fontStep}
           fontClass={fontClass}
@@ -2322,8 +2329,10 @@ const App: React.FC = () => {
             else go('/');
           }}
         />
+        </RetroWindow>
       )}
       {(shellItem === 'tasks' || shellItem === 'packs') && (
+        <RetroWindow title={shellItem === 'packs' ? 'Task packs' : 'Tasks'}>
         <TasksPage
           userId={account.userId}
           section={shellItem === 'packs' ? 'packs' : 'settings'}
@@ -2337,19 +2346,25 @@ const App: React.FC = () => {
           onOpenPack={openPack}
           onClosePack={closePack}
         />
+        </RetroWindow>
       )}
       {shellItem === 'progress' && (
+        <RetroWindow title="My progress">
         <ProgressPage
           onCreate={() => go('/')}
           studentName={account.displayName.trim() || account.email || 'Student'}
           profileLevel={account.defaultLevel}
           onBack={() => go('/')}
         />
+        </RetroWindow>
       )}
       {shellItem === 'saved' && (
+        <RetroWindow title="Saved lessons">
         <SavedLessonsPage onOpen={openSaved} onCreate={() => go('/')} onPracticeGrammar={() => go('/grammar')} onBack={() => go('/')} />
+        </RetroWindow>
       )}
       {shellItem === 'vocabulary' && (
+        <RetroWindow title="Vocabulary builder">
         <VocabularyPage
           userId={account.userId}
           onSignIn={() => { setSignInOpen(true); setSignInPrompt(true); }}
@@ -2362,13 +2377,20 @@ const App: React.FC = () => {
           onGoLessons={() => go('/')}
           voice={account.voice}
         />
+        </RetroWindow>
       )}
-      {shellItem === 'academy' && account.plan === 'academy' && <AcademyPage ownerDisplayName={account.displayName} onBack={() => go('/')} />}
+      {shellItem === 'academy' && account.plan === 'academy' && (
+        <RetroWindow title="My academy" sober>
+          <AcademyPage ownerDisplayName={account.displayName} onBack={() => go('/')} />
+        </RetroWindow>
+      )}
       {shellItem === 'academy' && account.plan !== 'academy' && (
-        <div>
-          <BackButton onClick={() => go('/')} />
-          <p className="text-base">This page is for academy accounts.</p>
-        </div>
+        <RetroWindow title="My academy" sober>
+          <div>
+            <BackButton onClick={() => go('/')} />
+            <p className="text-base">This page is for academy accounts.</p>
+          </div>
+        </RetroWindow>
       )}
       {shellItem === 'join' && (
         <JoinAcademyPage
@@ -2388,6 +2410,7 @@ const App: React.FC = () => {
         />
       )}
       {shellItem === 'profile' && (
+        <RetroWindow title="Profile">
         <ProfilePage
           userId={account.userId}
           email={account.email}
@@ -2410,8 +2433,9 @@ const App: React.FC = () => {
           onAcademyChanged={() => { void account.refreshProfile(); }}
           onBack={() => go('/')}
         />
+        </RetroWindow>
       )}
-      {shellItem === 'lesson' && signedOutPage}
+      {shellItem === 'lesson' && <RetroWindow title={view === 'quiz' ? 'Quiz' : view === 'story' ? 'Lesson' : 'New exercise'}>{signedOutPage}</RetroWindow>}
     </AppShell>
   );
 };
