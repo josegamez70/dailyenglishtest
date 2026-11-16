@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ExerciseComplete } from './ExerciseComplete';
-import { primeAudio } from '../effects';
+import { BackButton } from './BackButton';
 import {
   exerciseLabel,
   GRAMMAR_ITEM_COUNT,
@@ -26,7 +25,6 @@ import { DefinedText, DictionaryPopup } from './DefinedText';
 import CheckCircleIcon from './icons/CheckCircleIcon';
 import Loader from './Loader';
 import XCircleIcon from './icons/XCircleIcon';
-import { BackButton } from './BackButton';
 
 type PlayOrder = GrammarOrder & { shuffled: GrammarChunk[] };
 type PlayItem = GrammarChoice | PlayOrder;
@@ -140,7 +138,6 @@ export function GrammarPage({
   const [exercise, setExercise] = useState<GrammarExerciseType>('blanks');
   const [topic, setTopic] = useState('');
   const [phase, setPhase] = useState<'setup' | 'play' | 'results'>('setup');
-  const [celebrate, setCelebrate] = useState(false);
   const [items, setItems] = useState<PlayItem[]>([]);
   const [title, setTitle] = useState('');
   const [savedTopic, setSavedTopic] = useState('');
@@ -202,7 +199,6 @@ export function GrammarPage({
     setFromSaved(Boolean(launch.id));
     if (launch.task) setSaveNote('Task. Opening it does not use a free lesson.');
     setPhase(launch.grades && launch.grades.length === launch.items.length ? 'results' : 'play');
-    setCelebrate(Boolean(launch.grades && launch.grades.length === launch.items.length));
   }, [launch]);
 
   const selected = EXERCISES.find((item) => item.id === exercise) ?? EXERCISES[0];
@@ -265,13 +261,11 @@ export function GrammarPage({
   };
 
   const finish = () => {
-    primeAudio();
     const nextGrades = items.map((item, itemIndex) => {
       if (item.kind === 'order') return gradeOrder(item, placedTexts(placed[itemIndex] ?? [], item.shuffled));
       return gradeChoice(item, choices[itemIndex] ?? '');
     });
     setGrades(nextGrades);
-    setCelebrate(true);
     setPhase('results');
     const sourceItems = items.map((item) => (
       item.kind === 'order'
@@ -344,29 +338,11 @@ export function GrammarPage({
     const score = grades.filter((grade) => grade.correct).length;
     const percentage = grades.length ? Math.round((score / grades.length) * 100) : 0;
     return (
-      <div className="phase2-enter mx-auto w-full max-w-2xl">
+      <div className="mx-auto w-full max-w-2xl">
         {onBack && <BackButton onClick={leaveGrammar} label={grammarBackLabel} />}
         <DictionaryPopup />
         <TextSizeControl fontStep={fontStep} labels={fontLabels} onFontStep={onFontStep} />
-        {celebrate && (
-          <ExerciseComplete
-            score={score}
-            total={grades.length}
-            marks={grades.map((grade) => grade.correct)}
-            onReview={() => setCelebrate(false)}
-            onNew={() => {
-              setCelebrate(false);
-              if (launch?.task) onBack?.();
-              else {
-                setFromSaved(false);
-                persistedIdRef.current = null;
-                pendingRecordRef.current = null;
-                setPhase('setup');
-              }
-            }}
-          />
-        )}
-        <div className="phase2-lift mt-4 rounded-xl bg-white p-6 shadow-lg dark:bg-slate-800">
+        <div className="mt-4 rounded-xl bg-white p-6 shadow-lg dark:bg-slate-800">
           <h1 className="text-center text-3xl font-bold">{title}</h1>
           <SavedSetNote fromSaved={fromSaved} saveNote={saveNote} />
           <p className="mt-2 text-center text-xl">You scored {score} out of {grades.length} ({percentage}%)</p>
@@ -426,11 +402,11 @@ export function GrammarPage({
       : null;
     const chosen = current.kind === 'order' && orderState ? placedTexts(orderState.placed, current.shuffled) : [];
     return (
-      <div className="phase2-enter mx-auto w-full max-w-2xl">
+      <div className="mx-auto w-full max-w-2xl">
         {onBack && <BackButton onClick={leaveGrammar} label={grammarBackLabel} />}
         <DictionaryPopup />
         <TextSizeControl fontStep={fontStep} labels={fontLabels} onFontStep={onFontStep} />
-        <div className="phase2-lift mt-4 rounded-xl bg-white p-6 shadow-lg dark:bg-slate-800">
+        <div className="mt-4 rounded-xl bg-white p-6 shadow-lg dark:bg-slate-800">
           <h1 className="text-center text-2xl font-bold">{title}</h1>
           <SavedSetNote fromSaved={fromSaved} saveNote={saveNote} />
           <p className="mt-4 text-base font-semibold">Question {index + 1} of {items.length}</p>
@@ -531,7 +507,7 @@ export function GrammarPage({
   }
 
   return (
-    <div className="phase2-enter mx-auto w-full max-w-2xl">
+    <div className="mx-auto w-full max-w-2xl">
       {onBack && <BackButton onClick={leaveGrammar} label={grammarBackLabel} />}
       <h1 className="text-3xl font-bold">Grammar</h1>
       <p className="mt-2 text-base text-slate-800 dark:text-slate-100">Practice grammar with {GRAMMAR_ITEM_COUNT} short exercises. One set uses one free lesson.</p>

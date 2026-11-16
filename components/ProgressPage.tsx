@@ -156,19 +156,14 @@ export function ProgressPage({
           ['Day streak', String(dayStreak(dates))],
           ['Best score', `${bestPercent(rows)}%`],
         ].map(([label, value]) => (
-          <div key={label} className="phase2-lift rounded-xl border border-slate-300 bg-white p-3 dark:border-slate-600 dark:bg-slate-800">
+          <div key={label} className="rounded-xl border border-slate-300 bg-white p-3 dark:border-slate-600 dark:bg-slate-800">
             <p className="text-sm text-slate-600 dark:text-slate-300">{label}</p>
             <p className="mt-1 text-2xl font-bold">{value}</p>
-            {(label === 'Average score' || label === 'Best score') && (
-              <div className="phase2-meter" aria-hidden="true">
-                <span style={{ ['--phase2-to' as string]: value }} />
-              </div>
-            )}
           </div>
         ))}
       </div>
       {scores.length > 0 && (
-        <div className="phase2-lift mt-4 rounded-xl border border-slate-300 bg-white p-4 dark:border-slate-600 dark:bg-slate-800">
+        <div className="mt-4 rounded-xl border border-slate-300 bg-white p-4 dark:border-slate-600 dark:bg-slate-800">
           <p className="text-sm font-semibold">Last 10 scores</p>
           <ScoreChart scores={scores} />
         </div>
@@ -187,7 +182,7 @@ export function ProgressPage({
           const percent = row.total ? Math.round((row.score / row.total) * 100) : 0;
           const open = openId === row.id;
           return (
-            <li key={row.id} className="phase2-lift rounded-xl border border-slate-300 bg-white dark:border-slate-600 dark:bg-slate-800">
+            <li key={row.id} className="rounded-xl border border-slate-300 bg-white dark:border-slate-600 dark:bg-slate-800">
               <button
                 type="button"
                 onClick={() => setOpenId(open ? null : row.id)}
