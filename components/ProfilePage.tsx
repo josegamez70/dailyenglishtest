@@ -204,7 +204,7 @@ export function ProfilePage({
           />
           Play short sounds for right answers, wrong answers, and a finished exercise
         </label>
-        <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">Off until you turn this on. This choice stays on this device.</p>
+        <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">This choice stays on this device.</p>
       </fieldset>
       <button
         type="submit"

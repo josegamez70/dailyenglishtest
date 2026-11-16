@@ -18,14 +18,14 @@
   max-height: calc(100vh - 2rem);
   overflow: auto;
   border-radius: 1rem;
-  background: #fff;
+  background: #fff !important;
   padding: 1.25rem;
   box-shadow: 0 18px 40px rgb(15 23 42 / 0.22);
   animation: phase2-fade 180ms ease-out;
 }
 
 html.dark .phase2-dialog-card {
-  background: #1e293b;
+  background: #1e293b !important;
   color: #f8fafc;
 }
 
@@ -105,7 +105,7 @@ html[data-theme="retro95"] .phase2-dialog {
 
 html[data-theme="retro95"] .phase2-dialog-card {
   border-radius: 0;
-  background: transparent;
+  background: transparent !important;
   padding: 0;
   box-shadow: none;
   animation: phase2-win 140ms steps(3, end);
@@ -146,8 +146,8 @@ html[data-theme="retro95"] .retro-window {
 }
 
 @keyframes phase2-fade {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: none; }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes phase2-win {

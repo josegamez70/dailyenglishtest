@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { playResultSounds, prefersReducedMotion } from '../effects';
 import { useRetroTheme } from '../retroTheme';
 import { RetroWindow } from './RetroWindow';
@@ -52,7 +53,7 @@ export function ExerciseComplete({
 
   useEffect(() => playResultSounds(marks, retro), []);
 
-  return (
+  const dialog = (
     <div className="phase2-dialog" role="dialog" aria-modal="true" aria-labelledby="exercise-complete-title">
       <div className="phase2-dialog-card">
         <RetroWindow title="Exercise complete!">
@@ -71,4 +72,6 @@ export function ExerciseComplete({
       </div>
     </div>
   );
+  if (typeof document === 'undefined') return dialog;
+  return createPortal(dialog, document.body);
 }
