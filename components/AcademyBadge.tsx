@@ -47,19 +47,23 @@ export function AcademyBadge({
   if (compact) {
     return (
       <p
-        className="inline-flex max-w-[10.5rem] shrink-0 items-center gap-1.5 rounded-2xl border border-teal-600 bg-white py-1 pl-1 pr-2 dark:border-teal-400 dark:bg-slate-800"
+        className={retro
+          ? 'retro-pill'
+          : 'inline-flex max-w-[10.5rem] shrink-0 items-center gap-1.5 rounded-2xl border border-teal-600 bg-white py-1 pl-1 pr-2 dark:border-teal-400 dark:bg-slate-800'}
         title={`${label}: ${shown}`}
       >
         {mark}
-        <span className="min-w-0 text-left leading-tight">
+        <span className="retro-pill-copy min-w-0 text-left leading-tight">
           <span className="block text-[10px] font-medium leading-none text-slate-600 dark:text-slate-300">{label}</span>
-          <span className="mt-0.5 block truncate text-xs font-bold leading-tight">{shown}</span>
+          <span className="retro-pill-name mt-0.5 block truncate text-xs font-bold leading-tight">{shown}</span>
         </span>
       </p>
     );
   }
   return (
-    <h1 className="inline-flex max-w-full items-center gap-3 rounded-2xl border border-teal-600 bg-white px-3.5 py-2.5 dark:border-teal-400 dark:bg-slate-800">
+    <h1 className={retro
+      ? 'retro-pill retro-pill-large'
+      : 'inline-flex max-w-full items-center gap-3 rounded-2xl border border-teal-600 bg-white px-3.5 py-2.5 dark:border-teal-400 dark:bg-slate-800'}>
       {mark}
       <span className="min-w-0 pr-1 text-left">
         <span className="block text-sm font-medium leading-tight text-slate-600 dark:text-slate-300">My academy</span>

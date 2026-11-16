@@ -1,5 +1,5 @@
 .phase2-enter {
-  animation: phase2-fade 160ms ease-out;
+  /* The quiz stays fully opaque. A fade here left a dim layer over the options. */
 }
 
 .phase2-dialog {
@@ -11,6 +11,11 @@
   justify-content: center;
   padding: 1rem;
   background: rgb(15 23 42 / 0.45);
+  pointer-events: none;
+}
+
+.phase2-dialog[data-open="true"] {
+  pointer-events: auto;
 }
 
 .phase2-dialog-card {
@@ -144,7 +149,7 @@ html[data-theme="retro95"] .phase2-meter > span {
 }
 
 html[data-theme="retro95"] .retro-window {
-  animation: phase2-win 140ms steps(3, end);
+  animation: none;
 }
 
 @keyframes phase2-fade {

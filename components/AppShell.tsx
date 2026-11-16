@@ -192,7 +192,7 @@ export function AppShell({
           <Wordmark variant="header" />
           {(academyName != null || onHome) && (
             <div className="ml-auto flex shrink-0 items-center gap-1.5">
-              {academyName != null && <AcademyBadge name={academyName} displayName={displayName} email={email} compact role={academyRole === 'student' ? 'student' : 'owner'} />}
+              {academyName != null && <AcademyBadge name={academyName} displayName={displayName} email={email} compact role={academyRole === 'student' ? 'student' : 'owner'} person={academyRole === 'student'} />}
               {onHome && (
                 <button
                   type="button"

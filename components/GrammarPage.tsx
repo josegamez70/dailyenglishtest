@@ -447,10 +447,11 @@ export function GrammarPage({
                     <button
                       key={option}
                       type="button"
+                      aria-pressed={selectedOption}
                       onClick={() => setChoices((currentChoices) => currentChoices.map((value, choiceIndex) => choiceIndex === index ? option : value))}
                       className={`w-full rounded-lg border-2 p-4 text-left ${fontClass} ${
                         selectedOption
-                          ? 'border-blue-700 bg-blue-100 text-slate-900 dark:bg-blue-900 dark:text-slate-50'
+                          ? 'border-blue-800 bg-blue-700 font-bold text-white dark:border-blue-200 dark:bg-blue-600'
                           : 'border-slate-400 bg-white text-slate-900 hover:bg-slate-100 dark:bg-slate-700 dark:text-slate-50 dark:hover:bg-slate-600'
                       }`}
                     >

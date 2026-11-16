@@ -1738,11 +1738,12 @@ const App: React.FC = () => {
                 <button
                   type="button"
                   key={index}
+                  aria-pressed={selected}
                   onClick={() => handleAnswerSelect(option)}
                   className={`w-full text-left p-4 rounded-lg border-2 text-base md:text-lg transition-colors ${
                     selected
-                      ? 'bg-blue-100 dark:bg-blue-900 border-blue-700 text-slate-900 dark:text-slate-50'
-                      : 'bg-white dark:bg-slate-700 border-slate-400 dark:border-slate-400 hover:bg-slate-100 dark:hover:bg-slate-600 text-slate-900 dark:text-slate-50'
+                      ? 'border-blue-800 bg-blue-700 font-bold text-white dark:border-blue-200 dark:bg-blue-600'
+                      : 'border-slate-400 bg-white text-slate-900 hover:bg-slate-100 dark:border-slate-400 dark:bg-slate-700 dark:text-slate-50 dark:hover:bg-slate-600'
                   }`}
                 >
                   <span className="font-semibold">{letter}.</span>
