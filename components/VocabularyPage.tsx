@@ -1,5 +1,8 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { BackButton } from './BackButton';
+import { ExerciseComplete } from './ExerciseComplete';
+import { playEffect, primeAudio } from '../effects';
+import { useRetroTheme } from '../retroTheme';
 import { defineSearchText, meaningToSave, searchLookupTerm, type DictEntry } from '../dictionary';
 import { PronounceButton, stopPronunciation } from './PronounceButton';
 import { SavedMeaning, SenseText } from './SenseText';
@@ -236,7 +239,9 @@ function Quiz({
   const [index, setIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [done, setDone] = useState(false);
+  const [celebrate, setCelebrate] = useState(true);
   const told = useRef(false);
+  const retro = useRetroTheme();
   useEffect(() => {
     if (!done || told.current) return;
     told.current = true;
@@ -255,7 +260,16 @@ function Quiz({
   }
   if (done) {
     return (
-      <div className="mt-4">
+      <div className="phase2-enter mt-4">
+        {celebrate && (
+          <ExerciseComplete
+            score={score}
+            total={questions.length}
+            marks={null}
+            onReview={() => setCelebrate(false)}
+            onNew={onExit}
+          />
+        )}
         <h2 className="text-2xl font-bold">Quiz result</h2>
         <p className="mt-2 text-xl">You scored {score} out of {questions.length}.</p>
         <button
@@ -265,6 +279,7 @@ function Quiz({
             setIndex(0);
             setScore(0);
             setDone(false);
+            setCelebrate(true);
           }}
           className="mt-4 w-full rounded-lg bg-blue-700 py-3 text-lg font-bold text-white hover:bg-blue-800"
         >
@@ -280,6 +295,8 @@ function Quiz({
   const question = questions[index];
   const choose = (choice: string) => {
     const correct = choice === question.answer;
+    primeAudio();
+    playEffect(correct ? 'correct' : 'wrong', retro);
     if (correct) setScore((current) => current + 1);
     if (persistGrades) void recordVocabAnswer(question.term, correct);
     if (index + 1 >= questions.length) setDone(true);
