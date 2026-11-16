@@ -1,4 +1,7 @@
 import { useEffect, useState } from 'react';
+import { playResultSounds, prefersReducedMotion } from '../effects';
+import { useRetroTheme } from '../retroTheme';
+import { RetroWindow } from './RetroWindow';
 
 function ScoreSegments({ score, total }: { score: number; total: number }) {
   const count = Math.max(0, total);
