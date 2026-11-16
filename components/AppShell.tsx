@@ -164,6 +164,10 @@ export function AppShell({
 }) {
   const [open, setOpen] = useState(false);
   const [signingOut, setSigningOut] = useState(false);
+  const retro = useRetroTheme();
+  const headerBadge = academyName != null
+    ? <AcademyBadge name={academyName} displayName={displayName} email={email} compact role={academyRole === 'student' ? 'student' : 'owner'} person={academyRole === 'student'} />
+    : null;
   const go = (path: string) => {
     setOpen(false);
     onNavigate(path);
@@ -181,7 +185,7 @@ export function AppShell({
       </aside>
       <div className="flex min-h-screen flex-col">
         <div className={`sticky top-0 z-20 flex flex-col gap-1 border-b border-slate-300 bg-slate-100 px-3 py-2 dark:border-slate-600 dark:bg-slate-900 ${onHome ? '' : 'md:hidden'}`}>
-          <div className="flex items-center gap-2">
+          <div className="header-row flex min-w-0 items-center gap-1.5">
             <button
               type="button"
               aria-label="Open menu"
@@ -191,21 +195,20 @@ export function AppShell({
               <MenuMark />
             </button>
             <Wordmark variant="header" />
+            {retro && headerBadge}
             {onHome && (
               <button
                 type="button"
                 onClick={onHome}
                 aria-label="Go to home screen"
-                className="inline-flex shrink-0 items-center gap-1 rounded-lg bg-red-700 px-2.5 py-1.5 text-sm font-semibold text-white hover:bg-red-800"
+                className="ml-auto inline-flex shrink-0 items-center gap-1 rounded-lg bg-red-700 px-2.5 py-1.5 text-sm font-semibold text-white hover:bg-red-800"
               >
                 <HomeMark />
                 <span className="home-label">Home</span>
               </button>
             )}
           </div>
-          {academyName != null && (
-            <AcademyBadge name={academyName} displayName={displayName} email={email} compact role={academyRole === 'student' ? 'student' : 'owner'} person={academyRole === 'student'} />
-          )}
+          {!retro && headerBadge}
         </div>
         <div className="flex flex-1 flex-col px-3 py-4 sm:px-5">{children}</div>
       </div>

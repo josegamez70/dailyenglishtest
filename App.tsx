@@ -1301,20 +1301,6 @@ const App: React.FC = () => {
 
   const configScreen = (
     <div className="w-full max-w-2xl mx-auto">
-      {retro && (
-        <section className="retro-improve">
-          <div className="flex items-center gap-2">
-            <PixelIcon name="globe" size={28} />
-            <h2>Improve your English</h2>
-          </div>
-          <ul>
-            <li><span className="retro-tick" aria-hidden="true" />Listen and understand</li>
-            <li><span className="retro-tick" aria-hidden="true" />Read and learn</li>
-            <li><span className="retro-tick" aria-hidden="true" />Build your vocabulary</li>
-            <li><span className="retro-tick" aria-hidden="true" />Track your progress</li>
-          </ul>
-        </section>
-      )}
       <div className="mb-4 text-center">
         <p className="text-lg font-semibold text-slate-900 dark:text-slate-50" role="status">
           Selected mode: {practiceType === 'reading' ? 'Reading' : 'Listening'}
@@ -1330,8 +1316,8 @@ const App: React.FC = () => {
           {retro
             ? <span className="mb-2"><PixelIcon name="book" size={32} /></span>
             : <BookOpenIcon className={`w-8 h-8 mb-2 ${practiceType === 'reading' ? 'text-white' : 'text-blue-700 dark:text-blue-300'}`} />}
-          <span className="font-semibold text-lg">Reading</span>
-          {practiceType === 'reading' && <span className="mt-1 text-base text-blue-50">Selected</span>}
+          <span className="choice-title font-semibold text-lg">Reading</span>
+          {practiceType === 'reading' && <span className="choice-note mt-1 text-base text-blue-50">Selected</span>}
         </button>
         <button
           type="button"
@@ -1342,8 +1328,8 @@ const App: React.FC = () => {
           {retro
             ? <span className="mb-2"><PixelIcon name="headphones" size={32} /></span>
             : <HeadphonesIcon className={`w-8 h-8 mb-2 ${practiceType === 'listening' ? 'text-white' : 'text-blue-700 dark:text-blue-300'}`} />}
-          <span className="font-semibold text-lg">Listening</span>
-          {practiceType === 'listening' && <span className="mt-1 text-base text-blue-50">Selected</span>}
+          <span className="choice-title font-semibold text-lg">Listening</span>
+          {practiceType === 'listening' && <span className="choice-note mt-1 text-base text-blue-50">Selected</span>}
         </button>
       </div>
       <div className="mb-6">
@@ -1358,8 +1344,8 @@ const App: React.FC = () => {
             className={formatButtonClass(contentFormat === 'text')}
           >
             {retro && <span className="mb-1"><PixelIcon name="document" size={32} /></span>}
-            <span className="font-semibold text-base">Text</span>
-            <span className={`mt-0.5 text-sm ${contentFormat === 'text' ? 'text-blue-50' : 'text-slate-700 dark:text-slate-200'}`}>
+            <span className="choice-title font-semibold text-base">Text</span>
+            <span className={`choice-note mt-0.5 text-center text-sm ${contentFormat === 'text' ? 'text-blue-50' : 'text-slate-700 dark:text-slate-200'}`}>
               A story or monologue
             </span>
           </button>
@@ -1370,8 +1356,8 @@ const App: React.FC = () => {
             className={formatButtonClass(contentFormat === 'dialogue')}
           >
             {retro && <span className="mb-1"><PixelIcon name="bubbles" size={32} /></span>}
-            <span className="font-semibold text-base">Dialogue</span>
-            <span className={`mt-0.5 text-sm ${contentFormat === 'dialogue' ? 'text-blue-50' : 'text-slate-700 dark:text-slate-200'}`}>
+            <span className="choice-title font-semibold text-base">Dialogue</span>
+            <span className={`choice-note mt-0.5 text-center text-sm ${contentFormat === 'dialogue' ? 'text-blue-50' : 'text-slate-700 dark:text-slate-200'}`}>
               Two speakers
             </span>
           </button>
