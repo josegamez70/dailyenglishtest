@@ -1711,8 +1711,8 @@ const App: React.FC = () => {
             disabled={!userAnswers[currentQuestionIndex] || finishing}
             aria-busy={finishing}
             className={finishing
-              ? 'mt-8 w-full cursor-wait rounded-lg bg-green-800 py-3 px-4 text-lg font-bold text-white'
-              : 'mt-8 w-full rounded-lg bg-green-700 py-3 px-4 text-lg font-bold text-white hover:bg-green-800 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-700'}
+              ? 'quiz-advance mt-8 w-full cursor-wait rounded-lg bg-green-800 py-3 px-4 text-lg font-bold text-white'
+              : 'quiz-advance mt-8 w-full rounded-lg bg-green-700 py-3 px-4 text-lg font-bold text-white hover:bg-green-800 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-700'}
           >
             {finishing ? 'Saving...' : currentQuestionIndex < quiz.length - 1 ? 'Next Question' : 'Finish Quiz'}
           </button>

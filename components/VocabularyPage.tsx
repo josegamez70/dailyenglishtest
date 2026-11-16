@@ -203,7 +203,7 @@ function Flashcards({
       <p className="mt-2 text-center text-sm text-slate-700 dark:text-slate-200">Tap the card to flip.</p>
       {flipped && (
         <div className="mt-4 grid grid-cols-2 gap-2">
-          <button type="button" onClick={() => grade(true)} className="rounded-lg bg-blue-700 py-3 text-base font-bold text-white hover:bg-blue-800">
+          <button type="button" onClick={() => grade(true)} className="quiz-advance rounded-lg bg-blue-700 py-3 text-base font-bold text-white hover:bg-blue-800">
             I knew it
           </button>
           <button type="button" onClick={() => grade(false)} className="rounded-lg border-2 border-slate-900 py-3 text-base font-bold dark:border-slate-100">

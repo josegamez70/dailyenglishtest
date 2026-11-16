@@ -481,7 +481,7 @@ export function GrammarPage({
             type="button"
             onClick={goNext}
             disabled={!answered}
-            className="mt-8 w-full rounded-lg bg-green-700 py-3 text-lg font-bold text-white hover:bg-green-800 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-700"
+            className="quiz-advance mt-8 w-full rounded-lg bg-green-700 py-3 text-lg font-bold text-white hover:bg-green-800 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-700"
           >
             {index < items.length - 1 ? 'Next' : 'Check answers'}
           </button>
