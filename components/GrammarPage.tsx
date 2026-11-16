@@ -64,42 +64,6 @@ function choiceClass(active: boolean): string {
     : 'rounded-lg border-2 border-slate-500 bg-white px-3 py-3 text-base font-semibold text-slate-900 hover:border-blue-700 dark:border-slate-300 dark:bg-slate-800 dark:text-slate-50';
 }
 
-function TextSizeControl({
-  fontStep,
-  labels,
-  onFontStep,
-}: {
-  fontStep: number;
-  labels: string[];
-  onFontStep: (index: number) => void;
-}) {
-  return (
-    <div>
-      <p className="mb-2 text-center text-base font-semibold">Text size: {labels[fontStep]}</p>
-      <div className="flex w-full flex-nowrap items-stretch gap-1.5" role="group" aria-label="Text size">
-        {labels.map((label, index) => {
-          const selected = index === fontStep;
-          return (
-            <button
-              key={label}
-              type="button"
-              aria-pressed={selected}
-              onClick={() => onFontStep(index)}
-              className={
-                selected
-                  ? 'min-w-0 flex-1 whitespace-nowrap rounded-lg border-2 border-blue-800 bg-blue-700 px-1 py-2 text-sm font-bold text-white'
-                  : 'min-w-0 flex-1 whitespace-nowrap rounded-lg border-2 border-slate-700 bg-white px-1 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-100 dark:border-slate-200 dark:bg-slate-800 dark:text-slate-50 dark:hover:bg-slate-700'
-              }
-            >
-              {label}
-            </button>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
-
 function SavedSetNote({ fromSaved, saveNote }: { fromSaved: boolean; saveNote: string | null }) {
   const text = saveNote || (fromSaved ? 'Saved set. Opening it does not use a lesson.' : '');
   if (!text) return null;
@@ -111,10 +75,7 @@ function SavedSetNote({ fromSaved, saveNote }: { fromSaved: boolean; saveNote: s
 }
 
 export function GrammarPage({
-  fontStep,
   fontClass,
-  fontLabels,
-  onFontStep,
   initialLevel,
   resetNonce,
   onActiveChange,
@@ -123,10 +84,10 @@ export function GrammarPage({
   onTaskComplete,
   onBack,
 }: {
-  fontStep: number;
+  fontStep?: number;
   fontClass: string;
-  fontLabels: string[];
-  onFontStep: (index: number) => void;
+  fontLabels?: string[];
+  onFontStep?: (index: number) => void;
   initialLevel: GrammarLevel;
   resetNonce: number;
   onActiveChange: (active: boolean) => void;
@@ -347,7 +308,6 @@ export function GrammarPage({
       <div className="phase2-enter mx-auto w-full max-w-2xl">
         {onBack && <BackButton onClick={leaveGrammar} label={grammarBackLabel} />}
         <DictionaryPopup />
-        <TextSizeControl fontStep={fontStep} labels={fontLabels} onFontStep={onFontStep} />
         {celebrate && (
           <ExerciseComplete
             score={score}
@@ -429,7 +389,6 @@ export function GrammarPage({
       <div className="phase2-enter mx-auto w-full max-w-2xl">
         {onBack && <BackButton onClick={leaveGrammar} label={grammarBackLabel} />}
         <DictionaryPopup />
-        <TextSizeControl fontStep={fontStep} labels={fontLabels} onFontStep={onFontStep} />
         <div className="phase2-lift mt-4 rounded-xl bg-white p-6 shadow-lg dark:bg-slate-800">
           <h1 className="text-center text-2xl font-bold">{title}</h1>
           <SavedSetNote fromSaved={fromSaved} saveNote={saveNote} />
@@ -449,7 +408,7 @@ export function GrammarPage({
                       type="button"
                       aria-pressed={selectedOption}
                       onClick={() => setChoices((currentChoices) => currentChoices.map((value, choiceIndex) => choiceIndex === index ? option : value))}
-                      className={`w-full rounded-lg border-2 p-4 text-left ${fontClass} ${
+                      className={`quiz-option w-full rounded-lg border-2 p-4 text-left ${fontClass} ${
                         selectedOption
                           ? 'border-blue-800 bg-blue-700 font-bold text-white dark:border-blue-200 dark:bg-blue-600'
                           : 'border-slate-400 bg-white text-slate-900 hover:bg-slate-100 dark:bg-slate-700 dark:text-slate-50 dark:hover:bg-slate-600'

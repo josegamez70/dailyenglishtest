@@ -18,7 +18,7 @@ export function RetroWindow({
         <div className="retro-titlebar">
           <span>{title}</span>
           <span className="retro-win-buttons" aria-hidden="true">
-            <i /><i /><i />
+            <i /><i /><i className="retro-close" />
           </span>
         </div>
       )}

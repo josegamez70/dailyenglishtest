@@ -1,6 +1,7 @@
 import React from 'react';
 import type { ConfigOptions } from '../types';
 import { LEVELS, TOPICS, WILDCARD_TOPIC, WORD_COUNTS, QUESTION_COUNTS } from '../constants';
+import { useRetroTheme } from '../retroTheme';
 
 interface ConfiguratorProps {
   config: ConfigOptions;
@@ -33,6 +34,7 @@ const SelectInput: React.FC<{
 );
 
 const Configurator: React.FC<ConfiguratorProps> = ({ config, setConfig, onGenerate, isLoading, customTopic, onCustomTopic, topicInputId = 'custom-topic' }) => {
+  const retro = useRetroTheme();
   const handleConfigChange = <K extends keyof ConfigOptions>(field: K, value: ConfigOptions[K]) => {
     setConfig(prev => ({ ...prev, [field]: value }));
   };
@@ -94,9 +96,12 @@ const Configurator: React.FC<ConfiguratorProps> = ({ config, setConfig, onGenera
         onClick={onGenerate}
         disabled={isLoading}
         aria-busy={isLoading}
-        className="w-full bg-blue-700 hover:bg-blue-800 disabled:bg-slate-300 disabled:text-slate-700 disabled:cursor-not-allowed text-white font-bold py-3 px-4 rounded-lg text-lg"
+        className={retro
+          ? 'retro-generate inline-flex w-full items-center justify-center bg-blue-700 py-3 px-4 text-lg font-bold text-white'
+          : 'w-full bg-blue-700 hover:bg-blue-800 disabled:bg-slate-300 disabled:text-slate-700 disabled:cursor-not-allowed text-white font-bold py-3 px-4 rounded-lg text-lg'}
       >
-        {isLoading ? 'Generating...' : 'Start Learning'}
+        {retro && !isLoading && <span className="retro-play" aria-hidden="true" />}
+        {isLoading ? 'Generating...' : retro ? 'Generate Exercise' : 'Start Learning'}
       </button>
     </div>
   );
