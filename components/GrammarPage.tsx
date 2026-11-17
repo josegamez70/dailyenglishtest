@@ -419,7 +419,7 @@ export function GrammarPage({
           </div>
           {current.kind === 'choice' ? (
             <>
-              <h2 className={`mb-6 mt-6 font-semibold ${fontClass}`}><LookupText text={current.prompt} /></h2>
+              <h2 className={`grammar-prompt mb-6 mt-6 font-semibold ${fontClass}`}><LookupText text={current.prompt} /></h2>
               <div className="space-y-3">
                 {current.options.map((option, optionIndex) => {
                   const selectedOption = choices[index] === option;
@@ -429,7 +429,7 @@ export function GrammarPage({
                       type="button"
                       aria-pressed={selectedOption}
                       onClick={() => setChoices((currentChoices) => currentChoices.map((value, choiceIndex) => choiceIndex === index ? option : value))}
-                      className={`quiz-option w-full rounded-lg border-2 p-4 text-left ${fontClass} ${
+                      className={`quiz-option grammar-option w-full rounded-lg border-2 p-4 text-left ${fontClass} ${
                         selectedOption
                           ? 'border-blue-800 bg-blue-700 font-bold text-white dark:border-blue-200 dark:bg-blue-600'
                           : 'border-slate-400 bg-white text-slate-900 hover:bg-slate-100 dark:bg-slate-700 dark:text-slate-50 dark:hover:bg-slate-600'
@@ -443,7 +443,7 @@ export function GrammarPage({
             </>
           ) : (
             <>
-              <h2 className={`mb-4 mt-6 font-semibold ${fontClass}`}><LookupText text={current.prompt} /></h2>
+              <h2 className={`grammar-prompt mb-4 mt-6 font-semibold ${fontClass}`}><LookupText text={current.prompt} /></h2>
               <p className="text-base">Tap the parts in the right order.</p>
               <div className="mt-3 min-h-16 rounded-lg border-2 border-dashed border-slate-400 p-3 dark:border-slate-500">
                 {chosen.length === 0 && <p className="text-slate-600 dark:text-slate-300">Your order will appear here.</p>}
@@ -490,7 +490,7 @@ export function GrammarPage({
                       const next = placeChunk(orderState, chunk.id);
                       setPlaced((currentPlaced) => currentPlaced.map((ids, placeIndex) => placeIndex === index ? next.placed : ids));
                     }}
-                    className={`w-full rounded-lg border-2 border-slate-400 bg-white px-4 py-3 text-left font-semibold hover:bg-slate-100 dark:border-slate-400 dark:bg-slate-700 dark:hover:bg-slate-600 ${fontClass}`}
+                    className={`grammar-option w-full rounded-lg border-2 border-slate-400 bg-white px-4 py-3 text-left font-semibold hover:bg-slate-100 dark:border-slate-400 dark:bg-slate-700 dark:hover:bg-slate-600 ${fontClass}`}
                   >
                     {chunk.text}
                   </button>
