@@ -2018,7 +2018,7 @@ const App: React.FC = () => {
       )}
       {storyReviewOpen && view === 'quiz' && (
         <div
-          className="fixed inset-0 z-40 overflow-y-auto bg-slate-100 px-3 py-4 text-slate-900 dark:bg-slate-900 dark:text-slate-50"
+          className="fixed inset-0 z-40 min-h-screen overflow-y-auto bg-slate-100 px-3 py-4 text-slate-900 dark:bg-slate-900 dark:text-slate-50"
           role="dialog"
           aria-modal="true"
           aria-label={practiceType === 'reading' ? 'Review story' : 'Listen again'}
