@@ -165,7 +165,10 @@ export function Landing() {
           Your English at your own pace.
         </h1>
         <p className="mx-auto mt-4 max-w-lg text-center text-base leading-relaxed text-slate-500 dark:text-slate-300 sm:text-lg">
-          Improve your English every day with AI-powered stories, listening practice, grammar exercises, and lessons made just for you.
+          Daily English Test is for B1, B2, and C1 learners. Practise reading, listening, and grammar for exams at those levels. It is not an official exam board, and it does not guarantee a higher score.
+        </p>
+        <p className="mx-auto mt-3 max-w-lg text-center text-base leading-relaxed text-slate-500 dark:text-slate-300">
+          You get 12 free lessons. You do not enter a card. Task packs group a reading, a listening, and a grammar exercise. My progress can download a PDF of your results. Vocabulary keeps the words you save, as flashcards or a quiz.
         </p>
       </section>
 
@@ -185,6 +188,37 @@ export function Landing() {
           </li>
         ))}
       </ul>
+
+      <section className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2" aria-label="Videos">
+        <figure>
+          <h2 className="text-xl font-bold text-[#172033] dark:text-white">A learner practising</h2>
+          <p className="mt-1 text-base text-slate-600 dark:text-slate-300">A private recording of someone using a lesson. This is not a promised result.</p>
+          <div className="relative mt-3 aspect-video w-full overflow-hidden rounded-xl bg-slate-900">
+            <iframe
+              className="absolute inset-0 h-full w-full"
+              src="https://www.youtube-nocookie.com/embed/_QfArUKqmfA"
+              title="A learner practising on Daily English Test"
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+        </figure>
+        <figure>
+          <h2 className="text-xl font-bold text-[#172033] dark:text-white">For academies</h2>
+          <p className="mt-1 text-base text-slate-600 dark:text-slate-300">How an academy can use Daily English Test with its students. This video does not show a payment screen.</p>
+          <div className="relative mt-3 aspect-video w-full overflow-hidden rounded-xl bg-slate-900">
+            <iframe
+              className="absolute inset-0 h-full w-full"
+              src="https://www.youtube-nocookie.com/embed/20noYW9d_vU"
+              title="Daily English Test for academies"
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+        </figure>
+      </section>
 
       <PricingPanel signedIn={false} plan={null} academyRole={null} variant="landing" onSignIn={focusSignIn} />
       <p className="mt-6 text-center text-sm text-slate-600 dark:text-slate-300">

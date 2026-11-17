@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef, useSyncExternalStore } from 'react';
 import type { QuizQuestion, ConfigOptions, PracticeType, AppView, VocabularyItem } from './types';
-import { LEVELS, QUESTION_COUNTS, resolveTopic, TOPICS, WORD_COUNTS } from './constants';
+import { LEVELS, QUESTION_COUNTS, lessonBandName, resolveTopic, TOPICS, WORD_COUNTS } from './constants';
 import { isAndroidUserAgent } from './device';
 import { scoreFeedback } from './lessonUtils';
 import {
@@ -22,7 +22,8 @@ import { withStoryReview } from './quizSession';
 import { resumeWordIndex, textFromWordIndex } from './speechPosition';
 import { generateStoryAndQuiz, listeningSlowAudio, refreshListeningAudio, savedListeningAudio, taskListeningAudio } from './services/geminiService';
 import { GrammarPage } from './components/GrammarPage';
-import { FREE_LESSON_LIMIT, planStatusText, signOut, useAccount } from './auth';
+import { FREE_LESSON_LIMIT, getSupabase, planStatusText, signOut, useAccount } from './auth';
+import { FreeLimitNotice } from './components/FreeLimitNotice';
 import { freeAccountBlocked } from './freeLessons';
 import { isAppReturnPath, isTaskPacksPath, returnPathAfterSignIn, taskPackIdFromPath } from './returnPath';
 import { AppShell, type ShellItem } from './components/AppShell';
@@ -33,13 +34,14 @@ import { PixelIcon } from './components/PixelIcon';
 import { setRetroActive, useRetroTheme } from './retroTheme';
 import { primeAudio } from './effects';
 import { ExerciseComplete } from './components/ExerciseComplete';
-import { FreeLimitNotice } from './components/FreeLimitNotice';
+import { SpanishWhy } from './components/SpanishWhy';
+import { WelcomeGuide } from './components/WelcomeGuide';
 import { isDarkTheme, isThemeChoice } from './themeChoice';
 import { ProgressPage } from './components/ProgressPage';
 import { SavedLessonsPage } from './components/SavedLessonsPage';
 import { TasksPage } from './components/TasksPage';
 import { TasksPreview } from './components/TasksPreview';
-import { cefrToLessonLevel, type CefrLevel } from './progressStats';
+import { cefrToLessonLevel, normalizeCefr, type CefrLevel } from './progressStats';
 import { lookupAcademyName } from './academy';
 import { ACADEMY_INVITE_DISMISSED_KEY, ACADEMY_INVITE_KEY, inviteBannerText, normalizeInviteCode, resumeInvitePath } from './academyStats';
 import { AcademyPage } from './components/AcademyPage';
@@ -147,6 +149,24 @@ function readSpeechVoices(): Promise<SpeechSynthesisVoice[]> {
   }
 }
 
+function welcomeSeen(userId: string | null): boolean {
+  if (!userId) return true;
+  try {
+    return localStorage.getItem(`welcome-seen:${userId}`) === '1';
+  } catch {
+    return false;
+  }
+}
+
+function rememberWelcome(userId: string | null) {
+  if (!userId) return;
+  try {
+    localStorage.setItem(`welcome-seen:${userId}`, '1');
+  } catch { /* ignore */ }
+  const supabase = getSupabase();
+  if (supabase) void supabase.from('profiles').update({ welcome_seen: true }).eq('id', userId);
+}
+
 const App: React.FC = () => {
   const account = useAccount();
   const [view, setView] = useState<AppView>('config');
@@ -185,7 +205,7 @@ const App: React.FC = () => {
       const stored = localStorage.getItem('theme');
       if (isThemeChoice(stored)) return stored;
     } catch { /* ignore */ }
-    return 'system';
+    return 'dark';
   });
   const [path, setPath] = useState(() => window.location.pathname.replace(/\/+$/, '') || '/');
   const [returnPlace, setReturnPlace] = useState<'home' | 'saved' | 'packs'>('home');
@@ -245,7 +265,9 @@ const App: React.FC = () => {
   const lessonAzureOnlyRef = useRef(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const levelAppliedRef = useRef(false);
-  const [finishing, setFinishing] = useState(false);
+  const [wordToast, setWordToast] = useState<string | null>(null);
+  const [welcomeHidden, setWelcomeHidden] = useState(false);
+  const welcomeStartRef = useRef(false);
 
   useEffect(() => {
     setVocabOpen(false);
@@ -416,7 +438,7 @@ const App: React.FC = () => {
   useEffect(() => {
     if (!account.defaultLevel || levelAppliedRef.current) return;
     levelAppliedRef.current = true;
-    setConfig((current) => ({ ...current, level: cefrToLessonLevel(account.defaultLevel || 'A2') }));
+    setConfig((current) => ({ ...current, level: cefrToLessonLevel(account.defaultLevel || 'B1') }));
   }, [account.defaultLevel]);
 
   useEffect(() => {
@@ -464,7 +486,7 @@ const App: React.FC = () => {
     abortRef.current = controller;
     const chosen = resolveTopic(config.topic);
     const customTopic = customTopicText.replace(/\s+/g, ' ').trim().slice(0, 80);
-    const levelLabel = LEVELS.find((level) => level.value === config.level)?.label ?? config.level;
+    const levelLabel = lessonBandName(config.level);
     const speakers = contentFormat === 'dialogue' ? nextDialogueSpeakers() : undefined;
     const requestConfig: ConfigOptions = {
       level: levelLabel,
@@ -597,7 +619,15 @@ const App: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    if (!welcomeStartRef.current) return;
+    if (practiceType !== 'reading' || config.level !== 'beginner' || config.topic !== 'daily life') return;
+    welcomeStartRef.current = false;
+    void handleGenerate();
+  }, [practiceType, config.level, config.topic, config.wordCount, config.questionCount]);
+
   const handleAnswerSelect = (answer: string) => {
+    if (userAnswers[currentQuestionIndex]) return;
     const newAnswers = [...userAnswers];
     newAnswers[currentQuestionIndex] = answer;
     setUserAnswers(newAnswers);
@@ -1391,6 +1421,8 @@ const App: React.FC = () => {
         customTopic={customTopicText}
         onCustomTopic={setCustomTopicText}
         topicInputId={practiceType === 'listening' ? 'listening-topic' : 'reading-topic'}
+        practiceType={practiceType}
+        format={contentFormat}
       />
     </div>
   );
@@ -1595,7 +1627,11 @@ const App: React.FC = () => {
       <BackButton onClick={leaveExercise} label={exerciseBackLabel} />
       <div className="phase2-lift bg-white dark:bg-slate-800 p-6 md:p-8 rounded-xl shadow-lg w-full max-w-3xl mx-auto">
         <h2 className="text-lg sm:text-3xl font-bold text-center text-slate-900 dark:text-slate-50 whitespace-nowrap">
-          {practiceType === 'reading' ? 'Read the Story' : 'Listen to the Story'}
+          {practiceType === 'reading'
+            ? 'Read the story'
+            : contentFormat === 'dialogue'
+              ? 'Listen to the dialogue'
+              : 'Listen to the text'}
         </h2>
         <p className="mt-2 text-center text-sm sm:text-base font-semibold leading-snug text-slate-900 dark:text-slate-50">
           Topic: {storyTopic?.label ?? TOPICS.find((topic) => topic.value === config.topic)?.label ?? config.topic} · Level: {LEVELS.find((level) => level.value === config.level)?.label ?? config.level} · Format: {contentFormat === 'dialogue' ? 'Dialogue' : 'Text'}
@@ -1696,18 +1732,27 @@ const App: React.FC = () => {
           <div className="space-y-3">
             {question.options.map((option, index) => {
               const letter = getLetter(index);
-              const selected = userAnswers[currentQuestionIndex] === option;
+              const chosen = userAnswers[currentQuestionIndex];
+              const revealed = Boolean(chosen);
+              const selected = chosen === option;
+              const correct = option === question.correctAnswer;
+              const tone = !revealed
+                ? selected
+                  ? 'border-blue-800 bg-blue-700 font-bold text-white'
+                  : 'border-slate-400 bg-white text-slate-900 hover:bg-slate-100 dark:border-slate-400 dark:bg-slate-700 dark:text-slate-50'
+                : correct
+                  ? 'border-green-700 bg-green-100 font-bold text-slate-900'
+                  : selected
+                    ? 'border-red-700 bg-red-100 font-bold text-slate-900'
+                    : 'border-slate-300 bg-white text-slate-700 dark:bg-slate-800 dark:text-slate-200';
               return (
                 <button
                   type="button"
                   key={index}
                   aria-pressed={selected}
+                  disabled={revealed}
                   onClick={() => handleAnswerSelect(option)}
-                  className={`quiz-option w-full text-left p-4 rounded-lg border-2 text-lg transition-colors ${
-                    selected
-                      ? 'border-blue-800 bg-blue-700 font-bold text-white dark:border-blue-200 dark:bg-blue-600'
-                      : 'border-slate-400 bg-white text-slate-900 hover:bg-slate-100 dark:border-slate-400 dark:bg-slate-700 dark:text-slate-50 dark:hover:bg-slate-600'
-                  }`}
+                  className={`quiz-option w-full text-left p-4 rounded-lg border-2 text-lg ${tone}`}
                 >
                   <span className="font-semibold">{letter}.</span>
                   {' '}
@@ -1716,6 +1761,15 @@ const App: React.FC = () => {
               );
             })}
           </div>
+          {userAnswers[currentQuestionIndex] && (
+            <div className="mt-4 rounded-lg border-2 border-slate-400 bg-slate-50 p-4 text-base text-slate-900 dark:border-slate-500 dark:bg-slate-900 dark:text-slate-50" role="status">
+              <p className="font-bold">
+                {userAnswers[currentQuestionIndex] === question.correctAnswer ? 'Right.' : `Not quite. The answer is ${question.correctAnswer}.`}
+              </p>
+              {question.explanation && <p className="mt-2"><span className="font-semibold">Why: </span>{question.explanation}</p>}
+              {question.explanation && <SpanishWhy text={question.explanation} />}
+            </div>
+          )}
           <button
             type="button"
             onClick={handleNextQuestion}
@@ -1891,6 +1945,10 @@ const App: React.FC = () => {
         level: levelLabel,
       });
     if (result.missing) return;
+    if (!already.length) {
+      setWordToast(`Saved “${item.word}”`);
+      window.setTimeout(() => setWordToast((current) => current === `Saved “${item.word}”` ? null : current), 2500);
+    }
   };
 
   const legalPage = legalPageFromPath(window.location.pathname);
@@ -2089,6 +2147,28 @@ const App: React.FC = () => {
         }))) && (
           <FreeLimitNotice onPlans={() => go('/profile')} />
         )}
+        {account.signedIn && view === 'config' && account.lessonsUsed === 0 && !welcomeHidden && !welcomeSeen(account.userId) && (
+          <WelcomeGuide
+            onStart={() => {
+              rememberWelcome(account.userId);
+              setWelcomeHidden(true);
+              welcomeStartRef.current = true;
+              setPracticeType('reading');
+              setContentFormat('text');
+              setCustomTopicText('');
+              setConfig((current) => ({ ...current, level: 'beginner', topic: 'daily life', wordCount: 60, questionCount: 5 }));
+            }}
+            onSkip={() => {
+              rememberWelcome(account.userId);
+              setWelcomeHidden(true);
+            }}
+          />
+        )}
+        {wordToast && (
+          <p className="fixed bottom-4 left-1/2 z-[80] max-w-[90vw] -translate-x-1/2 rounded-lg bg-slate-900 px-4 py-3 text-center text-base font-semibold text-white" role="status">
+            {wordToast}
+          </p>
+        )}
         <div key={`${view}-${view === 'quiz' ? currentQuestionIndex : 'page'}`} className="phase2-enter">
           {renderContent()}
         </div>
@@ -2185,9 +2265,7 @@ const App: React.FC = () => {
     setPath('/');
     window.scrollTo({ top: 0 });
   };
-  const cefr = (['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as const).includes(account.defaultLevel as CefrLevel)
-    ? account.defaultLevel as CefrLevel
-    : 'A2';
+  const cefr = normalizeCefr(account.defaultLevel);
 
   const openTaskPiece = (piece: PracticePiece, packId: string, slot: 'reading' | 'listening') => {
     stopSpeaking();
@@ -2337,6 +2415,7 @@ const App: React.FC = () => {
           })}
           onPlans={() => go('/profile')}
           onLessonsUsed={account.noteLessonsUsed}
+          onOpenTasks={() => go('/tasks')}
           selectedPackId={taskPackIdFromPath(path)}
           onOpenPack={openPack}
           onClosePack={closePack}

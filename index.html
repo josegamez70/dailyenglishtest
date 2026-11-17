@@ -73,7 +73,7 @@
     </style>
     <script>
       try {
-        var theme = localStorage.getItem('theme') || 'system';
+        var theme = localStorage.getItem('theme') || 'dark';
         var systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         var dark = theme === 'dark' || (theme === 'system' && systemDark);
         document.documentElement.classList.toggle('dark', dark);
@@ -119,7 +119,7 @@
       try {
         var theme = localStorage.getItem('theme');
         var systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        var dark = theme === 'dark' || ((theme === 'system' || theme == null) && systemDark);
+        var dark = theme === 'dark' || theme == null || (theme === 'system' && systemDark);
         document.documentElement.classList.toggle('dark', dark);
         if (theme === 'retro95') document.documentElement.setAttribute('data-theme', 'retro95');
       } catch (e) { /* storage can be blocked */ }

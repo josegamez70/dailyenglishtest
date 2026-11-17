@@ -93,6 +93,21 @@ html[data-theme="retro95"] button.quiz-option {
   line-height: 1.3;
 }
 
+html[data-theme="retro95"] .grammar-prompt,
+html[data-theme="retro95"] .grammar-prompt * {
+  font-family: "VT323", ui-monospace, monospace !important;
+  font-size: 1.65rem !important;
+  line-height: 1.35 !important;
+  overflow-wrap: anywhere;
+}
+
+html[data-theme="retro95"] button.grammar-option {
+  font-family: "VT323", ui-monospace, monospace !important;
+  font-size: 1.6rem !important;
+  line-height: 1.35 !important;
+  overflow-wrap: anywhere;
+}
+
 html[data-theme="retro95"] button.quiz-advance {
   margin-top: 1.5rem !important;
   background: #ffff00 !important;

@@ -9,6 +9,7 @@ export type DictEntry = {
   senses: DictSense[];
   example: string | null;
   note?: string | null;
+  spanish?: string | null;
 };
 
 const memory = new Map<string, DictEntry | 'missing'>();

@@ -42,7 +42,22 @@ export function bestPercent(rows: { score: number; total: number }[]): number {
   return Math.round(Math.max(...usable.map((row) => (row.score / row.total) * 100)));
 }
 
-export type CefrLevel = 'A1' | 'A2' | 'B1' | 'B2' | 'C1' | 'C2';
+export type CefrLevel = 'B1' | 'B2' | 'C1';
+
+/** A1 and A2 become B1. C2 becomes C1. Empty and unknown values become B1. */
+export function normalizeCefr(level: string | null | undefined): CefrLevel {
+  const key = String(level ?? '').trim().toUpperCase();
+  if (key === 'C1' || key === 'C2' || key === 'ADVANCED') return 'C1';
+  if (key === 'B2' || key === 'INTERMEDIATE') return 'B2';
+  return 'B1';
+}
+
+export function cefrToLessonLevel(level: string): 'beginner' | 'intermediate' | 'advanced' {
+  const cefr = normalizeCefr(level);
+  if (cefr === 'C1') return 'advanced';
+  if (cefr === 'B2') return 'intermediate';
+  return 'beginner';
+}
 
 const CHART_TOP = 18;
 const CHART_BOTTOM = 90;
@@ -72,11 +87,4 @@ export function formatResultDate(value: string | Date): string {
     minute: '2-digit',
     hourCycle: 'h23',
   }).format(date);
-}
-
-export function cefrToLessonLevel(level: string): 'beginner' | 'intermediate' | 'advanced' {
-  const key = level.toUpperCase();
-  if (key === 'C1' || key === 'C2' || key.includes('ADVANCED')) return 'advanced';
-  if (key === 'B1' || key === 'B2' || key.includes('INTERMEDIATE')) return 'intermediate';
-  return 'beginner';
 }

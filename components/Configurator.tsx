@@ -11,6 +11,8 @@ interface ConfiguratorProps {
   customTopic?: string;
   onCustomTopic?: (value: string) => void;
   topicInputId?: string;
+  practiceType?: 'reading' | 'listening';
+  format?: 'text' | 'dialogue';
 }
 
 const SelectInput: React.FC<{
@@ -33,8 +35,9 @@ const SelectInput: React.FC<{
   </div>
 );
 
-const Configurator: React.FC<ConfiguratorProps> = ({ config, setConfig, onGenerate, isLoading, customTopic, onCustomTopic, topicInputId = 'custom-topic' }) => {
+const Configurator: React.FC<ConfiguratorProps> = ({ config, setConfig, onGenerate, isLoading, customTopic, onCustomTopic, topicInputId = 'custom-topic', practiceType = 'reading', format = 'text' }) => {
   const retro = useRetroTheme();
+  const listening = practiceType === 'listening';
   const handleConfigChange = <K extends keyof ConfigOptions>(field: K, value: ConfigOptions[K]) => {
     setConfig(prev => ({ ...prev, [field]: value }));
   };
@@ -43,19 +46,19 @@ const Configurator: React.FC<ConfiguratorProps> = ({ config, setConfig, onGenera
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <SelectInput
-          label="Difficulty Level"
+          label="Level"
           value={config.level}
           onChange={(e) => handleConfigChange('level', e.target.value)}
           options={LEVELS}
         />
         <SelectInput
-          label="Story Topic"
+          label={listening ? 'Listening topic' : 'Reading topic'}
           value={config.topic}
           onChange={(e) => handleConfigChange('topic', e.target.value)}
           options={TOPICS}
         />
         <SelectInput
-          label="Story Length"
+          label={listening ? (format === 'dialogue' ? 'Dialogue length' : 'Listening length') : 'Reading length'}
           value={config.wordCount}
           onChange={(e) => handleConfigChange('wordCount', parseInt(e.target.value, 10))}
           options={WORD_COUNTS}

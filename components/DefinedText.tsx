@@ -246,12 +246,13 @@ export function DictionaryPopup() {
       {status === 'loading' && <p className="mt-2">Looking up...</p>}
       {status === 'missing' && <p className="mt-2">No definition found.</p>}
       {status === 'error' && <p className="mt-2">Could not load the definition. Try again.</p>}
-      {status === 'ready' && entry && (
-        <div className="mt-2">
-          <SenseText senses={entry.senses} />
-          {entry.example && <p className="mt-2 text-slate-700 dark:text-slate-200">Example: {entry.example}</p>}
-        </div>
-      )}
+          {status === 'ready' && entry && (
+            <div className="mt-2">
+              <SenseText senses={entry.senses} />
+              {entry.spanish && <p className="mt-2 text-slate-800 dark:text-slate-100">Español: {entry.spanish}</p>}
+              {entry.example && <p className="mt-2 text-slate-700 dark:text-slate-200">Example: {entry.example}</p>}
+            </div>
+          )}
     </div>,
     document.body
   );
