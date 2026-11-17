@@ -62,7 +62,7 @@ import {
   signListeningAudio,
 } from '../exerciseBankServer.ts';
 import { exerciseBankGeminiModel, exerciseBankGeminiPace, isRefillPause } from '../geminiPace.ts';
-import { readHttpStatus, runModelLoop, type ModelAttemptFailure } from '../modelFallback';
+import { readHttpStatus, runModelLoop, SHORT_CALL_DEADLINE_MS, type ModelAttemptFailure } from '../modelFallback';
 import { readEnvValue, runtimeEnv } from '../taskMail.ts';
 
 type HandlerEvent = {
@@ -1293,7 +1293,7 @@ async function defineContextResponse(
     'Reply as JSON: {"partOfSpeech":"verb","definition":"short meaning","spanish":"short Spanish translation of this sense"}',
   ].join('\n');
   try {
-    const raw = await generateRaw(apiKey, prompt, Date.now() + 9000, 256, undefined, 0.2);
+    const raw = await generateRaw(apiKey, prompt, Date.now() + SHORT_CALL_DEADLINE_MS, 512, undefined, 0.2);
     const parsed = parseModelJson(raw);
     const definition = String(parsed?.definition ?? '').replace(/\s+/g, ' ').trim().slice(0, 160);
     const partOfSpeech = String(parsed?.partOfSpeech ?? 'word').replace(/\s+/g, ' ').trim().slice(0, 32) || 'word';
@@ -1381,9 +1381,11 @@ export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => 
     if (defineRequest && 'translate' in defineRequest) {
       const prompt = `Translate this English explanation into short, clear Spanish for a language learner. Reply as JSON: {"spanish":"..."}\n${defineRequest.sentence}`;
       try {
-        const raw = await generateRaw(apiKey, prompt, Date.now() + 8000, 180, undefined, 0.2);
+        const raw = await generateRaw(apiKey, prompt, Date.now() + SHORT_CALL_DEADLINE_MS, 512, undefined, 0.2);
         const parsed = parseModelJson(raw);
-        const spanish = String(parsed?.spanish ?? '').replace(/\s+/g, ' ').trim().slice(0, 400);
+        const fromJson = String(parsed?.spanish ?? '').replace(/\s+/g, ' ').trim();
+        const plain = !parsed && raw && !raw.includes('{') ? raw.replace(/\s+/g, ' ').trim() : '';
+        const spanish = (fromJson || plain).slice(0, 400);
         if (!spanish) return { statusCode: 502, headers: corsHeaders, body: JSON.stringify({ ok: false }) };
         return { statusCode: 200, headers: corsHeaders, body: JSON.stringify({ ok: true, spanish }) };
       } catch {

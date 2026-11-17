@@ -1,7 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
+  MIN_MODEL_TIMEOUT_MS,
   OVERLOAD_FALLBACK_MODEL,
+  SHORT_CALL_DEADLINE_MS,
   fallbackAttemptTimeout,
   isOverloadStatus,
   overloadFallbackModel,
@@ -9,6 +11,11 @@ import {
   readHttpStatus,
   runModelLoop,
 } from '../modelFallback.ts';
+
+test('a translation budget is long enough to call the first of two models', () => {
+  assert.ok(primaryAttemptTimeout(SHORT_CALL_DEADLINE_MS, 1, false) >= MIN_MODEL_TIMEOUT_MS);
+  assert.ok(primaryAttemptTimeout(8000, 1, false) < MIN_MODEL_TIMEOUT_MS);
+});
 
 test('overload statuses are 429, 503, and 504', () => {
   assert.equal(isOverloadStatus(429), true);

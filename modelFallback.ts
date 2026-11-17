@@ -5,6 +5,14 @@ export const OVERLOAD_FALLBACK_MODEL = 'gemini-2.5-flash-lite';
 export const MIN_MODEL_TIMEOUT_MS = 4000;
 
 /**
+ * Budget for a short Gemini call such as a definition or a Spanish translation.
+ * With two primary models, the first attempt only starts when at least 7000 ms
+ * can be kept for the next model and this minimum still fits. An 8 second
+ * budget skips every model, so the translation never runs.
+ */
+export const SHORT_CALL_DEADLINE_MS = 20000;
+
+/**
  * Time kept back after the last primary so a fast 503 still has a fallback turn.
  * The next primary must not be given the rest of the window.
  */
