@@ -842,7 +842,7 @@ function c1OrderProblem(chunks: string[]): string | null {
     if (!/,$/.test(host.trim()) || !endsWithNoun(host)) {
       return 'A which or who part must follow the only part that ends with a comma and a noun.';
     }
-    if (chunks.some((chunk, index) => index !== relative - 1 && index !== relative && endsWithNoun(chunk))) {
+    if (chunks.some((chunk, index) => index !== chunks.length - 1 && index !== relative - 1 && index !== relative && endsWithNoun(chunk))) {
       return 'A which or who part could follow another noun, so another order would also be correct.';
     }
   }

@@ -454,6 +454,20 @@ test('C1 order items are longer sentences with only one correct order', () => {
   const words = item.chunks.join(' ').replace(/[^\p{L}\p{N}’'-]+/gu, ' ').trim().split(/\s+/).filter(Boolean);
   assert.ok(words.length >= 20 && words.length <= 28, String(words.length));
 
+  const endingNoun = normalizeGrammarSet({
+    items: Array.from({ length: 6 }, (_, index) => ({
+      chunks: [
+        `Not only had director ${index} rejected the offer,`,
+        'which several investors had supported,',
+        'but it also demanded',
+        'that the chief executive explain',
+        'why the board revised the plan.',
+      ],
+      explanation: `Which follows the offer, and the final noun cannot host it, in item ${index}.`,
+    })),
+  }, orderRequest);
+  assert.equal(endingNoun.ok, true);
+
   const short = normalizeGrammarSet({
     items: Array.from({ length: 6 }, () => ({
       chunks: [

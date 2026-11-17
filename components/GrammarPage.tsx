@@ -490,7 +490,7 @@ export function GrammarPage({
                       const next = placeChunk(orderState, chunk.id);
                       setPlaced((currentPlaced) => currentPlaced.map((ids, placeIndex) => placeIndex === index ? next.placed : ids));
                     }}
-                    className={`grammar-option w-full rounded-lg border-2 border-slate-400 bg-white px-4 py-3 text-left font-semibold hover:bg-slate-100 dark:border-slate-400 dark:bg-slate-700 dark:hover:bg-slate-600 ${fontClass}`}
+                    className={`grammar-option w-full whitespace-normal break-words rounded-lg border-2 border-slate-400 bg-white px-4 py-3 text-left font-semibold hover:bg-slate-100 dark:border-slate-400 dark:bg-slate-700 dark:hover:bg-slate-600 ${fontClass}`}
                   >
                     {chunk.text}
                   </button>

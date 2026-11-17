@@ -206,8 +206,9 @@ const LESSON_SCHEMA: ResponseSchema = {
   required: ['story', 'quiz', 'vocabulary'],
 };
 
-function grammarSchema(exercise: GrammarExerciseType, count: number): ResponseSchema {
+function grammarSchema(exercise: GrammarExerciseType, count: number, level?: GrammarRequest['level']): ResponseSchema {
   const choice = exercise !== 'order';
+  const c1Order = !choice && level === 'C1';
   return {
     type: SchemaType.OBJECT,
     properties: {
@@ -240,8 +241,10 @@ function grammarSchema(exercise: GrammarExerciseType, count: number): ResponseSc
               prompt: { type: SchemaType.STRING, description: 'A short instruction, such as Put these parts in order.' },
               chunks: {
                 type: SchemaType.ARRAY,
-                description: '4 to 6 parts in the correct order.',
-                minItems: 4,
+                description: c1Order
+                  ? '5 or 6 parts of one 20 to 28 word sentence, already in the only correct order.'
+                  : '4 to 6 parts in the correct order.',
+                minItems: c1Order ? 5 : 4,
                 maxItems: 6,
                 items: { type: SchemaType.STRING },
               },
@@ -945,7 +948,7 @@ export async function produceGrammar(
   let lastRaw = '';
 
   const ask = async (text: string, count: number, prior: GrammarItem[]) => {
-    const raw = await generateRaw(apiKey, text, deadline, 6144, grammarSchema(request.exercise, count), 0.3);
+    const raw = await generateRaw(apiKey, text, deadline, 6144, grammarSchema(request.exercise, count, request.level), 0.3);
     lastRaw = raw;
     return normalizeGrammarSet(grammarModelPayload(parseModelJson(raw)), request, { kept: prior });
   };
