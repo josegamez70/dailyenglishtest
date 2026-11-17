@@ -13,3 +13,13 @@ test('Start Quiz has finishing state and a quiz error boundary', () => {
   assert.match(boundary, /Back to the lesson/);
   assert.match(boundary, /The rest of the app is still available/);
 });
+
+test('Listen again uses the lesson card, not the navy header bar', () => {
+  const app = readFileSync(new URL('../App.tsx', import.meta.url), 'utf8');
+  const start = app.indexOf("storyReviewOpen && view === 'quiz'");
+  const sheet = app.slice(start, start + 1600);
+  assert.equal(sheet.includes('sticky'), false);
+  assert.match(sheet, /Back to quiz/);
+  assert.match(sheet, /Your answers are saved/);
+  assert.match(sheet, /phase2-lift rounded-xl bg-white/);
+});
