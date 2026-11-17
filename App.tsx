@@ -35,6 +35,7 @@ import { setRetroActive, useRetroTheme } from './retroTheme';
 import { primeAudio } from './effects';
 import { ExerciseComplete } from './components/ExerciseComplete';
 import { SpanishWhy } from './components/SpanishWhy';
+import { QuizErrorBoundary, QuizScreen } from './components/QuizErrorBoundary';
 import { WelcomeGuide } from './components/WelcomeGuide';
 import { isDarkTheme, isThemeChoice } from './themeChoice';
 import { ProgressPage } from './components/ProgressPage';
@@ -187,6 +188,7 @@ const App: React.FC = () => {
   const [vocabulary, setVocabulary] = useState<VocabularyItem[]>([]);
   const [storyTopic, setStoryTopic] = useState<{ label: string; surprise: boolean } | null>(null);
   const [userAnswers, setUserAnswers] = useState<string[]>([]);
+  const [finishing, setFinishing] = useState(false);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [quizLoading, setQuizLoading] = useState(false);
@@ -751,6 +753,7 @@ const App: React.FC = () => {
 
   const startQuiz = () => {
     setStoryReviewOpen(false);
+    setFinishing(false);
     setCurrentQuestionIndex(0);
     setView('quiz');
     stopSpeaking();
@@ -1703,9 +1706,23 @@ const App: React.FC = () => {
 
   const renderQuizScreen = () => {
     const question = quiz[currentQuestionIndex];
+    const backLabel = practiceType === 'listening' ? 'Back to listening' : 'Back to story';
+    const leaveQuiz = () => {
+      setFinishing(false);
+      setView('story');
+      window.scrollTo({ top: 0 });
+    };
+    if (!question || !Array.isArray(question.options)) {
+      return (
+        <>
+          <BackButton label={backLabel} onClick={leaveQuiz} />
+          <p className="text-base" role="alert">This question could not be shown.</p>
+        </>
+      );
+    }
     return (
       <>
-        <BackButton label={practiceType === 'listening' ? 'Back to listening' : 'Back to story'} onClick={() => { setView('story'); window.scrollTo({ top: 0 }); }} />
+        <BackButton label={backLabel} onClick={leaveQuiz} />
         <div className="phase2-lift bg-white dark:bg-slate-800 p-6 md:p-8 rounded-xl shadow-lg w-full max-w-2xl mx-auto">
           <h2 className="text-2xl font-bold text-center mb-4 text-slate-900 dark:text-slate-50">
             {practiceType === 'reading' ? 'Reading Comprehension Quiz' : 'Listening Comprehension Quiz'}
@@ -1887,7 +1904,11 @@ const App: React.FC = () => {
       case 'story':
         return renderStoryScreen();
       case 'quiz':
-        return renderQuizScreen();
+        return (
+          <QuizErrorBoundary resetKey={currentQuestionIndex} onBack={() => { setFinishing(false); setView('story'); window.scrollTo({ top: 0 }); }}>
+            <QuizScreen render={renderQuizScreen} />
+          </QuizErrorBoundary>
+        );
       case 'results':
         return renderResultsScreen();
       default:
