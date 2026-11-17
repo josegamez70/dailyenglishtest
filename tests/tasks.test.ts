@@ -18,6 +18,7 @@ import {
   grammarExercisesForLevel,
   isMissingListeningTopicColumn,
   normalizeTaskSettings,
+  shuffleResultLine,
   shuffleTaskChoices,
   taskGrammarRequest,
   taskPackIsComplete,
@@ -144,6 +145,21 @@ test('shuffle picks a different reading topic, listening topic, and grammar exer
   assert.equal(shuffled.grammarExercise, 'phrasal');
   assert.equal(beginnerTopics.includes(shuffled.topic), true);
   assert.equal(beginnerTopics.includes(shuffled.listeningTopic), true);
+  assert.equal(topicsForTaskLevel('B1').length, beginnerTopics.length);
+  const cefr = shuffleTaskChoices({
+    level: 'B1' as 'beginner',
+    grammarLevel: 'B1',
+    topic: 'daily life',
+    listeningTopic: 'travel',
+    grammarExercise: 'blanks',
+  }, () => 0);
+  assert.equal(cefr.topic, 'fantasy');
+  assert.equal(shuffleResultLine({
+    level: 'beginner',
+    topic: cefr.topic,
+    listeningTopic: cefr.listeningTopic,
+    grammarExercise: cefr.grammarExercise,
+  }), 'Shuffled: Fantasy · Daily Life · Phrasal verbs');
   assert.equal(isMissingListeningTopicColumn({ code: 'PGRST204', message: "Could not find the 'listening_topic' column" }), true);
   assert.equal(isMissingListeningTopicColumn({ message: 'permission denied' }), false);
   const sql = readFileSync(new URL('../supabase/migrations/20261120_task_listening_topic.sql', import.meta.url), 'utf8');
@@ -153,6 +169,8 @@ test('shuffle picks a different reading topic, listening topic, and grammar exer
   assert.match(page, /id="task-reading-topic"/);
   assert.match(page, /id="task-listening-topic"/);
   assert.match(page, /id="task-shuffle"/);
+  assert.match(page, /id="task-shuffle-result"/);
+  assert.match(page, /shuffleResultLine/);
   assert.equal(page.includes('task-grammar-topic'), false);
   assert.equal(page.includes("'custom'"), false);
   const grammar = readFileSync(new URL('../components/GrammarPage.tsx', import.meta.url), 'utf8');

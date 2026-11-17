@@ -114,9 +114,29 @@ export function taskGrammarExercise(value: unknown): TaskGrammarExercise {
  * Beginner, Intermediate, and Advanced all use the same catalog.
  * Any topic is a separate manual choice. Shuffle does not pick it.
  */
-export function topicsForTaskLevel(level: TaskLevel): { value: string; label: string }[] {
-  if (!LEVEL_VALUES.has(level)) return [];
+/** B1, B2, and C1 are the same bands as Beginner, Intermediate, and Advanced. */
+export function taskLevelFrom(level: string): TaskLevel {
+  const value = level.trim();
+  if (value === 'intermediate' || value === 'B2' || value === 'b2') return 'intermediate';
+  if (value === 'advanced' || value === 'C1' || value === 'c1' || value === 'C2' || value === 'c2') return 'advanced';
+  return 'beginner';
+}
+
+export function topicsForTaskLevel(level: string): { value: string; label: string }[] {
+  if (!String(level ?? '').trim()) return [];
   return selectableTopics().map((topic) => ({ value: topic.value, label: topic.label }));
+}
+
+export function shuffleResultLine(settings: Pick<TaskSettings, 'level' | 'topic' | 'listeningTopic' | 'grammarExercise'>): string {
+  const options = taskTopicOptions(taskLevelFrom(settings.level));
+  const reading = options.find((item) => item.value === settings.topic)?.label ?? settings.topic;
+  const listening = options.find((item) => item.value === settings.listeningTopic)?.label ?? settings.listeningTopic;
+  const grammar = settings.grammarExercise === 'phrasal'
+    ? 'Phrasal verbs'
+    : settings.grammarExercise === 'order'
+      ? 'Put in order'
+      : 'Fill in the blanks';
+  return `Shuffled: ${reading} · ${listening} · ${grammar}`;
 }
 
 /** Grammar exercises a task pack may use at this level. Custom is not one of them. */
