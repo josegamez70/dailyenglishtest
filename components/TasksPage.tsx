@@ -320,7 +320,7 @@ export function TasksPage({
               role="switch"
               aria-checked={settings.enabled}
               onClick={() => setSettings((current) => ({ ...current, enabled: !current.enabled }))}
-              className={settings.enabled ? 'rounded-lg bg-blue-700 px-4 py-2 text-base font-bold text-white' : 'rounded-lg border-2 border-slate-700 px-4 py-2 text-base font-bold'}
+              className={settings.enabled ? 'quiz-advance rounded-lg bg-blue-700 px-4 py-2 text-base font-bold text-white' : 'rounded-lg border-2 border-slate-700 px-4 py-2 text-base font-bold'}
             >
               {settings.enabled ? 'On' : 'Off'}
             </button>
@@ -514,7 +514,7 @@ export function TasksPage({
             type="button"
             id="task-shuffle"
             onClick={() => setSettings((current) => ({ ...current, ...shuffleTaskChoices(current) }))}
-            className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-lg border-2 border-slate-900 bg-white px-3 py-3 text-lg font-bold text-slate-900 hover:bg-slate-100 dark:border-slate-100 dark:bg-slate-900 dark:text-slate-50 dark:hover:bg-slate-700"
+            className="quiz-advance mt-4 inline-flex w-full items-center justify-center gap-2 rounded-lg border-2 border-slate-900 bg-white px-3 py-3 text-lg font-bold text-slate-900 hover:bg-slate-100 dark:border-slate-100 dark:bg-slate-900 dark:text-slate-50 dark:hover:bg-slate-700"
           >
             Shuffle
           </button>
@@ -531,7 +531,7 @@ export function TasksPage({
               role="switch"
               aria-checked={settings.emailReminders}
               onClick={() => setSettings((current) => ({ ...current, emailReminders: !current.emailReminders }))}
-              className={settings.emailReminders ? 'rounded-lg bg-blue-700 px-4 py-2 text-base font-bold text-white' : 'rounded-lg border-2 border-slate-700 px-4 py-2 text-base font-bold'}
+              className={settings.emailReminders ? 'quiz-advance rounded-lg bg-blue-700 px-4 py-2 text-base font-bold text-white' : 'rounded-lg border-2 border-slate-700 px-4 py-2 text-base font-bold'}
             >
               {settings.emailReminders ? 'On' : 'Off'}
             </button>
@@ -543,7 +543,7 @@ export function TasksPage({
             type="button"
             onClick={() => { void save(); }}
             disabled={saving || !userId}
-            className="mt-4 w-full rounded-lg bg-blue-700 py-3 text-lg font-bold text-white hover:bg-blue-800 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-700"
+            className="quiz-advance mt-4 w-full rounded-lg bg-blue-700 py-3 text-lg font-bold text-white hover:bg-blue-800 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-700"
           >
             {saving ? 'Saving...' : 'Save tasks'}
           </button>
