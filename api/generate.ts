@@ -1283,19 +1283,13 @@ async function defineContextResponse(
     `Word or phrase: "${request.word}"`,
     sentenceLine,
     'Use only the sense that fits this sentence. One short definition, under 18 words.',
-    'Do not mention other senses. Do not lemmatize to a different word: shower stays shower, not show.',
-    'Reply as JSON with partOfSpeech and definition.',
+    'If the sentence is about washing, soap, a towel, or a bathroom, shower means washing your body, not rain.',
+    'If wake or wake up is about the morning or sleep, it means to stop sleeping, not a funeral or a boat.',
+    'Do not mention other senses. Do not change the word into a different word.',
+    'Reply as JSON: {"partOfSpeech":"verb","definition":"short meaning"}',
   ].join('\n');
-  const schema: ResponseSchema = {
-    type: SchemaType.OBJECT,
-    properties: {
-      partOfSpeech: { type: SchemaType.STRING },
-      definition: { type: SchemaType.STRING },
-    },
-    required: ['partOfSpeech', 'definition'],
-  };
   try {
-    const raw = await generateRaw(apiKey, prompt, Date.now() + 8000, 128, schema, 0.2);
+    const raw = await generateRaw(apiKey, prompt, Date.now() + 9000, 256, undefined, 0.2);
     const parsed = parseModelJson(raw);
     const definition = String(parsed?.definition ?? '').replace(/\s+/g, ' ').trim().slice(0, 160);
     const partOfSpeech = String(parsed?.partOfSpeech ?? 'word').replace(/\s+/g, ' ').trim().slice(0, 32) || 'word';

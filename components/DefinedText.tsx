@@ -25,6 +25,7 @@ type OpenWord = {
   id: number;
   surface: string;
   anchor: Anchor;
+  sentence: string;
 };
 
 type PopupStatus = 'loading' | 'ready' | 'missing' | 'error';
@@ -42,11 +43,18 @@ function emit(value: OpenWord | null) {
 
 let phraseOpenedAt = 0;
 
-export function openDictionaryLookup(surface: string, anchor: Anchor) {
+export function openDictionaryLookup(surface: string, anchor: Anchor, sentence = '') {
   cancelClose();
   phraseOpenedAt = Date.now();
   suppressCloseUntil = Date.now() + 500;
-  emit({ id: nextId++, surface, anchor });
+  emit({ id: nextId++, surface, anchor, sentence });
+}
+
+function sentenceAround(element: HTMLElement, term: string): string {
+  const block = element.closest('p, .lesson-copy, [data-transcript]')?.textContent
+    || element.parentElement?.textContent
+    || '';
+  return sentenceWith(block, term) || block.replace(/\s+/g, ' ').trim().slice(0, 240);
 }
 
 function scheduleClose() {
@@ -121,7 +129,7 @@ export function DictionaryPopup() {
     setPlaced(false);
     setStatus('loading');
     setEntry(null);
-    defineInContext(open.surface, sentenceWith(lesson?.story ?? '', open.surface) || lesson?.story?.slice(0, 240) || '')
+    defineInContext(open.surface, open.sentence || sentenceWith(lesson?.story ?? '', open.surface))
       .then((result) => {
         if (cancelled) return;
         setEntry(result);
@@ -262,6 +270,7 @@ function LookupWord({ surface, highlighted }: { surface: string; highlighted: bo
       id: nextId++,
       surface,
       anchor: { top: rect.top, bottom: rect.bottom, left: rect.left, width: rect.width, height: rect.height },
+      sentence: sentenceAround(element, surface),
     });
   };
   return (
@@ -329,7 +338,7 @@ export function DefinedText({
     const rect = range.getBoundingClientRect();
     if (!rect.width && !rect.height) return;
     selection.removeAllRanges();
-    openDictionaryLookup(term, { top: rect.top, bottom: rect.bottom, left: rect.left, width: rect.width, height: rect.height });
+    openDictionaryLookup(term, { top: rect.top, bottom: rect.bottom, left: rect.left, width: rect.width, height: rect.height }, sentenceWith(node.textContent || '', term) || node.textContent?.replace(/\s+/g, ' ').trim().slice(0, 240) || '');
   };
   return (
     <span ref={rootRef} className={className} data-transcript={transcript} onPointerUp={takePhrase}>
