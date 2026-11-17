@@ -25,6 +25,7 @@ import {
   practiceHasQuiz,
   taskBlockMessage,
   grammarExercisesForLevel,
+  shuffleResultLine,
   shuffleTaskChoices,
   taskGrammarExercise,
   taskLevelLabel,
@@ -51,12 +52,14 @@ function SelectField({
   id,
   label,
   value,
+  marked = false,
   onChange,
   options,
 }: {
   id: string;
   label: string;
   value: string | number;
+  marked?: boolean;
   onChange: (value: string) => void;
   options: { value: string | number; label: string }[];
 }) {
@@ -67,7 +70,7 @@ function SelectField({
         id={id}
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="w-full rounded-md border-2 border-slate-500 bg-white px-3 py-2.5 text-base text-slate-900 dark:border-slate-300 dark:bg-slate-800 dark:text-slate-50"
+        className={`w-full rounded-md border-2 border-slate-500 bg-white px-3 py-2.5 text-base text-slate-900 dark:border-slate-300 dark:bg-slate-800 dark:text-slate-50 ${marked ? 'ring-2 ring-blue-700' : ''}`}
       >
         {options.map((option) => (
           <option key={option.value} value={option.value}>{option.label}</option>
@@ -145,7 +148,13 @@ export function TasksPage({
   onOpenPack?: (packId: string) => void;
   onClosePack?: () => void;
 }) {
-  const [settings, setSettings] = useState<TaskSettings>(fixture?.settings ?? DEFAULT_TASK_SETTINGS);
+  const [settings, setSettingsState] = useState<TaskSettings>(fixture?.settings ?? DEFAULT_TASK_SETTINGS);
+  const [shuffleLine, setShuffleLine] = useState<string | null>(null);
+  const edited = useRef(false);
+  const setSettings: typeof setSettingsState = (value) => {
+    edited.current = true;
+    setSettingsState(value);
+  };
   const [pack, setPack] = useState<TaskPackClient | null>(fixture?.pack ?? null);
   const [packs, setPacks] = useState<TaskPackClient[]>(fixture?.packs ?? (fixture?.pack ? [fixture.pack] : []));
   const [missing, setMissing] = useState(false);
@@ -163,7 +172,7 @@ export function TasksPage({
   }, [fixture, userId]);
 
   const applyLoaded = (loaded: { settings: TaskSettings; pack: TaskPackClient | null; packs?: TaskPackClient[]; missing: boolean }) => {
-    setSettings(loaded.settings);
+    if (!edited.current) setSettingsState(loaded.settings);
     setPack(loaded.pack);
     setPacks(loaded.packs ?? (loaded.pack ? [loaded.pack] : []));
     setMissing(loaded.missing);
@@ -273,6 +282,7 @@ export function TasksPage({
       setError(saved.missing ? 'Tasks will be ready after the database update.' : 'The settings could not be saved.');
       return;
     }
+    edited.current = false;
     setNote(saved.vocabularyLocal
       ? 'Saved on this device. Vocabulary builder in tasks is kept for every device after the database update. The lessons appear in Task packs.'
       : 'Saved. The lessons appear in Task packs.');
@@ -408,6 +418,7 @@ export function TasksPage({
               id="task-reading-topic"
               label="Reading topic"
               value={settings.topic}
+              marked={Boolean(shuffleLine)}
               onChange={(value) => setSettings((current) => ({ ...current, topic: value }))}
               options={taskTopicOptions(settings.level)}
             />
@@ -415,6 +426,7 @@ export function TasksPage({
               id="task-listening-topic"
               label="Listening topic"
               value={settings.listeningTopic}
+              marked={Boolean(shuffleLine)}
               onChange={(value) => setSettings((current) => ({ ...current, listeningTopic: value }))}
               options={taskTopicOptions(settings.level)}
             />
@@ -491,7 +503,7 @@ export function TasksPage({
               ))}
             </div>
           </fieldset>
-          <fieldset className="mt-4">
+          <fieldset className={shuffleLine ? 'mt-4 rounded-lg ring-2 ring-blue-700' : 'mt-4'}>
             <legend className="text-base font-semibold">Grammar exercise</legend>
             <div className="mt-2 grid gap-2">
               {grammarExercisesForLevel(settings.grammarLevel).map((item) => (
@@ -531,11 +543,22 @@ export function TasksPage({
           <button
             type="button"
             id="task-shuffle"
-            onClick={() => setSettings((current) => ({ ...current, ...shuffleTaskChoices(current) }))}
+            onClick={() => {
+              const picked = shuffleTaskChoices(settings);
+              const next = { ...settings, ...picked };
+              setSettings(next);
+              setShuffleLine(shuffleResultLine(next));
+              window.setTimeout(() => document.getElementById('task-shuffle-result')?.scrollIntoView({ block: 'nearest' }), 0);
+            }}
             className="quiz-advance mt-4 inline-flex w-full items-center justify-center gap-2 rounded-lg border-2 border-slate-900 bg-white px-3 py-3 text-lg font-bold text-slate-900 hover:bg-slate-100 dark:border-slate-100 dark:bg-slate-900 dark:text-slate-50 dark:hover:bg-slate-700"
           >
             Shuffle
           </button>
+          {shuffleLine && (
+            <p id="task-shuffle-result" className="mt-3 rounded-lg border-2 border-blue-800 bg-white px-3 py-2 text-base font-semibold text-slate-900 dark:border-blue-300 dark:bg-slate-900 dark:text-slate-50" role="status">
+              {shuffleLine}
+            </p>
+          )}
           <p className="mt-2 text-sm text-slate-700 dark:text-slate-200">
             Picks a reading topic, a listening topic, and a grammar exercise for this level. You can change them before you save.
           </p>
