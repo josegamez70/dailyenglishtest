@@ -30,6 +30,7 @@ import {
   type SpeakerGender,
 } from '../dialogue';
 import { normalizeQuiz, type NormalizedQuizQuestion } from '../quizNormalize';
+import { FREE_LESSON_LIMIT, FREE_LIMIT_MESSAGE } from '../freeLessons';
 import {
   buildGrammarPrompt,
   buildGrammarTopUpPrompt,
@@ -258,8 +259,6 @@ function clamp(n: number, lo: number, hi: number) {
   return Math.max(lo, Math.min(hi, n));
 }
 
-const FREE_LESSON_LIMIT = 3;
-
 function adminClient(): SupabaseClient | null {
   const url = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -297,7 +296,7 @@ function limitBody(lessonsUsed: number, plan: string) {
     error: 'free_limit',
     lessonsUsed,
     plan,
-    message: 'You have used your 3 free lessons. Premium is 3 € per month. These 3 lessons do not expire.',
+    message: FREE_LIMIT_MESSAGE,
   });
 }
 
@@ -883,27 +882,43 @@ async function freeLimitResponse(
   return null;
 }
 
+type ConsumeResult = { blocked: HandlerResponse | null; lessonsUsed: number | null };
+
+function stampLessons(body: string, lessonsUsed: number | null): string {
+  if (lessonsUsed == null || !Number.isFinite(lessonsUsed)) return body;
+  try {
+    const parsed = JSON.parse(body) as Record<string, unknown>;
+    parsed.lessonsUsed = lessonsUsed;
+    return JSON.stringify(parsed);
+  } catch {
+    return body;
+  }
+}
+
 async function consumeLessonResponse(
   admin: SupabaseClient,
   userId: string,
   headers: Record<string, string>,
-): Promise<HandlerResponse | null> {
+): Promise<ConsumeResult> {
   const consumed = await admin.rpc('consume_lesson', { uid: userId, free_limit: FREE_LESSON_LIMIT });
   const allowance = readAllowance(consumed.data);
   if (consumed.error || !allowance?.allowed) {
     return {
-      statusCode: allowance && !allowance.allowed ? 402 : 502,
-      headers,
-      body: allowance && !allowance.allowed
-        ? (allowance.reason === 'pilot_expired' ? pilotExpiredBody() : limitBody(allowance.lessonsUsed, allowance.plan))
-        : JSON.stringify({
-          ok: false,
-          code: 'LESSON_COUNT',
-          message: 'The lesson could not be saved. Please try again.',
-        }),
+      blocked: {
+        statusCode: allowance && !allowance.allowed ? 402 : 502,
+        headers,
+        body: allowance && !allowance.allowed
+          ? (allowance.reason === 'pilot_expired' ? pilotExpiredBody() : limitBody(allowance.lessonsUsed, allowance.plan))
+          : JSON.stringify({
+            ok: false,
+            code: 'LESSON_COUNT',
+            message: 'The lesson could not be saved. Please try again.',
+          }),
+      },
+      lessonsUsed: allowance?.lessonsUsed ?? null,
     };
   }
-  return null;
+  return { blocked: null, lessonsUsed: allowance.lessonsUsed };
 }
 
 function grammarModelPayload(parsed: Record<string, unknown> | null): unknown {
@@ -923,7 +938,7 @@ export async function produceGrammar(
   request: GrammarRequest,
   deadline = Date.now() + 23000,
 ): Promise<ProducedGrammar> {
-  const topUpBudgetMs = 12000;
+  const topUpBudgetMs = 4000;
   let problems: string[] = [];
   let kept: GrammarItem[] = [];
   let set = null as ReturnType<typeof normalizeGrammarSet> | null;
@@ -939,17 +954,20 @@ export async function produceGrammar(
   kept = normalized.items;
   if (!normalized.ok) problems = normalized.problems;
 
-  if (kept.length < GRAMMAR_ITEM_COUNT && deadline - Date.now() >= topUpBudgetMs) {
+  let rounds = 0;
+  while (kept.length < GRAMMAR_ITEM_COUNT && rounds < 2 && deadline - Date.now() >= topUpBudgetMs) {
+    rounds += 1;
     const needed = GRAMMAR_ITEM_COUNT - kept.length;
     const correction = kept.length === 0
       ? problems.slice(0, 6).join('\n') || 'Return only valid JSON.'
-      : undefined;
+      : 'Exactly one option may fit. Do not offer two answers that both work, such as gave up and gave in.';
     try {
       normalized = await ask(buildGrammarTopUpPrompt(request, needed, kept, correction), needed, kept);
       kept = normalized.items;
       if (!normalized.ok) problems = normalized.problems;
     } catch (error) {
       if (kept.length < GRAMMAR_MIN_ITEMS) throw error;
+      break;
     }
   }
 
@@ -1059,13 +1077,13 @@ async function createGrammarSet(
   if (grammarUsesBank(request.topic)) {
     const claimed = await claimGrammarFromBank(admin, userId, request);
     if (claimed) {
-      const blocked = await consumeLessonResponse(admin, userId, headers);
-      if (blocked) {
+      const charged = await consumeLessonResponse(admin, userId, headers);
+      if (charged.blocked) {
         await releaseGrammarBankItem(admin, userId, claimed.id);
-        return blocked;
+        return charged.blocked;
       }
       console.log(JSON.stringify({ stage: 'grammar_bank', level: claimed.set.level, exercise: claimed.set.exercise }));
-      return { statusCode: 200, headers, body: grammarBody(claimed.set) };
+      return { statusCode: 200, headers, body: stampLessons(grammarBody(claimed.set), charged.lessonsUsed) };
     }
     console.log(JSON.stringify({ stage: 'grammar_live', level: request.level, exercise: request.exercise }));
   }
@@ -1087,9 +1105,9 @@ async function createGrammarSet(
     };
   }
 
-  const blocked = await consumeLessonResponse(admin, userId, headers);
-  if (blocked) return blocked;
-  return { statusCode: 200, headers, body: grammarBody(produced.set) };
+  const charged = await consumeLessonResponse(admin, userId, headers);
+  if (charged.blocked) return charged.blocked;
+  return { statusCode: 200, headers, body: stampLessons(grammarBody(produced.set), charged.lessonsUsed) };
 }
 
 function practiceFailure(headers: Record<string, string>, stage: 'story' | 'quiz', problems: string[], preview: string): HandlerResponse {
@@ -1138,10 +1156,10 @@ async function createListeningLesson(
       questionCount: params.questionCount,
     });
     if (claimed) {
-      const blocked = await consumeLessonResponse(admin, userId, headers);
-      if (blocked) {
+      const charged = await consumeLessonResponse(admin, userId, headers);
+      if (charged.blocked) {
         await releaseGrammarBankItem(admin, userId, claimed.id);
-        return blocked;
+        return charged.blocked;
       }
       const audioUrl = await signListeningAudio(admin, claimed.audioPath);
       const audioSlowUrl = claimed.audioSlowPath ? await signListeningAudio(admin, claimed.audioSlowPath) : null;
@@ -1170,6 +1188,7 @@ async function createListeningLesson(
           quiz: claimed.lesson.quiz,
           audioUrl: audioUrl ?? '',
           ...(audioSlowUrl ? { audioSlowUrl } : {}),
+          ...(charged.lessonsUsed == null ? {} : { lessonsUsed: charged.lessonsUsed }),
         }),
       };
     }
@@ -1216,8 +1235,8 @@ async function createListeningLesson(
     }));
   }
 
-  const blocked = await consumeLessonResponse(admin, userId, headers);
-  if (blocked) return blocked;
+  const charged = await consumeLessonResponse(admin, userId, headers);
+  if (charged.blocked) return charged.blocked;
   return {
     statusCode: 200,
     headers,
@@ -1232,8 +1251,65 @@ async function createListeningLesson(
       format: params.format,
       dialogue: produced.lesson.dialogue,
       ...(audioBase64 ? { audioBase64 } : {}),
+      ...(charged.lessonsUsed == null ? {} : { lessonsUsed: charged.lessonsUsed }),
     }),
   };
+}
+
+function readDefineRequest(bodyText: string | null | undefined): { word: string; sentence: string } | null {
+  let body: { mode?: string; word?: string; sentence?: string } = {};
+  try {
+    body = JSON.parse(bodyText || '{}');
+  } catch {
+    return null;
+  }
+  if (body.mode !== 'define') return null;
+  const word = String(body.word ?? '').replace(/\s+/g, ' ').trim().slice(0, 48);
+  const sentence = String(body.sentence ?? '').replace(/\s+/g, ' ').trim().slice(0, 240);
+  if (word.replace(/[^A-Za-z]/g, '').length < 2) return null;
+  return { word, sentence };
+}
+
+async function defineContextResponse(
+  apiKey: string,
+  request: { word: string; sentence: string },
+  headers: Record<string, string>,
+): Promise<HandlerResponse> {
+  const sentenceLine = request.sentence
+    ? `Sentence: "${request.sentence}"`
+    : 'No sentence was given. Use the most common everyday sense.';
+  const prompt = [
+    'Define one English word or short phrase for a language learner.',
+    `Word or phrase: "${request.word}"`,
+    sentenceLine,
+    'Use only the sense that fits this sentence. One short definition, under 18 words.',
+    'Do not mention other senses. Do not lemmatize to a different word: shower stays shower, not show.',
+    'Reply as JSON with partOfSpeech and definition.',
+  ].join('\n');
+  const schema: ResponseSchema = {
+    type: SchemaType.OBJECT,
+    properties: {
+      partOfSpeech: { type: SchemaType.STRING },
+      definition: { type: SchemaType.STRING },
+    },
+    required: ['partOfSpeech', 'definition'],
+  };
+  try {
+    const raw = await generateRaw(apiKey, prompt, Date.now() + 8000, 128, schema, 0.2);
+    const parsed = parseModelJson(raw);
+    const definition = String(parsed?.definition ?? '').replace(/\s+/g, ' ').trim().slice(0, 160);
+    const partOfSpeech = String(parsed?.partOfSpeech ?? 'word').replace(/\s+/g, ' ').trim().slice(0, 32) || 'word';
+    if (!definition) {
+      return { statusCode: 502, headers, body: JSON.stringify({ ok: false, message: 'No definition.' }) };
+    }
+    return {
+      statusCode: 200,
+      headers,
+      body: JSON.stringify({ ok: true, word: request.word, partOfSpeech, definition }),
+    };
+  } catch {
+    return { statusCode: 502, headers, body: JSON.stringify({ ok: false, message: 'No definition.' }) };
+  }
 }
 
 export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => {
@@ -1257,7 +1333,8 @@ export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => 
     }
 
     const grammarRequest = readGrammarRequest(event.body);
-    const params = grammarRequest ? null : readParams(event.body);
+    const defineRequest = grammarRequest ? null : readDefineRequest(event.body);
+    const params = grammarRequest || defineRequest ? null : readParams(event.body);
     // A standard grammar or listening request can be served from the bank without Gemini.
     // Reading, a typed grammar topic, a custom listening topic, and an empty listening bank still need the key.
     const listeningStory = params?.mode === 'listening' && params.stage === 'story';
@@ -1268,7 +1345,7 @@ export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => 
         body: JSON.stringify({ ok: false, code: 'NO_API_KEY', message: 'Missing API key' }),
       };
     }
-    if (!grammarRequest && !params) {
+    if (!grammarRequest && !params && !defineRequest) {
       return {
         statusCode: 400,
         headers: corsHeaders,
@@ -1300,6 +1377,10 @@ export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => 
         headers: corsHeaders,
         body: JSON.stringify({ ok: false, error: 'auth_required' }),
       };
+    }
+
+    if (defineRequest) {
+      return await defineContextResponse(apiKey, defineRequest, corsHeaders);
     }
 
     if (grammarRequest || params?.stage === 'story') {
@@ -1373,8 +1454,8 @@ export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => 
       };
     }
 
-    const blocked = await consumeLessonResponse(admin, userId, corsHeaders);
-    if (blocked) return blocked;
+    const charged = await consumeLessonResponse(admin, userId, corsHeaders);
+    if (charged.blocked) return charged.blocked;
 
     return {
       statusCode: 200,
@@ -1388,6 +1469,7 @@ export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => 
         wordCountOk: best.lesson.wordCountOk,
         format: params.format,
         dialogue: best.lesson.dialogue,
+        ...(charged.lessonsUsed == null ? {} : { lessonsUsed: charged.lessonsUsed }),
       }),
     };
   } catch (error) {

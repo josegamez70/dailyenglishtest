@@ -1,3 +1,19 @@
+.lesson-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: rgb(15 23 42 / 0.8);
+}
+
+html[data-theme="retro95"] .lesson-loader {
+  background: rgb(0 0 128 / 0.72);
+}
+
 .phase2-enter {
   /* The quiz stays fully opaque. A fade here left a dim layer over the options. */
 }
@@ -7,26 +23,27 @@
   inset: 0;
   z-index: 60;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  padding: 1rem;
-  background: rgb(15 23 42 / 0.45);
+  padding: 0.75rem;
+  background: transparent;
   pointer-events: none;
 }
 
 .phase2-dialog[data-open="true"] {
-  pointer-events: auto;
+  pointer-events: none;
 }
 
 .phase2-dialog-card {
   width: min(100%, 26rem);
-  max-height: calc(100vh - 2rem);
+  max-height: min(16rem, calc(100vh - 2rem));
   overflow: auto;
   border-radius: 1rem;
   background: #fff !important;
   opacity: 1 !important;
   padding: 1.25rem;
   box-shadow: 0 18px 40px rgb(15 23 42 / 0.22);
+  pointer-events: auto;
   animation: phase2-card 180ms ease-out forwards;
 }
 

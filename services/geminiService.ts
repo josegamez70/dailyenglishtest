@@ -17,6 +17,7 @@ type GenResponse = {
   audioUrl?: string;
   audioSlowUrl?: string;
   audioBase64?: string;
+  lessonsUsed?: number;
 };
 
 const API_URL = '/api/generate';
@@ -79,7 +80,7 @@ async function fetchWithRetry(
           } else if (parsed?.error === 'pilot_expired') {
             message = parsed.message || 'This academy pilot has ended. Saved lessons are still available. New lessons are paused.';
             code = 'pilot_expired';
-          } else if (parsed?.error === 'auth_required') message = 'Sign in free to get 3 free lessons.';
+          } else if (parsed?.error === 'auth_required') message = 'Sign in free to get 12 free lessons.';
           else if (parsed?.message) message = String(parsed.message);
         } catch {
           /* keep the raw text */
@@ -112,6 +113,7 @@ export type StoryDraft = {
   banked?: boolean;
   bankId?: string;
   quiz?: QuizQuestion[];
+  lessonsUsed?: number;
 };
 
 function lessonPayload(config: ConfigOptions, extra: Record<string, unknown>) {
@@ -197,6 +199,7 @@ function readStory(data: GenResponse, config: ConfigOptions): StoryDraft {
     banked,
     bankId: typeof data.bankId === 'string' ? data.bankId : undefined,
     quiz: quiz && quiz.length ? quiz : undefined,
+    lessonsUsed: typeof data.lessonsUsed === 'number' ? data.lessonsUsed : undefined,
   };
 }
 
@@ -327,7 +330,7 @@ export async function generateStoryAndQuiz(
 export async function generateGrammarSet(
   input: { level: GrammarLevel; exercise: GrammarExerciseType; topic: string },
   signal?: AbortSignal,
-): Promise<GrammarSet> {
+): Promise<GrammarSet & { lessonsUsed?: number }> {
   const data = await postGenerate({
     prompt: JSON.stringify({
       mode: 'grammar',
@@ -339,5 +342,8 @@ export async function generateGrammarSet(
   }, signal);
   const normalized = normalizeGrammarSet(data, input);
   if (!normalized.ok) throw new Error('The exercises could not be read. Please try again.');
-  return normalized.set;
+  const lessonsUsed = typeof (data as { lessonsUsed?: number }).lessonsUsed === 'number'
+    ? (data as { lessonsUsed: number }).lessonsUsed
+    : undefined;
+  return lessonsUsed == null ? normalized.set : { ...normalized.set, lessonsUsed };
 }

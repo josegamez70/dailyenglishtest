@@ -302,7 +302,7 @@ const EN_FAQ: readonly HelpFaq[] = [
       },
       {
         type: 'p',
-        text: 'Task packs lists each pack. Open a pack to start its exercises. One pack uses one free lesson. Premium and an active academy are not counted, and the 3 free lessons still work the same way on Reading, Listening, and Grammar. Opening a pack does not use another lesson. Only 5 task packs are kept. A reminder email can arrive when a pack is ready. That email has a link to turn tasks off.',
+        text: 'Task packs lists each pack. Open a pack to start its exercises. One pack uses one free lesson. Premium and an active academy are not counted, and the 12 free lessons still work the same way on Reading, Listening, and Grammar. Opening a pack does not use another lesson. Only 5 task packs are kept. A reminder email can arrive when a pack is ready. That email has a link to turn tasks off.',
       },
     ],
   },
@@ -330,7 +330,7 @@ const EN_FAQ: readonly HelpFaq[] = [
       },
       {
         type: 'p',
-        text: 'Each account can create 3 free lessons. They do not expire. They are not a free trial, and you do not enter a card to get them. An active academy covers new lessons for the owner and for students who have joined. When a pilot ends, new lessons stop, and those 3 free lessons do not start again.',
+        text: 'Each account can create 12 free lessons. They do not expire. They are not a free trial, and you do not enter a card to get them. An active academy covers new lessons for the owner and for students who have joined. When a pilot ends, new lessons stop, and those 12 free lessons do not start again.',
       },
     ],
   },
@@ -356,7 +356,7 @@ const EN_FAQ: readonly HelpFaq[] = [
       },
       {
         type: 'p',
-        text: `When the ${PILOT_DAYS} days end, new lessons stop for the owner and for the students. Saved lessons and progress stay. The 3 free lessons do not start again. New students cannot join. The owner can email [[${HELP_CONTACT}|mailto:${HELP_CONTACT}]] or look at the example plans.`,
+        text: `When the ${PILOT_DAYS} days end, new lessons stop for the owner and for the students. Saved lessons and progress stay. The 12 free lessons do not start again. New students cannot join. The owner can email [[${HELP_CONTACT}|mailto:${HELP_CONTACT}]] or look at the example plans.`,
       },
     ],
   },
@@ -566,7 +566,7 @@ const ES_FAQ: readonly HelpFaq[] = [
       },
       {
         type: 'p',
-        text: '«Task packs» muestra cada paquete. Abre un paquete para empezar sus ejercicios. Un paquete gasta una lección gratis. Premium y una academia activa no se cuentan, y las 3 lecciones gratis siguen igual en «Reading», «Listening» y «Grammar». Abrir un paquete no gasta otra lección. Solo se conservan 5 paquetes de tareas. Puede llegar un correo cuando hay un paquete nuevo. Ese correo tiene un enlace para apagar las tareas.',
+        text: '«Task packs» muestra cada paquete. Abre un paquete para empezar sus ejercicios. Un paquete gasta una lección gratis. Premium y una academia activa no se cuentan, y las 12 lecciones gratis siguen igual en «Reading», «Listening» y «Grammar». Abrir un paquete no gasta otra lección. Solo se conservan 5 paquetes de tareas. Puede llegar un correo cuando hay un paquete nuevo. Ese correo tiene un enlace para apagar las tareas.',
       },
     ],
   },
@@ -594,7 +594,7 @@ const ES_FAQ: readonly HelpFaq[] = [
       },
       {
         type: 'p',
-        text: 'Cada cuenta puede crear 3 lecciones gratis. No caducan. No son una prueba gratuita y no hace falta tarjeta para conseguirlas. Una academia activa cubre las lecciones nuevas del responsable y de los alumnos que se han unido. Cuando termina un piloto, las lecciones nuevas se detienen y esas 3 lecciones gratis no vuelven a empezar.',
+        text: 'Cada cuenta puede crear 12 lecciones gratis. No caducan. No son una prueba gratuita y no hace falta tarjeta para conseguirlas. Una academia activa cubre las lecciones nuevas del responsable y de los alumnos que se han unido. Cuando termina un piloto, las lecciones nuevas se detienen y esas 12 lecciones gratis no vuelven a empezar.',
       },
     ],
   },
@@ -620,7 +620,7 @@ const ES_FAQ: readonly HelpFaq[] = [
       },
       {
         type: 'p',
-        text: `Cuando pasan los ${PILOT_DAYS} días, las lecciones nuevas se detienen para el responsable y para los alumnos. Las lecciones guardadas y el progreso siguen. Las 3 lecciones gratis no vuelven a empezar. No pueden unirse alumnos nuevos. El responsable puede escribir a [[${HELP_CONTACT}|mailto:${HELP_CONTACT}]] o consultar los planes de ejemplo.`,
+        text: `Cuando pasan los ${PILOT_DAYS} días, las lecciones nuevas se detienen para el responsable y para los alumnos. Las lecciones guardadas y el progreso siguen. Las 12 lecciones gratis no vuelven a empezar. No pueden unirse alumnos nuevos. El responsable puede escribir a [[${HELP_CONTACT}|mailto:${HELP_CONTACT}]] o consultar los planes de ejemplo.`,
       },
     ],
   },

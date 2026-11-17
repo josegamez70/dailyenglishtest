@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
+import { FREE_LESSON_LIMIT, FREE_LIMIT_MESSAGE } from './freeLessons';
 
-export const FREE_LESSON_LIMIT = 3;
+export { FREE_LESSON_LIMIT, FREE_LIMIT_MESSAGE };
 
 /** Free accounts show the remaining lessons. Other plans show a name only. */
 export function planStatusText(plan: string | null, lessonsLeft: number, academyStudent = false): string | null {
@@ -13,8 +14,6 @@ export function planStatusText(plan: string | null, lessonsLeft: number, academy
   if (plan === 'academy') return 'Academy';
   return plan;
 }
-
-export const FREE_LIMIT_MESSAGE = 'You have used your 3 free lessons. Premium is 3 € per month. These 3 lessons do not expire.';
 
 let client: SupabaseClient | null | undefined;
 
@@ -153,6 +152,9 @@ export function useAccount() {
   }, [refreshProfile]);
 
   const lessonsLeft = Math.max(0, FREE_LESSON_LIMIT - lessonsUsed);
+  const noteLessonsUsed = useCallback((used: number) => {
+    if (Number.isFinite(used)) setLessonsUsed(Math.max(0, Math.round(used)));
+  }, []);
   return {
     email,
     userId,
@@ -170,5 +172,6 @@ export function useAccount() {
     academyChecked,
     signedIn: Boolean(userId),
     refreshProfile,
+    noteLessonsUsed,
   };
 }

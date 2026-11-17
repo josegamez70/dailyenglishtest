@@ -20,6 +20,9 @@ test('word lookup tries a simple plural or verb ending when needed', () => {
   assert.equal(searchLookupTerm('a'), null);
   assert.equal(searchLookupTerm('one two three four five'), null);
   assert.equal(searchLookupTerm('hello!'), null);
+  assert.equal(lemmaCandidates('shower').includes('show'), false);
+  assert.equal(baseFormCandidates('shower').includes('show'), false);
+  assert.ok(lemmaCandidates('bigger').includes('big'));
 });
 
 test('dictionary payload keeps a short meaning and one example', () => {

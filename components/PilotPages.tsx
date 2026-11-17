@@ -56,7 +56,7 @@ export function ExpiredPilotNotice() {
   return (
     <div className="mt-4 rounded-xl border border-teal-700/40 bg-white px-4 py-3 text-base dark:bg-[#22304a]" role="status">
       <p className="font-bold">This academy pilot has ended.</p>
-      <p className="mt-2">Saved lessons and progress are still available. New lessons are paused. The 3 free lessons do not start again.</p>
+      <p className="mt-2">Saved lessons and progress are still available. New lessons are paused. The 12 free lessons do not start again.</p>
       <p className="mt-2">
         Academy up to 20 students later: {formatEuro(price.totalCents)} per month, 21% VAT included ({formatEuro(price.baseCents)} + {formatEuro(price.vatCents)} VAT). No payment is started from this page.
       </p>

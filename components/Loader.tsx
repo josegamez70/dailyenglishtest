@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { elapsedWholeSeconds } from '../lessonUtils';
 
 interface LoaderProps {
@@ -38,9 +39,9 @@ const Loader: React.FC<LoaderProps> = ({ startedAt, estimateSeconds, note, onCan
   const high = estimateSeconds + 5;
   const percent = progressPercent(elapsedSeconds, estimateSeconds);
 
-  return (
+  const overlay = (
     <div
-      className="fixed inset-0 bg-slate-900/80 flex flex-col items-center justify-center z-50 px-6"
+      className="lesson-loader"
       role="alertdialog"
       aria-busy="true"
       aria-label="Creating your lesson"
@@ -71,6 +72,8 @@ const Loader: React.FC<LoaderProps> = ({ startedAt, estimateSeconds, note, onCan
       <p className="text-slate-100 text-base mt-2 text-center">Cancel and return to the setup screen.</p>
     </div>
   );
+  if (typeof document === 'undefined') return overlay;
+  return createPortal(overlay, document.body);
 };
 
 export default Loader;
