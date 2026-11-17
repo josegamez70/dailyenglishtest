@@ -148,11 +148,7 @@ test('extra valid items are cut to 6 and order parts must be 4 to 6 different ch
   assert.equal(trimmed.set.items.length, GRAMMAR_ITEM_COUNT);
 
   const good = normalizeGrammarSet({
-    items: Array.from({ length: 10 }, (_, index) => ({
-      prompt: '',
-      chunks: [`One ${index}.`, `Two ${index}.`, `Three ${index}.`, `Four ${index}.`, `Five ${index}.`],
-      explanation: `This is the order for item ${index}.`,
-    })),
+    items: Array.from({ length: 10 }, (_, index) => c1OrderItem(index)),
   }, orderRequest);
   assert.equal(good.ok, true);
   if (!good.ok) return;
@@ -196,6 +192,10 @@ test('the prompt names the level, the exercise, and an optional topic', () => {
   assert.match(upper, /relative clauses/);
   const advanced = buildGrammarPrompt({ level: 'C1', exercise: 'order', topic: '' });
   assert.match(advanced, /pronoun/);
+  assert.match(advanced, /20 to 28/);
+  assert.match(advanced, /5 or 6/);
+  assert.equal(paragraph.includes('20 to 28'), false);
+  assert.equal(upper.includes('20 to 28'), false);
   assert.match(blanks, /going to/);
   assert.match(blanks, /that" and "who"/);
   assert.match(blanks, /could" and "might"/);
@@ -439,6 +439,90 @@ test('B1 order items are paragraphs with one logical order', () => {
     })),
   }, { level: 'B1', exercise: 'order', topic: '' });
   assert.equal(fragment.ok, false);
+});
+
+test('C1 order items are longer sentences with only one correct order', () => {
+  const accepted = normalizeGrammarSet({
+    items: Array.from({ length: 6 }, (_, index) => c1OrderItem(index)),
+  }, orderRequest);
+  assert.equal(accepted.ok, true);
+  if (!accepted.ok) return;
+  const item = accepted.set.items[0];
+  assert.equal(item.kind, 'order');
+  if (item.kind !== 'order') return;
+  assert.ok(item.chunks.length >= 5 && item.chunks.length <= 6);
+  const words = item.chunks.join(' ').replace(/[^\p{L}\p{N}’'-]+/gu, ' ').trim().split(/\s+/).filter(Boolean);
+  assert.ok(words.length >= 20 && words.length <= 28, String(words.length));
+
+  const endingNoun = normalizeGrammarSet({
+    items: Array.from({ length: 6 }, (_, index) => ({
+      chunks: [
+        `Not only had director ${index} rejected the offer,`,
+        'which several investors had supported,',
+        'but it also demanded',
+        'that the chief executive explain',
+        'why the board revised the plan.',
+      ],
+      explanation: `Which follows the offer, and the final noun cannot host it, in item ${index}.`,
+    })),
+  }, orderRequest);
+  assert.equal(endingNoun.ok, true);
+
+  const hardly = normalizeGrammarSet({
+    items: Array.from({ length: 6 }, (_, index) => ({
+      chunks: [
+        'Hardly had the new CEO finished',
+        'his introductory speech to the board,',
+        `when the lead investor${index}, who`,
+        'had remained silent until then,',
+        'demanded an immediate and thorough',
+        "audit of the company's accounts.",
+      ],
+      explanation: `Hardly is followed later by when in item ${index}.`,
+    })),
+  }, orderRequest);
+  assert.equal(hardly.ok, true);
+
+  const hikers = normalizeGrammarSet({
+    items: Array.from({ length: 6 }, (_, index) => ({
+      chunks: [
+        `Hardly had the exhausted hiker${index} reached the summit`,
+        'when a sudden storm forced them to seek',
+        'shelter in a small cave, which was',
+        'the only dry place they could find',
+        'before the heavy rain began to fall.',
+      ],
+      explanation: `Hardly is followed by when, and which stays with the cave, in item ${index}.`,
+    })),
+  }, orderRequest);
+  assert.equal(hikers.ok, true);
+
+  const short = normalizeGrammarSet({
+    items: Array.from({ length: 6 }, () => ({
+      chunks: [
+        'Hardly had the meeting begun',
+        'when the CEO interrupted',
+        'to announce a major merger',
+        'that would change everything.',
+      ],
+      explanation: 'This sentence is too short and has only four parts.',
+    })),
+  }, orderRequest);
+  assert.equal(short.ok, false);
+
+  const movable = normalizeGrammarSet({
+    items: Array.from({ length: 6 }, (_, index) => ({
+      chunks: [
+        `Although the committee had approved budget ${index},`,
+        'the director still refused to sign it,',
+        'until the auditors had checked everything,',
+        'and then she called the whole board,',
+        'before the office finally closed.',
+      ],
+      explanation: 'The although clause could also end the sentence.',
+    })),
+  }, orderRequest);
+  assert.equal(movable.ok, false);
 });
 
 test('shuffling hides the correct order and tapping supports undo and reset', () => {
@@ -730,15 +814,25 @@ test('blanks and phrasals spread the correct option across A B C and D', () => {
   }
 
   const order = normalizeGrammarSet({
-    items: Array.from({ length: 6 }, (_, index) => ({
-      chunks: [`Alpha ${index}`, `Beta ${index}`, `Gamma ${index}`, `Delta ${index}.`],
-      explanation: `Keep this order for ${index}.`,
-    })),
+    items: Array.from({ length: 6 }, (_, index) => c1OrderItem(index)),
   }, { level: 'C1', exercise: 'order', topic: '' }, { random: () => 0 });
   assert.equal(order.ok, true);
   if (!order.ok) return;
-  assert.equal(order.set.items.every((item) => item.kind === 'order' && item.chunks[0].startsWith('Alpha')), true);
+  assert.equal(order.set.items.every((item) => item.kind === 'order' && item.chunks.length >= 5 && item.chunks[0].startsWith('Not only')), true);
 });
+
+function c1OrderItem(index: number) {
+  return {
+    chunks: [
+      `Not only had director ${index} rejected the offer,`,
+      'which several investors had supported,',
+      'but it also demanded',
+      'that the chief executive explain',
+      'why the totals had changed.',
+    ],
+    explanation: `Not only comes before but, and which follows the offer in item ${index}.`,
+  };
+}
 
 function featuredInPrompt(level: GrammarLevel, seed: number): string[] {
   const prompt = buildGrammarPrompt({ level, exercise: 'phrasal', topic: '' }, undefined, { seed });

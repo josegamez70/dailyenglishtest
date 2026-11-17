@@ -787,10 +787,88 @@ function ambiguousBlank(item: GrammarChoice): boolean {
   return false;
 }
 
+function orderWordCount(text: string): number {
+  return text.replace(/[^\p{L}\p{N}’'-]+/gu, ' ').trim().split(/\s+/).filter(Boolean).length;
+}
+
+function orderLastWord(chunk: string): string {
+  return chunk.replace(/[.!?,;:]+$/g, '').trim().split(/\s+/).pop()?.toLowerCase().replace(/[^a-z'’-]/g, '') ?? '';
+}
+
+/** A part that ends in a noun can host a which-clause. Verbs and pronouns cannot. */
+function endsWithNoun(chunk: string): boolean {
+  const word = orderLastWord(chunk);
+  if (!word) return false;
+  if (/^(?:it|him|her|them|me|us|you|he|she|they|we|i)$/.test(word)) return false;
+  if (/(?:ed|ing|ly)$/.test(word)) return false;
+  if (/^(?:explain|demand|support|meet|begin|change|check|reject|finish|leave|say|ask|tell|make|go|come|be|do|see|have|had|was|were|is|are)$/.test(word)) return false;
+  return true;
+}
+
+function isMovableAdjunct(chunk: string): boolean {
+  return /^(?:before|after|until|unless|although|though|even though|while|when|once|if|without|despite|during)\b/i.test(chunk.trim());
+}
+
+function hasC1OrderStructure(chunks: string[]): boolean {
+  const paragraph = chunks.join(' ');
+  if (/\bnot only\b/i.test(paragraph) && /\bbut\b/i.test(paragraph)) return true;
+  if (/^(?:hardly|scarcely|barely|no sooner|little|never|rarely)\b/i.test(chunks[0]?.trim() ?? '')) return true;
+  if (chunks.some((chunk) => /^(?:which|who|whom|whose)\b/i.test(chunk.trim()))) return true;
+  if (/\b(?:although|even though|whereas)\b/i.test(paragraph)) return true;
+  if (chunks.some((chunk) => /^(?:that|why)\b/i.test(chunk.trim()))) return true;
+  return false;
+}
+
+/**
+ * C1 order items are one longer sentence. Reject a part that could sit in a second place:
+ * a which-clause with two noun hosts, two adjuncts that can swap, or a fronted clause
+ * that could also end the sentence.
+ */
+function c1OrderProblem(chunks: string[]): string | null {
+  if (chunks.length < 5 || chunks.length > 6) return 'C1 put-in-order items need 5 or 6 parts.';
+  const words = orderWordCount(chunks.join(' '));
+  // The prompt asks for 20 to 28. A few words over still counts, so a good sentence is not thrown away.
+  if (words < 20 || words > 40) return 'C1 put-in-order items need about 20 to 28 words.';
+  if (chunks.some((chunk) => orderWordCount(chunk) < 3)) return 'Each C1 part needs at least 3 words.';
+  if (chunks.slice(0, -1).some((chunk) => /[.!?]/.test(chunk))) {
+    return 'A C1 item is one sentence. Only the last part ends with . ! or ?';
+  }
+  if (!hasC1OrderStructure(chunks)) {
+    return 'Use a C1 structure such as inversion, a which-clause, although, or not only ... but also.';
+  }
+  const relative = chunks.findIndex((chunk) => /^(?:which|who|whom|whose)\b/i.test(chunk.trim()));
+  if (relative === 0) return 'A which or who part cannot come first.';
+  if (relative > 0) {
+    const host = chunks[relative - 1] ?? '';
+    if (!/,$/.test(host.trim()) || !endsWithNoun(host)) {
+      return 'A which or who part must follow the only part that ends with a comma and a noun.';
+    }
+    if (chunks.some((chunk, index) => index !== chunks.length - 1 && index !== relative - 1 && index !== relative && endsWithNoun(chunk))) {
+      return 'A which or who part could follow another noun, so another order would also be correct.';
+    }
+  }
+  const notOnly = chunks.findIndex((chunk) => /\bnot only\b/i.test(chunk));
+  const but = chunks.findIndex((chunk) => /^but\b/i.test(chunk.trim()));
+  if (notOnly >= 0 && (but < 0 || but < notOnly)) return 'Not only must come before but, or the parts could be rearranged.';
+  for (let index = 0; index < chunks.length - 1; index += 1) {
+    if (isMovableAdjunct(chunks[index]) && isMovableAdjunct(chunks[index + 1])) {
+      return 'Two parts could swap and still make sense.';
+    }
+  }
+  if (isMovableAdjunct(chunks[0]) && !/^(?:which|who|whom|whose)\b/i.test(chunks[1]?.trim() ?? '')) {
+    return 'A fronted clause could also go at the end, so the order is not the only one.';
+  }
+  if (/^(?:hardly|scarcely|barely|no sooner)\b/i.test(chunks[0]?.trim() ?? '')) {
+    const pair = chunks.findIndex((chunk) => /^(?:when|than)\b/i.test(chunk.trim()));
+    if (pair <= 0) return 'Hardly or No sooner must be followed by when or than.';
+  }
+  return null;
+}
+
 function orderQualityProblem(item: GrammarOrder, level: GrammarLevel): string | null {
   const paragraph = item.chunks.join(' ').replace(/\s+/g, ' ').trim();
   if (!/[.!?]$/.test(paragraph)) return 'The last part must end with . ! or ?';
-  if (level === 'C1') return null;
+  if (level === 'C1') return c1OrderProblem(item.chunks);
   if (item.chunks.some((chunk) => chunk.split(/\s+/).filter(Boolean).length < 3)) {
     return 'At B1 and B2 each part must be a sentence or clause, not a short phrase that could move.';
   }
@@ -1320,7 +1398,7 @@ function levelGuide(level: GrammarLevel, exercise: GrammarExerciseType): string 
     return 'Use common everyday B1 phrasal verbs such as get up, look for, turn off, give up, and look after.';
   }
   if (exercise === 'order') {
-    if (level === 'C1') return 'Prefer natural, idiomatic English. A paragraph must have exactly one possible order, shown by connectors, a pronoun that points back, or cause and effect. A single complex sentence split into chunks is a good item. Avoid awkward constructions.';
+    if (level === 'C1') return 'Write one sentence of 20 to 28 words, in 5 or 6 parts. Use C1 grammar: inversion, a which or who clause, although, or not only ... but also. Exactly one order must be possible. A pronoun that points back must come after the noun. Avoid awkward constructions.';
     if (level === 'B2') return 'Use B2 grammar in the paragraphs: conditionals, the passive, reported speech, or relative clauses. One logical order only. Vary the situation and the connectors.';
     return 'Write a short everyday paragraph in clear intermediate English. One logical order only. Vary the situation and the connectors.';
   }
@@ -1349,7 +1427,7 @@ function c1BlankScenario(request: GrammarRequest, seed: number): string {
 function taskGuide(exercise: GrammarExerciseType, level: GrammarLevel): string {
   if (exercise === 'order') {
     if (level === 'C1') {
-      return 'Include both short paragraphs of 4 to 6 sentences and single complex sentences split into words or short phrases. chunks are the correct order. A paragraph has exactly one order because of connectors, pronoun references, or cause and effect. Use normal punctuation, and make the last part end with . ! or ?';
+      return 'Each item is one sentence of 20 to 28 words, and never more than 40, split into 5 or 6 chunks, already in the correct order. Each chunk has at least 3 words. Only the last chunk ends with . ! or ?. Use inversion (Hardly, No sooner), a relative clause (which, who), or a connector such as although, not only ... but also, or a that or why clause. Hardly may be followed by the rest of its clause before when or than. A which or who chunk comes immediately after the only earlier chunk that ends with a comma and a noun. Do not use two chunks that could swap, such as before the meeting and without telling anyone. Do not let a which-clause fit after a second noun. chunks are the correct order.';
     }
     if (level === 'B1') {
       return 'Each item is a different short paragraph of 4 to 6 full sentences. Each piece must start with a capital letter, end with . ! or ?, and still make sense on its own. Joined in order, the steps must read naturally. Do not use a fragment such as "until the crust was golden brown" as its own piece. Do not repeat the same scene, such as a morning routine, cooking, or the airport. Vary the connectors. Do not always use First, Then, After that, and Finally. Use because, once, when, after, before, meanwhile, as soon as, or later. Use "so" only for a result, not for a simple next step.';
