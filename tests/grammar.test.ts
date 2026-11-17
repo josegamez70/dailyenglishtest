@@ -468,6 +468,21 @@ test('C1 order items are longer sentences with only one correct order', () => {
   }, orderRequest);
   assert.equal(endingNoun.ok, true);
 
+  const hardly = normalizeGrammarSet({
+    items: Array.from({ length: 6 }, (_, index) => ({
+      chunks: [
+        'Hardly had the new CEO finished',
+        'his introductory speech to the board,',
+        `when the lead investor${index}, who`,
+        'had remained silent until then,',
+        'demanded an immediate and thorough',
+        "audit of the company's accounts.",
+      ],
+      explanation: `Hardly is followed later by when in item ${index}.`,
+    })),
+  }, orderRequest);
+  assert.equal(hardly.ok, true);
+
   const short = normalizeGrammarSet({
     items: Array.from({ length: 6 }, () => ({
       chunks: [
