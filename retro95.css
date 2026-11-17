@@ -108,6 +108,10 @@ html[data-theme="retro95"] button.quiz-advance:disabled {
   opacity: 1 !important;
 }
 
+html[data-theme="retro95"] button.quiz-advance[role="switch"] {
+  margin-top: 0 !important;
+}
+
 html[data-theme="retro95"] input,
 html[data-theme="retro95"] textarea {
   background: #fff !important;
