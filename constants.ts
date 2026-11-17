@@ -1,8 +1,15 @@
 export const LEVELS = [
-  { value: 'beginner', label: 'Beginner' },
-  { value: 'intermediate', label: 'Intermediate' },
-  { value: 'advanced', label: 'Advanced' },
+  { value: 'beginner', label: 'B1' },
+  { value: 'intermediate', label: 'B2' },
+  { value: 'advanced', label: 'C1' },
 ];
+
+/** The name the lesson generator already understands. */
+export function lessonBandName(level: string): 'Beginner' | 'Intermediate' | 'Advanced' {
+  if (level === 'advanced' || level === 'C1' || level === 'c1') return 'Advanced';
+  if (level === 'intermediate' || level === 'B2' || level === 'b2') return 'Intermediate';
+  return 'Beginner';
+}
 
 export const WILDCARD_TOPIC = 'wildcard';
 

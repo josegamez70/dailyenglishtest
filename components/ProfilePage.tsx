@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { FREE_LESSON_LIMIT } from '../auth';
 import { updateProfileSettings } from '../studyStore';
 import type { CefrLevel } from '../progressStats';
+import { normalizeCefr } from '../progressStats';
 import { AcademyProfileSection } from './AcademyProfileSection';
 import { PricingPanel } from './PricingPanel';
 import { PilotStatusBanner } from './PilotPages';
@@ -14,7 +15,7 @@ export type { ThemeChoice };
 /** Still stored on the profile. Playback ignores it and always uses American English. */
 export type VoiceChoice = 'british' | 'american';
 
-const LEVELS: CefrLevel[] = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+const LEVELS: CefrLevel[] = ['B1', 'B2', 'C1'];
 const SPEEDS = [0.75, 1, 1.25];
 
 function planLabel(plan: string | null, academyStudent: boolean): string {
@@ -57,7 +58,7 @@ export function ProfilePage({
   onBack?: () => void;
 }) {
   const [name, setName] = useState(displayName);
-  const [level, setLevel] = useState<CefrLevel>(defaultLevel);
+  const [level, setLevel] = useState<CefrLevel>(normalizeCefr(defaultLevel));
   const [rate, setRate] = useState(speed);
   const [note, setNote] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -72,8 +73,8 @@ export function ProfilePage({
   }, [displayName]);
   useEffect(() => {
     if (touched.current.level) return;
-    setLevel(defaultLevel);
-    setSaved((current) => (current.level === defaultLevel ? current : { ...current, level: defaultLevel }));
+    setLevel(normalizeCefr(defaultLevel));
+    setSaved((current) => (current.level === normalizeCefr(defaultLevel) ? current : { ...current, level: normalizeCefr(defaultLevel) }));
   }, [defaultLevel]);
   useEffect(() => {
     if (touched.current.rate) return;
@@ -87,8 +88,7 @@ export function ProfilePage({
 
   const dirty = name !== saved.name || level !== saved.level || rate !== saved.rate || theme !== saved.theme;
 
-  const save = async (event: React.FormEvent) => {
-    event.preventDefault();
+  const persist = async () => {
     if (!userId || !dirty || busy) return;
     setBusy(true);
     setNote(null);
@@ -104,8 +104,6 @@ export function ProfilePage({
       setNote(result.missing
         ? 'Saved on this device. The account save will work after the database update.'
         : 'Could not save to your account. Try again.');
-      onSaved({ theme, defaultLevel: level, speed: rate, displayName: nextName });
-      return;
     }
     touched.current = { name: false, level: false, rate: false, theme: false };
     setName(nextName);
@@ -113,12 +111,18 @@ export function ProfilePage({
     onSaved({ theme, defaultLevel: level, speed: rate, displayName: nextName });
   };
 
+  useEffect(() => {
+    if (!dirty) return undefined;
+    const timer = window.setTimeout(() => { void persist(); }, 600);
+    return () => window.clearTimeout(timer);
+  }, [dirty, name, level, rate, theme]);
+
   const academyStudent = academyRole === 'student';
   return (
     <div className="mx-auto w-full max-w-xl">
     {onBack && <BackButton onClick={onBack} />}
     <PilotStatusBanner />
-    <form onSubmit={save} className="space-y-5">
+    <form className="space-y-5" onSubmit={(event) => event.preventDefault()}>
       <h1 className="text-2xl font-bold">Profile</h1>
       <p className="text-base">{email}</p>
       <p className="text-base font-semibold">
@@ -206,16 +210,7 @@ export function ProfilePage({
         </label>
         <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">This choice stays on this device.</p>
       </fieldset>
-      <button
-        type="submit"
-        disabled={busy || !dirty}
-        aria-busy={busy}
-        className={!dirty && !busy
-          ? 'rounded-lg bg-green-700 px-4 py-3 text-base font-bold text-white disabled:opacity-100'
-          : 'rounded-lg bg-blue-700 px-4 py-3 text-base font-bold text-white hover:bg-blue-800 disabled:opacity-60'}
-      >
-        {busy ? 'Saving...' : !dirty ? 'Saved ✓' : 'Save'}
-      </button>
+      <p className="text-base font-semibold" role="status">{busy || dirty ? 'Saving...' : 'Saved'}</p>
       {note && <p className="text-base">{note}</p>}
     </form>
     <PricingPanel signedIn={Boolean(userId)} plan={plan} academyRole={academyRole} variant="profile" />

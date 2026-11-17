@@ -40,7 +40,7 @@ export type TaskSettings = {
 
 export const DEFAULT_TASK_SETTINGS: TaskSettings = {
   enabled: false,
-  emailReminders: true,
+  emailReminders: false,
   frequency: 'daily',
   level: 'beginner',
   topic: 'daily life',
@@ -291,7 +291,7 @@ export function normalizeTaskSettings(input: unknown): TaskSettings | null {
   const vocabularyMode = taskVocabularyMode(raw.vocabularyMode);
   return {
     enabled: raw.enabled === true,
-    emailReminders: raw.emailReminders !== false,
+    emailReminders: raw.emailReminders === true,
     frequency,
     level,
     topic,

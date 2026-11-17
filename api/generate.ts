@@ -1263,6 +1263,10 @@ function readDefineRequest(bodyText: string | null | undefined): { word: string;
   } catch {
     return null;
   }
+  if (body.mode === 'translate') {
+    const text = String(body.text ?? '').replace(/\s+/g, ' ').trim().slice(0, 400);
+    if (text) return { word: '', sentence: text, translate: true };
+  }
   if (body.mode !== 'define') return null;
   const word = String(body.word ?? '').replace(/\s+/g, ' ').trim().slice(0, 48);
   const sentence = String(body.sentence ?? '').replace(/\s+/g, ' ').trim().slice(0, 240);
@@ -1286,20 +1290,21 @@ async function defineContextResponse(
     'If the sentence is about washing, soap, a towel, or a bathroom, shower means washing your body, not rain.',
     'If wake or wake up is about the morning or sleep, it means to stop sleeping, not a funeral or a boat.',
     'Do not mention other senses. Do not change the word into a different word.',
-    'Reply as JSON: {"partOfSpeech":"verb","definition":"short meaning"}',
+    'Reply as JSON: {"partOfSpeech":"verb","definition":"short meaning","spanish":"short Spanish translation of this sense"}',
   ].join('\n');
   try {
     const raw = await generateRaw(apiKey, prompt, Date.now() + 9000, 256, undefined, 0.2);
     const parsed = parseModelJson(raw);
     const definition = String(parsed?.definition ?? '').replace(/\s+/g, ' ').trim().slice(0, 160);
     const partOfSpeech = String(parsed?.partOfSpeech ?? 'word').replace(/\s+/g, ' ').trim().slice(0, 32) || 'word';
+    const spanish = String(parsed?.spanish ?? '').replace(/\s+/g, ' ').trim().slice(0, 80);
     if (!definition) {
       return { statusCode: 502, headers, body: JSON.stringify({ ok: false, message: 'No definition.' }) };
     }
     return {
       statusCode: 200,
       headers,
-      body: JSON.stringify({ ok: true, word: request.word, partOfSpeech, definition }),
+      body: JSON.stringify({ ok: true, word: request.word, partOfSpeech, definition, spanish }),
     };
   } catch {
     return { statusCode: 502, headers, body: JSON.stringify({ ok: false, message: 'No definition.' }) };
@@ -1371,6 +1376,19 @@ export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => 
         headers: corsHeaders,
         body: JSON.stringify({ ok: false, error: 'auth_required' }),
       };
+    }
+
+    if (defineRequest && 'translate' in defineRequest) {
+      const prompt = `Translate this English explanation into short, clear Spanish for a language learner. Reply as JSON: {"spanish":"..."}\n${defineRequest.sentence}`;
+      try {
+        const raw = await generateRaw(apiKey, prompt, Date.now() + 8000, 180, undefined, 0.2);
+        const parsed = parseModelJson(raw);
+        const spanish = String(parsed?.spanish ?? '').replace(/\s+/g, ' ').trim().slice(0, 400);
+        if (!spanish) return { statusCode: 502, headers: corsHeaders, body: JSON.stringify({ ok: false }) };
+        return { statusCode: 200, headers: corsHeaders, body: JSON.stringify({ ok: true, spanish }) };
+      } catch {
+        return { statusCode: 502, headers: corsHeaders, body: JSON.stringify({ ok: false }) };
+      }
     }
 
     if (defineRequest) {

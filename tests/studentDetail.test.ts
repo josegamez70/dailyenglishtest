@@ -46,8 +46,7 @@ test('level rows are B1, B2, and C1 and a row with no tests is hidden', () => {
     result({ mode: 'grammar', level: 'C1', score: 6, total: 10 }),
   ];
   assert.deepEqual(levelBreakdown(tests, 'reading'), [
-    { label: 'Beginner', average: 100, count: 1 },
-    { label: 'B1', average: 80, count: 2 },
+    { label: 'B1', average: 87, count: 3 },
     { label: 'B2', average: 50, count: 1 },
   ]);
   assert.deepEqual(levelBreakdown(tests, 'listening'), [
@@ -58,7 +57,7 @@ test('level rows are B1, B2, and C1 and a row with no tests is hidden', () => {
   assert.equal(levelEmptyMessage([
     result({ mode: 'grammar', level: '', score: 1, total: 1 }),
   ], 'grammar'), 'No level saved on these tests.');
-  assert.equal(savedLevelLabel(' intermediate '), 'Intermediate');
+  assert.equal(savedLevelLabel(' intermediate '), 'B2');
   assert.equal(savedLevelLabel('B2'), 'B2');
 });
 
@@ -76,7 +75,7 @@ test('the badge uses the profile level, then the most used test level', () => {
   ]), 'C1');
   assert.equal(badgeLevel('Beginner', [
     { level: 'Intermediate', createdAt: '2026-10-02T00:00:00.000Z' },
-  ]), 'Intermediate');
+  ]), 'B1');
 });
 
 test('grammar subtype is read from the saved title and ignored for other modes', () => {

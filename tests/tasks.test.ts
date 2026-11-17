@@ -329,7 +329,7 @@ test('a task lesson keeps the Task badge inside the existing filters', () => {
     { kind: 'task', label: 'Task' },
     { kind: 'mode', label: 'Reading' },
     { kind: 'format', label: 'Text' },
-    { kind: 'level', label: 'Beginner' },
+    { kind: 'level', label: 'B1' },
   ]);
   const rows = [
     { id: 'task-reading', lesson: { mode: 'reading', task: true } },

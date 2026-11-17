@@ -120,6 +120,7 @@ export function TasksPage({
   freeBlocked = false,
   onPlans,
   onLessonsUsed,
+  onOpenTasks,
   selectedPackId = null,
   onOpenPack,
   onClosePack,
@@ -138,6 +139,7 @@ export function TasksPage({
   freeBlocked?: boolean;
   onPlans?: () => void;
   onLessonsUsed?: (used: number) => void;
+  onOpenTasks?: () => void;
   /** Set from /task-packs/:id. Null shows the pack list. */
   selectedPackId?: string | null;
   onOpenPack?: (packId: string) => void;
@@ -396,9 +398,9 @@ export function TasksPage({
                 };
               })}
               options={[
-                { value: 'beginner', label: 'Beginner' },
-                { value: 'intermediate', label: 'Intermediate' },
-                { value: 'advanced', label: 'Advanced' },
+                { value: 'beginner', label: 'B1' },
+                { value: 'intermediate', label: 'B2' },
+                { value: 'advanced', label: 'C1' },
               ]}
             />
             </div>
@@ -574,8 +576,15 @@ export function TasksPage({
           Try again
         </button>
       )}
-      {!showSettings && ready && !settings.enabled && !missing && (
-        <p className="mt-4 text-base">Tasks are off. Turn them on in Tasks to get a new pack.</p>
+      {!showSettings && ready && packs.length === 0 && !missing && (
+        <div className="mt-4">
+          <p className="text-base">No task packs yet.</p>
+          {onOpenTasks && (
+            <button type="button" onClick={onOpenTasks} className="mt-3 rounded-lg bg-blue-700 px-4 py-3 text-base font-bold text-white hover:bg-blue-800">
+              Go to Tasks
+            </button>
+          )}
+        </div>
       )}
       {!showSettings && groupTaskPacks(packs).map((day) => (
         <section key={day.key} className="mt-6">

@@ -20,20 +20,14 @@ export const SKILLS: { id: SkillId; label: string }[] = [
 ];
 
 /**
- * Rows the breakdown can show. B1, B2, and C1 are the teacher rows from the design.
- * Reading and listening tests are saved as Beginner, Intermediate, or Advanced, so those
- * bands get their own rows instead of being renamed. A row is omitted when its count is 0.
+ * B1, B2, and C1 are the levels learners choose.
+ * Older reading and listening rows stored Beginner, Intermediate, or Advanced.
+ * Those names fold into B1, B2, and C1 so the dashboard stays one list.
  */
 export const LEVEL_ROWS: { key: string; label: string }[] = [
-  { key: 'a1', label: 'A1' },
-  { key: 'a2', label: 'A2' },
-  { key: 'beginner', label: 'Beginner' },
   { key: 'b1', label: 'B1' },
-  { key: 'intermediate', label: 'Intermediate' },
   { key: 'b2', label: 'B2' },
   { key: 'c1', label: 'C1' },
-  { key: 'advanced', label: 'Advanced' },
-  { key: 'c2', label: 'C2' },
 ];
 
 const CEFR_KEYS = new Set(['a1', 'a2', 'b1', 'b2', 'c1', 'c2']);
@@ -73,8 +67,14 @@ export function levelKey(level: string): string | null {
   const text = level.trim().toLowerCase();
   if (!text) return null;
   const cefr = text.match(/\b(a1|a2|b1|b2|c1|c2)\b/);
-  if (cefr) return cefr[1];
-  if (text === 'beginner' || text === 'intermediate' || text === 'advanced') return text;
+  if (cefr) {
+    if (cefr[1] === 'a1' || cefr[1] === 'a2') return 'b1';
+    if (cefr[1] === 'c2') return 'c1';
+    return cefr[1];
+  }
+  if (text === 'beginner') return 'b1';
+  if (text === 'intermediate') return 'b2';
+  if (text === 'advanced') return 'c1';
   return null;
 }
 

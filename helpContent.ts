@@ -238,7 +238,7 @@ const EN_FAQ: readonly HelpFaq[] = [
       },
       {
         type: 'p',
-        text: 'Grammar tests use the levels B1, B2, and C1. Reading and listening tests are saved as Beginner, Intermediate, or Advanced, so those names appear in the list instead. If a skill has no tests, the page says “No tests for this skill.”',
+        text: 'Reading, listening, and grammar use B1, B2, and C1. Older reading and listening results saved as Beginner, Intermediate, or Advanced are shown as B1, B2, and C1. If a skill has no tests, the page says “No tests for this skill.”',
       },
       {
         type: 'p',
@@ -317,8 +317,8 @@ const EN_FAQ: readonly HelpFaq[] = [
       {
         type: 'ul',
         items: [
-          'Difficulty for reading and listening: Beginner, Intermediate, or Advanced.',
-          'A profile level of A1 or A2 starts on Beginner. B1 or B2 starts on Intermediate. C1 or C2 starts on Advanced.',
+          'Difficulty for reading and listening: B1, B2, or C1.',
+          'A new account starts at B1. A saved A1 or A2 level is treated as B1. C2 is treated as C1.',
           'Story length: 60, 100, or 140 words. Questions: 5, 8, or 10.',
           'Topics include Daily Life, School / College, Travel, and Any topic, which picks one at random.',
           'Listening plays the lesson. On a finished test it is tagged Audio. Tap a word in a text to see a meaning.',
@@ -502,7 +502,7 @@ const ES_FAQ: readonly HelpFaq[] = [
       },
       {
         type: 'p',
-        text: 'Los tests de «Grammar» usan los niveles B1, B2 y C1. Los de lectura y de listening se guardan como «Beginner», «Intermediate» o «Advanced» (inicial, intermedio o avanzado), y esos nombres son los que salen en la lista. Si una destreza no tiene tests, la página dice «No tests for this skill.» (No hay tests de esta destreza).',
+        text: 'Lectura, listening y gramática usan B1, B2 y C1. Los resultados antiguos guardados como «Beginner», «Intermediate» o «Advanced» se muestran como B1, B2 y C1. Si una destreza no tiene tests, la página dice «No tests for this skill.» (No hay tests de esta destreza).',
       },
       {
         type: 'p',
@@ -581,8 +581,8 @@ const ES_FAQ: readonly HelpFaq[] = [
       {
         type: 'ul',
         items: [
-          'Dificultad de lectura y de listening: «Beginner», «Intermediate» o «Advanced» (inicial, intermedio o avanzado).',
-          'Un nivel de perfil A1 o A2 empieza en «Beginner». B1 o B2 empieza en «Intermediate». C1 o C2 empieza en «Advanced».',
+          'Dificultad de lectura y de listening: B1, B2 o C1.',
+          'Una cuenta nueva empieza en B1. Un nivel guardado A1 o A2 se trata como B1. C2 se trata como C1.',
           'Longitud del relato: 60, 100 o 140 palabras. Preguntas: 5, 8 o 10.',
           'Los temas incluyen «Daily Life», «School / College», «Travel» y «Any topic» (Cualquier tema), que elige uno al azar.',
           '«Listening» reproduce la lección. En un test terminado se etiqueta «Audio». Toca una palabra de un texto para ver su significado.',

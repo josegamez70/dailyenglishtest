@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ExerciseComplete } from './ExerciseComplete';
 import { FreeLimitNotice } from './FreeLimitNotice';
+import { SpanishWhy } from './SpanishWhy';
 import { primeAudio } from '../effects';
 import {
   exerciseLabel,
@@ -116,6 +117,7 @@ export function GrammarPage({
   const [choices, setChoices] = useState<string[]>([]);
   const [placed, setPlaced] = useState<string[][]>([]);
   const [grades, setGrades] = useState<ItemGrade[]>([]);
+  const [checked, setChecked] = useState(false);
   const [busy, setBusy] = useState(false);
   const [loadingStartedAt, setLoadingStartedAt] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -293,6 +295,11 @@ export function GrammarPage({
   };
 
   const goNext = () => {
+    if (!checked) {
+      setChecked(true);
+      return;
+    }
+    setChecked(false);
     if (index < items.length - 1) {
       setIndex(index + 1);
       return;
@@ -497,8 +504,22 @@ export function GrammarPage({
             disabled={!answered}
             className="quiz-advance mt-8 w-full rounded-lg bg-green-700 py-3 text-lg font-bold text-white hover:bg-green-800 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-700"
           >
-            {index < items.length - 1 ? 'Next' : 'Check answers'}
+            {index < items.length - 1 ? 'Next' : checked ? 'Check answers' : 'Check'}
           </button>
+          {checked && current.kind === 'choice' && (
+            <div className="mt-4 rounded-lg border-2 border-slate-400 p-4 text-base" role="status">
+              <p className="font-bold">{choices[index] === current.correctAnswer ? 'Right.' : `Not quite. The answer is ${current.correctAnswer}.`}</p>
+              <p className="mt-2"><span className="font-semibold">Why: </span>{current.explanation}</p>
+              <SpanishWhy text={current.explanation} />
+            </div>
+          )}
+          {checked && current.kind === 'order' && (
+            <div className="mt-4 rounded-lg border-2 border-slate-400 p-4 text-base" role="status">
+              <p className="font-bold">{gradeOrder(current, chosen).correct ? 'Right.' : 'Not quite. Read the parts in the order below.'}</p>
+              <p className="mt-2"><span className="font-semibold">Why: </span>{current.explanation}</p>
+              <SpanishWhy text={current.explanation} />
+            </div>
+          )}
         </div>
       </div>
     );

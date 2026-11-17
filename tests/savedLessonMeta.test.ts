@@ -19,7 +19,7 @@ test('saved lesson badges use the reading, audio, text, and dialogue labels', ()
   }), [
     { kind: 'mode', label: 'Reading' },
     { kind: 'format', label: 'Text' },
-    { kind: 'level', label: 'Beginner' },
+    { kind: 'level', label: 'B1' },
   ]);
   assert.deepEqual(savedLessonBadges({
     mode: 'listening',
@@ -28,7 +28,7 @@ test('saved lesson badges use the reading, audio, text, and dialogue labels', ()
   }), [
     { kind: 'mode', label: 'Audio' },
     { kind: 'format', label: 'Text' },
-    { kind: 'level', label: 'Intermediate' },
+    { kind: 'level', label: 'B2' },
   ]);
   assert.deepEqual(savedLessonBadges({
     mode: 'listening',
@@ -61,8 +61,8 @@ test('a saved lesson with no mode, format, or level adds no badges', () => {
   assert.deepEqual(savedLessonBadges({ mode: 'grammar', format: 'other', level: '  ' }), [
     { kind: 'mode', label: 'Grammar' },
   ]);
-  assert.equal(savedLessonLevelLabel({ levelLabel: '  ', level: 'advanced' }), 'Advanced');
-  assert.equal(savedLessonLevelLabel({ levelLabel: 'Intermediate', level: 'beginner' }), 'Intermediate');
+  assert.equal(savedLessonLevelLabel({ levelLabel: '  ', level: 'advanced' }), 'C1');
+  assert.equal(savedLessonLevelLabel({ levelLabel: 'Intermediate', level: 'beginner' }), 'B2');
 });
 
 test('grammar saves show Grammar, the exercise, and the level', () => {

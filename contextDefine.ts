@@ -53,6 +53,32 @@ function senseClashes(word: string, definition: string, sentence: string): boole
   return false;
 }
 
+const translations = new Map<string, string>();
+
+export async function translateToSpanish(text: string): Promise<string | null> {
+  const source = text.replace(/\s+/g, ' ').trim();
+  if (!source) return null;
+  const saved = translations.get(source);
+  if (saved) return saved;
+  const token = await accessToken();
+  if (!token) return null;
+  try {
+    const response = await fetch('/api/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ mode: 'translate', text: source }),
+    });
+    if (!response.ok) return null;
+    const data = await response.json() as { ok?: boolean; spanish?: string };
+    const spanish = String(data.spanish ?? '').trim();
+    if (!data.ok || !spanish) return null;
+    translations.set(source, spanish);
+    return spanish;
+  } catch {
+    return null;
+  }
+}
+
 async function askModel(word: string, sentence: string): Promise<DictEntry | null> {
   const token = await accessToken();
   if (!token) return null;
@@ -66,7 +92,7 @@ async function askModel(word: string, sentence: string): Promise<DictEntry | nul
       signal: controller.signal,
     });
     if (!response.ok) return null;
-    const data = await response.json() as { ok?: boolean; definition?: string; partOfSpeech?: string; word?: string };
+    const data = await response.json() as { ok?: boolean; definition?: string; partOfSpeech?: string; word?: string; spanish?: string };
     const definition = String(data.definition ?? '').replace(/\s+/g, ' ').trim();
     if (!data.ok || !definition) return null;
     return {
@@ -74,6 +100,7 @@ async function askModel(word: string, sentence: string): Promise<DictEntry | nul
       phonetic: null,
       senses: [{ partOfSpeech: String(data.partOfSpeech || 'word').slice(0, 32) || 'word', definition: definition.slice(0, 160) }],
       example: sentence,
+      spanish: String(data.spanish ?? '').trim().slice(0, 80) || null,
     };
   } catch {
     return null;

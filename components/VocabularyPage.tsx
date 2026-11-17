@@ -171,7 +171,7 @@ function Flashcards({
 
   return (
     <div className="mt-4">
-      <p className="text-base font-semibold">Card {Math.min(index + 1, order.length)} of {order.length}</p>
+      <p className="text-base font-semibold">{index < rows.length ? `Card ${index + 1} of ${rows.length}` : 'Review again'}</p>
       <div className="relative mt-3">
         <div
           role="button"
@@ -367,6 +367,7 @@ export function VocabularyPage({
   const rows = fixture ? localRows : live.rows;
   const missing = fixture ? false : live.missing;
   const visible = filterVocabulary(rows, query, source);
+  const quizReady = rows.filter((row) => row.meaning.trim()).length >= 4;
   const withMeaning = rows.filter((row) => row.meaning.trim()).length;
   const practiceBlocked = practice === 'flashcards'
     ? rows.length === 0
@@ -471,10 +472,19 @@ export function VocabularyPage({
             <button type="button" onClick={() => setMode('cards')} className="quiz-advance rounded-lg bg-blue-700 py-3 text-base font-bold text-white hover:bg-blue-800">
               Flashcards
             </button>
-            <button type="button" onClick={() => setMode('quiz')} className="quiz-advance rounded-lg border-2 border-slate-900 py-3 text-base font-bold dark:border-slate-100">
+            <button
+              type="button"
+              onClick={() => { if (quizReady) setMode('quiz'); }}
+              disabled={!quizReady}
+              aria-describedby={quizReady ? undefined : 'vocab-quiz-hint'}
+              className={quizReady
+                ? 'quiz-advance rounded-lg border-2 border-slate-900 py-3 text-base font-bold dark:border-slate-100'
+                : 'rounded-lg border-2 border-slate-400 py-3 text-base font-bold text-slate-500'}
+            >
               Quiz
             </button>
           </div>
+          {!quizReady && <p id="vocab-quiz-hint" className="mt-2 text-sm">A quiz needs at least 4 saved words with a meaning.</p>}
           {!ready && <p className="mt-4 text-base">Loading...</p>}
           {ready && visible.length === 0 && !missing && rows.length === 0 && (
             <p className="mt-4 text-base">You have no saved words yet. Tick a key word in a lesson, or press Save word in the word popup.</p>

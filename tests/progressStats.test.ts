@@ -33,7 +33,9 @@ test('score summaries ignore empty tests', () => {
   assert.equal(bestPercent(rows), 80);
   assert.equal(cefrToLessonLevel('C1'), 'advanced');
   assert.equal(cefrToLessonLevel('B2'), 'intermediate');
+  assert.equal(cefrToLessonLevel('B1'), 'beginner');
   assert.equal(cefrToLessonLevel('A2'), 'beginner');
+  assert.equal(cefrToLessonLevel('C2'), 'advanced');
 });
 
 test('a single chart score has a point and higher scores sit higher', () => {

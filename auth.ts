@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import { FREE_LESSON_LIMIT, FREE_LIMIT_MESSAGE } from './freeLessons';
+import { normalizeCefr } from './progressStats';
 
 export { FREE_LESSON_LIMIT, FREE_LIMIT_MESSAGE };
 
@@ -69,7 +70,7 @@ export function useAccount() {
     setPlan(String(data.plan ?? 'free'));
     setLessonsUsed(Number(data.lessons_used ?? 0));
     if (data.theme != null) setTheme(String(data.theme));
-    if (data.default_level != null) setDefaultLevel(String(data.default_level));
+    if (data.default_level != null) setDefaultLevel(normalizeCefr(String(data.default_level)));
     if (data.voice === 'american' || data.voice === 'british') setVoice(data.voice);
     const nextSpeed = Number(data.speed);
     if (nextSpeed === 0.75 || nextSpeed === 1 || nextSpeed === 1.25) setSpeed(nextSpeed);
