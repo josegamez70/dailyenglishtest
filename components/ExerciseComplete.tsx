@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { playResultSounds, prefersReducedMotion } from '../effects';
-import { useRetroTheme } from '../retroTheme';
 import { RetroWindow } from './RetroWindow';
 
 function ScoreSegments({ score, total }: { score: number; total: number }) {
@@ -53,9 +52,8 @@ export function ExerciseComplete({
   onReview: () => void;
   onNew: () => void;
 }) {
-  const retro = useRetroTheme();
-
-  useEffect(() => playResultSounds(marks, retro), []);
+  /* Light and dark use the same finish tone as Retro 95. */
+  useEffect(() => playResultSounds(marks, true), []);
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
