@@ -2018,48 +2018,40 @@ const App: React.FC = () => {
       )}
       {storyReviewOpen && view === 'quiz' && (
         <div
-          className="fixed inset-0 z-40 overflow-y-auto bg-slate-100 dark:bg-slate-900"
+          className="fixed inset-0 z-40 overflow-y-auto bg-slate-100 px-3 py-4 text-slate-900 dark:bg-slate-900 dark:text-slate-50"
           role="dialog"
           aria-modal="true"
           aria-label={practiceType === 'reading' ? 'Review story' : 'Listen again'}
         >
-          <div className="sticky top-0 z-10 border-b border-slate-300 bg-slate-100 px-4 py-4 dark:border-slate-600 dark:bg-slate-900">
-            <div className="mx-auto w-full max-w-3xl">
+          <div className="mx-auto w-full max-w-3xl">
+            <BackButton onClick={closeStoryReview} label="Back to quiz" />
+            <div className="phase2-lift rounded-xl bg-white p-6 shadow-lg dark:bg-slate-800">
+              <p className="text-base font-semibold text-slate-900 dark:text-slate-50">
+                You are on question {currentQuestionIndex + 1} of {quiz.length}. Your answers are saved.
+              </p>
+              {practiceType === 'listening' ? (
+                <>
+                  {renderListeningControls()}
+                  {renderTranscriptText()}
+                </>
+              ) : (
+                contentFormat === 'dialogue' && parseDialogue(story).length > 0 ? (
+                  renderDialogueLines(false)
+                ) : (
+                  <DefinedText
+                    text={story}
+                    className={`lesson-copy mt-6 block whitespace-pre-wrap leading-relaxed text-slate-900 dark:text-slate-50 ${fontClass}`}
+                  />
+                )
+              )}
               <button
                 type="button"
                 onClick={closeStoryReview}
-                className="w-full sm:w-auto bg-blue-700 hover:bg-blue-800 text-white font-bold text-lg py-3 px-6 rounded-lg"
+                className="mt-8 w-full rounded-lg bg-blue-700 py-3 px-6 text-lg font-bold text-white hover:bg-blue-800"
               >
                 Back to quiz
               </button>
-              <p className="mt-3 text-base font-semibold text-slate-900 dark:text-slate-50">
-                You are on question {currentQuestionIndex + 1} of {quiz.length}. Your answers are saved.
-              </p>
             </div>
-          </div>
-          <div className="mx-auto w-full max-w-3xl px-4 py-6">
-            {practiceType === 'listening' ? (
-              <>
-                {renderListeningControls()}
-                {renderTranscriptText()}
-              </>
-            ) : (
-              contentFormat === 'dialogue' && parseDialogue(story).length > 0 ? (
-                renderDialogueLines(false)
-              ) : (
-                <DefinedText
-                  text={story}
-                  className={`lesson-copy mt-6 block whitespace-pre-wrap leading-relaxed text-slate-900 dark:text-slate-50 ${fontClass}`}
-                />
-              )
-            )}
-            <button
-              type="button"
-              onClick={closeStoryReview}
-              className="mt-8 w-full bg-blue-700 hover:bg-blue-800 text-white font-bold text-lg py-3 px-6 rounded-lg"
-            >
-              Back to quiz
-            </button>
           </div>
         </div>
       )}
