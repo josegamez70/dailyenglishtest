@@ -827,7 +827,8 @@ function hasC1OrderStructure(chunks: string[]): boolean {
 function c1OrderProblem(chunks: string[]): string | null {
   if (chunks.length < 5 || chunks.length > 6) return 'C1 put-in-order items need 5 or 6 parts.';
   const words = orderWordCount(chunks.join(' '));
-  if (words < 20 || words > 32) return 'C1 put-in-order items need about 20 to 28 words.';
+  // The prompt asks for 20 to 28. A few words over still counts, so a good sentence is not thrown away.
+  if (words < 20 || words > 40) return 'C1 put-in-order items need about 20 to 28 words.';
   if (chunks.some((chunk) => orderWordCount(chunk) < 3)) return 'Each C1 part needs at least 3 words.';
   if (chunks.slice(0, -1).some((chunk) => /[.!?]/.test(chunk))) {
     return 'A C1 item is one sentence. Only the last part ends with . ! or ?';
@@ -1426,7 +1427,7 @@ function c1BlankScenario(request: GrammarRequest, seed: number): string {
 function taskGuide(exercise: GrammarExerciseType, level: GrammarLevel): string {
   if (exercise === 'order') {
     if (level === 'C1') {
-      return 'Each item is one sentence of 20 to 28 words, and never more than 32, split into 5 or 6 chunks, already in the correct order. Each chunk has at least 3 words. Only the last chunk ends with . ! or ?. Use inversion (Hardly, No sooner), a relative clause (which, who), or a connector such as although, not only ... but also, or a that or why clause. Hardly may be followed by the rest of its clause before when or than. A which or who chunk comes immediately after the only earlier chunk that ends with a comma and a noun. Do not use two chunks that could swap, such as before the meeting and without telling anyone. Do not let a which-clause fit after a second noun. chunks are the correct order.';
+      return 'Each item is one sentence of 20 to 28 words, and never more than 40, split into 5 or 6 chunks, already in the correct order. Each chunk has at least 3 words. Only the last chunk ends with . ! or ?. Use inversion (Hardly, No sooner), a relative clause (which, who), or a connector such as although, not only ... but also, or a that or why clause. Hardly may be followed by the rest of its clause before when or than. A which or who chunk comes immediately after the only earlier chunk that ends with a comma and a noun. Do not use two chunks that could swap, such as before the meeting and without telling anyone. Do not let a which-clause fit after a second noun. chunks are the correct order.';
     }
     if (level === 'B1') {
       return 'Each item is a different short paragraph of 4 to 6 full sentences. Each piece must start with a capital letter, end with . ! or ?, and still make sense on its own. Joined in order, the steps must read naturally. Do not use a fragment such as "until the crust was golden brown" as its own piece. Do not repeat the same scene, such as a morning routine, cooking, or the airport. Vary the connectors. Do not always use First, Then, After that, and Finally. Use because, once, when, after, before, meanwhile, as soon as, or later. Use "so" only for a result, not for a simple next step.';

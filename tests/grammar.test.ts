@@ -483,6 +483,20 @@ test('C1 order items are longer sentences with only one correct order', () => {
   }, orderRequest);
   assert.equal(hardly.ok, true);
 
+  const hikers = normalizeGrammarSet({
+    items: Array.from({ length: 6 }, (_, index) => ({
+      chunks: [
+        `Hardly had the exhausted hiker${index} reached the summit`,
+        'when a sudden storm forced them to seek',
+        'shelter in a small cave, which was',
+        'the only dry place they could find',
+        'before the heavy rain began to fall.',
+      ],
+      explanation: `Hardly is followed by when, and which stays with the cave, in item ${index}.`,
+    })),
+  }, orderRequest);
+  assert.equal(hikers.ok, true);
+
   const short = normalizeGrammarSet({
     items: Array.from({ length: 6 }, () => ({
       chunks: [
