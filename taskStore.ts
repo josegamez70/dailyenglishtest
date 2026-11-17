@@ -39,6 +39,7 @@ export type TaskStepResult = {
   step?: string;
   message?: string;
   packId?: string;
+  lessonsUsed?: number;
 };
 
 function client() {

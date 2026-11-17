@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ExerciseComplete } from './ExerciseComplete';
+import { FreeLimitNotice } from './FreeLimitNotice';
 import { primeAudio } from '../effects';
 import {
   exerciseLabel,
@@ -80,6 +81,9 @@ export function GrammarPage({
   resetNonce,
   onActiveChange,
   onLessonsChanged,
+  onLessonsUsed,
+  freeBlocked = false,
+  onPlans,
   launch = null,
   onTaskComplete,
   onBack,
@@ -92,6 +96,9 @@ export function GrammarPage({
   resetNonce: number;
   onActiveChange: (active: boolean) => void;
   onLessonsChanged: () => void;
+  onLessonsUsed?: (used: number) => void;
+  freeBlocked?: boolean;
+  onPlans?: () => void;
   launch?: GrammarLaunch | null;
   /** Called when a task grammar set is finished, so the pack can be marked done. */
   onTaskComplete?: () => void;
@@ -112,6 +119,7 @@ export function GrammarPage({
   const [busy, setBusy] = useState(false);
   const [loadingStartedAt, setLoadingStartedAt] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [limitNotice, setLimitNotice] = useState(false);
   const [fromSaved, setFromSaved] = useState(false);
   const [saveNote, setSaveNote] = useState<string | null>(null);
   const abortRef = useRef<AbortController | null>(null);
@@ -170,6 +178,11 @@ export function GrammarPage({
   const current = items[index];
 
   const start = async () => {
+    if (freeBlocked) {
+      setLimitNotice(true);
+      setError(null);
+      return;
+    }
     abortRef.current?.abort();
     const controller = new AbortController();
     abortRef.current = controller;
@@ -199,6 +212,7 @@ export function GrammarPage({
       taskRef.current = false;
       pendingRecordRef.current = null;
       setPhase('play');
+      if (typeof set.lessonsUsed === 'number') onLessonsUsed?.(set.lessonsUsed);
       onLessonsChanged();
       const record = grammarLessonRecord(set);
       void saveGrammarLesson(record, String(record.title)).then((saved) => {
@@ -525,6 +539,7 @@ export function GrammarPage({
         maxLength={80}
         className="mt-1 w-full rounded-lg border-2 border-slate-500 bg-white px-3 py-2.5 text-base text-slate-900 dark:border-slate-300 dark:bg-slate-800 dark:text-slate-50"
       />
+      {(limitNotice || freeBlocked) && onPlans && <FreeLimitNotice onPlans={onPlans} />}
       {error && <p className="mt-4 text-base text-red-800 dark:text-red-300" role="alert">{error}</p>}
       <button
         type="button"

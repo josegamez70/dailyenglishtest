@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { BackButton } from './BackButton';
+import { FreeLimitNotice } from './FreeLimitNotice';
 import { QUESTION_COUNTS, WORD_COUNTS } from '../constants';
 import { exerciseLabel } from '../grammarSet';
 import {
@@ -116,6 +117,9 @@ export function TasksPage({
   onOpenVocabulary,
   onGoLessons,
   onBack,
+  freeBlocked = false,
+  onPlans,
+  onLessonsUsed,
   selectedPackId = null,
   onOpenPack,
   onClosePack,
@@ -131,6 +135,9 @@ export function TasksPage({
   onOpenVocabulary?: (packId: string, mode: Exclude<TaskVocabularyMode, ''>) => void;
   onGoLessons?: () => void;
   onBack?: () => void;
+  freeBlocked?: boolean;
+  onPlans?: () => void;
+  onLessonsUsed?: (used: number) => void;
   /** Set from /task-packs/:id. Null shows the pack list. */
   selectedPackId?: string | null;
   onOpenPack?: (packId: string) => void;
@@ -145,6 +152,7 @@ export function TasksPage({
   const [preparing, setPreparing] = useState<string | null>(null);
   const [note, setNote] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [limitNotice, setLimitNotice] = useState(false);
   const alive = useRef(true);
   const vocabState = useSyncExternalStore(subscribeVocabulary, getVocabularyState, getVocabularyState);
   useEffect(() => {
@@ -167,6 +175,11 @@ export function TasksPage({
 
   const prepare = async (enabled: boolean) => {
     if (!enabled || fixture) return;
+    if (freeBlocked) {
+      setLimitNotice(true);
+      setPreparing(null);
+      return;
+    }
     setError(null);
     for (let attempt = 0; attempt < 24; attempt += 1) {
       const current = await loadTaskScreen();
@@ -195,7 +208,8 @@ export function TasksPage({
         continue;
       }
       if (result.blocked) {
-        setError(result.message || taskBlockMessage(result.blocked));
+        if (result.blocked === 'free_limit') setLimitNotice(true);
+        setError(result.blocked === 'free_limit' ? null : (result.message || taskBlockMessage(result.blocked)));
         setPreparing(null);
         const loaded = await loadTaskScreen();
         applyLoaded(loaded);
@@ -209,6 +223,7 @@ export function TasksPage({
         return;
       }
       if (result.step === 'done') {
+        if (typeof result.lessonsUsed === 'number') onLessonsUsed?.(result.lessonsUsed);
         const loaded = await loadTaskScreen();
         applyLoaded(loaded);
         setPreparing(null);
@@ -305,6 +320,7 @@ export function TasksPage({
           ? 'Choose how often a pack arrives, and the same options you use for a lesson. The lessons themselves are in Task packs.'
           : 'Each card is one pack. Open it to start Reading, Listening, Grammar, and Vocabulary builder when that is on. Opening a pack does not use another lesson.'}
       </p>
+      {(limitNotice || freeBlocked) && onPlans && <div className="mt-4"><FreeLimitNotice onPlans={onPlans} /></div>}
       {missing && <p className="mt-3 text-base">Tasks will be ready after the database update.</p>}
       {!ready ? <p className="mt-6 text-base">Loading...</p> : null}
       {ready && showSettings && (
@@ -537,7 +553,7 @@ export function TasksPage({
             </button>
           </div>
           <p className="mt-4 text-sm text-slate-700 dark:text-slate-200">
-            One pack uses one free lesson. Premium and an active academy are not counted. The 3 free lessons are unchanged for Reading, Listening, and Grammar. Opening a pack does not use another lesson.
+            One pack uses one free lesson. Premium and an active academy are not counted. The 12 free lessons are unchanged for Reading, Listening, and Grammar. Opening a pack does not use another lesson.
           </p>
           <button
             type="button"

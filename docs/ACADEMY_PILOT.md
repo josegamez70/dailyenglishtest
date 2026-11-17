@@ -2,7 +2,7 @@
 
 José María creates a small set of invitations and sends each code himself. The site does not email academies, start a Stripe trial, or take a card.
 
-Each unused code activates exactly one academy for up to 20 students. The 20 days start when that academy owner activates the code, not when the invitation is created. After that, new lessons stop for the owner and for students. Saved lessons and progress stay. The 3 free lessons do not start again.
+Each unused code activates exactly one academy for up to 20 students. The 20 days start when that academy owner activates the code, not when the invitation is created. After that, new lessons stop for the owner and for students. Saved lessons and progress stay. The 12 free lessons do not start again.
 
 Billing stays off. `STRIPE_BILLING_ENABLED` and `STRIPE_ALLOW_LIVE_CHARGES` must stay unset.
 
@@ -39,5 +39,5 @@ Invitation rows are readable only by the service role. Signed-in users cannot up
 
 - Stripe, tester, and hand-set academy or Premium accounts stay unlimited. A null `pilot_expires_at` is never treated as expired.
 - An active pilot owner or student can create lessons.
-- An ended pilot, including a student who leaves, cannot create lessons and does not fall back to the 3 free lessons.
+- An ended pilot, including a student who leaves, cannot create lessons and does not fall back to the 12 free lessons.
 - Saved lessons and progress are ordinary profile data and are not deleted.

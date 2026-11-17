@@ -426,8 +426,8 @@ export function repairGrammarChoice(item: GrammarChoice, exercise: GrammarExerci
     correctAnswer: options.find((option) => option.toLowerCase() === correct.toLowerCase()) ?? correct,
   };
   if (grammarChoiceGapProblem(repaired, exercise)) return null;
-  if (exercise === 'phrasal' && phrasalGroupProblem(repaired.options)) return null;
-  if (exercise === 'blanks' && ambiguousBlank(repaired)) return null;
+  if (exercise === 'phrasal' && (phrasalGroupProblem(repaired.options) || competingOptionsProblem(repaired.options))) return null;
+  if (exercise === 'blanks' && (ambiguousBlank(repaired) || competingOptionsProblem(repaired.options))) return null;
   return repaired;
 }
 
@@ -444,6 +444,12 @@ function choiceQualityProblem(item: GrammarChoice, exercise: GrammarExerciseType
   if (exercise === 'phrasal') {
     const grouped = phrasalGroupProblem(item.options);
     if (grouped) return grouped;
+    const competing = competingOptionsProblem(item.options);
+    if (competing) return competing;
+  }
+  if (exercise === 'blanks') {
+    const competing = competingOptionsProblem(item.options);
+    if (competing) return competing;
   }
   if (exercise === 'blanks' && ambiguousBlank(item)) {
     return 'More than one option can be correct here. Change the sentence so only one option fits.';
@@ -663,6 +669,25 @@ function isRealPhrasal(option: string): boolean {
   // A listed verb only takes the particles we know. "gloss up" is not "gloss over".
   if (core.bases.some((verb) => PHRASAL_BY_VERB.has(verb))) return false;
   return core.rest.split(' ').every((part) => PARTICLES.has(part));
+}
+
+function competingOptionsProblem(options: string[]): string | null {
+  const stems = options.map((option) => normalizedOption(option)
+    .replace(/\bgave\b/g, 'give')
+    .replace(/\bmade\b/g, 'make')
+    .replace(/\bgot\b/g, 'get'));
+  const pairs: readonly [string, string][] = [
+    ['give up', 'give in'],
+    ['make off with', 'make away with'],
+    ['make off', 'make away'],
+  ];
+  for (const [left, right] of pairs) {
+    const has = (phrase: string) => stems.some((stem) => stem === phrase || stem.startsWith(`${phrase} `));
+    if (has(left) && has(right)) {
+      return 'Two options can both be correct, such as gave up and gave in, or make off with and make away with. Keep only one.';
+    }
+  }
+  return null;
 }
 
 function phrasalGroupProblem(options: string[]): string | null {
@@ -961,7 +986,7 @@ export function buildGrammarPrompt(
 You write English grammar exercises for learners around the world. Explanations use clear, simple English.
 Level: ${request.level}.
 Exercise: ${exerciseLabel(request.exercise)}.
-Make exactly ${count} ${itemWord}.
+Make exactly ${count} ${itemWord}. A finished set has ${count} exercises, not fewer.
 ${levelGuide(request.level, request.exercise)}
 ${topicLine}
 ${taskGuide(request.exercise, request.level)}
@@ -1332,9 +1357,9 @@ function taskGuide(exercise: GrammarExerciseType, level: GrammarLevel): string {
     return 'Each item is a different short paragraph of 4 to 6 sentences or clauses. Do not repeat the same scene, such as a morning routine, cooking, or the airport. Vary the connectors. Do not always use First, Then, After that, and Finally. Use because, once, when, after, before, meanwhile, as soon as, or later. Use "so" only for a result, not for a simple next step. Do not split one sentence into adverbials that could go in more than one place. The last part ends with . ! or ?';
   }
   if (exercise === 'phrasal') {
-    return 'Each prompt is one natural sentence with exactly one gap written as _____. Every option must be a real phrasal verb, inflected so it fits that gap. If the sentence is past, write "fell out", not "fall out". If the gap follows had, have, or has, write "fallen out". If the words after the gap already include a preposition, do not put another particle in the option. Bad: "They eventually _____ over a disagreement" with "fall out with". Good: options "fell in", "fell back", "fell over", and "fell out". Do not invent particles. Bad: "gloss up", "dream off". Good: "gloss over", "dream up". Use either at least three options with the same verb and different real particles, or two options with the same verb plus two other real phrasal verbs. Four real particles of the same verb is best, such as put off, put up, put out, and put on. Use each base verb in at most two items. Exactly one option may be the natural answer. Do not offer two particles that both fit, such as "call in" and "call up" for reservists, or "work out" and "work through" for details. Never use a single-word verb such as "shelve". Never use near-synonyms such as make out and catch on to, go over and iron out, or speak to and tell off.';
+    return 'Each prompt is one natural sentence with exactly one gap written as _____. Every option must be a real phrasal verb, inflected so it fits that gap. If the sentence is past, write "fell out", not "fall out". If the gap follows had, have, or has, write "fallen out". If the words after the gap already include a preposition, do not put another particle in the option. Bad: "They eventually _____ over a disagreement" with "fall out with". Good: options "fell in", "fell back", "fell over", and "fell out". Do not invent particles. Bad: "gloss up", "dream off". Good: "gloss over", "dream up". Use either at least three options with the same verb and different real particles, or two options with the same verb plus two other real phrasal verbs. Four real particles of the same verb is best, such as put off, put up, put out, and put on. Use each base verb in at most two items. Exactly one option may be the natural answer. Do not offer two particles that both fit, such as "call in" and "call up" for reservists, "gave up" and "gave in", or "make off with" and "make away with". Never use a single-word verb such as "shelve". Never use near-synonyms such as make out and catch on to, go over and iron out, or speak to and tell off.';
   }
-  return 'Each prompt is one natural sentence with exactly one gap written as _____. The 4 options are single words or short phrases. Wrong options must be clearly wrong in this sentence, in British and American English. Do not pair "will" with "is going to" or "are going to". Do not make an item from degree adverbs such as somewhat, slightly, rather, fairly, quite, pretty, or a bit. Do not pair "going to" with "will", or two tenses that both fit. After suggest, recommend, or insist, do not offer both a gerund and a that-clause. Do not offer two modal perfects such as "might have" and "should have" unless the sentence forces one. A cleft starting "It was" or "It is" must not offer two of "that", "which", and "who".';
+  return 'Each prompt is one natural sentence with exactly one gap written as _____. The 4 options are single words or short phrases. Wrong options must be clearly wrong in this sentence, in British and American English. Do not pair "will" with "is going to" or "are going to". Do not make an item from degree adverbs such as somewhat, slightly, rather, fairly, quite, pretty, or a bit. Do not pair "going to" with "will", or two tenses that both fit. Do not offer two phrasal verbs that both fit, such as gave up and gave in, or make off with and make away with. After suggest, recommend, or insist, do not offer both a gerund and a that-clause. Do not offer two modal perfects such as "might have" and "should have" unless the sentence forces one. A cleft starting "It was" or "It is" must not offer two of "that", "which", and "who".';
 }
 
 function shapeGuide(exercise: GrammarExerciseType): string {

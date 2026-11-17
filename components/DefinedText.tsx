@@ -1,7 +1,8 @@
 import React, { useEffect, useLayoutEffect, useState, useSyncExternalStore } from 'react';
 import { createPortal } from 'react-dom';
 import { isEnUsLang, narrationVoice, type ListedVoice } from '../dialogue';
-import { defineWord, meaningToSave, normalizeLookupWord, popupPosition, type DictEntry } from '../dictionary';
+import { defineInContext } from '../contextDefine';
+import { meaningToSave, normalizeLookupWord, popupPosition, searchLookupTerm, type DictEntry } from '../dictionary';
 import {
   getVocabLessonContext,
   requestVocabSignIn,
@@ -24,6 +25,7 @@ type OpenWord = {
   id: number;
   surface: string;
   anchor: Anchor;
+  sentence: string;
 };
 
 type PopupStatus = 'loading' | 'ready' | 'missing' | 'error';
@@ -37,6 +39,22 @@ let suppressCloseUntil = 0;
 function emit(value: OpenWord | null) {
   openWord = value;
   listener?.(value);
+}
+
+let phraseOpenedAt = 0;
+
+export function openDictionaryLookup(surface: string, anchor: Anchor, sentence = '') {
+  cancelClose();
+  phraseOpenedAt = Date.now();
+  suppressCloseUntil = Date.now() + 500;
+  emit({ id: nextId++, surface, anchor, sentence });
+}
+
+function sentenceAround(element: HTMLElement, term: string): string {
+  const block = element.closest('p, .lesson-copy, [data-transcript]')?.textContent
+    || element.parentElement?.textContent
+    || '';
+  return sentenceWith(block, term) || block.replace(/\s+/g, ' ').trim().slice(0, 240);
 }
 
 function scheduleClose() {
@@ -111,7 +129,7 @@ export function DictionaryPopup() {
     setPlaced(false);
     setStatus('loading');
     setEntry(null);
-    defineWord(open.surface)
+    defineInContext(open.surface, open.sentence || sentenceWith(lesson?.story ?? '', open.surface))
       .then((result) => {
         if (cancelled) return;
         setEntry(result);
@@ -128,10 +146,15 @@ export function DictionaryPopup() {
       if (target instanceof Element && target.closest('[data-lookup-word]')) return;
       emit(null);
     };
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') emit(null);
+    };
     document.addEventListener('pointerdown', onPointerDown);
+    document.addEventListener('keydown', onKey);
     return () => {
       cancelled = true;
       document.removeEventListener('pointerdown', onPointerDown);
+      document.removeEventListener('keydown', onKey);
     };
   }, [open?.id]);
 
@@ -142,7 +165,7 @@ export function DictionaryPopup() {
     setPosition(popupPosition(open.anchor, { width: rect.width, height: rect.height }, {
       width: window.innerWidth,
       height: window.innerHeight,
-    }));
+    }, 8, 96));
     setPlaced(true);
   }, [open, status, entry, saved]);
 
@@ -179,7 +202,7 @@ export function DictionaryPopup() {
       data-lookup-popup
       onMouseEnter={cancelClose}
       onMouseLeave={scheduleClose}
-      className="fixed z-[70] w-[min(18rem,calc(100vw-1rem))] max-h-[70vh] overflow-y-auto rounded-lg border border-slate-300 bg-white p-3 text-sm text-slate-900 shadow-lg dark:border-slate-500 dark:bg-slate-800 dark:text-slate-50"
+      className="fixed z-[70] w-[min(18rem,calc(100vw-1rem))] max-h-[min(70vh,calc(100vh-7rem))] overflow-y-auto rounded-lg border border-slate-300 bg-white p-3 text-sm text-slate-900 shadow-lg dark:border-slate-500 dark:bg-slate-800 dark:text-slate-50"
       style={{ top: position.top, left: position.left, visibility: placed ? 'visible' : 'hidden' }}
     >
       <div className="flex items-start gap-2">
@@ -238,14 +261,16 @@ function LookupWord({ surface, highlighted }: { surface: string; highlighted: bo
   const fine = useFinePointer();
   const hoverTimer = React.useRef(0);
   const openFrom = (element: HTMLElement) => {
+    if (Date.now() - phraseOpenedAt < 500) return;
     if (openWord?.surface === surface && Date.now() < suppressCloseUntil) return;
     const rect = element.getBoundingClientRect();
     cancelClose();
-    suppressCloseUntil = Date.now() + 500;
+    suppressCloseUntil = Date.now() + 400;
     emit({
       id: nextId++,
       surface,
       anchor: { top: rect.top, bottom: rect.bottom, left: rect.left, width: rect.width, height: rect.height },
+      sentence: sentenceAround(element, surface),
     });
   };
   return (
@@ -300,8 +325,23 @@ export function DefinedText({
 }) {
   const tokens = text.split(/(\s+)/);
   let wordIndex = -1;
+  const rootRef = React.useRef<HTMLSpanElement>(null);
+  const takePhrase = () => {
+    const selection = window.getSelection();
+    if (!selection || selection.isCollapsed || selection.rangeCount === 0) return;
+    const raw = selection.toString().replace(/\s+/g, ' ').trim().replace(/[.,!?;:]+$/g, '');
+    const term = searchLookupTerm(raw);
+    if (!term || !term.includes(' ')) return;
+    const range = selection.getRangeAt(0);
+    const node = rootRef.current;
+    if (!node || !node.contains(range.commonAncestorContainer)) return;
+    const rect = range.getBoundingClientRect();
+    if (!rect.width && !rect.height) return;
+    selection.removeAllRanges();
+    openDictionaryLookup(term, { top: rect.top, bottom: rect.bottom, left: rect.left, width: rect.width, height: rect.height }, sentenceWith(node.textContent || '', term) || node.textContent?.replace(/\s+/g, ' ').trim().slice(0, 240) || '');
+  };
   return (
-    <span className={className} data-transcript={transcript}>
+    <span ref={rootRef} className={className} data-transcript={transcript} onPointerUp={takePhrase}>
       {tokens.map((token, index) => {
         if (!token) return null;
         if (/^\s+$/.test(token)) return <span key={index}>{token}</span>;

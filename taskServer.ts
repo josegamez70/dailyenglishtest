@@ -30,7 +30,7 @@ import {
   type TaskStep,
 } from './tasks.ts';
 
-const FREE_LESSON_LIMIT = 3;
+import { FREE_LESSON_LIMIT } from './freeLessons.ts';
 
 export type AdvanceResult = {
   ok: boolean;
@@ -40,6 +40,7 @@ export type AdvanceResult = {
   step?: TaskStep;
   message?: string;
   packId?: string;
+  lessonsUsed?: number;
 };
 
 type PackState = {
@@ -296,6 +297,12 @@ async function settlePack(
         const blocked = allowance?.reason === 'pilot_expired' ? 'pilot_expired' : 'free_limit';
         return withhold(admin, pack, blocked, userId);
       }
+      const marked = await admin.from('task_packs').update({ status: 'ready', charged: true, block_reason: '' }).eq('id', pack.id);
+      if (marked.error) return { ok: false, message: 'The task pack could not be saved. Please try again.', packId: pack.id };
+      pack.charged = true;
+      pack.status = 'ready';
+      await maybeEmailDay(admin, userId, settings, key);
+      return { ok: true, step: 'done', packId: pack.id, lessonsUsed: allowance.lessonsUsed };
     }
     const marked = await admin.from('task_packs').update({ status: 'ready', charged: true, block_reason: '' }).eq('id', pack.id);
     if (marked.error) return { ok: false, message: 'The task pack could not be saved. Please try again.', packId: pack.id };
@@ -448,6 +455,15 @@ export async function advanceTaskPack(userId: string, options?: { deadlineMs?: n
     }
     pack = await insertPack(admin, userId, key, settings, slot);
     if (!pack) return { ok: false, message: 'The task pack could not be saved. Please try again.' };
+  }
+  if (!pack.charged) {
+    const reason = await blockReason(admin, userId);
+    if (!reason) return { ok: false, message: 'Tasks could not be checked. Please try again.', packId: pack.id };
+    const decision = taskGenerationDecision(reason);
+    if (!decision.generate) {
+      const blocked = decision.reason === 'ok' ? 'free_limit' : decision.reason;
+      return withhold(admin, pack, blocked, userId);
+    }
   }
   if (pack.status === 'ready') return { ok: true, step: 'done', packId: pack.id };
   const current = pack;

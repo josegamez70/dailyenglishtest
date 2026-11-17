@@ -57,6 +57,14 @@ export function ExerciseComplete({
 
   useEffect(() => playResultSounds(marks, retro), []);
 
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') onReview();
+    };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [onReview]);
+
   const dialog = (
     <div className="phase2-dialog" data-open="true" role="dialog" aria-modal="true" aria-labelledby="exercise-complete-title">
       <div className="phase2-dialog-card">

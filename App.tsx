@@ -23,6 +23,7 @@ import { resumeWordIndex, textFromWordIndex } from './speechPosition';
 import { generateStoryAndQuiz, listeningSlowAudio, refreshListeningAudio, savedListeningAudio, taskListeningAudio } from './services/geminiService';
 import { GrammarPage } from './components/GrammarPage';
 import { FREE_LESSON_LIMIT, planStatusText, signOut, useAccount } from './auth';
+import { freeAccountBlocked } from './freeLessons';
 import { isAppReturnPath, isTaskPacksPath, returnPathAfterSignIn, taskPackIdFromPath } from './returnPath';
 import { AppShell, type ShellItem } from './components/AppShell';
 import { BackButton } from './components/BackButton';
@@ -32,6 +33,7 @@ import { PixelIcon } from './components/PixelIcon';
 import { setRetroActive, useRetroTheme } from './retroTheme';
 import { primeAudio } from './effects';
 import { ExerciseComplete } from './components/ExerciseComplete';
+import { FreeLimitNotice } from './components/FreeLimitNotice';
 import { isDarkTheme, isThemeChoice } from './themeChoice';
 import { ProgressPage } from './components/ProgressPage';
 import { SavedLessonsPage } from './components/SavedLessonsPage';
@@ -53,7 +55,6 @@ import { HelpPage } from './components/HelpPage';
 import { helpPageFromPath } from './helpContent';
 import { LegalDocument, SiteFooter, legalPageFromPath } from './components/LegalPages';
 import { AuthLoading, Landing, focusSignIn } from './components/Landing';
-import { PricingPanel } from './components/PricingPanel';
 import { ExpiredPilotNotice, PilotAdminPage, PilotRedeemPage } from './components/PilotPages';
 import Configurator from './components/Configurator';
 import { DefinedText, DictionaryPopup } from './components/DefinedText';
@@ -483,6 +484,15 @@ const App: React.FC = () => {
       focusSignIn();
       return;
     }
+    if (freeAccountBlocked({
+      plan: account.plan,
+      lessonsLeft: account.lessonsLeft,
+      academyRole: account.academyRole,
+    })) {
+      setError(null);
+      setPaywall(true);
+      return;
+    }
 
     setTaskSession(null);
     setGrammarTaskPackId(null);
@@ -534,6 +544,7 @@ const App: React.FC = () => {
           setCustomTopicText('');
           setReturnPlace('home');
           setView('story');
+          if (typeof draft.lessonsUsed === 'number') account.noteLessonsUsed(draft.lessonsUsed);
           void account.refreshProfile();
           window.scrollTo({ top: 0, behavior: 'smooth' });
         },
@@ -1432,7 +1443,7 @@ const App: React.FC = () => {
     playSpeak(1);
   };
 
-  const ListeningControls = () => (
+  const renderListeningControls = () => (
     <div className="mt-6">
       <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 justify-center">
         <button
@@ -1522,7 +1533,7 @@ const App: React.FC = () => {
     </div>
   );
 
-  const DialogueLines = ({ highlight }: { highlight: boolean }) => {
+  const renderDialogueLines = (highlight: boolean) => {
     const turns: DialogueTurn[] = parseDialogue(story);
     return (
       <div
@@ -1545,10 +1556,10 @@ const App: React.FC = () => {
     );
   };
 
-  const TranscriptText = () => {
+  const renderTranscriptText = () => {
     if (!showTranscript) return null;
     if (contentFormat === 'dialogue' && parseDialogue(story).length > 0) {
-      return <DialogueLines highlight />;
+      return renderDialogueLines(true);
     }
     if (androidDevice) {
       return (
@@ -1579,7 +1590,7 @@ const App: React.FC = () => {
   };
   const exerciseBackLabel = returnPlace === 'packs' ? 'Back to Task packs' : returnPlace === 'saved' ? 'Back to Saved lessons' : 'Back';
 
-  const StoryScreen = () => (
+  const renderStoryScreen = () => (
     <>
       <BackButton onClick={leaveExercise} label={exerciseBackLabel} />
       <div className="phase2-lift bg-white dark:bg-slate-800 p-6 md:p-8 rounded-xl shadow-lg w-full max-w-3xl mx-auto">
@@ -1590,11 +1601,11 @@ const App: React.FC = () => {
           Topic: {storyTopic?.label ?? TOPICS.find((topic) => topic.value === config.topic)?.label ?? config.topic} · Level: {LEVELS.find((level) => level.value === config.level)?.label ?? config.level} · Format: {contentFormat === 'dialogue' ? 'Dialogue' : 'Text'}
         </p>
 
-        {practiceType === 'listening' && <ListeningControls />}
+        {practiceType === 'listening' && renderListeningControls()}
 
         {practiceType === 'reading' && (
           contentFormat === 'dialogue' && parseDialogue(story).length > 0 ? (
-            <DialogueLines highlight={false} />
+            renderDialogueLines(false)
           ) : (
             <DefinedText
               text={story}
@@ -1603,7 +1614,7 @@ const App: React.FC = () => {
           )
         )}
 
-        {practiceType === 'listening' && <TranscriptText />}
+        {practiceType === 'listening' && renderTranscriptText()}
 
         {vocabulary.length > 0 && (
           <details
@@ -1654,7 +1665,7 @@ const App: React.FC = () => {
     </>
   );
 
-  const QuizScreen = () => {
+  const renderQuizScreen = () => {
     const question = quiz[currentQuestionIndex];
     return (
       <>
@@ -1721,7 +1732,7 @@ const App: React.FC = () => {
     );
   };
 
-  const ResultsScreen = () => {
+  const renderResultsScreen = () => {
     const score = quiz.reduce(
       (acc, question, index) => acc + (question.correctAnswer === userAnswers[index] ? 1 : 0),
       0
@@ -1820,11 +1831,11 @@ const App: React.FC = () => {
       case 'config':
         return configScreen;
       case 'story':
-        return <StoryScreen />;
+        return renderStoryScreen();
       case 'quiz':
-        return <QuizScreen />;
+        return renderQuizScreen();
       case 'results':
-        return <ResultsScreen />;
+        return renderResultsScreen();
       default:
         return configScreen;
     }
@@ -1950,12 +1961,12 @@ const App: React.FC = () => {
           <div className="mx-auto w-full max-w-3xl px-4 py-6">
             {practiceType === 'listening' ? (
               <>
-                <ListeningControls />
-                <TranscriptText />
+                {renderListeningControls()}
+                {renderTranscriptText()}
               </>
             ) : (
               contentFormat === 'dialogue' && parseDialogue(story).length > 0 ? (
-                <DialogueLines highlight={false} />
+                renderDialogueLines(false)
               ) : (
                 <DefinedText
                   text={story}
@@ -2071,13 +2082,12 @@ const App: React.FC = () => {
           </div>
         )}
         {pilotExpired && <ExpiredPilotNotice />}
-        {paywall && (
-          <PricingPanel
-            signedIn={account.signedIn}
-            plan={account.plan}
-            academyRole={account.academyRole}
-            variant="paywall"
-          />
+        {(paywall || (view === 'config' && freeAccountBlocked({
+          plan: account.plan,
+          lessonsLeft: account.lessonsLeft,
+          academyRole: account.academyRole,
+        }))) && (
+          <FreeLimitNotice onPlans={() => go('/profile')} />
         )}
         <div key={`${view}-${view === 'quiz' ? currentQuestionIndex : 'page'}`} className="phase2-enter">
           {renderContent()}
@@ -2289,6 +2299,13 @@ const App: React.FC = () => {
           resetNonce={grammarResetNonce}
           onActiveChange={setGrammarActive}
           onLessonsChanged={() => { void account.refreshProfile(); }}
+          onLessonsUsed={account.noteLessonsUsed}
+          freeBlocked={freeAccountBlocked({
+            plan: account.plan,
+            lessonsLeft: account.lessonsLeft,
+            academyRole: account.academyRole,
+          })}
+          onPlans={() => go('/profile')}
           launch={grammarLaunch}
           onTaskComplete={() => {
             if (grammarTaskPackId) void markTaskDone(grammarTaskPackId, 'grammar');
@@ -2313,6 +2330,13 @@ const App: React.FC = () => {
           onOpenVocabulary={(packId, mode) => go('/vocabulary', { packId, mode })}
           onGoLessons={() => go('/')}
           onBack={() => go('/')}
+          freeBlocked={freeAccountBlocked({
+            plan: account.plan,
+            lessonsLeft: account.lessonsLeft,
+            academyRole: account.academyRole,
+          })}
+          onPlans={() => go('/profile')}
+          onLessonsUsed={account.noteLessonsUsed}
           selectedPackId={taskPackIdFromPath(path)}
           onOpenPack={openPack}
           onClosePack={closePack}

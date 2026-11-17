@@ -58,8 +58,18 @@ export function lemmaCandidates(word: string): string[] {
   }
   if (word.endsWith('iest') && word.length > 5) addCandidate(list, `${word.slice(0, -4)}y`, word);
   if (word.endsWith('ier') && word.length > 4) addCandidate(list, `${word.slice(0, -3)}y`, word);
-  if (word.endsWith('est') && word.length > 4) addCandidate(list, word.slice(0, -3), word);
-  if (word.endsWith('er') && word.length > 3) addCandidate(list, word.slice(0, -2), word);
+  if (word.endsWith('est') && word.length > 5) {
+    const stem = word.slice(0, -3);
+    if (stem.length >= 3 && stem.charAt(stem.length - 1) === stem.charAt(stem.length - 2)) {
+      addCandidate(list, stem.slice(0, -1), word);
+    }
+  }
+  if (word.endsWith('er') && word.length > 4 && !word.endsWith('ier')) {
+    const stem = word.slice(0, -2);
+    if (stem.length >= 3 && stem.charAt(stem.length - 1) === stem.charAt(stem.length - 2)) {
+      addCandidate(list, stem.slice(0, -1), word);
+    }
+  }
   return list;
 }
 
@@ -465,7 +475,7 @@ export async function defineWord(raw: string): Promise<DictEntry | null> {
   for (let index = 0; index < forms.length; index += 1) {
     const result = await lookupForm(forms[index], index === 0);
     if (isEntry(result)) {
-      const shown = await attachBase(result, word);
+      const shown = inflectionPointer(result) ? await attachBase(result, word) : result;
       remember(resultKey, shown);
       return shown;
     }
@@ -475,7 +485,7 @@ export async function defineWord(raw: string): Promise<DictEntry | null> {
   for (const form of forms) {
     const result = await fetchWiktionary(form);
     if (isEntry(result)) {
-      const shown = await attachBase(result, word);
+      const shown = inflectionPointer(result) ? await attachBase(result, word) : result;
       remember(resultKey, shown);
       return shown;
     }
@@ -491,13 +501,15 @@ export function popupPosition(
   anchor: { top: number; bottom: number; left: number },
   popup: { width: number; height: number },
   viewport: { width: number; height: number },
-  margin = 8
+  margin = 8,
+  bottomReserve = 0,
 ): { top: number; left: number } {
+  const floor = viewport.height - margin - bottomReserve;
   let top = anchor.bottom + 6;
-  if (top + popup.height > viewport.height - margin) top = anchor.top - popup.height - 6;
+  if (top + popup.height > floor) top = anchor.top - popup.height - 6;
   if (top < margin) top = margin;
-  if (top + popup.height > viewport.height - margin) {
-    top = Math.max(margin, viewport.height - margin - popup.height);
+  if (top + popup.height > floor) {
+    top = Math.max(margin, floor - popup.height);
   }
   let left = anchor.left;
   if (left + popup.width > viewport.width - margin) left = viewport.width - popup.width - margin;

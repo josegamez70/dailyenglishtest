@@ -1,4 +1,5 @@
 import { LEVELS, QUESTION_COUNTS, selectableTopics, TOPICS, WILDCARD_TOPIC, WORD_COUNTS } from './constants.ts';
+import { FREE_LIMIT_MESSAGE } from './freeLessons.ts';
 
 /** Newest days of task packs kept per person. Older days are deleted by a database trigger. */
 export const TASK_DAY_LIMIT = 5;
@@ -437,7 +438,7 @@ export function periodLabel(frequency: TaskFrequency, key: string): string {
 /**
  * A task pack is one learning session.
  * Unlimited plans (premium, tester, active academy, active pilot) are not counted.
- * A free account spends one of the 3 free lessons for the whole pack, not one per exercise.
+ * A free account spends one of the 12 free lessons for the whole pack, not one per exercise.
  * The normal Reading, Listening, and Grammar buttons still spend one lesson each.
  */
 export function taskGenerationDecision(block: string): {
@@ -512,7 +513,7 @@ export function taskBlockMessage(reason: TaskBlockReason): string {
     return 'This academy pilot has ended. Saved lessons and progress are still available. New tasks are paused.';
   }
   if (reason === 'missing') return 'Tasks are not available for this account yet.';
-  return 'You have used your 3 free lessons. Premium is 3 € per month. These 3 lessons do not expire.';
+  return FREE_LIMIT_MESSAGE;
 }
 
 export type TaskEmailInput = {

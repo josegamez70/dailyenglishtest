@@ -170,7 +170,7 @@ export function Landing() {
       </section>
 
       <div className="mt-6 sm:mt-8">
-        <SignInBox submitLabel="Get 3 free lessons" />
+        <SignInBox submitLabel="Get 12 free lessons" />
       </div>
 
       <ul className="mt-2 grid grid-cols-1 gap-4 md:grid-cols-2">

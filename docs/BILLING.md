@@ -12,7 +12,7 @@ Verified by a read-only lookup on the live account `acct_1RjMnfD66URNCYcO` (7 No
 | Academy, up to 70 students | 60 € / month | `det_academy_70` | `price_1UZA8XD66URNCYcOcJGLVvoA` | `prod_VaKo9BcJRQ2Ecv` |
 | Academy, up to 100 students | 80 € / month | `det_academy_100` | `price_1UZA8YD66URNCYcOTIepFerZ` | `prod_VaKo9BcJRQ2Ecv` |
 
-Do **not** use the archived Premium price `price_1UZA5yD66URNCYcO98GAaLbD` (5 €, inactive, nickname “Premium mensual (antiguo 5 EUR)”). Old academy lookup keys `det_academy_8`, `det_academy_15`, and `det_academy_30` are rejected. Quantities are always 1. These are not per-student charges. There is no trial. The 3 free lessons stay lifetime lessons.
+Do **not** use the archived Premium price `price_1UZA5yD66URNCYcO98GAaLbD` (5 €, inactive, nickname “Premium mensual (antiguo 5 EUR)”). Old academy lookup keys `det_academy_8`, `det_academy_15`, and `det_academy_30` are rejected. Quantities are always 1. These are not per-student charges. There is no trial. The 12 free lessons stay lifetime lessons.
 
 Academy prices share one Stripe product, so Checkout and invoices show one product name for every academy package. The site labels the seat tier before redirect, and the subscription description names the package. Splitting into four products would make the invoice line clearer. That was not changed.
 
