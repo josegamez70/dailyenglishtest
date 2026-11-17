@@ -28,5 +28,8 @@ test('motion and the completion window respect reduced motion', () => {
   assert.match(dialog, /Exercise complete!/);
   assert.match(dialog, /Review answers/);
   assert.match(dialog, /New exercise/);
-  assert.match(dialog, /playResultSounds/);
+  assert.match(dialog, /playResultSounds\(marks, true\)/);
+  assert.match(css, /align-items: center/);
+  assert.match(css, /rgb\(0 0 128 \/ 0\.35\)/);
+  assert.match(css, /animation: phase2-win 140ms steps\(3, end\)/);
 });
