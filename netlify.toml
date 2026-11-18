@@ -52,6 +52,16 @@
   status = 200
 
 [[redirects]]
+  from = "/scoreboard"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/scoreboard/"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
   from = "/saved"
   to = "/index.html"
   status = 200

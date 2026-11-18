@@ -481,6 +481,23 @@ html[data-theme="retro95"] .retro-sober table {
   border: 1px solid #808080;
 }
 
+html[data-theme="retro95"] .scoreboard-scroll table {
+  background: #fff;
+  color: #000;
+  font-family: "VT323", ui-monospace, monospace;
+  font-size: 1.35rem;
+}
+
+html[data-theme="retro95"] .scoreboard-head {
+  background: #000080;
+  color: #fff;
+}
+
+html[data-theme="retro95"] .scoreboard-gold { background: #ffff80 !important; color: #000 !important; }
+html[data-theme="retro95"] .scoreboard-silver { background: #d4d0c8 !important; color: #000 !important; }
+html[data-theme="retro95"] .scoreboard-bronze { background: #d4a574 !important; color: #000 !important; }
+html[data-theme="retro95"] .scoreboard-you { box-shadow: inset 4px 0 0 #000080; }
+
 @media (prefers-reduced-motion: reduce) {
   html[data-theme="retro95"] button,
   html[data-theme="retro95"] button:active {
