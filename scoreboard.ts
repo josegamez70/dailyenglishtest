@@ -5,7 +5,7 @@ export const SCOREBOARD_TOP = 10;
 
 export type ScoreMode = 'reading' | 'listening' | 'grammar';
 export type ScorePeriod = 'daily' | 'yesterday' | 'all';
-/** Más ejercicios ranks by volume. Mejor % ranks by weighted percent among learners who reached the minimum. */
+/** Most exercises ranks by volume. Best % ranks by weighted percent among learners who reached the minimum. */
 export type ScoreRank = 'exercises' | 'percent';
 
 export type ModeTotals = {
@@ -114,7 +114,7 @@ function byAlias(left: ScoreRow, right: ScoreRow): number {
   return left.alias.localeCompare(right.alias) || Number(right.isSelf) - Number(left.isSelf);
 }
 
-/** Más ejercicios: total exercises, then percent. Mejor %: weighted percent among qualified rows, then exercises. */
+/** Most exercises: total exercises, then percent. Best %: weighted percent among qualified rows, then exercises. */
 export function presentBoard(rows: readonly ScoreRow[], rank: ScoreRank = 'percent', minimum = SCOREBOARD_MIN): {
   top: PresentedRow[];
   self: PresentedRow | null;

@@ -119,8 +119,8 @@ export function scoreboardAchievementMessage(input: {
     `Total: ${exerciseCount(input.totalDone)}, ${totalPercent}`,
   ];
   const places = [
-    input.exercisePlace ? `${ordinal(input.exercisePlace)} for most exercises` : '',
-    input.percentPlace ? `${ordinal(input.percentPlace)} for best percent` : '',
+    input.exercisePlace ? `${ordinal(input.exercisePlace)} for Most exercises` : '',
+    input.percentPlace ? `${ordinal(input.percentPlace)} for Best %` : '',
   ].filter(Boolean).join(' and ');
   const subject = 'Yesterday on the scoreboard';
   const text = [

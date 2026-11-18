@@ -147,8 +147,8 @@ test('the scoreboard page and the unapplied migration stay read-only', () => {
   assert.match(page, /aria-selected=\{period === id\}[\s\S]*border-2 border-slate-900/);
   assert.match(page, /Today/);
   assert.match(page, /Yesterday/);
-  assert.match(page, /Más ejercicios/);
-  assert.match(page, /Mejor %/);
+  assert.match(page, /Most exercises/);
+  assert.match(page, /Best %/);
   assert.match(page, /Minimum exercises/);
   assert.equal(page.includes('scoreboard-sort'), false);
   assert.equal(page.includes('email'), false);
