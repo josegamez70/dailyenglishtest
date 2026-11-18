@@ -494,6 +494,8 @@ html[data-theme="retro95"] .badge-name {
   font-size: 1.15rem;
 }
 
+html[data-theme="retro95"] .badge-popup-kicker { display: none; }
+
 @media (prefers-reduced-motion: reduce) {
   html[data-theme="retro95"] button,
   html[data-theme="retro95"] button:active {

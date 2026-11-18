@@ -4,6 +4,7 @@ import { presentBadges, type BadgeId, type BadgeView } from '../badges';
 import { loadBadgeStats } from '../badgeStats';
 import { dismissBadgeUnlock, subscribeBadgeUnlock } from '../badgeToast';
 import { playEffect } from '../effects';
+import { RetroWindow } from './RetroWindow';
 
 const COPY: Record<BadgeId, { label: string; rule: string }> = {
   reading: { label: 'Reading Completed', rule: 'Finish 1 Reading exercise.' },
@@ -72,13 +73,15 @@ export function BadgeUnlockDialog() {
   return createPortal(
     <div className="phase2-dialog badge-popup-layer" data-open="true" role="dialog" aria-modal="true" aria-labelledby="badge-unlock-title">
       <div className="phase2-dialog-card badge-popup">
-        <p className="badge-popup-kicker">Badge unlocked</p>
-        <img src={`/badges/${id}.svg`} alt="" width={80} height={80} />
-        <h2 id="badge-unlock-title" className="badge-name">{copy.label}</h2>
-        <p className="mt-2 text-base">{copy.rule}</p>
-        <button type="button" className="mt-4 w-full py-3 text-lg font-bold" onClick={() => dismissBadgeUnlock()}>
-          OK
-        </button>
+        <RetroWindow title="Badge unlocked">
+          <p className="badge-popup-kicker">Badge unlocked</p>
+          <img src={`/badges/${id}.svg`} alt="" width={80} height={80} />
+          <h2 id="badge-unlock-title" className="badge-name">{copy.label}</h2>
+          <p className="mt-2 text-base">{copy.rule}</p>
+          <button type="button" className="mt-4 w-full py-3 text-lg font-bold" onClick={() => dismissBadgeUnlock()}>
+            OK
+          </button>
+        </RetroWindow>
       </div>
     </div>,
     document.body,
