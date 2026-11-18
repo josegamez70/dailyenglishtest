@@ -113,10 +113,10 @@ export function scoreboardAchievementMessage(input: {
     show,
   );
   const lines = [
-    `Reading: ${input.reading.done} exercises, ${percentText(input.reading, input.reading.answered > 0)}`,
-    `Listening: ${input.listening.done} exercises, ${percentText(input.listening, input.listening.answered > 0)}`,
-    `Grammar: ${input.grammar.done} exercises, ${percentText(input.grammar, input.grammar.answered > 0)}`,
-    `Total: ${input.totalDone} exercises, ${totalPercent}`,
+    `Reading: ${exerciseCount(input.reading.done)}, ${percentText(input.reading, input.reading.answered > 0)}`,
+    `Listening: ${exerciseCount(input.listening.done)}, ${percentText(input.listening, input.listening.answered > 0)}`,
+    `Grammar: ${exerciseCount(input.grammar.done)}, ${percentText(input.grammar, input.grammar.answered > 0)}`,
+    `Total: ${exerciseCount(input.totalDone)}, ${totalPercent}`,
   ];
   const places = [
     input.exercisePlace ? `${ordinal(input.exercisePlace)} for most exercises` : '',
@@ -152,6 +152,10 @@ export function scoreboardAchievementMessage(input: {
 </body>
 </html>`;
   return { subject, html, text };
+}
+
+function exerciseCount(done: number): string {
+  return `${done} ${done === 1 ? 'exercise' : 'exercises'}`;
 }
 
 function ordinal(position: number): string {
