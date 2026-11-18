@@ -31,5 +31,13 @@ export function dismissBadgeUnlock() {
 }
 
 export function publishBadgeProgress(before: BadgeStats, after: BadgeStats, now = new Date()) {
-  enqueueBadgeUnlocks(freshBadges(before, after, now));
+  const fresh = freshBadges(before, after, now);
+  console.info(JSON.stringify({
+    badgeUnlock: fresh,
+    beforeDays: before.days,
+    afterDays: after.days,
+    listening: after.listening,
+    reading: after.reading,
+  }));
+  enqueueBadgeUnlocks(fresh);
 }
