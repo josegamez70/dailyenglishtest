@@ -233,16 +233,17 @@ html[data-theme="retro95"] .retro-window {
   align-items: center;
   gap: 0.35rem;
   border: 2px solid #000080;
-  background: #fff;
+  border-radius: 0;
+  background: #c0c0c0;
   padding: 0.5rem;
   text-align: center;
-  color: #0f172a;
+  color: #000;
 }
 
-.dark .badge-card { background: #1e293b; color: #f8fafc; }
+.dark .badge-card { background: #c0c0c0; color: #000; }
 
-.badge-art { position: relative; width: 64px; height: 64px; }
-.badge-art img { image-rendering: pixelated; display: block; width: 64px; height: 64px; }
+.badge-art { position: relative; width: 96px; height: 96px; }
+.badge-art img { image-rendering: pixelated; display: block; width: 96px; height: 96px; }
 .badge-art .badge-check { position: absolute; right: 0; bottom: 0; width: 16px; height: 16px; }
 .badge-locked .badge-art img:first-child { filter: grayscale(1); opacity: 0.55; }
 .badge-name {
@@ -250,16 +251,64 @@ html[data-theme="retro95"] .retro-window {
   width: 100%;
   background: #000080;
   color: #fff;
-  font-size: 0.8rem;
+  font-family: "VT323", ui-monospace, monospace;
+  font-size: 1.15rem;
   font-weight: 700;
   line-height: 1.2;
   padding: 0.2rem 0.25rem;
 }
 .badge-rule { margin: 0; font-size: 0.75rem; }
-.badge-popup { text-align: center; }
+.badge-popup,
+html.dark .phase2-dialog-card.badge-popup,
+html[data-theme="retro95"] .phase2-dialog-card.badge-popup {
+  text-align: center;
+  background: #c0c0c0 !important;
+  color: #000 !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  box-shadow: 2px 2px 0 #000 !important;
+  border: 2px solid #fff;
+  border-right-color: #404040;
+  border-bottom-color: #404040;
+}
 .badge-popup-layer { z-index: 70; }
-.badge-popup img { image-rendering: pixelated; margin: 0.75rem auto; }
-.badge-popup-kicker { margin: 0; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+.badge-titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  background: #000080;
+  color: #fff;
+  border-bottom: 3px solid #ffff00;
+  padding: 0.2rem 0.35rem;
+  font-family: "VT323", ui-monospace, monospace;
+  font-size: 1.35rem;
+  line-height: 1.1;
+}
+.badge-win-buttons { display: inline-flex; gap: 2px; }
+.badge-win-buttons i {
+  width: 14px;
+  height: 14px;
+  background: #c0c0c0;
+  border: 2px solid #fff;
+  border-right-color: #404040;
+  border-bottom-color: #404040;
+  box-sizing: border-box;
+}
+.badge-win-buttons i.badge-close { background: #c00000; }
+.badge-window-body { padding: 0.75rem; }
+.badge-popup img { image-rendering: pixelated; margin: 0.75rem auto; width: 128px; height: 128px; }
+.badge-popup button,
+html[data-theme="retro95"] .badge-popup button {
+  background: #c0c0c0 !important;
+  color: #000 !important;
+  border-radius: 0 !important;
+  border: 2px solid #fff !important;
+  border-right-color: #404040 !important;
+  border-bottom-color: #404040 !important;
+  box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #dfdfdf !important;
+  font-family: "VT323", ui-monospace, monospace;
+}
 
 .scoreboard-scroll table {
   background: #fff;
