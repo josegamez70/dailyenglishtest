@@ -23,7 +23,7 @@ test('the global percent is weighted by questions, not by exercise', () => {
     attempt('reading', 1, 2, '2026-06-01T10:00:00Z'),
     attempt('listening', 9, 10, '2026-06-01T11:00:00Z'),
   ], 'all', new Date('2026-06-02T12:00:00Z'));
-  const board = presentBoard([row], 'total-percent', 1);
+  const board = presentBoard([row], 'percent', 1);
   assert.equal(board.top[0].totalCorrect, 10);
   assert.equal(board.top[0].totalAnswered, 12);
   assert.equal(weightedPercent(10, 12), 83);
@@ -58,6 +58,12 @@ test('daily uses the Madrid date across the spring and autumn clock changes', ()
   assert.equal(row.reading.done, 1);
   assert.equal(row.reading.correct, 4);
   assert.equal(row.listening.done, 0);
+  const yesterday = rowFromAttempts('Ada', [
+    attempt('reading', 4, 5, '2026-03-28T22:30:00Z'),
+    attempt('reading', 1, 5, '2026-03-28T23:30:00Z'),
+  ], 'yesterday', now);
+  assert.equal(yesterday.reading.done, 1);
+  assert.equal(yesterday.reading.correct, 4);
 });
 
 test('percent ranking needs the minimum, then keeps the top 10 and a later own row', () => {
@@ -85,7 +91,7 @@ test('percent ranking needs the minimum, then keeps the top 10 and a later own r
     listening: { done: 0, correct: 0, answered: 0 },
     grammar: { done: 0, correct: 0, answered: 0 },
   });
-  const board = presentBoard(rows, 'total-percent', SCOREBOARD_MIN);
+  const board = presentBoard(rows, 'percent', SCOREBOARD_MIN);
   assert.equal(board.top.length, 10);
   assert.equal(board.top[0].rank, 1);
   assert.equal(board.top[2].rank, 3);
@@ -94,10 +100,28 @@ test('percent ranking needs the minimum, then keeps the top 10 and a later own r
   assert.equal(board.self?.rank, 13);
   assert.equal(board.unqualified.map((row) => row.alias).includes('Demo New'), true);
   assert.equal(board.unqualified.every((row) => row.rank == null), true);
-  const byCount = presentBoard(rows, 'reading-count', SCOREBOARD_MIN);
-  assert.equal(byCount.unqualified.length, 0);
-  assert.equal(byCount.top[0].reading.done >= byCount.top[9].reading.done, true);
+  const tied = presentBoard([
+    { alias: 'Fewer', isSelf: false, demo: false, reading: { done: 4, correct: 8, answered: 10 }, listening: emptyMode(), grammar: emptyMode() },
+    { alias: 'More', isSelf: false, demo: false, reading: { done: 8, correct: 16, answered: 20 }, listening: emptyMode(), grammar: emptyMode() },
+  ], 'percent', 1);
+  assert.equal(tied.top[0].alias, 'More');
+  const byVolume = presentBoard([
+    { alias: 'Accurate', isSelf: false, demo: false, reading: { done: 3, correct: 9, answered: 10 }, listening: emptyMode(), grammar: emptyMode() },
+    { alias: 'Busy', isSelf: false, demo: false, reading: { done: 8, correct: 4, answered: 10 }, listening: emptyMode(), grammar: emptyMode() },
+  ], 'exercises', 3);
+  assert.equal(byVolume.top[0].alias, 'Busy');
+  assert.equal(byVolume.top[1].alias, 'Accurate');
+  const percentOnly = presentBoard([
+    { alias: 'Short', isSelf: false, demo: false, reading: { done: 1, correct: 5, answered: 5 }, listening: emptyMode(), grammar: emptyMode() },
+    { alias: 'Ready', isSelf: false, demo: false, reading: { done: 4, correct: 2, answered: 10 }, listening: emptyMode(), grammar: emptyMode() },
+  ], 'percent', 3);
+  assert.equal(percentOnly.top.map((item) => item.alias).includes('Short'), false);
+  assert.equal(percentOnly.top[0].alias, 'Ready');
 });
+
+function emptyMode() {
+  return { done: 0, correct: 0, answered: 0 };
+}
 
 test('a public name is never an email address', () => {
   assert.equal(publicAlias('  Ana  '), 'Ana');
@@ -116,9 +140,18 @@ test('the scoreboard page and the unapplied migration stay read-only', () => {
   const app = readFileSync(new URL('../App.tsx', import.meta.url), 'utf8');
   assert.match(page, /Fictitious demo/);
   assert.match(page, /All time/);
-  assert.match(page, /Daily/);
-  assert.match(page, /Minimum exercises to rank by percent/);
+  assert.match(page, /Today/);
+  assert.match(page, /Yesterday/);
+  assert.match(page, /Más ejercicios/);
+  assert.match(page, /Mejor %/);
+  assert.match(page, /Minimum exercises/);
+  assert.equal(page.includes('scoreboard-sort'), false);
   assert.equal(page.includes('email'), false);
+  const nextSql = readFileSync(new URL('../supabase/migrations/20261125_scoreboard_periods.sql', import.meta.url), 'utf8');
+  assert.match(nextSql, /yesterday/);
+  assert.match(nextSql, /security definer/);
+  assert.match(nextSql, /individual/);
+  assert.equal(/update\s+public\.test_results/i.test(nextSql), false);
   assert.match(sql, /Europe\/Madrid/);
   assert.match(sql, /security definer/);
   assert.match(sql, /scoreboard_alias/);
