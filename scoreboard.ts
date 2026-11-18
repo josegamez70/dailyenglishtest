@@ -45,6 +45,13 @@ export function emptyTotals(): ModeTotals {
   return { ...EMPTY };
 }
 
+/** Keep a public ranking alias when the local fallback would say You. */
+export function withRemoteAlias(local: ScoreRow, remoteAlias: string | undefined): ScoreRow {
+  const alias = (remoteAlias ?? '').trim();
+  if (!alias || alias.includes('@') || alias === 'You' || alias === 'Learner') return local;
+  return { ...local, alias };
+}
+
 /** A public label. An email, or a blank name, never becomes the label. */
 export function publicAlias(displayName: string, self = false): string {
   const name = displayName.trim().slice(0, 40);

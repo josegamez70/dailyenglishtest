@@ -1,6 +1,6 @@
 import { loadAcademyStudents, loadOwnedAcademy } from './academy.ts';
 import { getSupabase } from './auth.ts';
-import { demoRows, publicAlias, rowFromAttempts, type ModeTotals, type ScoreAttempt, type ScorePeriod, type ScoreRow } from './scoreboard.ts';
+import { demoRows, publicAlias, rowFromAttempts, withRemoteAlias, type ModeTotals, type ScoreAttempt, type ScorePeriod, type ScoreRow } from './scoreboard.ts';
 import { listTestResults } from './studyStore.ts';
 
 export type ScoreboardSource = 'live' | 'owner' | 'demo' | 'self-only';
@@ -86,7 +86,14 @@ export async function loadScoreboard(displayName: string, period: ScorePeriod): 
         const local = rowFromAttempts(selfAlias, selfAttempts, 'yesterday', new Date(), true);
         const remote = liveRows.find((row) => row.isSelf);
         if (!remote || !sameScore(remote, local)) {
-          return { source: 'self-only', inAcademy, selfAlias, selfAttempts, liveRows: [local], yesterdayPending: true };
+          return {
+            source: 'self-only',
+            inAcademy,
+            selfAlias,
+            selfAttempts,
+            liveRows: [withRemoteAlias(local, remote?.alias)],
+            yesterdayPending: true,
+          };
         }
       }
       return { source: 'live', inAcademy, selfAlias, selfAttempts, liveRows, yesterdayPending: false };

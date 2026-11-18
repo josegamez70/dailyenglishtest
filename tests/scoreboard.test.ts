@@ -7,6 +7,7 @@ import {
   formatPercent,
   presentBoard,
   publicAlias,
+  withRemoteAlias,
   rowFromAttempts,
   SCOREBOARD_MIN,
   weightedPercent,
@@ -123,7 +124,10 @@ function emptyMode() {
   return { done: 0, correct: 0, answered: 0 };
 }
 
-test('a public name is never an email address', () => {
+test('a pending yesterday row keeps the public alias', () => {
+  const local = rowFromAttempts('You', [], 'yesterday', new Date(), true);
+  assert.equal(withRemoteAlias(local, 'Learner A3BF').alias, 'Learner A3BF');
+  assert.equal(withRemoteAlias(local, 'person@example.com').alias, 'You');
   assert.equal(publicAlias('  Ana  '), 'Ana');
   assert.equal(publicAlias('ana@example.com', true), 'You');
   assert.equal(publicAlias('', false), 'Learner');
