@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "culture_food",
+  "title": "The Regional Food Fair",
+  "story": "The regional food fair took over the old cattle market for a windy weekend, and Amina arrived before the gates with a borrowed table and three crates of pickled vegetables. She had spent the summer testing jars, changing the vinegar until the carrots tasted sharp rather than harsh. A small committee, not a visiting celebrity, would taste a short list of entries and give a paper award to the preserve that best showed a home method. Amina wanted the written notes more than the ribbon.\n\nHer stall stood between a cheese maker from the hills and a teenager selling herb oil. The rules were pinned to a post. Samples had to be small, allergens had to be written in clear letters, and nobody was to speak badly of a neighbour's recipe. Amina had printed cards that named beetroot, dill, and apple vinegar, and she kept the prices modest so people might finish a jar at home. By late morning she had learned to offer a taste before a speech. The visitors who stayed longest asked about salt, not about her family history.\n\nAfter lunch a juror in a plain coat tried the beetroot and the carrot, then asked why the carrot was cut thick. Amina explained that a thin slice turned soft in the jar and that she preferred a bite which stayed firm. The juror wrote a line, thanked her, and moved on without a smile. For the next hour Amina was sure she had sounded defensive. The cheese maker leaned over and said a direct answer was exactly what the tasting panel had requested.\n\nWhen the award list went up on the office door, Amina's beetroot received a comment for clear flavour and no prize. The disappointment lasted a moment, and then a steadier feeling replaced it. The fair had shown her which jar people finished and which they only praised. She packed the remaining carrot for Monday and rewrote one line on the card so it read that the pieces were cut thick on purpose.",
+  "vocabulary": [
+    {
+      "word": "regional",
+      "definition": "Belonging to one area of a country."
+    },
+    {
+      "word": "stall",
+      "definition": "A table or stand where food is shown and sold."
+    },
+    {
+      "word": "samples",
+      "definition": "Small tastes offered to visitors."
+    },
+    {
+      "word": "juror",
+      "definition": "A person asked to taste entries and help judge them."
+    },
+    {
+      "word": "award",
+      "definition": "A prize or public recognition for a piece of work."
+    },
+    {
+      "word": "preserve",
+      "definition": "Food kept with vinegar or sugar, such as a pickle."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Who was responsible for tasting the entries?",
+      "options": [
+        "The teenager selling bottles of herb oil",
+        "A celebrity cook invited from the capital",
+        "Every visitor who stopped at the stall",
+        "A small committee rather than a famous guest"
+      ],
+      "correctAnswer": "A small committee rather than a famous guest",
+      "explanation": "A small committee, not a visiting celebrity, would taste a short list and give the paper award.",
+      "supportingSentence": "A small committee, not a visiting celebrity, would taste a short list of entries and give a paper award to the preserve that best showed a home method.",
+      "skill": "detail"
+    },
+    {
+      "question": "How did Amina's beetroot fare when the list was posted?",
+      "options": [
+        "It received the main paper award",
+        "It was noted for clear flavour but did not win",
+        "It was banned from the Monday market",
+        "It was ordered to be thrown away"
+      ],
+      "correctAnswer": "It was noted for clear flavour but did not win",
+      "explanation": "The award list gave the beetroot a comment for clear flavour and no prize.",
+      "supportingSentence": "When the award list went up on the office door, Amina's beetroot received a comment for clear flavour and no prize.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did the juror's departure leave Amina uneasy?",
+      "options": [
+        "The cheese maker had mocked her prices in front of the crowd",
+        "The panel had closed her stall before lunch",
+        "A polite exit with no warmth felt like a poor judgement",
+        "She had forgotten to write the allergens on the card"
+      ],
+      "correctAnswer": "A polite exit with no warmth felt like a poor judgement",
+      "explanation": "The juror thanked her and left without a smile, after which she spent an hour sure she had sounded defensive.",
+      "supportingSentence": "The juror wrote a line, thanked her, and moved on without a smile.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does the new line on the carrot card suggest about Amina?",
+      "options": [
+        "She chose to explain her method instead of sounding unsure about it",
+        "She decided to cut the carrot thin for the Monday sale",
+        "She removed the price so the jars would be given away",
+        "She wanted buyers not to notice the beetroot comment"
+      ],
+      "correctAnswer": "She chose to explain her method instead of sounding unsure about it",
+      "explanation": "She rewrote the card to say the pieces were cut thick on purpose, so she was owning the choice.",
+      "supportingSentence": "She packed the remaining carrot for Monday and rewrote one line on the card so it read that the pieces were cut thick on purpose.",
+      "skill": "inference"
+    },
+    {
+      "question": "In the rules of the fair, what are samples?",
+      "options": [
+        "Written attacks on a neighbour's recipe",
+        "Small tastes of food given to people at a stall",
+        "Tickets required to enter the old market",
+        "Paper prizes pinned up on the office door"
+      ],
+      "correctAnswer": "Small tastes of food given to people at a stall",
+      "explanation": "The rules require samples to be small, and Amina was offering visitors a taste before she talked.",
+      "supportingSentence": "Samples had to be small, allergens had to be written in clear letters, and nobody was to speak badly of a neighbour's recipe.",
+      "skill": "vocabulary"
+    }
+  ]
+}

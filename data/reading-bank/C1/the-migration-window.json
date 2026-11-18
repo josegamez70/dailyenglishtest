@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "technology",
+  "title": "The Migration Window",
+  "story": "The records office had reserved the migration window six weeks earlier, because the deed room was closed on Sundays and the scanning contractor could spare two operators overnight. During those hours the old catalog would accept no new entries, no corrections, and no loans. On Friday the clerks had tied a paper slip to every folder still sitting in the exception tray, so that a half-described packet would not be copied as if it were complete. The window was a pause the office had agreed to keep. It was not a setting buried in the machines.\n\nAt 01:40 the report on the scanned deeds came back short. Four hundred and twelve image sets had crossed onto the new catalog, and nineteen had arrived with a page count that did not match the manifest prepared on Thursday. Mara Quinn, the lead archivist, refused to treat the shortfall as a rounding error. A missing page in a deed packet could be a map, a signature, or the clause that later settled a boundary dispute. She stopped the copy job and asked the operators to reopen the nineteen folders on the bench, not on the screen.\n\nThe night supervisor wanted a full rollback, with the new catalog wiped and the attempt repeated the following Sunday. Quinn argued for a narrower repair. Folders already verified could remain, each stamped with the time it had passed the check, while the nineteen stayed on the old system under a hold that blocked lending and editing. An extra forty minutes would let the operators rescan those packets and nothing else. What she would not accept was a completed status on a batch that had failed its own count. The supervisor disliked leaving two catalogs live past dawn, because Monday staff might edit the wrong one out of habit, and a later reconciliation would then have to unpick those fresh edits as well as the original copy.\n\nThey settled the dispute in the corridor, beside the trolley of packets that had never been scanned. The window would stretch, but only for the named folders, and a handwritten list would be taped to both terminals before anyone went home. At 06:20 the nineteen sets matched. Quinn did not call the migration finished. She called the verified portion provisionally accepted and left the hold in place until a second reader, arriving with the day shift, compared ten packets drawn from the list at random. A window, she told the supervisor, is a promise about what will not happen while the copy is in motion. It is not a certificate that the copy is already right.",
+  "vocabulary": [
+    {
+      "word": "manifest",
+      "definition": "A list of what a batch is supposed to contain."
+    },
+    {
+      "word": "shortfall",
+      "definition": "An amount that is missing compared with what was expected."
+    },
+    {
+      "word": "rollback",
+      "definition": "A return of a system to the state it had before a change."
+    },
+    {
+      "word": "reconciliation",
+      "definition": "The work of making two records agree again."
+    },
+    {
+      "word": "provisionally",
+      "definition": "For the moment only, until a further check is done."
+    },
+    {
+      "word": "hold",
+      "definition": "A block that stops a record from being lent or edited."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How many image sets arrived with a page count that failed to match the list prepared on Thursday?",
+      "options": [
+        "Nineteen",
+        "Four hundred and twelve",
+        "Ten",
+        "Forty"
+      ],
+      "correctAnswer": "Nineteen",
+      "explanation": "Nineteen sets arrived with a page count that did not match the manifest.",
+      "supportingSentence": "Four hundred and twelve image sets had crossed onto the new catalog, and nineteen had arrived with a page count that did not match the manifest prepared on Thursday.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does Quinn’s decision to stop the whole copy, after most sets had already crossed, suggest about her standard?",
+      "options": [
+        "A small number of doubtful deed packets was enough to halt the transfer.",
+        "She would stop a transfer only if most of the image sets failed.",
+        "She wanted the night supervisor to cancel the scanning contract.",
+        "She believed the new catalog should be wiped before any page was checked."
+      ],
+      "correctAnswer": "A small number of doubtful deed packets was enough to halt the transfer.",
+      "explanation": "She halted the whole job over nineteen doubtful packets, so the small count was enough.",
+      "supportingSentence": "She stopped the copy job and asked the operators to reopen the nineteen folders on the bench, not on the screen.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why does a day-shift reader still sample packets after the night crew has made the nineteen sets match?",
+      "options": [
+        "The night match still needed a check by someone who had not done the repair.",
+        "The day shift was expected to rescan every deed in the building.",
+        "The handwritten list had been lost before anyone went home.",
+        "The old catalog had started accepting new loans again at 06:20."
+      ],
+      "correctAnswer": "The night match still needed a check by someone who had not done the repair.",
+      "explanation": "She kept the result provisional until a second reader from the day shift checked a sample.",
+      "supportingSentence": "She called the verified portion provisionally accepted and left the hold in place until a second reader, arriving with the day shift, compared ten packets drawn from the list at random.",
+      "skill": "inference"
+    },
+    {
+      "question": "In this passage, what does “provisionally” say about acceptance of the verified portion?",
+      "options": [
+        "It was accepted only until a further check was done.",
+        "It was accepted forever because the night counts had matched.",
+        "It was rejected and deleted from both catalogs.",
+        "It was certified by the contractor as a finished legal deed."
+      ],
+      "correctAnswer": "It was accepted only until a further check was done.",
+      "explanation": "The portion was accepted for the moment, with a hold left in place until another reader checked it.",
+      "supportingSentence": "She called the verified portion provisionally accepted and left the hold in place until a second reader, arriving with the day shift, compared ten packets drawn from the list at random.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the passage end by calling the window a promise rather than a certificate?",
+      "options": [
+        "To separate a rule about pausing work from proof that the copy is correct.",
+        "To argue that Sunday is the only night a catalog can be copied.",
+        "To blame the contractor for every packet that was never scanned.",
+        "To recommend that paper folders replace the new catalog."
+      ],
+      "correctAnswer": "To separate a rule about pausing work from proof that the copy is correct.",
+      "explanation": "The ending wants the reader to see that the window limits activity during the copy and does not prove the copy is right.",
+      "supportingSentence": "A window, she told the supervisor, is a promise about what will not happen while the copy is in motion.",
+      "skill": "intent"
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "economy_finance",
+  "title": "A Loan between Friends",
+  "story": "Ade repaired bicycles for neighbours in the evenings, and the work paid his rent. When the chain on his own bike snapped, he could not reach the restaurant whose deliveries he made. He asked Tomas, who had known him since school, for a loan of one hundred and eighty pounds. Tomas had been saving that money for a winter coat, but he agreed, on one condition. They would write the terms on paper before any cash moved.\n\nThey sat in Tomas's kitchen and kept the language plain. Ade would repay twenty pounds a week for nine weeks. There would be no interest if every payment arrived on time. A late week would add a charge of five pounds, not as a punishment to enjoy, but so the delay had a cost. Both of them signed, and Ade took a photograph of the page. The first three payments landed in Tomas's account each Friday. Then the restaurant held back two weeks of wages, and Ade went quiet.\n\nTomas noticed the silence before he noticed the money. He drafted an angry message, deleted it, and asked Ade to come over with the paper. Ade arrived looking ashamed and set the agreement between them. He could not invent cash he had not received, yet he did not want the friendship to become a vague debt. He offered two Saturday mornings at the hardware stall Tomas's father ran, in place of the missed cash, and then a return to the weekly sum. Tomas checked the hours against the amount owed, dropped the late charge, and rewrote the line. After three payments Ade still owed one hundred and twenty pounds, and the Saturday work would clear forty of that. They agreed to review the page again if the restaurant paid late a second time. The coat could wait until spring. What Tomas refused to postpone was a clear record, because memory is a poor accountant when one friend owes the other.",
+  "vocabulary": [
+    {
+      "word": "loan",
+      "definition": "Money given to someone that must be paid back."
+    },
+    {
+      "word": "interest",
+      "definition": "Extra money charged for borrowing."
+    },
+    {
+      "word": "repay",
+      "definition": "To pay back money that was borrowed."
+    },
+    {
+      "word": "charge",
+      "definition": "An extra sum added when a payment is late."
+    },
+    {
+      "word": "agreement",
+      "definition": "A written plan that both people accept."
+    },
+    {
+      "word": "wages",
+      "definition": "Money paid to someone for work."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How much money did Ade ask to borrow?",
+      "options": [
+        "One hundred and eighty pounds",
+        "One hundred and twenty pounds",
+        "Forty pounds for Saturday work",
+        "Five pounds for each late week"
+      ],
+      "correctAnswer": "One hundred and eighty pounds",
+      "explanation": "Ade asked Tomas for a loan of one hundred and eighty pounds after his bike chain snapped.",
+      "supportingSentence": "He asked Tomas, who had known him since school, for a loan of one hundred and eighty pounds.",
+      "skill": "detail"
+    },
+    {
+      "question": "Where did the first three payments go?",
+      "options": [
+        "They were replaced at once by Saturday work",
+        "They arrived in Tomas's account each Friday",
+        "The restaurant held them back with Ade's wages",
+        "Tomas spent them on the winter coat"
+      ],
+      "correctAnswer": "They arrived in Tomas's account each Friday",
+      "explanation": "The first three payments reached Tomas's account each Friday, before the restaurant delayed Ade's wages.",
+      "supportingSentence": "The first three payments landed in Tomas's account each Friday.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did Tomas want the paper on the table instead of sending his first message?",
+      "options": [
+        "He wanted the whole loan paid that same evening",
+        "He needed the restaurant to sign the page",
+        "He preferred a written plan to a quarrel built on memory",
+        "He was ready to cancel the debt and buy the coat"
+      ],
+      "correctAnswer": "He preferred a written plan to a quarrel built on memory",
+      "explanation": "Tomas deleted the angry message, asked for the paper, and later refused to trust memory with a debt.",
+      "supportingSentence": "He drafted an angry message, deleted it, and asked Ade to come over with the paper.",
+      "skill": "inference"
+    },
+    {
+      "question": "What risk did leaving the debt only in memory create?",
+      "options": [
+        "Ade would have had to repair bicycles for Tomas forever",
+        "The restaurant would have refused to pay any more wages",
+        "Tomas would have been forced to buy the coat before spring",
+        "They could disagree about the sum and strain the friendship"
+      ],
+      "correctAnswer": "They could disagree about the sum and strain the friendship",
+      "explanation": "Tomas calls memory a poor accountant between friends, and Ade did not want the debt to become vague.",
+      "supportingSentence": "What Tomas refused to postpone was a clear record, because memory is a poor accountant when one friend owes the other.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does the word interest mean in this story?",
+      "options": [
+        "Extra money added because money was borrowed",
+        "A strong wish to help an old school friend",
+        "The Friday pay from the restaurant",
+        "A photograph of the signed page"
+      ],
+      "correctAnswer": "Extra money added because money was borrowed",
+      "explanation": "Interest here is an extra charge on the loan, and there would be none if every payment arrived on time.",
+      "supportingSentence": "There would be no interest if every payment arrived on time.",
+      "skill": "vocabulary"
+    }
+  ]
+}

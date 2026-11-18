@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "school_college",
+  "title": "The Ethics Seminar",
+  "story": "The ethics seminar met in a room that was too warm for argument. Imani, who led the module, set out a hypothetical case rather than a news story. A student intern in a hospital laboratory notices that a senior researcher has quietly removed two inconvenient results from a chart before a review meeting. The intern has no permanent post, the researcher has been a generous mentor, and the altered chart would make a treatment look more reliable than the full data allow. Imani asked the group not to race for a verdict. She wanted the obligations mapped before anyone claimed the moral high ground.\n\nLeila spoke first. She argued that confidentiality inside a team did not extend to concealment, and that a patient who might rely on the chart had a stronger claim than a mentor's reputation. If the intern stayed silent, the omission would harden into the record. Jonas disagreed, though not because he trusted the researcher. He said an intern who disclosed the change without understanding the statistical context might damage a study that was otherwise sound, and that going public before an internal check was a way of performing integrity rather than practising it. A third student suggested a quiet question at the next supervision, which the others treated as hopeful and possibly naive.\n\nWhat made the hour difficult was Imani's refusal to rescue them. Each time a speaker looked at her for a nod, she asked what fact would change that speaker's mind. Leila admitted that a pre-registered plan explaining the removed results would weaken her case for outside reporting. Jonas admitted that if the intern had already raised the gap inside the lab and been told to forget it, delay would become complicity. The dissent was no longer a clash of personalities. It was a disagreement about sequence: whether loyalty to a process came before loyalty to the people who would never read the chart.\n\nFor the written task, Imani told them to draft the strongest argument against their own first position, using only the facts she had given. Students who added dramatic details, she warned, would be marked down. Leila left irritated and more careful. She had wanted a rule she could carry into a real placement. If the seminar had ended with a single recommended action, she might have felt finished. Instead she had a set of conditions under which silence stopped being neutral. That, Imani said as they packed up, was the point of an ethics class that respected its subject. A clean answer, offered too early, would have taught them only how to sound certain.",
+  "vocabulary": [
+    {
+      "word": "hypothetical",
+      "definition": "Imagined in order to test an idea"
+    },
+    {
+      "word": "confidentiality",
+      "definition": "The duty to keep information private"
+    },
+    {
+      "word": "concealment",
+      "definition": "The act of hiding something that others may need to know"
+    },
+    {
+      "word": "disclosed",
+      "definition": "Made known after it had been held back"
+    },
+    {
+      "word": "complicity",
+      "definition": "Taking part in a wrong by going along with it"
+    },
+    {
+      "word": "neutral",
+      "definition": "Not favouring either side"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What does complicity mean when Jonas talks about further delay?",
+      "options": [
+        "Sharing the wrong by agreeing to leave it alone",
+        "Publishing the chart before the review meeting",
+        "Asking a mentor for a permanent job",
+        "Repeating a calculation without help"
+      ],
+      "correctAnswer": "Sharing the wrong by agreeing to leave it alone",
+      "explanation": "If the intern has already been told to forget the gap, staying quiet would mean joining in the wrong.",
+      "supportingSentence": "Jonas admitted that if the intern had already raised the gap inside the lab and been told to forget it, delay would become complicity.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What did Imani ask the students to write?",
+      "options": [
+        "The strongest case against the view they had started with",
+        "A report sending the researcher to the hospital board",
+        "A news story about a real laboratory scandal",
+        "A dramatic version with facts she had not given"
+      ],
+      "correctAnswer": "The strongest case against the view they had started with",
+      "explanation": "The task was to argue against their own first position, using only the facts from the case.",
+      "supportingSentence": "For the written task, Imani told them to draft the strongest argument against their own first position, using only the facts she had given.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did the argument turn into by the end of the hour?",
+      "options": [
+        "A question about which loyalty ought to come first",
+        "A vote that Imani settled with one instruction",
+        "A quarrel about whether the intern liked the mentor",
+        "A plan to invent results that were never collected"
+      ],
+      "correctAnswer": "A question about which loyalty ought to come first",
+      "explanation": "It was no longer a clash of personalities but a disagreement about which duty came before the other.",
+      "supportingSentence": "It was a disagreement about sequence: whether loyalty to a process came before loyalty to the people who would never read the chart.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why does Leila leave without feeling the problem is finished?",
+      "options": [
+        "She has limits on silence, not one action for every case",
+        "Imani has told the intern to stay quiet forever",
+        "Jonas has shown that the chart was never changed",
+        "The written task has already been marked and returned"
+      ],
+      "correctAnswer": "She has limits on silence, not one action for every case",
+      "explanation": "A single recommended action might have let her feel finished, but she leaves with conditions instead.",
+      "supportingSentence": "Instead she had a set of conditions under which silence stopped being neutral.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why does Imani refuse to name one right action?",
+      "options": [
+        "An early neat answer would have taught them only how to sound sure",
+        "She has not decided which essay will score highest",
+        "The hospital has banned discussion of research",
+        "She wants the rest of the room to side with Jonas"
+      ],
+      "correctAnswer": "An early neat answer would have taught them only how to sound sure",
+      "explanation": "A clean answer, given too early, would have taught them only how to sound certain.",
+      "supportingSentence": "A clean answer, offered too early, would have taught them only how to sound certain.",
+      "skill": "intent"
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "level": "B1",
+  "topic": "technology",
+  "title": "The Broken Charger",
+  "story": "Lina's phone battery was almost empty on the afternoon train. She needed a map to find her uncle's new flat, so she took her charger from her bag. The cable looked fine, but the small metal plug was loose. She pushed it into the socket under the seat, yet nothing happened. The screen still showed a red battery icon.\n\nA passenger across the aisle pointed to another socket beside the window. Lina tried again. The phone beeped, and a tiny lightning sign appeared. She felt relief. The journey would take forty minutes, which was enough time to add a little power.\n\nThen the train stopped between two stations. The lights went off, and the socket stopped working too. The phone was only at twelve percent. Lina switched on flight mode so the battery would last longer. She copied her uncle's address onto paper, in case the phone went dark before she arrived.\n\nWhen the lights returned, the socket worked again. The number climbed slowly to twenty percent. At the station she opened the map and walked for eight minutes to a blue door. Her uncle laughed at the broken charger. He kept a spare cable in a kitchen drawer and let her use it while they ate. Lina decided to buy a new charger the next morning, before another trip left her without a map.",
+  "vocabulary": [
+    {
+      "word": "charger",
+      "definition": "A tool that puts electricity back into a phone"
+    },
+    {
+      "word": "loose",
+      "definition": "Not fixed firmly in place"
+    },
+    {
+      "word": "socket",
+      "definition": "A hole where you connect a plug to get power"
+    },
+    {
+      "word": "relief",
+      "definition": "A glad feeling when a worry gets smaller"
+    },
+    {
+      "word": "percent",
+      "definition": "One part in every hundred"
+    },
+    {
+      "word": "spare",
+      "definition": "Extra, and ready if you need it"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where was Lina when her phone battery was almost empty?",
+      "options": [
+        "On the afternoon train",
+        "In her uncle's kitchen",
+        "At a phone shop",
+        "On a bus to school"
+      ],
+      "correctAnswer": "On the afternoon train",
+      "explanation": "The story starts with Lina on the afternoon train and her battery almost empty.",
+      "supportingSentence": "Lina's phone battery was almost empty on the afternoon train.",
+      "skill": "detail"
+    },
+    {
+      "question": "What was wrong with the small metal plug?",
+      "options": [
+        "It was loose",
+        "It was missing",
+        "It was wet",
+        "It was brand new"
+      ],
+      "correctAnswer": "It was loose",
+      "explanation": "The cable looked fine, but the metal plug was loose.",
+      "supportingSentence": "The cable looked fine, but the small metal plug was loose.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does the word relief mean?",
+      "options": [
+        "A glad feeling when a worry gets smaller",
+        "A loud warning sound",
+        "A second broken cable",
+        "A seat beside the window"
+      ],
+      "correctAnswer": "A glad feeling when a worry gets smaller",
+      "explanation": "Lina feels relief just after the phone finally starts to charge.",
+      "supportingSentence": "She felt relief.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Lina copy the address onto paper?",
+      "options": [
+        "The phone might go dark before she arrived",
+        "Her uncle had lost the street name",
+        "The passenger asked for a map",
+        "The train had no more seats"
+      ],
+      "correctAnswer": "The phone might go dark before she arrived",
+      "explanation": "She wrote the address in case the phone went dark before she arrived.",
+      "supportingSentence": "She copied her uncle's address onto paper, in case the phone went dark before she arrived.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does Lina's morning plan suggest?",
+      "options": [
+        "She did not trust the old charger on another trip",
+        "Her uncle had already repaired the plug",
+        "The train sockets were all new",
+        "She wanted to give the cable away"
+      ],
+      "correctAnswer": "She did not trust the old charger on another trip",
+      "explanation": "She decides to buy a new charger before another trip can leave her without a map.",
+      "supportingSentence": "Lina decided to buy a new charger the next morning, before another trip left her without a map.",
+      "skill": "inference"
+    }
+  ]
+}

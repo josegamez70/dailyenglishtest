@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "hobbies",
+  "title": "Mapping the Coastal Path",
+  "story": "The district had asked for a usable map of the path from Rook Point to the river mouth, and the work went to Petra Elman, who treated the small fee as no excuse for a careless line. She walked the route on three Saturdays with a measuring wheel, a notebook, and a private rule. She would not mark a waymark as connected to the next unless she could see that next one without inventing the link. Where gorse had swallowed the path, she drew a gap and a question rather than a confident curve.\n\nErosion had shifted the cliff since the previous sketch, made ten years earlier by a volunteer who loved a smooth line. Petra's version was less flattering and, she believed, more loyal to a walker's actual feet. It stepped inland around a fresh slump, recorded a stile that had become a climb, and renamed a ditch the old sheet still called a seasonal stream. A farmer met her at the second gate and objected to an arrow that would send strangers through his yard whenever the tide covered the lower stones. She walked the alternative he offered. It was drier, no longer in distance, and visible from one end to the other, which satisfied both his objection and her rule. She entered the change as two facts: his knowledge of the tide, and her measurement of the ground. Neither cancelled the other.\n\nAt the headland she stopped using the wheel for a few minutes, because the light had made her want to be only a visitor. Then she started it again. Wanting to look was not a method. The draft she inked at home carried distances, cautions, and a margin note that the path was an agreement with the weather, renewed or broken each winter, not a promise. She sent the district a copy on which uncertainty remained visible. A clerk replied that the printed leaflet would be kinder if the gaps were closed, since visitors dislike hesitation. Petra wrote back that a gap was already a statement. A continuous line across ground that had failed would be neat, and someone would trust it with a foot. She added an example. At the slump, a straight stroke on the old sketch would have led a walker onto earth that now sat on the beach. The new line cost a little dignity and saved a fall. If the leaflet could not bear to show that bargain, it was not yet a map. She kept the measuring wheel by the door, because a drawing, however careful, goes stale the moment the cliff decides otherwise.",
+  "vocabulary": [
+    {
+      "word": "waymark",
+      "definition": "A sign or marker that shows the route of a path."
+    },
+    {
+      "word": "erosion",
+      "definition": "The gradual wearing away of land by weather or water."
+    },
+    {
+      "word": "stile",
+      "definition": "A step or ladder that lets people cross a fence."
+    },
+    {
+      "word": "measurement",
+      "definition": "A figure obtained by measuring something."
+    },
+    {
+      "word": "headland",
+      "definition": "A piece of high land that sticks out into the sea."
+    },
+    {
+      "word": "hesitation",
+      "definition": "A pause caused by uncertainty."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "On how many Saturdays did Petra walk the route?",
+      "options": [
+        "Three",
+        "Ten",
+        "One",
+        "Fourteen"
+      ],
+      "correctAnswer": "Three",
+      "explanation": "She walked the route on three Saturdays with her wheel and notebook.",
+      "supportingSentence": "She walked the route on three Saturdays with a measuring wheel, a notebook, and a private rule.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does Petra's pause at the headland show about her?",
+      "options": [
+        "She can feel like a visitor and still refuse to map by feeling",
+        "She decided the view was too dull to record",
+        "She left the wheel behind and ended the survey",
+        "She agreed that gaps would look unkind on a leaflet"
+      ],
+      "correctAnswer": "She can feel like a visitor and still refuse to map by feeling",
+      "explanation": "The light makes her want only to look, but she starts again because wanting to look is not a method.",
+      "supportingSentence": "Wanting to look was not a method.",
+      "skill": "inference"
+    },
+    {
+      "question": "What duty does Petra believe a printed line owes a walker?",
+      "options": [
+        "It must not invite trust in ground that has already failed",
+        "It must look smoother than the volunteer's old sketch",
+        "It must hide every farmyard along the tide",
+        "It must replace local knowledge with one pleasant curve"
+      ],
+      "correctAnswer": "It must not invite trust in ground that has already failed",
+      "explanation": "She warns that a neat line across failed ground would be trusted with a foot, so the map should refuse that false confidence.",
+      "supportingSentence": "A continuous line across ground that had failed would be neat, and someone would trust it with a foot.",
+      "skill": "inference"
+    },
+    {
+      "question": "What has erosion done to the coast in this story?",
+      "options": [
+        "Worn the cliff back so the old line is no longer safe",
+        "Filled the path with water from a seasonal stream",
+        "Raised a new stile at the farmer's second gate",
+        "Held the tide off the lower stones all year"
+      ],
+      "correctAnswer": "Worn the cliff back so the old line is no longer safe",
+      "explanation": "Erosion had shifted the cliff since the old sketch, so a straight stroke there would now lead onto fallen earth.",
+      "supportingSentence": "Erosion had shifted the cliff since the previous sketch, made ten years earlier by a volunteer who loved a smooth line.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer include Petra's wish to be only a visitor?",
+      "options": [
+        "To show that her strictness is a choice, not a lack of feeling",
+        "To prove she abandoned the map at the headland",
+        "To explain the clerk's request for a kinder leaflet",
+        "To suggest the farmer had offered her a place to stay"
+      ],
+      "correctAnswer": "To show that her strictness is a choice, not a lack of feeling",
+      "explanation": "She is moved by the light, and returning to the wheel shows that the discipline comes after feeling, not instead of it.",
+      "supportingSentence": "At the headland she stopped using the wheel for a few minutes, because the light had made her want to be only a visitor.",
+      "skill": "intent"
+    }
+  ]
+}

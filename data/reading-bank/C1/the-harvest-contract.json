@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "culture_food",
+  "title": "The Harvest Contract",
+  "story": "Laleh Moradi spread the draft contract on a crate between the bean rows, because she wanted Tomas Rehn to see the field that the clauses were describing. He bought for three restaurants in the city and had driven out with a cooler, a pencil, and a reputation for paying on time, which mattered more to her than praise. The document promised a weekly delivery of salad leaves, herbs, and tomatoes from June to September, at a price fixed in April. The price looked fair on a dry morning. Laleh had farmed long enough to know that April could not sign for August.\n\nShe had marked two paragraphs. The first let the buyer reduce an order with three days' notice. The second let the grower miss a delivery only in a case of force beyond control, a phrase that sounded legal and meant whatever a disappointed cook decided. Hail, she said, was beyond control. A soft week of rain that split the tomatoes was also beyond control. Tomas said he could not run a menu on maybes. She said she could not insure his menu with her family's field. They were both describing risk, and neither wanted to be the only one holding it.\n\nThey walked the irrigation line while the argument cooled. Tomas asked what a good contract would feel like in a bad week. Laleh answered with numbers rather than with mood. If she warned him by Sunday evening, he would accept a substitute crop of equal value, chard for spinach, or smaller cucumbers for the ones his cooks preferred. If she failed to warn him, she would discount the following week. If he cancelled inside three days, he would pay half, because seed, water, and labour did not cancel themselves. He copied the three sentences onto the back of the draft, where amendments can be more honest.\n\nThere was still the matter of quality, which could ruin a fair price. They agreed that leaves would be picked before dawn, rinsed once, and rejected only for slime, wilt, or grit that a second rinse would not move. A bruise on a tomato was not a moral failure. It was a reason to send the fruit for sauce at a lower rate, which Laleh would rather do than watch good food become a lecture. Tomas initialled the margin. He would take the revised pages to his partners, who liked local produce in the abstract and liked predictable plates in practice. Laleh kept a copy of his handwritten lines. Until the signatures existed, the field remained hers, and the menu remained a hope with a date on it.",
+  "vocabulary": [
+    {
+      "word": "clauses",
+      "definition": "The separate rules written into the contract."
+    },
+    {
+      "word": "discount",
+      "definition": "A reduction in the price."
+    },
+    {
+      "word": "amendments",
+      "definition": "Changes added to a document."
+    },
+    {
+      "word": "wilt",
+      "definition": "The soft, drooping state of leaves that are no longer fresh."
+    },
+    {
+      "word": "abstract",
+      "definition": "Existing as a general idea, not in daily practice."
+    },
+    {
+      "word": "initialled",
+      "definition": "Marked with initials to show agreement."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What would Tomas pay if he cancelled an order inside three days?",
+      "options": [
+        "Nothing, provided the morning was dry",
+        "The full price plus a fine for the cooler",
+        "Half the agreed amount",
+        "Only the cost of seed for the next year"
+      ],
+      "correctAnswer": "Half the agreed amount",
+      "explanation": "If he cancelled inside three days, he would pay half, because the seed, water, and labour would already have been spent.",
+      "supportingSentence": "If he cancelled inside three days, he would pay half, because seed, water, and labour did not cancel themselves.",
+      "skill": "detail"
+    },
+    {
+      "question": "What danger did Laleh see in the phrase about force beyond control?",
+      "options": [
+        "Weather losses could be treated as her failure if a cook decided so",
+        "Tomas would stop paying for herbs from June onward",
+        "The family field would have to be sold before September",
+        "The cooler could not keep salad leaves cold"
+      ],
+      "correctAnswer": "Weather losses could be treated as her failure if a cook decided so",
+      "explanation": "The phrase sounded legal, but in practice it meant whatever a disappointed cook decided, even when hail or splitting rain was outside her control.",
+      "supportingSentence": "The second let the grower miss a delivery only in a case of force beyond control, a phrase that sounded legal and meant whatever a disappointed cook decided.",
+      "skill": "inference"
+    },
+    {
+      "question": "What principle do the three handwritten conditions put into practice?",
+      "options": [
+        "A late surprise by either side creates a cost for the person who causes it",
+        "The grower must deliver tomatoes even after hail",
+        "The restaurants may change the price every morning",
+        "Quality no longer matters once the April price is fixed"
+      ],
+      "correctAnswer": "A late surprise by either side creates a cost for the person who causes it",
+      "explanation": "If she fails to warn him she discounts the next week, and if he cancels late he still pays half.",
+      "supportingSentence": "If she failed to warn him, she would discount the following week.",
+      "skill": "inference"
+    },
+    {
+      "question": "Among the reasons for rejecting leaves, what does wilt describe?",
+      "options": [
+        "Leaves that have gone limp",
+        "A lower price paid for sauce tomatoes",
+        "A signature at the bottom of the page",
+        "Rain that splits ripe fruit"
+      ],
+      "correctAnswer": "Leaves that have gone limp",
+      "explanation": "Leaves could be rejected for slime, wilt, or grit, so wilt names a kind of spoilage rather than a price or a signature.",
+      "supportingSentence": "They agreed that leaves would be picked before dawn, rinsed once, and rejected only for slime, wilt, or grit that a second rinse would not move.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer have Laleh open the contract between the bean rows?",
+      "options": [
+        "To show that Tomas had forgotten his pencil",
+        "To suggest the city restaurants had already closed",
+        "To tie the written rules to the living crop they would govern",
+        "To prove the price had been fixed in August"
+      ],
+      "correctAnswer": "To tie the written rules to the living crop they would govern",
+      "explanation": "She wants Tomas to see the field that the clauses describe, so the agreement is not only words on paper.",
+      "supportingSentence": "Laleh Moradi spread the draft contract on a crate between the bean rows, because she wanted Tomas Rehn to see the field that the clauses were describing.",
+      "skill": "intent"
+    }
+  ]
+}

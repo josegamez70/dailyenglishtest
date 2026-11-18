@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "mystery",
+  "title": "Lights in the Empty Office",
+  "story": "Sofia let herself into the office at quarter past six, expecting dark rooms and the smell of yesterday's coffee. The lights were already on. A chair stood away from the desk, the computer was awake, and a mug of tea was warm enough to leave a mark on her finger. She had locked the street door behind her, and she could see that no window was forced. Even so, an empty office should not be this alive before the town was properly up.\n\nShe did not touch the keyboard. The screen showed a payroll sheet, with names and figures she had no right to read, so she looked away and called the building manager. While the line rang she noticed that the tray marked Thursday was empty, though a car-park ticket lay on the desk. The names on the screen belonged to the staff, and a wrong keystroke could have changed a wage. The manager told her to wait by the door and touch nothing. She was still holding the phone when a man came in from the stairs, startled to find her, with the Thursday folder under his arm.\n\nHe introduced himself as Evan Cole, the accountant who sent the wages. On Thursdays he arrived before anyone else so the payments would leave before the bank's morning cutoff. He had stepped out to his car because a printed list was on the passenger seat, and he had not expected the cleaner until half past six. The warm tea was his, and so was the open screen. Sofia told him she had called the manager, and he thanked her for leaving the computer alone. The printed list matched the open sheet, name for name, and Evan put it back into the Thursday folder. He locked the screen before he reheated the tea. Sofia finished the bins only after he had left the desk. A dark building would have been simpler, but the careful pause had kept the staff wages safe from a helpful mistake.",
+  "vocabulary": [
+    {
+      "word": "payroll",
+      "definition": "A list of staff and the pay they are due."
+    },
+    {
+      "word": "keystroke",
+      "definition": "One press of a key on a computer."
+    },
+    {
+      "word": "wage",
+      "definition": "Money paid to a worker for their job."
+    },
+    {
+      "word": "accountant",
+      "definition": "A person whose work is to handle money records."
+    },
+    {
+      "word": "cutoff",
+      "definition": "The latest time by which something must be sent."
+    },
+    {
+      "word": "folder",
+      "definition": "A cover used to keep loose papers together."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "At what time did Sofia go into the office?",
+      "options": [
+        "Half past six",
+        "Quarter past six",
+        "After the tea had been reheated",
+        "At noon, before the town was busy"
+      ],
+      "correctAnswer": "Quarter past six",
+      "explanation": "Sofia let herself into the office at quarter past six.",
+      "supportingSentence": "Sofia let herself into the office at quarter past six, expecting dark rooms and the smell of yesterday's coffee.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did Evan come in before other people on Thursdays?",
+      "options": [
+        "So he could unlock the door for the cleaner",
+        "So the building manager could read the names aloud",
+        "So a printed list could be left in his car all day",
+        "So the payments would leave before the bank's morning cutoff"
+      ],
+      "correctAnswer": "So the payments would leave before the bank's morning cutoff",
+      "explanation": "Evan arrived early so the wage payments would go out before the bank's morning cutoff.",
+      "supportingSentence": "On Thursdays he arrived before anyone else so the payments would leave before the bank's morning cutoff.",
+      "skill": "detail"
+    },
+    {
+      "question": "What do the locked street door and the untouched windows suggest?",
+      "options": [
+        "Whoever had been inside already had a key",
+        "A window had been forced and then closed again",
+        "The manager had left every light on overnight",
+        "Sofia had forgotten to lock the door behind her"
+      ],
+      "correctAnswer": "Whoever had been inside already had a key",
+      "explanation": "Sofia found the rooms in use, but the door was locked and no window was forced, so a key must have been used.",
+      "supportingSentence": "She had locked the street door behind her, and she could see that no window was forced.",
+      "skill": "inference"
+    },
+    {
+      "question": "What best explains the lights, the warm tea, and the open screen together?",
+      "options": [
+        "A stranger had made tea and opened the staff pay",
+        "Sofia had left the desk like that the night before",
+        "Evan had stepped out during his usual early Thursday visit",
+        "The building manager was waiting in the car park"
+      ],
+      "correctAnswer": "Evan had stepped out during his usual early Thursday visit",
+      "explanation": "The tea and the screen were Evan's, and he had only gone to his car during the early visit he made on Thursdays.",
+      "supportingSentence": "The warm tea was his, and so was the open screen.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does the word payroll mean in this story?",
+      "options": [
+        "A record of the staff and the pay they are due",
+        "A ticket from the car park left on the desk",
+        "The latest moment when the bank will send money",
+        "A cover that must be kept in the car"
+      ],
+      "correctAnswer": "A record of the staff and the pay they are due",
+      "explanation": "The payroll sheet showed staff names and figures, and those figures were their wages.",
+      "supportingSentence": "The screen showed a payroll sheet, with names and figures she had no right to read, so she looked away and called the building manager.",
+      "skill": "vocabulary"
+    }
+  ]
+}

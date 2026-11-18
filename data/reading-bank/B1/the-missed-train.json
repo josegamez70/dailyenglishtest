@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "travel",
+  "title": "The Missed Train",
+  "story": "Noah arrived at the station with his ticket in his hand and his bag on his shoulder. He needed the train that left at ten. A crowd stood in the hall, and the board above the doors showed many times. Noah found his platform and walked quickly down the stairs. When he reached the platform, the doors of the train were already closing. The train left without him. His ticket was for that train, and the next one was an hour later. He went back upstairs to the ticket desk. Yusuf, who worked there, listened to the story and looked at the ticket. He said the missed train could not be stopped, but Noah could use the same ticket on the next train that day. Noah thanked him and asked where he could wait. Yusuf pointed to the station cafe and said a cup of tea might make the hour feel shorter. Noah bought tea and sat by the window. He took out a book he had packed for the journey and read a whole chapter. The wait was boring at first, then it became quiet and useful. When the next train was announced, Noah checked the platform on the board and walked down again. He chose a seat, put his bag on the rack, and kept his ticket where he could see it. As the train left, he thought about arriving at stations with time to spare.",
+  "vocabulary": [
+    {
+      "word": "platform",
+      "definition": "the place beside the tracks where you wait"
+    },
+    {
+      "word": "crowd",
+      "definition": "a large group of people in one place"
+    },
+    {
+      "word": "ticket",
+      "definition": "a paper that shows you have paid to travel"
+    },
+    {
+      "word": "announced",
+      "definition": "told to everyone so they can hear"
+    },
+    {
+      "word": "rack",
+      "definition": "a shelf for bags above the seats"
+    },
+    {
+      "word": "spare",
+      "definition": "extra, more than you need"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What was happening when Noah reached the platform?",
+      "options": [
+        "the doors of the train were already closing",
+        "the cafe had no seats left",
+        "Yusuf took his bag away",
+        "his book fell onto the track"
+      ],
+      "correctAnswer": "the doors of the train were already closing",
+      "explanation": "He arrived a moment too late.",
+      "supportingSentence": "When he reached the platform, the doors of the train were already closing.",
+      "skill": "detail"
+    },
+    {
+      "question": "What could Noah still do with his ticket?",
+      "options": [
+        "use the same ticket on the next train",
+        "buy a second bag",
+        "drive a taxi to the town",
+        "wait until the next month"
+      ],
+      "correctAnswer": "use the same ticket on the next train",
+      "explanation": "The ticket was still good that day.",
+      "supportingSentence": "He said the missed train could not be stopped, but Noah could use the same ticket on the next train that day.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Noah read while he waited?",
+      "options": [
+        "a whole chapter",
+        "a newspaper from Yusuf",
+        "the station rules",
+        "a map of the town"
+      ],
+      "correctAnswer": "a whole chapter",
+      "explanation": "The book filled the quiet hour.",
+      "supportingSentence": "He took out a book he had packed for the journey and read a whole chapter.",
+      "skill": "detail"
+    },
+    {
+      "question": "Which word means told to everyone so they can hear?",
+      "options": [
+        "announced",
+        "packed",
+        "boring",
+        "unpleasant"
+      ],
+      "correctAnswer": "announced",
+      "explanation": "This is how he learned the next train was ready.",
+      "supportingSentence": "When the next train was announced, Noah checked the platform on the board and walked down again.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What did Noah think travellers should have when they arrive?",
+      "options": [
+        "time to spare",
+        "no ticket at all",
+        "a closed cafe",
+        "the wrong platform"
+      ],
+      "correctAnswer": "time to spare",
+      "explanation": "The last sentence shows the idea he left with.",
+      "supportingSentence": "As the train left, he thought about arriving at stations with time to spare.",
+      "skill": "inference"
+    }
+  ],
+  "file": "b1-b.txt"
+}

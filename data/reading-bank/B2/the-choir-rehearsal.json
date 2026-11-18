@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "hobbies",
+  "title": "The Choir Rehearsal",
+  "story": "Nadia Kravets, who had joined after moving to the town, took her place among the altos and rubbed her hands while the others unwound scarves. Their conductor, a retired teacher named Calder, was late, although nobody treated the delay as an excuse to gossip. They had a concert in ten days, and the new piece, a setting of a winter poem, still fell apart where the rhythm changed without warning. However, most of the singers could now find their notes without staring at a neighbour, which had not been true a month earlier.\n\nWhen Calder arrived, he apologised, set his bag on the piano, and asked them to sing the difficult passage standing rather than sitting. Although several voices still rushed the entrance, the sound was fuller, and the basses held their line long enough for the sopranos to finish a phrase. Nadia watched his left hand, which shaped the quiet ending, and she tried to match the breath of the woman beside her. A pencil mark in her score reminded her to sing more softly on the word snow, where she had a habit of pushing too much air.\n\nDuring the break, the secretary, June Pell, passed around ticket numbers and a reminder about black clothing. Someone had brought biscuits, and the tenors argued over whether the final chord should be sustained for three beats or four. Nadia stayed out of that debate, because she was still unsure of the bar before it. However, she asked June whether another rehearsal was planned, and she was relieved to hear that Sunday afternoon was reserved for the new piece alone. The rest of the programme, June said, was already secure.\n\nThey spent the last half hour on the closing pages, repeating them until the cut-off was clean. Calder did not praise them excessively, although he admitted that the middle section no longer frightened him. Nadia would help with the tickets, not because she felt confident, but because the concert had begun to feel like something she belonged to.",
+  "vocabulary": [
+    {
+      "word": "altos",
+      "definition": "The lower female voices in a choir."
+    },
+    {
+      "word": "conductor",
+      "definition": "The person who directs the singers."
+    },
+    {
+      "word": "rhythm",
+      "definition": "The pattern of beats in a piece of music."
+    },
+    {
+      "word": "sustained",
+      "definition": "Held on for a length of time."
+    },
+    {
+      "word": "rehearsal",
+      "definition": "A practice before a performance."
+    },
+    {
+      "word": "cut-off",
+      "definition": "The moment when all the singers stop together."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "When is the choir's concert?",
+      "options": [
+        "Tomorrow evening",
+        "In ten days",
+        "On Thursday morning",
+        "In two months"
+      ],
+      "correctAnswer": "In ten days",
+      "explanation": "The singers have a concert in ten days.",
+      "supportingSentence": "They had a concert in ten days, and the new piece, a setting of a winter poem, still fell apart where the rhythm changed without warning.",
+      "skill": "detail"
+    },
+    {
+      "question": "What were the singers reminded to wear?",
+      "options": [
+        "Bright winter coats",
+        "Matching red scarves",
+        "Whatever they had worn that evening",
+        "Black clothing"
+      ],
+      "correctAnswer": "Black clothing",
+      "explanation": "June passed around a reminder about black clothing.",
+      "supportingSentence": "During the break, the secretary, June Pell, passed around ticket numbers and a reminder about black clothing.",
+      "skill": "detail"
+    },
+    {
+      "question": "What can the reader conclude about the new piece?",
+      "options": [
+        "It is not yet as secure as the other music",
+        "It has been removed from the concert",
+        "June wrote it herself",
+        "It is easier than every other song"
+      ],
+      "correctAnswer": "It is not yet as secure as the other music",
+      "explanation": "June said the rest of the programme was already secure, which means the new piece is the part that still needs work.",
+      "supportingSentence": "The rest of the programme, June said, was already secure.",
+      "skill": "inference"
+    },
+    {
+      "question": "How had Calder felt about the middle section before this rehearsal?",
+      "options": [
+        "He had never heard it",
+        "He wanted it sung much louder",
+        "It had worried him",
+        "He had already cut it from the score"
+      ],
+      "correctAnswer": "It had worried him",
+      "explanation": "He said the middle section no longer frightened him, so it had worried him before.",
+      "supportingSentence": "Calder did not praise them excessively, although he admitted that the middle section no longer frightened him.",
+      "skill": "inference"
+    },
+    {
+      "question": "In the tenors' argument, what does sustained mean?",
+      "options": [
+        "Sung by one person only",
+        "Held on without stopping",
+        "Removed from the final chord",
+        "Played on the piano instead"
+      ],
+      "correctAnswer": "Held on without stopping",
+      "explanation": "They argued about holding the final chord for three beats or four, so sustained means kept sounding.",
+      "supportingSentence": "Someone had brought biscuits, and the tenors argued over whether the final chord should be sustained for three beats or four.",
+      "skill": "vocabulary"
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "travel",
+  "title": "The Border Queue",
+  "story": "The queue at the mountain border began well before the booths, where coaches, vans, and private cars crept forward in the cold. Adrian Petrov had expected a brief pause to show his passport, although the officer at the information cabin said that inspections were taking much longer than usual. A new rule required drivers to open their luggage, and several vehicles near the front had already stood with their doors wide for half an hour. However, passengers on foot were being processed at a separate window, and Adrian decided that walking the last stretch might save him the worst of the wait.\n\nHe lifted his rucksack and joined a shorter line beside a fence of faded notices. A student named Leila said she had crossed here many times and had never seen the booths so heavily staffed. Although the officers were polite, they asked about cash, gifts, and the purpose of each visit, and anyone with an unclear answer was sent to a bench inside. Adrian checked the envelope in his jacket, where he kept the address of the family he planned to visit and a letter confirming his stay.\n\nWhen his turn came, the officer compared his photograph with his face and asked why he was travelling alone. Adrian said he was spending a week with old friends and that his outward ticket was already booked. The officer nodded, glanced at the letter, and waved him through without opening the rucksack. However, on the far side of the barrier Adrian saw that his bus had not been so fortunate. It remained in the vehicle lane, and the driver was lifting bags onto a table while passengers stood in the cold.\n\nHe watched the bus inch forward and decided that walking had been the better choice, although he could not tell how long the driver would be delayed. Adrian messaged his hosts, warning them not to trust the original arrival time, and he kept his passport in his hand until the bus finally cleared the booth.",
+  "vocabulary": [
+    {
+      "word": "inspections",
+      "definition": "Careful official checks."
+    },
+    {
+      "word": "rucksack",
+      "definition": "A bag worn on the back."
+    },
+    {
+      "word": "booths",
+      "definition": "Small offices where officials examine travellers."
+    },
+    {
+      "word": "staffed",
+      "definition": "Supplied with people who are working there."
+    },
+    {
+      "word": "barrier",
+      "definition": "A gate or obstacle that people must pass."
+    },
+    {
+      "word": "fortunate",
+      "definition": "Lucky, or in a better situation."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did the new rule require drivers to do?",
+      "options": [
+        "Pay a fee at the information cabin",
+        "Leave their vehicles and cross on foot",
+        "Turn around and use another road",
+        "Open their luggage"
+      ],
+      "correctAnswer": "Open their luggage",
+      "explanation": "A new rule required drivers to open their luggage.",
+      "supportingSentence": "A new rule required drivers to open their luggage, and several vehicles near the front had already stood with their doors wide for half an hour.",
+      "skill": "detail"
+    },
+    {
+      "question": "How long did Adrian say his visit would last?",
+      "options": [
+        "A week",
+        "A single night",
+        "Two months",
+        "The whole winter"
+      ],
+      "correctAnswer": "A week",
+      "explanation": "Adrian said he was spending a week with old friends.",
+      "supportingSentence": "Adrian said he was spending a week with old friends and that his outward ticket was already booked.",
+      "skill": "detail"
+    },
+    {
+      "question": "How did Adrian's crossing compare with the wait on his bus?",
+      "options": [
+        "The bus reached the far side before he did",
+        "The passengers were allowed to stay in their seats",
+        "He was already through while their bags were still being checked",
+        "Leila had to go back and wait with the driver"
+      ],
+      "correctAnswer": "He was already through while their bags were still being checked",
+      "explanation": "Adrian was beyond the barrier, but the bus was still in the vehicle lane with bags being lifted out.",
+      "supportingSentence": "It remained in the vehicle lane, and the driver was lifting bags onto a table while passengers stood in the cold.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why did Adrian message his hosts about the arrival time?",
+      "options": [
+        "He had lost the address of the house",
+        "The bus was still delayed after he had crossed",
+        "The officer had kept his papers",
+        "Leila had asked him to stay at the border"
+      ],
+      "correctAnswer": "The bus was still delayed after he had crossed",
+      "explanation": "He warned them not to trust the original time because the bus had not yet cleared the booth.",
+      "supportingSentence": "Adrian messaged his hosts, warning them not to trust the original arrival time, and he kept his passport in his hand until the bus finally cleared the booth.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does heavily staffed say about the booths?",
+      "options": [
+        "The buildings had just been painted",
+        "Travellers were checking their own papers",
+        "Many officers were working there",
+        "The windows were closed for repairs"
+      ],
+      "correctAnswer": "Many officers were working there",
+      "explanation": "Heavily staffed means a large number of officers were on duty.",
+      "supportingSentence": "A student named Leila said she had crossed here many times and had never seen the booths so heavily staffed.",
+      "skill": "vocabulary"
+    }
+  ]
+}

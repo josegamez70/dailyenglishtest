@@ -1,0 +1,99 @@
+{
+  "level": "B1",
+  "topic": "science",
+  "title": "The Recycling Experiment",
+  "story": "The eco club wanted to know which waste broke down fastest in the school garden. They chose four safe items: a lettuce leaf, a piece of paper, a plastic spoon, and a cotton square. Each item went into a mesh bag with a wooden label. The pupils buried the bags ten centimetres deep in the same damp corner, where the soil and the shade were almost the same.\n\nThey started on the first of October. Every Friday they lifted the bags, looked, and buried them again. In week one the lettuce was already brown and soft. The paper was wrinkled but whole. The cloth and the spoon looked new.\n\nBy week four the lettuce was gone, and only a wet stain remained. The paper had torn into grey pieces. The cotton was thinner, with a small hole at one edge. The plastic spoon was still smooth and the same shape. Their teacher, Ruth, said plastic can stay in soil for a very long time. That is why it should go to a recycling bin, not into the ground.\n\nThe club's report gave three ideas. Food scraps could go into the compost. Paper and cotton changed slowly. Plastic did not belong in the soil. They showed the photos at assembly, and clearer signs were promised for the bins. The test made the word biodegradable easier to trust, because the pupils had watched the changes themselves.",
+  "vocabulary": [
+    {
+      "word": "mesh",
+      "definition": "Material with many small holes, like a net"
+    },
+    {
+      "word": "wrinkled",
+      "definition": "Covered in lines and folds"
+    },
+    {
+      "word": "stain",
+      "definition": "A mark left by something wet"
+    },
+    {
+      "word": "scraps",
+      "definition": "Small leftover pieces of food"
+    },
+    {
+      "word": "compost",
+      "definition": "Old food and plants breaking down into soil"
+    },
+    {
+      "word": "biodegradable",
+      "definition": "Able to break down naturally"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How far under the soil did the bags go?",
+      "options": [
+        "Ten centimetres",
+        "One metre",
+        "Four weeks",
+        "The first of October"
+      ],
+      "correctAnswer": "Ten centimetres",
+      "explanation": "The pupils buried the bags ten centimetres deep in the same corner.",
+      "supportingSentence": "The pupils buried the bags ten centimetres deep in the same damp corner, where the soil and the shade were almost the same.",
+      "skill": "detail"
+    },
+    {
+      "question": "What remained from the lettuce after four weeks?",
+      "options": [
+        "Only a wet stain",
+        "A smooth spoon shape",
+        "A dry cotton square",
+        "The same green leaf"
+      ],
+      "correctAnswer": "Only a wet stain",
+      "explanation": "By week four the lettuce was gone, and only a wet stain remained.",
+      "supportingSentence": "By week four the lettuce was gone, and only a wet stain remained.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does biodegradable mean?",
+      "options": [
+        "Able to break down naturally",
+        "Safe to burn in a classroom",
+        "Impossible to photograph",
+        "Made only of hard plastic"
+      ],
+      "correctAnswer": "Able to break down naturally",
+      "explanation": "The pupils trust the word after watching some items change and break down in the soil.",
+      "supportingSentence": "The test made the word biodegradable easier to trust, because the pupils had watched the changes themselves.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Where should the plastic spoon go, according to Ruth?",
+      "options": [
+        "To a recycling bin",
+        "Into the garden soil",
+        "Into the food compost",
+        "Back under the shade forever"
+      ],
+      "correctAnswer": "To a recycling bin",
+      "explanation": "Ruth says plastic stays in soil a long time, so it should go to a recycling bin.",
+      "supportingSentence": "That is why it should go to a recycling bin, not into the ground.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did the club most likely choose one corner for every bag?",
+      "options": [
+        "They wanted the soil and shade to be as equal as possible",
+        "That corner was the only place with labels",
+        "The spoon needed more sun than the paper",
+        "Ruth asked them to test unsafe chemicals"
+      ],
+      "correctAnswer": "They wanted the soil and shade to be as equal as possible",
+      "explanation": "All the bags share one damp corner where the soil and shade are almost the same, so the test is fair.",
+      "supportingSentence": "The pupils buried the bags ten centimetres deep in the same damp corner, where the soil and the shade were almost the same.",
+      "skill": "inference"
+    }
+  ]
+}

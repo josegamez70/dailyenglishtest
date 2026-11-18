@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "mystery",
+  "title": "The Uncollected Crate",
+  "story": "The crate had been sitting in the parcel room of the river station since Monday, and by Thursday it had become furniture. Passengers rested bags against it. The night staff walked around it. Its label, addressed to a bookshop that had closed in the spring, gave a collection deadline that had already passed. On Friday morning the clerk, Hester, was told to process it as uncollected and move it to the holding cage before the weekend trains filled the room.\n\nShe turned the label toward the lamp and stopped. A second address had been written over the first in a darker ink, forwarding the crate to a storage unit on the industrial estate. The new line used the bookshop's name but a different contact number. The original consignee, still visible at the edge, was the shop. The consignment note in the pouch told a third story. It described the contents as paper samples, declared a modest value, and listed a weight that Hester checked twice against the scale by the door. Paper of that weight would have filled a crate twice the size, or this crate would have weighed half as much. She weighed it a third time, in case the scale had stuck, and got the same figure. The pouch held no sender's correction. The numbers could not describe the same object.\n\nHester did not ring the new number. A rewritten label was a request, not an instruction, and the request had arrived with no amendment from the sender and no identification from anyone claiming the goods. She photographed the label, the note, and the scale, then copied the measurements into the station log in the blunt sentences the company preferred. Under the rule for doubtful freight, an uncollected item with altered paperwork went to the holding cage and stayed there until the sender confirmed the contents in writing. The cage had a camera. The parcel room, at busy hours, did not.\n\nBefore she moved the crate, she looked again at the corner where the original label had been scraped. Fibres from an earlier sticker sat in the glue. The bookshop's name had been stuck on top of something else, which meant the closed shop was not the first story the crate had worn, only the latest. Hester noted that too. She wheeled the crate into the cage, sealed the record, and sent the photographs to the duty manager rather than to the number written in the dark ink. Whatever was inside could wait. The paperwork had already said too many things, and only one of them could be true.",
+  "vocabulary": [
+    {
+      "word": "uncollected",
+      "definition": "Not picked up by the person it was sent to."
+    },
+    {
+      "word": "consignee",
+      "definition": "The person or business named to receive a delivery."
+    },
+    {
+      "word": "consignment",
+      "definition": "A load of goods sent together."
+    },
+    {
+      "word": "declared",
+      "definition": "Stated officially, here about what is inside and what it is worth."
+    },
+    {
+      "word": "amendment",
+      "definition": "An official change to a document."
+    },
+    {
+      "word": "freight",
+      "definition": "Goods carried from one place to another."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Who received the photographs Hester took?",
+      "options": [
+        "The contact number written in darker ink",
+        "The owner of the closed bookshop",
+        "The passengers waiting in the parcel room",
+        "The duty manager"
+      ],
+      "correctAnswer": "The duty manager",
+      "explanation": "Hester sent the photographs to the duty manager, not to the number written on the rewritten label.",
+      "supportingSentence": "She wheeled the crate into the cage, sealed the record, and sent the photographs to the duty manager rather than to the number written in the dark ink.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why is a stuck scale a weak way to explain the weight?",
+      "options": [
+        "A further weighing gave the same figure, and the pouch held no correction from the sender.",
+        "The scale was built only for passenger luggage.",
+        "Paper samples are always heavier than books.",
+        "The duty manager had already replaced what was inside."
+      ],
+      "correctAnswer": "A further weighing gave the same figure, and the pouch held no correction from the sender.",
+      "explanation": "Hester weighed the crate again in case the scale had stuck, and the figure did not change. There was also no sender's correction in the pouch.",
+      "supportingSentence": "She weighed it a third time, in case the scale had stuck, and got the same figure.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does Hester treat as more important than opening the crate?",
+      "options": [
+        "Selling the samples before the weekend trains",
+        "Agreeing a storage price by phone",
+        "A written confirmation from the sender, under the station's rule for doubtful freight",
+        "A new label in her own handwriting"
+      ],
+      "correctAnswer": "A written confirmation from the sender, under the station's rule for doubtful freight",
+      "explanation": "The rule keeps altered freight in the cage until the sender confirms the contents in writing. Hester follows that rule, and she decides the contents can wait.",
+      "supportingSentence": "Under the rule for doubtful freight, an uncollected item with altered paperwork went to the holding cage and stayed there until the sender confirmed the contents in writing.",
+      "skill": "inference"
+    },
+    {
+      "question": "In this story, what is the consignee?",
+      "options": [
+        "The party named to receive the goods",
+        "The scale beside the parcel-room door",
+        "The clerk who logs uncollected freight",
+        "The darker ink used to change a label"
+      ],
+      "correctAnswer": "The party named to receive the goods",
+      "explanation": "The original consignee, still visible at the edge of the label, was the shop the crate was supposed to reach.",
+      "supportingSentence": "The original consignee, still visible at the edge, was the shop.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What is the writer underlining in the final sentence?",
+      "options": [
+        "The crate should be given back to the passengers.",
+        "The documents tell conflicting stories, and they cannot all be honest.",
+        "Paper samples have no value of any kind.",
+        "Hester should deliver the crate herself that night."
+      ],
+      "correctAnswer": "The documents tell conflicting stories, and they cannot all be honest.",
+      "explanation": "The ending says the paperwork had already said too many things, and only one of them could be true.",
+      "supportingSentence": "The paperwork had already said too many things, and only one of them could be true.",
+      "skill": "intent"
+    }
+  ]
+}

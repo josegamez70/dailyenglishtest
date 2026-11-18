@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "mystery",
+  "title": "The Wrong Parcel",
+  "story": "The parcel for Harbour Lane Books arrived just after nine, addressed in full and tied with the usual depot tape. Priya signed, carried it to the counter, and cut the tape. Inside, packed in shredded paper, were metal parts for a sewing machine, with a delivery note that mentioned bobbins and a motor. She had ordered paperbacks. Nothing in the box was a book, and the customer who wanted the new novel was already waiting by the window.\n\nPriya compared the note with the label on the outside. Her shop's name was on the label, but the note named Harbour Lane Repairs, and the last two digits of the postcode were swapped. She rang the number printed on the note and reached a woman there, two streets away, who had just opened a box of paperbacks and was equally confused. The driver was already on the next round and could not come back before noon. Priya had paid the invoice for the paperbacks the week before, so a missing box would have been a loss, not a delay. The repair shop, in turn, had a customer coming at one to collect the motor.\n\nWaiting would have left both shops with the wrong stock on a busy morning, so they agreed to walk the parcels across themselves. Neither woman wanted the other to be short of stock while a customer stood waiting. Priya closed the bookshop for ten minutes, which she rarely did, and met the repairer on the corner by the bakery. They checked the notes aloud, exchanged the boxes, and each kept the copy that named her own shop. They swapped phone numbers beside the bakery before they walked back. The novels were intact, and the sewing parts were still wrapped. Back at the counter, the customer laughed once the story was told and left with the book she had ordered. Priya wrote both postcodes into the order book, so the next delivery would be checked against the door before anyone cut the tape.",
+  "vocabulary": [
+    {
+      "word": "parcel",
+      "definition": "A packed box of goods delivered to a shop."
+    },
+    {
+      "word": "depot",
+      "definition": "The place from which the deliveries were sent out."
+    },
+    {
+      "word": "postcode",
+      "definition": "The letters and numbers that identify an address."
+    },
+    {
+      "word": "swapped",
+      "definition": "Exchanged, so each was put in the other's place."
+    },
+    {
+      "word": "invoice",
+      "definition": "A bill for goods that have been ordered."
+    },
+    {
+      "word": "delivery",
+      "definition": "The bringing of ordered goods to a shop or person."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What was packed inside the box Priya opened?",
+      "options": [
+        "Metal parts for a sewing machine",
+        "The paperbacks she had ordered that month",
+        "A novel the customer was waiting to buy",
+        "Both postcodes copied into an order book"
+      ],
+      "correctAnswer": "Metal parts for a sewing machine",
+      "explanation": "Priya's box held metal parts for a sewing machine, not the paperbacks she had ordered.",
+      "supportingSentence": "Inside, packed in shredded paper, were metal parts for a sewing machine, with a delivery note that mentioned bobbins and a motor.",
+      "skill": "detail"
+    },
+    {
+      "question": "What was wrong with the postcode when Priya compared the papers?",
+      "options": [
+        "The street name belonged to a different town",
+        "The last two digits were swapped",
+        "The shop name was missing from both papers",
+        "The depot tape had hidden the whole address"
+      ],
+      "correctAnswer": "The last two digits were swapped",
+      "explanation": "The label and the note did not agree, because the last two digits of the postcode were swapped.",
+      "supportingSentence": "Her shop's name was on the label, but the note named Harbour Lane Repairs, and the last two digits of the postcode were swapped.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did each shop open goods that belonged to the other?",
+      "options": [
+        "Priya had ordered sewing parts and books under one name",
+        "The customer at the window had carried the books away",
+        "The driver had refused to read any address at all",
+        "A swapped postcode had mixed up two very similar addresses"
+      ],
+      "correctAnswer": "A swapped postcode had mixed up two very similar addresses",
+      "explanation": "The bookshop label and the repair-shop note differed by swapped postcode digits, and each shop had the other's goods.",
+      "supportingSentence": "Her shop's name was on the label, but the note named Harbour Lane Repairs, and the last two digits of the postcode were swapped.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why was closing the bookshop for ten minutes a reasonable choice?",
+      "options": [
+        "The mix-up was too urgent to leave until the driver returned",
+        "Priya preferred a walk to the bakery over a sale",
+        "The repairer had asked her to shut for the rest of the day",
+        "Ten minutes was the lunch break she took every morning"
+      ],
+      "correctAnswer": "The mix-up was too urgent to leave until the driver returned",
+      "explanation": "Priya rarely closed, but the driver could not return before noon and both shops had customers waiting.",
+      "supportingSentence": "The driver was already on the next round and could not come back before noon.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does the word invoice mean in this story?",
+      "options": [
+        "The tape the depot used to close the box",
+        "A bill for the books she had already ordered",
+        "The phone number printed on the label",
+        "The motor the repair shop's customer wanted"
+      ],
+      "correctAnswer": "A bill for the books she had already ordered",
+      "explanation": "The invoice was the bill for the paperbacks, and Priya had paid it the week before.",
+      "supportingSentence": "Priya had paid the invoice for the paperbacks the week before, so a missing box would have been a loss, not a delay.",
+      "skill": "vocabulary"
+    }
+  ]
+}

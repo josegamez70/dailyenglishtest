@@ -1,0 +1,99 @@
+{
+  "level": "B1",
+  "topic": "economy_finance",
+  "title": "Saving for a Bicycle",
+  "story": "Mateo wanted a used bicycle for the ride to school. The price was one hundred and twenty euros, but his jar held only eighteen euros. He wrote a plan at the kitchen table. Each week he would save at least ten euros. He wrote the word goal on a card and taped it above his desk.\n\nTwo jobs helped him earn money. On weekday mornings he walked a dog for his neighbour Rosa, who paid four euros a walk. On Saturdays he sold old books at a street stall. Some Saturdays brought six euros, and others brought only two. He dropped every coin into the jar before he spent anything. When friends bought snacks, Mateo drank water and kept his money in his pocket.\n\nRain made the second month hard. Rosa left town, so the walks stopped for two weeks. Mateo also paid five euros for a bus when his shoes were soaked. He sat down to count the jar and found seventy-four euros. He asked the owner to hold the bicycle for one more month, and the price stayed the same.\n\nMateo then washed two cars every Sunday for eight euros. He sold old trainers for ten euros too. After three months the jar held one hundred and twenty-five euros. He paid the shop, rode home, and kept five euros for a new bell.",
+  "vocabulary": [
+    {
+      "word": "goal",
+      "definition": "Something you are trying to reach."
+    },
+    {
+      "word": "earn",
+      "definition": "To get money by doing work."
+    },
+    {
+      "word": "stall",
+      "definition": "A small outdoor table where things are sold."
+    },
+    {
+      "word": "coin",
+      "definition": "A piece of metal money."
+    },
+    {
+      "word": "count",
+      "definition": "To find how many there are."
+    },
+    {
+      "word": "hold",
+      "definition": "To keep something for somebody for a time."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What was the price of the bicycle?",
+      "options": [
+        "One hundred and twenty euros",
+        "Eighteen euros",
+        "Seventy-four euros",
+        "Ten euros"
+      ],
+      "correctAnswer": "One hundred and twenty euros",
+      "explanation": "The shop price was one hundred and twenty euros.",
+      "supportingSentence": "The price was one hundred and twenty euros, but his jar held only eighteen euros.",
+      "skill": "detail"
+    },
+    {
+      "question": "Who paid him for the morning dog walks?",
+      "options": [
+        "His neighbour Rosa",
+        "The bicycle shop owner",
+        "A driver on the bus",
+        "A friend from class"
+      ],
+      "correctAnswer": "His neighbour Rosa",
+      "explanation": "Rosa paid four euros each time he walked her dog.",
+      "supportingSentence": "On weekday mornings he walked a dog for his neighbour Rosa, who paid four euros a walk.",
+      "skill": "detail"
+    },
+    {
+      "question": "What work did he add every Sunday?",
+      "options": [
+        "He washed two cars",
+        "He sold books at a stall",
+        "He rode the bus to school",
+        "He walked a dog"
+      ],
+      "correctAnswer": "He washed two cars",
+      "explanation": "Every Sunday he washed two cars and received eight euros.",
+      "supportingSentence": "Mateo then washed two cars every Sunday for eight euros.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what is a stall?",
+      "options": [
+        "A small outdoor table for selling things",
+        "A jar used to keep coins",
+        "A card taped above a desk",
+        "A shop that repairs bicycles"
+      ],
+      "correctAnswer": "A small outdoor table for selling things",
+      "explanation": "He sold old books at the stall, so it is a place for selling.",
+      "supportingSentence": "On Saturdays he sold old books at a street stall.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Mateo drink water while his friends bought snacks?",
+      "options": [
+        "He was trying not to spend his savings",
+        "The shop had no snacks left",
+        "Rosa had told him to drink water",
+        "He had already bought a new bell"
+      ],
+      "correctAnswer": "He was trying not to spend his savings",
+      "explanation": "He kept his money in his pocket instead of buying snacks.",
+      "supportingSentence": "When friends bought snacks, Mateo drank water and kept his money in his pocket.",
+      "skill": "inference"
+    }
+  ]
+}

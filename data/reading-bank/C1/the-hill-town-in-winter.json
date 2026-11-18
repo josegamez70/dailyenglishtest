@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "travel",
+  "title": "The Hill Town in Winter",
+  "story": "The bus climbed into Branth on a road the driver took at a respectful crawl, and Anwen Corven was the only passenger left when it stopped beside a shuttered bakery. She had come to close her uncle's house for the cold months, a duty she had delayed until the risk to the pipes, rather than family feeling, made delay look careless. Snow lay in a thin, decisive sheet. The main street kept a grocer, a post counter, and a cafe that heated one room and left the other in the dark.\n\nThe house smelled of cold ash and of a soap her uncle had bought in bulk. Anwen lit the stove, found the stopcock, and drained the lines into buckets she emptied behind the shed. A neighbour, Marta Quill, arrived with a flask of soup and the news that the lane to the upper fields would not be cleared before Thursday. She did not ask how long Anwen meant to stay. In Branth, help often came as a useful fact rather than an embrace, and the form of it left a person free to refuse without making a speech. Anwen accepted the soup and declined the spare bed. She wanted to hear the house in the night, in case a pipe still held a pocket of water that would freeze and split.\n\nAfter dark the town contracted to a few lit squares and the occasional tick of timber in the roof. Anwen sat with her uncle's accounts, orderly through most of the year and then, in the final month, suddenly brief, with sums rounded as if exactness had begun to tire him. She added a cover note for the solicitor and wound the kitchen clock, which gained a minute she decided not to chase. In the morning Marta knocked again, this time to warn of a thaw that would soften the lane into mud before it removed the snow. Anwen looked at the locked piano and left it locked. She had come to make the building safe, not to test how much of her uncle she could bear to hear. When the bus descended she carried one box of papers and a jar of the bulk soap she could not quite justify leaving to freeze. The rest stayed where he had arranged it. On the way down she thought that closing a house was a form of reading. She learned what a person had maintained, what he had let blur, and what a visitor had no right to tune. The piano was one of those last items. So was the clock's extra minute.",
+  "vocabulary": [
+    {
+      "word": "shuttered",
+      "definition": "Closed up, with shutters or similar covers over the windows."
+    },
+    {
+      "word": "stopcock",
+      "definition": "A valve that turns a water pipe on or off."
+    },
+    {
+      "word": "exactness",
+      "definition": "The quality of being precise and careful about details."
+    },
+    {
+      "word": "solicitor",
+      "definition": "A lawyer who handles legal papers and advice."
+    },
+    {
+      "word": "thaw",
+      "definition": "A period of warmer weather that melts snow and ice."
+    },
+    {
+      "word": "justify",
+      "definition": "To give a good reason for a choice."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What danger finally pushed Anwen to close the house?",
+      "options": [
+        "Cold could damage the pipes if they were left full",
+        "The bakery was about to open for the season",
+        "Marta needed help in the upper fields",
+        "The solicitor demanded the piano at once"
+      ],
+      "correctAnswer": "Cold could damage the pipes if they were left full",
+      "explanation": "She had put the visit off until the risk to the pipes made more delay look careless.",
+      "supportingSentence": "She had come to close her uncle's house for the cold months, a duty she had delayed until the risk to the pipes, rather than family feeling, made delay look careless.",
+      "skill": "detail"
+    },
+    {
+      "question": "What do the final month's figures suggest about her uncle?",
+      "options": [
+        "His careful habits with numbers had begun to weaken",
+        "He had hidden a debt from the solicitor",
+        "He had moved out of the house before the snow",
+        "He paid the grocer only in rounded coins"
+      ],
+      "correctAnswer": "His careful habits with numbers had begun to weaken",
+      "explanation": "The accounts were orderly for most of the year, then suddenly brief, as if being exact had started to tire him.",
+      "supportingSentence": "Anwen sat with her uncle's accounts, orderly through most of the year and then, in the final month, suddenly brief, with sums rounded as if exactness had begun to tire him.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why might Anwen remove the soap and still leave the piano untouched?",
+      "options": [
+        "One act protects the house, while the other would disturb her grief",
+        "Both objects were already promised to Marta",
+        "The bus driver had asked for a jar and a song",
+        "The piano was the only item the solicitor would insure"
+      ],
+      "correctAnswer": "One act protects the house, while the other would disturb her grief",
+      "explanation": "She takes the soap so it will not freeze, but she will not open the piano and test how much of her uncle she can bear to hear.",
+      "supportingSentence": "She had come to make the building safe, not to test how much of her uncle she could bear to hear.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does thaw mean in Marta's morning warning?",
+      "options": [
+        "A warming that starts to melt the snow",
+        "A holiday when the lane stays shut",
+        "A lock fitted to a winter piano",
+        "A formal visit from the solicitor"
+      ],
+      "correctAnswer": "A warming that starts to melt the snow",
+      "explanation": "Marta warns that the thaw will turn the lane to mud as it takes the snow away.",
+      "supportingSentence": "In the morning Marta knocked again, this time to warn of a thaw that would soften the lane into mud before it removed the snow.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer return to the clock's extra minute at the end?",
+      "options": [
+        "To set it among the things Anwen chose not to correct",
+        "To prove the downhill bus was running late",
+        "To show that Marta had wound the clock on Thursday",
+        "To explain why the cafe heated only one room"
+      ],
+      "correctAnswer": "To set it among the things Anwen chose not to correct",
+      "explanation": "After she thinks of closing the house as reading what she has no right to tune, the extra minute belongs with the locked piano.",
+      "supportingSentence": "So was the clock's extra minute.",
+      "skill": "intent"
+    }
+  ]
+}

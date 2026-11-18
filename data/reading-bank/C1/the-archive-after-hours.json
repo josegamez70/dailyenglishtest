@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "mystery",
+  "title": "The Archive after Hours",
+  "story": "The municipal archive closed to the public at five, but the reading room kept its lamps on for staff until the night warden walked the aisles at eight. Lena was still at the enquiry desk, finishing a list of files requested for the morning, when she noticed the trolley. It stood halfway to the loading bay, stacked with boxes that belonged in the strong room. She had seen those boxes at four, on the locked side of the inner door, because a researcher had asked for one and she had refused, politely, until the curator returned from a meeting.\n\nShe checked the door. It was shut, and the indicator showed it locked, which meant someone had opened it and closed it again in the hour she had spent on the telephone. The night log, kept on a clipboard beside the bay, carried a signature in the slot for the six o'clock internal transfer. The name was the duty archivist's. The archivist had left at half past four, and had said so twice, because Lena was supposed to set the alarm. The signature leaned the wrong way. The letters were the right ones. The hand was not. Lena copied the odd signature into her notebook so the clipboard could not be the only record.\n\nLena did not follow the trolley to the bay, and she did not call out. She photographed the log, the trolley, and the strong-room indicator with the desk phone, then wheeled the boxes back herself, slowly, so the oldest files would not slip. One box was lighter than it should have been. Its label promised the planning papers for a footbridge that the town had argued about for years. Inside, the folder for the final year of the argument was missing. The earlier years were there, neat, tied, and undisturbed, which somehow made the gap more deliberate.\n\nShe wrote a note for the curator and stayed until the warden arrived, sitting where she could see the bay door. No one came for the trolley. In the morning the curator compared the photograph of the signature with the archivist's real hand and agreed they did not match. The missing folder was not in the reading room, the store, or the desk drawers. The alarm had been set by Lena at eight, and the system showed no opening after that. Whoever had moved the boxes had done it while the building was still, officially, in the care of people who worked there, and had left the log looking busy enough that a tired colleague might have nodded and gone home.",
+  "vocabulary": [
+    {
+      "word": "archive",
+      "definition": "A place where official records are kept."
+    },
+    {
+      "word": "curator",
+      "definition": "The person in charge of a collection."
+    },
+    {
+      "word": "indicator",
+      "definition": "A sign that shows a condition, here whether a door is locked."
+    },
+    {
+      "word": "signature",
+      "definition": "A person's name written by hand."
+    },
+    {
+      "word": "deliberate",
+      "definition": "Done on purpose, not by accident."
+    },
+    {
+      "word": "warden",
+      "definition": "A person who checks a building after hours."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Which part of the footbridge papers was gone from the lighter box?",
+      "options": [
+        "The night log from the loading bay",
+        "The folder for the final year of the argument",
+        "Every year of the planning papers",
+        "The curator's notes from the afternoon meeting"
+      ],
+      "correctAnswer": "The folder for the final year of the argument",
+      "explanation": "The box was light because the folder for the final year of the argument was missing. Earlier years were still inside.",
+      "supportingSentence": "Inside, the folder for the final year of the argument was missing.",
+      "skill": "detail"
+    },
+    {
+      "question": "What do the six o'clock signature and the archivist's departure suggest?",
+      "options": [
+        "The archivist returned at six and signed in a hurry.",
+        "Lena signed his name with his permission.",
+        "Someone other than the duty archivist wrote that name.",
+        "The curator moved the boxes before the meeting."
+      ],
+      "correctAnswer": "Someone other than the duty archivist wrote that name.",
+      "explanation": "The archivist had already left, and the curator later agreed that the signature did not match his real hand.",
+      "supportingSentence": "In the morning the curator compared the photograph of the signature with the archivist's real hand and agreed they did not match.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why does Lena photograph the scene before she returns the boxes?",
+      "options": [
+        "She wants a record of what she found, in case the scene is later tidied away.",
+        "She needs the pictures for the researcher who asked for a file.",
+        "She hopes the desk phone will unlock the strong room.",
+        "She is about to wheel the trolley out through the loading bay."
+      ],
+      "correctAnswer": "She wants a record of what she found, in case the scene is later tidied away.",
+      "explanation": "She photographs the log, the trolley, and the lock indicator, and she also copies the signature so the clipboard will not be the only record. Then she puts the boxes back.",
+      "supportingSentence": "She photographed the log, the trolley, and the strong-room indicator with the desk phone, then wheeled the boxes back herself, slowly, so the oldest files would not slip.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does deliberate say about the gap in the papers?",
+      "options": [
+        "The box was heavier than its label",
+        "The reading room was still open to the public",
+        "The night warden had written the label",
+        "The gap was made on purpose, not by accident"
+      ],
+      "correctAnswer": "The gap was made on purpose, not by accident",
+      "explanation": "The earlier years were neat and untouched, which makes the missing final year look deliberate: done on purpose.",
+      "supportingSentence": "The earlier years were there, neat, tied, and undisturbed, which somehow made the gap more deliberate.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer end with a busy-looking log and a tired colleague?",
+      "options": [
+        "To blame Lena for setting the alarm too early",
+        "To suggest the mover wanted the change to pass as ordinary staff work",
+        "To recommend that the archive close at noon",
+        "To show that the footbridge was never discussed"
+      ],
+      "correctAnswer": "To suggest the mover wanted the change to pass as ordinary staff work",
+      "explanation": "The ending stresses that the boxes were moved during staff hours and that the log was left looking busy enough to satisfy a tired colleague.",
+      "supportingSentence": "Whoever had moved the boxes had done it while the building was still, officially, in the care of people who worked there, and had left the log looking busy enough that a tired colleague might have nodded and gone home.",
+      "skill": "intent"
+    }
+  ]
+}

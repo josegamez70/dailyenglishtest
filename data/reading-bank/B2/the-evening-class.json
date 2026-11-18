@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "school_college",
+  "title": "The Evening Class",
+  "story": "Rosa enrolled on the Tuesday evening class because her manager had said that stronger writing would help her move beyond the reception desk. She arrived straight from work, still wearing her name badge, and chose a seat near the door. Although she had lived in the city for years, classrooms made her feel younger than she was and somehow less prepared. The tutor, Martin, asked the group to introduce themselves in two sentences, but Rosa managed only one and then stopped.\n\nThere were twelve students, and their reasons varied. A delivery driver wanted to write clearer messages to customers, while a grandfather hoped to help his grandson with homework. Rosa said she froze whenever a formal email had to leave her desk. Martin nodded as if the problem were ordinary, which helped, and he did not ask anyone to read aloud in the first hour. Instead, they rewrote a confusing notice so that a visitor could follow it. Rosa spotted an instruction that contradicted the sentence before it, and when she said so, nobody laughed.\n\nHowever, the weekly task was harder. They had to describe a process from their jobs in plain language, in under two hundred words. Rosa started three times and disliked every opening, so she almost skipped the second class. What changed her mind was a short comment Martin had written on her notice: precise, and worth developing. At the next session he showed the group how to remove empty phrases and how to put steps in order, and he set a rule that feedback had to be specific and kind.\n\nBy the fifth week Rosa could draft a short email without deleting the whole thing. She still hesitated over tone, and she still checked with a colleague before writing to senior staff. Nevertheless, she participated more, and she no longer sat by the door. The course would not transform her job overnight, yet it was already changing the moment when a blank message used to make her close the screen.",
+  "vocabulary": [
+    {
+      "word": "enrolled",
+      "definition": "Officially joined a course."
+    },
+    {
+      "word": "contradicted",
+      "definition": "Said the opposite of something else."
+    },
+    {
+      "word": "precise",
+      "definition": "Exact, clear, and carefully worded."
+    },
+    {
+      "word": "hesitated",
+      "definition": "Paused because of uncertainty."
+    },
+    {
+      "word": "participated",
+      "definition": "Took an active part."
+    },
+    {
+      "word": "transform",
+      "definition": "Change something in a complete way."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What led Rosa to join the Tuesday class?",
+      "options": [
+        "Her grandson needed help with homework",
+        "The lessons were held during her lunch break",
+        "Martin visited reception and signed her up",
+        "Her manager said stronger writing could help her move past reception work"
+      ],
+      "correctAnswer": "Her manager said stronger writing could help her move past reception work",
+      "explanation": "She enrolled because her manager had connected better writing with moving beyond the reception desk.",
+      "supportingSentence": "Rosa enrolled on the Tuesday evening class because her manager had said that stronger writing would help her move beyond the reception desk.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does Martin's behaviour in the first hour suggest about his teaching?",
+      "options": [
+        "He wanted the problems to feel ordinary before anyone had to perform",
+        "He expected a long reading from every student at once",
+        "He thought emails were not worth mentioning",
+        "He preferred to cancel writing for the whole course"
+      ],
+      "correctAnswer": "He wanted the problems to feel ordinary before anyone had to perform",
+      "explanation": "He treats Rosa's difficulty as ordinary, which helps, and he does not ask anyone to read aloud in that first hour.",
+      "supportingSentence": "Martin nodded as if the problem were ordinary, which helped, and he did not ask anyone to read aloud in the first hour.",
+      "skill": "inference"
+    },
+    {
+      "question": "What was the regular writing task?",
+      "options": [
+        "A novel read aloud for a full hour",
+        "Twelve grammar rules learned by heart",
+        "A letter addressed to the head of the college",
+        "A plain description of a work process in under two hundred words"
+      ],
+      "correctAnswer": "A plain description of a work process in under two hundred words",
+      "explanation": "Each week they had to describe a process from their jobs in plain language, in under two hundred words.",
+      "supportingSentence": "They had to describe a process from their jobs in plain language, in under two hundred words.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does Rosa's move away from the door suggest?",
+      "options": [
+        "She feels more at ease in the class than she did at the start",
+        "The seats beside the door have been removed",
+        "She now plans to leave before the lesson begins",
+        "Martin has told her not to take part"
+      ],
+      "correctAnswer": "She feels more at ease in the class than she did at the start",
+      "explanation": "She chose the door at first, but later she participates more and no longer sits there, which suggests she is more comfortable.",
+      "supportingSentence": "Nevertheless, she participated more, and she no longer sat by the door.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does contradicted mean in this story?",
+      "options": [
+        "Said the opposite of the sentence before it",
+        "Repeated the same instruction more clearly",
+        "Was written in very large letters",
+        "Told the visitor to leave the building"
+      ],
+      "correctAnswer": "Said the opposite of the sentence before it",
+      "explanation": "Rosa notices an instruction that goes against the sentence just before it.",
+      "supportingSentence": "Rosa spotted an instruction that contradicted the sentence before it, and when she said so, nobody laughed.",
+      "skill": "vocabulary"
+    }
+  ]
+}

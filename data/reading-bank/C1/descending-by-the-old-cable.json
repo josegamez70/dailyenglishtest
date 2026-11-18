@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "adventure",
+  "title": "Descending by the Old Cable",
+  "story": "The cable had been left behind when the quarry closed, a slack steel line running from a rusted tower on the ridge to a shed in the trees far below. In the old photographs it carried wooden buckets of stone. Now it carried nothing but a long note when the wind was in the north. Sera had walked past it for years and treated it as a relic. She stopped treating it that way on the afternoon when Pavel's ankle folded on the loose spoil and he could not put weight on it again.\n\nThe proper descent was a series of ledges and a scree run that was manageable for a careful walker and impossible for a man who had to be held up. The light was already leaving the west face. Sera looked at the cable, at the little trolley still clamped to it, and at the brake lever stained dark by other people's hands. A notice, barely readable, said that the line was closed and that trespassers would be fined. Fines belonged to a world in which both of them could walk to the road. She tested the lever. It moved, stiffly, and the trolley answered with a short groan.\n\nThey did not pretend the choice was elegant. Pavel sat in the trolley with his bad foot propped on a coil of old wire, and Sera stood at the brake, letting the slope take them only when she allowed it. The cable sagged more than she liked. Halfway down it passed over a gap where the quarry wall had fallen away, and for a few seconds there was nothing under them but grey air and the pale fan of waste stone. She kept her eyes on the lever and on Pavel's hands, which were locked on the rim and no longer shaking. Speed was the enemy. A little motion, then a check, then a little motion again, until the sound of the wheel became something she could trust.\n\nThe shed arrived sooner than her nerves expected. The trolley bumped the stop, the cable hummed and went quiet, and the smell of wet leaves replaced the smell of dust. Pavel's face was the colour of paper, but he was grinning. Sera tied the brake with the notice's own wire, as if closing the line again could make the borrowing respectable. Then she went for help along a path that felt, after the drop, almost indecently flat. Above them the ridge kept the last of the sun. The cable between tower and shed was only a dark thread, and it had been enough.",
+  "vocabulary": [
+    {
+      "word": "relic",
+      "definition": "Something old left behind after its original use has ended."
+    },
+    {
+      "word": "spoil",
+      "definition": "Loose waste rock left from digging stone."
+    },
+    {
+      "word": "trespassers",
+      "definition": "People who go where a notice says they must not."
+    },
+    {
+      "word": "sagged",
+      "definition": "Hung down lower than it should in the middle."
+    },
+    {
+      "word": "descent",
+      "definition": "The way down from a high place."
+    },
+    {
+      "word": "respectable",
+      "definition": "Proper enough to be accepted as right."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Why does the threat of a fine not stop Sera?",
+      "options": [
+        "A penalty belongs to a world in which they can still walk out",
+        "She has a written permit folded inside the old notice",
+        "Pavel says the trolley has always belonged to his family",
+        "The brake is locked, so the warning must be a joke"
+      ],
+      "correctAnswer": "A penalty belongs to a world in which they can still walk out",
+      "explanation": "The notice assumes two people who can walk to the road, and Pavel no longer can.",
+      "supportingSentence": "Fines belonged to a world in which both of them could walk to the road.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does Pavel's grin at the shed suggest?",
+      "options": [
+        "He can put his full weight on the injured ankle again",
+        "Relief has arrived, even though the fright has not left him",
+        "He wants to ride the cable back up before sunset",
+        "He is amused that Sera missed the proper ledges"
+      ],
+      "correctAnswer": "Relief has arrived, even though the fright has not left him",
+      "explanation": "His face is the colour of paper from the shock, but the grin shows he knows they have reached the bottom.",
+      "supportingSentence": "Pavel's face was the colour of paper, but he was grinning.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why could Pavel not use the ordinary way down?",
+      "options": [
+        "The west face had already collapsed into the pit",
+        "The ledges were buried under a layer of new snow",
+        "His folded ankle would not take his weight",
+        "Sera had left their only rope at the tower"
+      ],
+      "correctAnswer": "His folded ankle would not take his weight",
+      "explanation": "His ankle folded on the loose spoil, and he could not put weight on it again.",
+      "supportingSentence": "She stopped treating it that way on the afternoon when Pavel's ankle folded on the loose spoil and he could not put weight on it again.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does \"relic\" mean in this story?",
+      "options": [
+        "A fine posted against anyone who rides the cable",
+        "A fresh track cut through the loose waste rock",
+        "A wooden bucket that is still full of stone",
+        "An old remnant of work that has already finished"
+      ],
+      "correctAnswer": "An old remnant of work that has already finished",
+      "explanation": "Before the injury, Sera treated the abandoned cable as a leftover from the closed quarry.",
+      "supportingSentence": "Sera had walked past it for years and treated it as a relic.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer have Sera tie the brake with the notice wire?",
+      "options": [
+        "To show her wish to leave the borrowed line closed again",
+        "To explain how Pavel's ankle was bound at the shed",
+        "To prove the warning had been printed that same morning",
+        "To suggest they planned to ride the trolley again tomorrow"
+      ],
+      "correctAnswer": "To show her wish to leave the borrowed line closed again",
+      "explanation": "Using the notice's own wire makes the ending a small attempt to set the closed line back in order.",
+      "supportingSentence": "Sera tied the brake with the notice's own wire, as if closing the line again could make the borrowing respectable.",
+      "skill": "intent"
+    }
+  ]
+}

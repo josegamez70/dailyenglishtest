@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "mystery",
+  "title": "A Badge That Still Opened",
+  "story": "The badge should have died on the last Friday of the contract. Facilities had a checklist for that: collect the card, revoke it on the access system, and file the signed leaver form before the person reached the lift. Three weeks later, a clerk named Yusuf heard the side door of the records office open at a time when he was supposed to be alone. He stepped into the corridor and saw nobody. The door had already closed. He checked the leaver form in the shared drawer and found it signed, dated, and apparently complete. The card itself had never been returned. On the floor inside the threshold lay a tender folder he had tied and shelved the previous afternoon.\n\nHe pulled the access log before he touched the folder again. The door had been opened with badge 4418, assigned to a contractor who had designed the shelving and whose contract had ended twenty-two days earlier. The log showed a clean deactivation on the final afternoon, a gap of twenty-one days, and then a reactivation just after midnight on the Sunday before last. The second change had been made with a supervisor code. The code belonged to the facilities manager. She was on leave, and had been on leave since the Friday, a fact Yusuf confirmed with the shared calendar before he allowed himself a worse thought.\n\nThe folder's tie was intact, which puzzled him until he compared it with the photograph he had taken for the handover note. The knot sat a finger's width lower than in the picture. Someone had untied it, read or removed a page, and retied it with care that was almost good enough. The page count on the cover said forty-eight. Yusuf counted forty-seven. The missing sheet was the pricing schedule, the one page a rival firm would have been glad to see before the submission deadline on Thursday.\n\nHe locked the office from the inside, left the folder where it was, and called the duty security officer rather than the number stored against the supervisor code. Then he wrote down the times from the log in his own notebook, because screens can be altered by the same people who alter doors. When security arrived, he did not offer a theory about who had stood in the corridor. He offered the badge number, the midnight change, and the gap in the page count. The badge still opened a door it should have forgotten. That single fact was enough to stop the building from treating the evening as a glitch.",
+  "vocabulary": [
+    {
+      "word": "revoke",
+      "definition": "To cancel a permission so that it no longer works."
+    },
+    {
+      "word": "deactivation",
+      "definition": "The act of switching an access card off."
+    },
+    {
+      "word": "reactivation",
+      "definition": "The act of switching an access card back on."
+    },
+    {
+      "word": "tender",
+      "definition": "A formal bid for a piece of work, here kept in a folder."
+    },
+    {
+      "word": "schedule",
+      "definition": "A list that sets out items, here the prices in the bid."
+    },
+    {
+      "word": "glitch",
+      "definition": "A small technical fault, not a serious breach."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Which sheet was no longer inside the tender folder?",
+      "options": [
+        "The signed leaver form",
+        "The handover photograph",
+        "The pricing schedule",
+        "The facilities checklist"
+      ],
+      "correctAnswer": "The pricing schedule",
+      "explanation": "Yusuf counted one sheet fewer than the cover promised, and the missing sheet was the pricing schedule.",
+      "supportingSentence": "The missing sheet was the pricing schedule, the one page a rival firm would have been glad to see before the submission deadline on Thursday.",
+      "skill": "detail"
+    },
+    {
+      "question": "What can a reader be sure of about the person who came through the side door?",
+      "options": [
+        "The log identifies the badge that opened the door, but not who was holding it.",
+        "Yusuf recognised the contractor and followed him to the lift.",
+        "The facilities manager was standing in the threshold.",
+        "A rival firm signed the visitor book at that door."
+      ],
+      "correctAnswer": "The log identifies the badge that opened the door, but not who was holding it.",
+      "explanation": "Yusuf saw nobody, and when security arrived he offered the badge number rather than a name. The record shows a card, not a face.",
+      "supportingSentence": "When security arrived, he did not offer a theory about who had stood in the corridor.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does Yusuf's choice of phone call suggest?",
+      "options": [
+        "He thinks the duty officer removed the missing page.",
+        "He wants the facilities manager to unlock the door from home.",
+        "He already knows which colleague was in the corridor.",
+        "He does not want the warning to go through the code that was just misused."
+      ],
+      "correctAnswer": "He does not want the warning to go through the code that was just misused.",
+      "explanation": "He calls the duty security officer instead of the number stored against the supervisor code used to switch the badge back on.",
+      "supportingSentence": "He locked the office from the inside, left the folder where it was, and called the duty security officer rather than the number stored against the supervisor code.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does revoke mean in the facilities checklist?",
+      "options": [
+        "To print a fresh copy of a tender folder",
+        "To cancel a card on the access system",
+        "To lend a badge to the next contractor",
+        "To count the sheets in a file"
+      ],
+      "correctAnswer": "To cancel a card on the access system",
+      "explanation": "The checklist says to collect the card and revoke it on the access system, meaning to switch that permission off.",
+      "supportingSentence": "Facilities had a checklist for that: collect the card, revoke it on the access system, and file the signed leaver form before the person reached the lift.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What does the writer want the reader to reject in the closing lines?",
+      "options": [
+        "The idea that a badge which still opened was only a minor fault",
+        "The idea that tender folders should be tied with string",
+        "The idea that contractors may design shelving",
+        "The idea that security officers keep notebooks"
+      ],
+      "correctAnswer": "The idea that a badge which still opened was only a minor fault",
+      "explanation": "The last lines say that one fact, the badge still opening, was enough to stop the evening being treated as a glitch.",
+      "supportingSentence": "That single fact was enough to stop the building from treating the evening as a glitch.",
+      "skill": "intent"
+    }
+  ]
+}

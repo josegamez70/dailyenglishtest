@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "daily life",
+  "title": "A Leak under the Sink",
+  "story": "Nadia noticed the leak on a Tuesday evening, when she reached for a saucepan and felt cold water against her wrist. A slow trickle was coming from the pipe under the kitchen sink, although the cupboard door had hidden it for days, and the wooden shelf was already dark and soft at the edge. She put a bowl underneath and sent a message to the building manager, who replied that a plumber could not visit until Friday. However, the bowl filled faster than she had expected, and by midnight she was emptying it every hour.\n\nHer housemate, Tomas, was reluctant to call an emergency number because of the cost, and he suggested towels, tape, and patience. Nadia disagreed, pointing out that the damp patch on the wall was spreading and that a small leak could deteriorate into real damage if they waited. They looked up a guide together, turned off the valve under the sink, and dried the cupboard as thoroughly as they could. The water stopped, which was a relief, but the flat then had no kitchen tap, so they filled bottles in the bathroom and left a clear note so nobody would turn the valve back on by mistake.\n\nOn Wednesday morning Nadia wrote to the manager again, attaching photos of the pipe, the swollen shelf, and the bowl. She asked for the visit to be brought forward and for the shelf to be checked, since it no longer felt safe. The manager apologised for the delay and arranged a provisional repair for Thursday afternoon. When the plumber arrived, he replaced a worn connector and confirmed that the wall behind the cupboard would dry if they kept the door open. He also warned them to report seepage early next time, rather than hoping it would stop on its own.\n\nThat evening the tap worked again. Nadia still checked the cupboard before bed, and Tomas admitted she had been right to act quickly. A leak, they agreed, was easier to face before it became a flood.",
+  "vocabulary": [
+    {
+      "word": "trickle",
+      "definition": "A thin, slow flow of liquid."
+    },
+    {
+      "word": "reluctant",
+      "definition": "Unwilling, and therefore slow to agree."
+    },
+    {
+      "word": "deteriorate",
+      "definition": "To become worse as time passes."
+    },
+    {
+      "word": "relief",
+      "definition": "A feeling of comfort after a worry has passed."
+    },
+    {
+      "word": "provisional",
+      "definition": "Arranged for the moment, but not yet final."
+    },
+    {
+      "word": "seepage",
+      "definition": "Liquid that leaks slowly through a small opening."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "When did the manager say a plumber could first visit?",
+      "options": [
+        "Later on Tuesday evening",
+        "Not before Friday",
+        "Early on Wednesday morning",
+        "Within an hour of the message"
+      ],
+      "correctAnswer": "Not before Friday",
+      "explanation": "The manager's reply was that a plumber could not come until Friday.",
+      "supportingSentence": "She put a bowl underneath and sent a message to the building manager, who replied that a plumber could not visit until Friday.",
+      "skill": "detail"
+    },
+    {
+      "question": "What can the reader conclude about the wooden shelf?",
+      "options": [
+        "It had been replaced earlier that evening",
+        "The plumber had painted the edge on purpose",
+        "Water hidden in the cupboard had started to soften it",
+        "It was too new to hold any weight"
+      ],
+      "correctAnswer": "Water hidden in the cupboard had started to soften it",
+      "explanation": "The leak had been hidden for days, and the shelf was already dark and soft, so the water was affecting the wood.",
+      "supportingSentence": "A slow trickle was coming from the pipe under the kitchen sink, although the cupboard door had hidden it for days, and the wooden shelf was already dark and soft at the edge.",
+      "skill": "inference"
+    },
+    {
+      "question": "How did Nadia and Tomas stop the water that night?",
+      "options": [
+        "They fitted a new pipe before midnight",
+        "They left the leak running into the hall",
+        "They asked an emergency crew to come at once",
+        "They shut the valve and dried the cupboard"
+      ],
+      "correctAnswer": "They shut the valve and dried the cupboard",
+      "explanation": "They turned off the valve under the sink and dried the cupboard while they waited for the repair.",
+      "supportingSentence": "They looked up a guide together, turned off the valve under the sink, and dried the cupboard as thoroughly as they could.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does Nadia's check of the cupboard before bed suggest?",
+      "options": [
+        "She wanted to be sure the trouble was really over",
+        "She was searching for a missing saucepan",
+        "She planned to close the valve again overnight",
+        "She was angry that no plumber had come"
+      ],
+      "correctAnswer": "She wanted to be sure the trouble was really over",
+      "explanation": "The tap was working again, yet she still looked in the cupboard, which shows she did not fully trust the repair yet.",
+      "supportingSentence": "Nadia still checked the cupboard before bed, and Tomas admitted she had been right to act quickly.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does deteriorate mean in this story?",
+      "options": [
+        "To grow gradually worse",
+        "To dry out completely",
+        "To send a written warning",
+        "To open a tap again"
+      ],
+      "correctAnswer": "To grow gradually worse",
+      "explanation": "Nadia uses it for a small leak turning into serious damage if they do nothing.",
+      "supportingSentence": "Nadia disagreed, pointing out that the damp patch on the wall was spreading and that a small leak could deteriorate into real damage if they waited.",
+      "skill": "vocabulary"
+    }
+  ]
+}

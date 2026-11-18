@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "science",
+  "title": "A Bird Count at Dawn",
+  "story": "The park friends met at the east gate while the paths were still grey. Their job was a dawn bird count, the same route they had walked on the first Sunday of each month since spring. Nadia carried the tally sheet, and her brother Omar carried the binoculars. They did not need to name every distant call. They needed a consistent method, so this month could be compared with the last.\n\nThey stopped at six marked points and waited for three minutes at each one. Birds that were seen or heard from that point were recorded once, even if they sang again nearby. A robin that followed them was not counted at every stop, because that would inflate the total. In addition, they noted the weather in a box at the top of the sheet. This morning was cold and still. Last month had been windy, and several soft calls had been hard to hear. Although the route was identical, the conditions were not, and that difference mattered.\n\nAt the reed bed they heard more warblers than in May. On the open field they saw fewer gulls. Omar wanted to say that the park was improving. Nadia disagreed. One calm morning cannot prove a trend, whereas a year of sheets might. They therefore wrote observations, not judgements, and they marked a dog walker who had crossed the reed path and flushed a group of ducks. That disturbance was part of the record. If they ignored it, a low duck count could be misunderstood later.\n\nBy seven they were at the gate again, with cold hands and a full sheet. The total was a little higher than last month, mainly because of the warblers. Nevertheless, Nadia refused to call it a success story. The count was a measurement. It would become evidence only when it sat beside the other months, collected in the same way, with the weather and the interruptions written beside the numbers.",
+  "vocabulary": [
+    {
+      "word": "consistent",
+      "definition": "Done in the same way each time."
+    },
+    {
+      "word": "inflate",
+      "definition": "Make a number larger than it should be."
+    },
+    {
+      "word": "trend",
+      "definition": "A general direction of change over time."
+    },
+    {
+      "word": "disturbance",
+      "definition": "Something that interrupts animals and changes what is counted."
+    },
+    {
+      "word": "tally",
+      "definition": "A running count written on a sheet."
+    },
+    {
+      "word": "evidence",
+      "definition": "Recorded facts that can support a later conclusion."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How long did the pair remain at each marked point?",
+      "options": [
+        "Three minutes",
+        "Six minutes",
+        "Until seven at night",
+        "The whole of spring"
+      ],
+      "correctAnswer": "Three minutes",
+      "explanation": "They waited for three minutes at each of the six marked points.",
+      "supportingSentence": "They stopped at six marked points and waited for three minutes at each one.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does \"inflate\" mean in this story?",
+      "options": [
+        "Write the weather at the top of a sheet",
+        "Push a total higher than the true figure",
+        "Follow the same route every month",
+        "Hear a soft call in strong wind"
+      ],
+      "correctAnswer": "Push a total higher than the true figure",
+      "explanation": "Counting the same robin at every stop would inflate the total, making it higher than the real number.",
+      "supportingSentence": "A robin that followed them was not counted at every stop, because that would inflate the total.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What is the danger of comparing the two months without the weather note?",
+      "options": [
+        "The east gate would be left off the route",
+        "Warblers would be counted as gulls",
+        "The binoculars would replace the tally sheet",
+        "A hearing problem could be mistaken for a change in bird numbers"
+      ],
+      "correctAnswer": "A hearing problem could be mistaken for a change in bird numbers",
+      "explanation": "Last month was windy and soft calls were hard to hear, so a lower total might show the weather rather than fewer birds.",
+      "supportingSentence": "Last month had been windy, and several soft calls had been hard to hear.",
+      "skill": "inference"
+    },
+    {
+      "question": "What did the dog walker cause beside the reeds?",
+      "options": [
+        "He counted the gulls on the field",
+        "He carried the tally sheet",
+        "He flushed a group of ducks",
+        "He cancelled the dawn route"
+      ],
+      "correctAnswer": "He flushed a group of ducks",
+      "explanation": "They marked a dog walker who crossed the reed path and flushed a group of ducks.",
+      "supportingSentence": "They therefore wrote observations, not judgements, and they marked a dog walker who had crossed the reed path and flushed a group of ducks.",
+      "skill": "detail"
+    },
+    {
+      "question": "What might a later reader think if the dog incident was omitted?",
+      "options": [
+        "That the ducks were scarce for a different reason",
+        "That the warblers had all left in May",
+        "That Omar had lost the binoculars",
+        "That the route had changed since spring"
+      ],
+      "correctAnswer": "That the ducks were scarce for a different reason",
+      "explanation": "A low duck count could be misunderstood later if the disturbance that flushed the ducks was left off the sheet.",
+      "supportingSentence": "If they ignored it, a low duck count could be misunderstood later.",
+      "skill": "inference"
+    }
+  ]
+}

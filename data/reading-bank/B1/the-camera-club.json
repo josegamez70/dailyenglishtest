@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "hobbies",
+  "title": "The Camera Club",
+  "story": "Felix arrived at the camera club with a borrowed camera and a nervous smile. The meeting was in a room above the library. Hana, the group leader, asked everyone to check the lens. Felix turned the lens and heard a soft click. Hana showed them the shutter button and told them not to press it yet. She explained that focus means making the picture sharp. Felix pointed the camera at a plant by the window. He turned a ring until the leaves looked clear. Then Hana let them take one photo each. Felix pressed the shutter and checked the small screen. The plant was there, but the window behind it was too bright. Hana said he should step to the side. Felix tried again, and this time the leaves showed their colour. The members then walked to the park for a second task. Felix used a tripod because his hands were not steady. He framed the bridge and waited until a cyclist had passed. The photo caught the wheel and the water below. Back in the room, Hana showed the pictures on a laptop. The group talked kindly about each one. Hana said Felix had learned to watch the light. He wrote that tip on a card for his album at home. He returned the tripod to the cupboard and capped the lens. He wanted to photograph the same bridge again in the evening.",
+  "vocabulary": [
+    {
+      "word": "lens",
+      "definition": "the glass piece at the front of a camera"
+    },
+    {
+      "word": "shutter",
+      "definition": "the button that takes the picture"
+    },
+    {
+      "word": "focus",
+      "definition": "making the picture sharp"
+    },
+    {
+      "word": "tripod",
+      "definition": "a three-legged stand for a camera"
+    },
+    {
+      "word": "members",
+      "definition": "people who belong to a group"
+    },
+    {
+      "word": "album",
+      "definition": "a book for keeping pictures"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where was the camera club meeting?",
+      "options": [
+        "in a room above the library",
+        "on the deck of a ferry",
+        "inside a sports shop",
+        "in Felix's kitchen"
+      ],
+      "correctAnswer": "in a room above the library",
+      "explanation": "The second sentence gives the place.",
+      "supportingSentence": "The meeting was in a room above the library.",
+      "skill": "detail"
+    },
+    {
+      "question": "What was wrong with the first picture of the plant?",
+      "options": [
+        "The window behind it was too bright.",
+        "The lens was still in the box.",
+        "The screen was cracked.",
+        "The plant stood outside the park."
+      ],
+      "correctAnswer": "The window behind it was too bright.",
+      "explanation": "He saw the problem when he checked the screen.",
+      "supportingSentence": "The plant was there, but the window behind it was too bright.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did Felix use a tripod in the park?",
+      "options": [
+        "His hands were not steady.",
+        "The shutter button had fallen off.",
+        "Hana asked him to sell the camera.",
+        "The bridge was closed for the day."
+      ],
+      "correctAnswer": "His hands were not steady.",
+      "explanation": "The story gives that reason directly.",
+      "supportingSentence": "Felix used a tripod because his hands were not steady.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does focus mean?",
+      "options": [
+        "making the picture sharp",
+        "a meeting above a library",
+        "a bright window",
+        "a borrowed camera"
+      ],
+      "correctAnswer": "making the picture sharp",
+      "explanation": "Hana explained the word before they took photos.",
+      "supportingSentence": "She explained that focus means making the picture sharp.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Felix want another photo of the bridge later?",
+      "options": [
+        "He wanted to try the same view in different light.",
+        "He had dropped the lens cap there.",
+        "The club was moving into the park.",
+        "Hana had asked him to sell the stand."
+      ],
+      "correctAnswer": "He wanted to try the same view in different light.",
+      "explanation": "She had just told him that he was learning to watch the light.",
+      "supportingSentence": "He wanted to photograph the same bridge again in the evening.",
+      "skill": "inference"
+    }
+  ],
+  "file": "b1-c.txt"
+}

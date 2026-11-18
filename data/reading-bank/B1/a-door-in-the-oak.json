@@ -1,0 +1,99 @@
+{
+  "level": "B1",
+  "topic": "fantasy",
+  "title": "A Door in the Oak",
+  "story": "Noor was looking for a quiet place to read in the park. She sat under a huge oak and leaned against the trunk. A small round door was set into the bark near the roots. It was no taller than her hand, and it had a brass handle. Noor knocked twice, because knocking felt more polite than pulling. The door opened, and a tiny gardener stepped out.\n\nHe wore a green cap and carried a watering can the size of a spoon. He said his flowers were thirsty after a long dry week. He asked Noor to fetch three drops from the park fountain. In return, he promised her a seed that glowed at night. Noor agreed and walked to the fountain with great care. She caught three drops on a clean leaf and hurried back. The gardener watered three blue flowers, and they lifted their heads. He placed a warm seed in Noor's palm and bowed. He told her to plant it in a cup of soil by a window. Noor thanked him, and the little door closed without a sound.\n\nAt home, she planted the seed before supper. That night, a soft gold light rose from the cup. It was bright enough to read one page, then it dimmed. Noor smiled and decided to visit the oak again on Sunday.",
+  "vocabulary": [
+    {
+      "word": "brass",
+      "definition": "A shiny yellow metal."
+    },
+    {
+      "word": "polite",
+      "definition": "Respectful and well mannered."
+    },
+    {
+      "word": "thirsty",
+      "definition": "Needing water."
+    },
+    {
+      "word": "promised",
+      "definition": "Said you would certainly do something."
+    },
+    {
+      "word": "glowed",
+      "definition": "Gave off a soft light."
+    },
+    {
+      "word": "dimmed",
+      "definition": "Became less bright."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How big was the door in the oak?",
+      "options": [
+        "Taller than the tree",
+        "As wide as the fountain",
+        "No taller than her hand",
+        "Big enough for a car"
+      ],
+      "correctAnswer": "No taller than her hand",
+      "explanation": "The door was no taller than Noor's hand.",
+      "supportingSentence": "It was no taller than her hand, and it had a brass handle.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did the gardener ask Noor to fetch?",
+      "options": [
+        "A brass handle",
+        "Three drops of water",
+        "A basket of bread",
+        "Ten gold coins"
+      ],
+      "correctAnswer": "Three drops of water",
+      "explanation": "He asked her to fetch three drops from the park fountain.",
+      "supportingSentence": "He asked Noor to fetch three drops from the park fountain.",
+      "skill": "detail"
+    },
+    {
+      "question": "Where was Noor told to plant the seed?",
+      "options": [
+        "Under the fountain",
+        "In the oak roots",
+        "On the green cap",
+        "In a cup of soil by a window"
+      ],
+      "correctAnswer": "In a cup of soil by a window",
+      "explanation": "The gardener told her to plant the seed in a cup of soil by a window.",
+      "supportingSentence": "He told her to plant it in a cup of soil by a window.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the word thirsty mean here?",
+      "options": [
+        "Ready to sleep",
+        "Afraid of rain",
+        "Needing water",
+        "Too small to see"
+      ],
+      "correctAnswer": "Needing water",
+      "explanation": "The flowers were thirsty after a dry week, so they needed water.",
+      "supportingSentence": "He said his flowers were thirsty after a long dry week.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "How did Noor feel after the seed gave light?",
+      "options": [
+        "Sorry she had helped",
+        "Afraid of the park",
+        "Angry at the gardener",
+        "Happy and ready to return"
+      ],
+      "correctAnswer": "Happy and ready to return",
+      "explanation": "She smiled and decided to visit the oak again, so she was happy.",
+      "supportingSentence": "Noor smiled and decided to visit the oak again on Sunday.",
+      "skill": "inference"
+    }
+  ]
+}

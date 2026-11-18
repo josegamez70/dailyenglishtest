@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "daily life",
+  "title": "The Block Meeting",
+  "story": "The residents of Cedar Court gathered in the ground-floor room on a wet Thursday, where Amina, who had volunteered to chair the meeting, set out chairs and printed a short agenda. The main item was the broken entrance gate, which had been sticking for months. Although everyone wanted it repaired, they disagreed about the cost, because some people thought the management company should pay, while others accepted that the residents' fund would have to cover at least part of the bill.\n\nThe caretaker, Denis, reported that a contractor had quoted a considerable sum. However, the discussion soon became heated. One resident said the gate was only a nuisance for drivers, while parents with pushchairs argued that it was a safety issue because it no longer closed properly at night. Another person blamed the neighbours who held it open with a brick. Amina asked everyone to speak in turn, and she wrote the main points on a board so that complaints would not be repeated endlessly. When voices rose, she reminded them that a proposal had to be specific before anyone could vote on it.\n\nThe second topic was the shared garden, where weeds had taken over the path and the bench was rotten. A few residents offered to work on a Saturday if the block bought gloves, bags, and a few plants, although not everyone could help physically. An older resident named Edith said she would contribute money but could not kneel. They reached a compromise shortly before nine. The gate repair would be approved up to a stated limit, and the management company would be asked in writing to pay the rest. The garden morning would go ahead, with jobs shared according to what people could actually do.\n\nThe vote was not unanimous, yet the majority agreed, and Amina recorded the decision carefully. As people left, the mood was calmer than it had been at the start. A meeting could not fix every frustration in the block, but it had turned vague annoyance into a plan.",
+  "vocabulary": [
+    {
+      "word": "agenda",
+      "definition": "A list of subjects to be discussed at a meeting."
+    },
+    {
+      "word": "nuisance",
+      "definition": "Something that causes annoyance."
+    },
+    {
+      "word": "proposal",
+      "definition": "A clear suggestion put forward for a decision."
+    },
+    {
+      "word": "compromise",
+      "definition": "An agreement in which each side gives up part of what it wanted."
+    },
+    {
+      "word": "unanimous",
+      "definition": "Agreed by everybody, with nobody against it."
+    },
+    {
+      "word": "frustration",
+      "definition": "The feeling of being upset because a problem continues."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Which problem was placed first on the agenda?",
+      "options": [
+        "Weeds covering the garden path",
+        "A broken light in the meeting room",
+        "Noise from the top-floor flat",
+        "The entrance gate that had been sticking for months"
+      ],
+      "correctAnswer": "The entrance gate that had been sticking for months",
+      "explanation": "Amina's agenda put the broken entrance gate first, and it had been sticking for months.",
+      "supportingSentence": "The main item was the broken entrance gate, which had been sticking for months.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why are the parents more alarmed than the resident who called the gate a nuisance?",
+      "options": [
+        "They want drivers to pay the whole bill alone",
+        "A loose brick has torn their pushchairs",
+        "An open gate at night could put families in danger",
+        "They only use the entrance during the daytime"
+      ],
+      "correctAnswer": "An open gate at night could put families in danger",
+      "explanation": "They treat it as a safety problem because it no longer closes properly at night, not merely as an annoyance for drivers.",
+      "supportingSentence": "One resident said the gate was only a nuisance for drivers, while parents with pushchairs argued that it was a safety issue because it no longer closed properly at night.",
+      "skill": "inference"
+    },
+    {
+      "question": "How did the meeting deal with the cost of the gate repair?",
+      "options": [
+        "The repair would wait until the following year",
+        "Denis would mend the gate without charging anyone",
+        "Every home would hand over the same fee that night",
+        "Residents would pay up to a limit and ask the company to cover the rest"
+      ],
+      "correctAnswer": "Residents would pay up to a limit and ask the company to cover the rest",
+      "explanation": "The repair was approved only up to a stated limit, and the company would be asked in writing to pay whatever remained.",
+      "supportingSentence": "The gate repair would be approved up to a stated limit, and the management company would be asked in writing to pay the rest.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the result of the vote show?",
+      "options": [
+        "Most residents could accept a decision that not everyone shared",
+        "The meeting ended before a vote was possible",
+        "Amina refused to write the decision down",
+        "Every person in the room wanted exactly the same outcome"
+      ],
+      "correctAnswer": "Most residents could accept a decision that not everyone shared",
+      "explanation": "The vote was not unanimous, but the majority agreed, so agreement did not require every resident to think the same.",
+      "supportingSentence": "The vote was not unanimous, yet the majority agreed, and Amina recorded the decision carefully.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does nuisance mean in this story?",
+      "options": [
+        "Something that causes annoyance",
+        "A formal limit on spending",
+        "The person who chairs a meeting",
+        "Money kept in a residents' fund"
+      ],
+      "correctAnswer": "Something that causes annoyance",
+      "explanation": "One resident uses it to say the gate is merely annoying for drivers, not a danger.",
+      "supportingSentence": "One resident said the gate was only a nuisance for drivers, while parents with pushchairs argued that it was a safety issue because it no longer closed properly at night.",
+      "skill": "vocabulary"
+    }
+  ]
+}

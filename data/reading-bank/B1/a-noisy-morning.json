@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "daily life",
+  "title": "A Noisy Morning",
+  "story": "Leo woke up before his alarm because someone was drilling in the flat above. The noise started, stopped, and started again. He put a pillow over his head, but he could still hear it. At seven he got up and made tea. The drilling did not stop. Leo did not want to shout. He wrote a short note that said the noise began very early. He went upstairs and knocked on the door. A woman called Nora opened it with dust on her hands. She looked sorry at once. She said she was putting up a shelf before work and did not know the sound was so loud. Leo showed her the note and pointed at the time. Nora turned off the drill. She promised to wait until nine the next day. Leo thanked her and went back downstairs. His flat was quiet again. He drank his tea and packed his bag. Before he left, Nora slipped a second note under his door. It said she would finish the shelf at the weekend, after nine. Leo smiled. A calm talk had worked better than anger. He opened the window and heard only a bird in the yard. The shelf could wait until a kinder hour.",
+  "vocabulary": [
+    {
+      "word": "drilling",
+      "definition": "making holes with a loud tool"
+    },
+    {
+      "word": "pillow",
+      "definition": "a soft cushion for your head"
+    },
+    {
+      "word": "upstairs",
+      "definition": "on a higher floor"
+    },
+    {
+      "word": "sorry",
+      "definition": "feeling bad about what you did"
+    },
+    {
+      "word": "promised",
+      "definition": "said firmly that you will do something"
+    },
+    {
+      "word": "anger",
+      "definition": "a strong feeling of being cross"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Why did Leo wake up early?",
+      "options": [
+        "Someone was drilling in the flat above.",
+        "His alarm was under the bed.",
+        "A dog was in the kitchen.",
+        "The tea kettle broke."
+      ],
+      "correctAnswer": "Someone was drilling in the flat above.",
+      "explanation": "The first sentence gives the reason.",
+      "supportingSentence": "Leo woke up before his alarm because someone was drilling in the flat above.",
+      "skill": "detail"
+    },
+    {
+      "question": "What was Nora doing?",
+      "options": [
+        "putting up a shelf",
+        "painting the stairs",
+        "moving house",
+        "washing a car"
+      ],
+      "correctAnswer": "putting up a shelf",
+      "explanation": "She told Leo about the shelf.",
+      "supportingSentence": "She said she was putting up a shelf before work and did not know the sound was so loud.",
+      "skill": "detail"
+    },
+    {
+      "question": "When did Nora promise to start the next day?",
+      "options": [
+        "at nine",
+        "at six",
+        "at midnight",
+        "at noon only on Sunday"
+      ],
+      "correctAnswer": "at nine",
+      "explanation": "She promised to wait until nine.",
+      "supportingSentence": "She promised to wait until nine the next day.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does anger mean?",
+      "options": [
+        "a strong feeling of being cross",
+        "a kind of breakfast",
+        "a quiet morning",
+        "a new shelf"
+      ],
+      "correctAnswer": "a strong feeling of being cross",
+      "explanation": "The last sentence contrasts a calm talk with anger.",
+      "supportingSentence": "A calm talk had worked better than anger.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Leo write a note before he knocked?",
+      "options": [
+        "He did not want to shout.",
+        "He could not find the stairs.",
+        "Nora asked for a letter.",
+        "The drill was in his bag."
+      ],
+      "correctAnswer": "He did not want to shout.",
+      "explanation": "The story says he did not want to shout, so he wrote.",
+      "supportingSentence": "Leo did not want to shout.",
+      "skill": "inference"
+    }
+  ],
+  "file": "b1-a.txt"
+}

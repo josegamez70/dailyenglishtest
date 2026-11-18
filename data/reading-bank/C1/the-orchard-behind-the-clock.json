@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "fantasy",
+  "title": "The Orchard behind the Clock",
+  "story": "Behind the town clock, if a person slipped through the narrow door marked for the keeper and did not stop at the weights, there was an orchard that the street had no business containing. The trees grew in rows that followed the gears. Apples hung on the hour side, pears on the quarter, and a single dark plum ripened only when the clock had been allowed to run a little slow. Children were not supposed to know. Children knew.\n\nThe keeper, Maud, wound the mechanism each evening with a key as long as her forearm. Time, in that town, was not a river. It was a store of hours that had to be lifted. When she wound too tightly, the apples blushed before they were sweet, and people who ate them arrived early to appointments that had not begun. When she wound too lightly, the pears stayed hard, and the afternoon stretched until errands forgot why they had been started. Maud had learned to stop at the sound the spring made, a low note that meant enough and not more.\n\nOne October the key broke. The clock continued for a day on what it had already been given, and then the hands began to hesitate, as if embarrassed. Fruit loosened and fell all at once, sweet and brown at the edges, and the town discovered how many of its courtesies depended on a promise the tower had been keeping. Bread cooled at the wrong hour. The school bell and the train disagreed. Maud went into the orchard with a basket and a quieter fear than she showed. The trees were not dying. They were spending, in a rush, the time she could no longer portion out.\n\nShe repaired the key with a pin and a great deal of patience. She oiled the pin, tested the turn, and listened for the low note before she trusted the key again. She did not wind the clock all the way back to pride. A little slowness, she decided, was a tax the town could pay in exchange for fruit that tasted of the day it was picked. The plum, which had waited through the whole emergency, darkened at last. Maud left it on the sill for whoever came to complain about the minutes. Most of them ate it without noticing the bargain. That was all right. An orchard behind a clock does not require belief. It requires a hand willing to stop before the spring is hurt, and a town willing to live inside the hours it can actually carry.",
+  "vocabulary": [
+    {
+      "word": "containing",
+      "definition": "Holding something inside a space."
+    },
+    {
+      "word": "mechanism",
+      "definition": "The working parts of the clock."
+    },
+    {
+      "word": "portion",
+      "definition": "To share something out in measured amounts."
+    },
+    {
+      "word": "hesitate",
+      "definition": "To pause, as if unsure about going on."
+    },
+    {
+      "word": "courtesies",
+      "definition": "The small polite timings of ordinary shared life."
+    },
+    {
+      "word": "bargain",
+      "definition": "An exchange in which each side gives something up."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Why does the writer follow the secret with the fact that children know it?",
+      "options": [
+        "To warn readers that the keeper's door stays locked",
+        "To prove that Maud has forgotten how to get in",
+        "To show the orchard is a secret the town only pretends to keep",
+        "To explain why the single dark plum never ripens"
+      ],
+      "correctAnswer": "To show the orchard is a secret the town only pretends to keep",
+      "explanation": "The short correction shows that the forbidden orchard is already known, whatever the rule says.",
+      "supportingSentence": "Children knew.",
+      "skill": "intent"
+    },
+    {
+      "question": "What happens to daily life when the key breaks?",
+      "options": [
+        "The trees die and the town gives up fruit altogether",
+        "Ordinary timings slip because the stored hours run out",
+        "The train leaves early and the school closes forever",
+        "People reach appointments before any apple has colour"
+      ],
+      "correctAnswer": "Ordinary timings slip because the stored hours run out",
+      "explanation": "Bread, the school bell, and the train all lose their shared timing once the tower cannot portion out its hours.",
+      "supportingSentence": "Fruit loosened and fell all at once, sweet and brown at the edges, and the town discovered how many of its courtesies depended on a promise the tower had been keeping.",
+      "skill": "inference"
+    },
+    {
+      "question": "Which fruit grows on the hour side?",
+      "options": [
+        "The pears",
+        "The dark plum",
+        "The late figs",
+        "The apples"
+      ],
+      "correctAnswer": "The apples",
+      "explanation": "Apples hang on the hour side, pears on the quarter, and the plum only when the clock runs a little slow.",
+      "supportingSentence": "Apples hung on the hour side, pears on the quarter, and a single dark plum ripened only when the clock had been allowed to run a little slow.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why does Maud refuse to wind the clock all the way back?",
+      "options": [
+        "A little delay keeps the fruit tied to the day it is picked",
+        "A tighter spring would drop the plum before morning",
+        "The repaired pin cannot lift a full store of hours",
+        "The children have asked her to stop the town completely"
+      ],
+      "correctAnswer": "A little delay keeps the fruit tied to the day it is picked",
+      "explanation": "She accepts a little slowness as the price of fruit that still tastes of the day it was picked.",
+      "supportingSentence": "A little slowness, she decided, was a tax the town could pay in exchange for fruit that tasted of the day it was picked.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does \"portion\" mean in this story?",
+      "options": [
+        "Eat something quickly before it turns brown",
+        "Hide it in a basket beneath the trees",
+        "Share it out in measured amounts",
+        "Repair it with a pin and a little oil"
+      ],
+      "correctAnswer": "Share it out in measured amounts",
+      "explanation": "To portion the time out is to give it in controlled shares, which she cannot do while the key is broken.",
+      "supportingSentence": "They were spending, in a rush, the time she could no longer portion out.",
+      "skill": "vocabulary"
+    }
+  ]
+}

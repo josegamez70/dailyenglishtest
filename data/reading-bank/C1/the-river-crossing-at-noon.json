@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "adventure",
+  "title": "The River Crossing at Noon",
+  "story": "By late morning the river had stopped looking like the river they had camped beside. Overnight it had been a clear run over pale stones, cold enough to ache and shallow enough that Ellis had crossed it in boots just to fill the pots. At noon it was a different animal. Snowmelt from the high basins had arrived all at once, and the water ran brown, shouldering against the bank and tugging at the exposed roots of a leaning pine. The ford they had marked on the map was still there in the sense that the map had not moved. The stones that made it a ford were not.\n\nEllis and Ruth stood on a gravel bar and watched a branch go past. It did not drift. It travelled, and where the channel bent it stood on end for a moment before the current took it under. Ruth threw a larger stick to the place they had intended to cross. The stick did not reach the far bank. It slid sideways and disappeared into the white seam where two currents met. That was enough measurement for her. Speed, depth, and the colour of the water were three arguments, and none of them was on their side.\n\nEllis felt the day pressing. The pass on the far side was the reason they had carried the extra food, and a delay here would mean a night in the open or a retreat down a valley they already knew. He waded in to the knee, roped, and felt the push arrive later than his eyes had promised, a soft heavy hand at the back of the leg. When he lifted his boot the gravel rolled. He came out without speaking, which Ruth understood as the end of the experiment. Pride could suggest a second try. The river had already given its answer.\n\nThey moved upstream to a place where the water widened and slowed, and they waited. Waiting looked like idleness from a distance. Up close it was work: drying boots, checking the rope, eating a little, and watching the colour thin as the afternoon cooled the high snow. Near evening the branch they threw landed, tumbled, and came to rest against a rock they could see. They crossed then, one at a time, facing upstream, each step searched for before it was trusted. On the far side Ruth emptied her boots and laughed once, not because the delay had been funny, but because they still had a day to spend and a river behind them that had not been allowed to spend it for them.",
+  "vocabulary": [
+    {
+      "word": "snowmelt",
+      "definition": "Water released when snow higher up begins to thaw."
+    },
+    {
+      "word": "ford",
+      "definition": "A shallow place where a river can be crossed on foot."
+    },
+    {
+      "word": "current",
+      "definition": "The moving force of water flowing in a channel."
+    },
+    {
+      "word": "gravel",
+      "definition": "Small loose stones on a riverbed or bar."
+    },
+    {
+      "word": "idleness",
+      "definition": "The appearance of doing nothing useful."
+    },
+    {
+      "word": "upstream",
+      "definition": "In the direction the water is coming from."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What reached the river around the middle of the day?",
+      "options": [
+        "A fallen pine that dammed the whole channel",
+        "A party of walkers crossing from the far bank",
+        "A night of rain that filled both cooking pots",
+        "A sudden load of meltwater from the high basins"
+      ],
+      "correctAnswer": "A sudden load of meltwater from the high basins",
+      "explanation": "Snowmelt from the high basins arrives all at once and turns the clear river brown and strong.",
+      "supportingSentence": "Snowmelt from the high basins had arrived all at once, and the water ran brown, shouldering against the bank and tugging at the exposed roots of a leaning pine.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does \"ford\" mean in this story?",
+      "options": [
+        "A shallow crossing they had marked for walkers",
+        "A rope bridge hung above the brown water",
+        "A gravel camp on the bank nearest their tent",
+        "A deep bend where floating branches vanish"
+      ],
+      "correctAnswer": "A shallow crossing they had marked for walkers",
+      "explanation": "The ford is the crossing marked on their map, even though the stones that made it usable have disappeared.",
+      "supportingSentence": "The ford they had marked on the map was still there in the sense that the map had not moved.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does Ruth treat the thrown stick as a measurement?",
+      "options": [
+        "It proves the far bank is only one step away",
+        "Its path shows a person would be swept off the crossing",
+        "It marks a hidden bridge under the brown water",
+        "It shows the wind is stronger than the river"
+      ],
+      "correctAnswer": "Its path shows a person would be swept off the crossing",
+      "explanation": "The stick slides off the line and vanishes where two currents meet, so the crossing would take a walker too.",
+      "supportingSentence": "It slid sideways and disappeared into the white seam where two currents met.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why does the writer list the small jobs of waiting?",
+      "options": [
+        "To suggest they have forgotten the river entirely",
+        "To explain why the extra food has already run out",
+        "To show that patience here is active care, not laziness",
+        "To prove that Ruth wanted to wade across at once"
+      ],
+      "correctAnswer": "To show that patience here is active care, not laziness",
+      "explanation": "From far away the wait looks idle, but the list shows them drying, checking, and watching the water change.",
+      "supportingSentence": "Up close it was work: drying boots, checking the rope, eating a little, and watching the colour thin as the afternoon cooled the high snow.",
+      "skill": "intent"
+    },
+    {
+      "question": "What does the evening branch tell them?",
+      "options": [
+        "The rock on the far side has blocked the whole river",
+        "Their rope is finally dry enough to be packed away",
+        "The noon melt is about to rise for a second time",
+        "The water has calmed enough for a careful crossing"
+      ],
+      "correctAnswer": "The water has calmed enough for a careful crossing",
+      "explanation": "This branch stays visible against a rock, unlike the stick at noon, and only then do they cross.",
+      "supportingSentence": "Near evening the branch they threw landed, tumbled, and came to rest against a rock they could see.",
+      "skill": "inference"
+    }
+  ]
+}

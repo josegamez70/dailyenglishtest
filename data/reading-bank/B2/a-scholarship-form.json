@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "school_college",
+  "title": "A Scholarship Form",
+  "story": "Yasmin sat at the kitchen table with the scholarship form open and a stack of documents beside it. The award would cover part of her college fees, although the guidance notes made the process look more complicated than the advert had suggested. She had to explain her studies, her work in a care home, and why the money would change what she could manage next year. There was also a section about household income, which she could not complete alone.\n\nHer mother found the wage slips, but one month was missing. However, Yasmin did not want to guess. The form warned that unclear figures could delay a decision or cause an offer to be withdrawn, so she phoned the care home and asked the office to confirm the missing amount in writing. While she waited, she drafted the personal statement. The first version sounded like a list of hardships, and she deleted it after reading it aloud. A tutor had advised her to describe a specific responsibility, then connect it to the course she wanted to continue.\n\nThe statement that remained was more concrete. She wrote about learning to record medication carefully, about speaking calmly with families, and about the evening classes she attended after shifts. She then asked her supervisor, Nora Park, to be a referee. Nora agreed, but she needed the form at least ten days before the deadline because she was going on leave. Yasmin sent the request that afternoon, together with the course title and a short reminder of the work they had shared.\n\nThe income letter arrived two days later. Yasmin checked every box, saved a copy, and asked her mother to read the figures aloud while she compared them with the slips. They found one date written in the wrong month and corrected it before uploading the file. On the bus to college she felt anxious rather than confident, even though the application was complete, honest, and on time, which for the moment was enough.",
+  "vocabulary": [
+    {
+      "word": "scholarship",
+      "definition": "Money given to help someone pay for study."
+    },
+    {
+      "word": "complicated",
+      "definition": "Hard to manage because it has many parts."
+    },
+    {
+      "word": "withdrawn",
+      "definition": "Taken back or cancelled."
+    },
+    {
+      "word": "concrete",
+      "definition": "Based on real details rather than general claims."
+    },
+    {
+      "word": "referee",
+      "definition": "A person asked to give an official opinion of your work."
+    },
+    {
+      "word": "anxious",
+      "definition": "Worried and unable to relax."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What does withdrawn mean in this story?",
+      "options": [
+        "Taken back or cancelled",
+        "Paid earlier than usual",
+        "Checked for spelling",
+        "Signed by a supervisor"
+      ],
+      "correctAnswer": "Taken back or cancelled",
+      "explanation": "The form warns that an offer can be withdrawn if the figures are unclear, meaning the offer can be cancelled.",
+      "supportingSentence": "The form warned that unclear figures could delay a decision or cause an offer to be withdrawn, so she phoned the care home and asked the office to confirm the missing amount in writing.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What would the award help Yasmin to pay?",
+      "options": [
+        "Her mother's rent for the year",
+        "A new uniform for the care home",
+        "Part of her fees at college",
+        "The referee's travel costs"
+      ],
+      "correctAnswer": "Part of her fees at college",
+      "explanation": "The award would cover part of her college fees, not her household bills or anyone else's travel.",
+      "supportingSentence": "The award would cover part of her college fees, although the guidance notes made the process look more complicated than the advert had suggested.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the phone call to the care home show about Yasmin?",
+      "options": [
+        "She would rather wait for a written figure than risk an inaccurate form",
+        "She hopes the office will invent a higher wage",
+        "She wants the care home to pay her fees directly",
+        "She has decided to leave the income section empty"
+      ],
+      "correctAnswer": "She would rather wait for a written figure than risk an inaccurate form",
+      "explanation": "She refuses to guess, because unclear figures could delay a decision or lead to an offer being cancelled, and she asks for the amount in writing.",
+      "supportingSentence": "The form warned that unclear figures could delay a decision or cause an offer to be withdrawn, so she phoned the care home and asked the office to confirm the missing amount in writing.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why did Nora need the request well before the closing date?",
+      "options": [
+        "She had already finished the personal statement",
+        "The college had lost her address",
+        "She wanted Yasmin to choose another course",
+        "She was going on leave before the deadline"
+      ],
+      "correctAnswer": "She was going on leave before the deadline",
+      "explanation": "Nora agreed to be a referee, but she needed the form at least ten days early because she was going on leave.",
+      "supportingSentence": "Nora agreed, but she needed the form at least ten days before the deadline because she was going on leave.",
+      "skill": "detail"
+    },
+    {
+      "question": "What is suggested by Yasmin's feelings on the way to college?",
+      "options": [
+        "Finishing the form honestly has not taken away her worry",
+        "She is sure the money has already been awarded",
+        "She is celebrating a payment that arrived that morning",
+        "She missed the deadline on purpose"
+      ],
+      "correctAnswer": "Finishing the form honestly has not taken away her worry",
+      "explanation": "She still feels anxious rather than confident, even though the application is complete, honest, and on time.",
+      "supportingSentence": "On the bus to college she felt anxious rather than confident, even though the application was complete, honest, and on time, which for the moment was enough.",
+      "skill": "inference"
+    }
+  ]
+}

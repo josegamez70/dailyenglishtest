@@ -1,0 +1,99 @@
+{
+  "level": "B1",
+  "topic": "economy_finance",
+  "title": "The Charity Bake Sale",
+  "story": "Students at West Hill School held a bake sale for the town clinic. Hana brought a lemon cake, and Oscar brought bags of cookies. They set two tables in the hall and wrote the prices on cards. A slice of cake cost two euros, and a bag of cookies cost one euro. Their teacher said the goal was eighty euros.\n\nBy noon the cookies were selling quickly, but the cake was selling slowly. A younger pupil wanted a slice and had only one euro. Hana looked at the quiet table and chose to lower the cake price for the last hour. She crossed out the old number and wrote one euro on the card. Oscar worried that the class would miss the goal.\n\nAt the end of the day they counted the cash box. The cookies had brought forty-six euros. The cake had brought thirty-nine euros. The total was eighty-five euros. The lower price had brought more buyers, so the cake earned more than Oscar expected. Parents bought extra bags on the way out of school. Hana kept a list so the class could see the total grow. The class put the notes and coins into an envelope for the clinic. The next morning the clinic sent a short letter of thanks. Oscar admitted that the new price had been a good idea. The students decided to hold another sale before the winter holiday.",
+  "vocabulary": [
+    {
+      "word": "sale",
+      "definition": "An event where people sell things."
+    },
+    {
+      "word": "goal",
+      "definition": "The amount they hoped to collect."
+    },
+    {
+      "word": "price",
+      "definition": "How much something costs."
+    },
+    {
+      "word": "counted",
+      "definition": "Added things up to find the number."
+    },
+    {
+      "word": "earned",
+      "definition": "Got money from selling something."
+    },
+    {
+      "word": "envelope",
+      "definition": "A paper cover for a letter or for money."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How much did the teacher want the class to collect?",
+      "options": [
+        "Eighty euros",
+        "Two euros",
+        "Forty-six euros",
+        "Thirty-nine euros"
+      ],
+      "correctAnswer": "Eighty euros",
+      "explanation": "The teacher said the goal was eighty euros.",
+      "supportingSentence": "Their teacher said the goal was eighty euros.",
+      "skill": "detail"
+    },
+    {
+      "question": "What new amount did Hana write on the cake card?",
+      "options": [
+        "One euro",
+        "Two euros",
+        "Eighty euros",
+        "Eighty-five euros"
+      ],
+      "correctAnswer": "One euro",
+      "explanation": "She changed the card and wrote one euro.",
+      "supportingSentence": "She crossed out the old number and wrote one euro on the card.",
+      "skill": "detail"
+    },
+    {
+      "question": "How much money came from the cookies?",
+      "options": [
+        "Forty-six euros",
+        "Thirty-nine euros",
+        "Eighty euros",
+        "One euro"
+      ],
+      "correctAnswer": "Forty-six euros",
+      "explanation": "The cookies brought forty-six euros.",
+      "supportingSentence": "The cookies had brought forty-six euros.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what is an envelope?",
+      "options": [
+        "A paper cover used to hold money",
+        "A card that shows a price",
+        "A letter of thanks from the clinic",
+        "A slice of lemon cake"
+      ],
+      "correctAnswer": "A paper cover used to hold money",
+      "explanation": "They put the notes and coins into an envelope.",
+      "supportingSentence": "The class put the notes and coins into an envelope for the clinic.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What can a reader conclude about Oscar's worry?",
+      "options": [
+        "The class collected more than the goal",
+        "The clinic refused the envelope",
+        "The cookies were left unsold",
+        "Hana closed the sale at noon"
+      ],
+      "correctAnswer": "The class collected more than the goal",
+      "explanation": "The goal was eighty euros, and the total was eighty-five.",
+      "supportingSentence": "The total was eighty-five euros.",
+      "skill": "inference"
+    }
+  ]
+}

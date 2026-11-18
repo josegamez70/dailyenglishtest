@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "technology",
+  "title": "Labelling the Cables",
+  "story": "Behind the desk at Lowford Radio, a knot of black cables had grown for years. Presenters plugged in microphones by habit, and a new volunteer was told to wiggle a lead until the red light appeared. The method worked until the Saturday sports show. A cable came loose during a live interview, and the guest's voice disappeared for nearly a minute. Listeners heard only the presenter, who had to apologise and repeat the question. The station manager, Helen, decided that guessing was no longer acceptable.\n\nOn Sunday, Helen and the volunteer, Sam, unplugged nothing until they had a plan. They photographed the tangle, then traced one cable at a time from the mixer to its device. Each cable received a short label at both ends, with the same code, so a person could match them without crawling under the desk. Microphone one, the guest headphones, the backup recorder, and the studio laptop were marked in that order. In addition, they used a pale tag for sound and a dark tag for power, because joining those by mistake can cause a hum or a sudden shutdown.\n\nThe work took longer than they expected. Some cables looked identical, and one lead went nowhere, so they removed it. Nevertheless, the board was readable by the evening. Sam wrote a one-page note that listed the codes and warned people not to borrow a labelled cable for a different job. If a cable had to move, both labels had to move with it. Otherwise the system would become a fiction that nobody could trust during a live show.\n\nThe next sports show was an ordinary test. The guest sat down, Sam checked the pale tag, and the voice was clear from the first sentence. When a headphone failed, they swapped in the spare without pulling three other leads. Helen said the labels were not decoration. They were a map. A live studio cannot stop to explore a knot, so the knot has to be explained before the red light comes on.",
+  "vocabulary": [
+    {
+      "word": "tangle",
+      "definition": "A confused knot of things twisted together."
+    },
+    {
+      "word": "traced",
+      "definition": "Followed something carefully from one end to the other."
+    },
+    {
+      "word": "identical",
+      "definition": "Looking exactly the same."
+    },
+    {
+      "word": "hum",
+      "definition": "A low unwanted noise in sound equipment."
+    },
+    {
+      "word": "spare",
+      "definition": "An extra item kept ready to replace another."
+    },
+    {
+      "word": "label",
+      "definition": "A short written mark that says what something is."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How long was the guest unheard during the live interview?",
+      "options": [
+        "Until Sunday evening",
+        "For nearly a minute",
+        "For the rest of the season",
+        "For a few seconds only"
+      ],
+      "correctAnswer": "For nearly a minute",
+      "explanation": "The guest's voice disappeared for nearly a minute when a cable came loose.",
+      "supportingSentence": "A cable came loose during a live interview, and the guest's voice disappeared for nearly a minute.",
+      "skill": "detail"
+    },
+    {
+      "question": "Which leads were marked with a pale tag?",
+      "options": [
+        "The power leads only",
+        "Only the lead that went nowhere",
+        "The sound leads",
+        "Cables borrowed for another show"
+      ],
+      "correctAnswer": "The sound leads",
+      "explanation": "They used a pale tag for sound and a dark tag for power.",
+      "supportingSentence": "In addition, they used a pale tag for sound and a dark tag for power, because joining those by mistake can cause a hum or a sudden shutdown.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does \"hum\" mean in this story?",
+      "options": [
+        "A low unwanted noise in the audio",
+        "A written code at both ends of a cable",
+        "A spare headphone kept for a guest",
+        "A plan photographed on Sunday"
+      ],
+      "correctAnswer": "A low unwanted noise in the audio",
+      "explanation": "Joining sound and power by mistake can cause a hum, an unwanted low noise.",
+      "supportingSentence": "In addition, they used a pale tag for sound and a dark tag for power, because joining those by mistake can cause a hum or a sudden shutdown.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What would go wrong if a labelled lead was borrowed for another job?",
+      "options": [
+        "The red light would stay on for the whole season",
+        "Both tags would turn from pale to dark",
+        "The mixer would no longer need electricity",
+        "The labels would no longer match the real route"
+      ],
+      "correctAnswer": "The labels would no longer match the real route",
+      "explanation": "If a cable moved without its labels, the system would no longer tell the truth during a live show.",
+      "supportingSentence": "Otherwise the system would become a fiction that nobody could trust during a live show.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does the quick spare swap show about the new labels?",
+      "options": [
+        "Headphones were no longer needed in the studio",
+        "A fault could be fixed without undoing the other leads",
+        "The guest had to repeat every question",
+        "Sunday's photograph replaced the live show"
+      ],
+      "correctAnswer": "A fault could be fixed without undoing the other leads",
+      "explanation": "They swapped in the spare without pulling three other leads, which shows the labels made the fault easy to isolate.",
+      "supportingSentence": "When a headphone failed, they swapped in the spare without pulling three other leads.",
+      "skill": "inference"
+    }
+  ]
+}

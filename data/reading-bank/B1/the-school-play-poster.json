@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "school_college",
+  "title": "The School Play Poster",
+  "story": "Sofia loved art, and her teacher asked her to design the poster for the school play. The play was on Friday evening, and the poster needed the title, the date, and the time. Sofia worked in the art room after class. She chose a large sheet of yellow paper and drew a red curtain across the top. Under the curtain she wrote the title in thick black letters. Ivan, who was in the play, came in to help. He read the words aloud and noticed that the start time was missing. Sofia had painted the date, but she had forgotten seven o'clock. She laughed, because a poster that hides the time is not very useful. Ivan held the paint pot while she added the time in clear numbers. They left a white border so the words would be easy to read from the corridor. When the paint was dry, they carried the poster to the front hall. The caretaker, a quiet man called Pavel, brought a ladder and some tape. Pavel pressed the tape at each corner while Sofia held the poster straight. Students stopped to look, and one girl asked if she could bring her parents. Sofia felt proud, but she also felt glad that Ivan had checked the words. A beautiful poster still has to give the right facts. On Friday the hall was full, and the yellow poster was the first thing people saw.",
+  "vocabulary": [
+    {
+      "word": "poster",
+      "definition": "a large notice that gives information"
+    },
+    {
+      "word": "curtain",
+      "definition": "cloth that hangs across a stage"
+    },
+    {
+      "word": "border",
+      "definition": "a strip around the edge of a page"
+    },
+    {
+      "word": "caretaker",
+      "definition": "a person who looks after a building"
+    },
+    {
+      "word": "ladder",
+      "definition": "a set of steps that you can climb"
+    },
+    {
+      "word": "proud",
+      "definition": "pleased because of something you did well"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did Ivan notice was missing?",
+      "options": [
+        "the start time",
+        "the play title",
+        "the yellow paper",
+        "the school name"
+      ],
+      "correctAnswer": "the start time",
+      "explanation": "He spotted that gap when he read the words.",
+      "supportingSentence": "He read the words aloud and noticed that the start time was missing.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Pavel bring to the hall?",
+      "options": [
+        "a ladder and some tape",
+        "a red curtain",
+        "a camera",
+        "a bus ticket"
+      ],
+      "correctAnswer": "a ladder and some tape",
+      "explanation": "He used those things to hang the poster.",
+      "supportingSentence": "The caretaker, a quiet man called Pavel, brought a ladder and some tape.",
+      "skill": "detail"
+    },
+    {
+      "question": "Who asked about bringing her parents?",
+      "options": [
+        "one girl",
+        "Ivan",
+        "Pavel",
+        "Sofia's teacher"
+      ],
+      "correctAnswer": "one girl",
+      "explanation": "She stopped in the hall to ask.",
+      "supportingSentence": "Students stopped to look, and one girl asked if she could bring her parents.",
+      "skill": "detail"
+    },
+    {
+      "question": "Which word means a person who looks after a building?",
+      "options": [
+        "caretaker",
+        "poster",
+        "curtain",
+        "border"
+      ],
+      "correctAnswer": "caretaker",
+      "explanation": "Pavel had that job in the school.",
+      "supportingSentence": "The caretaker, a quiet man called Pavel, brought a ladder and some tape.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did the missing time matter so much?",
+      "options": [
+        "A beautiful poster still has to give the right facts.",
+        "The ladder was too short for Pavel.",
+        "The play was cancelled that morning.",
+        "The tape was the wrong colour."
+      ],
+      "correctAnswer": "A beautiful poster still has to give the right facts.",
+      "explanation": "Looking good was not enough without the facts.",
+      "supportingSentence": "A beautiful poster still has to give the right facts.",
+      "skill": "inference"
+    }
+  ],
+  "file": "b1-b.txt"
+}

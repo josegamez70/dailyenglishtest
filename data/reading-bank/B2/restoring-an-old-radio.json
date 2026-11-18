@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "hobbies",
+  "title": "Restoring an Old Radio",
+  "story": "The radio had belonged to Marco Benedetti's grandfather, and for years it had sat silent beneath a layer of dust. Marco had always intended to restore it, although he knew little about valves, capacitors, or the patient work of soldering. One wet Saturday he carried the wooden case into the kitchen, spread a cloth over the table, and removed the back panel with a borrowed screwdriver. The components were smaller and more delicate than he had expected. However, a diagram glued inside the lid still showed where each wire belonged, and that diagram gave him more confidence than any instructions he had watched.\n\nHe cleaned the dial first, because the numbers were cloudy and he wanted one visible sign of progress. Although several screws were rusted, they turned eventually, and the speaker cloth, which had sagged, could be tightened with a needle and strong thread. His sister Giulia looked in twice to ask whether the kitchen would smell of hot plastic, and he promised to stop if anything grew warm.\n\nBy evening the case was empty and the table was covered with neat rows. Marco felt proud and slightly alarmed, since taking an object apart is easier than persuading it to work again. He reheated the dull joints, replaced one cracked capacitor from a specialist shop, and checked every connection against the diagram. However, when he switched the set on, there was only a faint hum and a smell of warm dust.\n\nThe next morning he noticed a loose wire behind the tuning knob. He soldered it again, more carefully, and switched the radio on with the volume low. A voice came through the static, thin but unmistakable, reading a weather bulletin as if the set had never been silent. Marco laughed, then lowered the volume so that the voice would not wake Giulia. The repair was far from perfect, although the old radio had found its way back into the life of the house.",
+  "vocabulary": [
+    {
+      "word": "restore",
+      "definition": "To bring something back to a working condition."
+    },
+    {
+      "word": "valves",
+      "definition": "Parts inside some older radios that help control the signal."
+    },
+    {
+      "word": "capacitors",
+      "definition": "Small electrical parts that store a charge."
+    },
+    {
+      "word": "soldering",
+      "definition": "Joining metal parts by melting a soft metal onto them."
+    },
+    {
+      "word": "diagram",
+      "definition": "A drawing that shows how the parts fit together."
+    },
+    {
+      "word": "static",
+      "definition": "A crackling noise that gets in the way of a radio sound."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Who had owned the radio before Marco started work on it?",
+      "options": [
+        "His sister Giulia",
+        "The neighbour who lent a screwdriver",
+        "His grandfather",
+        "A specialist shop in town"
+      ],
+      "correctAnswer": "His grandfather",
+      "explanation": "The radio had belonged to Marco's grandfather.",
+      "supportingSentence": "The radio had belonged to Marco Benedetti's grandfather, and for years it had sat silent beneath a layer of dust.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Marco find behind the tuning knob the next morning?",
+      "options": [
+        "A loose wire",
+        "A cracked wooden case",
+        "A missing speaker cloth",
+        "A pool of water"
+      ],
+      "correctAnswer": "A loose wire",
+      "explanation": "He noticed a loose wire behind the tuning knob.",
+      "supportingSentence": "The next morning he noticed a loose wire behind the tuning knob.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the following morning show about Marco?",
+      "options": [
+        "He asked Giulia to finish the job",
+        "He took the radio back to the shop",
+        "He decided the diagram was useless",
+        "He was willing to continue after the first failure"
+      ],
+      "correctAnswer": "He was willing to continue after the first failure",
+      "explanation": "The set had only hummed, but the next morning he soldered the loose wire and tried again.",
+      "supportingSentence": "He soldered it again, more carefully, and switched the radio on with the volume low.",
+      "skill": "inference"
+    },
+    {
+      "question": "How did Giulia seem to feel about the repair?",
+      "options": [
+        "She wanted to sell the radio immediately",
+        "She was worried the work might smell or get too hot",
+        "She already knew how to do the repair",
+        "She told him to move the set to a shop"
+      ],
+      "correctAnswer": "She was worried the work might smell or get too hot",
+      "explanation": "Giulia asked about the smell of hot plastic, and Marco promised to stop if anything grew warm, so she was uneasy.",
+      "supportingSentence": "His sister Giulia looked in twice to ask whether the kitchen would smell of hot plastic, and he promised to stop if anything grew warm.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does restore mean in Marco's plan for the radio?",
+      "options": [
+        "Sell it while it is still dusty",
+        "Take it apart and throw the parts away",
+        "Bring it back into working condition",
+        "Paint the case a new colour"
+      ],
+      "correctAnswer": "Bring it back into working condition",
+      "explanation": "To restore the radio means to make the old set work again.",
+      "supportingSentence": "Marco had always intended to restore it, although he knew little about valves, capacitors, or the patient work of soldering.",
+      "skill": "vocabulary"
+    }
+  ]
+}

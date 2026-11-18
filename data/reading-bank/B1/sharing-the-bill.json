@@ -1,0 +1,99 @@
+{
+  "level": "B1",
+  "topic": "economy_finance",
+  "title": "Sharing the Bill",
+  "story": "Four friends ate lunch at a small cafe after a long walk. The server brought one bill for the whole table. The total was forty-eight euros. Amir said they should divide it by four, so each person would pay twelve euros. Nia disagreed. She had ordered only soup, while the others had ordered full meals and drinks.\n\nThey asked the server for a moment and read the lines together. Nia's soup cost six euros. The three meals cost twelve euros each, and the drinks cost six euros altogether. Amir had ordered two drinks, and Luis had ordered one. Petra had not ordered a drink. An equal split would make Nia and Petra pay for things they had not chosen.\n\nAmir suggested a fair share instead. Each person would pay for their own food, and each drink would be paid by the person who had it. Nia paid six euros. Petra paid twelve euros. Luis paid fourteen euros. Amir paid sixteen euros. Those amounts added up to forty-eight euros. They also left a tip of four euros, with one euro from each friend. The server said a clear bill keeps a table friendly. Nobody argued once the numbers were clear. Nia said she would rather pay her own part than argue later. They left the cafe talking about the walk, not about the money. The friends agreed to talk about the cost before they ordered next time.",
+  "vocabulary": [
+    {
+      "word": "bill",
+      "definition": "A paper that shows what you must pay."
+    },
+    {
+      "word": "total",
+      "definition": "The full amount of a bill."
+    },
+    {
+      "word": "divide",
+      "definition": "To split a number into equal parts."
+    },
+    {
+      "word": "share",
+      "definition": "The part that one person pays."
+    },
+    {
+      "word": "tip",
+      "definition": "Extra money you leave for a server."
+    },
+    {
+      "word": "amounts",
+      "definition": "Sums of money."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What was the full cost of the lunch?",
+      "options": [
+        "Forty-eight euros",
+        "Twelve euros",
+        "Six euros",
+        "Four euros"
+      ],
+      "correctAnswer": "Forty-eight euros",
+      "explanation": "The bill for the whole table was forty-eight euros.",
+      "supportingSentence": "The total was forty-eight euros.",
+      "skill": "detail"
+    },
+    {
+      "question": "What had Nia ordered?",
+      "options": [
+        "Only soup",
+        "A full meal and a drink",
+        "Two drinks",
+        "No food or drink"
+      ],
+      "correctAnswer": "Only soup",
+      "explanation": "Nia had ordered only soup.",
+      "supportingSentence": "She had ordered only soup, while the others had ordered full meals and drinks.",
+      "skill": "detail"
+    },
+    {
+      "question": "How much did Amir pay for his own order?",
+      "options": [
+        "Sixteen euros",
+        "Fourteen euros",
+        "Twelve euros",
+        "Six euros"
+      ],
+      "correctAnswer": "Sixteen euros",
+      "explanation": "Amir paid sixteen euros for his meal and drinks.",
+      "supportingSentence": "Amir paid sixteen euros.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what is a tip?",
+      "options": [
+        "Extra money left for the server",
+        "The full cost of the lunch",
+        "A way to split a meal by four",
+        "Soup ordered by one friend"
+      ],
+      "correctAnswer": "Extra money left for the server",
+      "explanation": "The friends left four euros extra for the server.",
+      "supportingSentence": "They also left a tip of four euros, with one euro from each friend.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "How did the group seem once the payment was fair?",
+      "options": [
+        "They were no longer worried about the cost",
+        "They were angry with the server",
+        "They decided never to eat together",
+        "They forgot to leave any extra money"
+      ],
+      "correctAnswer": "They were no longer worried about the cost",
+      "explanation": "They left talking about the walk, so the money problem was over.",
+      "supportingSentence": "They left the cafe talking about the walk, not about the money.",
+      "skill": "inference"
+    }
+  ]
+}

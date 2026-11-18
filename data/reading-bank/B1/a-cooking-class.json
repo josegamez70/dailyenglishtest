@@ -1,0 +1,99 @@
+{
+  "level": "B1",
+  "topic": "culture_food",
+  "title": "A Cooking Class",
+  "story": "On Thursday evening, Samir joined a cooking class in a small room above the library. He tied an apron and washed his hands at the long sink. The teacher, Noor, wrote a simple recipe on the board. They were going to make tomato pasta for two people. Samir copied the steps into his notebook so he would not forget the order.\n\nFirst, Noor showed them how to chop an onion into small pieces. Samir's pieces were uneven, but he kept the knife slow and safe. Next he measured olive oil in a spoon and warmed it in a pan. When the onion turned soft, he added chopped tomatoes and a pinch of salt. Noor told the class to let the sauce simmer, not boil hard. The bubbles stayed small, and the smell grew sweet.\n\nWhile the sauce cooked, Samir boiled pasta in a deep pot. He stirred it once so it would not stick. Noor walked around and tasted a few sauces. She said Samir needed a little more salt, then a few leaves of basil. He added them and tasted again. At the end, the students ate at the counter and compared their plates. Noor gave each person a card with the same recipe and space for notes. Samir wrote \"simmer slowly\" and \"taste before you serve\". He left the class with the card in his bag and a plan to cook the dish for his flatmate on Saturday.",
+  "vocabulary": [
+    {
+      "word": "apron",
+      "definition": "A cloth you wear to keep your clothes clean while cooking."
+    },
+    {
+      "word": "recipe",
+      "definition": "Instructions that tell you how to make a dish."
+    },
+    {
+      "word": "chop",
+      "definition": "To cut food into small pieces."
+    },
+    {
+      "word": "simmer",
+      "definition": "To cook gently, with small bubbles."
+    },
+    {
+      "word": "measured",
+      "definition": "Found or took an exact amount."
+    },
+    {
+      "word": "tasted",
+      "definition": "Tried a little food to check the flavour."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where did Samir's class meet?",
+      "options": [
+        "In a room above the library",
+        "In a tent in the park",
+        "At a bakery on Market Street",
+        "In the kitchen at a sports centre"
+      ],
+      "correctAnswer": "In a room above the library",
+      "explanation": "The cooking class was in a small room above the library.",
+      "supportingSentence": "On Thursday evening, Samir joined a cooking class in a small room above the library.",
+      "skill": "detail"
+    },
+    {
+      "question": "Which dish was the class making?",
+      "options": [
+        "Tomato pasta",
+        "Roast chicken",
+        "Bean soup",
+        "Lemon cake"
+      ],
+      "correctAnswer": "Tomato pasta",
+      "explanation": "Noor's recipe was tomato pasta for two people.",
+      "supportingSentence": "They were going to make tomato pasta for two people.",
+      "skill": "detail"
+    },
+    {
+      "question": "What serving note did Samir write on his card?",
+      "options": [
+        "Taste before you serve",
+        "Boil the sauce hard",
+        "Skip the salt",
+        "Freeze the pasta"
+      ],
+      "correctAnswer": "Taste before you serve",
+      "explanation": "Samir wrote a note to taste the food before serving it.",
+      "supportingSentence": "Samir wrote \"simmer slowly\" and \"taste before you serve\".",
+      "skill": "detail"
+    },
+    {
+      "question": "What does simmer mean in Noor's instruction?",
+      "options": [
+        "To cook gently with small bubbles",
+        "To cut an onion very quickly",
+        "To eat from another person's plate",
+        "To wash an apron in the sink"
+      ],
+      "correctAnswer": "To cook gently with small bubbles",
+      "explanation": "Noor told the class to simmer the sauce and not to boil it hard.",
+      "supportingSentence": "Noor told the class to let the sauce simmer, not boil hard.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What does Samir's Saturday plan suggest?",
+      "options": [
+        "He feels ready to cook for someone else",
+        "He wants Noor to cook at his flat",
+        "He will return the card without reading it",
+        "He has decided never to use salt"
+      ],
+      "correctAnswer": "He feels ready to cook for someone else",
+      "explanation": "He took the recipe card home and planned to cook the dish for his flatmate.",
+      "supportingSentence": "He left the class with the card in his bag and a plan to cook the dish for his flatmate on Saturday.",
+      "skill": "inference"
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "school_college",
+  "title": "A Contested Grade",
+  "story": "Amir collected the essay from the office with the mark he had feared and a comment he had not. The script sat at the lower edge of a merit, and the second page of feedback praised his reading while judging the central claim unsubstantiated. He had spent weeks on the assignment, which asked whether a city's night-bus cuts fell hardest on workers who started before dawn. What the marker, Professor Adeyemi, had not accepted was the leap from three interviews to a sentence about the city as a whole.\n\nHe requested a review the same afternoon, using the faculty form rather than a personal email. The form asked him to name the criterion he believed had been misapplied, and to avoid a general statement that the mark felt low. Amir wrote that the brief had invited a limited study, and that he had described his interviews as illustrative rather than representative. If the marker had wanted city-wide proof, the word count would not have allowed it. He attached the briefing sheet and underlined explore, which he thought signalled a narrower task than prove. He also conceded, because the rules asked students to be specific, that one paragraph stated the pattern more firmly than his sample could support.\n\nThe review took ten days. A second marker read the script without the earlier comments, then the two markers met. Their notes, which Amir was allowed to see afterwards, showed a discrepancy on a single descriptor: how far a conclusion may go beyond its evidence. Professor Adeyemi had treated the firm paragraph as a failure of method. The second marker called it a local overstatement in an otherwise controlled essay, and argued that the comment should have asked for a hedge rather than pulled the whole mark down. They agreed a modest revision. The grade moved to the middle of the same band, and a new sentence was added to the feedback, explaining that the interviews could support a claim about those workers but not about every route in the city.\n\nAmir read the revised sheet twice. He was glad the process had been documented, and dissatisfied that the original comment still called his tone assertive. The faculty letter made plain that a review could correct the application of a criterion, not rewrite the marker's taste. If he submitted a similar essay again, he would fence the final claim with the limits of the sample before anyone asked him to. The mark was fairer than it had been. It was not the mark he had imagined when he chose a question that was harder to evidence than to care about.",
+  "vocabulary": [
+    {
+      "word": "unsubstantiated",
+      "definition": "Not supported with enough evidence"
+    },
+    {
+      "word": "criterion",
+      "definition": "A standard used when judging work"
+    },
+    {
+      "word": "illustrative",
+      "definition": "Serving as an example, not as proof about everyone"
+    },
+    {
+      "word": "discrepancy",
+      "definition": "A difference between two accounts or judgements"
+    },
+    {
+      "word": "overstatement",
+      "definition": "A claim that goes further than the evidence"
+    },
+    {
+      "word": "hedge",
+      "definition": "Wording that makes a claim less absolute"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where did the mark sit after the two markers had met?",
+      "options": [
+        "In the middle of the same band",
+        "At the bottom of a lower band",
+        "Off the record until the essay was rewritten",
+        "In exactly the place first given by the marker"
+      ],
+      "correctAnswer": "In the middle of the same band",
+      "explanation": "The grade moved to the middle of the same band after a modest revision.",
+      "supportingSentence": "The grade moved to the middle of the same band, and a new sentence was added to the feedback, explaining that the interviews could support a claim about those workers but not about every route in the city.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why was the firm paragraph a problem for the first marker?",
+      "options": [
+        "It treated three interviews as if they described the whole city",
+        "It quoted sources that did not match the reading list",
+        "It ignored every limit stated on the briefing sheet",
+        "It attacked the marker in a closing footnote"
+      ],
+      "correctAnswer": "It treated three interviews as if they described the whole city",
+      "explanation": "He rejected the leap from three interviews to a claim about the city as a whole.",
+      "supportingSentence": "What the marker, Professor Adeyemi, had not accepted was the leap from three interviews to a sentence about the city as a whole.",
+      "skill": "inference"
+    },
+    {
+      "question": "What is a hedge in the comment from the second marker?",
+      "options": [
+        "Wording that stops a claim from going too far",
+        "A clean copy with the earlier mark hidden",
+        "A demand that every merit be raised",
+        "A private message sent instead of the form"
+      ],
+      "correctAnswer": "Wording that stops a claim from going too far",
+      "explanation": "The second marker wanted a limit on the claim rather than a lower mark for the whole essay.",
+      "supportingSentence": "The second marker called it a local overstatement in an otherwise controlled essay, and argued that the comment should have asked for a hedge rather than pulled the whole mark down.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer include the faculty letter about taste?",
+      "options": [
+        "To show that a review can correct a standard but not every opinion",
+        "To prove that tone was the only reason for the original mark",
+        "To suggest the first marker refused to meet the second",
+        "To argue that interviews should be banned from essays"
+      ],
+      "correctAnswer": "To show that a review can correct a standard but not every opinion",
+      "explanation": "The letter says a review can correct how a criterion was applied, not a marker's private taste.",
+      "supportingSentence": "The faculty letter made plain that a review could correct the application of a criterion, not rewrite the marker's taste.",
+      "skill": "intent"
+    },
+    {
+      "question": "Why is Amir still uneasy after the mark improves?",
+      "options": [
+        "A remark about his tone remains, even though the standard was adjusted",
+        "The second reader refused to look at the script",
+        "The new feedback pushed the grade down again",
+        "The faculty hid the notes from him"
+      ],
+      "correctAnswer": "A remark about his tone remains, even though the standard was adjusted",
+      "explanation": "He is glad the process was recorded, but the original comment still calls his tone assertive.",
+      "supportingSentence": "He was glad the process had been documented, and dissatisfied that the original comment still called his tone assertive.",
+      "skill": "inference"
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "level": "B1",
+  "topic": "mystery",
+  "title": "The Missing Lunchbox",
+  "story": "At noon Samir could not find his blue lunchbox. He had left it on the classroom shelf by the window. Inside were a sandwich, an apple, and a note from his father. The shelf was empty. He asked the class, and nobody had moved it. Then he saw a trail of tiny apple seeds on the floor. The seeds led into the hallway and stopped at the lost-and-found table.\n\nA blue box sat on that table, but the label said Sami, not Samir. A girl from the next class, Sami Ortega, was eating a sandwich that looked like his. Samir felt upset and was ready to accuse her. Their teacher asked both students to stop and open the boxes. Sami's box was blue and old. Samir's box was blue and new, and it was under a coat on a nearby chair. The coat belonged to a classmate who had not seen the box.\n\nThe apple seeds had fallen from Sami's snack while she walked. Samir's note was still inside his own box. He laughed with relief. Samir thanked Sami for waiting while the teacher checked. The two names were almost the same, and the colour had fooled him. He moved his lunchbox to the front of the shelf, where he could see it. Before the next lunch he wrote his full name in large letters on the lid.",
+  "vocabulary": [
+    {
+      "word": "lunchbox",
+      "definition": "A box you use to carry lunch."
+    },
+    {
+      "word": "shelf",
+      "definition": "A flat board on a wall for storing things."
+    },
+    {
+      "word": "trail",
+      "definition": "A line of marks you can follow."
+    },
+    {
+      "word": "label",
+      "definition": "A small paper that shows a name."
+    },
+    {
+      "word": "accuse",
+      "definition": "To say that someone did something wrong."
+    },
+    {
+      "word": "relief",
+      "definition": "A good feeling when a worry ends."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where had Samir left his lunchbox?",
+      "options": [
+        "On the classroom shelf by the window",
+        "On the lost-and-found table",
+        "Under a coat in the hall",
+        "In the next classroom"
+      ],
+      "correctAnswer": "On the classroom shelf by the window",
+      "explanation": "He had left it on the classroom shelf by the window.",
+      "supportingSentence": "He had left it on the classroom shelf by the window.",
+      "skill": "detail"
+    },
+    {
+      "question": "What three things were in his box?",
+      "options": [
+        "A sandwich, an apple, and a note",
+        "Only a line of apple seeds",
+        "A blue label and a coat",
+        "Cookies and a school letter"
+      ],
+      "correctAnswer": "A sandwich, an apple, and a note",
+      "explanation": "His box held a sandwich, an apple, and a note from his father.",
+      "supportingSentence": "Inside were a sandwich, an apple, and a note from his father.",
+      "skill": "detail"
+    },
+    {
+      "question": "Where was Samir's own box found?",
+      "options": [
+        "Under a coat on a nearby chair",
+        "On the lost-and-found table",
+        "In Sami's hands",
+        "Beside the window shelf"
+      ],
+      "correctAnswer": "Under a coat on a nearby chair",
+      "explanation": "His newer blue box was under a coat on a nearby chair.",
+      "supportingSentence": "Samir's box was blue and new, and it was under a coat on a nearby chair.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does accuse mean?",
+      "options": [
+        "To say someone did something wrong",
+        "To eat lunch in the hallway",
+        "To write a name on a lid",
+        "To thank a classmate"
+      ],
+      "correctAnswer": "To say someone did something wrong",
+      "explanation": "Samir was ready to accuse Sami, or say she had done something wrong.",
+      "supportingSentence": "Samir felt upset and was ready to accuse her.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Samir write his full name on the lid?",
+      "options": [
+        "He wanted to prevent the same mix-up",
+        "The teacher told him to share the apple",
+        "Sami asked him for a new box",
+        "The coat had already hidden his name"
+      ],
+      "correctAnswer": "He wanted to prevent the same mix-up",
+      "explanation": "The similar names and the blue colour had fooled him, so he made his name easy to see.",
+      "supportingSentence": "Before the next lunch he wrote his full name in large letters on the lid.",
+      "skill": "inference"
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "level": "B1",
+  "topic": "technology",
+  "title": "The Smart Kettle",
+  "story": "Grandad's new kettle could be switched on with a phone, and he was not sure he liked that. On Sunday his granddaughter Amina helped him set it up. They plugged the kettle into the wall and held a button until a blue light blinked. Amina's phone found the kettle and asked for the home network name.\n\nGrandad read the password from a card in the drawer and typed it slowly. The app said the kettle was connected. Amina chose eighty degrees, because he liked tea that was hot but not boiling. Now the app could stop at the right point. A beep told them the water was ready.\n\nOn Monday Grandad was in the garden when his phone, left on a chair, woke the kettle by accident. He had dropped the phone into his pocket without locking the screen, and the app button was easy to touch. The water had steamed for many minutes.\n\nAfter school Amina changed the settings. She turned off control from the lock screen and added a four-number code. She also set a rule that the kettle could run for only five minutes. Grandad practised the steps twice. He still liked the old switch for a quick cup, but the app was useful when he wanted tea at four o'clock. That afternoon he started it from the garden on purpose, and the beep sounded just as he came inside.",
+  "vocabulary": [
+    {
+      "word": "blinked",
+      "definition": "Flashed on and off"
+    },
+    {
+      "word": "degrees",
+      "definition": "Units used to measure how hot something is"
+    },
+    {
+      "word": "boiling",
+      "definition": "Hot enough for water to bubble hard"
+    },
+    {
+      "word": "steamed",
+      "definition": "Gave off hot water vapour"
+    },
+    {
+      "word": "settings",
+      "definition": "Choices that control how a device works"
+    },
+    {
+      "word": "code",
+      "definition": "A short secret number that opens a control"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Who helped Grandad set the kettle up on Sunday?",
+      "options": [
+        "His granddaughter Amina",
+        "A shop assistant",
+        "A neighbour from the garden",
+        "The person who built the app"
+      ],
+      "correctAnswer": "His granddaughter Amina",
+      "explanation": "On Sunday his granddaughter Amina helped him set the kettle up.",
+      "supportingSentence": "On Sunday his granddaughter Amina helped him set it up.",
+      "skill": "detail"
+    },
+    {
+      "question": "How hot did Amina set the water?",
+      "options": [
+        "Eighty degrees",
+        "Hot enough to boil",
+        "Five minutes only",
+        "Four numbers long"
+      ],
+      "correctAnswer": "Eighty degrees",
+      "explanation": "Amina chose eighty degrees because Grandad liked hot tea that was not boiling.",
+      "supportingSentence": "Amina chose eighty degrees, because he liked tea that was hot but not boiling.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does steamed mean?",
+      "options": [
+        "Gave off hot water vapour",
+        "Turned into ice",
+        "Switched itself off",
+        "Made a long song"
+      ],
+      "correctAnswer": "Gave off hot water vapour",
+      "explanation": "The water steamed for many minutes while the kettle stayed hot.",
+      "supportingSentence": "The water had steamed for many minutes.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What time limit did Amina add for the kettle?",
+      "options": [
+        "Only five minutes",
+        "The whole morning",
+        "Until the next Sunday",
+        "Four hours"
+      ],
+      "correctAnswer": "Only five minutes",
+      "explanation": "Amina set a rule that the kettle could run for only five minutes.",
+      "supportingSentence": "She also set a rule that the kettle could run for only five minutes.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did Amina most likely add a code and a short limit?",
+      "options": [
+        "To stop another start from a careless touch",
+        "To make the tea much hotter than before",
+        "To share the kettle with the whole street",
+        "To take away the switch on the handle"
+      ],
+      "correctAnswer": "To stop another start from a careless touch",
+      "explanation": "The phone started the kettle because the screen was unlocked and the button was easy to touch.",
+      "supportingSentence": "He had dropped the phone into his pocket without locking the screen, and the app button was easy to touch.",
+      "skill": "inference"
+    }
+  ]
+}

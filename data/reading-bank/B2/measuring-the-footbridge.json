@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "science",
+  "title": "Measuring the Footbridge",
+  "story": "The wooden footbridge in Sedge Park had started to feel lively underfoot. Before the summer fair used it for a queue, the parks team asked two trainees, Sofia and Jon, to measure it properly. A feeling was not enough. They needed figures they could show to the engineer who would decide whether the fair could cross there.\n\nThey began with the span, the distance from one support to the other, and checked it twice with a steel tape. They also measured the width of the walkway, because a fair queue would need room for two people to pass. The two span readings differed by four millimetres, which they judged acceptable for this job. Next they hung a small weight from the centre and measured how far the deck dropped. Jon wanted to stand in the middle and bounce. Sofia refused. An uncontrolled bounce would not be repeatable, and it might enlarge a weakness. Instead, they used the same weight, in the same place, on three calm mornings. The drop was almost identical each time.\n\nThey also recorded a side-to-side movement when a group of six volunteers walked across together. The movement was visible, although it stopped as soon as the people left the deck. Meanwhile, they photographed the posts and noted a soft board near the east end. That board was a separate fault. It did not explain the gentle drop in the centre. Mixing the two problems would have produced a confused report.\n\nSofia wrote the measurements in a table, with the date, the weather, and the method beside each number. Where a second reading disagreed, she kept both and explained the gap. Sofia also noted the air temperature, since wood can swell slightly after rain and change a tight measurement. The engineer later replaced the soft board and limited the fair queue to pairs, rather than a tight crowd. The bridge was not closed. It was understood. Accurate measuring had turned a nervous feeling into a decision that other people could check.",
+  "vocabulary": [
+    {
+      "word": "span",
+      "definition": "The distance from one support to the other."
+    },
+    {
+      "word": "millimetres",
+      "definition": "Very small units used for a precise length."
+    },
+    {
+      "word": "repeatable",
+      "definition": "Able to be done again in the same way."
+    },
+    {
+      "word": "fault",
+      "definition": "A particular thing that is wrong."
+    },
+    {
+      "word": "swell",
+      "definition": "Grow slightly larger, as wood can after rain."
+    },
+    {
+      "word": "accurate",
+      "definition": "Correct and careful, close to the real figure."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How far apart were the two span readings?",
+      "options": [
+        "Four centimetres",
+        "Four millimetres",
+        "The full width of the walkway",
+        "The length of three mornings"
+      ],
+      "correctAnswer": "Four millimetres",
+      "explanation": "The two span readings differed by four millimetres, which they judged acceptable.",
+      "supportingSentence": "The two span readings differed by four millimetres, which they judged acceptable for this job.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does saving both disagreeing readings allow?",
+      "options": [
+        "Another person can inspect the gap",
+        "The lower number can be thrown away",
+        "The steel tape can be left at home",
+        "The fair can skip every measurement"
+      ],
+      "correctAnswer": "Another person can inspect the gap",
+      "explanation": "Sofia kept both readings and explained the gap, so someone else could check the difference rather than see only one cleaned-up number.",
+      "supportingSentence": "Where a second reading disagreed, she kept both and explained the gap.",
+      "skill": "inference"
+    },
+    {
+      "question": "How did the engineer restrict the fair queue?",
+      "options": [
+        "The bridge was closed for the whole summer",
+        "Visitors bounced in the middle to test it",
+        "The queue used the soft board as a step",
+        "People crossed in pairs rather than as a crowd"
+      ],
+      "correctAnswer": "People crossed in pairs rather than as a crowd",
+      "explanation": "The engineer limited the fair queue to pairs rather than a tight crowd.",
+      "supportingSentence": "The engineer later replaced the soft board and limited the fair queue to pairs, rather than a tight crowd.",
+      "skill": "detail"
+    },
+    {
+      "question": "What mistake would come from blending the soft board with the centre drop?",
+      "options": [
+        "The steel tape would stretch in the sun",
+        "The walkway width would become the span",
+        "A local fault might be blamed for a different movement",
+        "The volunteers would refuse to cross"
+      ],
+      "correctAnswer": "A local fault might be blamed for a different movement",
+      "explanation": "The soft board was a separate fault and did not explain the centre drop, so mixing them would confuse the report.",
+      "supportingSentence": "Mixing the two problems would have produced a confused report.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does \"repeatable\" mean in this story?",
+      "options": [
+        "Likely to make a crack much larger",
+        "Possible to carry out again in the same way",
+        "Written in a table beside the weather",
+        "Closed to the public during the fair"
+      ],
+      "correctAnswer": "Possible to carry out again in the same way",
+      "explanation": "An uncontrolled bounce would not be repeatable, meaning it could not be done again in the same way.",
+      "supportingSentence": "An uncontrolled bounce would not be repeatable, and it might enlarge a weakness.",
+      "skill": "vocabulary"
+    }
+  ]
+}

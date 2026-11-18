@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "daily life",
+  "title": "The Sublet Agreement",
+  "story": "When Nadia agreed to sublet her flat for the spring, she expected the arrangement to stay simple. A colleague needed somewhere near the hospital, the dates did not clash with her research trip, and the rent would cover the months she was away. After the landlord gave only provisional consent, the building manager sent a four-page document whose clauses were more cautious than the conversation had been. One sentence, which dealt with liability for damage discovered after the subtenant left, was especially ambiguous. Nadia read it twice and still could not tell whether a mark on the hallway carpet would be charged to her or to the person who had been living there.\n\nThe subtenant, Marco, arrived with two suitcases and a careful inventory of everything already in the flat. He photographed the kettle, the curtains, and a hairline crack above the bathroom window. Nadia appreciated the caution, although she felt faintly inspected in her own home. They initialled each page, and she kept a copy in the drawer where the original lease lay. Before leaving, she explained which window stuck in damp weather and which neighbour objected if shoes were left in the corridor. Marco took notes and said he would write if any instruction proved unclear.\n\nThree weeks later an email reached her abroad. A pipe under the sink had leaked overnight, soaking the cabinet and warping two shelves. Marco had called a plumber, paid the call-out fee, and asked whether the cost could come from the deposit, which the landlord held in Nadia's name. The agreement mentioned urgent repairs, yet it never said who could authorise them when the named tenant was in another country. Nadia replied that he had acted reasonably, then forwarded the photographs and the receipt. The landlord answered that the deposit could not fund a repair nobody had approved in advance, and that any shortfall would remain her responsibility until the sublet ended.\n\nShe compared the clause with the lease for most of an evening. If the leak had come from Marco's negligence, she would have asked him to pay. The plumber's note, however, described a worn joint that would have failed no matter who was living there. She proposed a compromise. Marco would replace the shelves he had loaded with books, she would pay the plumber, and the landlord would inspect the pipe before anyone mentioned the deposit again. Both men accepted, although the landlord added that further consent would depend on clearer wording. Nadia saved the exchange. If she sublet the flat again, she would refuse any agreement whose key sentence could be read in two ways.",
+  "vocabulary": [
+    {
+      "word": "provisional",
+      "definition": "Temporary, and not yet a final decision"
+    },
+    {
+      "word": "liability",
+      "definition": "Legal responsibility when something goes wrong"
+    },
+    {
+      "word": "ambiguous",
+      "definition": "Able to be understood in more than one way"
+    },
+    {
+      "word": "inventory",
+      "definition": "A careful list of items"
+    },
+    {
+      "word": "negligence",
+      "definition": "A failure to take proper care"
+    },
+    {
+      "word": "compromise",
+      "definition": "An agreement in which each side gives something up"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did Marco record as soon as he arrived at the flat?",
+      "options": [
+        "A careful list of the things already there",
+        "A claim for the cost of the plumber",
+        "A request that the landlord rewrite every clause",
+        "A complaint about shoes left in the corridor"
+      ],
+      "correctAnswer": "A careful list of the things already there",
+      "explanation": "He arrived with an inventory of everything already in the flat, and he photographed the details.",
+      "supportingSentence": "The subtenant, Marco, arrived with two suitcases and a careful inventory of everything already in the flat.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did a leaking pipe turn into an argument about who should pay?",
+      "options": [
+        "The written rules never said who could approve an urgent repair",
+        "Marco hid the receipt and refused to name the plumber",
+        "The landlord had already paid the deposit back to Marco",
+        "The building manager blamed a stain on the hallway carpet"
+      ],
+      "correctAnswer": "The written rules never said who could approve an urgent repair",
+      "explanation": "The agreement mentioned urgent repairs but not who could authorise them while Nadia was abroad.",
+      "supportingSentence": "The agreement mentioned urgent repairs, yet it never said who could authorise them when the named tenant was in another country.",
+      "skill": "inference"
+    },
+    {
+      "question": "In the damage clause, what does ambiguous tell us?",
+      "options": [
+        "The wording could be read in more than one way",
+        "The deposit had already been returned in full",
+        "The photographs were too dark to use as proof",
+        "The landlord had refused consent in writing"
+      ],
+      "correctAnswer": "The wording could be read in more than one way",
+      "explanation": "Nadia still could not tell who would be charged for a mark on the carpet.",
+      "supportingSentence": "One sentence, which dealt with liability for damage discovered after the subtenant left, was especially ambiguous.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What remains true of Nadia after Marco moves in?",
+      "options": [
+        "The landlord can still leave unpaid costs with her",
+        "Marco replaces her as the only named tenant",
+        "The deposit may be spent the moment a pipe leaks",
+        "The neighbour must pay for any worn joint"
+      ],
+      "correctAnswer": "The landlord can still leave unpaid costs with her",
+      "explanation": "Any shortfall stayed her responsibility until the sublet ended, even though Marco was living there.",
+      "supportingSentence": "The landlord answered that the deposit could not fund a repair nobody had approved in advance, and that any shortfall would remain her responsibility until the sublet ended.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why does the writer end with Nadia thinking about another sublet?",
+      "options": [
+        "To show that she now sees unclear wording as a risk",
+        "To prove that the landlord had broken the law",
+        "To suggest that Marco should manage the building",
+        "To argue that tenants should avoid travelling"
+      ],
+      "correctAnswer": "To show that she now sees unclear wording as a risk",
+      "explanation": "She decides she would refuse a future agreement if its key sentence could be read in two ways.",
+      "supportingSentence": "If she sublet the flat again, she would refuse any agreement whose key sentence could be read in two ways.",
+      "skill": "intent"
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "hobbies",
+  "title": "A Chess Tournament",
+  "story": "The town hall had been rearranged for the weekend tournament, with boards on long tables and a silence heavier than the usual market-day noise. Jonah Adler had played club chess for three years, although he had never sat where a loss would send him out before lunch. The arbiter, a precise woman named Samira Qureshi, reminded everyone that phones must be off and that a fallen flag ended the game even if the position looked winning. However, she also smiled, which suggested that the rules were meant to protect the games rather than frighten the players.\n\nJonah's opponent was a teenager named Felix Navarro, whose rating was slightly higher and whose opening moves came without hesitation. Felix developed quickly and offered a pawn that Jonah declined, because he suspected a trap he could not yet see. Although the position stayed solid, Jonah spent too long on one recapture and then had to move faster than he liked. Felix watched the board, not his opponent, and that calm was more unsettling than any sharp remark. When the queens were exchanged, the ending favoured Felix and his extra pawn.\n\nJonah defended with king and rook, and for several moves he believed a draw was still possible. However, a small inaccuracy allowed the opposing king onto a more active square, and after that the defence was a matter of delay rather than hope. He resigned when the pawn could no longer be stopped. Felix offered his hand at once, and the handshake was brief, respectful, and free of triumph.\n\nIn the corridor Jonah bought tea and wrote the game down before the details faded. Samira, passing with a bundle of result slips, told him that a first-round loss did not remove him from the weekend. The tournament paired winners with winners and gave everyone else another board. Jonah nodded, surprised by his own relief. He had come fearing embarrassment, although the morning had taught him something more useful: he could lose clearly, record the reason, and sit down again.",
+  "vocabulary": [
+    {
+      "word": "tournament",
+      "definition": "A competition made up of a series of games."
+    },
+    {
+      "word": "arbiter",
+      "definition": "An official who makes sure the rules are followed."
+    },
+    {
+      "word": "recapture",
+      "definition": "A move that takes back a piece the opponent has just taken."
+    },
+    {
+      "word": "inaccuracy",
+      "definition": "A small mistake."
+    },
+    {
+      "word": "resigned",
+      "definition": "Accepted defeat and stopped the game."
+    },
+    {
+      "word": "embarrassment",
+      "definition": "A feeling of awkward shame."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Who reminded the players about phones and time flags?",
+      "options": [
+        "Felix Navarro",
+        "A seller in the corridor",
+        "Samira Qureshi",
+        "The player with the highest rating"
+      ],
+      "correctAnswer": "Samira Qureshi",
+      "explanation": "Samira Qureshi, the arbiter, reminded everyone about phones and a fallen flag.",
+      "supportingSentence": "The arbiter, a precise woman named Samira Qureshi, reminded everyone that phones must be off and that a fallen flag ended the game even if the position looked winning.",
+      "skill": "detail"
+    },
+    {
+      "question": "When did Jonah stop the game?",
+      "options": [
+        "When a pawn could no longer be stopped",
+        "When the arbiter said his time was gone",
+        "When Felix offered to share the point",
+        "Before either player had moved"
+      ],
+      "correctAnswer": "When a pawn could no longer be stopped",
+      "explanation": "Jonah resigned when the pawn could no longer be stopped.",
+      "supportingSentence": "He resigned when the pawn could no longer be stopped.",
+      "skill": "detail"
+    },
+    {
+      "question": "What disadvantage did Jonah create during the game?",
+      "options": [
+        "He knocked the clock off the table",
+        "He spent so long on one move that he had to hurry afterwards",
+        "He refused to write any moves down",
+        "He let Felix choose both colours"
+      ],
+      "correctAnswer": "He spent so long on one move that he had to hurry afterwards",
+      "explanation": "He spent too long on one recapture and then had to move faster than he liked.",
+      "supportingSentence": "Although the position stayed solid, Jonah spent too long on one recapture and then had to move faster than he liked.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why did Jonah write the game down in the corridor?",
+      "options": [
+        "Samira needed the sheet for a prize",
+        "Felix had asked for a copy",
+        "He hoped the result could be changed",
+        "He wanted to keep the moves before they slipped away"
+      ],
+      "correctAnswer": "He wanted to keep the moves before they slipped away",
+      "explanation": "He wrote the game down before the details faded, so he would still remember how it had gone.",
+      "supportingSentence": "In the corridor Jonah bought tea and wrote the game down before the details faded.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does inaccuracy mean in the account of the game?",
+      "options": [
+        "A broken piece on the board",
+        "A prize given to the winner",
+        "A small mistake in the play",
+        "A rule against ending the game"
+      ],
+      "correctAnswer": "A small mistake in the play",
+      "explanation": "An inaccuracy is a small mistake, and here it let the other king become more active.",
+      "supportingSentence": "However, a small inaccuracy allowed the opposing king onto a more active square, and after that the defence was a matter of delay rather than hope.",
+      "skill": "vocabulary"
+    }
+  ]
+}

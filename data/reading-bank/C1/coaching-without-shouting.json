@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "health_sports",
+  "title": "Coaching without Shouting",
+  "story": "The first time Coach Renata Solano stopped shouting, it was not yet a philosophy. It was a Thursday, and the point guard, Mina Darroch, had missed a layup, heard her name across the hall, and played the next twelve minutes as if the basket were a rumour. Renata saw the shutdown and heard her own voice still hanging in the rafters. After practice she apologised, which startled the assistant, Pavel Romic, more than the missed shots had. Pavel had learned the game in a gym where volume meant care. He was not cruel. He was unconvinced that quiet could carry across thirteen teenagers and a wooden floor.\n\nRenata spent the weekend rewriting the session rather than the slogans on the wall. She divided the squad into pairs, moved the corrective talk to the sideline, and gave the whole group one public target at a time. If the defence arrived late, she stopped the play, asked the pair what they had seen, and restarted. Praise, when she offered it, named an action. Criticism, when it was required, waited until the player could answer. Mina's shoulders dropped by the second drill. She missed another layup and stayed in the action, which Renata privately counted as the better result.\n\nPavel kept a tally because he did not trust impressions. At the end of the week the same press that had collapsed under noise was holding for three more seconds, and hurried passes were turning the ball over less often. He admitted the numbers, then asked what they would do when a final was loud and a parent was already shouting from the rail. Renata did not promise a silent career. She said the hall would sometimes need a raised voice for safety or for a call, and that raised was not the same as humiliating. The difference, she told him, was whether the player could use the sentence in the next possession.\n\nThey tested the distinction in a messy scrimmage on Sunday, with a crowd of siblings and a father who believed encouragement should be audible from the car park. Renata met him at the rail once, asked him to help by keeping still, and returned to the floor before the request became a speech. Mina turned the ball over, looked across, and received a signal rather than a verdict. After the buzzer Pavel said the gym had not become soft. It had become specific. Renata wrote that word in the margin of her plan, because specificity gave the players somewhere to put their effort, whereas volume had only given them somewhere to hide.",
+  "vocabulary": [
+    {
+      "word": "shutdown",
+      "definition": "A sudden withdrawal from the game after public criticism."
+    },
+    {
+      "word": "corrective",
+      "definition": "Meant to put a mistake right."
+    },
+    {
+      "word": "impressions",
+      "definition": "General feelings, rather than counted results."
+    },
+    {
+      "word": "humiliating",
+      "definition": "Shaming a person, especially in front of others."
+    },
+    {
+      "word": "scrimmage",
+      "definition": "A practice match that is not a formal game."
+    },
+    {
+      "word": "specificity",
+      "definition": "Exactness about what a player should do next."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How did Mina respond after her name was called across the hall?",
+      "options": [
+        "She played as if the basket were no longer quite real",
+        "She left the gym before the session ended",
+        "She took over the instructions from Renata",
+        "She scored on every possession after that"
+      ],
+      "correctAnswer": "She played as if the basket were no longer quite real",
+      "explanation": "After missing a layup and hearing her name, she played the next twelve minutes as if the basket were a rumour.",
+      "supportingSentence": "It was a Thursday, and the point guard, Mina Darroch, had missed a layup, heard her name across the hall, and played the next twelve minutes as if the basket were a rumour.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did Renata count Mina's second missed layup as the better result?",
+      "options": [
+        "The slogans on the wall had finally been memorised",
+        "Mina stayed in the action instead of disappearing after the mistake",
+        "Pavel had told the squad that the score no longer mattered",
+        "The defence had been removed from the drill"
+      ],
+      "correctAnswer": "Mina stayed in the action instead of disappearing after the mistake",
+      "explanation": "Earlier criticism had made Mina withdraw, so remaining in the play after another miss mattered more than the miss itself.",
+      "supportingSentence": "She missed another layup and stayed in the action, which Renata privately counted as the better result.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why did Pavel's tally matter to the argument about the quieter sessions?",
+      "options": [
+        "It gave a doubtful assistant evidence he would not dismiss as a mood",
+        "It showed that nobody missed another shot all week",
+        "It proved that parents should shout from the rail",
+        "It measured how far Mina could throw the ball"
+      ],
+      "correctAnswer": "It gave a doubtful assistant evidence he would not dismiss as a mood",
+      "explanation": "Pavel did not trust impressions, and the count later showed the press lasting longer and hurried passes failing less often.",
+      "supportingSentence": "Pavel kept a tally because he did not trust impressions.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does humiliating mean in Renata's contrast with a raised voice?",
+      "options": [
+        "Speaking loudly enough to stop a dangerous play",
+        "Shaming a player instead of giving a sentence she can use",
+        "Asking a pair what they have just seen",
+        "Writing one word in the margin of a plan"
+      ],
+      "correctAnswer": "Shaming a player instead of giving a sentence she can use",
+      "explanation": "A voice may be raised for safety, but humiliating is different: it is shame rather than words a player can use.",
+      "supportingSentence": "She said the hall would sometimes need a raised voice for safety or for a call, and that raised was not the same as humiliating.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer end with the word Renata writes in the margin?",
+      "options": [
+        "To show that Pavel had taken over the session plan",
+        "To admit the quieter method failed in the scrimmage",
+        "To leave a practical standard that could replace mere volume",
+        "To suggest Mina should stop playing in the team"
+      ],
+      "correctAnswer": "To leave a practical standard that could replace mere volume",
+      "explanation": "Specificity gives the players a place to put their effort, whereas volume had only given them a place to hide.",
+      "supportingSentence": "Renata wrote that word in the margin of her plan, because specificity gave the players somewhere to put their effort, whereas volume had only given them somewhere to hide.",
+      "skill": "intent"
+    }
+  ]
+}

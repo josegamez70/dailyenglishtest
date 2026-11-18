@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "culture_food",
+  "title": "Learning to Bake Bread",
+  "story": "Nora had eaten good bread for years and had decided that baking it required a talent she lacked. Her neighbour Idris, who made loaves on Sundays for anyone who returned the tin, offered another view. He said a loaf was a sequence, and that patience would matter more than a dramatic gesture with the flour. Before she could touch anything, he made her read a card aloud: the weights, the water temperature, and the long wait he called the prove. Nora felt slightly foolish, standing in a warm kitchen with nothing yet to show.\n\nWhen she mixed the dough she treated it like a job to be defeated. Idris stopped her at once. Kneading, he said, organised the mixture, and the dough would show it was ready by turning smooth and less sticky. Nora slowed her hands, heard the soft sound on the board, and noticed that her shoulders had been doing too much of the work. Idris dusted the bench again and showed how a scraper could lift the mass without tearing the surface. The result looked ordinary, and he treated that as a compliment worth having.\n\nThey covered the bowl and drank tea while Nora kept glancing at the cloth. Idris talked about yeast as a living worker that wanted warmth but not a shock of hot water. He had ruined a batch that way in his first winter and had kept the dense loaf as a reminder. Nora liked receiving the failure before the advice. When they uncovered the bowl, the dough held a gentle finger mark, and Idris let her shape it with less force than she wanted to use.\n\nThe oven gave the crust a darker colour than she had pictured, and the inside was uneven. Idris cut a slice, tasted it, and pointed to one long hole as a sign she had tightened one end too much. Nora wrote the comment down instead of apologising. She left with the rest of the loaf, the card, and a plan to bake again on Thursday.",
+  "vocabulary": [
+    {
+      "word": "patience",
+      "definition": "The ability to wait without rushing the process."
+    },
+    {
+      "word": "temperature",
+      "definition": "How hot or cold something is."
+    },
+    {
+      "word": "prove",
+      "definition": "The long wait while bread dough is left to rise."
+    },
+    {
+      "word": "kneading",
+      "definition": "Pressing and folding dough until it becomes smooth."
+    },
+    {
+      "word": "yeast",
+      "definition": "A living ingredient that makes dough rise."
+    },
+    {
+      "word": "crust",
+      "definition": "The firmer outer layer of a baked loaf."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Why had Idris kept the heavy loaf from his first winter?",
+      "options": [
+        "He planned to sell it when Nora next visited",
+        "It was the only tin a neighbour had returned",
+        "He used it to show that very hot water is harmless",
+        "It reminded him of a batch he had ruined"
+      ],
+      "correctAnswer": "It reminded him of a batch he had ruined",
+      "explanation": "He had kept the dense loaf as a reminder of a batch he had spoiled.",
+      "supportingSentence": "He had ruined a batch that way in his first winter and had kept the dense loaf as a reminder.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did the long hole in the loaf show about Nora's shaping?",
+      "options": [
+        "She had left the yeast out of the mixture",
+        "She had pulled one end tighter than she should have",
+        "The oven had stayed too cool to colour the outside",
+        "Idris had sliced the loaf before it was baked"
+      ],
+      "correctAnswer": "She had pulled one end tighter than she should have",
+      "explanation": "Idris pointed to the hole as a sign that she had tightened one end too much.",
+      "supportingSentence": "Idris cut a slice, tasted it, and pointed to one long hole as a sign she had tightened one end too much.",
+      "skill": "detail"
+    },
+    {
+      "question": "What was the problem with the way Nora began mixing?",
+      "options": [
+        "She refused to look at any weight written on the card",
+        "She had already hidden a finished loaf in the oven",
+        "She was using force on a process that needed care",
+        "She wanted Idris to complete every step for her"
+      ],
+      "correctAnswer": "She was using force on a process that needed care",
+      "explanation": "She treated the mixing like a job to defeat, and Idris stopped her because the dough needed a calmer method.",
+      "supportingSentence": "When she mixed the dough she treated it like a job to be defeated.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does Idris show that he values when the dough looks ordinary?",
+      "options": [
+        "A reliable result more than a dramatic performance",
+        "A showy loaf even when the inside has failed",
+        "Speed, even if the written card is ignored",
+        "The darkest outer layer that the oven can make"
+      ],
+      "correctAnswer": "A reliable result more than a dramatic performance",
+      "explanation": "He treats an ordinary result as a compliment, matching his belief that patience beats a dramatic gesture.",
+      "supportingSentence": "The result looked ordinary, and he treated that as a compliment worth having.",
+      "skill": "inference"
+    },
+    {
+      "question": "On Idris's card, what does the prove refer to?",
+      "options": [
+        "A college exam Nora has to pass on Sunday",
+        "The long wait built into making the loaf",
+        "The firmer outer layer of the baked bread",
+        "The tool used to lift dough off the bench"
+      ],
+      "correctAnswer": "The long wait built into making the loaf",
+      "explanation": "He points to the long wait and calls it the prove, so the word names that resting stage.",
+      "supportingSentence": "Before she could touch anything, he made her read a card aloud: the weights, the water temperature, and the long wait he called the prove.",
+      "skill": "vocabulary"
+    }
+  ]
+}

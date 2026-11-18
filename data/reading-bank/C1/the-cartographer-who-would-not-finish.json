@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "fantasy",
+  "title": "The Cartographer Who Would Not Finish",
+  "story": "The cartographer's table faced a window that refused to show the same street twice. In the morning the bakery stood on the corner. By afternoon the corner belonged to a fountain, and the bakery had moved itself, without apology, three doors to the left. People in the city were used to this. They gave directions by habit rather than by landmark, and they laughed when visitors arrived holding a map that had already expired. Only the cartographer suffered. His profession required him to finish, and the city required him not to.\n\nHis name was Osric, and he had ink under his nails in every season. He drew coastlines that stayed still, because the sea, for all its temper, kept its edge. He drew the mountains, which were vain and motionless. When he came to the city, the lines began to wander. A street completed in the morning would, by the time the ink dried, have sprouted a lane he had not been told about. If he ignored the lane, a child would later fall into the gap between the paper and the world. He had seen it happen once, a bruised knee and a furious mother, and he had never again pretended that a map was only a picture. He slept badly when a street changed under a finished line.\n\nThe council offered him a fee to produce one final chart, framed, signed, and hung in the hall where laws were read. A finished map, they said, would let them tax the houses and number the doors. Osric worked until the last blank was a single square beside the river, a place the city used for arrivals that had not decided what they were. Markets began there. Funerals sometimes ended there. On certain evenings the square was water, and boats knocked softly against steps that did not exist at noon. To close that square with a line would be to choose one of its truths and exile the others.\n\nHe left the square unfinished and returned the fee in a cloth bag. The council called the act a refusal. Osric called it a measurement. A map that could not bear an empty space was too small for a city that lived by changing its mind. He kept the incomplete sheet above his table, and visitors learned to read the blank as carefully as the ink. When a stranger asked where to go, Osric would tap the unmarked square and say that the city would meet them there, provided they did not insist on knowing, in advance, which city it was going to be.",
+  "vocabulary": [
+    {
+      "word": "cartographer",
+      "definition": "A person whose work is drawing maps."
+    },
+    {
+      "word": "expired",
+      "definition": "No longer valid because the thing it describes has changed."
+    },
+    {
+      "word": "sprouted",
+      "definition": "Grown suddenly where nothing had been drawn."
+    },
+    {
+      "word": "exile",
+      "definition": "To force something out and refuse it a place."
+    },
+    {
+      "word": "incomplete",
+      "definition": "Not finished, with a part deliberately left open."
+    },
+    {
+      "word": "measurement",
+      "definition": "A careful judgement of size, value, or truth."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Why does the writer include the child's fall?",
+      "options": [
+        "To explain why Osric stopped drawing coastlines",
+        "To show that a missing map line can injure a living person",
+        "To prove the council had already cancelled his fee",
+        "To suggest the mother wanted the bakery moved"
+      ],
+      "correctAnswer": "To show that a missing map line can injure a living person",
+      "explanation": "The bruised knee stops a map from being only a picture and makes the empty spaces matter.",
+      "supportingSentence": "He had seen it happen once, a bruised knee and a furious mother, and he had never again pretended that a map was only a picture.",
+      "skill": "intent"
+    },
+    {
+      "question": "What did the council want a finished map for?",
+      "options": [
+        "Moving the fountain back beside the bakery",
+        "Opening a new harbour under the mountains",
+        "Taxing houses and numbering the doors",
+        "Teaching visitors to ignore every street"
+      ],
+      "correctAnswer": "Taxing houses and numbering the doors",
+      "explanation": "They say a completed map would let them tax the houses and number the doors.",
+      "supportingSentence": "A finished map, they said, would let them tax the houses and number the doors.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does giving the fee back reveal about Osric?",
+      "options": [
+        "He has lost his ink and can no longer draw",
+        "He hopes the council will offer twice the money",
+        "He wants the cloth bag hung in the law hall",
+        "He will not be paid to pretend the city has settled"
+      ],
+      "correctAnswer": "He will not be paid to pretend the city has settled",
+      "explanation": "He returns the money because he leaves the square blank rather than force the city to hold still.",
+      "supportingSentence": "He left the square unfinished and returned the fee in a cloth bag.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does \"expired\" mean about a visitor's map?",
+      "options": [
+        "It no longer agrees with streets that have moved",
+        "It was drawn with ink that never dried",
+        "It has been signed and framed by the council",
+        "It shows only the sea and the still mountains"
+      ],
+      "correctAnswer": "It no longer agrees with streets that have moved",
+      "explanation": "People laugh because a finished map goes out of date as soon as the streets change.",
+      "supportingSentence": "They gave directions by habit rather than by landmark, and they laughed when visitors arrived holding a map that had already expired.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What do visitors learn from the sheet above the table?",
+      "options": [
+        "The ink becomes too faint to follow after noon",
+        "The empty square deserves as much attention as the ink",
+        "Osric has hidden the true map inside the fee bag",
+        "The city can be entered only through the bakery"
+      ],
+      "correctAnswer": "The empty square deserves as much attention as the ink",
+      "explanation": "They learn to read the blank as carefully as the drawn lines, so the gap itself is information.",
+      "supportingSentence": "He kept the incomplete sheet above his table, and visitors learned to read the blank as carefully as the ink.",
+      "skill": "inference"
+    }
+  ]
+}

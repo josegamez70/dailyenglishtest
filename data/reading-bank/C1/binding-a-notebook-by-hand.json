@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "hobbies",
+  "title": "Binding a Notebook by Hand",
+  "story": "Clare Vedel cleared the kitchen table with a care that made the ordinary room look temporarily like a workshop. She bound notebooks by hand, a practice she had learned from a manual with muddy photographs and from a retired printer who corrected the position of her fingers more often than her terms. A signature, in this work, was a nest of folded sheets, and each nest had to be punched with an awl so the holes sat in one straight line a short width from the fold. Haste showed itself later, when the book opened as if it remembered being forced.\n\nShe was making a gift for her brother, who kept notes on the bridges he inspected and complained that shop books came apart in a coat pocket. Clare chose a paper with enough tooth to hold a hard pencil, pale enough not to tint his drawings. The endpapers were a dull green that would frame the pages without competing with them. She waxed a linen thread until it slid, then sewed from the middle of each signature outward, keeping the tension even so that no section puffed above its neighbour. At the head and tail she tied the stitches that lock a binding, small knots that can announce a mistake only after the covers are on. Adhesive came last and sparingly. Too much of it would turn the spine into a plank and betray the flexibility she had spent the evening protecting.\n\nWhen the boards had dried under a stack of dictionaries, she opened the book once. The first page lay flat, with a slight resistance she trusted more than a lazy ease. She wrote nothing on the flyleaf. Her brother disliked dedications, and she had come to think of the blank leaf as part of the gift, a decision not to occupy the very space she had made usable. In the morning she wrapped the notebook in plain paper and tied it with the thread that remained. Seen from the outside, the object was modest to the point of being easy to underestimate. Its argument was structural. A thing consulted every day, often with dirty hands and in a wind off the bridges, deserves a spine that survives the consultation. Clare turned the parcel once, checking that the knot sat flat, and felt the small private pleasure of a standard met rather than a decoration added. The printer would have found something to adjust, because he always did, and she would have agreed with him. That expectation of a further correction was, she thought, a healthy way to love a craft.",
+  "vocabulary": [
+    {
+      "word": "signature",
+      "definition": "In bookbinding, a group of folded sheets sewn as one section."
+    },
+    {
+      "word": "awl",
+      "definition": "A small pointed tool used to pierce holes."
+    },
+    {
+      "word": "endpapers",
+      "definition": "The sheets fixed inside the covers at each end of a book."
+    },
+    {
+      "word": "tension",
+      "definition": "How tight something is pulled."
+    },
+    {
+      "word": "adhesive",
+      "definition": "A substance such as glue that makes surfaces stick."
+    },
+    {
+      "word": "flyleaf",
+      "definition": "A blank page at the beginning or end of a book."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Who was meant to use the notebook Clare was making?",
+      "options": [
+        "Her brother, for notes he takes on bridges",
+        "The retired printer, as a sample of her terms",
+        "A shop that sells books for coat pockets",
+        "A neighbour who collects dull green paper"
+      ],
+      "correctAnswer": "Her brother, for notes he takes on bridges",
+      "explanation": "She was making the book as a gift for her brother, who keeps notes on the bridges he inspects.",
+      "supportingSentence": "She was making a gift for her brother, who kept notes on the bridges he inspected and complained that shop books came apart in a coat pocket.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the empty flyleaf suggest about Clare's idea of the gift?",
+      "options": [
+        "The book should be ready for his work, not marked by her",
+        "She forgot the sentence the printer told her to copy",
+        "She wanted the notebook to be sold without being opened",
+        "A written greeting would have weakened the linen thread"
+      ],
+      "correctAnswer": "The book should be ready for his work, not marked by her",
+      "explanation": "She leaves the leaf blank because he dislikes dedications, and she treats that emptiness as part of making the book usable for him.",
+      "supportingSentence": "Her brother disliked dedications, and she had come to think of the blank leaf as part of the gift, a decision not to occupy the very space she had made usable.",
+      "skill": "inference"
+    },
+    {
+      "question": "What failure does Clare seem most anxious to prevent?",
+      "options": [
+        "A handsome book that cannot survive ordinary daily use",
+        "A cover that is greener than her brother's drawings",
+        "A dedication written in the wind off the bridges",
+        "A kitchen that stays looking like a workshop"
+      ],
+      "correctAnswer": "A handsome book that cannot survive ordinary daily use",
+      "explanation": "She limits the glue so the spine stays flexible, and she wants a book used every day to keep its strength.",
+      "supportingSentence": "A thing consulted every day, often with dirty hands and in a wind off the bridges, deserves a spine that survives the consultation.",
+      "skill": "inference"
+    },
+    {
+      "question": "In this story, what is a signature?",
+      "options": [
+        "A group of folded sheets forming part of the book",
+        "Clare's name written on the flyleaf",
+        "Wax rubbed into the linen thread",
+        "A printed message from the retired printer"
+      ],
+      "correctAnswer": "A group of folded sheets forming part of the book",
+      "explanation": "Here a signature is not a name. It is a nest of folded sheets that she punches and sews.",
+      "supportingSentence": "A signature, in this work, was a nest of folded sheets, and each nest had to be punched with an awl so the holes sat in one straight line a short width from the fold.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer mention the stack of dictionaries?",
+      "options": [
+        "To show she pressed the boards with ordinary household weight",
+        "To list the reading her brother was expected to finish",
+        "To explain why the endpapers were dull green",
+        "To replace the manual's muddy photographs"
+      ],
+      "correctAnswer": "To show she pressed the boards with ordinary household weight",
+      "explanation": "The dictionaries are what she uses to dry the boards, which keeps the craft inside an ordinary kitchen.",
+      "supportingSentence": "When the boards had dried under a stack of dictionaries, she opened the book once.",
+      "skill": "intent"
+    }
+  ]
+}

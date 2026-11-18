@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "health_sports",
+  "title": "The Return to Training",
+  "story": "Mara Ellison had been away from the track for eleven weeks when the physiotherapist finally cleared her to run. The clearance was narrower than the message she wanted to send her club. She could jog on grass, twice a week, for twenty minutes, and she was to stop at the first sharp pain along the metatarsal that had cracked in March. Mara read the note twice in the car park, then folded it into the glove box as if paper could be negotiated with later.\n\nHer coach, Idris Okonkwo, refused to treat the note as a suggestion. On the first evening he met her at the park with a watch, a soft path, and no stopwatch display she could see. He wanted the session to feel ordinary, he said, because drama had a way of inviting extra laps. Mara laughed, then fell quiet when the first kilometre took longer than her pride expected. The bone itself did not protest. What protested was her calf, tight from weeks of careful walking, and the impatient part of her mind that kept converting minutes into the races she had already missed.\n\nIdris let her finish the twenty minutes and then walked the long way back to the gate. He talked about load, not about medals. A tendon, he reminded her, does not read a calendar, and a club championship in June would still be there if she arrived able to accelerate. Mara wanted a date. He offered a review in ten days, provided the pain stayed dull and never localised. If it sharpened, they would stop and call the clinic before the next session, not after a heroic week.\n\nOver the following fortnight the disagreement became a routine. Mara arrived early, warmed up alone, and proposed one extra interval with the careful politeness of someone who already knew the answer. Idris declined each time in the same even voice, then gave her something else to measure: how she slept, whether the morning stairs were easy, and whether she could hop on the injured foot without bracing. Those were not romantic markers of fitness, and that was their value. By the third week she could admit, without sounding defeated, that the return had begun when she stopped trying to outrun the instructions. On the tenth evening the grass was wet, and she shortened her stride without being asked. Idris noticed and said nothing, which she understood as praise. At the gate he told her to keep the note where she would see it, so she moved it from the glove box into the side pocket of her bag.",
+  "vocabulary": [
+    {
+      "word": "clearance",
+      "definition": "Official permission to start training again."
+    },
+    {
+      "word": "metatarsal",
+      "definition": "One of the long bones in the foot."
+    },
+    {
+      "word": "localised",
+      "definition": "Limited to one exact place."
+    },
+    {
+      "word": "fortnight",
+      "definition": "A period of two weeks."
+    },
+    {
+      "word": "interval",
+      "definition": "A short, faster section of a training session."
+    },
+    {
+      "word": "bracing",
+      "definition": "Holding the body stiff in order to protect it."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What limit did the physiotherapist put on Mara's first runs?",
+      "options": [
+        "An hour on the track every morning",
+        "Twenty minutes on grass, twice a week",
+        "One easy lap whenever the club met",
+        "Full speed if she wore racing shoes"
+      ],
+      "correctAnswer": "Twenty minutes on grass, twice a week",
+      "explanation": "The note allowed jogging on grass twice a week for twenty minutes, and told her to stop if the sharp pain returned.",
+      "supportingSentence": "She could jog on grass, twice a week, for twenty minutes, and she was to stop at the first sharp pain along the metatarsal that had cracked in March.",
+      "skill": "detail"
+    },
+    {
+      "question": "What risk sat behind Idris's refusal to give Mara a fixed race date?",
+      "options": [
+        "The club would move the championship to another city",
+        "She might keep training through a warning sign in order to meet it",
+        "The physiotherapist would ban her from the park",
+        "A date would make her calf loose too quickly"
+      ],
+      "correctAnswer": "She might keep training through a warning sign in order to meet it",
+      "explanation": "Mara wanted a date, but Idris talked about a tendon that does not follow a calendar and about stopping before a heroic week.",
+      "supportingSentence": "If it sharpened, they would stop and call the clinic before the next session, not after a heroic week.",
+      "skill": "inference"
+    },
+    {
+      "question": "What did Mara take Idris's silence to mean on the wet tenth evening?",
+      "options": [
+        "She should stop running until June",
+        "The sharp pain had come back in the bone",
+        "Her own decision to shorten the stride was worthy of praise",
+        "He wanted the clinic note hidden in the car again"
+      ],
+      "correctAnswer": "Her own decision to shorten the stride was worthy of praise",
+      "explanation": "She shortened her stride without being asked, and she understood his silence after that choice as praise.",
+      "supportingSentence": "Idris noticed and said nothing, which she understood as praise.",
+      "skill": "inference"
+    },
+    {
+      "question": "In the condition for the ten-day review, what does localised describe?",
+      "options": [
+        "A championship date written on the note",
+        "Tiredness from the walk back to the gate",
+        "Pain that gathers in one exact spot",
+        "Stiffness that always disappears by morning"
+      ],
+      "correctAnswer": "Pain that gathers in one exact spot",
+      "explanation": "Idris would review her progress only if the pain stayed dull and did not settle in one precise place.",
+      "supportingSentence": "He offered a review in ten days, provided the pain stayed dull and never localised.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer call sleep, stairs, and hopping unromantic markers?",
+      "options": [
+        "To make those ordinary checks seem like the real signs of progress",
+        "To prove that Mara would miss the championship in June",
+        "To suggest the physiotherapist had written a careless note",
+        "To argue that Idris had given up on any improvement"
+      ],
+      "correctAnswer": "To make those ordinary checks seem like the real signs of progress",
+      "explanation": "The writer says these plain signs were valuable exactly because they were not glamorous measures of fitness.",
+      "supportingSentence": "Those were not romantic markers of fitness, and that was their value.",
+      "skill": "intent"
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "health_sports",
+  "title": "A Sprained Ankle",
+  "story": "Priya jumped for the ball during a friendly game behind the sports hall. She landed on another player's foot and felt a sharp pain in her left ankle. She sat down at once and waved to her coach. Ivan told the others to keep playing and knelt beside her. The ankle was already swollen. A teammate brought the first-aid box from the hall. Ivan wrapped a soft bandage around the joint, not too tight. He asked whether her toes still felt warm. Ivan said it looked like a sprain, not a break, but a clinic should check it. Priya could not put her full weight on that foot. Two friends helped her to a bench and raised the ankle on a bag. They held ice against the ankle with a thin cloth around it. After ten minutes the pain was duller. Ivan called a taxi because the bus steps were too high. At the clinic a nurse looked at the ankle and agreed it was a sprain. She told Priya to rest, keep the bandage on, and use ice again that evening. She also said no sport for two weeks. Priya felt disappointed because the team had a game on Sunday. Ivan said she could still help by watching from the bench. Priya went home on crutches with a card of instructions. That night the sharp pain had eased, but she kept her foot up.",
+  "vocabulary": [
+    {
+      "word": "swollen",
+      "definition": "larger than usual because of injury"
+    },
+    {
+      "word": "bandage",
+      "definition": "a strip of cloth wrapped around a hurt part"
+    },
+    {
+      "word": "sprain",
+      "definition": "an injury when a joint is twisted"
+    },
+    {
+      "word": "clinic",
+      "definition": "a place where a nurse or doctor checks you"
+    },
+    {
+      "word": "ice",
+      "definition": "frozen water used to cool an injury"
+    },
+    {
+      "word": "rest",
+      "definition": "time spent not using the hurt part"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How did Priya hurt her ankle?",
+      "options": [
+        "She landed on another player's foot.",
+        "She fell off a bicycle.",
+        "A taxi door struck her.",
+        "She slipped on the bus steps."
+      ],
+      "correctAnswer": "She landed on another player's foot.",
+      "explanation": "The sharp pain came as soon as she landed.",
+      "supportingSentence": "She landed on another player's foot and felt a sharp pain in her left ankle.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Ivan wrap around the joint?",
+      "options": [
+        "a soft bandage",
+        "a heavy walking boot",
+        "a spare team shirt",
+        "a wet football sock"
+      ],
+      "correctAnswer": "a soft bandage",
+      "explanation": "He was careful not to make it too tight.",
+      "supportingSentence": "Ivan wrapped a soft bandage around the joint, not too tight.",
+      "skill": "detail"
+    },
+    {
+      "question": "How long did the nurse say Priya should stay away from sport?",
+      "options": [
+        "for two weeks",
+        "for two hours",
+        "for one afternoon",
+        "until the next morning only"
+      ],
+      "correctAnswer": "for two weeks",
+      "explanation": "She gave that limit after she agreed about the injury.",
+      "supportingSentence": "She also said no sport for two weeks.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does swollen mean?",
+      "options": [
+        "larger than usual because of injury",
+        "ready to play at once",
+        "very cold to touch",
+        "tightly locked"
+      ],
+      "correctAnswer": "larger than usual because of injury",
+      "explanation": "The ankle already looked that way when Ivan knelt down.",
+      "supportingSentence": "The ankle was already swollen.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why could Priya still be useful on Sunday?",
+      "options": [
+        "She could help the team by watching from the bench.",
+        "Ivan wanted her to referee the whole game.",
+        "The nurse said running would help.",
+        "The taxi was taking her onto the field."
+      ],
+      "correctAnswer": "She could help the team by watching from the bench.",
+      "explanation": "She was disappointed about not playing, and he offered another way to help.",
+      "supportingSentence": "Ivan said she could still help by watching from the bench.",
+      "skill": "inference"
+    }
+  ],
+  "file": "b1-c.txt"
+}

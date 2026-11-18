@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "culture_food",
+  "title": "A Menu for the Delegation",
+  "story": "The delegation would arrive on Thursday, twelve people from a partner town, and the town hall had given Chef Carlo Benedetti a brief that said local, generous, and mindful. Mindful was the word that did the most work. One guest did not eat meat. Two did not eat pork. One carried a serious allergy to nuts, and another would not drink alcohol. Carlo could have treated the list as a set of obstacles. He pinned it above the bench and treated it as the first true description of his guests.\n\nThe protocol officer, Sandra Vogel, wanted a single menu, served to everyone, so that no plate would announce a category. Carlo agreed, then protected the agreement from becoming bland. A beetroot tart could be finished without goat cheese at the last moment, so the table would still look shared. The main course would be a barley pilaf with roasted vegetables and a herb sauce, with slow-cooked lamb offered from a separate dish for those who wanted it, not imposed on those who did not. Nuts were removed from the whole kitchen for the day, including the pastry corner, because a serious allergy is not a preference and a stray crumb is not a small thing. Dessert would be poached pears and a citrus cake whose recipe had never relied on almond flour.\n\nSandra worried that the visitors would think the town had hidden its traditions. Carlo took her to the storeroom and showed her the tradition he thought worth serving: late pears, barley from the cooperative upriver, herbs cut that morning, and cheese from a nearby dairy. A dish did not become less local because the whole table could eat it. It became more hospitable. He would print a short menu naming the producers and the main ingredients, and he would not print the medical reasons, which belonged to the guests.\n\nOn Wednesday they cooked a trial for the staff who would serve. The lamb sat in its own dish, and nobody was asked to explain a choice. The pear dessert tasted like the week it was, not like a bargain negotiated by email. Sandra, who had expected to apologise for something, found she had nothing to apologise for. Carlo adjusted the salt and moved the tarts apart so the version without cheese was not exiled to the edge. He told the servers that care would show in the pacing and the plates, not in a speech about the brief. If the dinner succeeded, the guests would remember that they had been expected, exactly as they were.",
+  "vocabulary": [
+    {
+      "word": "delegation",
+      "definition": "A group visiting on behalf of another town."
+    },
+    {
+      "word": "mindful",
+      "definition": "Careful about the different needs of the guests."
+    },
+    {
+      "word": "protocol",
+      "definition": "The official arrangements for a formal visit."
+    },
+    {
+      "word": "imposed",
+      "definition": "Forced on someone who has not chosen it."
+    },
+    {
+      "word": "hospitable",
+      "definition": "Welcoming to the people who are actually present."
+    },
+    {
+      "word": "exiled",
+      "definition": "Pushed aside, as if it did not belong with the others."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did Carlo do in the kitchen because a guest had a serious nut allergy?",
+      "options": [
+        "He served nuts only with the citrus cake",
+        "He removed nuts from the whole kitchen, including the pastry corner",
+        "He left nuts out of the lamb and nowhere else",
+        "He asked that guest to bring a separate dessert"
+      ],
+      "correctAnswer": "He removed nuts from the whole kitchen, including the pastry corner",
+      "explanation": "Nuts were taken out of the whole kitchen for the day, because a serious allergy is not a preference and a stray crumb is not small.",
+      "supportingSentence": "Nuts were removed from the whole kitchen for the day, including the pastry corner, because a serious allergy is not a preference and a stray crumb is not a small thing.",
+      "skill": "detail"
+    },
+    {
+      "question": "How is Sandra's worry about hidden traditions answered by the trial?",
+      "options": [
+        "The meal tasted local and complete, so she had nothing to apologise for",
+        "The guests cancelled, so no menu was needed",
+        "Carlo agreed to print every allergy on the bench",
+        "The lamb was removed and only pears remained"
+      ],
+      "correctAnswer": "The meal tasted local and complete, so she had nothing to apologise for",
+      "explanation": "She had feared the town would seem to be hiding its food, but the pear dessert tasted of the week itself and she found nothing to apologise for.",
+      "supportingSentence": "Sandra, who had expected to apologise for something, found she had nothing to apologise for.",
+      "skill": "inference"
+    },
+    {
+      "question": "What kind of welcome do Carlo's serving choices aim to give?",
+      "options": [
+        "Guests must all eat lamb in order to honour the town",
+        "Each person will order a separate menu at the door",
+        "Guests can follow their needs without having to explain themselves in public",
+        "The servers will describe the brief in a speech before the pears"
+      ],
+      "correctAnswer": "Guests can follow their needs without having to explain themselves in public",
+      "explanation": "The lamb sits apart, nobody is asked to explain a choice, and medical reasons are kept off the printed menu.",
+      "supportingSentence": "The lamb sat in its own dish, and nobody was asked to explain a choice.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does exiled describe in the way the tarts are arranged?",
+      "options": [
+        "Pushed to the edge so that it looks unwelcome",
+        "Salted more heavily than the other tarts",
+        "Stored for the staff meal the next day",
+        "Named on the menu as a medical warning"
+      ],
+      "correctAnswer": "Pushed to the edge so that it looks unwelcome",
+      "explanation": "Carlo moves the tarts apart so the version without cheese is not exiled to the edge.",
+      "supportingSentence": "Carlo adjusted the salt and moved the tarts apart so the version without cheese was not exiled to the edge.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer have Carlo pin the dietary list above the bench?",
+      "options": [
+        "To suggest Sandra had hidden the list from the cooks",
+        "To show that the guests' needs were the start of the meal, not a late obstacle",
+        "To prove the visitors would refuse pears",
+        "To argue that one shared menu must be bland"
+      ],
+      "correctAnswer": "To show that the guests' needs were the start of the meal, not a late obstacle",
+      "explanation": "He could have treated the list as obstacles, but he pins it up as the first true description of the people he is cooking for.",
+      "supportingSentence": "He pinned it above the bench and treated it as the first true description of his guests.",
+      "skill": "intent"
+    }
+  ]
+}

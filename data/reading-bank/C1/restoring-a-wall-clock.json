@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "hobbies",
+  "title": "Restoring a Wall Clock",
+  "story": "Edith Lang lifted the wall clock down from the stairwell of the rooming house because it had started to strike each hour twice. The second strike was not an echo people could ignore, since two tenants had already left for work an hour early. The casing was walnut, darkened by hands and by years of smoke the present landlord insisted belonged to a previous generation. She carried the clock to her bench in a blanket. A pendulum rod will take a bend from one careless corner, and she had no wish to repair a damage she had caused herself.\n\nShe worked in the evenings, after her shift at the clinic. The movement was grimy more than broken. She cleaned the wheels with a solvent whose smell she kept out of the kitchen, checked the pivot holes for uneven wear, and found the fault in the striking train. A worn pin allowed the rack hook to catch a second time. She made a replacement of the proper diameter and polished it until it seated without play. When she oiled the pivots she did so lightly, because an excess would collect fresh grit and recreate the drag she had just removed. The faded numerals on the dial offered a different temptation. Repainting them would photograph as restoration and would also erase the clock's own age. Edith left the dial alone. A colleague at the clinic, if shown a photograph, might ask whether the numbers had been too difficult to match. She could have matched them. Matching them was the sort of help the clock had not requested. The tenants needed one truthful hour, not a face that looked newly printed.\n\nGetting the rate right took three further nights. A clock of that age did not respond well to a modern demand for the exact second. It wanted a rate a household could trust across a week of ordinary mornings. She turned the pendulum bob a little at a time and wrote each day's gain or loss on a card propped against the lamp. On the fourth evening she carried the clock upstairs and hung it on the old nail, which had polished a pale crescent into the wood. The first strike was single. A tenant on the landing nodded, as if a shared nuisance had been settled without a meeting. Edith kept the worn pin in a tin in her bench drawer. It no longer belonged to the clock, yet it explained why she had been asked to intervene. She distrusted any restoration that discarded its evidence in the name of a clean result.",
+  "vocabulary": [
+    {
+      "word": "casing",
+      "definition": "The outer box that holds and protects a mechanism."
+    },
+    {
+      "word": "pendulum",
+      "definition": "A hanging weight that swings to regulate a clock."
+    },
+    {
+      "word": "solvent",
+      "definition": "A liquid used to dissolve and clean away dirt."
+    },
+    {
+      "word": "pivot",
+      "definition": "A point on which a wheel or other part turns."
+    },
+    {
+      "word": "diameter",
+      "definition": "The width of a circle, measured straight across its centre."
+    },
+    {
+      "word": "restoration",
+      "definition": "Work that brings an old object back towards its earlier appearance or condition."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What was the clock doing that disturbed the house?",
+      "options": [
+        "Striking each hour a second time",
+        "Refusing to strike at all",
+        "Keeping perfect time with a new face",
+        "Chiming only on the fourth evening"
+      ],
+      "correctAnswer": "Striking each hour a second time",
+      "explanation": "Edith took the clock down because it had started to strike each hour twice.",
+      "supportingSentence": "Edith Lang lifted the wall clock down from the stairwell of the rooming house because it had started to strike each hour twice.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does Edith's decision about the numerals suggest she values?",
+      "options": [
+        "The clock's real age more than a newly restored look",
+        "A photograph impressive enough for the clinic wall",
+        "Finishing the repair before she understands the fault",
+        "The landlord's account of who used to smoke"
+      ],
+      "correctAnswer": "The clock's real age more than a newly restored look",
+      "explanation": "Repainting would look like restoration and would erase the clock's age, so she leaves the dial as it is.",
+      "supportingSentence": "Repainting them would photograph as restoration and would also erase the clock's own age.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does the saved pin reveal about Edith's view of a good repair?",
+      "options": [
+        "It should keep the clue that explains the original fault",
+        "Every old part should be thrown away the same night",
+        "The pin ought to go back in if anyone complains",
+        "Evidence matters only when a landlord requests it"
+      ],
+      "correctAnswer": "It should keep the clue that explains the original fault",
+      "explanation": "She keeps the worn pin because it shows why she was called, and she distrusts work that throws such evidence away.",
+      "supportingSentence": "She distrusted any restoration that discarded its evidence in the name of a clean result.",
+      "skill": "inference"
+    },
+    {
+      "question": "What is the solvent used for in Edith's workshop?",
+      "options": [
+        "Removing grime from the wheels",
+        "Painting fresh numerals on the dial",
+        "Darkening the walnut casing",
+        "Scenting the blanket around the clock"
+      ],
+      "correctAnswer": "Removing grime from the wheels",
+      "explanation": "She cleaned the wheels with a solvent, so the word names the liquid she used to remove dirt.",
+      "supportingSentence": "She cleaned the wheels with a solvent whose smell she kept out of the kitchen, checked the pivot holes for uneven wear, and found the fault in the striking train.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer mention the tenants who left for work an hour early?",
+      "options": [
+        "To show that the fault was disturbing daily life in the house",
+        "To suggest Edith herself was late for the clinic",
+        "To explain the smell of smoke in the casing",
+        "To prove the old nail had been moved"
+      ],
+      "correctAnswer": "To show that the fault was disturbing daily life in the house",
+      "explanation": "The second strike had already sent people out at the wrong time, so the repair matters to ordinary mornings, not only to the mechanism.",
+      "supportingSentence": "The second strike was not an echo people could ignore, since two tenants had already left for work an hour early.",
+      "skill": "intent"
+    }
+  ]
+}

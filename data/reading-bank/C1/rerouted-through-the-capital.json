@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "travel",
+  "title": "Rerouted through the Capital",
+  "story": "Soren Talve's flight towards the coastal conference was diverted before the crew had finished the second round of tea. A strike by baggage crews at the destination had closed that airport to incoming flights, and the announcement of a landing in Vessara, the capital, was delivered in a tone that filed inconvenience under ordinary procedure. Passengers would receive a voucher and a revised connection. Argument, the purser added, would not reopen a runway.\n\nThe terminal in Vessara was designed for people who already knew which exit belonged to them. Soren's replacement itinerary offered a morning train and then a regional flight that would set him down after both the panel and the dinner he had come for. He stood in the concourse and separated what could be delegated from what could not. The panel could pass to a colleague if the questions were written so cleanly that another voice could ask them without pretending to be him. The dinner could not be handed over, because a hesitant sponsor had agreed to listen there and might not agree twice. A railway clerk confirmed that an overnight train still had seats, though it would arrive beside a freight yard rather than at the main station. The difference mattered only if he was carrying more than one bag, and he was not. He chose the train.\n\nIn the queue for the voucher he drafted, on the back of a boarding card, three questions his colleague could ask in a voice that was plainly her own. He sent them while the concourse signal was still strong enough to be trusted. On the train he slept in pieces and woke to the industrial edge of the coastal city, where the cranes were still and the strike announced itself as a lack of trucks. He reached the venue as the dinner guests were finding their places. His shirt had travelled through two revisions of the plan, and he decided that changing it would be a costume rather than a courtesy. The sponsor listened. She asked one sharp question about maintenance costs and then a gentler one about whether the project could survive a year of delays like the strike. Soren answered both without the slides he had lost to the morning he no longer had. Afterwards he thought the diversion had pared the trip down to the conversation that had always been the point of going. The panel, he later heard, had gone smoothly in another person's mouth. What he would have regretted was missing the sponsor's second question, the one that asked whether the work could endure a disrupted year.",
+  "vocabulary": [
+    {
+      "word": "diverted",
+      "definition": "Sent to a different place from the one planned."
+    },
+    {
+      "word": "voucher",
+      "definition": "A paper or record that can be exchanged for a service."
+    },
+    {
+      "word": "itinerary",
+      "definition": "A plan of the stages in a journey."
+    },
+    {
+      "word": "concourse",
+      "definition": "A large open area in a station or airport."
+    },
+    {
+      "word": "delegated",
+      "definition": "Given to another person to do."
+    },
+    {
+      "word": "diversion",
+      "definition": "A change that sends someone away from the planned route."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What stopped incoming flights at the destination airport?",
+      "options": [
+        "A strike by the baggage crews",
+        "Fog over the capital for the whole day",
+        "A full overnight train at the freight yard",
+        "The loss of Soren's boarding card"
+      ],
+      "correctAnswer": "A strike by the baggage crews",
+      "explanation": "Baggage crews were on strike, and that closed the destination airport to incoming flights.",
+      "supportingSentence": "A strike by baggage crews at the destination had closed that airport to incoming flights, and the announcement of a landing in Vessara, the capital, was delivered in a tone that filed inconvenience under ordinary procedure.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does Soren's decision to take the overnight train reveal?",
+      "options": [
+        "He would accept a rough arrival in order to meet the sponsor",
+        "He still hoped to chair the opening panel from the yard",
+        "He wanted to join the crews who had stopped work",
+        "He preferred to miss dinner and keep his slides"
+      ],
+      "correctAnswer": "He would accept a rough arrival in order to meet the sponsor",
+      "explanation": "The replacement connection would miss the dinner, and he treats that conversation as the part nobody else can hold for him.",
+      "supportingSentence": "The dinner could not be handed over, because a hesitant sponsor had agreed to listen there and might not agree twice.",
+      "skill": "inference"
+    },
+    {
+      "question": "What can a reader conclude about the sponsor from her questions?",
+      "options": [
+        "She was ready to test the project against real disruption",
+        "She would speak only to people who had kept their slides",
+        "She had come chiefly to deliver the opening panel",
+        "She already knew the three questions sent to the colleague"
+      ],
+      "correctAnswer": "She was ready to test the project against real disruption",
+      "explanation": "She asks whether the project could survive a year of delays like the strike, testing it against the trouble Soren has just lived through.",
+      "supportingSentence": "She asked one sharp question about maintenance costs and then a gentler one about whether the project could survive a year of delays like the strike.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does itinerary mean in the account of Soren's new route?",
+      "options": [
+        "The revised plan for how he would continue",
+        "The strike notice pinned up at the airport",
+        "The menu for the conference dinner",
+        "The written script of the opening panel"
+      ],
+      "correctAnswer": "The revised plan for how he would continue",
+      "explanation": "His replacement itinerary is the new arrangement of train and flight in place of the original journey.",
+      "supportingSentence": "Soren's replacement itinerary offered a morning train and then a regional flight that would set him down after both the panel and the dinner he had come for.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer include Soren's choice to keep the same shirt?",
+      "options": [
+        "To show he valued the meeting above a neater appearance",
+        "To explain the sponsor's question about maintenance",
+        "To prove the freight yard had no washroom",
+        "To suggest the voucher paid for a hotel laundry"
+      ],
+      "correctAnswer": "To show he valued the meeting above a neater appearance",
+      "explanation": "He decides that changing would be a costume rather than a courtesy, so the detail marks his priorities before he meets the sponsor.",
+      "supportingSentence": "His shirt had travelled through two revisions of the plan, and he decided that changing it would be a costume rather than a courtesy.",
+      "skill": "intent"
+    }
+  ]
+}

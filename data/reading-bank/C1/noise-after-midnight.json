@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "daily life",
+  "title": "Noise after Midnight",
+  "story": "The piano started again just after midnight, not loudly, but with a persistence that made sleep unlikely. Helen lay awake in the flat below and counted the same four bars, which her neighbour, Yusuf, repeated until a wrong note sent the passage back to the beginning. The building rules, posted in the lobby when she moved in, stipulated that musical instruments should fall silent by eleven. This week his sessions had become nightly, and the intermittent pauses made them harder to ignore than a steady sound would have been.\n\nOn Thursday she slipped a note under his door rather than knocking while he was still playing. She kept the tone measured, mentioned the rule, and asked whether an earlier finish might be possible during the working week. Yusuf replied the next morning with an apology that did not quite concede the point. He explained that the only free hour in his timetable fell after his last pupil left, and that the piece was for an audition he could not move. If he stopped at eleven, he said, he would lose the one stretch of time in which the building was otherwise still. He offered to close the windows and to avoid the passages that needed force.\n\nHelen tried earplugs and found that they muffled the melody without removing the thud of the pedal. The caretaker suggested mediation before anyone wrote to the managing agent, whose letters tended to escalate a nuisance into a formal warning. Helen agreed, on the condition that the conversation stay specific and that nobody be asked to stop playing altogether.\n\nThey met in the ground-floor room on Monday evening. Yusuf brought a practice diary, and Helen brought a record of the nights she had been woken. The mediator, a resident who trained people in difficult conversations, asked each of them what a tolerable week would look like. Yusuf needed four late sessions before the audition. Helen needed two nights of unbroken sleep in every three, because her hospital shift started at six. The arrangement they reached was narrower than either had wanted. He could play past midnight on Tuesday and Friday, with the windows shut and the soft pedal down, and he would stop by eleven on every other night. Helen would not pursue a warning unless the pattern slipped. If the audition had not been so close, she might have pressed for a stricter limit. As it was, she left with a compromise she could live with, and with the uneasy sense that goodwill, once written into a timetable, would need watching.",
+  "vocabulary": [
+    {
+      "word": "persistence",
+      "definition": "The habit of continuing and not stopping"
+    },
+    {
+      "word": "stipulated",
+      "definition": "Stated as a requirement"
+    },
+    {
+      "word": "intermittent",
+      "definition": "Stopping and starting, rather than steady"
+    },
+    {
+      "word": "mediation",
+      "definition": "A talk helped by someone who is not on either side"
+    },
+    {
+      "word": "nuisance",
+      "definition": "Something that seriously bothers other people"
+    },
+    {
+      "word": "tolerable",
+      "definition": "Hard, but still acceptable to live with"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Why did the late playing disturb Helen more than a continuous sound would have?",
+      "options": [
+        "The repeated breaks kept pulling her attention back",
+        "Yusuf played more loudly after she wrote to him",
+        "The lobby rule allowed only very short bursts of music",
+        "Her earplugs turned every pause into a knock"
+      ],
+      "correctAnswer": "The repeated breaks kept pulling her attention back",
+      "explanation": "The pauses in the nightly sessions were harder to ignore than a steady sound.",
+      "supportingSentence": "This week his sessions had become nightly, and the intermittent pauses made them harder to ignore than a steady sound would have been.",
+      "skill": "inference"
+    },
+    {
+      "question": "On which nights could Yusuf continue after midnight?",
+      "options": [
+        "Tuesday and Friday",
+        "Only the Sunday before the audition",
+        "Every night, if the windows stayed shut",
+        "Monday and Thursday, while Helen was at the hospital"
+      ],
+      "correctAnswer": "Tuesday and Friday",
+      "explanation": "He could play past midnight on Tuesday and Friday, and he had to stop by eleven on other nights.",
+      "supportingSentence": "He could play past midnight on Tuesday and Friday, with the windows shut and the soft pedal down, and he would stop by eleven on every other night.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did the caretaker suggest a meeting rather than a letter to the agent?",
+      "options": [
+        "A formal warning would have made the quarrel sharper",
+        "The agent had already refused to read notes from residents",
+        "Helen had demanded that the audition be cancelled",
+        "The lobby rules had expired when Helen moved in"
+      ],
+      "correctAnswer": "A formal warning would have made the quarrel sharper",
+      "explanation": "Letters from the managing agent tended to turn a nuisance into a formal warning.",
+      "supportingSentence": "The caretaker suggested mediation before anyone wrote to the managing agent, whose letters tended to escalate a nuisance into a formal warning.",
+      "skill": "inference"
+    },
+    {
+      "question": "What is a tolerable week in this conversation?",
+      "options": [
+        "A pattern of days that both neighbours could live with",
+        "A warning sent by the managing agent",
+        "A note pushed under a door late at night",
+        "A passage that had to be played with force"
+      ],
+      "correctAnswer": "A pattern of days that both neighbours could live with",
+      "explanation": "The mediator asks each of them what kind of week they could accept.",
+      "supportingSentence": "The mediator, a resident who trained people in difficult conversations, asked each of them what a tolerable week would look like.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer mention the rule posted in the lobby?",
+      "options": [
+        "To show that Helen is relying on a rule that already exists",
+        "To prove that Yusuf had never met the other residents",
+        "To suggest that hospital shifts should end at eleven",
+        "To argue that practice should move to a public hall"
+      ],
+      "correctAnswer": "To show that Helen is relying on a rule that already exists",
+      "explanation": "The posted rule says instruments should be silent by eleven, which is the standard behind her complaint.",
+      "supportingSentence": "The building rules, posted in the lobby when she moved in, stipulated that musical instruments should fall silent by eleven.",
+      "skill": "intent"
+    }
+  ]
+}

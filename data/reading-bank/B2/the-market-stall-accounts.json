@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "economy_finance",
+  "title": "The Market Stall Accounts",
+  "story": "On wet Saturdays the fruit stall at the east end of the town market still opened at eight. When her uncle went into hospital, Amina agreed to run it for four weeks. He left her a tin of coins, a handwritten price card, and a notebook with columns. Each evening she was supposed to record every sale and then count what remained in the tin. By the second Saturday the notebook looked healthy, yet the tin felt light in her hands.\n\nThat night Amina spread the notebook and the tin on the kitchen table. The book said she had taken three hundred and twelve pounds. She counted the notes and coins twice and reached only two hundred and seventy-four. A shortfall of that size could not be a single coin dropped between the crates. At about eleven she had begun selling bruised apples for less than the card, because the regulars expected that favour when the fruit was past its best. She had copied the full price into the notebook and accepted the lower sum. The same mistake had happened with the soft pears after lunch. Generosity, written down as if it were the listed price, had invented money that never entered the tin.\n\nOn Sunday she drew a second column headed money received and copied the week from memory and from the few receipts in her coat. The new total matched the cash exactly. While she was smoothing the pages she found a supplier's bill folded into the back cover, still unpaid from her uncle's last Saturday. Once that bill was included, the stall had made only a modest profit, not the comfortable surplus suggested by the old column. Amina telephoned the ward, explained the two columns, and promised not to hide a discount inside a hopeful figure. Her uncle said the stall had always survived on careful notes rather than cheerful ones. For the remaining Saturdays she wrote the real price as she handed over the fruit, and each evening the tin and the book finally agreed.",
+  "vocabulary": [
+    {
+      "word": "shortfall",
+      "definition": "The amount by which the cash was less than the written total."
+    },
+    {
+      "word": "handwritten",
+      "definition": "Written by hand rather than printed."
+    },
+    {
+      "word": "receipts",
+      "definition": "Small papers that show what was paid or sold."
+    },
+    {
+      "word": "surplus",
+      "definition": "Extra money left after costs, more than enough."
+    },
+    {
+      "word": "discount",
+      "definition": "A lower price than the one shown on the card."
+    },
+    {
+      "word": "modest",
+      "definition": "Fairly small, and not large or showy."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How much did the notebook say Amina had taken?",
+      "options": [
+        "Two hundred and seventy-four pounds",
+        "Three hundred and twelve pounds",
+        "The cost of the supplier's bill",
+        "Four weeks of market takings"
+      ],
+      "correctAnswer": "Three hundred and twelve pounds",
+      "explanation": "The notebook said she had taken three hundred and twelve pounds, which was more than the cash.",
+      "supportingSentence": "The book said she had taken three hundred and twelve pounds.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Amina find folded in the back cover?",
+      "options": [
+        "A second handwritten price card",
+        "The hospital's visiting hours",
+        "An unpaid bill from a supplier",
+        "A list of the regular customers"
+      ],
+      "correctAnswer": "An unpaid bill from a supplier",
+      "explanation": "Inside the back cover was a supplier's bill from her uncle's last Saturday, and it was still unpaid.",
+      "supportingSentence": "While she was smoothing the pages she found a supplier's bill folded into the back cover, still unpaid from her uncle's last Saturday.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the exact match on Sunday tell the reader about the missing pounds?",
+      "options": [
+        "They were hidden inside the supplier's unpaid bill",
+        "They had been carried to the hospital that morning",
+        "She had counted the notes once and skipped the coins",
+        "They had never been received, so the book was ahead of the tin"
+      ],
+      "correctAnswer": "They had never been received, so the book was ahead of the tin",
+      "explanation": "When she recorded the money she had really received, the book matched the tin, so the gap was imaginary.",
+      "supportingSentence": "The new total matched the cash exactly.",
+      "skill": "inference"
+    },
+    {
+      "question": "What would her uncle most likely have praised on the later Saturdays?",
+      "options": [
+        "Writing the price customers actually paid",
+        "Keeping the old column and reporting the higher total",
+        "Giving bruised fruit away without a note",
+        "Leaving the supplier's bill out of the sum"
+      ],
+      "correctAnswer": "Writing the price customers actually paid",
+      "explanation": "He trusted careful notes rather than cheerful ones, and she began writing the real price at each sale.",
+      "supportingSentence": "Her uncle said the stall had always survived on careful notes rather than cheerful ones.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does the word shortfall mean in this story?",
+      "options": [
+        "A coin that fell between the fruit crates",
+        "The amount by which the cash was below the written total",
+        "The profit that remains after a bill is paid",
+        "A lower price offered to regular customers"
+      ],
+      "correctAnswer": "The amount by which the cash was below the written total",
+      "explanation": "The shortfall is the gap between the higher notebook total and the smaller amount in the tin.",
+      "supportingSentence": "A shortfall of that size could not be a single coin dropped between the crates.",
+      "skill": "vocabulary"
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "hobbies",
+  "title": "The Allotment in August",
+  "story": "By August the allotment at the end of Willow Lane had become a full occupation rather than a weekend hobby. Priya Raman arrived before the heat, unlocked the gate, and stood among tomatoes that had outgrown their canes. She had taken the plot in spring, although she had underestimated how quickly weeds, watering, and other people's advice would fill her evenings. Her neighbour Henrik was already picking beans into a crate. However, he did not linger, because a thunderstorm was forecast after lunch and everyone wanted the ripe fruit under cover before then.\n\nPriya began with the courgettes, which had hidden under wide leaves and grown larger than she liked. She cut six, left the smaller ones, and carried them to the shed where her trug and gloves lived. Although the shed was cramped, it held a watering can, a ball of twine, and a notebook recording what she had planted and what had failed. The beans sown too late were thin, yet the potatoes, almost forgotten under their mounds, sounded solid when she pushed in a fork.\n\nAt midmorning Henrik returned with basil and a warning about the communal compost. Someone had added bread, and the heap was attracting wasps. Priya was not the culprit, although she admitted that the rules about scraps still confused her. They agreed to put a clearer sign on the bin, and Henrik offered the basil in exchange for two courgettes. She accepted, partly because her own herbs had dried up during the previous hot week.\n\nWhen distant thunder sounded, Priya picked the reddest tomatoes, watered the pots that would suffer most, and locked the shed. She walked home with soil on her wrists and a bag pulling at her shoulder. The allotment would need her again the next day, and the weeds would not pause for the weather. However, the morning had given her more food than she could eat alone, and she was already deciding which neighbour would welcome a bowl of tomatoes.",
+  "vocabulary": [
+    {
+      "word": "allotment",
+      "definition": "A small rented plot used for growing food."
+    },
+    {
+      "word": "canes",
+      "definition": "Sticks that support tall plants."
+    },
+    {
+      "word": "underestimated",
+      "definition": "Thought something would be easier or smaller than it was."
+    },
+    {
+      "word": "trug",
+      "definition": "A shallow garden basket for carrying what you pick."
+    },
+    {
+      "word": "communal",
+      "definition": "Shared by a group of people."
+    },
+    {
+      "word": "compost",
+      "definition": "Rotted plant material used to improve soil."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How many courgettes did Priya cut at the start of the morning?",
+      "options": [
+        "Two",
+        "Six",
+        "Twelve",
+        "None, because they were still tiny"
+      ],
+      "correctAnswer": "Six",
+      "explanation": "She cut six courgettes and left the smaller ones.",
+      "supportingSentence": "She cut six, left the smaller ones, and carried them to the shed where her trug and gloves lived.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why were wasps gathering around the compost?",
+      "options": [
+        "Someone had added bread to the heap",
+        "Priya had poured sugar over it",
+        "Henrik had covered it with fresh basil",
+        "The tomatoes had fallen into the bin"
+      ],
+      "correctAnswer": "Someone had added bread to the heap",
+      "explanation": "Someone had added bread, and the heap was attracting wasps.",
+      "supportingSentence": "Someone had added bread, and the heap was attracting wasps.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did the solid sound under the soil suggest?",
+      "options": [
+        "The fork had struck a buried pipe",
+        "Henrik had already taken the crop",
+        "The beans were hidden in the same place",
+        "The potatoes had developed well"
+      ],
+      "correctAnswer": "The potatoes had developed well",
+      "explanation": "The potatoes sounded solid when she pushed the fork in, which suggests they had grown properly.",
+      "supportingSentence": "The beans sown too late were thin, yet the potatoes, almost forgotten under their mounds, sounded solid when she pushed in a fork.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why did Priya pick and water as soon as she heard thunder?",
+      "options": [
+        "Henrik had locked the gate early",
+        "She had to return a tool before noon",
+        "The storm they had expected was arriving",
+        "The wasps had moved onto the tomatoes"
+      ],
+      "correctAnswer": "The storm they had expected was arriving",
+      "explanation": "Thunder meant the forecast storm was starting, so she picked the ripest tomatoes and watered the pots that would suffer.",
+      "supportingSentence": "When distant thunder sounded, Priya picked the reddest tomatoes, watered the pots that would suffer most, and locked the shed.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does underestimated say about Priya's expectations in spring?",
+      "options": [
+        "She refused every offer of advice",
+        "She thought the plot would demand less of her time",
+        "She planted the tomatoes much too late",
+        "She arrived after Henrik every morning"
+      ],
+      "correctAnswer": "She thought the plot would demand less of her time",
+      "explanation": "She underestimated the work, so the weeds, watering, and advice took more of her evenings than she had expected.",
+      "supportingSentence": "She had taken the plot in spring, although she had underestimated how quickly weeds, watering, and other people's advice would fill her evenings.",
+      "skill": "vocabulary"
+    }
+  ]
+}

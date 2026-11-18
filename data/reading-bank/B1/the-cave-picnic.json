@@ -1,0 +1,99 @@
+{
+  "level": "B1",
+  "topic": "adventure",
+  "title": "The Cave Picnic",
+  "story": "The Ortega family carried a picnic basket up a rocky path. They wanted to eat near the wide mouth of an old cave. Sofia held her little brother's hand on the uneven ground. Her father, Mateo, carried a blanket and a flask of juice. Her mother, Rosa, had packed bread, cheese, and sweet plums. The cave felt cool when they stepped just inside the entrance. They spread the blanket on a flat place in the shade. Birds nested in the cracks above them, but the birds stayed quiet.\n\nSofia read the information board beside the path. It said visitors could look, but they should not go deep inside. They ate slowly and listened to water dripping in the dark. Then a sudden shower began, and rain hit the dusty ground. The family moved farther into the entrance, where the rock stayed dry. Mateo shone a small flashlight on the nearest wall. Pale marks showed where water had run for many years. Rosa said those marks were not a map and not a message.\n\nWhen the rain stopped, sunlight returned to the valley. They shook the blanket, packed the basket, and left no rubbish. Sofia looked back once and waved at the quiet cave. On the way down, her brother asked if they could return next month. Rosa said yes, but only with the same careful rules.",
+  "vocabulary": [
+    {
+      "word": "uneven",
+      "definition": "Not flat or level."
+    },
+    {
+      "word": "entrance",
+      "definition": "The way into a place."
+    },
+    {
+      "word": "visitors",
+      "definition": "People who come to see a place."
+    },
+    {
+      "word": "sudden",
+      "definition": "Happening quickly and without warning."
+    },
+    {
+      "word": "dripping",
+      "definition": "Falling in small drops."
+    },
+    {
+      "word": "rubbish",
+      "definition": "Things that people throw away."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What food had Rosa packed?",
+      "options": [
+        "Soup, rice, and eggs",
+        "Bread, cheese, and plums",
+        "Cake, milk, and apples",
+        "Fish, bread, and nuts"
+      ],
+      "correctAnswer": "Bread, cheese, and plums",
+      "explanation": "Rosa had packed bread, cheese, and sweet plums.",
+      "supportingSentence": "Her mother, Rosa, had packed bread, cheese, and sweet plums.",
+      "skill": "detail"
+    },
+    {
+      "question": "What rule did the information board give?",
+      "options": [
+        "Feed the nesting birds",
+        "Do not go deep inside",
+        "Swim in the dark water",
+        "Write on the cave wall"
+      ],
+      "correctAnswer": "Do not go deep inside",
+      "explanation": "The board said visitors could look, but they should not go deep inside.",
+      "supportingSentence": "It said visitors could look, but they should not go deep inside.",
+      "skill": "detail"
+    },
+    {
+      "question": "Where did the family move when the rain started?",
+      "options": [
+        "Back down the valley",
+        "Farther into the entrance",
+        "Deep into the cave",
+        "Onto the rocky path"
+      ],
+      "correctAnswer": "Farther into the entrance",
+      "explanation": "They moved farther into the entrance, where the rock stayed dry.",
+      "supportingSentence": "The family moved farther into the entrance, where the rock stayed dry.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the word uneven mean in this story?",
+      "options": [
+        "Full of birds",
+        "Very sweet",
+        "Not flat or level",
+        "Easy to carry"
+      ],
+      "correctAnswer": "Not flat or level",
+      "explanation": "Uneven ground goes up and down, so it is not flat or level.",
+      "supportingSentence": "Sofia held her little brother's hand on the uneven ground.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "How did Sofia seem to feel when she left?",
+      "options": [
+        "Angry about the rain",
+        "Afraid of the birds",
+        "Fond of the cave",
+        "Bored by the picnic"
+      ],
+      "correctAnswer": "Fond of the cave",
+      "explanation": "She looked back and waved, which shows she liked the cave.",
+      "supportingSentence": "Sofia looked back once and waved at the quiet cave.",
+      "skill": "inference"
+    }
+  ]
+}

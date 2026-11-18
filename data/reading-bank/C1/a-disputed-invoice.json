@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "economy_finance",
+  "title": "A Disputed Invoice",
+  "story": "The invoice arrived on a Tuesday, clipped to an envelope that still smelled faintly of the print shop downstairs. It asked the design studio for six hundred and eighty pounds, most of it listed as rush hours on a poster series the client had already approved. Petra, who managed the books from a desk beside the kettle, remembered authorizing a flat fee for three illustrations and a single round of changes. She did not remember authorizing nights, weekends, or a rate that doubled after six. The studio's standard terms, pinned above her desk, named the flat fee and forbade overtime unless she had confirmed it in writing the day before the work.\n\nShe laid the purchase order, the email thread, and the illustrator's timesheet in a row. The purchase order named the fee and the deadline. The emails showed that the client had requested a different typeface on a Thursday afternoon, and that Petra had replied, before the end of the day, agreeing to the change inside the original fee. The timesheet told another story. It recorded nine additional hours on Friday evening and four on Saturday, each marked urgent, none of them mentioned in any message she could find. The discrepancy was not a matter of arithmetic. The hours might well have been worked. The question was whether anyone at the studio had asked for them.\n\nPetra rang the illustrator and kept her voice level. He said the client had telephoned him directly, anxious about a board meeting, and that he had assumed the studio would stand behind the extra work because the relationship mattered. He had not written that assumption down. Petra listened, then read him the clause in their short contract that required written approval before any charge above the agreed fee. She did not call him careless. She said the studio could not pay, in full, for work it had not been given the chance to refuse.\n\nThey settled that afternoon. The studio would pay the original fee at once, plus a smaller sum for the Friday hours, which had at least kept the project on the client's timetable. The Saturday hours would be dropped. In return, the illustrator would send future variations only after a short written note, even if the note was a single sentence on his phone. Petra amended the invoice by hand, initialled the change, and filed the emails behind it. The amount that left the account was smaller than the figure on the first page. The more useful result was the habit they had both agreed to keep.",
+  "vocabulary": [
+    {
+      "word": "invoice",
+      "definition": "A bill asking to be paid for goods or work."
+    },
+    {
+      "word": "authorizing",
+      "definition": "Officially allowing something to happen."
+    },
+    {
+      "word": "timesheet",
+      "definition": "A record of the hours someone says they worked."
+    },
+    {
+      "word": "discrepancy",
+      "definition": "A difference between two accounts that should agree."
+    },
+    {
+      "word": "clause",
+      "definition": "A particular term in a contract."
+    },
+    {
+      "word": "amended",
+      "definition": "Changed a document so that it shows a new agreement."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How much did the invoice ask the studio to pay?",
+      "options": [
+        "Three hundred pounds for a single illustration",
+        "The original flat fee and nothing more",
+        "Six hundred and eighty pounds",
+        "A doubled rate for the whole poster series"
+      ],
+      "correctAnswer": "Six hundred and eighty pounds",
+      "explanation": "The opening of the story gives the total on the invoice as six hundred and eighty pounds.",
+      "supportingSentence": "It asked the design studio for six hundred and eighty pounds, most of it listed as rush hours on a poster series the client had already approved.",
+      "skill": "detail"
+    },
+    {
+      "question": "What is Petra's view of the extra hours on the timesheet?",
+      "options": [
+        "The illustrator invented every hour, so none of the work was real.",
+        "He may have worked them, but the studio never had a chance to refuse them.",
+        "The client should pay the doubled rate straight to him.",
+        "The original flat fee should be cancelled as well."
+      ],
+      "correctAnswer": "He may have worked them, but the studio never had a chance to refuse them.",
+      "explanation": "Petra allows that the hours might have been worked, and she objects because the studio could not refuse them first.",
+      "supportingSentence": "She said the studio could not pay, in full, for work it had not been given the chance to refuse.",
+      "skill": "inference"
+    },
+    {
+      "question": "Where did the charge the studio would not meet in full come from?",
+      "options": [
+        "A mistake in adding up the original flat fee",
+        "Overtime that Petra had confirmed in writing the day before",
+        "A second poster series the client had never seen",
+        "Extra work after a direct client call that had not been approved in writing"
+      ],
+      "correctAnswer": "Extra work after a direct client call that had not been approved in writing",
+      "explanation": "The illustrator acted on a private call from the client and only assumed the studio would pay. The contract required written approval first.",
+      "supportingSentence": "He said the client had telephoned him directly, anxious about a board meeting, and that he had assumed the studio would stand behind the extra work because the relationship mattered.",
+      "skill": "inference"
+    },
+    {
+      "question": "In this story, what is a discrepancy?",
+      "options": [
+        "A gap between two records of the same job",
+        "A discount given to a loyal client",
+        "A late payment of a flat fee",
+        "A type of envelope used for bills"
+      ],
+      "correctAnswer": "A gap between two records of the same job",
+      "explanation": "Petra uses the word for the clash between the timesheet and the messages, and she says it is not just a sums problem.",
+      "supportingSentence": "The discrepancy was not a matter of arithmetic.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What point is the writer making by ending with the new habit?",
+      "options": [
+        "A clear habit of written approval mattered more than the exact sum paid",
+        "The illustrator should stop working with studios",
+        "Handwritten changes on a bill are never valid",
+        "The client ought to design the posters alone"
+      ],
+      "correctAnswer": "A clear habit of written approval mattered more than the exact sum paid",
+      "explanation": "The story calls the shared habit more useful than the smaller amount that left the account.",
+      "supportingSentence": "The more useful result was the habit they had both agreed to keep.",
+      "skill": "intent"
+    }
+  ]
+}

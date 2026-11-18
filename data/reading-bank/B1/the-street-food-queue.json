@@ -1,0 +1,99 @@
+{
+  "level": "B1",
+  "topic": "culture_food",
+  "title": "The Street Food Queue",
+  "story": "Aisha and her brother Dev arrived at the night market just after seven. A long queue already curled around the busiest stall. The sign above it promised fried noodles with vegetables, egg, and a choice of sauce. They joined the line and moved forward a little at a time.\n\nThe vendor worked quickly behind a hot pan. When people asked for a spicy sauce, he pointed to a red bottle and raised his eyebrows. Aisha chose the mild sauce because she had a sore throat. Dev asked for the hotter one and added extra beans. Each portion came in a paper box with a wooden fork.\n\nWhile they waited, rain began to fall in light drops. A woman shared her umbrella with the child in front of her. Dev pulled up his hood and kept their place. After twenty minutes they reached the counter. Aisha paid for both boxes and said thank you. The vendor nodded and turned back to the pan. The queue behind them was still long. They found a dry step under a shop awning and opened the boxes. Steam rose into the cool air. Aisha's noodles were salty, sweet, and easy to eat. Dev's portion made him reach for water, and he laughed at his own choice. They traded one bite so each could taste the other sauce. Then they stayed a little longer and watched the market lights shine on the wet street.",
+  "vocabulary": [
+    {
+      "word": "queue",
+      "definition": "A line of people who are waiting."
+    },
+    {
+      "word": "stall",
+      "definition": "A small outdoor shop or stand."
+    },
+    {
+      "word": "vendor",
+      "definition": "A person who sells something."
+    },
+    {
+      "word": "spicy",
+      "definition": "Having a hot, strong flavour."
+    },
+    {
+      "word": "portion",
+      "definition": "An amount of food for one person."
+    },
+    {
+      "word": "awning",
+      "definition": "A cover that sticks out from a building and protects people from rain."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "When did Aisha and Dev reach the night market?",
+      "options": [
+        "Just after seven",
+        "Just after five",
+        "At noon",
+        "Late in the morning"
+      ],
+      "correctAnswer": "Just after seven",
+      "explanation": "They arrived at the night market just after seven.",
+      "supportingSentence": "Aisha and her brother Dev arrived at the night market just after seven.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did Aisha choose the mild sauce?",
+      "options": [
+        "She had a sore throat",
+        "The red bottle was empty",
+        "Dev had already paid for it",
+        "She does not eat vegetables"
+      ],
+      "correctAnswer": "She had a sore throat",
+      "explanation": "Aisha chose the mild sauce because her throat was sore.",
+      "supportingSentence": "Aisha chose the mild sauce because she had a sore throat.",
+      "skill": "detail"
+    },
+    {
+      "question": "How long did they wait before reaching the counter?",
+      "options": [
+        "Five minutes",
+        "Twenty minutes",
+        "One hour",
+        "Two hours"
+      ],
+      "correctAnswer": "Twenty minutes",
+      "explanation": "They reached the counter after twenty minutes.",
+      "supportingSentence": "After twenty minutes they reached the counter.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does vendor mean in this story?",
+      "options": [
+        "The person selling the food",
+        "The paper box for the noodles",
+        "The line of waiting people",
+        "The rain cover by the shop"
+      ],
+      "correctAnswer": "The person selling the food",
+      "explanation": "The vendor was the person working behind the hot pan and selling noodles.",
+      "supportingSentence": "The vendor worked quickly behind a hot pan.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What does the traded bite show about Aisha and Dev?",
+      "options": [
+        "They were willing to share",
+        "They disliked both sauces",
+        "They wanted a refund from the stall",
+        "They were too full to eat anything"
+      ],
+      "correctAnswer": "They were willing to share",
+      "explanation": "They traded a bite so each person could taste the other sauce.",
+      "supportingSentence": "They traded one bite so each could taste the other sauce.",
+      "skill": "inference"
+    }
+  ]
+}

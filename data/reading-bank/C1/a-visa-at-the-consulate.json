@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "travel",
+  "title": "A Visa at the Consulate",
+  "story": "Lena Morat reached the consulate of Orsena with a folder she had checked three times on the tram. The appointment slip allowed her twelve minutes with a consular officer, and the list of required papers ran onto a second page. She carried a letter from her employer, a bank statement, a photograph of the stated size, and a short account of the archive she hoped to consult in the city of Pell. What she lacked was a paper the website had added over the weekend, a signed note from her landlord confirming that she intended to return to her flat. She had printed the older list and had trusted it.\n\nThe waiting room was quiet in the particular way of places where people rehearse answers under their breath. A clerk called numbers without looking up from the screen. When Lena's turn came, the officer, a woman with a pencil parked behind one ear, turned each page as if the order of the papers were itself a kind of evidence. She stopped at the end and tapped the blank place where the landlord's note should have sat. The requirement, she said, was not meant to be hostile. It existed because some applicants described a short research visit as complete in itself when they were in fact arranging a longer stay, and the office had been instructed to look for ties that pulled a person home. Lena explained that her landlord was away and could not sign until Thursday. The officer listened without sympathy and without impatience, a neutrality that was its own form of courtesy.\n\nLena could submit the file as it stood and risk a discretionary refusal, or she could return with the missing page and keep her place on the week's list. There was no stamp that meant almost. She chose to return. In the corridor she passed a man arguing, softly, that a wedding invitation ought to count as a tie. On the steps she telephoned the neighbour who held a spare key and asked him to slide a note under the landlord's door, worded plainly and limited to the sentence the form required. Walking back towards the tram, she felt the particular humiliation of having been careful according to the wrong version of the instructions. The consulate had not questioned her purpose. It had questioned whether purpose, however sincere, could stand in for proof. She could supply the page on Thursday. What she could not supply was a version of the truth the form had not thought to ask for.",
+  "vocabulary": [
+    {
+      "word": "consular",
+      "definition": "Related to the work of a consul or a consulate."
+    },
+    {
+      "word": "archive",
+      "definition": "A collection of historical papers kept for study."
+    },
+    {
+      "word": "rehearse",
+      "definition": "To practise what you are going to say."
+    },
+    {
+      "word": "discretionary",
+      "definition": "Decided by a person's judgment rather than by a fixed rule."
+    },
+    {
+      "word": "neutrality",
+      "definition": "A manner that takes neither side and shows little emotion."
+    },
+    {
+      "word": "humiliation",
+      "definition": "A painful feeling of having been made to look foolish."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How long was Lena's meeting with the officer supposed to last?",
+      "options": [
+        "Twelve minutes",
+        "Half an hour",
+        "Until Thursday",
+        "A full afternoon"
+      ],
+      "correctAnswer": "Twelve minutes",
+      "explanation": "The appointment slip allowed her twelve minutes with the officer.",
+      "supportingSentence": "The appointment slip allowed her twelve minutes with a consular officer, and the list of required papers ran onto a second page.",
+      "skill": "detail"
+    },
+    {
+      "question": "How could the incomplete file have made Lena look to the officer?",
+      "options": [
+        "Like someone whose return home was not yet on paper",
+        "Like a clerk who had called the wrong number",
+        "Like a landlord signing forms for other applicants",
+        "Like a visitor who already held a long-term permit"
+      ],
+      "correctAnswer": "Like someone whose return home was not yet on paper",
+      "explanation": "The missing note was supposed to show a tie that would bring her home, so its absence left that tie unproven.",
+      "supportingSentence": "It existed because some applicants described a short research visit as complete in itself when they were in fact arranging a longer stay, and the office had been instructed to look for ties that pulled a person home.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does Lena's telephone call show about the choice she has made?",
+      "options": [
+        "She will try to meet the rule in the exact form it demands",
+        "She will submit the file and hope for a soft answer",
+        "She will ask the officer to accept a wedding invitation",
+        "She will send her employer to sign in the landlord's place"
+      ],
+      "correctAnswer": "She will try to meet the rule in the exact form it demands",
+      "explanation": "She asks for a plain note limited to the sentence the form requires, which shows she means to comply rather than argue.",
+      "supportingSentence": "On the steps she telephoned the neighbour who held a spare key and asked him to slide a note under the landlord's door, worded plainly and limited to the sentence the form required.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does discretionary suggest about the refusal she might receive?",
+      "options": [
+        "It would depend on the officer's judgment",
+        "It had already been stamped before she arrived",
+        "It would count as a short approval",
+        "It would refund the cost of her tram"
+      ],
+      "correctAnswer": "It would depend on the officer's judgment",
+      "explanation": "Submitting the incomplete file would risk a refusal the officer could choose to make, not one already fixed in advance.",
+      "supportingSentence": "Lena could submit the file as it stood and risk a discretionary refusal, or she could return with the missing page and keep her place on the week's list.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer include the man with the wedding invitation?",
+      "options": [
+        "To show another applicant offering a substitute for the required proof",
+        "To reveal that Lena is travelling to a wedding in Pell",
+        "To explain why the clerk never looked up",
+        "To mark Thursday as a public holiday"
+      ],
+      "correctAnswer": "To show another applicant offering a substitute for the required proof",
+      "explanation": "He wants a personal paper to count as a tie, which sets a persuasive argument beside the plain document Lena decides to obtain.",
+      "supportingSentence": "In the corridor she passed a man arguing, softly, that a wedding invitation ought to count as a tie.",
+      "skill": "intent"
+    }
+  ]
+}

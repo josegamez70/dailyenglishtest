@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "daily life",
+  "title": "The Lost House Key",
+  "story": "Marta left her flat at eight and walked to the small market on her street. She locked the front door and dropped the house key into her coat pocket. The morning was cool, and the bread stall already had a short queue. Marta bought a loaf and a bag of apples. She paid, said thank you, and turned toward home. At the corner she put her hand into the pocket. The key was not there. She stopped and checked the other pocket, then her bag, and then the ground by her feet. She felt hot and worried. Her neighbour Pedro was coming out of the shop. He saw her face and asked what was wrong. Marta said she had lost the house key. Pedro walked back to the bread stall with her. The seller looked under the counter and held up one key. It had been on the ground beside the apples. Later Marta tried it in her own door, and the lock turned. She thanked Pedro and the seller. That evening she fixed a small hook on the wall by the door. She hung the key there before she went to bed. The next morning the key was still on the hook, and Marta left home calm and on time.",
+  "vocabulary": [
+    {
+      "word": "pocket",
+      "definition": "a small bag sewn into clothing"
+    },
+    {
+      "word": "queue",
+      "definition": "a line of people waiting"
+    },
+    {
+      "word": "worried",
+      "definition": "afraid that something bad has happened"
+    },
+    {
+      "word": "stall",
+      "definition": "a table where someone sells things"
+    },
+    {
+      "word": "hook",
+      "definition": "a small curved piece of metal for hanging things"
+    },
+    {
+      "word": "calm",
+      "definition": "quiet and not upset"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where did Marta first put the house key?",
+      "options": [
+        "into her coat pocket",
+        "into the bread bag",
+        "under the doormat",
+        "on the kitchen table"
+      ],
+      "correctAnswer": "into her coat pocket",
+      "explanation": "She dropped it into her coat pocket after locking the door.",
+      "supportingSentence": "She locked the front door and dropped the house key into her coat pocket.",
+      "skill": "detail"
+    },
+    {
+      "question": "Who walked back to the stall with Marta?",
+      "options": [
+        "Pedro",
+        "the bus driver",
+        "her teacher",
+        "a police officer"
+      ],
+      "correctAnswer": "Pedro",
+      "explanation": "Pedro was the neighbour who went with her.",
+      "supportingSentence": "Pedro walked back to the bread stall with her.",
+      "skill": "detail"
+    },
+    {
+      "question": "Where had the seller found the key?",
+      "options": [
+        "on the ground beside the apples",
+        "inside the till",
+        "in a customer's car",
+        "on the roof"
+      ],
+      "correctAnswer": "on the ground beside the apples",
+      "explanation": "The seller said it was beside the apples.",
+      "supportingSentence": "It had been on the ground beside the apples.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does calm mean?",
+      "options": [
+        "quiet and not upset",
+        "late for work",
+        "very hungry",
+        "lost in a shop"
+      ],
+      "correctAnswer": "quiet and not upset",
+      "explanation": "The last sentence says she left calm and on time.",
+      "supportingSentence": "The next morning the key was still on the hook, and Marta left home calm and on time.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Marta fix a hook by the door?",
+      "options": [
+        "so the key would be easy to find",
+        "so she could lock Pedro out",
+        "so the seller could visit",
+        "so the apples would stay fresh"
+      ],
+      "correctAnswer": "so the key would be easy to find",
+      "explanation": "She hung the key there after losing it once.",
+      "supportingSentence": "That evening she fixed a small hook on the wall by the door.",
+      "skill": "inference"
+    }
+  ],
+  "file": "b1-a.txt"
+}

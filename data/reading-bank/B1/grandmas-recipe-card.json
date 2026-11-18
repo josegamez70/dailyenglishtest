@@ -1,0 +1,99 @@
+{
+  "level": "B1",
+  "topic": "culture_food",
+  "title": "Grandma's Recipe Card",
+  "story": "Nora found an old recipe card while she was cleaning a drawer in the spare room. The card was faded, and one corner was bent. Grandma's handwriting was small but clear. The title said \"Sunday lentil stew\". She remembered the smell of that stew on cold evenings when she was a child.\n\nThe card listed each ingredient in order. There were lentils, carrots, onion, garlic, and a tin of tomatoes. A note at the bottom said to add a pinch of cumin near the end. Nora was not sure about cumin, so she checked the spice jar in the kitchen. The smell was warm, and she decided the stew was worth a try.\n\nShe followed the card step by step. She rinsed the lentils and cut the vegetables into chunks. Then she warmed oil in a heavy pot and cooked the onion until it was soft. The tomatoes made the mixture red and thick. Nora let it bubble gently and stirred so nothing stuck. After forty minutes the lentils were tender. It was not exactly Grandma's stew, but it was close. The pinch of cumin made it warm and comforting. Nora copied the card into a fresh notebook so the words would not be lost. She put the old card back in the drawer, inside a clean envelope. Next month she planned to cook the stew for her father and tell him where she had found the instructions.",
+  "vocabulary": [
+    {
+      "word": "faded",
+      "definition": "Less bright or clear because of age."
+    },
+    {
+      "word": "handwriting",
+      "definition": "Words written by hand, not printed."
+    },
+    {
+      "word": "ingredient",
+      "definition": "One food item used to make a dish."
+    },
+    {
+      "word": "pinch",
+      "definition": "A very small amount held between the fingers."
+    },
+    {
+      "word": "tender",
+      "definition": "Soft and easy to eat after cooking."
+    },
+    {
+      "word": "envelope",
+      "definition": "A paper cover used to keep a card or letter safe."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where did Nora find the old card?",
+      "options": [
+        "In a drawer in the spare room",
+        "Inside a library book",
+        "On the kitchen table",
+        "In her father's coat"
+      ],
+      "correctAnswer": "In a drawer in the spare room",
+      "explanation": "She found the card while cleaning a drawer in the spare room.",
+      "supportingSentence": "Nora found an old recipe card while she was cleaning a drawer in the spare room.",
+      "skill": "detail"
+    },
+    {
+      "question": "What title was written on the card?",
+      "options": [
+        "Sunday lentil stew",
+        "Monday chicken soup",
+        "Friday fish pie",
+        "Saturday fruit cake"
+      ],
+      "correctAnswer": "Sunday lentil stew",
+      "explanation": "The title on the card was Sunday lentil stew.",
+      "supportingSentence": "The title said \"Sunday lentil stew\".",
+      "skill": "detail"
+    },
+    {
+      "question": "How long did the lentils cook before they were soft?",
+      "options": [
+        "Ten minutes",
+        "Twenty minutes",
+        "Forty minutes",
+        "Two hours"
+      ],
+      "correctAnswer": "Forty minutes",
+      "explanation": "The lentils were tender after forty minutes.",
+      "supportingSentence": "After forty minutes the lentils were tender.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does pinch mean on the recipe card?",
+      "options": [
+        "A very small amount",
+        "A large spoon of salt",
+        "A full pot of water",
+        "A burnt piece of onion"
+      ],
+      "correctAnswer": "A very small amount",
+      "explanation": "The card says to add a pinch, which is a very small amount of cumin.",
+      "supportingSentence": "A note at the bottom said to add a pinch of cumin near the end.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does Nora plan to cook the stew for her father?",
+      "options": [
+        "She wants to share a family memory",
+        "He asked her to clean every drawer",
+        "The spice jar belongs to him",
+        "She hopes he will sell the card"
+      ],
+      "correctAnswer": "She wants to share a family memory",
+      "explanation": "The stew reminds her of childhood, and she wants to tell her father where she found the card.",
+      "supportingSentence": "Next month she planned to cook the stew for her father and tell him where she had found the instructions.",
+      "skill": "inference"
+    }
+  ]
+}

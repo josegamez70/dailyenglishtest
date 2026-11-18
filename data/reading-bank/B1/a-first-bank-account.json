@@ -1,0 +1,99 @@
+{
+  "level": "B1",
+  "topic": "economy_finance",
+  "title": "A First Bank Account",
+  "story": "Noor turned sixteen and opened her first bank account. She went to the local bank with her father and a folder of papers. The clerk asked for her name, her address, and a document that showed who she was. Noor showed her student card and a letter from school. The clerk said an account was a safe place to keep money.\n\nNoor chose a savings account because she did not need a shop card yet. She made a deposit of thirty euros from birthday gifts. The clerk printed a small book that showed her balance. The balance was thirty euros. A line in the book said the bank would not take a monthly fee while she was a student. Noor started to write her secret number, then remembered that she should keep it only in her head. She tore up the paper and picked a number she could remember.\n\nEach Friday she added five euros from babysitting. She checked the balance on a screen inside the bank because she wanted to see the figures herself. One Friday she nearly took ten euros out for a concert. She stopped, thought about her plan, and left the money where it was. Three months later the balance was ninety euros. Noor felt proud that the money was still there. Her father smiled and said the habit mattered more than one concert. She wrote the new balance in a notebook at home.",
+  "vocabulary": [
+    {
+      "word": "account",
+      "definition": "A bank record of the money you keep there."
+    },
+    {
+      "word": "deposit",
+      "definition": "Money that you put into a bank."
+    },
+    {
+      "word": "balance",
+      "definition": "The amount of money in an account."
+    },
+    {
+      "word": "fee",
+      "definition": "Money a bank charges for a service."
+    },
+    {
+      "word": "clerk",
+      "definition": "A worker who serves customers at a bank."
+    },
+    {
+      "word": "figures",
+      "definition": "Numbers that show an amount."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did Noor open on her sixteenth birthday?",
+      "options": [
+        "Her first bank account",
+        "A card for shops",
+        "A ticket for a concert",
+        "A letter from school"
+      ],
+      "correctAnswer": "Her first bank account",
+      "explanation": "She opened her first bank account when she turned sixteen.",
+      "supportingSentence": "Noor turned sixteen and opened her first bank account.",
+      "skill": "detail"
+    },
+    {
+      "question": "How much money did she put in from birthday gifts?",
+      "options": [
+        "Thirty euros",
+        "Five euros",
+        "Ten euros",
+        "Ninety euros"
+      ],
+      "correctAnswer": "Thirty euros",
+      "explanation": "Her first deposit was thirty euros from birthday gifts.",
+      "supportingSentence": "She made a deposit of thirty euros from birthday gifts.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did the bank skip the monthly fee?",
+      "options": [
+        "She was still a student",
+        "Her father worked at the bank",
+        "The balance was already ninety euros",
+        "She never chose a secret number"
+      ],
+      "correctAnswer": "She was still a student",
+      "explanation": "The book said there was no monthly fee while she was a student.",
+      "supportingSentence": "A line in the book said the bank would not take a monthly fee while she was a student.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what is a deposit?",
+      "options": [
+        "Money placed into a bank account",
+        "A secret number for a card",
+        "A book of school letters",
+        "A fee taken every month"
+      ],
+      "correctAnswer": "Money placed into a bank account",
+      "explanation": "Noor put thirty euros into the account, and that money was a deposit.",
+      "supportingSentence": "She made a deposit of thirty euros from birthday gifts.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Noor leave the ten euros in the bank?",
+      "options": [
+        "Her plan mattered more than the concert",
+        "The concert was cancelled that Friday",
+        "Her father took the cash out",
+        "The screen at the bank was broken"
+      ],
+      "correctAnswer": "Her plan mattered more than the concert",
+      "explanation": "She thought about her plan and chose not to take the money out.",
+      "supportingSentence": "She stopped, thought about her plan, and left the money where it was.",
+      "skill": "inference"
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "culture_food",
+  "title": "A Table for the Festival",
+  "story": "The autumn festival on Quay Lane asked each block to dress one shared table, and Paolo volunteered before he had counted the neighbours. He wanted the spread to feel generous without shutting half the street out. On Tuesday he walked the doors with a notebook and a practical question: what could each house bring, and who needed a dietary note in large print? Adele at the end house could not eat gluten. The brothers at number nine finished work late, so they offered fruit and a cold rice salad.\n\nPaolo wrote every offer in a column and sketched the table so sweet plates would not sit in the afternoon sun. He asked Leila, who grew herbs on a fire escape, for a garnish instead of another heavy bowl. She agreed at once and looked relieved. The list looked balanced on paper, which Paolo did not entirely trust, so he left a blank line for whatever would go wrong.\n\nThe evening before the festival, the blank line filled itself. A family who had promised grilled vegetables had to leave town, and a pot of beans arrived with no spoon. Paolo changed the plan instead of pretending the gap was small. He moved the rice salad to the centre, set the beans where the queue would begin, and borrowed serving spoons from the cafe that was closing for the night. Leila's herbs stood in a jar of water so they would not wilt. A child lettered a card naming the gluten-free plates, and Paolo read every word before he taped it down.\n\nOn the day, people served themselves and then stayed, which was the result he had wanted and had not known how to schedule. Adele found a plate she could trust. The brothers arrived late, saw their salad already half finished, and looked pleased. Paolo spent the afternoon replacing empty platters and noticed that the table worked because each contribution was visible. When the music stopped, enough food remained for the night staff at the station.",
+  "vocabulary": [
+    {
+      "word": "festival",
+      "definition": "A public celebration with shared food and events."
+    },
+    {
+      "word": "dietary",
+      "definition": "Related to the foods a person can or cannot eat."
+    },
+    {
+      "word": "garnish",
+      "definition": "A small extra, often herbs, added to a dish for freshness."
+    },
+    {
+      "word": "platters",
+      "definition": "Large plates used for serving food to several people."
+    },
+    {
+      "word": "contribution",
+      "definition": "Something a person gives toward a shared effort."
+    },
+    {
+      "word": "gluten",
+      "definition": "A protein in wheat that some people must not eat."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did the brothers say they could bring?",
+      "options": [
+        "A hot stew ready at midday",
+        "The grilled vegetables and several spoons",
+        "Herbs cut from a fire escape",
+        "Fruit and a cold rice salad"
+      ],
+      "correctAnswer": "Fruit and a cold rice salad",
+      "explanation": "Because they finished work late, they offered fruit and a cold rice salad.",
+      "supportingSentence": "The brothers at number nine finished work late, so they offered fruit and a cold rice salad.",
+      "skill": "detail"
+    },
+    {
+      "question": "What went wrong with the plans on the evening before the festival?",
+      "options": [
+        "The rice salad melted and the music ended early",
+        "The grilled vegetables were cancelled, and the beans came without a spoon",
+        "Adele changed her diet and Leila left town",
+        "The cafe refused water and the card blew away"
+      ],
+      "correctAnswer": "The grilled vegetables were cancelled, and the beans came without a spoon",
+      "explanation": "The family who had promised grilled vegetables had to leave town, and the pot of beans arrived with no spoon.",
+      "supportingSentence": "A family who had promised grilled vegetables had to leave town, and a pot of beans arrived with no spoon.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did Paolo check every word on the gluten-free card?",
+      "options": [
+        "He hoped the child's lettering would win a drawing prize",
+        "He was looking for the order of the songs",
+        "A wrong word could have made a plate unsafe for Adele",
+        "He planned to cross out every safe plate"
+      ],
+      "correctAnswer": "A wrong word could have made a plate unsafe for Adele",
+      "explanation": "Adele cannot eat gluten, so checking the card that named the safe plates was a matter of safety.",
+      "supportingSentence": "A child lettered a card naming the gluten-free plates, and Paolo read every word before he taped it down.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does the brothers' reaction to the half-finished salad suggest?",
+      "options": [
+        "They were glad their food had been eaten by other people",
+        "They were angry that the bowl had been moved out of sight",
+        "They had wanted the salad saved for the station staff",
+        "They were pleased because the festival had been called off"
+      ],
+      "correctAnswer": "They were glad their food had been eaten by other people",
+      "explanation": "They saw that the salad was already half gone and looked pleased, so sharing it mattered more than keeping it.",
+      "supportingSentence": "The brothers arrived late, saw their salad already half finished, and looked pleased.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does garnish mean in Paolo's request to Leila?",
+      "options": [
+        "A speech welcoming everyone on the lane",
+        "A light herbal addition rather than a heavy dish",
+        "A full meal cooked for a crowd of neighbours",
+        "A notebook of notes about what people cannot eat"
+      ],
+      "correctAnswer": "A light herbal addition rather than a heavy dish",
+      "explanation": "He asked for a garnish instead of another heavy bowl, so the word means a small extra, not a main dish.",
+      "supportingSentence": "He asked Leila, who grew herbs on a fire escape, for a garnish instead of another heavy bowl.",
+      "skill": "vocabulary"
+    }
+  ]
+}

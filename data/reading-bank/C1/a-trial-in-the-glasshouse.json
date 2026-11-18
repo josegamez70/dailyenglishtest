@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "science",
+  "title": "A Trial in the Glasshouse",
+  "story": "The glasshouse trial compared three irrigation regimes on a single leafy crop. Every bench received the same compost, the same sowing date, and the same nutrient feed. What no bench received was the same heat. The south wall ran warmer on clear afternoons, and plants there dried faster between waterings, whatever the regime. The team had expected that gradient. They did not pretend it was absent. Once a week they rotated the trays, so that each regime spent the same number of days on the hot side, the middle, and the cool north bench. Rotation does not delete a confound. It stops the confound from sitting permanently on one treatment.\n\nAt harvest the mid-frequency regime produced a detectable difference in fresh leaf mass. The difference was real in the narrow sense that the statistical test cleared the threshold the protocol had set. It was also small: a few grams a plant, well inside the range a grower would struggle to notice in a crate. When the analyst removed the weeks a tray had spent on the south bench and ran the test again, the difference shrank below the threshold. Watering still mattered, but part of what the first test had attributed to water had belonged to the glass. Counters at harvest worked without being told which regime a tray had followed. The labels were coded, and the code sheet stayed with Helen Okoye, the lead researcher, until the masses were written down. A detectable gap that survives a blind count is harder to dismiss as enthusiasm for a favored schedule.\n\nThe funder wanted a sentence that growers could take outdoors. Okoye would not write it. The trial had no wind, no soil profile, and no rain on the leaves. A result that appears under glass, and that weakens when the hottest bench is set aside, supports a cautious preference among these regimes in this house. It does not support an instruction for a field, where drying and cooling are arranged by weather the team did not vary on purpose. To extrapolate that far would treat the walls as irrelevant, after a season spent measuring how much the walls mattered.\n\nOkoye published the full table, including the run that excluded the south bench, and she described the rotation in the methods rather than in a footnote. Readers could see both the detectable gap and the condition under which it faded. The trial had done its job when those two facts remained visible together. A recommendation that kept only the first would have been smoother, and it would have been less true.",
+  "vocabulary": [
+    {
+      "word": "regime",
+      "definition": "A planned pattern of watering used as one treatment in the trial."
+    },
+    {
+      "word": "gradient",
+      "definition": "A gradual difference, here in heat from one side of the house to the other."
+    },
+    {
+      "word": "confound",
+      "definition": "A second factor that can be mistaken for the effect being tested."
+    },
+    {
+      "word": "rotation",
+      "definition": "Moving the trays so each treatment spends time in each position."
+    },
+    {
+      "word": "detectable",
+      "definition": "Large enough for the chosen test to pick it out from chance variation."
+    },
+    {
+      "word": "extrapolate",
+      "definition": "To extend a result to a situation the test did not cover."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What happened to the leaf-mass difference when weeks on the hottest bench were left out of the test?",
+      "options": [
+        "It fell below the threshold the protocol had set.",
+        "It grew large enough for a grower to notice in a crate.",
+        "It showed that the north bench had received no water.",
+        "It stayed the same because the weekly moves had removed all heat."
+      ],
+      "correctAnswer": "It fell below the threshold the protocol had set.",
+      "explanation": "When the south-bench weeks were removed, the difference shrank below the protocol’s threshold.",
+      "supportingSentence": "When the analyst removed the weeks a tray had spent on the south bench and ran the test again, the difference shrank below the threshold.",
+      "skill": "detail"
+    },
+    {
+      "question": "What doubt is a coded, blind harvest meant to reduce?",
+      "options": [
+        "That the people weighing the leaves favored a schedule they hoped would win.",
+        "That the south wall was cooler than the north bench on clear days.",
+        "That the funder had already printed an outdoor instruction.",
+        "That fresh leaves cannot be weighed on a scale at all."
+      ],
+      "correctAnswer": "That the people weighing the leaves favored a schedule they hoped would win.",
+      "explanation": "The counters were not told the regime, so a gap is harder to dismiss as enthusiasm for a favored schedule.",
+      "supportingSentence": "A detectable gap that survives a blind count is harder to dismiss as enthusiasm for a favored schedule.",
+      "skill": "inference"
+    },
+    {
+      "question": "What two limits, taken together, block a simple recommendation for outdoor growers?",
+      "options": [
+        "The gap shrinks without the hot bench, and the house never included wind, soil, or rain.",
+        "The compost differed on every bench, and the sowing dates were chosen at random.",
+        "The funder banned tables, and the counters lost the code sheet.",
+        "The weekly moves kept every tray on the south wall for the whole season."
+      ],
+      "correctAnswer": "The gap shrinks without the hot bench, and the house never included wind, soil, or rain.",
+      "explanation": "The result weakens when the hot bench is removed, and the house never tested the weather of a field.",
+      "supportingSentence": "It does not support an instruction for a field, where drying and cooling are arranged by weather the team did not vary on purpose.",
+      "skill": "inference"
+    },
+    {
+      "question": "What would it mean to “extrapolate” in the way the researcher refuses?",
+      "options": [
+        "To treat a glasshouse result as if it were an instruction for a field.",
+        "To move trays so each pattern of watering spends equal time on each bench.",
+        "To publish the table that leaves out the south bench.",
+        "To weigh fresh leaves without telling the counters which treatment they have."
+      ],
+      "correctAnswer": "To treat a glasshouse result as if it were an instruction for a field.",
+      "explanation": "Extrapolating that far would ignore the walls and turn a glasshouse result into field advice.",
+      "supportingSentence": "To extrapolate that far would treat the walls as irrelevant, after a season spent measuring how much the walls mattered.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the passage keep both the full result and the result without the hot bench in view?",
+      "options": [
+        "To let the reader see that the gap depends on a condition, not only that a gap existed.",
+        "To hide the fact that the statistical test had cleared its threshold.",
+        "To show that moving the trays had failed and should be abandoned.",
+        "To argue that the cool north bench should be closed."
+      ],
+      "correctAnswer": "To let the reader see that the gap depends on a condition, not only that a gap existed.",
+      "explanation": "The writer wants both facts visible so a smoother recommendation cannot hide the condition that makes the gap fade.",
+      "supportingSentence": "The trial had done its job when those two facts remained visible together.",
+      "skill": "intent"
+    }
+  ]
+}

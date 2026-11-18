@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "daily life",
+  "title": "The New Neighbour",
+  "story": "Aisha saw boxes in the hall on Saturday morning. A new neighbour was moving into the empty flat. His name was Sam. He carried a lamp, a suitcase, and a plant with long leaves. The plant nearly fell when he opened his door. Aisha held the door and took the plant. Sam thanked her and said he did not know anyone in the building yet. Aisha told him her name and the number of her flat. She also told him that the bins were behind the back door. Sam wrote it in a small notebook. Later she brought him a cup of tea and two biscuits. They stood in the hall because his chairs were still in the van. Sam said he worked at the hospital and started early. Aisha said the street was quiet at night. Before she left, she pointed to the shelf where people left parcels. Sam put his spare key in a drawer, not under the mat. He said he would say hello when he saw her on the stairs. Aisha went home glad that the empty flat was no longer empty. She washed the two cups and left them on the rack. It felt good to know the name of the person next door.",
+  "vocabulary": [
+    {
+      "word": "neighbour",
+      "definition": "a person who lives near you"
+    },
+    {
+      "word": "suitcase",
+      "definition": "a bag for carrying clothes on a trip"
+    },
+    {
+      "word": "parcels",
+      "definition": "packages that people send"
+    },
+    {
+      "word": "spare",
+      "definition": "extra, kept for later"
+    },
+    {
+      "word": "drawer",
+      "definition": "a box that slides out of a table"
+    },
+    {
+      "word": "glad",
+      "definition": "pleased and happy"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did Aisha catch when it nearly fell?",
+      "options": [
+        "a plant with long leaves",
+        "a glass lamp only",
+        "Sam's suitcase",
+        "the spare key"
+      ],
+      "correctAnswer": "a plant with long leaves",
+      "explanation": "She took the plant at the door.",
+      "supportingSentence": "Aisha held the door and took the plant.",
+      "skill": "detail"
+    },
+    {
+      "question": "Where did Aisha say the bins were?",
+      "options": [
+        "behind the back door",
+        "on the roof",
+        "in her kitchen",
+        "at the hospital"
+      ],
+      "correctAnswer": "behind the back door",
+      "explanation": "She told him that place.",
+      "supportingSentence": "She also told him that the bins were behind the back door.",
+      "skill": "detail"
+    },
+    {
+      "question": "Where did Sam put his spare key?",
+      "options": [
+        "in a drawer",
+        "under the mat",
+        "in the plant pot",
+        "on the stairs"
+      ],
+      "correctAnswer": "in a drawer",
+      "explanation": "He chose the drawer, not the mat.",
+      "supportingSentence": "Sam put his spare key in a drawer, not under the mat.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does glad mean?",
+      "options": [
+        "pleased and happy",
+        "new to the street",
+        "late for work",
+        "full of boxes"
+      ],
+      "correctAnswer": "pleased and happy",
+      "explanation": "The last line says she went home glad.",
+      "supportingSentence": "Aisha went home glad that the empty flat was no longer empty.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did they drink tea in the hall?",
+      "options": [
+        "Sam's chairs were still in the van.",
+        "The flat had no door.",
+        "Aisha lived in the van.",
+        "The hospital was closed."
+      ],
+      "correctAnswer": "Sam's chairs were still in the van.",
+      "explanation": "They could not sit down inside yet.",
+      "supportingSentence": "They stood in the hall because his chairs were still in the van.",
+      "skill": "inference"
+    }
+  ],
+  "file": "b1-a.txt"
+}

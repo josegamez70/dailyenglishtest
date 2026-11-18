@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "fantasy",
+  "title": "The River That Remembered",
+  "story": "The river kept promises in its quieter pools. People still made them on the banks, because some words feel truer when water is listening. Dafne had spoken hers at seventeen, on the evening her brother left to work in the city. She had promised she would never leave the village. The sentence had seemed like loyalty then. Years later it sat in a pool below the ferry and would not thin, although the life around it had changed.\n\nA college had offered her a place to study bridge design, and the term began in ten days. She also knew that her brother, who now built river walls, had never asked her to stay frozen so that he could leave. She went to the ferry at dusk with the letter folded in her coat.\n\nOsip, the ferryman, was oiling the chain. He did not pretend to be surprised. The pool near his landing repeated her old sentence every spring, softly enough that strangers missed it and clearly enough that she never could. He said the river would hold a promise until she obeyed it or replaced it with one she could carry without becoming smaller. The water had no interest in clever wording.\n\nDafne thought of the ferry steps, which crumbled a little more each winter. She spoke a new promise in a voice the pool could keep. She would return each spring to repair those steps, and she would write to her brother whenever the river ran high enough to worry the village. The old sentence loosened like a knot that had been given the right end.\n\nOsip swung the gate open. He did not congratulate her, because the river had done the difficult listening. As the boat moved off, Dafne heard the new words settle, shorter than the old ones and harder to betray. She was leaving, but she was not breaking faith. She had given the water a promise that could travel with her and still find its way home.",
+  "vocabulary": [
+    {
+      "word": "loyalty",
+      "definition": "Faithful support for a person or a place."
+    },
+    {
+      "word": "ferry",
+      "definition": "A boat that carries people across a river."
+    },
+    {
+      "word": "term",
+      "definition": "One of the periods into which a college year is divided."
+    },
+    {
+      "word": "wording",
+      "definition": "The particular words chosen to say something."
+    },
+    {
+      "word": "crumbled",
+      "definition": "Broke slowly into small pieces."
+    },
+    {
+      "word": "betray",
+      "definition": "To break faith with a promise or a person."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Why had Dafne's old promise become a problem?",
+      "options": [
+        "The promise stayed fixed while the life around it changed",
+        "Her brother had ordered her to break it immediately",
+        "The college had taken the offer away",
+        "The ferryman had forgotten how to open the gate"
+      ],
+      "correctAnswer": "The promise stayed fixed while the life around it changed",
+      "explanation": "The old sentence would not thin, although life around it had changed, so the promise no longer fitted her life.",
+      "supportingSentence": "Years later it sat in a pool below the ferry and would not thin, although the life around it had changed.",
+      "skill": "inference"
+    },
+    {
+      "question": "What had she promised on the evening her brother left?",
+      "options": [
+        "To study bridge design before the new term",
+        "That she would never leave the village",
+        "To rebuild the ferry steps every winter",
+        "To write whenever the river ran high"
+      ],
+      "correctAnswer": "That she would never leave the village",
+      "explanation": "She had promised she would never leave the village.",
+      "supportingSentence": "She had promised she would never leave the village.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does wording mean in the warning about clever speech?",
+      "options": [
+        "The oil used on a ferry chain",
+        "The sound of a pool repeating a sentence",
+        "The exact words someone chooses",
+        "The pocket where a letter is hidden"
+      ],
+      "correctAnswer": "The exact words someone chooses",
+      "explanation": "Clever wording is a tricky way of phrasing a promise, so wording means the words that are chosen.",
+      "supportingSentence": "The water had no interest in clever wording.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What was importantly different about the promise she spoke at the pool?",
+      "options": [
+        "It forced her brother to give up his work",
+        "It was so weak that the water refused it",
+        "It ended her chance to study bridges",
+        "It would be harder to break than the old one"
+      ],
+      "correctAnswer": "It would be harder to break than the old one",
+      "explanation": "The new words were harder to betray, which means they would be more difficult to break.",
+      "supportingSentence": "As the boat moved off, Dafne heard the new words settle, shorter than the old ones and harder to betray.",
+      "skill": "inference"
+    },
+    {
+      "question": "What did she promise to do about the ferry steps?",
+      "options": [
+        "Return each spring and repair them",
+        "Stay in the village and refuse the college",
+        "Oil the chain so the ferryman could rest",
+        "Let the old sentence be forgotten at once"
+      ],
+      "correctAnswer": "Return each spring and repair them",
+      "explanation": "She said she would return each spring to repair those steps.",
+      "supportingSentence": "She would return each spring to repair those steps, and she would write to her brother whenever the river ran high enough to worry the village.",
+      "skill": "detail"
+    }
+  ]
+}

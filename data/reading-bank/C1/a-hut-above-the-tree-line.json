@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "adventure",
+  "title": "A Hut above the Tree Line",
+  "story": "The last trees had given up an hour below them, and the slope above was only grass, stone, and a wind that had somewhere else to be. Iria saw the hut before Ansel did, a dark square tucked under a rib of rock, its roof held down by wires and by stones that looked as if they had been chosen in a hurry. The door faced away from the prevailing weather, which was the first sensible thing she had seen all afternoon. They had left the valley at dawn with light packs and a forecast that spoke of high cloud and little else.\n\nInside, the hut smelled of damp wool and cold ash. A ledger lay open on the table, its pages swollen by old moisture, and the last entry was three days old. Someone named Peder had written that the ridge was in poor condition and that he was going down by the long valley rather than over the top. He had left a half packet of tea and a note asking the next party to tell the warden if the north shutter was still loose. Iria read the lines twice. A warning from a stranger was not a command, but it was not nothing, and the light outside was already turning the colour of tin.\n\nAnsel wanted to push on. The next marked shelter was four hours away if the path stayed where the map said it stayed, and he disliked sleeping in a place that rattled. Iria opened the shutter and put her hand into the wind. It had backed since noon, and it carried the dry smell that often came before snow on this side of the range. She thought of the exposed shoulder above the hut, of how quickly a simple walk became a navigation problem when the ground and the sky turned the same colour. Ambition could be packed and carried. A mistake at this height had to be worn.\n\nThey stayed. Iria boiled the stranger's tea and wrote their names under his, adding the time and the fact of the wind. Ansel wedged the loose shutter with a spoon and a folded map he no longer trusted, then laughed once at the smallness of the repair. Night came without ceremony. Snow began as single hard ticks against the metal roof, then thickened until the sound was continuous. In the morning the ridge had vanished into cloud, and their decision had become obvious. They ate slowly, left the rest of the tea, and started down the way they had come, keeping the hut in sight until the first twisted trees took it away.",
+  "vocabulary": [
+    {
+      "word": "prevailing",
+      "definition": "Most usual in that place, especially of wind or weather."
+    },
+    {
+      "word": "ledger",
+      "definition": "A book in which records or notes are written."
+    },
+    {
+      "word": "backed",
+      "definition": "Changed direction, said here of the wind."
+    },
+    {
+      "word": "navigation",
+      "definition": "The work of finding and holding a safe route."
+    },
+    {
+      "word": "ambition",
+      "definition": "A strong wish to push on and achieve a plan."
+    },
+    {
+      "word": "continuous",
+      "definition": "Going on without a break."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What makes the stranger's note hard to dismiss?",
+      "options": [
+        "Peder has ordered them to guard the hut all night",
+        "The failing light makes his caution feel serious",
+        "The warden is already climbing up to fetch them",
+        "The ledger says the valley path has collapsed"
+      ],
+      "correctAnswer": "The failing light makes his caution feel serious",
+      "explanation": "Iria reads the warning twice as the light turns the colour of tin, so it is more than a stranger's fuss.",
+      "supportingSentence": "A warning from a stranger was not a command, but it was not nothing, and the light outside was already turning the colour of tin.",
+      "skill": "inference"
+    },
+    {
+      "question": "Which way did Peder decide to leave?",
+      "options": [
+        "Over the top before the wind rose",
+        "Back to the valley to wait for three days",
+        "Down the long valley instead of over the ridge",
+        "Along the roof wires toward the nearest trees"
+      ],
+      "correctAnswer": "Down the long valley instead of over the ridge",
+      "explanation": "His entry says the ridge is in poor condition and that he is going down by the long valley.",
+      "supportingSentence": "Someone named Peder had written that the ridge was in poor condition and that he was going down by the long valley rather than over the top.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why does the writer mention the direction of the door?",
+      "options": [
+        "To explain why the ledger was too wet to read",
+        "To prove that Ansel preferred to sleep outside",
+        "To suggest that the morning forecast had been exact",
+        "To show that the hut was built against the usual wind"
+      ],
+      "correctAnswer": "To show that the hut was built against the usual wind",
+      "explanation": "A door turned away from the usual weather is the first sign that the hut was placed with care.",
+      "supportingSentence": "The door faced away from the prevailing weather, which was the first sensible thing she had seen all afternoon.",
+      "skill": "intent"
+    },
+    {
+      "question": "What does \"ledger\" mean in this story?",
+      "options": [
+        "A shutter that keeps the snow outside",
+        "A book in which travellers write their notes",
+        "A packet of tea left for the next party",
+        "A map folded up to wedge a window"
+      ],
+      "correctAnswer": "A book in which travellers write their notes",
+      "explanation": "The ledger is the open book that holds written entries, including Peder's warning.",
+      "supportingSentence": "A ledger lay open on the table, its pages swollen by old moisture, and the last entry was three days old.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What does the clouded morning show about their choice?",
+      "options": [
+        "The stranger's tea has left them too tired to walk",
+        "The warden has marked a new path over the top",
+        "The loose shutter has blown open and ended the debate",
+        "The ridge they might have crossed can no longer be seen"
+      ],
+      "correctAnswer": "The ridge they might have crossed can no longer be seen",
+      "explanation": "Once the ridge has vanished into cloud, going back down no longer needs an argument.",
+      "supportingSentence": "In the morning the ridge had vanished into cloud, and their decision had become obvious.",
+      "skill": "inference"
+    }
+  ]
+}

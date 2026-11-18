@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "mystery",
+  "title": "The Locked Shed",
+  "story": "The community garden shed was locked when Rosa arrived for her Tuesday morning, and the tool board outside told her the wrong story. The hooks for the spades were empty on the painted list, yet the padlock was the old one, shut properly, with no scratch around the screws. Wet footprints led across the path and stopped at the door. The watering can was gone from its nail. Rosa checked the usual place for the key, a hook inside the cafe, and found only a bare nail. For a few minutes she was sure somebody had cleared the shed in the night.\n\nShe stood in the doorway of the cafe and made herself list what she actually knew. The lock was not broken. The gate had been mentioned in a message she had only half read. She opened that message again. The treasurer, who kept the garden's money and the spare keys, had written that a gate was found open on Sunday. The newer tools would stay locked inside until the committee met on Thursday. The key was no longer on the hook. It was in the tin labelled tea, on the high shelf, because a hook is the first place a stranger looks.\n\nRosa climbed onto a stool, opened the tin, and fitted the key. The shed smelled of damp wood and oil, and every spade was there, dry and hung in a row. The watering can sat just inside, full, as if someone had meant to use it and had found the door already shut. Rosa pinned a fresh note under the tool board, saying where the key lived now. She copied the treasurer's instruction into the garden book so the next volunteer would not repeat her scare. Between sessions the shed would stay locked. Rosa locked the shed again, returned the key to the tea tin, and texted the treasurer that every spade was still on its hook.",
+  "vocabulary": [
+    {
+      "word": "padlock",
+      "definition": "The lock that fastened the shed door."
+    },
+    {
+      "word": "footprints",
+      "definition": "Marks left by shoes on the wet path."
+    },
+    {
+      "word": "treasurer",
+      "definition": "The person who kept the garden's money and spare keys."
+    },
+    {
+      "word": "committee",
+      "definition": "The group that meets to decide garden matters."
+    },
+    {
+      "word": "volunteer",
+      "definition": "A person who helps without being paid."
+    },
+    {
+      "word": "instruction",
+      "definition": "A written direction about what to do."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where did the message say the shed key had been put?",
+      "options": [
+        "On the hook inside the cafe",
+        "Under the painted tool board",
+        "In the tin labelled tea",
+        "In a lock that had been scratched"
+      ],
+      "correctAnswer": "In the tin labelled tea",
+      "explanation": "The key was no longer on the hook. It was in the tin labelled tea on the high shelf.",
+      "supportingSentence": "It was in the tin labelled tea, on the high shelf, because a hook is the first place a stranger looks.",
+      "skill": "detail"
+    },
+    {
+      "question": "When was the committee due to meet?",
+      "options": [
+        "On Thursday",
+        "On Tuesday morning",
+        "On Sunday, after the open gate",
+        "Before every garden session"
+      ],
+      "correctAnswer": "On Thursday",
+      "explanation": "The newer tools were to stay locked inside until the committee met on Thursday.",
+      "supportingSentence": "The newer tools would stay locked inside until the committee met on Thursday.",
+      "skill": "detail"
+    },
+    {
+      "question": "Who most likely left the wet marks that stopped at the door?",
+      "options": [
+        "A thief who carried every spade away at night",
+        "The treasurer, moving tools into the cafe",
+        "A stranger who broke the lock off the door",
+        "Someone who came to water and found the door shut"
+      ],
+      "correctAnswer": "Someone who came to water and found the door shut",
+      "explanation": "A full watering can was just inside, as if someone had meant to water and had found the door already shut.",
+      "supportingSentence": "The watering can sat just inside, full, as if someone had meant to use it and had found the door already shut.",
+      "skill": "inference"
+    },
+    {
+      "question": "What was misleading about the empty hooks on the outside board?",
+      "options": [
+        "They did not mean the spades had been stolen",
+        "They showed that the lock on the door was new",
+        "They proved the painted list had been taken on Sunday",
+        "They meant the spades were kept in the cafe each night"
+      ],
+      "correctAnswer": "They did not mean the spades had been stolen",
+      "explanation": "The outside hooks were empty, but the lock was undamaged and every spade was hanging inside.",
+      "supportingSentence": "The hooks for the spades were empty on the painted list, yet the padlock was the old one, shut properly, with no scratch around the screws.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does the word padlock mean in this story?",
+      "options": [
+        "A painted list of the garden tools",
+        "The lock that held the shed door shut",
+        "The tin in which the tea was stored",
+        "A mark scratched around the screws"
+      ],
+      "correctAnswer": "The lock that held the shed door shut",
+      "explanation": "The padlock is the shed's lock, and it was properly shut with no scratch around the screws.",
+      "supportingSentence": "The hooks for the spades were empty on the painted list, yet the padlock was the old one, shut properly, with no scratch around the screws.",
+      "skill": "vocabulary"
+    }
+  ]
+}

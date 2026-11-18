@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "culture_food",
+  "title": "The Harvest Supper",
+  "story": "The harvest supper at Low Whin village hall had never pretended to be a banquet, and the organisers wanted to keep it that way. Elsie, who had chaired the committee for years, pinned a handwritten menu by the door: soup, a pot of beans, baked apples, and whatever bread the mill could spare. Guests could bring a surplus from their gardens if it was labelled and easy to share. The aim was a communal table, not a contest over which dish looked finest.\n\nOn Saturday the hall filled with crates of late tomatoes, a sack of potatoes, and jars that had been saved for winter. Elsie sorted them with firm kindness, setting bruised fruit aside and thanking the giver anyway. She asked two teenagers to wash the produce. When a newcomer offered a tray of shop pastries still in plastic, Elsie refused it politely and explained that the supper was about what the valley had grown, even if the result was plain. The newcomer stayed to peel apples, which Elsie quietly counted as the better gift.\n\nBy evening the long tables wore mismatched cloths, and the seating was loose so neighbours would not sit in the same old clusters. A pot almost too wide for the stove simmered at the back, watched by Elsie's nephew with a wooden spoon. The queue moved slowly because people stopped to read the labels. Elsie thanked the growers, said the leftovers would go to the Monday lunch club, and sat down before the clapping could turn into a speech.\n\nThe room grew noisy in a comfortable way. A farmer who rarely attended meetings explained how he stored carrots in dry sand, and a child listened as if the method were a secret worth keeping. Elsie watched the jars empty and felt a plain gratitude for a meal that nobody had needed to perform. There would be washing-up until late, and a surplus of apples to turn into preserve on Sunday, but the hall had done the job it was built for.",
+  "vocabulary": [
+    {
+      "word": "harvest",
+      "definition": "The season when ripe crops are gathered."
+    },
+    {
+      "word": "surplus",
+      "definition": "An amount that is left over beyond what is needed."
+    },
+    {
+      "word": "communal",
+      "definition": "Shared by a group rather than kept private."
+    },
+    {
+      "word": "seating",
+      "definition": "The way places to sit are arranged."
+    },
+    {
+      "word": "gratitude",
+      "definition": "A feeling of being thankful."
+    },
+    {
+      "word": "preserve",
+      "definition": "Fruit or vegetables kept in jars so they can be eaten later."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did the organisers not want the supper to turn into?",
+      "options": [
+        "A meal that used vegetables from local gardens",
+        "An evening when neighbours sat at long tables",
+        "A chance for the mill to supply bread",
+        "A contest over which dish looked the finest"
+      ],
+      "correctAnswer": "A contest over which dish looked the finest",
+      "explanation": "The aim was a shared table, not a competition about appearance.",
+      "supportingSentence": "The aim was a communal table, not a contest over which dish looked finest.",
+      "skill": "detail"
+    },
+    {
+      "question": "Where did Elsie say the leftover food would go?",
+      "options": [
+        "Back to each person who had brought a dish",
+        "To the lunch club meeting on Monday",
+        "On sale at the hall door that night",
+        "Into the garden behind the hall"
+      ],
+      "correctAnswer": "To the lunch club meeting on Monday",
+      "explanation": "She told the room that the leftovers would go to the Monday lunch club.",
+      "supportingSentence": "Elsie thanked the growers, said the leftovers would go to the Monday lunch club, and sat down before the clapping could turn into a speech.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does Elsie appear to value more than an unsuitable donation?",
+      "options": [
+        "Food that is still sealed in shop packaging",
+        "A long speech in praise of the committee",
+        "A person who stays and helps with the work",
+        "A prize for the neighbour with the most jars"
+      ],
+      "correctAnswer": "A person who stays and helps with the work",
+      "explanation": "After refusing pastries that did not fit the supper, she treated apple peeling as the better gift.",
+      "supportingSentence": "The newcomer stayed to peel apples, which Elsie quietly counted as the better gift.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does the farmer's conversation with the child suggest about the evening?",
+      "options": [
+        "Quiet neighbours had a natural way to pass on everyday knowledge",
+        "The child was scoring dishes for an official contest",
+        "The farmer was complaining that the queue was too slow",
+        "Elsie had asked him to advertise a carrot business"
+      ],
+      "correctAnswer": "Quiet neighbours had a natural way to pass on everyday knowledge",
+      "explanation": "A man who rarely came to meetings explained how he stored carrots, and the child listened closely.",
+      "supportingSentence": "A farmer who rarely attended meetings explained how he stored carrots in dry sand, and a child listened as if the method were a secret worth keeping.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does surplus mean when guests are invited to bring garden food?",
+      "options": [
+        "A ticket that must be bought at the door",
+        "Extra produce beyond what they need to keep",
+        "A prize awarded for the best apples",
+        "A formal speech thanking the chair"
+      ],
+      "correctAnswer": "Extra produce beyond what they need to keep",
+      "explanation": "A surplus from a garden is food people can share because they do not need all of it themselves.",
+      "supportingSentence": "Guests could bring a surplus from their gardens if it was labelled and easy to share.",
+      "skill": "vocabulary"
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "hobbies",
+  "title": "Printing Photographs at Home",
+  "story": "On quiet Sunday afternoons Elena Marquez turned the spare bedroom into a printing room and shut the door on the rest of the day. She had learned photography on her phone, although she preferred the slower pleasure of turning a chosen picture into an object she could hold. A second-hand printer, bought from a neighbour who was leaving the city, stood beside paper of different weights. However, the results depended less on the machine than on her patience, because a hurried sheet always showed the wrong colour or a crooked border.\n\nShe began with three photographs from a coastal trip: a boat at low tide, her brother laughing under a hat, and a long pier in fog. On the screen they looked brighter than they had seemed at the time, so she lowered the contrast and checked the skin tones before printing anything. Although the software offered many corrections, Elena changed only what she could justify. She did not want the pictures to become tidier than the weekend itself. The first sheet came out too dark. She dried it on a rack, adjusted the setting, and tried again.\n\nHer brother had asked for the laughing portrait, and a friend who ran a small cafe had offered wall space if Elena ever showed a series. The offer was flattering, although she was not ready to call a handful of pictures an exhibition. However, printing them at home made the decision feel practical rather than grand.\n\nBy late afternoon three prints lay on the bed, weighted at the corners with clean spoons so the paper would not curl. The boat was the most successful, because the wet sand held detail that the screen had flattened. Elena signed the back lightly in pencil, wrote the date, and slipped the portrait into an envelope for her brother. The pier could wait. She opened the door, let the smell of warm ink escape, and felt the satisfaction of a hobby that ended with something she could give away.",
+  "vocabulary": [
+    {
+      "word": "contrast",
+      "definition": "The difference between the light and dark parts of a picture."
+    },
+    {
+      "word": "corrections",
+      "definition": "Changes made to improve something."
+    },
+    {
+      "word": "justify",
+      "definition": "To show that there is a good reason for a choice."
+    },
+    {
+      "word": "flattering",
+      "definition": "Pleasing, because it feels like a compliment."
+    },
+    {
+      "word": "weighted",
+      "definition": "Held down by something with weight."
+    },
+    {
+      "word": "satisfaction",
+      "definition": "A feeling of being pleased with a result."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What was wrong with the first sheet Elena printed?",
+      "options": [
+        "It came out completely blank",
+        "The paper tore inside the machine",
+        "It was too dark",
+        "The boat was missing from it"
+      ],
+      "correctAnswer": "It was too dark",
+      "explanation": "The first sheet came out too dark.",
+      "supportingSentence": "The first sheet came out too dark.",
+      "skill": "detail"
+    },
+    {
+      "question": "Which photograph was the most successful?",
+      "options": [
+        "The long pier in the fog",
+        "The portrait of her brother",
+        "The view from the spare bedroom",
+        "The boat at low tide"
+      ],
+      "correctAnswer": "The boat at low tide",
+      "explanation": "The boat was the most successful because the wet sand kept its detail.",
+      "supportingSentence": "The boat was the most successful, because the wet sand held detail that the screen had flattened.",
+      "skill": "detail"
+    },
+    {
+      "question": "Has Elena agreed to hang the pictures in her friend's cafe?",
+      "options": [
+        "Yes, and they are already on the wall",
+        "Not yet, because a few prints do not feel like a show",
+        "No, because the friend withdrew the offer",
+        "Yes, but only the picture of the pier"
+      ],
+      "correctAnswer": "Not yet, because a few prints do not feel like a show",
+      "explanation": "The offer pleased her, but she was not ready to call a handful of pictures an exhibition.",
+      "supportingSentence": "The offer was flattering, although she was not ready to call a handful of pictures an exhibition.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why did Elena bother to check the skin tones?",
+      "options": [
+        "One of the chosen pictures showed a person",
+        "The printer could reproduce nothing except faces",
+        "The pier in the fog looked like a face",
+        "The spoons had left marks on the paper"
+      ],
+      "correctAnswer": "One of the chosen pictures showed a person",
+      "explanation": "She checked skin tones because the set included her brother laughing under a hat.",
+      "supportingSentence": "On the screen they looked brighter than they had seemed at the time, so she lowered the contrast and checked the skin tones before printing anything.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does weighted mean when the prints are lying on the bed?",
+      "options": [
+        "Judged against other people's pictures",
+        "Sorted from the lightest sheet to the darkest",
+        "Held down so the paper would stay flat",
+        "Signed by pressing very hard with a pencil"
+      ],
+      "correctAnswer": "Held down so the paper would stay flat",
+      "explanation": "The prints were weighted with spoons so the paper would not curl.",
+      "supportingSentence": "By late afternoon three prints lay on the bed, weighted at the corners with clean spoons so the paper would not curl.",
+      "skill": "vocabulary"
+    }
+  ]
+}

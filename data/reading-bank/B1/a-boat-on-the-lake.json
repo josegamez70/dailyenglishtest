@@ -1,0 +1,99 @@
+{
+  "level": "B1",
+  "topic": "adventure",
+  "title": "A Boat on the Lake",
+  "story": "Elena and her cousin Pedro wanted a calm afternoon on the lake. They rented a small wooden boat from Nia at the dock. Nia gave them two oars and a bright orange life jacket each. She warned them to stay near the shore if the wind rose. The water was smooth, and the boat moved with a steady rhythm. Pedro rowed first, while Elena watched a line of ducks.\n\nAfter a while, they reached a tiny island with three pine trees. They pulled the boat onto the sand and walked around the trees. Elena found a smooth stone and put it in her pocket. Pedro noticed dark clouds gathering over the far hills. The wind began to push small waves against the shore. They remembered Nia's warning and hurried back to the boat. Elena rowed, and Pedro kept his eyes on the dock. The waves made the boat rock, but the jackets kept them safe. A fish jumped beside them, and they both laughed.\n\nSlowly, the orange roof of the boathouse came into sight. Nia was waiting with a thick rope in her hands. She tied the boat and checked that they were dry. Elena showed her the stone and described the little island. Nia smiled and said the lake could change very quickly. Pedro thanked her and promised to watch the clouds next time. They walked home with tired arms and a story for the family.",
+  "vocabulary": [
+    {
+      "word": "rented",
+      "definition": "Paid to use something for a short time."
+    },
+    {
+      "word": "rhythm",
+      "definition": "A repeated pattern of movement."
+    },
+    {
+      "word": "shore",
+      "definition": "The land at the edge of a lake or sea."
+    },
+    {
+      "word": "gathering",
+      "definition": "Coming together in one place."
+    },
+    {
+      "word": "warning",
+      "definition": "Words that tell you about danger."
+    },
+    {
+      "word": "promised",
+      "definition": "Said firmly that you would do something."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did Nia give Elena and Pedro?",
+      "options": [
+        "A tent and a lamp",
+        "Tickets for a bus",
+        "Two oars and a life jacket each",
+        "A picnic and a map"
+      ],
+      "correctAnswer": "Two oars and a life jacket each",
+      "explanation": "Nia gave them two oars and a life jacket each.",
+      "supportingSentence": "Nia gave them two oars and a bright orange life jacket each.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Elena put in her pocket?",
+      "options": [
+        "A smooth stone",
+        "A pine cone",
+        "A small fish",
+        "A thick rope"
+      ],
+      "correctAnswer": "A smooth stone",
+      "explanation": "Elena found a smooth stone on the island and put it in her pocket.",
+      "supportingSentence": "Elena found a smooth stone and put it in her pocket.",
+      "skill": "detail"
+    },
+    {
+      "question": "Who rowed the boat back toward the dock?",
+      "options": [
+        "Nia",
+        "Pedro",
+        "A fisherman",
+        "Elena"
+      ],
+      "correctAnswer": "Elena",
+      "explanation": "On the way back, Elena rowed and Pedro watched the dock.",
+      "supportingSentence": "Elena rowed, and Pedro kept his eyes on the dock.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the word rhythm mean here?",
+      "options": [
+        "A hole in the boat",
+        "A kind of lake fish",
+        "A repeated pattern of movement",
+        "A shout for help"
+      ],
+      "correctAnswer": "A repeated pattern of movement",
+      "explanation": "The boat moved in a steady, repeated way, and that movement is its rhythm.",
+      "supportingSentence": "The water was smooth, and the boat moved with a steady rhythm.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Elena and Pedro leave the island quickly?",
+      "options": [
+        "The ducks were hungry",
+        "Bad weather was coming",
+        "Nia phoned them",
+        "The boat had a hole"
+      ],
+      "correctAnswer": "Bad weather was coming",
+      "explanation": "Dark clouds were gathering, so they could tell the weather was turning bad.",
+      "supportingSentence": "Pedro noticed dark clouds gathering over the far hills.",
+      "skill": "inference"
+    }
+  ]
+}

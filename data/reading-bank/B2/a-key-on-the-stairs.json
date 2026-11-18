@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "mystery",
+  "title": "A Key on the Stairs",
+  "story": "Grace found the brass key on the turn of the stairs between the first floor and the second. It did not fit her own door, and it did not fit the street door either. She stood with it in her palm and listened. The house was quiet, which did not calm her. A key on the stairs could mean that somebody had been trying the locks and had dropped it when they heard a step.\n\nShe knocked at the other flat on her landing. Nobody answered. She did not want to push the key through a letterbox that might be the wrong one, so she tied a label to it, wrote the place and the time, and left it on the hall table where the post gathered. Then she messaged the landlord and asked whether a contractor had been in. For the rest of the afternoon she checked the stairwell whenever she passed, annoyed with herself for being nervous and unwilling to ignore the feeling.\n\nEarly that evening the landlord's nephew, Samir, rang. He read the electric meter in the cupboard under the stairs once a month, and the cupboard used a key that was not like the flat keys. That morning the key had slipped from his pocket while he took a call on the step. He had left her a voicemail to explain, which she had not played. They met in the hall, and the brass key turned cleanly in the cupboard lock. It opened no flat door they tried. The cupboard held only the meter, a torch, and a tin of spare fuses. Samir showed her the meter reading, which matched the card on the inside of the cupboard door. Grace played the voicemail after he left, and it said the same thing he had told her in the hall. She asked Samir to send a text before the next visit, and he promised that he would.",
+  "vocabulary": [
+    {
+      "word": "brass",
+      "definition": "A yellow metal, and the material of this key."
+    },
+    {
+      "word": "landlord",
+      "definition": "The person who owns the building and rents it out."
+    },
+    {
+      "word": "nephew",
+      "definition": "The son of someone's brother or sister."
+    },
+    {
+      "word": "cupboard",
+      "definition": "A small closet, here the one under the stairs."
+    },
+    {
+      "word": "meter",
+      "definition": "The device that measures how much electricity is used."
+    },
+    {
+      "word": "voicemail",
+      "definition": "A spoken phone message that can be played later."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where did Grace first see the brass key?",
+      "options": [
+        "In the lock of her own front door",
+        "On the stairs between the first floor and the second",
+        "Inside the cupboard beside the spare fuses",
+        "On the hall table with the morning post"
+      ],
+      "correctAnswer": "On the stairs between the first floor and the second",
+      "explanation": "Grace found the brass key on the turn of the stairs between the first floor and the second.",
+      "supportingSentence": "Grace found the brass key on the turn of the stairs between the first floor and the second.",
+      "skill": "detail"
+    },
+    {
+      "question": "How often did Samir come to read the electric meter?",
+      "options": [
+        "Every evening after work",
+        "Only after a resident messaged the landlord",
+        "Twice on the morning the key was lost",
+        "Once a month"
+      ],
+      "correctAnswer": "Once a month",
+      "explanation": "Samir read the electric meter in the cupboard under the stairs once a month.",
+      "supportingSentence": "He read the electric meter in the cupboard under the stairs once a month, and the cupboard used a key that was not like the flat keys.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the later evidence show about Grace's fear of a stranger?",
+      "options": [
+        "It was the wrong reading of an ordinary meter visit",
+        "It was proved when the key opened her front door",
+        "It was confirmed by the contractor in the other flat",
+        "It explained why Samir refused to return her message"
+      ],
+      "correctAnswer": "It was the wrong reading of an ordinary meter visit",
+      "explanation": "Grace feared someone was trying the locks, but Samir had dropped the meter key during his usual visit.",
+      "supportingSentence": "Samir showed her the meter reading, which matched the card on the inside of the cupboard door.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does Grace's request for a text before the next visit show?",
+      "options": [
+        "She wants Samir to leave the key under a door",
+        "She wants every lock in the house replaced",
+        "She wants the spoken phone message switched off",
+        "She wants a warning before someone comes to the meter again"
+      ],
+      "correctAnswer": "She wants a warning before someone comes to the meter again",
+      "explanation": "After the fright on the stairs, Grace asks for a text so the next meter visit will not surprise her.",
+      "supportingSentence": "She asked Samir to send a text before the next visit, and he promised that he would.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does the word voicemail mean in this story?",
+      "options": [
+        "A spoken message left for her to play later",
+        "A paper label tied onto the key",
+        "A short text sent before a visit",
+        "The card fixed inside the cupboard door"
+      ],
+      "correctAnswer": "A spoken message left for her to play later",
+      "explanation": "Samir left a voicemail, Grace had not played it, and when she did it matched what he told her.",
+      "supportingSentence": "He had left her a voicemail to explain, which she had not played.",
+      "skill": "vocabulary"
+    }
+  ]
+}

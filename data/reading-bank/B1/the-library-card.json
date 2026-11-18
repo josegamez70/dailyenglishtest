@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "school_college",
+  "title": "The Library Card",
+  "story": "Daniel wanted a book about rivers for a school report, so he went to the college library after class. The reading room was quiet, and students sat at long tables. Meera, the librarian, stood behind the front desk with a stamp in her hand. Daniel searched the shelves and found a blue book with clear maps. Meera asked for his library card. Daniel checked his jacket pocket, then his bag, and then the pocket again. The card was not there. He remembered leaving it on his desk at home that morning. Without the card he could not borrow the book, and the report was due on Friday. Meera saw that he was worried. She asked his name and looked at the computer. His record was clean, and he had no late books. She said he could take the book for one night if he brought the card the next day. She wrote his name on a small slip and tucked the slip inside the cover. That evening he read the chapter about rivers and wrote three pages of notes. He put the library card into his bag before he went to bed so he would not forget it. In the morning he returned to the desk, showed the card, and Meera stamped the book in the normal way. Daniel learned that a careful librarian can help, but a card still belongs in your bag.",
+  "vocabulary": [
+    {
+      "word": "librarian",
+      "definition": "a person who works in a library"
+    },
+    {
+      "word": "shelves",
+      "definition": "boards fixed to a wall that hold books"
+    },
+    {
+      "word": "borrow",
+      "definition": "to take something and give it back later"
+    },
+    {
+      "word": "worried",
+      "definition": "afraid that something bad may happen"
+    },
+    {
+      "word": "slip",
+      "definition": "a small piece of paper"
+    },
+    {
+      "word": "stamped",
+      "definition": "marked with a stamp"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did Daniel need the book for?",
+      "options": [
+        "a school report",
+        "a holiday diary",
+        "a cooking class",
+        "a football match"
+      ],
+      "correctAnswer": "a school report",
+      "explanation": "The first sentence gives his reason.",
+      "supportingSentence": "Daniel wanted a book about rivers for a school report, so he went to the college library after class.",
+      "skill": "detail"
+    },
+    {
+      "question": "Where did Daniel remember leaving the card?",
+      "options": [
+        "on his desk at home",
+        "in the reading room",
+        "under the blue book",
+        "at the sports hall"
+      ],
+      "correctAnswer": "on his desk at home",
+      "explanation": "He thought of that place from the morning.",
+      "supportingSentence": "He remembered leaving it on his desk at home that morning.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Meera write his name on?",
+      "options": [
+        "a small slip",
+        "the library wall",
+        "his school report",
+        "a river map"
+      ],
+      "correctAnswer": "a small slip",
+      "explanation": "She put that paper inside the book.",
+      "supportingSentence": "She wrote his name on a small slip and tucked the slip inside the cover.",
+      "skill": "detail"
+    },
+    {
+      "question": "Which word means to take something and give it back later?",
+      "options": [
+        "borrow",
+        "stamp",
+        "search",
+        "promise"
+      ],
+      "correctAnswer": "borrow",
+      "explanation": "He could not do this without the card.",
+      "supportingSentence": "Without the card he could not borrow the book, and the report was due on Friday.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What lesson did Daniel take home from the visit?",
+      "options": [
+        "a card still belongs in your bag",
+        "late books are never a problem",
+        "maps should stay on the shelves",
+        "the desk closes at noon"
+      ],
+      "correctAnswer": "a card still belongs in your bag",
+      "explanation": "The last line states what he learned.",
+      "supportingSentence": "Daniel learned that a careful librarian can help, but a card still belongs in your bag.",
+      "skill": "inference"
+    }
+  ],
+  "file": "b1-b.txt"
+}

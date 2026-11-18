@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "travel",
+  "title": "Missing the Last Ferry",
+  "story": "Harun Braye reached the quay at Kerrin just as the ramp began to rise. The evening ferry to the island of Sarn had kept its timetable, and the bus from the ridge had not. He stood with a canvas bag and a crate of replacement parts for his sister's generator, watching the gap of dark water widen. The ticket in his pocket remained valid for the next scheduled crossing, which made the miss feel less like misfortune than like a sum he had got wrong.\n\nA harbour clerk told him the dawn boat would run if the wind stayed under the posted limit. There was a dormitory above the chandlery for stranded passengers, charged by the night, with a rule against cooking and a lock on the shower. He could also hire a private launch at a price that would consume what he expected to save by bringing the parts himself. He walked the length of the quay before deciding, counting bollards because the counting slowed the impulse to buy speed. His sister had said the generator could wait until morning. He had not entirely believed her, because she tended to call a difficulty small until another person arrived to share it, and yet he took the dormitory.\n\nThe room held four beds, one of them occupied by a fisheries inspector who was writing in a ledger and preferred silence. Harun ate bread from his bag, set the crate where he could see it from the pillow, and read the wind notice twice without becoming calmer. Around midnight the gusts strengthened enough to rattle the sash, and he understood that the dawn departure was contingent on a forecast that might still change. He slept in his coat. At first light the inspector touched his shoulder and said the crossing was on, though the sea would be honest. In that harbour, Harun already knew, honest meant rough but workable, a condition people respected because it did not pretend. On the early ferry he kept one hand on the crate and revised his sense of what the night had cost. Missing the last boat had taken time and a measure of pride. Paying for the launch would have preserved the schedule and spent the judgment he was beginning to value. He watched the island clarify through spray and thought of his sister's kitchen, where the generator would either start or it would not, and neither result would be improved by a story of panic. The parts were in the crate. He was on the boat that the weather had actually offered. That, for one morning, was enough precision.",
+  "vocabulary": [
+    {
+      "word": "quay",
+      "definition": "A stone platform where boats load and unload."
+    },
+    {
+      "word": "timetable",
+      "definition": "A list of the times when transport is due to leave or arrive."
+    },
+    {
+      "word": "chandlery",
+      "definition": "A shop that sells supplies for boats."
+    },
+    {
+      "word": "impulse",
+      "definition": "A sudden urge to act."
+    },
+    {
+      "word": "contingent",
+      "definition": "Dependent on something else that may still change."
+    },
+    {
+      "word": "ledger",
+      "definition": "A book in which records or accounts are written."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What was inside the crate Harun hoped to deliver?",
+      "options": [
+        "Replacement parts for a generator",
+        "A ledger of harbour fees",
+        "Cooking pots for the dormitory",
+        "Tickets for a private launch"
+      ],
+      "correctAnswer": "Replacement parts for a generator",
+      "explanation": "He was carrying a crate of replacement parts for his sister's generator.",
+      "supportingSentence": "He stood with a canvas bag and a crate of replacement parts for his sister's generator, watching the gap of dark water widen.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does taking the dormitory suggest about Harun's decision?",
+      "options": [
+        "He chose to let the repair wait, despite doubting his sister's calm",
+        "He believed the generator would fail unless he arrived by midnight",
+        "He preferred the inspector's company to his sister's kitchen",
+        "He missed the ferry on purpose to avoid the launch fare"
+      ],
+      "correctAnswer": "He chose to let the repair wait, despite doubting his sister's calm",
+      "explanation": "He did not fully trust her reassurance, and yet he stayed the night, acting as if morning would be soon enough.",
+      "supportingSentence": "He had not entirely believed her, because she tended to call a difficulty small until another person arrived to share it, and yet he took the dormitory.",
+      "skill": "inference"
+    },
+    {
+      "question": "How does Harun seem to feel about the boat he finally boards?",
+      "options": [
+        "It is the crossing the conditions actually allowed, and that is enough",
+        "It proves that every private launch is a waste of money",
+        "It shows the inspector was wrong about the sea",
+        "It means his sister will reject the parts"
+      ],
+      "correctAnswer": "It is the crossing the conditions actually allowed, and that is enough",
+      "explanation": "He is on the boat the weather offered, and he treats that match between plan and conditions as enough for the morning.",
+      "supportingSentence": "That, for one morning, was enough precision.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does contingent say about the dawn departure in this story?",
+      "options": [
+        "It depended on a forecast that might still change",
+        "It had been cancelled by the inspector",
+        "It was included in the price of a launch",
+        "It would sail only if the dormitory was full"
+      ],
+      "correctAnswer": "It depended on a forecast that might still change",
+      "explanation": "Harun understood that the dawn boat depended on the forecast, so it was not yet certain.",
+      "supportingSentence": "Around midnight the gusts strengthened enough to rattle the sash, and he understood that the dawn departure was contingent on a forecast that might still change.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer explain the harbour meaning of the word honest?",
+      "options": [
+        "To show a local taste for plain speech that fits the night's lesson",
+        "To suggest the inspector lied about the crossing",
+        "To explain the dormitory rule against cooking",
+        "To advertise a second, calmer ferry at noon"
+      ],
+      "correctAnswer": "To show a local taste for plain speech that fits the night's lesson",
+      "explanation": "People respect the word because it does not pretend, which matches Harun's preference for a measured delay over a dramatic rescue.",
+      "supportingSentence": "In that harbour, Harun already knew, honest meant rough but workable, a condition people respected because it did not pretend.",
+      "skill": "intent"
+    }
+  ]
+}

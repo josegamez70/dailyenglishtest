@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "hobbies",
+  "title": "The Amateur Observatory",
+  "story": "Ivo Marsh kept his telescope in a shed he had insulated himself, on a rise above Loden where the streetlamps stopped before the track did. He was an amateur, and he said so before anyone could mistake the plywood roof for the property of an institute. On clear nights he opened a slit in that roof, set his clock by a radio time signal, and entered the sky with the patience of a clerk balancing a book. The programme came from a public handbook, amended until it suited one observer and a second-hand mirror.\n\nThat week he was timing the fades of a variable star the handbook marked as suitable for a modest aperture. The task depended on comparison. He looked at the target, then at two neighbouring stars whose brightness was already established, and he wrote a figure he was prepared to defend an hour later. Frost worked its way along the metal of the mount. He stopped to warm his hands and to record a drift in the drive that would ruin the sequence if he pretended it was still true. Calibration, for him, was less a ritual than a willingness to admit that the instrument had wandered.\n\nA neighbour's son came up the track with a homework question about planets and hovered at the door. Ivo usually sent visitors away. He let this one stay because the boy had brought a pencil and an empty page, which suggested he expected to work rather than to be amazed. Ivo allowed a look at a bright planet, then required a second look and a judgment about which of two stars was brighter. The boy chose the larger-looking one and was wrong. The correction pleased them both more than the first sight had, because it replaced a guess with a reason. When the boy left, Ivo returned to the variable and found that one estimate in the series was missing. He wrote the gap into the logbook instead of inventing a number that would make the row look complete. By dawn the page showed an honest interruption. He locked the shed satisfied, not because the night had been full, but because he had refused to tidy the record into a lie.\n\nOutside, the town was beginning its ordinary noise, and the stars were already losing their authority to it. Ivo did not mind. The handbook had never promised spectacle. It had promised that a careful person, working within the limits of a small mirror, could add a line that another careful person might trust. The missing estimate, left visible, was part of that promise.",
+  "vocabulary": [
+    {
+      "word": "aperture",
+      "definition": "The opening in a telescope that gathers light."
+    },
+    {
+      "word": "drift",
+      "definition": "A slow unintended movement away from the right position."
+    },
+    {
+      "word": "calibration",
+      "definition": "Checking an instrument and admitting when it is no longer accurate."
+    },
+    {
+      "word": "variable",
+      "definition": "Changing in brightness rather than staying constant."
+    },
+    {
+      "word": "logbook",
+      "definition": "A book in which observations are recorded as they happen."
+    },
+    {
+      "word": "spectacle",
+      "definition": "An impressive sight meant to amaze people."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where did Ivo keep the telescope?",
+      "options": [
+        "In a shed he had insulated above Loden",
+        "In a public institute with a clerk",
+        "In the boy's kitchen beside the handbook",
+        "On a streetlamp at the end of the track"
+      ],
+      "correctAnswer": "In a shed he had insulated above Loden",
+      "explanation": "He kept the telescope in a shed he had insulated, on a rise above Loden.",
+      "supportingSentence": "Ivo Marsh kept his telescope in a shed he had insulated himself, on a rise above Loden where the streetlamps stopped before the track did.",
+      "skill": "detail"
+    },
+    {
+      "question": "How does Ivo's handling of the boy echo his own way of observing?",
+      "options": [
+        "He wants a judgment that can be checked, not mere wonder",
+        "He tells the boy to invent a figure and fill the gap",
+        "He decides brightness by which object looks bigger",
+        "He refuses every question and sends the boy home at once"
+      ],
+      "correctAnswer": "He wants a judgment that can be checked, not mere wonder",
+      "explanation": "Ivo's own work depends on a comparison he can defend, and he makes the boy compare two stars rather than simply admire the view.",
+      "supportingSentence": "Ivo allowed a look at a bright planet, then required a second look and a judgment about which of two stars was brighter.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why is the gap in the logbook more trustworthy than a completed row?",
+      "options": [
+        "A later reader can see where the evidence actually stops",
+        "The handbook pays a higher fee for shorter notes",
+        "Frost makes any full set of figures impossible",
+        "The boy agreed to copy the missing number at school"
+      ],
+      "correctAnswer": "A later reader can see where the evidence actually stops",
+      "explanation": "Ivo leaves the missing estimate visible instead of inventing a number, so another person can trust the line he did record.",
+      "supportingSentence": "He wrote the gap into the logbook instead of inventing a number that would make the row look complete.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does calibration mean for Ivo in this story?",
+      "options": [
+        "Admitting that the instrument had ceased to be exact",
+        "A public ceremony held at the institute",
+        "The boy's guess about the larger-looking star",
+        "Copying a finished page from the handbook"
+      ],
+      "correctAnswer": "Admitting that the instrument had ceased to be exact",
+      "explanation": "For him, calibration means being willing to say the instrument has wandered, rather than carrying on as if it had not.",
+      "supportingSentence": "Calibration, for him, was less a ritual than a willingness to admit that the instrument had wandered.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer bring the neighbour's son up to the shed?",
+      "options": [
+        "To see whether Ivo's standards hold when a person interrupts the work",
+        "To prove that planets outshine every variable star",
+        "To explain how the plywood roof was insulated",
+        "To replace the handbook with a school exercise"
+      ],
+      "correctAnswer": "To see whether Ivo's standards hold when a person interrupts the work",
+      "explanation": "The visit leaves a gap in the series, and Ivo's choice to record that gap shows the standard surviving the interruption.",
+      "supportingSentence": "When the boy left, Ivo returned to the variable and found that one estimate in the series was missing.",
+      "skill": "intent"
+    }
+  ]
+}

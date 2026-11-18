@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "travel",
+  "title": "The Overnight Sleeper",
+  "story": "Mira Elland boarded the overnight sleeper at Calden with a ticket that named a lower berth and a departure just after midnight. The compartment was narrower than the diagram on her phone had suggested, and the ladder to the upper bed left barely enough room for her coat. Across from her, a man in an unassuming grey jacket was already sorting maps into a stiff folder. He nodded once, the sort of greeting that declines conversation without quite refusing it. She returned the nod and set her bag beneath the seat, careful not to scrape his case.\n\nThe train left late. A conductor paused in the corridor to say that a signal fault beyond Virelle had made the schedule provisional, and that breakfast would be served only if they reached the port before the kitchen closed. Mira asked whether the delay would cost her the morning meeting. He could not promise either outcome, though he spoke as if lateness were a weather condition rather than a failure. When he had gone, her companion offered, without looking up, that the northern line often recovered time on the long straight after the river.\n\nShe had planned to read a brief and then sleep. Instead she listened to the change in the wheels whenever the train took a curve, and to the soft tick of the heating pipe above the door. Near two, the man closed his folder and said he was a surveyor hired to check a flood wall, not a tourist, and that he disliked arriving with opinions formed from a window. Mira understood the remark as a tacit request: he would share the space, but he would not perform the journey for her. She switched off her lamp. In the dark the compartment felt less cramped, as if the missing light had returned a little width to it.\n\nBy dawn the delay had narrowed to twenty minutes. She washed her face at the small metal basin and found the surveyor already dressed, his maps tied with cotton tape. On the platform at Hest he wished her a useful meeting, a phrase so exact that it stayed with her longer than a warmer farewell would have. Walking towards the tram, she realised she had spent the night practising a restraint the brief had never mentioned: how to occupy a confined place without claiming more of it than she had paid for. The meeting, when it came, would ask her for numbers. The journey had asked her for proportion, and she suspected that the second demand would be the one she answered less well.",
+  "vocabulary": [
+    {
+      "word": "berth",
+      "definition": "A bed on a ship or train."
+    },
+    {
+      "word": "unassuming",
+      "definition": "Quiet and not trying to attract attention."
+    },
+    {
+      "word": "provisional",
+      "definition": "Temporary and still able to change."
+    },
+    {
+      "word": "corridor",
+      "definition": "A long narrow passage between rooms or carriages."
+    },
+    {
+      "word": "tacit",
+      "definition": "Understood without being said openly."
+    },
+    {
+      "word": "confined",
+      "definition": "Small and limited in space."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "By dawn, how much of the delay still remained?",
+      "options": [
+        "Twenty minutes",
+        "Two hours",
+        "A full morning",
+        "Half a day"
+      ],
+      "correctAnswer": "Twenty minutes",
+      "explanation": "The story says that by dawn the delay had narrowed to twenty minutes.",
+      "supportingSentence": "By dawn the delay had narrowed to twenty minutes.",
+      "skill": "detail"
+    },
+    {
+      "question": "What habit seems to shape the way the surveyor approaches a job?",
+      "options": [
+        "He waits to judge a site until he can examine it directly",
+        "He forms his report from the view out of the train",
+        "He accepts only work that comes with a private cabin",
+        "He asks fellow passengers to confirm his first impression"
+      ],
+      "correctAnswer": "He waits to judge a site until he can examine it directly",
+      "explanation": "He disliked arriving with opinions formed from a window, so he will not decide about the wall before he sees it.",
+      "supportingSentence": "Near two, the man closed his folder and said he was a surveyor hired to check a flood wall, not a tourist, and that he disliked arriving with opinions formed from a window.",
+      "skill": "inference"
+    },
+    {
+      "question": "What appears to worry Mira more as she leaves the station?",
+      "options": [
+        "Whether she will handle a shared space with the right restraint",
+        "Whether the surveyor will attend her meeting",
+        "Whether the kitchen will reopen at the port",
+        "Whether her lamp failed during the night"
+      ],
+      "correctAnswer": "Whether she will handle a shared space with the right restraint",
+      "explanation": "She expects the meeting to ask for numbers, but she suspects she will handle the demand for proportion less well.",
+      "supportingSentence": "The journey had asked her for proportion, and she suspected that the second demand would be the one she answered less well.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does provisional mean when the conductor uses it about the schedule?",
+      "options": [
+        "Still uncertain and open to change",
+        "Officially cancelled for the night",
+        "Reserved for first-class tickets only",
+        "Guaranteed to include breakfast"
+      ],
+      "correctAnswer": "Still uncertain and open to change",
+      "explanation": "A signal fault had unsettled the timetable, so the schedule was not yet fixed.",
+      "supportingSentence": "A conductor paused in the corridor to say that a signal fault beyond Virelle had made the schedule provisional, and that breakfast would be served only if they reached the port before the kitchen closed.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer describe the compartment feeling wider after the lamp goes out?",
+      "options": [
+        "To show that the space felt easier once she stopped filling it with attention",
+        "To reveal that the train had entered a broader tunnel",
+        "To explain a fault in the heating pipe above the door",
+        "To suggest the surveyor needed the dark for his maps"
+      ],
+      "correctAnswer": "To show that the space felt easier once she stopped filling it with attention",
+      "explanation": "The extra width exists only in her perception, just after she accepts sharing the compartment quietly.",
+      "supportingSentence": "In the dark the compartment felt less cramped, as if the missing light had returned a little width to it.",
+      "skill": "intent"
+    }
+  ]
+}

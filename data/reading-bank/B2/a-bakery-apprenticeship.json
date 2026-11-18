@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "culture_food",
+  "title": "A Bakery Apprenticeship",
+  "story": "Luis began his apprenticeship at a corner bakery on a Monday when the street was still dark. Hester, the owner, did not spend the first hour on a welcome. She tied his apron, showed him where the cloths lived, and set a bowl of dough in front of him with orders to watch it rather than improve it. The mixture had been made before dawn and now needed a rest she called fermentation, the stage in which yeast and flour did work that impatient hands could spoil. Luis, who had baked proud loaves at home, kept reaching for the bowl until Hester moved it away.\n\nThe morning was an exercise in precision. He weighed flour to the gram, learned which cloth had to stay damp, and wrote the temperatures on a card because memory failed before sunrise. Hester corrected his grip on the scraper without raising her voice. When he left a dry skin of dough on the bench, she made him scrape it back and said that waste was a habit rather than an accident. His ears burned, and then he was grateful, because the correction arrived with a reason he could use the next time.\n\nAt midday the shop opened and the shift changed character. Luis sliced, bagged, and heard regulars ask for the same loaf by a nickname. Hester expected him to know what was inside, so he tasted the filling and learned where salty became too much. A customer complained that the rolls had been pale. Hester did not argue over the counter. Later she showed him the oven chart and the tray that had been pulled too early, and she let him study the mistake with her.\n\nBy Friday his shoulders ached and his notebook was full of scribbled corrections. Hester said a good mentor shared failures as well as methods, and that the apprenticeship would teach him to wait. Luis locked up, wiped the bench until it felt smooth, and checked the dough before he checked his phone.",
+  "vocabulary": [
+    {
+      "word": "apprenticeship",
+      "definition": "A period of learning a craft while working for a skilled person."
+    },
+    {
+      "word": "dough",
+      "definition": "The flour mixture before it is baked into bread."
+    },
+    {
+      "word": "fermentation",
+      "definition": "A resting stage in which yeast changes the dough without handling."
+    },
+    {
+      "word": "precision",
+      "definition": "Care about exact amounts and small details."
+    },
+    {
+      "word": "shift",
+      "definition": "A set period of the working day."
+    },
+    {
+      "word": "mentor",
+      "definition": "An experienced person who teaches by working alongside a learner."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What was Luis told to do with the first bowl?",
+      "options": [
+        "Watch the dough and not try to make it better",
+        "Reshape it before the shop opened",
+        "Throw it away and mix a fresh batch",
+        "Slice it for the regular customers at once"
+      ],
+      "correctAnswer": "Watch the dough and not try to make it better",
+      "explanation": "Hester put the bowl in front of him with orders to watch it rather than improve it.",
+      "supportingSentence": "She tied his apron, showed him where the cloths lived, and set a bowl of dough in front of him with orders to watch it rather than improve it.",
+      "skill": "detail"
+    },
+    {
+      "question": "How did Hester deal with the pale rolls after the customer had left?",
+      "options": [
+        "She kept arguing until the customer changed his mind",
+        "She blamed Luis for a bake he had not done",
+        "She showed Luis the chart and the tray that had come out too early",
+        "She removed the oven chart from the wall"
+      ],
+      "correctAnswer": "She showed Luis the chart and the tray that had come out too early",
+      "explanation": "Later she showed him the oven chart and the tray that had been pulled too early.",
+      "supportingSentence": "Later she showed him the oven chart and the tray that had been pulled too early, and she let him study the mistake with her.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did Hester move the bowl out of Luis's reach?",
+      "options": [
+        "The mixture had already been ruined beyond saving",
+        "She wanted him to unlock the shop before sunrise",
+        "She was punishing him for dropping the scraper",
+        "His confidence from baking at home was pushing him to interfere"
+      ],
+      "correctAnswer": "His confidence from baking at home was pushing him to interfere",
+      "explanation": "He kept reaching for a bowl he had been told only to watch, so his old habit was getting in the way.",
+      "supportingSentence": "Luis, who had baked proud loaves at home, kept reaching for the bowl until Hester moved it away.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does the end of the week suggest about Luis?",
+      "options": [
+        "He was ready to run the shop with no further guidance",
+        "The work in front of him had started to come before his phone",
+        "He had decided that the training was a mistake",
+        "He needed a call to remember the morning temperatures"
+      ],
+      "correctAnswer": "The work in front of him had started to come before his phone",
+      "explanation": "He checked the dough before he checked his phone, which shows where his attention had shifted.",
+      "supportingSentence": "Luis locked up, wiped the bench until it felt smooth, and checked the dough before he checked his phone.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does fermentation mean in Hester's first lesson?",
+      "options": [
+        "The nickname regulars use for one particular loaf",
+        "Dry dough left behind on the work bench",
+        "A rest during which the mixture changes and should not be fiddled with",
+        "A complaint that the morning rolls look too pale"
+      ],
+      "correctAnswer": "A rest during which the mixture changes and should not be fiddled with",
+      "explanation": "She uses the word for the stage when yeast and flour do the work and impatient hands would spoil it.",
+      "supportingSentence": "The mixture had been made before dawn and now needed a rest she called fermentation, the stage in which yeast and flour did work that impatient hands could spoil.",
+      "skill": "vocabulary"
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "health_sports",
+  "title": "Choosing a Local Gym",
+  "story": "Ravi had promised himself a winter of proper training, and by November the promise was still a note on his phone. Two gyms sat within a short bus ride, so he visited both on a wet Thursday before he paid anyone. The harbour studio was bright, small, and proud of its timetable. A trainer named Cole led an induction that covered the machines, the booking board, and the rule that dropped weights had to be returned at once. The equipment was new and the mirrors were clean, yet the evening class Ravi wanted was full until January.\n\nThe mill rooms occupied a converted workshop with high windows and a smell of rubber mats. There was no speech about a new life. Membership cost less, but the commitment was plain: three months at minimum, and no refund if work turned busy. Ravi watched a lunchtime crowd move through a circuit without a long wait for the bars. People greeted one another and then got on with the set, which he liked more than he had expected. A cracked bench had been labelled out of use instead of left for someone to discover.\n\nHe asked both places about a trial. The studio offered two guest classes if he joined a mailing list. The mill rooms let him train once on a day pass and then decide. Ravi used that hour to see whether he would come when nobody was watching. He arrived after work, a little late, and still finished the simple programme written on a card. The room was less crowded at the time he could attend, while the studio class would have meant waiting in a corridor.\n\nMoney mattered, but the deciding point was whether a missed week would feel like a scandal or like something he could restart. The mill rooms sent a short email that listed hours and nothing else. Ravi signed for three months, put the first session in his calendar, and dropped the studio leaflet into the recycling on the way home.",
+  "vocabulary": [
+    {
+      "word": "induction",
+      "definition": "An introduction that shows a new member the rules and machines."
+    },
+    {
+      "word": "equipment",
+      "definition": "The machines and tools used for exercise."
+    },
+    {
+      "word": "membership",
+      "definition": "The paid right to use a place for a set period."
+    },
+    {
+      "word": "commitment",
+      "definition": "A promise to continue for an agreed length of time."
+    },
+    {
+      "word": "crowded",
+      "definition": "Full of people, with little free space."
+    },
+    {
+      "word": "trial",
+      "definition": "A short chance to try something before deciding."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What prevented Ravi from joining the harbour studio class he wanted?",
+      "options": [
+        "The machines were all broken on the day he visited",
+        "Cole refused to explain the booking board",
+        "That class had no spaces left until January",
+        "The studio stayed closed on wet Thursdays"
+      ],
+      "correctAnswer": "That class had no spaces left until January",
+      "explanation": "The studio was clean and new, but the evening class he wanted was full until January.",
+      "supportingSentence": "The equipment was new and the mirrors were clean, yet the evening class Ravi wanted was full until January.",
+      "skill": "detail"
+    },
+    {
+      "question": "What chance to try the mill rooms did Ravi receive before paying?",
+      "options": [
+        "One workout on a day pass, and then a decision",
+        "Two guest classes if he joined a mailing list",
+        "Three free months with a personal trainer",
+        "A written exam about the history of the workshop"
+      ],
+      "correctAnswer": "One workout on a day pass, and then a decision",
+      "explanation": "The mill rooms let him train once on a day pass and then decide whether to join.",
+      "supportingSentence": "The mill rooms let him train once on a day pass and then decide.",
+      "skill": "detail"
+    },
+    {
+      "question": "What was Ravi finding out by training even though he arrived a little late?",
+      "options": [
+        "Whether the harbour trainer would cut the price for him",
+        "Whether he would still do the work on an ordinary, imperfect day",
+        "Whether the studio mirrors were cleaner than the mill's",
+        "Whether the lunchtime crowd would give up the bars"
+      ],
+      "correctAnswer": "Whether he would still do the work on an ordinary, imperfect day",
+      "explanation": "He used the hour to see if he would come with nobody watching, and he still finished after arriving late.",
+      "supportingSentence": "He arrived after work, a little late, and still finished the simple programme written on a card.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does the mill rooms' short email suggest about that gym?",
+      "options": [
+        "It had forgotten to attach the price he had requested",
+        "It wanted him to bring friends before he could join",
+        "It was writing to cancel the session he had just done",
+        "It preferred plain facts to a performance about changing his life"
+      ],
+      "correctAnswer": "It preferred plain facts to a performance about changing his life",
+      "explanation": "A note that only listed the hours, after no talk of a new life, points to a practical place rather than a sales pitch.",
+      "supportingSentence": "The mill rooms sent a short email that listed hours and nothing else.",
+      "skill": "inference"
+    },
+    {
+      "question": "In the mill rooms' terms, what does commitment mean?",
+      "options": [
+        "A fixed period he could not drop as soon as work got busy",
+        "A free introduction to every evening class",
+        "A medical letter he had to collect from a doctor",
+        "A winter race that every member had to enter"
+      ],
+      "correctAnswer": "A fixed period he could not drop as soon as work got busy",
+      "explanation": "The commitment was three months at a minimum, with no refund if work became busy.",
+      "supportingSentence": "Membership cost less, but the commitment was plain: three months at minimum, and no refund if work turned busy.",
+      "skill": "vocabulary"
+    }
+  ]
+}

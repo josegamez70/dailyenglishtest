@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "hobbies",
+  "title": "The Saturday Market Stall",
+  "story": "Tomas set up his stall in the market square before the shops opened. He sold handmade cards and small jars of jam. His sister Rosa had painted the cards, and Tomas had written the prices on a board. He wore a green apron so people would know he worked there. At nine the first customers arrived. A woman bought two cards and paid with a large note. Tomas gave her the right change and thanked her. A boy knocked a crate of jam with his bag. Two jars rolled toward the path. Tomas caught one, and Rosa caught the other before it hit the stones. Nothing broke. The boy's mother said sorry and bought a jar to make up for the scare. After lunch a teacher ordered ten cards for her class. Rosa wrapped them in brown paper and tied the parcel with string. Tomas checked the coins in his tin and wrote the total in a small book. Near four o'clock the best cards were gone. He lowered the price of the last jars and called each one a bargain. An older man bought all three and said the jam smelled like summer. Tomas packed the empty crate and folded the cloth. Rosa counted the notes again while he took down the sign. They had sold more than last week. Tomas decided that a tidy stall would keep both the jam and the customers safe.",
+  "vocabulary": [
+    {
+      "word": "stall",
+      "definition": "a table where someone sells things"
+    },
+    {
+      "word": "apron",
+      "definition": "a cloth worn over clothes to keep them clean"
+    },
+    {
+      "word": "customers",
+      "definition": "people who buy things"
+    },
+    {
+      "word": "change",
+      "definition": "money returned after a payment"
+    },
+    {
+      "word": "crate",
+      "definition": "a box for carrying goods"
+    },
+    {
+      "word": "bargain",
+      "definition": "a lower price than before"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did Tomas sell from the stall?",
+      "options": [
+        "handmade cards and jars of jam",
+        "old maps and coins",
+        "fresh bread and soup",
+        "hats and woollen scarves"
+      ],
+      "correctAnswer": "handmade cards and jars of jam",
+      "explanation": "The second sentence lists the goods.",
+      "supportingSentence": "He sold handmade cards and small jars of jam.",
+      "skill": "detail"
+    },
+    {
+      "question": "Who caught the jar that Tomas did not catch?",
+      "options": [
+        "Rosa",
+        "the teacher",
+        "the older man",
+        "a market guard"
+      ],
+      "correctAnswer": "Rosa",
+      "explanation": "She stopped it before it hit the stones.",
+      "supportingSentence": "Tomas caught one, and Rosa caught the other before it hit the stones.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did the teacher order after lunch?",
+      "options": [
+        "ten cards for her class",
+        "the last three jars",
+        "a green apron",
+        "a new cash tin"
+      ],
+      "correctAnswer": "ten cards for her class",
+      "explanation": "Rosa wrapped that order in brown paper.",
+      "supportingSentence": "After lunch a teacher ordered ten cards for her class.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does bargain mean?",
+      "options": [
+        "a lower price than before",
+        "a broken jar of jam",
+        "a painted birthday card",
+        "a busy hour at noon"
+      ],
+      "correctAnswer": "a lower price than before",
+      "explanation": "He used the word when he reduced the last jars.",
+      "supportingSentence": "He lowered the price of the last jars and called each one a bargain.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Tomas want the stall to stay tidy?",
+      "options": [
+        "so the jam and the customers would stay safe",
+        "so Rosa could paint during the sale",
+        "so the teacher would order soup",
+        "so the notes would look new"
+      ],
+      "correctAnswer": "so the jam and the customers would stay safe",
+      "explanation": "He linked a tidy table with safety after the near accident.",
+      "supportingSentence": "Tomas decided that a tidy stall would keep both the jam and the customers safe.",
+      "skill": "inference"
+    }
+  ],
+  "file": "b1-c.txt"
+}

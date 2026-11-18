@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "adventure",
+  "title": "Reading the Incoming Weather",
+  "story": "Mara stopped on the shoulder above the lake and made her nephew stand still before he reached for the map. The map, she said, could wait. Weather arrived before a person had finished arguing with it, and the ridge they hoped to cross would not care what a printed line had promised the night before. Nils was sixteen, quick, and still in love with the idea that preparation was a list. He had the list. He did not yet have the habit of looking up.\n\nShe asked him to name what he could actually see. A high veil of cloud was spreading from the west, thin enough that the peaks still cut through it, thick enough to take the hard edge off the light. The wind on their faces was mild, but the grass at the col was leaning the other way, which meant the air above them was already moving faster than the air at their boots. Small lenticular patches sat over the farthest summit like stacked plates. Mara did not call them by the textbook name. She called them a reason to be humble.\n\nNils wanted a rule he could reuse. If those clouds meant a storm, then every pale sky was a threat, and nobody would ever leave a hut. Mara shook her head. One sign was a rumour. Three signs, agreeing with each other, were a case. She made him watch the lake. An hour earlier it had been a dark mirror. Now short lines of wind scratched it, and the scratches were travelling towards them. The temperature had not fallen, but the smell of the air had changed, less like warm stone and more like wet metal. That was not poetry. It was information. She had him count the seconds between a gust on the lake and the same gust in the grass, and the delay told them the change was still arriving, not already spent.\n\nThey turned the plan around while there was still time to do it politely. The high traverse could wait for a morning when the grass, the water, and the summits told the same quiet story. Instead they would drop to the lower path, lose the view, and keep the margin that let a person be wrong without being hurt. Nils folded the map along a new crease and did not argue. On the way down he kept glancing back, not in disappointment so much as in practice. Mara let him. A forecast was a letter written far away. The sky in front of them was the only correspondent that had to be answered before noon.",
+  "vocabulary": [
+    {
+      "word": "veil",
+      "definition": "A thin layer that partly covers something, here the cloud."
+    },
+    {
+      "word": "lenticular",
+      "definition": "Smooth and layered, like plates or lenses stacked in the sky."
+    },
+    {
+      "word": "col",
+      "definition": "A high dip in a ridge between higher ground."
+    },
+    {
+      "word": "rumour",
+      "definition": "A hint that is not yet solid enough to trust."
+    },
+    {
+      "word": "margin",
+      "definition": "An extra allowance of safety if something goes wrong."
+    },
+    {
+      "word": "correspondent",
+      "definition": "Someone who sends news; here, the sky that must be answered."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What does \"lenticular\" describe in this story?",
+      "options": [
+        "Smooth cloud patches stacked over a summit",
+        "A sharp drop on the way to the lower path",
+        "The new crease Nils folds into the map",
+        "A gust counted between the lake and the grass"
+      ],
+      "correctAnswer": "Smooth cloud patches stacked over a summit",
+      "explanation": "The word names the smooth, plate-like clouds sitting over the farthest summit.",
+      "supportingSentence": "Small lenticular patches sat over the farthest summit like stacked plates.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does Mara stop Nils from using the map first?",
+      "options": [
+        "The paper is wet and will tear in the wind",
+        "She wants the living sky to be heard before a printed line",
+        "Nils has already crossed this ridge once before",
+        "The lake is the only safe place left to camp"
+      ],
+      "correctAnswer": "She wants the living sky to be heard before a printed line",
+      "explanation": "She makes him wait because the ridge will not keep a promise that was made on paper.",
+      "supportingSentence": "Weather arrived before a person had finished arguing with it, and the ridge they hoped to cross would not care what a printed line had promised the night before.",
+      "skill": "inference"
+    },
+    {
+      "question": "How old is the nephew Mara is teaching?",
+      "options": [
+        "Fourteen",
+        "Nineteen",
+        "Sixteen",
+        "Twenty-two"
+      ],
+      "correctAnswer": "Sixteen",
+      "explanation": "The story says that Nils was sixteen.",
+      "supportingSentence": "Nils was sixteen, quick, and still in love with the idea that preparation was a list.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why does the writer keep Mara from using the textbook name?",
+      "options": [
+        "To show that she has forgotten which cloud it is",
+        "To prove that the far summit is too distant to name",
+        "To suggest that Nils already knows the technical term",
+        "To put the warning ahead of a label he could memorise"
+      ],
+      "correctAnswer": "To put the warning ahead of a label he could memorise",
+      "explanation": "She calls the clouds a reason to be humble, which matters more to her than adding another item to his list.",
+      "supportingSentence": "She called them a reason to be humble.",
+      "skill": "intent"
+    },
+    {
+      "question": "What can Mara reasonably hope after the walk down?",
+      "options": [
+        "Nils will throw every plan away and never prepare again",
+        "Nils will refuse every lower path from this day on",
+        "Nils will keep watching the sky without being ordered",
+        "Nils will trust only forecasts written far from the hill"
+      ],
+      "correctAnswer": "Nils will keep watching the sky without being ordered",
+      "explanation": "His backward looks are practice rather than disappointment, so the habit of watching can continue without her pushing.",
+      "supportingSentence": "On the way down he kept glancing back, not in disappointment so much as in practice.",
+      "skill": "inference"
+    }
+  ]
+}

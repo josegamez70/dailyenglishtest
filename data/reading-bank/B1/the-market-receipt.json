@@ -1,0 +1,99 @@
+{
+  "level": "B1",
+  "topic": "economy_finance",
+  "title": "The Market Receipt",
+  "story": "Lina bought fruit, bread, and cheese at the Saturday market. The seller put the food in a bag and handed her a long receipt. She paid twelve euros in a hurry and walked to the bus. On the bus she unfolded the paper and read each line. The apples, the bread, and the cheese were correct. Then she saw a charge for fish, and she had not bought any fish.\n\nShe returned to the market before the stalls closed. The fruit seller, Paolo, read the receipt and looked worried. Another customer had bought fish, and Paolo had pressed the wrong button on his machine. The extra charge was four euros. Lina asked calmly for the money back. Paolo opened his cash box, returned four euros, and wrote a new receipt by hand. He apologised and gave her a small orange at no cost. She kept the orange, and Paolo thanked her for coming back. She decided to read every line before she left a stall next time.\n\nAt home Lina checked both papers again. The new total was eight euros, which matched the food in her bag. She put the corrected receipt in a folder with her other bills. She told her brother that a careful look at a receipt can save money. He smiled, and the next week he read his own paper before he left the market.",
+  "vocabulary": [
+    {
+      "word": "receipt",
+      "definition": "A paper that lists what you paid."
+    },
+    {
+      "word": "charge",
+      "definition": "An amount of money you are asked to pay."
+    },
+    {
+      "word": "cash",
+      "definition": "Money in notes and coins."
+    },
+    {
+      "word": "total",
+      "definition": "The full amount after everything is added."
+    },
+    {
+      "word": "bills",
+      "definition": "Papers that show amounts of money."
+    },
+    {
+      "word": "apologised",
+      "definition": "Said sorry for a mistake."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What food had Lina actually chosen?",
+      "options": [
+        "Fruit, bread, and cheese",
+        "Fish and a bag of apples",
+        "Only a small orange",
+        "Bread and a bus ticket"
+      ],
+      "correctAnswer": "Fruit, bread, and cheese",
+      "explanation": "She bought fruit, bread, and cheese at the market.",
+      "supportingSentence": "Lina bought fruit, bread, and cheese at the Saturday market.",
+      "skill": "detail"
+    },
+    {
+      "question": "What mistake did she notice on the bus?",
+      "options": [
+        "A charge for fish",
+        "A missing bag of apples",
+        "A bus ticket in the bag",
+        "A second orange at no cost"
+      ],
+      "correctAnswer": "A charge for fish",
+      "explanation": "The paper listed fish, but she had not bought any fish.",
+      "supportingSentence": "Then she saw a charge for fish, and she had not bought any fish.",
+      "skill": "detail"
+    },
+    {
+      "question": "How much money did the seller give back?",
+      "options": [
+        "Four euros",
+        "Twelve euros",
+        "Eight euros",
+        "Twenty euros"
+      ],
+      "correctAnswer": "Four euros",
+      "explanation": "Paolo returned the four euros from the wrong charge.",
+      "supportingSentence": "Paolo opened his cash box, returned four euros, and wrote a new receipt by hand.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what is a receipt?",
+      "options": [
+        "A paper list of money already paid",
+        "A bag used for fruit and bread",
+        "A box of notes and coins",
+        "A folder of family photos"
+      ],
+      "correctAnswer": "A paper list of money already paid",
+      "explanation": "The receipt showed each thing Lina had paid for.",
+      "supportingSentence": "The seller put the food in a bag and handed her a long receipt.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Lina go back before the stalls closed?",
+      "options": [
+        "She wanted the mistake fixed that same day",
+        "She had left her bag on the bus",
+        "Paolo had phoned and asked her to return",
+        "She wanted to buy fish for dinner"
+      ],
+      "correctAnswer": "She wanted the mistake fixed that same day",
+      "explanation": "She had found a wrong charge and went back while the seller was still there.",
+      "supportingSentence": "She returned to the market before the stalls closed.",
+      "skill": "inference"
+    }
+  ]
+}

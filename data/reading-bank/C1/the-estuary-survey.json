@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "science",
+  "title": "The Estuary Survey",
+  "story": "The survey boat left the jetty at Marrow Mouth on a falling tide, with five stations marked on a transect from the road bridge to the outer buoy. At each station the crew lowered a probe for salinity and turbidity, then towed a small net for a fixed two minutes. They kept two nets ready so that a torn mesh would not force them to reuse a contaminated one. They recorded the time of each cast, because a falling tide keeps moving while the crew is still writing. The aim that morning was modest. They wanted a description of that tide, at those points, under the weather they actually had, which was a gray sky and a light wind from the land.\n\nStation four broke the pattern the tide model had led them to expect. Salinity fell sharply while the neighboring stations stayed brackish, and the water in the sample bottle looked clearer than the plume they had crossed upstream. One technician thought the probe housing had trapped a pocket of river water and then released it at the wrong moment. The other thought they had crossed a real freshwater pulse. Arguing on the deck would not settle it. A second instrument, kept sealed in a dry box and not used for the routine casts, could settle the narrower question of whether the first probe was lying.\n\nThe duplicate reading agreed with the odd one. The drop was in the water, not in the housing. That agreement did not identify the cause. Overnight, the board that manages the upper sluice had opened a gate for maintenance, and a pulse of river water could have traveled down on the ebb. The crew had not seen the gate, had not measured the release, and had not repeated the station on the next tide. A matching pair of probes supports the claim that station four was fresher at that hour. It does not support a claim about the whole estuary, and it does not, by itself, name the sluice as the source. Cause would require a record the boat did not carry.\n\nThey wrote the station up as an exception with both readings attached, and they left the model untouched. Models are updated from a pattern, not from a single defended point. Before they claimed even the local fact in the shared report, they logged the net count separately, so that a later reader would not treat the clearer water and the animal tally as one result. The survey could stand for what it had repeated. It would not be asked to stand for what it had only happened to meet.",
+  "vocabulary": [
+    {
+      "word": "transect",
+      "definition": "A line of sampling points laid out across an area."
+    },
+    {
+      "word": "salinity",
+      "definition": "How salty the water is."
+    },
+    {
+      "word": "turbidity",
+      "definition": "How cloudy the water is because of material mixed in it."
+    },
+    {
+      "word": "brackish",
+      "definition": "Slightly salty, between fresh water and seawater."
+    },
+    {
+      "word": "pulse",
+      "definition": "A short-lived body of different water moving through the estuary."
+    },
+    {
+      "word": "sluice",
+      "definition": "A gate that can be opened to let river water through."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did the duplicate reading show about the odd salinity result?",
+      "options": [
+        "The drop was in the water, not in the first probe’s housing.",
+        "The drop existed only in the tide model, which the crew then rewrote.",
+        "The drop came from a torn net reused at that station.",
+        "The drop appeared at every station from the bridge to the outer buoy."
+      ],
+      "correctAnswer": "The drop was in the water, not in the first probe’s housing.",
+      "explanation": "The second reading agreed with the first, so the drop was in the water rather than in the housing.",
+      "supportingSentence": "The drop was in the water, not in the housing.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why does it matter that the second instrument had stayed sealed and out of the routine casts?",
+      "options": [
+        "It could test the first probe without having shared the same handling.",
+        "It had already been used at the outer buoy and was known to read low.",
+        "The crew needed it as a spare net if the mesh tore.",
+        "The tide model could be changed only by an instrument kept in a box."
+      ],
+      "correctAnswer": "It could test the first probe without having shared the same handling.",
+      "explanation": "Because it had not been used for the routine casts, it could check whether the first probe was at fault.",
+      "supportingSentence": "A second instrument, kept sealed in a dry box and not used for the routine casts, could settle the narrower question of whether the first probe was lying.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why would it be a mistake to treat the overnight gate opening as a proven cause of the fresher reading?",
+      "options": [
+        "The crew neither saw the release nor measured it, so the link stays possible rather than shown.",
+        "The second probe disagreed with the first and left the drop itself in doubt.",
+        "Station four was saltier than the model had expected, not fresher.",
+        "The sluice board had written to confirm that the gate stayed shut."
+      ],
+      "correctAnswer": "The crew neither saw the release nor measured it, so the link stays possible rather than shown.",
+      "explanation": "The crew did not see or measure the release, so the open gate remains a possible cause, not a proven one.",
+      "supportingSentence": "The crew had not seen the gate, had not measured the release, and had not repeated the station on the next tide.",
+      "skill": "inference"
+    },
+    {
+      "question": "In this passage, what is the “transect”?",
+      "options": [
+        "The line of stations from the road bridge to the outer buoy.",
+        "The freshwater movement that may have come from the gate.",
+        "The fixed two-minute tow used to collect animals.",
+        "The dry box in which the spare probe was stored."
+      ],
+      "correctAnswer": "The line of stations from the road bridge to the outer buoy.",
+      "explanation": "The five stations were marked on a transect running from the road bridge to the outer buoy.",
+      "supportingSentence": "The survey boat left the jetty at Marrow Mouth on a falling tide, with five stations marked on a transect from the road bridge to the outer buoy.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the passage refuse to let the survey stand for what the crew only happened to meet?",
+      "options": [
+        "To keep one unexpected encounter from being reported as a general pattern.",
+        "To argue that surveys should stop measuring how salty the water is.",
+        "To show that the tide model had already predicted the odd station.",
+        "To recommend that the gate be closed for good."
+      ],
+      "correctAnswer": "To keep one unexpected encounter from being reported as a general pattern.",
+      "explanation": "The writer wants a repeated result to be reported, and a single unexpected meeting not to be stretched into a general claim.",
+      "supportingSentence": "It would not be asked to stand for what it had only happened to meet.",
+      "skill": "intent"
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "science",
+  "title": "The River Sample",
+  "story": "The science club at Kedley School wanted to know whether the stream behind the playing field was healthy enough for the spring pond dip. A single look at the water was not evidence. On Thursday after class, their teacher, Idris, took the group to two points. The first was upstream of the school drain, and the second was just below it. At each point they rinsed a bottle three times, filled it from the middle of the flow, and sealed it before anyone touched the inside of the cap. They also recorded the time, the air temperature, and whether it had rained that day. Although the water looked clear in both places, the club had agreed not to trust appearance alone.\n\nBack in the lab they measured temperature and cloudiness and noted a faint smell in the lower sample. The upstream sample stayed clear in the tube. Idris warned them not to claim that the drain had caused the difference. One pair of bottles, taken on one afternoon, could not prove a cause. A bird, a passing walker, or yesterday's rain might have disturbed the lower site. Consequently, the result was a clue, not a conclusion.\n\nThey repeated the collection the following Thursday, after a dry week, and again on a morning after heavy rain. The pattern was similar on the dry day and stronger after the rain, when the lower sample carried more silt. Meanwhile, they kept the method identical, so the results would be comparable. Gloves, the same rinse, the middle of the flow, and notes on the same sheet were all required. Only then did the club write a cautious report for the head teacher. The stream was probably affected by the drain during wet weather, yet they still needed the town's official test before any pond dip. Careful sampling had narrowed the question. It had not answered every part of it. The club planned one more wet morning before they spoke to the town office.",
+  "vocabulary": [
+    {
+      "word": "evidence",
+      "definition": "Information that helps show whether something is true."
+    },
+    {
+      "word": "upstream",
+      "definition": "In the direction the water comes from."
+    },
+    {
+      "word": "conclusion",
+      "definition": "A final claim about what a result proves."
+    },
+    {
+      "word": "silt",
+      "definition": "Fine soil carried along by moving water."
+    },
+    {
+      "word": "comparable",
+      "definition": "Able to be compared fairly because the method matches."
+    },
+    {
+      "word": "sampling",
+      "definition": "Collecting small amounts to study a larger whole."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where were the two bottles filled?",
+      "options": [
+        "Inside the lab and the town office",
+        "Only at the pond used for the dip",
+        "Upstream of the drain and just below it",
+        "From the tap beside the playing field"
+      ],
+      "correctAnswer": "Upstream of the drain and just below it",
+      "explanation": "One point was upstream of the school drain, and the other was just below it.",
+      "supportingSentence": "The first was upstream of the school drain, and the second was just below it.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did the club still need before a pond dip?",
+      "options": [
+        "A new bottle for every student",
+        "Permission to skip the rainy visit",
+        "A smell test done by eye only",
+        "An official test from the town"
+      ],
+      "correctAnswer": "An official test from the town",
+      "explanation": "They still needed the town's official test before any pond dip.",
+      "supportingSentence": "The stream was probably affected by the drain during wet weather, yet they still needed the town's official test before any pond dip.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why was a clear look at the stream a weak test?",
+      "options": [
+        "Clear water is always unsafe for a pond dip",
+        "A problem can exist even when the water looks clean",
+        "The lab could not measure temperature",
+        "Rain never changes what a bottle contains"
+      ],
+      "correctAnswer": "A problem can exist even when the water looks clean",
+      "explanation": "Both samples looked clear, but the club would not trust appearance, and the lower sample later had a faint smell.",
+      "supportingSentence": "Although the water looked clear in both places, the club had agreed not to trust appearance alone.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does \"silt\" mean in this story?",
+      "options": [
+        "Fine soil carried along by the water",
+        "A chemical sent by the town office",
+        "The air temperature beside the stream",
+        "A bottle rinsed three times"
+      ],
+      "correctAnswer": "Fine soil carried along by the water",
+      "explanation": "After heavy rain the lower sample carried more silt, meaning more fine soil in the water.",
+      "supportingSentence": "The pattern was similar on the dry day and stronger after the rain, when the lower sample carried more silt.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why wait for another wet morning before calling the town?",
+      "options": [
+        "The head teacher had banned every report",
+        "The upstream bottle had never been sealed",
+        "They wanted that pattern confirmed once more",
+        "Dry weather had already closed the stream"
+      ],
+      "correctAnswer": "They wanted that pattern confirmed once more",
+      "explanation": "They had a cautious pattern, not a finished answer, so they planned one more wet morning before speaking to the town.",
+      "supportingSentence": "The club planned one more wet morning before they spoke to the town office.",
+      "skill": "inference"
+    }
+  ]
+}

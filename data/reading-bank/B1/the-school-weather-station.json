@@ -1,0 +1,99 @@
+{
+  "level": "B1",
+  "topic": "science",
+  "title": "The School Weather Station",
+  "story": "The science club fixed a small weather station on the roof of Redgate School. Their teacher, Helen, showed the club how to attach the sensors. One sensor measured temperature, another measured rainfall, and a third checked wind speed. A thin cable ran down to a computer in the science room.\n\nOn the first Monday the numbers looked strange. The temperature said thirty-nine degrees at eight in the morning, which was far too high for spring. Rafi went up with Helen and found the cause. A dark metal box beside the sensor was in full sun, and heat from the box was warming the air. They moved the sensor two metres into the shade. By lunch the reading was fourteen degrees, the same as the thermometer by the window.\n\nThe club kept a log for three weeks. Each afternoon two students recorded the highest temperature, the rainfall, and the strongest wind. In week two a storm brought twelve millimetres of rain in one hour. The wind sensor spun so fast that the pole shook. Helen asked for a stronger clip, and after that the pole stayed still.\n\nAt the end of the month they put a chart in the school hall. Mornings were cooler than afternoons, and rain came more often with the west wind. People used the chart to choose coats. If the wind was high, Rafi cycled home through the park, where the buildings blocked the gusts.",
+  "vocabulary": [
+    {
+      "word": "sensors",
+      "definition": "Devices that measure changes around them"
+    },
+    {
+      "word": "temperature",
+      "definition": "How hot or cold something is"
+    },
+    {
+      "word": "rainfall",
+      "definition": "The amount of rain that falls"
+    },
+    {
+      "word": "thermometer",
+      "definition": "A tool that measures temperature"
+    },
+    {
+      "word": "log",
+      "definition": "A written record kept over time"
+    },
+    {
+      "word": "gusts",
+      "definition": "Sudden strong blows of wind"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where did the club fix the weather station?",
+      "options": [
+        "On the school roof",
+        "In the park",
+        "Beside the hall chart",
+        "Under the science window"
+      ],
+      "correctAnswer": "On the school roof",
+      "explanation": "The club fixed the weather station on the roof of Redgate School.",
+      "supportingSentence": "The science club fixed a small weather station on the roof of Redgate School.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why was the Monday morning temperature too high?",
+      "options": [
+        "Heat from a metal box in the sun warmed the air",
+        "The computer added extra degrees",
+        "Rafi stood in front of the sensor",
+        "The storm had already arrived"
+      ],
+      "correctAnswer": "Heat from a metal box in the sun warmed the air",
+      "explanation": "A dark metal box in full sun was warming the air around the sensor.",
+      "supportingSentence": "A dark metal box beside the sensor was in full sun, and heat from the box was warming the air.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does gusts mean?",
+      "options": [
+        "Sudden strong blows of wind",
+        "Heavy drops of rain",
+        "Lines drawn on a chart",
+        "Warm afternoon temperatures"
+      ],
+      "correctAnswer": "Sudden strong blows of wind",
+      "explanation": "Rafi avoids the gusts by cycling where the buildings block the strong wind.",
+      "supportingSentence": "If the wind was high, Rafi cycled home through the park, where the buildings blocked the gusts.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "How much rain did the storm bring in one hour?",
+      "options": [
+        "Twelve millimetres",
+        "Two metres",
+        "Fourteen degrees",
+        "Three weeks"
+      ],
+      "correctAnswer": "Twelve millimetres",
+      "explanation": "In week two the storm brought twelve millimetres of rain in one hour.",
+      "supportingSentence": "In week two a storm brought twelve millimetres of rain in one hour.",
+      "skill": "detail"
+    },
+    {
+      "question": "What can the reader conclude when the lunch reading matched the thermometer?",
+      "options": [
+        "The new place gave a more trustworthy temperature",
+        "The window thermometer was broken",
+        "Spring became twenty degrees warmer at lunch",
+        "The cable had stopped sending numbers"
+      ],
+      "correctAnswer": "The new place gave a more trustworthy temperature",
+      "explanation": "After the move into the shade, the roof reading matched the thermometer, so the new place was better.",
+      "supportingSentence": "By lunch the reading was fourteen degrees, the same as the thermometer by the window.",
+      "skill": "inference"
+    }
+  ]
+}

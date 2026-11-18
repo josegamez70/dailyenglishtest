@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "health_sports",
+  "title": "Choosing New Trainers",
+  "story": "Hugo's old trainers hurt his heel because the sole had worn thin. On Saturday he visited a sports shop on a quiet street. The assistant Chloe asked how he would use the shoes. Hugo said he walked to work and sometimes jogged in the park. Chloe brought three pairs and told him to wear his usual socks. The first pair looked neat, but the toe box felt tight. Hugo walked to the mirror and shook his head. The second pair was soft, yet his heel slid up at each step. Chloe said a good fit should feel snug, not loose and not painful. She laced the third pair and asked him to jog on the spot. The sole bent in a natural place, and his toes had room to move. Nothing pinched his foot. Chloe pressed the back of the shoe and showed him that the heel stayed down. A thicker cushion inside made the price higher than the first pair. Hugo thought of his sore heel and decided the extra cost was sensible. He paid, kept the receipt, and put the old shoes in the box. On the way to the bus the new trainers felt light and steady. He no longer favoured one foot. At home he set the old pair aside for recycling. He placed the receipt in a drawer so he could find it later. Choosing slowly had spared him another week of heel pain.",
+  "vocabulary": [
+    {
+      "word": "sole",
+      "definition": "the bottom part of a shoe"
+    },
+    {
+      "word": "heel",
+      "definition": "the back part of the foot"
+    },
+    {
+      "word": "fit",
+      "definition": "the way a shoe sits on the foot"
+    },
+    {
+      "word": "laced",
+      "definition": "tied with the strings of a shoe"
+    },
+    {
+      "word": "cushion",
+      "definition": "a soft layer inside a shoe"
+    },
+    {
+      "word": "receipt",
+      "definition": "a paper proof of payment"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Why did Hugo's old trainers hurt his heel?",
+      "options": [
+        "The sole had worn thin.",
+        "They were brand new that morning.",
+        "Chloe had lent him her own pair.",
+        "The laces were missing at home."
+      ],
+      "correctAnswer": "The sole had worn thin.",
+      "explanation": "The thin bottom was the cause of the pain.",
+      "supportingSentence": "Hugo's old trainers hurt his heel because the sole had worn thin.",
+      "skill": "detail"
+    },
+    {
+      "question": "What was wrong with the second pair?",
+      "options": [
+        "His heel slid up at each step.",
+        "The toe box pressed his toes.",
+        "The shop had no socks left.",
+        "The colour was far too bright."
+      ],
+      "correctAnswer": "His heel slid up at each step.",
+      "explanation": "Soft was not the same as staying in place.",
+      "supportingSentence": "The second pair was soft, yet his heel slid up at each step.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Chloe do to the third pair before he jogged?",
+      "options": [
+        "She laced them.",
+        "She cut the sole shorter.",
+        "She put them in the window.",
+        "She sent them back to the shelf."
+      ],
+      "correctAnswer": "She laced them.",
+      "explanation": "Then she asked him to jog on the spot.",
+      "supportingSentence": "She laced the third pair and asked him to jog on the spot.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does cushion mean?",
+      "options": [
+        "a soft layer inside a shoe",
+        "a paper proof of payment",
+        "a tight space for the toes",
+        "a ticket for the bus"
+      ],
+      "correctAnswer": "a soft layer inside a shoe",
+      "explanation": "The thicker one made the price higher.",
+      "supportingSentence": "A thicker cushion inside made the price higher than the first pair.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Hugo accept the higher price?",
+      "options": [
+        "His sore heel made the extra cost sensible.",
+        "Chloe said the shop would close that day.",
+        "The receipt had already been lost.",
+        "The first pair had no price on it."
+      ],
+      "correctAnswer": "His sore heel made the extra cost sensible.",
+      "explanation": "He was thinking about the pain, not only about the money.",
+      "supportingSentence": "Hugo thought of his sore heel and decided the extra cost was sensible.",
+      "skill": "inference"
+    }
+  ],
+  "file": "b1-c.txt"
+}
