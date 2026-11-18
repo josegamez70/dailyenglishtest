@@ -1,19 +1,12 @@
-import { madridDayKey } from './tasks.ts';
+import { madridDayKey, shiftMadridDay } from './tasks.ts';
 
 export const SCOREBOARD_MIN = 3;
 export const SCOREBOARD_TOP = 10;
 
 export type ScoreMode = 'reading' | 'listening' | 'grammar';
-export type ScorePeriod = 'daily' | 'all';
-export type ScoreSort =
-  | 'total-percent'
-  | 'total-count'
-  | 'reading-percent'
-  | 'reading-count'
-  | 'listening-percent'
-  | 'listening-count'
-  | 'grammar-percent'
-  | 'grammar-count';
+export type ScorePeriod = 'daily' | 'yesterday' | 'all';
+/** Most exercises ranks by volume. Best % ranks by weighted percent among learners who reached the minimum. */
+export type ScoreRank = 'exercises' | 'percent';
 
 export type ModeTotals = {
   done: number;
@@ -52,6 +45,13 @@ export function emptyTotals(): ModeTotals {
   return { ...EMPTY };
 }
 
+/** Keep a public ranking alias when the local fallback would say You. */
+export function withRemoteAlias(local: ScoreRow, remoteAlias: string | undefined): ScoreRow {
+  const alias = (remoteAlias ?? '').trim();
+  if (!alias || alias.includes('@') || alias === 'You' || alias === 'Learner') return local;
+  return { ...local, alias };
+}
+
 /** A public label. An email, or a blank name, never becomes the label. */
 export function publicAlias(displayName: string, self = false): string {
   const name = displayName.trim().slice(0, 40);
@@ -81,8 +81,15 @@ function totalsOf(row: ScoreRow, mode: ScoreMode | 'total'): ModeTotals {
   return row[mode];
 }
 
-export function rowFromAttempts(alias: string, attempts: readonly ScoreAttempt[], period: ScorePeriod, now = new Date(), isSelf = false): ScoreRow {
+export function periodDay(period: ScorePeriod, now = new Date()): string | null {
   const today = madridDayKey(now);
+  if (period === 'daily') return today;
+  if (period === 'yesterday') return shiftMadridDay(today, -1);
+  return null;
+}
+
+export function rowFromAttempts(alias: string, attempts: readonly ScoreAttempt[], period: ScorePeriod, now = new Date(), isSelf = false): ScoreRow {
+  const day = periodDay(period, now);
   const row: ScoreRow = {
     alias,
     isSelf,
@@ -94,7 +101,7 @@ export function rowFromAttempts(alias: string, attempts: readonly ScoreAttempt[]
   for (const attempt of attempts) {
     if (attempt.mode !== 'reading' && attempt.mode !== 'listening' && attempt.mode !== 'grammar') continue;
     if (attempt.total <= 0) continue;
-    if (period === 'daily' && madridDayKey(new Date(attempt.createdAt)) !== today) continue;
+    if (day && madridDayKey(new Date(attempt.createdAt)) !== day) continue;
     const bucket = row[attempt.mode];
     bucket.done += 1;
     bucket.correct += Math.max(0, attempt.score);
@@ -103,24 +110,17 @@ export function rowFromAttempts(alias: string, attempts: readonly ScoreAttempt[]
   return row;
 }
 
-function metric(row: ScoreRow, sort: ScoreSort): { count: number; percent: number } {
-  const mode = sort.startsWith('reading') ? 'reading' : sort.startsWith('listening') ? 'listening' : sort.startsWith('grammar') ? 'grammar' : 'total';
-  const totals = totalsOf(row, mode);
-  return { count: totals.done, percent: weightedPercent(totals.correct, totals.answered) ?? -1 };
-}
-
 function byAlias(left: ScoreRow, right: ScoreRow): number {
   return left.alias.localeCompare(right.alias) || Number(right.isSelf) - Number(left.isSelf);
 }
 
-/** Percent sorts rank only qualified rows. Count sorts include everyone, and an unqualified percent stays blank. */
-export function presentBoard(rows: readonly ScoreRow[], sort: ScoreSort, minimum = SCOREBOARD_MIN): {
+/** Most exercises: total exercises, then percent. Best %: weighted percent among qualified rows, then exercises. */
+export function presentBoard(rows: readonly ScoreRow[], rank: ScoreRank = 'percent', minimum = SCOREBOARD_MIN): {
   top: PresentedRow[];
   self: PresentedRow | null;
   unqualified: PresentedRow[];
 } {
   const min = Math.max(1, Math.floor(minimum) || SCOREBOARD_MIN);
-  const percentSort = sort.endsWith('percent');
   const decorated = rows.map((row) => {
     const total = totalsOf(row, 'total');
     return {
@@ -132,14 +132,15 @@ export function presentBoard(rows: readonly ScoreRow[], sort: ScoreSort, minimum
       totalAnswered: total.answered,
     };
   });
-  const competing = percentSort ? decorated.filter((row) => row.qualified) : decorated;
-  const sittingOut = percentSort ? decorated.filter((row) => !row.qualified) : [];
+  const competing = rank === 'percent'
+    ? decorated.filter((row) => row.qualified)
+    : decorated.filter((row) => row.totalDone > 0);
+  const sittingOut = decorated.filter((row) => !competing.includes(row));
+  const ratio = (row: PresentedRow) => (row.totalAnswered > 0 ? row.totalCorrect / row.totalAnswered : -1);
   competing.sort((left, right) => {
-    const a = metric(left, sort);
-    const b = metric(right, sort);
-    const primary = percentSort ? b.percent - a.percent : b.count - a.count;
+    const primary = rank === 'percent' ? ratio(right) - ratio(left) : right.totalDone - left.totalDone;
     if (primary) return primary;
-    const secondary = percentSort ? b.count - a.count : b.percent - a.percent;
+    const secondary = rank === 'percent' ? right.totalDone - left.totalDone : ratio(right) - ratio(left);
     if (secondary) return secondary;
     return byAlias(left, right);
   });
@@ -152,7 +153,7 @@ export function presentBoard(rows: readonly ScoreRow[], sort: ScoreSort, minimum
   return {
     top,
     self,
-    unqualified: percentSort ? sittingOut : [],
+    unqualified: sittingOut,
   };
 }
 
@@ -173,6 +174,14 @@ export function demoRows(period: ScorePeriod): ScoreRow[] {
     demo('Demo Lola', 0, 0, 0, 1, 0, 5, 0, 0, 0),
   ];
   if (period === 'all') return all;
+  if (period === 'yesterday') {
+    return [
+      demo('Demo Alba', 1, 4, 5, 1, 3, 5, 1, 4, 5),
+      demo('Demo Bruno', 1, 3, 5, 1, 2, 5, 1, 2, 5),
+      demo('Demo Celia', 1, 2, 5, 0, 0, 0, 1, 1, 5),
+      demo('Demo Ken', 1, 0, 5, 0, 0, 0, 0, 0, 0),
+    ];
+  }
   return [
     demo('Demo Alba', 2, 8, 10, 1, 4, 5, 1, 5, 6),
     demo('Demo Bruno', 1, 4, 5, 2, 6, 10, 1, 3, 5),
