@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import {
   buildVocabQuiz,
+  vocabQuizWhy,
   filterVocabulary,
   normalizeTerm,
   sourceLabel,
@@ -76,8 +77,24 @@ test('the quiz is built only from saved words and needs four of them', () => {
   for (const question of quiz ?? []) {
     assert.equal(question.choices.includes(question.answer), true);
     assert.equal(new Set(question.choices).size, question.choices.length);
+    assert.match(question.explanation, new RegExp(question.term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+    assert.equal(question.explanation.includes('gemini'), false);
   }
+  assert.equal(vocabQuizWhy('wake up', 'to stop sleeping · to become alert', true), '“wake up” means to stop sleeping.');
+  assert.equal(vocabQuizWhy('wake up', 'to stop sleeping', false), '“to stop sleeping” is the meaning of “wake up”.');
+  assert.equal(vocabQuizWhy('strife', 'Hard work . More words follow. · another sense', true), '“strife” means Hard work.');
   const page = readFileSync(new URL('../components/VocabularyPage.tsx', import.meta.url), 'utf8');
+  const pageQuiz = page.slice(page.indexOf('function Quiz'), page.indexOf('export function VocabularyPage'));
+  assert.match(pageQuiz, /Exercise complete!|ExerciseComplete/);
+  assert.match(pageQuiz, /Your answer/);
+  assert.match(pageQuiz, /Correct answer/);
+  assert.match(pageQuiz, /Why: /);
+  assert.match(pageQuiz, /SpanishWhy/);
+  assert.match(pageQuiz, /if \(locked\) return/);
+  assert.match(pageQuiz, /playEffect\(right \? 'correct' : 'wrong', retro\)/);
+  assert.equal(pageQuiz.includes('onNew={onExit}'), false);
+  const effects = readFileSync(new URL('../effects.ts', import.meta.url), 'utf8');
+  assert.match(effects, /if \(!soundEffectsEnabled\(\)\) return;/);
   assert.equal(page.includes('gemini'), false);
   assert.equal(page.includes('generateStory'), false);
   const sql = readFileSync(new URL('../supabase/migrations/20261121_saved_vocabulary.sql', import.meta.url), 'utf8');

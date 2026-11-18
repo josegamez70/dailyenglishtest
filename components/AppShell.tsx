@@ -4,7 +4,7 @@ import { AcademyBadge } from './AcademyBadge';
 import HomeIcon from './icons/HomeIcon';
 import { menuPixelIcon, MenuPixelIcon, PixelIcon } from './PixelIcon';
 
-export type ShellItem = 'lesson' | 'grammar' | 'tasks' | 'packs' | 'progress' | 'saved' | 'vocabulary' | 'academy' | 'profile' | 'join';
+export type ShellItem = 'lesson' | 'grammar' | 'tasks' | 'packs' | 'progress' | 'scoreboard' | 'saved' | 'vocabulary' | 'academy' | 'profile' | 'join';
 
 const baseItems: { id: ShellItem; label: string; path: string }[] = [
   { id: 'lesson', label: 'Reading / Listening', path: '/' },
@@ -13,6 +13,7 @@ const baseItems: { id: ShellItem; label: string; path: string }[] = [
   { id: 'tasks', label: 'Tasks', path: '/tasks' },
   { id: 'packs', label: 'Task packs', path: '/task-packs' },
   { id: 'progress', label: 'My progress', path: '/progress' },
+  { id: 'scoreboard', label: 'Scoreboard', path: '/scoreboard' },
   { id: 'saved', label: 'Saved lessons', path: '/saved' },
   { id: 'profile', label: 'Profile', path: '/profile' },
 ];

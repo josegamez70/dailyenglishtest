@@ -43,6 +43,7 @@ import { QuizErrorBoundary, QuizScreen } from './components/QuizErrorBoundary';
 import { WelcomeGuide } from './components/WelcomeGuide';
 import { isDarkTheme, isThemeChoice } from './themeChoice';
 import { ProgressPage } from './components/ProgressPage';
+import { ScoreboardPage } from './components/ScoreboardPage';
 import { SavedLessonsPage } from './components/SavedLessonsPage';
 import { TasksPage } from './components/TasksPage';
 import { TasksPreview } from './components/TasksPreview';
@@ -2201,7 +2202,7 @@ const App: React.FC = () => {
     </div>
   );
 
-  const shellItem: ShellItem = path === '/progress' ? 'progress' : path === '/saved' ? 'saved' : path === '/vocabulary' ? 'vocabulary' : path === '/tasks' ? 'tasks' : isTaskPacksPath(path) ? 'packs' : path === '/profile' ? 'profile' : path === '/academy' ? 'academy' : path === '/join' ? 'join' : path === '/grammar' ? 'grammar' : 'lesson';
+  const shellItem: ShellItem = path === '/progress' ? 'progress' : path === '/scoreboard' ? 'scoreboard' : path === '/saved' ? 'saved' : path === '/vocabulary' ? 'vocabulary' : path === '/tasks' ? 'tasks' : isTaskPacksPath(path) ? 'packs' : path === '/profile' ? 'profile' : path === '/academy' ? 'academy' : path === '/join' ? 'join' : path === '/grammar' ? 'grammar' : 'lesson';
   const openPack = (id: string) => {
     const next = `/task-packs/${id}`;
     window.history.pushState({ taskPack: id }, '', next);
@@ -2453,6 +2454,11 @@ const App: React.FC = () => {
           profileLevel={account.defaultLevel}
           onBack={() => go('/')}
         />
+        </RetroWindow>
+      )}
+      {shellItem === 'scoreboard' && (
+        <RetroWindow title="Scoreboard" sober>
+        <ScoreboardPage displayName={account.displayName} onBack={() => go('/')} />
         </RetroWindow>
       )}
       {shellItem === 'saved' && (

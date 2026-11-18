@@ -260,3 +260,28 @@ html[data-theme="retro95"] .retro-window {
 .badge-popup-layer { z-index: 70; }
 .badge-popup img { image-rendering: pixelated; margin: 0.75rem auto; }
 .badge-popup-kicker { margin: 0; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+
+.scoreboard-scroll table {
+  background: #fff;
+  color: #0f172a;
+}
+
+.dark .scoreboard-scroll table {
+  background: #1e293b;
+  color: #f8fafc;
+}
+
+.scoreboard-head {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.dark .scoreboard-head {
+  background: #334155;
+  color: #f8fafc;
+}
+
+.scoreboard-gold { background: #fff3b0; color: #000; }
+.scoreboard-silver { background: #e5e7eb; color: #000; }
+.scoreboard-bronze { background: #e7c8a0; color: #000; }
+.scoreboard-you { box-shadow: inset 4px 0 0 #1d4ed8; }
