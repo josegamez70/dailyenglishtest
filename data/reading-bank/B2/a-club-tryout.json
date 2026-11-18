@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "health_sports",
+  "title": "A Club Tryout",
+  "story": "The riverside club held its spring tryout on a windy Saturday, and Nadia arrived early enough to watch the squad finish a warm-up. She had played midfield for a workplace team, but this club trained twice a week and expected players to keep their shape for a full half. Ellis, the coach, handed out coloured bibs and said the session would test decisions rather than entertain the people on the bank. Anyone who argued with a call would be asked to leave the grid.\n\nIn the first drill Nadia received the ball with her back to goal and had two touches to turn or lay it off. Her first pass was heavy, and it ran out of the square before a teammate could reach it. She reset her feet, shortened the next ball, and found that the quicker choice drew less trouble. Ellis did not praise the correction, yet he stopped whistling long enough to nod. Nadia took the nod as a better sign than applause from the bank.\n\nThe conditioned game showed a different weakness. Nadia had the stamina to keep arriving, but she hesitated when two options appeared, and the delay let a defender step across the lane. At the break Ellis told the group that composure meant choosing early and living with the choice. He did not say her name, although his eyes stayed on the midfield. Nadia drank, retied her laces, and decided she would play the simple ball rather than hunt for a clever one.\n\nIn the final minutes she tracked a runner, won the second ball, and slid it wide before anyone shouted for a shot. The move brought a corner, not a goal, and she did not celebrate. When the bibs were collected, Ellis read a shortlist of players invited to train on Thursday. Nadia's name was on it, beside a note that her positioning still needed work. She walked to the bus with muddy knees and a quieter pride, already replaying the moment she had hesitated.",
+  "vocabulary": [
+    {
+      "word": "tryout",
+      "definition": "A session in which players are tested for a place on a team."
+    },
+    {
+      "word": "stamina",
+      "definition": "The energy to keep physical effort going for a long time."
+    },
+    {
+      "word": "hesitated",
+      "definition": "Paused before choosing what to do."
+    },
+    {
+      "word": "composure",
+      "definition": "Calm control that lets a person decide clearly."
+    },
+    {
+      "word": "shortlist",
+      "definition": "A reduced list of people chosen to go on to the next stage."
+    },
+    {
+      "word": "positioning",
+      "definition": "The places a player moves to during a game."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What consequence did Ellis set for arguing with a decision?",
+      "options": [
+        "The player would have to leave the practice grid",
+        "The player would be moved into goal for the rest of the day",
+        "The spectators would be asked to settle the argument",
+        "The player would go straight onto the Thursday list"
+      ],
+      "correctAnswer": "The player would have to leave the practice grid",
+      "explanation": "Ellis said that anyone who argued with a call would be asked to leave the grid.",
+      "supportingSentence": "Anyone who argued with a call would be asked to leave the grid.",
+      "skill": "detail"
+    },
+    {
+      "question": "What extra comment came with Nadia's invitation to train again?",
+      "options": [
+        "She had been the sharpest finisher in the session",
+        "She would captain the side at the next meeting",
+        "She still needed to improve where she moved on the pitch",
+        "She had to apologise to the coach before Thursday"
+      ],
+      "correctAnswer": "She still needed to improve where she moved on the pitch",
+      "explanation": "Her name was on the shortlist beside a note that her positioning still needed work.",
+      "supportingSentence": "Nadia's name was on it, beside a note that her positioning still needed work.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does Nadia's final pass suggest about the advice at the break?",
+      "options": [
+        "She had decided to ignore Ellis and shoot by herself",
+        "She was too tired to stay part of the move",
+        "She was playing mainly for the people on the bank",
+        "She had begun to act before someone told her what to do"
+      ],
+      "correctAnswer": "She had begun to act before someone told her what to do",
+      "explanation": "She released the ball before anyone called for a shot, which fits the call to choose early.",
+      "supportingSentence": "In the final minutes she tracked a runner, won the second ball, and slid it wide before anyone shouted for a shot.",
+      "skill": "inference"
+    },
+    {
+      "question": "What was Ellis likely trying to do by leaving Nadia's name unsaid?",
+      "options": [
+        "Hide that he had already removed her from the list",
+        "Let her recognise the point without a public scolding",
+        "Ask the spectators to pick the midfield player",
+        "Show that he could not tell the players apart"
+      ],
+      "correctAnswer": "Let her recognise the point without a public scolding",
+      "explanation": "He watched the midfield while talking about early choices, but he did not single her out.",
+      "supportingSentence": "He did not say her name, although his eyes stayed on the midfield.",
+      "skill": "inference"
+    },
+    {
+      "question": "In this session, what does it mean that Nadia hesitated?",
+      "options": [
+        "She refused to run and walked off the pitch",
+        "She shouted at a teammate to try a clever pass",
+        "She paused when two choices appeared, and the pause cost her the lane",
+        "She celebrated before the move had finished"
+      ],
+      "correctAnswer": "She paused when two choices appeared, and the pause cost her the lane",
+      "explanation": "She hesitated between two options, and that delay let a defender step across the passing lane.",
+      "supportingSentence": "Nadia had the stamina to keep arriving, but she hesitated when two options appeared, and the delay let a defender step across the lane.",
+      "skill": "vocabulary"
+    }
+  ]
+}

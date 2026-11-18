@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "daily life",
+  "title": "Replacing the Boiler",
+  "story": "The boiler failed on the coldest morning of the month, giving a short cough and then nothing. Elena rang the landlord from a kitchen cold enough to show her breath. Denis was not unkind, but he was slow to spend money, and the lease described the heating as his obligation only when a qualified person judged the appliance beyond economical repair. He told her to buy a small electric heater, keep the receipts, and wait for an engineer he had used before. If the visit showed a simple fault, he would authorise a repair the same day. Elena, whose younger child studied at the table in that room, said an interim heater would not warm the flat through another night of frost.\n\nThe engineer arrived after lunch, unwilling to guess before he had opened the casing. The heat exchanger was cracked, the flue seal had perished, and parts for that model were no longer supplied. A repair, he said, would be a false economy even if a second-hand component could be found. He wrote two figures on a single sheet. One covered a like-for-like replacement that would last a few winters. The other covered a more efficient unit whose running cost would be lower, though the installation would take an extra day and require a new condensate pipe. He left the sheet and noted that either choice was safer than nursing the old boiler through January.\n\nDenis, reading the figures that evening, favoured the cheaper option and suggested Elena contribute if she wanted the efficient model, since she would enjoy the lower bills. Elena answered that the lease did not ask a tenant to fund an upgrade, and that the flat had been marketed with working heat. She also sent the engineer's warning that delay would leave them with no heating at all. She bought one heater, moved the beds away from the outside wall, and kept a record of the hours it ran.\n\nOn the third day Denis agreed to the efficient unit, provided the engineer could start before the weekend and provided Elena accepted that the old boiler's scrap value would not be shared. She agreed at once. What stayed with her was the sequence rather than the machinery. If she had not pressed, the cheaper swap might have been ordered, and the lease would still have been satisfied. The document had set a floor, not a standard of care. Elena filed the sheet beside the tenancy agreement, in case the next failure invited the same argument about who should pay for more than the minimum.",
+  "vocabulary": [
+    {
+      "word": "obligation",
+      "definition": "A duty that someone is required to meet"
+    },
+    {
+      "word": "economical",
+      "definition": "Worth the money, rather than too costly for the result"
+    },
+    {
+      "word": "interim",
+      "definition": "Temporary, until a proper solution is ready"
+    },
+    {
+      "word": "efficient",
+      "definition": "Working with less waste"
+    },
+    {
+      "word": "upgrade",
+      "definition": "A change to something newer or better"
+    },
+    {
+      "word": "minimum",
+      "definition": "The smallest amount that is allowed or acceptable"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What faults did the engineer find in the old boiler?",
+      "options": [
+        "A cracked heat exchanger and a perished flue seal",
+        "A missing heater and a window that would not shut",
+        "A condensate pipe fitted on the wrong wall",
+        "A scrap value Denis had forgotten to share"
+      ],
+      "correctAnswer": "A cracked heat exchanger and a perished flue seal",
+      "explanation": "The heat exchanger was cracked, the flue seal had perished, and parts were no longer supplied.",
+      "supportingSentence": "The heat exchanger was cracked, the flue seal had perished, and parts for that model were no longer supplied.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the first response to the two prices reveal about Denis?",
+      "options": [
+        "He reaches for the cheaper option that still covers his duty",
+        "He wants the engineer to choose without asking him",
+        "He prefers tenants to move out for the whole winter",
+        "He usually replaces equipment before it fails"
+      ],
+      "correctAnswer": "He reaches for the cheaper option that still covers his duty",
+      "explanation": "He favoured the cheaper figure and suggested Elena pay extra if she wanted the better unit.",
+      "supportingSentence": "Denis, reading the figures that evening, favoured the cheaper option and suggested Elena contribute if she wanted the efficient model, since she would enjoy the lower bills.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why did waiting through January look like a poor plan?",
+      "options": [
+        "Either replacement was safer than keeping the failed boiler going",
+        "The cheaper unit could not be installed before spring",
+        "Elena had already purchased the efficient model herself",
+        "Denis had declared the boiler sound during the phone call"
+      ],
+      "correctAnswer": "Either replacement was safer than keeping the failed boiler going",
+      "explanation": "The engineer said either choice was safer than nursing the old boiler through January.",
+      "supportingSentence": "He left the sheet and noted that either choice was safer than nursing the old boiler through January.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does interim describe when the cold flat is discussed?",
+      "options": [
+        "A heater meant only to bridge the gap",
+        "The lower of the two figures on the sheet",
+        "The duty written into the lease",
+        "The money raised by scrapping the old machine"
+      ],
+      "correctAnswer": "A heater meant only to bridge the gap",
+      "explanation": "She says a stopgap heater will not warm the flat through another freezing night.",
+      "supportingSentence": "Elena, whose younger child studied at the table in that room, said an interim heater would not warm the flat through another night of frost.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer call the lease a floor rather than a standard of care?",
+      "options": [
+        "To show that the basic duty was less than the care Elena pushed for",
+        "To prove that Denis had already broken the agreement",
+        "To suggest the engineer should have picked the model alone",
+        "To argue that portable heaters are better than boilers"
+      ],
+      "correctAnswer": "To show that the basic duty was less than the care Elena pushed for",
+      "explanation": "The cheaper replacement could still have satisfied the lease, which only set the lowest acceptable step.",
+      "supportingSentence": "The document had set a floor, not a standard of care.",
+      "skill": "intent"
+    }
+  ]
+}

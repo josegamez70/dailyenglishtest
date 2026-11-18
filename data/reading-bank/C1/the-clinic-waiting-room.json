@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "health_sports",
+  "title": "The Clinic Waiting Room",
+  "story": "The waiting room at the sports clinic had been designed to look unlike a hospital, which only made the magazines and the pale blue chairs seem more deliberate. Jonah Hale, a rower with the national development squad, sat with his scan envelope unopened on his knee. Across from him an older woman in a faded club jacket worked through a crossword and did not, at first, look up. Her name, he later learned, was Esther Lind, and she had come for a shoulder that had argued with thirty years of fencing. Neither of them was bleeding. Both of them had arranged the day around a professional opinion.\n\nWhen the receptionist stepped away, Esther nodded at the envelope. People hold paper like that, she said, when they already know the sentence and are waiting to see whether the doctor will soften it. Jonah almost denied it. The team doctor had spoken of a stress response, then of a possible fracture, and had booked the scan before Jonah could finish explaining that selection camp began on Monday. He had told his coach he would have results by Friday. It was Friday, and the envelope felt heavier than the pictures inside it.\n\nEsther said she had no wish to become his coach, which made the rest easier to hear. A camp, she told him, can be postponed by a person and cannot be postponed by a bone. If he travelled on a compromised bone, he would spend the next season explaining a brave week. If he stayed and the scan was kinder than he feared, he would lose a camp and keep a career. She returned to her crossword as if she had commented on the weather. Jonah noticed that her left hand rested under the elbow of the sore arm, supporting it without display.\n\nHis name was called before hers. In the consulting room the doctor confirmed a stress fracture of the rib, small, manageable, and wholly incompatible with a week of seat racing. The plan was rest, breathing practice that did not load the bone, and a review in three weeks. There would be no heroics, the doctor added, because small cracks become lost seasons. Jonah asked for wording he could send his coach. The doctor wrote it down, plain enough to prevent a creative interpretation. Back in the waiting room Esther was being led through the other door. She lifted the crossword in a brief salute. On the bus Jonah typed the message he had been postponing since dawn, and for the first time the missing camp felt like a decision rather than a theft.",
+  "vocabulary": [
+    {
+      "word": "deliberate",
+      "definition": "Done on purpose, rather than by accident."
+    },
+    {
+      "word": "compromised",
+      "definition": "Already weakened and unsafe to load."
+    },
+    {
+      "word": "incompatible",
+      "definition": "Impossible to combine with something else."
+    },
+    {
+      "word": "heroics",
+      "definition": "Bold efforts that ignore a medical limit."
+    },
+    {
+      "word": "interpretation",
+      "definition": "A personal reading of what words allow."
+    },
+    {
+      "word": "fracture",
+      "definition": "A crack in a bone."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What injury did the doctor confirm after looking at the scan?",
+      "options": [
+        "A torn muscle in the knee",
+        "A broken shoulder from fencing",
+        "A small stress fracture in a rib",
+        "No injury, only ordinary tiredness"
+      ],
+      "correctAnswer": "A small stress fracture in a rib",
+      "explanation": "The doctor confirmed a small stress fracture of the rib and said it could not be combined with a week of seat racing.",
+      "supportingSentence": "In the consulting room the doctor confirmed a stress fracture of the rib, small, manageable, and wholly incompatible with a week of seat racing.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did the unopened envelope weigh so heavily on Jonah before the appointment?",
+      "options": [
+        "He already feared the result would keep him out of selection camp",
+        "He was ashamed of being seen with a crossword",
+        "Esther had told him the shoulder injury was his",
+        "He knew the pictures belonged to another athlete"
+      ],
+      "correctAnswer": "He already feared the result would keep him out of selection camp",
+      "explanation": "A possible fracture had already been mentioned, camp began on Monday, and he had promised his coach results by Friday.",
+      "supportingSentence": "The team doctor had spoken of a stress response, then of a possible fracture, and had booked the scan before Jonah could finish explaining that selection camp began on Monday.",
+      "skill": "inference"
+    },
+    {
+      "question": "What comparison is Esther asking Jonah to make?",
+      "options": [
+        "His rowing titles against her years of fencing",
+        "The cost of a missed camp against the cost of loading a damaged bone",
+        "The crossword against the magazines on the table",
+        "Friday's bus timetable against the receptionist's list"
+      ],
+      "correctAnswer": "The cost of a missed camp against the cost of loading a damaged bone",
+      "explanation": "She sets a brave week on a damaged bone, which could cost a season, against losing a camp but keeping a career.",
+      "supportingSentence": "If he stayed and the scan was kinder than he feared, he would lose a camp and keep a career.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does incompatible say about the rib injury and seat racing?",
+      "options": [
+        "The fracture had already healed",
+        "Seat racing was the treatment the doctor chose",
+        "They could not safely be combined that week",
+        "Jonah was being asked to leave the squad"
+      ],
+      "correctAnswer": "They could not safely be combined that week",
+      "explanation": "The fracture was manageable, but a week of seat racing could not be done at the same time.",
+      "supportingSentence": "In the consulting room the doctor confirmed a stress fracture of the rib, small, manageable, and wholly incompatible with a week of seat racing.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer include the plain wording the doctor wrote for the coach?",
+      "options": [
+        "To prove that Esther had written the medical plan",
+        "To suggest the crack was too small to mention",
+        "To explain why the clinic had no receptionist",
+        "To show that the message had to be hard for a coach to twist"
+      ],
+      "correctAnswer": "To show that the message had to be hard for a coach to twist",
+      "explanation": "Jonah asks for words he can send, and the doctor writes them plainly so they cannot be creatively reinterpreted.",
+      "supportingSentence": "The doctor wrote it down, plain enough to prevent a creative interpretation.",
+      "skill": "intent"
+    }
+  ]
+}

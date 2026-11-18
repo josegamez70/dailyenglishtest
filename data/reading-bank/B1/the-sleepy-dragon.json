@@ -1,0 +1,99 @@
+{
+  "level": "B1",
+  "topic": "fantasy",
+  "title": "The Sleepy Dragon",
+  "story": "A small dragon named Pebble slept on the roof of a village bakery. He was the size of a large dog, and his scales were the color of warm bread. Pebble loved the heat from the ovens and the smell of butter. The baker, Hana, did not fear him, because he was gentle. Each morning she left a roll on the chimney ledge. In return, Pebble kept noisy pigeons away from the cooling racks. On cold days, his breath warmed the kitchen just enough.\n\nOne winter morning, Pebble slept through Hana's usual knock. The ovens stayed cool, and the first customers found the door shut. Hana climbed a ladder and tapped his nose with a wooden spoon. Pebble opened one eye, sneezed a cloud of flour, and looked sorry. He slid down to the yard and blew a careful flame into the stove. The fire caught, and the kitchen filled with a comfortable heat. Hana baked extra rolls and gave Pebble two, not one.\n\nThe customers waited in the yard and laughed at the flour on his nose. A child asked if the dragon was dangerous. Hana said he was only dangerous to cold rooms and rude pigeons. Pebble yawned, climbed back to the roof, and fell asleep again. The village agreed to let him stay for as long as he wished.",
+  "vocabulary": [
+    {
+      "word": "scales",
+      "definition": "The hard pieces that cover a dragon's skin."
+    },
+    {
+      "word": "gentle",
+      "definition": "Kind and not dangerous."
+    },
+    {
+      "word": "ledge",
+      "definition": "A narrow shelf that sticks out."
+    },
+    {
+      "word": "sneezed",
+      "definition": "Suddenly blew air out through the nose."
+    },
+    {
+      "word": "comfortable",
+      "definition": "Pleasant and easy to enjoy."
+    },
+    {
+      "word": "yawned",
+      "definition": "Opened the mouth wide because of tiredness."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How big was Pebble?",
+      "options": [
+        "Bigger than the bakery",
+        "The size of a bird",
+        "The size of a large dog",
+        "Taller than the village"
+      ],
+      "correctAnswer": "The size of a large dog",
+      "explanation": "Pebble was the size of a large dog.",
+      "supportingSentence": "He was the size of a large dog, and his scales were the color of warm bread.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Hana leave for Pebble each morning?",
+      "options": [
+        "A bowl of soup",
+        "A wooden spoon",
+        "A pigeon",
+        "A roll"
+      ],
+      "correctAnswer": "A roll",
+      "explanation": "Each morning Hana left a roll on the chimney ledge.",
+      "supportingSentence": "Each morning she left a roll on the chimney ledge.",
+      "skill": "detail"
+    },
+    {
+      "question": "What came out in Pebble's sneeze?",
+      "options": [
+        "A cloud of flour",
+        "A stream of water",
+        "A lost pigeon",
+        "A bag of coins"
+      ],
+      "correctAnswer": "A cloud of flour",
+      "explanation": "Pebble sneezed a cloud of flour after Hana tapped his nose.",
+      "supportingSentence": "Pebble opened one eye, sneezed a cloud of flour, and looked sorry.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the word gentle mean in this story?",
+      "options": [
+        "Loud and angry",
+        "Kind and not dangerous",
+        "Cold and wet",
+        "Too small to see"
+      ],
+      "correctAnswer": "Kind and not dangerous",
+      "explanation": "Hana was not afraid because Pebble was gentle.",
+      "supportingSentence": "The baker, Hana, did not fear him, because he was gentle.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "How did the waiting customers feel about Pebble?",
+      "options": [
+        "Angry about the flour",
+        "Ready to chase him off",
+        "Amused by him",
+        "Afraid to look at him"
+      ],
+      "correctAnswer": "Amused by him",
+      "explanation": "They laughed at the flour on his nose, so they were amused by him.",
+      "supportingSentence": "The customers waited in the yard and laughed at the flour on his nose.",
+      "skill": "inference"
+    }
+  ]
+}

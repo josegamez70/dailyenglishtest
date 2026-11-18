@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "travel",
+  "title": "The Ferry Ticket",
+  "story": "Nadia stood on the harbour wall with a paper ticket in her hand. The wind pulled at her coat, and the water looked dull and grey. A long queue moved slowly toward the gate. Her ferry was due to leave at ten, and it was the only boat that morning. At the gate a worker in a blue jacket read the date on the ticket. He shook his head and handed it back. The date was for the next day, not for this morning. Nadia felt her face grow warm. She had written the number in a hurry the night before. The worker pointed to a small window beside the gate. He said she might change the ticket if one seat was still free. Nadia stepped out of the queue and walked to the window. She explained the mistake in a quiet voice. A clerk checked a screen and nodded. One seat remained on the ten o'clock ferry. Nadia paid a small fee and received a new ticket. The clerk told her to hold it carefully because the wind was strong. Nadia folded the paper and slid it into the inside pocket of her coat. She fastened the button and returned to the queue. This time the worker smiled and waved her through the gate. On board she found a seat beside a window. The crossing was calm, and Nadia watched the island grow near.",
+  "vocabulary": [
+    {
+      "word": "harbour",
+      "definition": "a place where boats stop"
+    },
+    {
+      "word": "queue",
+      "definition": "a line of people waiting"
+    },
+    {
+      "word": "ferry",
+      "definition": "a boat that carries people on a short trip"
+    },
+    {
+      "word": "fee",
+      "definition": "money paid for a service"
+    },
+    {
+      "word": "pocket",
+      "definition": "a small bag sewn into clothing"
+    },
+    {
+      "word": "calm",
+      "definition": "quiet and not upset"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What was wrong with the date on Nadia's first ticket?",
+      "options": [
+        "It was for the next day.",
+        "It had washed off in the rain.",
+        "It named the wrong island.",
+        "It was written on the back only."
+      ],
+      "correctAnswer": "It was for the next day.",
+      "explanation": "The worker saw that the date was not for this morning.",
+      "supportingSentence": "The date was for the next day, not for this morning.",
+      "skill": "detail"
+    },
+    {
+      "question": "Who read the date at the gate?",
+      "options": [
+        "a worker in a blue jacket",
+        "a child on the upper deck",
+        "the clerk on the island",
+        "the captain of a fishing boat"
+      ],
+      "correctAnswer": "a worker in a blue jacket",
+      "explanation": "He was the first person to check the paper.",
+      "supportingSentence": "At the gate a worker in a blue jacket read the date on the ticket.",
+      "skill": "detail"
+    },
+    {
+      "question": "Where did Nadia put the new ticket?",
+      "options": [
+        "in the inside pocket of her coat",
+        "under a seat by the window",
+        "on the clerk's screen",
+        "into the worker's bag"
+      ],
+      "correctAnswer": "in the inside pocket of her coat",
+      "explanation": "She folded it and put it away from the wind.",
+      "supportingSentence": "Nadia folded the paper and slid it into the inside pocket of her coat.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does fee mean?",
+      "options": [
+        "money paid for a service",
+        "a type of boat",
+        "a strong wind",
+        "a spare seat"
+      ],
+      "correctAnswer": "money paid for a service",
+      "explanation": "She paid it when she received the new ticket.",
+      "supportingSentence": "Nadia paid a small fee and received a new ticket.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Nadia fasten the button after putting the ticket away?",
+      "options": [
+        "The wind might have pulled the paper out.",
+        "The worker asked her to hide her name.",
+        "The queue was not moving at all.",
+        "The island was already beside the boat."
+      ],
+      "correctAnswer": "The wind might have pulled the paper out.",
+      "explanation": "The clerk had just warned her about the strong wind.",
+      "supportingSentence": "The clerk told her to hold it carefully because the wind was strong.",
+      "skill": "inference"
+    }
+  ],
+  "file": "b1-c.txt"
+}

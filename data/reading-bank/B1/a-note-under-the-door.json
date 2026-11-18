@@ -1,0 +1,99 @@
+{
+  "level": "B1",
+  "topic": "mystery",
+  "title": "A Note under the Door",
+  "story": "Clara found a folded note under her apartment door after work. It told her to look in the place where the spare key hides. She lived alone, and that key sat under a loose brick by the stairs. She felt nervous, so she called her neighbour Yusuf, and they went down together. The brick was pulled out a little. Under it were a second note and a small envelope.\n\nThe second note said the first one was a test from her brother Andre. He was in the city and wanted to see if she still used their old hiding place. The envelope held forty euros and a ticket for a play that evening. Andre wrote that the money was his share of a gift for their mother. He asked Clara to add her share and buy the gift the next day.\n\nClara compared the writing with an old postcard from Andre. The letters matched. Yusuf laughed and called it a family game. Clara still moved the key, because a note about a hiding place was not a safe joke. She put the envelope in a drawer and sent Andre a message. At the play he sat beside her and grinned. She thanked him, then told him never to leave a key clue again. Andre promised to send a normal message before the next surprise. Clara kept the ticket in her coat pocket for the evening.",
+  "vocabulary": [
+    {
+      "word": "spare",
+      "definition": "Extra, and kept ready for later."
+    },
+    {
+      "word": "envelope",
+      "definition": "A paper cover for a note or for money."
+    },
+    {
+      "word": "share",
+      "definition": "One person's part of a cost."
+    },
+    {
+      "word": "postcard",
+      "definition": "A card sent by post, often with a picture."
+    },
+    {
+      "word": "hiding",
+      "definition": "Keeping something in a secret place."
+    },
+    {
+      "word": "clue",
+      "definition": "A hint that helps you solve a puzzle."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where was the spare key kept?",
+      "options": [
+        "Under a loose brick by the stairs",
+        "In a drawer in the apartment",
+        "Inside a coat pocket",
+        "At the theatre door"
+      ],
+      "correctAnswer": "Under a loose brick by the stairs",
+      "explanation": "The spare key sat under a loose brick by the stairs.",
+      "supportingSentence": "She lived alone, and that key sat under a loose brick by the stairs.",
+      "skill": "detail"
+    },
+    {
+      "question": "What was inside the envelope?",
+      "options": [
+        "Forty euros and a ticket for a play",
+        "A spare key and a brick",
+        "Only a postcard from Andre",
+        "Yusuf's phone message"
+      ],
+      "correctAnswer": "Forty euros and a ticket for a play",
+      "explanation": "The envelope held forty euros and a ticket for a play.",
+      "supportingSentence": "The envelope held forty euros and a ticket for a play that evening.",
+      "skill": "detail"
+    },
+    {
+      "question": "Who had written the notes?",
+      "options": [
+        "Her brother Andre",
+        "Her neighbour Yusuf",
+        "Their mother",
+        "A stranger from the play"
+      ],
+      "correctAnswer": "Her brother Andre",
+      "explanation": "The second note said the test was from her brother Andre.",
+      "supportingSentence": "The second note said the first one was a test from her brother Andre.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what is a clue?",
+      "options": [
+        "A hint that helps you solve something",
+        "A ticket for an evening play",
+        "Money for a family gift",
+        "A loose brick by the stairs"
+      ],
+      "correctAnswer": "A hint that helps you solve something",
+      "explanation": "The note about the key was a clue in Andre's game.",
+      "supportingSentence": "She thanked him, then told him never to leave a key clue again.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "How did Andre seem when he met Clara at the play?",
+      "options": [
+        "Pleased that the surprise had worked",
+        "Angry about the moved key",
+        "Unable to find his ticket",
+        "Sorry that Yusuf kept the money"
+      ],
+      "correctAnswer": "Pleased that the surprise had worked",
+      "explanation": "He grinned when he sat beside her, so he was pleased.",
+      "supportingSentence": "At the play he sat beside her and grinned.",
+      "skill": "inference"
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "travel",
+  "title": "Changing Trains at Dusk",
+  "story": "The branch-line train reached the junction at dusk, when the platform lamps were brighter than the sky and the connecting service was already twelve minutes late. Helen Cho stepped down with a violin case and a paper timetable she no longer trusted. According to the original plan, she had four minutes to change trains, although that interval had never seemed realistic to regular passengers. A guard named Idris pointed towards a footbridge and said the onward train would leave from the third platform if it arrived at all. However, he added that a signal beyond the junction had failed, and the replacement part was still coming by road.\n\nHelen climbed the bridge and paused halfway, because from there she could see both tracks. Although she was tired, she felt oddly alert, as if the cold had sharpened every sound, from the hiss of brakes to a suitcase wheel. She checked the time and decided against coffee, since the kiosk had a queue and she refused to be on the wrong platform when the train appeared.\n\nOn the third platform a handful of passengers had formed a loose group. Helen took out her phone to warn the quartet in the next town that she might miss the start of the rehearsal. The message would not send. However, a handwritten notice by the bench explained that the station connection was unreliable after dark, and that urgent calls should go through the public telephone in the ticket office.\n\nShe considered that telephone, although the rehearsal could begin without her and a late explanation would be kinder than a panicked call. When the train drew in, its windows were fogged and its doors opened only after a brief dispute between the driver and the guard. Helen found a seat, laid the violin case across her knees, and watched the junction shrink. The delay had cost her the opening piece, yet the remaining journey was direct, and she would still arrive before the slow movement began.",
+  "vocabulary": [
+    {
+      "word": "junction",
+      "definition": "A place where railway routes meet."
+    },
+    {
+      "word": "dusk",
+      "definition": "The time when daylight is fading."
+    },
+    {
+      "word": "footbridge",
+      "definition": "A bridge that people walk across."
+    },
+    {
+      "word": "onward",
+      "definition": "Continuing further on the same journey."
+    },
+    {
+      "word": "quartet",
+      "definition": "A group of four musicians."
+    },
+    {
+      "word": "unreliable",
+      "definition": "Not able to be trusted to work."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How late was the connecting service when Helen arrived at the junction?",
+      "options": [
+        "Four minutes",
+        "Twelve minutes",
+        "One hour",
+        "It was exactly on time"
+      ],
+      "correctAnswer": "Twelve minutes",
+      "explanation": "The connecting service was already twelve minutes late.",
+      "supportingSentence": "The branch-line train reached the junction at dusk, when the platform lamps were brighter than the sky and the connecting service was already twelve minutes late.",
+      "skill": "detail"
+    },
+    {
+      "question": "What was still on its way because the signal had failed?",
+      "options": [
+        "A replacement part by road",
+        "A new paper timetable",
+        "Another instrument for the group",
+        "A bus to replace the train"
+      ],
+      "correctAnswer": "A replacement part by road",
+      "explanation": "Idris said the replacement part for the signal was still coming by road.",
+      "supportingSentence": "However, he added that a signal beyond the junction had failed, and the replacement part was still coming by road.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did Helen's message fail to send?",
+      "options": [
+        "Idris had taken her phone away",
+        "She had typed the wrong number",
+        "The battery had run out on the bridge",
+        "The station link was poor after dark"
+      ],
+      "correctAnswer": "The station link was poor after dark",
+      "explanation": "The message would not send, and a notice said the station connection was unreliable after dark.",
+      "supportingSentence": "However, a handwritten notice by the bench explained that the station connection was unreliable after dark, and that urgent calls should go through the public telephone in the ticket office.",
+      "skill": "inference"
+    },
+    {
+      "question": "What did Helen decide about using the public telephone?",
+      "options": [
+        "She would use it to cancel the whole concert",
+        "She would ask the guard to call for her",
+        "A call was less useful than catching the train",
+        "She would wait in the office until morning"
+      ],
+      "correctAnswer": "A call was less useful than catching the train",
+      "explanation": "She considered the telephone, but thought a late explanation was kinder than a panicked call, and then she boarded the train.",
+      "supportingSentence": "She considered that telephone, although the rehearsal could begin without her and a late explanation would be kinder than a panicked call.",
+      "skill": "inference"
+    },
+    {
+      "question": "What time of day does dusk refer to?",
+      "options": [
+        "The middle of the night",
+        "The period when daylight is fading",
+        "Early morning before sunrise",
+        "The busiest hour around noon"
+      ],
+      "correctAnswer": "The period when daylight is fading",
+      "explanation": "Dusk is the fading of daylight, when the platform lamps were already brighter than the sky.",
+      "supportingSentence": "The branch-line train reached the junction at dusk, when the platform lamps were brighter than the sky and the connecting service was already twelve minutes late.",
+      "skill": "vocabulary"
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "adventure",
+  "title": "The Pass before Dawn",
+  "story": "Before the eastern sky had gathered any colour, Lena left the tent and stood with her headlamp pointed at the snow. The pass was a pale notch between two dark shoulders of rock, and the wind coming through it carried a dry, metallic cold. Tomas was already roped in, checking each knot without rushing. They had studied the route for three evenings, tracing every contour on a map that made the slope look gentle, and both of them knew the paper had been kind. What lay ahead was a traverse across wind-packed snow, then a short rise to the saddle, and after that a descent that would not forgive a careless step.\n\nLena switched the lamp off. In the thin light of the stars she could see the line they had agreed on, a faint darker seam where yesterday's sun had softened the surface and the night had frozen it again. That crust would hold them if they moved early and kept their weight spread. If they waited for the comfort of daylight, the same crust would loosen into grains under their boots. Tomas heard the caution in the way she tested the first foothold twice before she committed her weight.\n\nThey moved without speaking. The rope between them stayed almost slack, a courtesy and a warning at the same time. Halfway across the slope, Lena's axe struck a hollow note. She stopped, probed with the shaft, and found the lip of a crevasse hidden under a bridge of frozen snow no wider than her pack. For a moment the whole morning narrowed to that dark gap. She backed away along her own steps, chose a line higher on the slope, and waited until Tomas had copied the detour exactly. Neither of them looked down for long.\n\nNear the saddle the wind strengthened and threw hard grains of ice against their cheeks. Lena's fingers had gone clumsy inside her gloves, and the buckle of her hip belt took three attempts. She thought of the hut on the far side and of the pride waiting there, then put the thought away. Pride was heavy, and she needed her attention for the last twenty metres, where the snow thinned over rock and every placement had to be precise. When they finally stood in the notch, the valley beyond was still in shadow, but a pale band had appeared above the farthest ridge. Tomas breathed out, and the wind tore the small cloud apart at once. They checked the rope, drank a little water that tasted of metal, and started down while the crust still answered their boots.",
+  "vocabulary": [
+    {
+      "word": "traverse",
+      "definition": "A crossing that goes along the side of a slope."
+    },
+    {
+      "word": "contour",
+      "definition": "A line on a map that shows the shape and height of the land."
+    },
+    {
+      "word": "crevasse",
+      "definition": "A deep crack hidden in ice or snow."
+    },
+    {
+      "word": "crust",
+      "definition": "A hard frozen layer on the surface of the snow."
+    },
+    {
+      "word": "saddle",
+      "definition": "A low dip between higher parts of a mountain ridge."
+    },
+    {
+      "word": "precise",
+      "definition": "Exact, with no careless space for error."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did Lena discover when the axe sounded hollow?",
+      "options": [
+        "A metal marker pointing toward the hut",
+        "A narrow snow bridge over a hidden crevasse",
+        "A broken rope left by an earlier pair",
+        "A glove frozen into the afternoon track"
+      ],
+      "correctAnswer": "A narrow snow bridge over a hidden crevasse",
+      "explanation": "The hollow note leads her to the lip of a crevasse under a thin bridge of snow.",
+      "supportingSentence": "She stopped, probed with the shaft, and found the lip of a crevasse hidden under a bridge of frozen snow no wider than her pack.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why does Lena leave her first line and move higher?",
+      "options": [
+        "Tomas has asked for a clearer view of the valley",
+        "The wind is quieter on the upper rocks",
+        "The lower snow is hiding a gap she will not cross",
+        "Their lamp has failed and they need the dawn"
+      ],
+      "correctAnswer": "The lower snow is hiding a gap she will not cross",
+      "explanation": "After finding the gap, she retraces her steps and waits until Tomas copies the higher line.",
+      "supportingSentence": "She backed away along her own steps, chose a line higher on the slope, and waited until Tomas had copied the detour exactly.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does \"traverse\" mean in this story?",
+      "options": [
+        "A steep climb straight to the summit",
+        "A rope tied between two climbers",
+        "A rest taken in the mountain notch",
+        "A crossing that travels along the slope"
+      ],
+      "correctAnswer": "A crossing that travels along the slope",
+      "explanation": "The traverse is the sideways route across the wind-packed snow before the short rise.",
+      "supportingSentence": "What lay ahead was a traverse across wind-packed snow, then a short rise to the saddle, and after that a descent that would not forgive a careless step.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why do they move on from the notch rather than rest there?",
+      "options": [
+        "They are disappointed by the shadowed valley",
+        "Their water has frozen and must be thawed below",
+        "They have agreed to meet a guide at the trees",
+        "They still depend on a crust that will not hold later"
+      ],
+      "correctAnswer": "They still depend on a crust that will not hold later",
+      "explanation": "They start down while the crust still holds, because waiting for daylight would loosen it.",
+      "supportingSentence": "They checked the rope, drank a little water that tasted of metal, and started down while the crust still answered their boots.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why does the writer mention the gentle map?",
+      "options": [
+        "To show that paper made the route seem safer than the snow",
+        "To prove that the pair had never climbed before",
+        "To explain why they left the rope in the tent",
+        "To suggest that the pass was closed for the season"
+      ],
+      "correctAnswer": "To show that paper made the route seem safer than the snow",
+      "explanation": "The kind map makes the real slope feel harder, which is why they treat every step with care.",
+      "supportingSentence": "They had studied the route for three evenings, tracing every contour on a map that made the slope look gentle, and both of them knew the paper had been kind.",
+      "skill": "intent"
+    }
+  ]
+}

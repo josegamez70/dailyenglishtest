@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "mystery",
+  "title": "A Coat in the Cloakroom",
+  "story": "After the evening talk, the library hall emptied in a rush for the last bus, and one grey coat stayed on the cloakroom rail. The duty organiser, Ruth, checked the pockets before she locked up. She found a receipt for two train tickets dated the next morning, and a folded programme with a phone number in pencil. Sewn inside the collar, in small red stitches, were the initials R.P. There was no full name anywhere on the coat, and no one left in the hall to claim it.\n\nRuth did not want those tickets to sit in a locked building overnight, so she rang the number. A man answered on the second tone. He said he was Robin Pell, and that he had just noticed he was wearing the wrong coat on the bus. His sister, Helen, had come to the talk with him. Their coats were the same cheap grey, bought together in a sale, and he had lifted hers while they were saying goodbye. Her library card was in the pocket he had just opened. His own coat, still at the hall, held the tickets for an early train to a job interview in the next town.\n\nThe interview was at nine, and the train left at ten past seven. Ruth met him at the side door twenty minutes later. They compared collars, swapped the coats, and he checked that both tickets were still inside his. He thanked her more than the small favour seemed to need, because missing that train would have cost him the interview. Two matching coats and a pair of initials had been enough to suggest a muddle. The explanation was ordinary once both people stood in the same light. Before Ruth went home she hung a sign in the cloakroom asking people to look twice before they left. She also wrote Robin's full name beside the time of the call in the hall diary, in case the morning staff found another question.",
+  "vocabulary": [
+    {
+      "word": "cloakroom",
+      "definition": "The place where coats are left during an event."
+    },
+    {
+      "word": "organiser",
+      "definition": "The person responsible for running the event."
+    },
+    {
+      "word": "receipt",
+      "definition": "A paper showing what has been paid for."
+    },
+    {
+      "word": "initials",
+      "definition": "The first letters of a person's names."
+    },
+    {
+      "word": "interview",
+      "definition": "A meeting where someone is considered for a job."
+    },
+    {
+      "word": "swapped",
+      "definition": "Exchanged, so each person had the other's coat."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What time was Robin's train due to leave?",
+      "options": [
+        "At nine, the time of the interview",
+        "Twenty minutes after he reached the hall",
+        "Ten past seven",
+        "With the last bus after the talk"
+      ],
+      "correctAnswer": "Ten past seven",
+      "explanation": "The train left at ten past seven, and the interview was at nine.",
+      "supportingSentence": "The interview was at nine, and the train left at ten past seven.",
+      "skill": "detail"
+    },
+    {
+      "question": "Which letters were sewn inside the collar of the coat that stayed behind?",
+      "options": [
+        "R.P.",
+        "A full surname and nothing else",
+        "The number from a library card",
+        "The time of the early train"
+      ],
+      "correctAnswer": "R.P.",
+      "explanation": "The coat left on the rail had the initials R.P. sewn inside the collar.",
+      "supportingSentence": "Sewn inside the collar, in small red stitches, were the initials R.P.",
+      "skill": "detail"
+    },
+    {
+      "question": "What could Robin have lost if the hall had been locked with no phone call?",
+      "options": [
+        "Helen's library card, which was still at the hall",
+        "The chance to catch the train and reach his interview",
+        "A third ticket bought at the station that night",
+        "The chance to give the evening talk again"
+      ],
+      "correctAnswer": "The chance to catch the train and reach his interview",
+      "explanation": "The tickets were in the coat at the hall, and missing that train would have cost him the interview.",
+      "supportingSentence": "He thanked her more than the small favour seemed to need, because missing that train would have cost him the interview.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why did Ruth leave a sign telling people to look twice?",
+      "options": [
+        "The hall diary had no space left for names",
+        "Robin had asked her to sell any coat that remained",
+        "The last bus would not take a passenger without a ticket",
+        "Two coats that looked the same had just been mixed up"
+      ],
+      "correctAnswer": "Two coats that looked the same had just been mixed up",
+      "explanation": "Robin had taken Helen's coat because the two grey coats matched, so the sign warns the next person to check.",
+      "supportingSentence": "Before Ruth went home she hung a sign in the cloakroom asking people to look twice before they left.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does the word initials mean in this story?",
+      "options": [
+        "The first letters of someone's names",
+        "A full name printed on a library card",
+        "The thread that closes a coat pocket",
+        "A phone number written in pencil"
+      ],
+      "correctAnswer": "The first letters of someone's names",
+      "explanation": "The initials R.P. are the first letters of Robin Pell's names, stitched inside his coat.",
+      "supportingSentence": "Sewn inside the collar, in small red stitches, were the initials R.P.",
+      "skill": "vocabulary"
+    }
+  ]
+}

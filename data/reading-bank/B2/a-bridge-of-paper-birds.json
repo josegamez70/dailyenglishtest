@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "fantasy",
+  "title": "A Bridge of Paper Birds",
+  "story": "Once each spring, the city of Pell folded itself a bridge. People came to the Greythread with paper birds, wrote a reason on the inside wing, and set the birds on the water. When enough honest reasons gathered, the birds locked wings and became a pale road from bank to bank. It lasted until sunset and not a moment longer. Children learned the rule before they learned the folding: a reason you would not say aloud was too weak to carry anyone.\n\nLina needed the bridge for a plain purpose. Her aunt lived on the far bank, and the morning ferry had stopped because the river was full of broken branches. A parcel of medicine sat in Lina's bag, labeled with a dose that should be taken before evening. She folded twelve birds, wrote the same reason on each, and hurried to the quay alone.\n\nThe river refused the shortcut. Her birds drank at the edges and sank in a loose line. Hess, who kept a stall of colored paper, said a single voice could start a bridge but could not finish one, because the river had learned to distrust hurry. Other people would have to add reasons of their own, and those reasons had to be true even if they were small.\n\nLina asked. A baker wrote that he owed her aunt a loaf from last winter. A student wrote that she wanted her cousin to see the bridge hold. Hess wrote that good paper should not be wasted on a lie. Bird by bird, the line thickened into a narrow path that clicked under Lina's shoes.\n\nShe crossed with the parcel in both hands and reached her aunt while the light was still warm. The dose was taken, and nobody treated the visit as a miracle. Lina left early, because sunset was a rule and not a suggestion. On the way back she thanked the people whose reasons she had needed. The birds were already loosening into ordinary paper, and the river looked like a river again.",
+  "vocabulary": [
+    {
+      "word": "honest",
+      "definition": "Truthful, and not hiding the real reason."
+    },
+    {
+      "word": "parcel",
+      "definition": "A package that is wrapped or carried."
+    },
+    {
+      "word": "dose",
+      "definition": "A measured amount of medicine taken at one time."
+    },
+    {
+      "word": "quay",
+      "definition": "A waterside place where boats stop."
+    },
+    {
+      "word": "distrust",
+      "definition": "A lack of faith in something or someone."
+    },
+    {
+      "word": "thickened",
+      "definition": "Became firmer, denser, or more solid."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How long does the paper bridge last?",
+      "options": [
+        "Until sunset, and no longer",
+        "Until the next spring flood",
+        "For as long as one person keeps folding",
+        "Until the morning ferry runs again"
+      ],
+      "correctAnswer": "Until sunset, and no longer",
+      "explanation": "The bridge lasted until sunset and not a moment longer.",
+      "supportingSentence": "It lasted until sunset and not a moment longer.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did Lina's own birds fail to make a crossing?",
+      "options": [
+        "The medicine inside them dissolved in the water",
+        "One hurried voice could start a bridge but could not finish it",
+        "Hess had closed his stall before she reached the water",
+        "Sunset had already passed while she was folding"
+      ],
+      "correctAnswer": "One hurried voice could start a bridge but could not finish it",
+      "explanation": "Hess says a single voice can start a bridge but cannot finish one, because the river distrusts hurry.",
+      "supportingSentence": "Hess, who kept a stall of colored paper, said a single voice could start a bridge but could not finish one, because the river had learned to distrust hurry.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does distrust mean in Hess's warning about the river?",
+      "options": [
+        "To fold paper with special care",
+        "To carry someone from one bank to the other",
+        "To have no faith in something",
+        "To remain standing after the light has gone"
+      ],
+      "correctAnswer": "To have no faith in something",
+      "explanation": "The river has learned to distrust hurry, which means it has no faith in a rushed reason.",
+      "supportingSentence": "Hess, who kept a stall of colored paper, said a single voice could start a bridge but could not finish one, because the river had learned to distrust hurry.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What had Lina understood by the time she walked back?",
+      "options": [
+        "The ferry would be safer if she always traveled alone",
+        "Her aunt no longer needed any medicine",
+        "Wet paper was stronger than dry paper",
+        "She had needed other people's true reasons"
+      ],
+      "correctAnswer": "She had needed other people's true reasons",
+      "explanation": "She thanked the people whose reasons she had needed, which shows she knew she could not have crossed alone.",
+      "supportingSentence": "On the way back she thanked the people whose reasons she had needed.",
+      "skill": "inference"
+    },
+    {
+      "question": "What was Lina carrying to her aunt?",
+      "options": [
+        "A loaf owed from the previous winter",
+        "Medicine that had to be taken before evening",
+        "Colored sheets from a paper stall",
+        "Birds that her neighbors had already folded"
+      ],
+      "correctAnswer": "Medicine that had to be taken before evening",
+      "explanation": "A parcel of medicine in her bag was labeled with a dose that should be taken before evening.",
+      "supportingSentence": "A parcel of medicine sat in Lina's bag, labeled with a dose that should be taken before evening.",
+      "skill": "detail"
+    }
+  ]
+}

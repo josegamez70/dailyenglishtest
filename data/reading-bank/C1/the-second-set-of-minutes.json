@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "mystery",
+  "title": "The Second Set of Minutes",
+  "story": "The minutes of the community board were four pages long, neatly typed, and already signed when Helen found the second set. The signed copy, which had been posted on the hall noticeboard that morning, recorded a short meeting: apologies, a report on the roof fund, and a vote to delay the summer fair. It did not mention the plot of land behind the hall. Helen remembered the plot being discussed, because she had spoken about it, and because the chair had asked for a show of hands.\n\nShe found the other pages in the secretary's draft folder, tucked behind a receipt for tea urns. They ran to six pages. They included the roof fund and the fair, in almost the same words, and then a resolution to seek offers for the plot, passed by five votes to two. The attendance list was longer than the one on the noticeboard. Two names appeared on the draft and not on the signed copy, and one name appeared on the signed copy only. The draft was dated the same evening and marked with the secretary's usual initials. It was not signed. It had, however, been printed, which meant somebody had considered it finished enough to leave the screen.\n\nHelen did not put either set back without reading them twice. A board could amend its minutes; that was ordinary. An amendment belonged in the next meeting's record, with the correction stated, not in a silent exchange of one evening for a shorter one. The posted minutes had been proposed, seconded, and approved at a brief gathering she had not been told about, held three days later, with just enough people present to make a quorum under the rules. The people present were the people whose names remained. The vote on the plot had not been corrected. It had been left in a folder.\n\nShe copied both sets on the hall machine and took the copies home, leaving the originals where they were. At the next open meeting she asked, under matters arising, which document the board regarded as its decision. The chair said the signed minutes were the record, and that drafts were only drafts. He did not explain the missing resolution. Nobody at the table claimed the shorter pages had been a clerical slip. Helen placed her copies on the table and said she was content for the room to read them. The mystery was no longer whether a second account existed. It was why the shorter one had been given the signature, and who had expected the longer one to stay behind a receipt.",
+  "vocabulary": [
+    {
+      "word": "minutes",
+      "definition": "The written record of what was decided at a meeting."
+    },
+    {
+      "word": "resolution",
+      "definition": "A formal decision put to a meeting."
+    },
+    {
+      "word": "quorum",
+      "definition": "The smallest number of people needed for a meeting to decide."
+    },
+    {
+      "word": "amend",
+      "definition": "To correct a record officially."
+    },
+    {
+      "word": "draft",
+      "definition": "An earlier version that is not yet the official copy."
+    },
+    {
+      "word": "initials",
+      "definition": "The first letters of a person's names, used here as a mark."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How did the vote on the plot turn out in the longer pages?",
+      "options": [
+        "It passed by five votes to two",
+        "It was a tie, broken by the chair",
+        "It delayed the summer fair instead",
+        "It refused to discuss the land at all"
+      ],
+      "correctAnswer": "It passed by five votes to two",
+      "explanation": "The longer pages include a resolution to seek offers for the plot, passed by five votes to two.",
+      "supportingSentence": "They included the roof fund and the fair, in almost the same words, and then a resolution to seek offers for the plot, passed by five votes to two.",
+      "skill": "detail"
+    },
+    {
+      "question": "What do the changed attendance list and the later small meeting suggest?",
+      "options": [
+        "The plot was voted on again and defeated.",
+        "The shorter record was confirmed by a group that no longer matched the first meeting.",
+        "Both sets of pages were lost before anyone could read them.",
+        "The fair was cancelled because nobody came."
+      ],
+      "correctAnswer": "The shorter record was confirmed by a group that no longer matched the first meeting.",
+      "explanation": "Names differ between the two lists, and the people who approved the posted minutes were the people whose names remained on that shorter list.",
+      "supportingSentence": "The people present were the people whose names remained.",
+      "skill": "inference"
+    },
+    {
+      "question": "What is Helen trying to do by placing both copies on the table?",
+      "options": [
+        "She wants the chair to sign the longer set on the spot.",
+        "She is returning the receipt for the tea urns.",
+        "She wants the open meeting to read the two accounts for itself.",
+        "She is asking the board to sell the plot that same night."
+      ],
+      "correctAnswer": "She wants the open meeting to read the two accounts for itself.",
+      "explanation": "She brings copies to the open meeting, asks which document is the decision, and says she is content for the room to read them.",
+      "supportingSentence": "Helen placed her copies on the table and said she was content for the room to read them.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does quorum mean in this story?",
+      "options": [
+        "A spare copy of the minutes kept at home",
+        "A vote that counts only when nobody objects",
+        "The plot of land behind the hall",
+        "The smallest attendance the rules allow for a valid decision"
+      ],
+      "correctAnswer": "The smallest attendance the rules allow for a valid decision",
+      "explanation": "The later gathering had just enough people present to make a quorum under the rules, meaning the minimum needed for the decision to count.",
+      "supportingSentence": "The posted minutes had been proposed, seconded, and approved at a brief gathering she had not been told about, held three days later, with just enough people present to make a quorum under the rules.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What shift of attention does the ending ask for?",
+      "options": [
+        "From the roof fund to the price of the tea urns",
+        "From whether two accounts exist to why the shorter one was signed",
+        "From the summer fair to a plan for repainting the hall",
+        "From the secretary's folder to a new chairperson"
+      ],
+      "correctAnswer": "From whether two accounts exist to why the shorter one was signed",
+      "explanation": "The narrator says the mystery is no longer whether a second account exists. It is why the shorter one received the signature.",
+      "supportingSentence": "It was why the shorter one had been given the signature, and who had expected the longer one to stay behind a receipt.",
+      "skill": "intent"
+    }
+  ]
+}

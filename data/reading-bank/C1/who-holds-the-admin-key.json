@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "technology",
+  "title": "Who Holds the Admin Key",
+  "story": "The housing cooperative kept its membership list, rent ledger, and repair tickets in one shared system. For three years a single volunteer, Pavel Dorin, had held the admin credential. He could create accounts, change a household's standing, export the whole ledger, and revoke someone else's access. When he moved to another city, he left the password in a sealed envelope in the office drawer and a short note that said the next holder should change it on the first day. The note did not say who that holder ought to be. Changing the password would have secured the login and left the question of permission unanswered.\n\nAt the March meeting the board discovered that two different answers had been living under one word. Some members thought the credential was a tool, like a key to the storeroom, and that any trusted volunteer could keep it. Others thought it was a power of decision, because a person who can alter the ledger can, in practice, decide a dispute before the board has voted. The chair, Adele Morin, asked the room to separate those ideas. Technical reach is the ability to make a change. Authority is the permission to decide that the change should be made. The old arrangement had folded both into one login, and the folding had felt convenient only while everyone liked the person who held it.\n\nA near miss made the distinction urgent. A contractor repairing the office printer had asked a new volunteer for the admin password, so the scanner could see the shared folder. The volunteer had opened the envelope. Another member stopped her before the password crossed the room, but the envelope had been unsealed, and nobody could prove it had not been read. Morin treated that as the end of the shared secret, not as a story about one careless afternoon. A secret that has left its envelope cannot be put back, and a cooperative that relies on it has no way to know which later change was legitimate.\n\nThe board voted for a narrower custody. Two officers who already had the right to sign payment orders would each hold one half of a new credential, and a change to membership standing would require both halves plus a minute from the meeting that authorized it. Ordinary volunteers would keep logins that could record a repair and could not export the ledger or close an account. Dorin, reached by phone, approved the plan and confirmed that he had not kept a copy. The drawer would still be locked. It would no longer be the place where the cooperative's judgment was stored.",
+  "vocabulary": [
+    {
+      "word": "credential",
+      "definition": "The login that gives a person access to a system."
+    },
+    {
+      "word": "revoke",
+      "definition": "To take back someone’s access so they can no longer use it."
+    },
+    {
+      "word": "authority",
+      "definition": "The permission to decide that a change should be made."
+    },
+    {
+      "word": "ledger",
+      "definition": "The record of members, rent, and related accounts."
+    },
+    {
+      "word": "unsealed",
+      "definition": "Opened, so that a secret is no longer safely closed."
+    },
+    {
+      "word": "custody",
+      "definition": "The responsibility for keeping and controlling something important."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where was the password put when the long-serving volunteer moved away?",
+      "options": [
+        "In a sealed envelope in the office drawer",
+        "In a message sent to the printer contractor",
+        "With the two officers who sign payment orders",
+        "On a note taped to the shared scanner"
+      ],
+      "correctAnswer": "In a sealed envelope in the office drawer",
+      "explanation": "He left the password in a sealed envelope in the office drawer.",
+      "supportingSentence": "When he moved to another city, he left the password in a sealed envelope in the office drawer and a short note that said the next holder should change it on the first day.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why are ordinary volunteers allowed to record a repair but not to export the full record or close an account?",
+      "options": [
+        "Everyday work should not include the power to change a member’s standing or take the whole record.",
+        "The volunteers had broken the printer and needed a simpler screen.",
+        "The contractor demanded a limited login before repairing the scanner.",
+        "Dorin had asked that nobody except him be allowed to record a repair."
+      ],
+      "correctAnswer": "Everyday work should not include the power to change a member’s standing or take the whole record.",
+      "explanation": "The new logins separate ordinary recording from the power to alter standing or take the whole ledger.",
+      "supportingSentence": "Ordinary volunteers would keep logins that could record a repair and could not export the ledger or close an account.",
+      "skill": "inference"
+    },
+    {
+      "question": "What weakness does the passage illustrate by saying the old arrangement felt convenient only while people liked the holder?",
+      "options": [
+        "Personal trust was doing the work that a rule about permission should have done.",
+        "The board preferred volunteers who already disliked one another.",
+        "A storeroom key cannot be kept in a locked drawer.",
+        "Payment orders should be signed by the printer contractor."
+      ],
+      "correctAnswer": "Personal trust was doing the work that a rule about permission should have done.",
+      "explanation": "The arrangement worked because people liked the holder, which is a weak substitute for a rule about who may decide.",
+      "supportingSentence": "The old arrangement had folded both into one login, and the folding had felt convenient only while everyone liked the person who held it.",
+      "skill": "inference"
+    },
+    {
+      "question": "In this passage, what does “custody” mean in the vote for a narrower arrangement?",
+      "options": [
+        "Responsibility for keeping and controlling the login.",
+        "A public reading of every repair ticket.",
+        "The contractor’s right to open the office drawer.",
+        "A decision to close the membership list for good."
+      ],
+      "correctAnswer": "Responsibility for keeping and controlling the login.",
+      "explanation": "Narrower custody means fewer people, under clearer rules, would keep and control the powerful login.",
+      "supportingSentence": "The board voted for a narrower custody.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the passage include the contractor’s request during a printer repair?",
+      "options": [
+        "To show how quickly a shared secret can escape the people meant to keep it.",
+        "To recommend that the cooperative buy a different printer.",
+        "To prove that the scanner was unable to see any folder.",
+        "To explain why rent figures should be posted on the office wall."
+      ],
+      "correctAnswer": "To show how quickly a shared secret can escape the people meant to keep it.",
+      "explanation": "The request shows a shared password leaving its envelope during an ordinary repair, which is why the secret could not be trusted again.",
+      "supportingSentence": "A contractor repairing the office printer had asked a new volunteer for the admin password, so the scanner could see the shared folder.",
+      "skill": "intent"
+    }
+  ]
+}

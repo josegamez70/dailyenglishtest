@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "daily life",
+  "title": "Washing Day",
+  "story": "On Sunday Elena carried a basket of wet clothes down to the courtyard. The sun was out, and the washing line was free. She shook each shirt and hung it with a wooden peg. A blue shirt belonged to her brother Hugo. A white towel belonged to her. The wind was light, so the clothes moved but did not fall. At noon a cloud covered the sun. Elena looked up and decided to wait. Ten minutes later the cloud passed. She turned the shirts so the other side could dry. Her neighbour Ines came out with her own basket and asked if there was room. Elena moved the towel along the line and made a space. Ines thanked her and hung two pillowcases. They talked about the weather while they worked. By four o'clock the clothes were dry. Elena folded them into the basket and took the pegs off the line. She left the line clear for the next person. Upstairs, Hugo looked for his blue shirt and found it on the chair, warm and smooth. Elena put the pegs in a tin so they would not get lost. The courtyard was empty again, and the line moved gently in the wind.",
+  "vocabulary": [
+    {
+      "word": "courtyard",
+      "definition": "an open space inside a building"
+    },
+    {
+      "word": "peg",
+      "definition": "a small clip that holds washing"
+    },
+    {
+      "word": "towel",
+      "definition": "a cloth for drying your body"
+    },
+    {
+      "word": "folded",
+      "definition": "laid one part over another"
+    },
+    {
+      "word": "pillowcases",
+      "definition": "covers for pillows"
+    },
+    {
+      "word": "smooth",
+      "definition": "flat and soft, not rough"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Whose blue shirt was on the line?",
+      "options": [
+        "Hugo's",
+        "Ines's",
+        "a neighbour's child",
+        "the building manager"
+      ],
+      "correctAnswer": "Hugo's",
+      "explanation": "The story says the blue shirt belonged to her brother Hugo.",
+      "supportingSentence": "A blue shirt belonged to her brother Hugo.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Elena do when a cloud covered the sun?",
+      "options": [
+        "She decided to wait.",
+        "She took every shirt inside at once.",
+        "She called Hugo at work.",
+        "She cut the washing line."
+      ],
+      "correctAnswer": "She decided to wait.",
+      "explanation": "She looked up and waited.",
+      "supportingSentence": "Elena looked up and decided to wait.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Ines hang on the line?",
+      "options": [
+        "two pillowcases",
+        "a blue shirt",
+        "Elena's towel",
+        "a winter coat"
+      ],
+      "correctAnswer": "two pillowcases",
+      "explanation": "Elena made space and Ines hung them.",
+      "supportingSentence": "Ines thanked her and hung two pillowcases.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does smooth mean?",
+      "options": [
+        "flat and soft, not rough",
+        "still wet",
+        "very loud",
+        "too small"
+      ],
+      "correctAnswer": "flat and soft, not rough",
+      "explanation": "The shirt is warm and smooth at the end.",
+      "supportingSentence": "Upstairs, Hugo looked for his blue shirt and found it on the chair, warm and smooth.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Elena leave the line clear?",
+      "options": [
+        "so the next person could use it",
+        "so the clothes would get wet again",
+        "so Hugo could sleep outside",
+        "so the cloud would come back"
+      ],
+      "correctAnswer": "so the next person could use it",
+      "explanation": "She folded her clothes and left the line for someone else.",
+      "supportingSentence": "She left the line clear for the next person.",
+      "skill": "inference"
+    }
+  ],
+  "file": "b1-a.txt"
+}

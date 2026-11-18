@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "adventure",
+  "title": "The Ridge in the Fog",
+  "story": "The ridge had been clear at dawn, but by late morning a thick fog had closed over the path and turned every rock into a guess. Lena stopped where the ground narrowed and waited for Tomas and Iria to catch up. Their map showed a line of small stone piles, yet the nearest cairn was only a pale shape, and the next one had vanished completely.\n\nTomas wanted to keep walking while they could still feel the path under their boots. He argued that the hut lay less than an hour ahead and that turning around would leave them on the open slope after dark. Lena had crossed this ridge before, though never in weather as poor as this, and she remembered a place where the path bent sharply toward a cliff. If they missed that bend, the fog would not warn them in time.\n\nIria, who had twisted an ankle on the way up, settled the argument in a practical way. She pointed out that her pace was already slow and that a rescue in this weather would be harder than a careful retreat. They agreed to descend by the western gully, which was longer but sheltered from the worst of the wind. Before they left the ridge, Lena tied a bright strip of cloth to the last cairn she could see, so that any walker coming later would know the forward route had been abandoned.\n\nThe gully was steep and wet. Loose stones slid underfoot, and the three of them moved one at a time, with Tomas testing each step before the others followed. Halfway down, the fog thinned enough to reveal a stream they recognized from the map. That glimpse of running water changed the mood at once. They filled their bottles, checked Iria's ankle, and continued with shorter rests than before.\n\nWhen the trees closed around them, Lena felt the worry leave her shoulders. The hut could wait until morning.",
+  "vocabulary": [
+    {
+      "word": "cairn",
+      "definition": "A pile of stones used to mark a route."
+    },
+    {
+      "word": "gully",
+      "definition": "A narrow channel cut into a hillside."
+    },
+    {
+      "word": "retreat",
+      "definition": "A movement back, away from danger."
+    },
+    {
+      "word": "sheltered",
+      "definition": "Protected from wind or bad weather."
+    },
+    {
+      "word": "abandoned",
+      "definition": "Left behind on purpose."
+    },
+    {
+      "word": "glimpse",
+      "definition": "A very brief look at something."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Which way did the group decide to leave the ridge?",
+      "options": [
+        "Down the western gully, which was longer but out of the worst wind",
+        "Along the cliff bend, which was the shortest way to the hut",
+        "Back up the path they had already climbed that morning",
+        "Across the open slope so they could arrive before dark"
+      ],
+      "correctAnswer": "Down the western gully, which was longer but out of the worst wind",
+      "explanation": "They agreed to descend by the western gully because it was longer but sheltered from the worst of the wind.",
+      "supportingSentence": "They agreed to descend by the western gully, which was longer but sheltered from the worst of the wind.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Lena attach to the last stone marker she could see?",
+      "options": [
+        "A copy of their map",
+        "A bottle filled from the stream",
+        "A bright strip of cloth",
+        "A note asking for a rescue"
+      ],
+      "correctAnswer": "A bright strip of cloth",
+      "explanation": "Before leaving the ridge, Lena tied a bright strip of cloth to the last cairn she could see.",
+      "supportingSentence": "Before they left the ridge, Lena tied a bright strip of cloth to the last cairn she could see, so that any walker coming later would know the forward route had been abandoned.",
+      "skill": "detail"
+    },
+    {
+      "question": "How did Lena feel once the group reached the trees?",
+      "options": [
+        "Angry that the shorter route had been given up",
+        "Less worried than she had been on the ridge",
+        "Sure the hut was only a few steps ahead",
+        "Ready to climb back and fetch the cloth"
+      ],
+      "correctAnswer": "Less worried than she had been on the ridge",
+      "explanation": "The worry leaving her shoulders shows that she felt safer once the trees closed around them.",
+      "supportingSentence": "When the trees closed around them, Lena felt the worry leave her shoulders.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does the ending suggest about the group's priorities?",
+      "options": [
+        "They wanted to photograph the ridge at sunrise",
+        "They hoped Tomas would go back for the packs",
+        "They planned to try the cliff bend at dawn",
+        "A safe descent mattered more than reaching the hut that night"
+      ],
+      "correctAnswer": "A safe descent mattered more than reaching the hut that night",
+      "explanation": "Saying the hut could wait shows that getting down safely mattered more than arriving that night.",
+      "supportingSentence": "The hut could wait until morning.",
+      "skill": "inference"
+    },
+    {
+      "question": "What is a cairn in this story?",
+      "options": [
+        "A steep wet channel in the hillside",
+        "A pile of stones used to mark the route",
+        "A cloth left as a message for walkers",
+        "A brief sight of a familiar stream"
+      ],
+      "correctAnswer": "A pile of stones used to mark the route",
+      "explanation": "The same sentence calls the map markers small stone piles and then calls the nearest one a cairn.",
+      "supportingSentence": "Their map showed a line of small stone piles, yet the nearest cairn was only a pale shape, and the next one had vanished completely.",
+      "skill": "vocabulary"
+    }
+  ]
+}

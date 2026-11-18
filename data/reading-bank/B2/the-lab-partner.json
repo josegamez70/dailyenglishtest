@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "school_college",
+  "title": "The Lab Partner",
+  "story": "Sofia had hoped to choose her own partner for the chemistry practical, but the tutor read names from a list and paired her with Daniel. Although they had been in the same class for months, they had barely spoken. Their task was to measure how temperature changed the speed of a reaction and to record the results in a shared table, and the report was due in a week.\n\nAt the first session Daniel arrived early and had already labelled the tubes. Sofia was relieved, then slightly annoyed, because he began the experiment before they had agreed on a method. She stopped him and pointed at the instructions, which said that one step had to be repeated three times and that the solutions had to be kept at fixed temperatures. Daniel said he was trying to save time. Sofia replied that saved time was useless if the data could not be trusted, and the exchange was tense, yet neither of them walked away.\n\nThey divided the work more carefully after that. Sofia controlled the timer and wrote each measurement as it happened, while Daniel handled the equipment and watched for spills. When a result looked strange, they repeated it instead of hiding it. However, a new problem appeared outside the lab. Daniel missed a planned meeting and sent a brief message two hours later, saying he had been at work. Sofia had waited in the library with the unfinished graph. She told him, calmly, that she would not complete his section for him, although she was willing to meet later that evening.\n\nHe came, and they finished the graph, checked the units, and wrote a conclusion that matched the evidence rather than the result they had expected. The tutor later praised the report for explaining an odd measurement instead of ignoring it. Sofia and Daniel were not close friends afterwards, but they trusted each other in the lab. A good partner, she decided, was someone who would correct a mistake and then help to repair it.",
+  "vocabulary": [
+    {
+      "word": "paired",
+      "definition": "Put with another person to work as partners."
+    },
+    {
+      "word": "measurement",
+      "definition": "A figure recorded while a test is being done."
+    },
+    {
+      "word": "tense",
+      "definition": "Uneasy and full of strain."
+    },
+    {
+      "word": "conclusion",
+      "definition": "A final judgement based on what has been found."
+    },
+    {
+      "word": "evidence",
+      "definition": "Information used to show whether something is true."
+    },
+    {
+      "word": "trusted",
+      "definition": "Felt able to rely on someone."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How was Daniel chosen to work with Sofia?",
+      "options": [
+        "She invited him because they were already friends",
+        "They had shared every practical that year",
+        "He was the only student who volunteered",
+        "The tutor assigned him from a list of names"
+      ],
+      "correctAnswer": "The tutor assigned him from a list of names",
+      "explanation": "Sofia had wanted to choose, but the tutor read names from a list and paired her with Daniel.",
+      "supportingSentence": "Sofia had hoped to choose her own partner for the chemistry practical, but the tutor read names from a list and paired her with Daniel.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did they do when a result looked strange?",
+      "options": [
+        "They carried out the test again",
+        "They removed it from the shared table",
+        "They copied a figure from another pair",
+        "They stopped the practical immediately"
+      ],
+      "correctAnswer": "They carried out the test again",
+      "explanation": "Instead of hiding a strange result, they repeated it.",
+      "supportingSentence": "When a result looked strange, they repeated it instead of hiding it.",
+      "skill": "detail"
+    },
+    {
+      "question": "What can a reader tell about Sofia when Daniel starts the experiment?",
+      "options": [
+        "She wanted the tutor to cancel the session",
+        "She had finished the practical before he arrived",
+        "A quick start did not make up for the lack of an agreed method",
+        "She was annoyed because he had come in late"
+      ],
+      "correctAnswer": "A quick start did not make up for the lack of an agreed method",
+      "explanation": "She becomes annoyed because he begins before they have agreed how to work, so speed alone does not satisfy her.",
+      "supportingSentence": "Sofia was relieved, then slightly annoyed, because he began the experiment before they had agreed on a method.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does tense mean in this story?",
+      "options": [
+        "Uneasy and strained",
+        "Quiet, short, and friendly",
+        "Written down in the results table",
+        "Too quick to follow"
+      ],
+      "correctAnswer": "Uneasy and strained",
+      "explanation": "The word describes their sharp exchange about whether speed mattered more than data they could trust.",
+      "supportingSentence": "Sofia replied that saved time was useless if the data could not be trusted, and the exchange was tense, yet neither of them walked away.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Which conclusion about their partnership is best supported?",
+      "options": [
+        "Working trust in the lab did not require a close friendship",
+        "They agreed never to speak after the report",
+        "The tutor separated them because of the odd result",
+        "Being friends mattered more to them than the measurements"
+      ],
+      "correctAnswer": "Working trust in the lab did not require a close friendship",
+      "explanation": "They are not close friends afterwards, but they trust each other in the lab, so the trust is about the work.",
+      "supportingSentence": "Sofia and Daniel were not close friends afterwards, but they trusted each other in the lab.",
+      "skill": "inference"
+    }
+  ]
+}

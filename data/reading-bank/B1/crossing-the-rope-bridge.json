@@ -1,0 +1,99 @@
+{
+  "level": "B1",
+  "topic": "adventure",
+  "title": "Crossing the Rope Bridge",
+  "story": "Jonas and his friend Aisha were hiking toward a mountain hut. A fast stream blocked the trail, and the water looked cold. The only way across was a rope bridge of boards and thick cords. Aisha read a notice nailed to the first post. It said one person should cross at a time and hold both ropes.\n\nJonas waited on the bank while Aisha tested the first board. The cords felt rough under her hands. The bridge swayed, and she kept her eyes on her shoes. She did not look down at the white water. On the far side, she turned and called that the boards felt firm. Jonas stepped on and moved slowly, board by board. Halfway across, a board creaked, so he shifted his weight. He took a breath and continued to the last post. Aisha grabbed his sleeve and helped him onto solid ground. They both laughed with relief and drank some water.\n\nBefore they left, they checked the bridge for loose cords. Everything looked strong. Later, they wrote a short note in the hut book. The note told the next hikers to cross one by one. That evening, the hut keeper thanked them for the clear warning. He said a storm was coming, and careful people would need the news. Jonas and Aisha ate soup and felt proud of the crossing.",
+  "vocabulary": [
+    {
+      "word": "notice",
+      "definition": "A short sign that gives information."
+    },
+    {
+      "word": "swayed",
+      "definition": "Moved slowly from side to side."
+    },
+    {
+      "word": "creaked",
+      "definition": "Made a long, high sound."
+    },
+    {
+      "word": "relief",
+      "definition": "The glad feeling when a worry is over."
+    },
+    {
+      "word": "firm",
+      "definition": "Solid and not weak."
+    },
+    {
+      "word": "keeper",
+      "definition": "A person who looks after a place."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How many people could cross the bridge at one time?",
+      "options": [
+        "The whole group",
+        "Only one person",
+        "Two people together",
+        "Anyone with a rope"
+      ],
+      "correctAnswer": "Only one person",
+      "explanation": "The notice said one person should cross at a time.",
+      "supportingSentence": "It said one person should cross at a time and hold both ropes.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Jonas do when a board creaked?",
+      "options": [
+        "He jumped into the stream",
+        "He cut the ropes",
+        "He shifted his weight",
+        "He ran back at once"
+      ],
+      "correctAnswer": "He shifted his weight",
+      "explanation": "A board creaked halfway across, so Jonas shifted his weight.",
+      "supportingSentence": "Halfway across, a board creaked, so he shifted his weight.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did their note tell the next hikers?",
+      "options": [
+        "To swim across the stream",
+        "To cross one by one",
+        "To wait for the storm",
+        "To take the bridge down"
+      ],
+      "correctAnswer": "To cross one by one",
+      "explanation": "The note told the next hikers to cross one by one.",
+      "supportingSentence": "The note told the next hikers to cross one by one.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the word swayed mean here?",
+      "options": [
+        "Broke into pieces",
+        "Filled with water",
+        "Moved slowly from side to side",
+        "Became very quiet"
+      ],
+      "correctAnswer": "Moved slowly from side to side",
+      "explanation": "The bridge swayed, so it moved slowly from side to side under Aisha.",
+      "supportingSentence": "The bridge swayed, and she kept her eyes on her shoes.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Aisha keep her eyes on her shoes?",
+      "options": [
+        "She was looking for coins",
+        "She did not want to look at the water",
+        "She had lost the map",
+        "The keeper told her to count"
+      ],
+      "correctAnswer": "She did not want to look at the water",
+      "explanation": "She kept her eyes on her shoes and did not look down at the white water.",
+      "supportingSentence": "She did not look down at the white water.",
+      "skill": "inference"
+    }
+  ]
+}

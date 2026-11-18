@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "adventure",
+  "title": "Waiting for the Tide",
+  "story": "The causeway disappeared faster than Jon had expected. One minute the stone line to the mainland was a wet road, and the next it was a chain of dark shapes under shallow waves. He and his sister Priya stood on the island beach with their kayaks above the weed, watching the gap widen. A posted sign gave the evening tide times in plain numbers. They had spent those minutes photographing the abbey ruins, and the sea had used the same minutes more seriously.\n\nWaiting was now the whole task. The next safe crossing would not come until after nightfall, and the wind might keep the water restless even then. Priya checked the hatches and moved the food bag into the lee of a wall. Jon found a higher shelf of rock that would make a drier camp, and they carried the boats up in two tired trips.\n\nThe only light came from a cottage whose owner, an older man in a salt-stiff coat, came down to ask whether they were equipped to stay. He did not offer a rescue, because nothing sensible could be attempted until the tide turned. He lent them a dry blanket and told them which part of the beach the water never reached in ordinary weather.\n\nThey ate slowly and took turns watching the causeway. Priya kept the tide table under a stone so the wind could not take it, as if the printed hours were a promise the sea had to keep. Jon could see that she was angry with the delay and angrier with herself.\n\nWhen the moon rose, dark stone returned in patches, then in a broken line. The cottage owner called down that they should wait for the full width, since a shining strip might be an inch deep or a foot. They waited until the road was a road. Only then did they drag the kayaks toward the mainland, more interested in the lesson than in the ruins behind them.",
+  "vocabulary": [
+    {
+      "word": "causeway",
+      "definition": "A raised road that crosses water or wet ground."
+    },
+    {
+      "word": "tide",
+      "definition": "The regular rise and fall of the sea."
+    },
+    {
+      "word": "lee",
+      "definition": "The side of something that is sheltered from the wind."
+    },
+    {
+      "word": "equipped",
+      "definition": "Having the things needed for a situation."
+    },
+    {
+      "word": "restless",
+      "definition": "Moving or uneasy, and not calm."
+    },
+    {
+      "word": "width",
+      "definition": "The distance from one side of something to the other."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What information did the posted sign give?",
+      "options": [
+        "The evening times of the tide, written plainly",
+        "The price of a room in the cottage",
+        "A list of boats that had already left",
+        "The name of every person on the bus"
+      ],
+      "correctAnswer": "The evening times of the tide, written plainly",
+      "explanation": "The posted sign gave the evening tide times in plain numbers.",
+      "supportingSentence": "A posted sign gave the evening tide times in plain numbers.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did the time at the ruins become a problem?",
+      "options": [
+        "The photographs proved the road was still open",
+        "Those were the minutes they needed for the crossing",
+        "Priya used them to repair a broken hatch",
+        "The abbey doors closed and trapped them inside"
+      ],
+      "correctAnswer": "Those were the minutes they needed for the crossing",
+      "explanation": "They spent the minutes photographing the ruins while the sea used the same minutes, so the tide came in during the delay.",
+      "supportingSentence": "They had spent those minutes photographing the abbey ruins, and the sea had used the same minutes more seriously.",
+      "skill": "inference"
+    },
+    {
+      "question": "What help did the cottage owner give them?",
+      "options": [
+        "A boat ride back to the mainland",
+        "A hot meal from the closed cafe",
+        "A dry blanket and advice about where the water would not reach",
+        "A new set of numbers for the posted sign"
+      ],
+      "correctAnswer": "A dry blanket and advice about where the water would not reach",
+      "explanation": "He lent them a dry blanket and told them which part of the beach the water never reached in ordinary weather.",
+      "supportingSentence": "He lent them a dry blanket and told them which part of the beach the water never reached in ordinary weather.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why should they avoid the first shining strip of stone?",
+      "options": [
+        "The boats would scratch the light of the moon",
+        "The blanket had to be returned before they moved",
+        "The ruins were more important than the road",
+        "That strip might still be deep enough to be unsafe"
+      ],
+      "correctAnswer": "That strip might still be deep enough to be unsafe",
+      "explanation": "A shining strip might be an inch deep or a foot, so it was not yet proof of a safe road.",
+      "supportingSentence": "The cottage owner called down that they should wait for the full width, since a shining strip might be an inch deep or a foot.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does restless mean about the water after nightfall?",
+      "options": [
+        "Still moving instead of becoming calm",
+        "Low enough for an easy crossing",
+        "Frozen along the edge of the beach",
+        "Written in plain numbers on a sign"
+      ],
+      "correctAnswer": "Still moving instead of becoming calm",
+      "explanation": "The wind might keep the water restless even after nightfall, so the sea may still be unsettled.",
+      "supportingSentence": "The next safe crossing would not come until after nightfall, and the wind might keep the water restless even then.",
+      "skill": "vocabulary"
+    }
+  ]
+}

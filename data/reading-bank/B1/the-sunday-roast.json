@@ -1,0 +1,99 @@
+{
+  "level": "B1",
+  "topic": "culture_food",
+  "title": "The Sunday Roast",
+  "story": "Every Sunday, the Hale family gathered at Aunt Rosa's house for a roast dinner. The kitchen windows steamed up while the chicken cooked in the oven. Rosa peeled potatoes and dropped them into a pan of salty water. Her nephew Felix set the table with the blue plates.\n\nAt one o'clock the guests arrived. Uncle Martin brought green beans from his garden, and cousin Amina carried a bowl of chopped cabbage. Rosa opened the oven and checked the chicken. The skin was crispy and golden. She lifted it onto a large board and asked Martin to carve. Martin cut even slices and laid them on a warm plate. The smell of herbs filled the room.\n\nFelix made the gravy in the roasting tin. He stirred the brown juices and added the water from the potatoes. Rosa tasted it and asked for a little more pepper. When everything was ready, they sat down together. Amina said the cabbage was sweeter than last week. Martin said the beans were perfect. After the meal, nobody rushed away. They washed the dishes in pairs and talked about the week. Rosa packed leftover chicken into a box for Felix to take home. He promised to have it for lunch on Monday with bread. Before he left, he wrote a shopping list with Rosa for the next Sunday. They needed carrots, more potatoes, and a fresh lemon for the cabbage.",
+  "vocabulary": [
+    {
+      "word": "gathered",
+      "definition": "Came together in one place."
+    },
+    {
+      "word": "oven",
+      "definition": "The hot box in a kitchen used for baking or roasting."
+    },
+    {
+      "word": "crispy",
+      "definition": "Pleasantly hard and dry on the outside."
+    },
+    {
+      "word": "carve",
+      "definition": "To cut cooked meat into slices."
+    },
+    {
+      "word": "gravy",
+      "definition": "A sauce made from the juices of cooked meat."
+    },
+    {
+      "word": "leftover",
+      "definition": "Food that remains after a meal."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What meat did Rosa cook for dinner?",
+      "options": [
+        "Chicken",
+        "Beef",
+        "Fish",
+        "Lamb"
+      ],
+      "correctAnswer": "Chicken",
+      "explanation": "The chicken cooked in the oven while Rosa prepared the potatoes.",
+      "supportingSentence": "The kitchen windows steamed up while the chicken cooked in the oven.",
+      "skill": "detail"
+    },
+    {
+      "question": "Who cut the meat into slices?",
+      "options": [
+        "Martin",
+        "Felix",
+        "Amina",
+        "Rosa"
+      ],
+      "correctAnswer": "Martin",
+      "explanation": "Rosa asked Martin to carve, and he cut even slices.",
+      "supportingSentence": "Martin cut even slices and laid them on a warm plate.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Felix take home after the meal?",
+      "options": [
+        "Leftover chicken",
+        "A bowl of raw cabbage",
+        "The garden beans",
+        "A lemon cake"
+      ],
+      "correctAnswer": "Leftover chicken",
+      "explanation": "Rosa packed leftover chicken into a box for Felix.",
+      "supportingSentence": "Rosa packed leftover chicken into a box for Felix to take home.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does carve mean at this meal?",
+      "options": [
+        "To cut cooked meat into slices",
+        "To wash the plates after dinner",
+        "To grow beans in a garden",
+        "To steam up the kitchen windows"
+      ],
+      "correctAnswer": "To cut cooked meat into slices",
+      "explanation": "Rosa asked Martin to carve, and then he sliced the chicken.",
+      "supportingSentence": "She lifted it onto a large board and asked Martin to carve.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What do these Sunday meals show about the Hale family?",
+      "options": [
+        "They like spending time together",
+        "They prefer to eat alone",
+        "They only meet on Mondays",
+        "They never help in the kitchen"
+      ],
+      "correctAnswer": "They like spending time together",
+      "explanation": "Nobody rushed away, and they washed the dishes while talking about the week.",
+      "supportingSentence": "After the meal, nobody rushed away.",
+      "skill": "inference"
+    }
+  ]
+}

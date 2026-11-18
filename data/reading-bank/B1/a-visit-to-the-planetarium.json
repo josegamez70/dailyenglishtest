@@ -1,0 +1,99 @@
+{
+  "level": "B1",
+  "topic": "science",
+  "title": "A Visit to the Planetarium",
+  "story": "Class 8B visited the city planetarium on a rainy Thursday. In the round hall the ceiling became a night sky. The guide, Sofia, asked the pupils to sit back and look up. She talked about planets, moons, and the time light needs to travel.\n\nThe sun sat in the centre, and the planets moved along wide paths that Sofia called orbits. Mercury finishes a trip much faster than Neptune because it is closer to the sun. Then the view jumped to Earth. A shadow began to cover the moon. Sofia said this was a model of a lunar eclipse, when Earth blocks sunlight from the moon.\n\nLater the ceiling filled with stars. Sofia pointed to a group shaped like a saucepan. She said sailors once used such groups to find direction at sea. She also warned that a bright planet can look like a star unless you watch it for several nights. Planets shift slowly against the star background, while stars keep their pattern.\n\nAfter the show the pupils tried a scale model. A peppercorn was Earth, and a beach ball was the sun. They walked twenty steps and were still not at the right distance. Jon, who usually joked, stayed quiet and said space was hard to imagine. On the bus he drew the saucepan so he could search for it if the rain stopped.",
+  "vocabulary": [
+    {
+      "word": "planetarium",
+      "definition": "A building that shows a model of the night sky"
+    },
+    {
+      "word": "orbits",
+      "definition": "The curved paths planets follow around the sun"
+    },
+    {
+      "word": "eclipse",
+      "definition": "A time when one body blocks light from another"
+    },
+    {
+      "word": "direction",
+      "definition": "The way a person needs to travel"
+    },
+    {
+      "word": "background",
+      "definition": "The scene behind the main objects"
+    },
+    {
+      "word": "scale",
+      "definition": "A small copy that keeps real size relationships"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What picture covered the ceiling in the round hall?",
+      "options": [
+        "A night sky",
+        "A map of the city",
+        "A rainy street",
+        "A drawing of a bus"
+      ],
+      "correctAnswer": "A night sky",
+      "explanation": "Inside the round hall, the ceiling became a night sky.",
+      "supportingSentence": "In the round hall the ceiling became a night sky.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why does Mercury finish its path sooner than Neptune?",
+      "options": [
+        "It is closer to the sun",
+        "It is larger than the moon",
+        "It only moves at night",
+        "It blocks the sunlight"
+      ],
+      "correctAnswer": "It is closer to the sun",
+      "explanation": "Mercury finishes a trip faster than Neptune because it is closer to the sun.",
+      "supportingSentence": "Mercury finishes a trip much faster than Neptune because it is closer to the sun.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does orbits mean?",
+      "options": [
+        "The wide paths the planets follow",
+        "The lights on the ceiling",
+        "The seats in the round hall",
+        "The drawings in a notebook"
+      ],
+      "correctAnswer": "The wide paths the planets follow",
+      "explanation": "Sofia uses the word orbits for the wide paths the planets move along.",
+      "supportingSentence": "The sun sat in the centre, and the planets moved along wide paths that Sofia called orbits.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What did the peppercorn stand for in the model?",
+      "options": [
+        "Earth",
+        "The sun",
+        "A saucepan",
+        "The moon"
+      ],
+      "correctAnswer": "Earth",
+      "explanation": "In the scale model, a peppercorn was Earth and a beach ball was the sun.",
+      "supportingSentence": "A peppercorn was Earth, and a beach ball was the sun.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the walk of twenty steps suggest?",
+      "options": [
+        "Real distances in space are hard to copy indoors",
+        "The peppercorn was heavier than the sun",
+        "Jon already knew every star group",
+        "The pupils never reached the museum"
+      ],
+      "correctAnswer": "Real distances in space are hard to copy indoors",
+      "explanation": "Twenty steps were still not enough, so the real distance is too large for the room.",
+      "supportingSentence": "They walked twenty steps and were still not at the right distance.",
+      "skill": "inference"
+    }
+  ]
+}

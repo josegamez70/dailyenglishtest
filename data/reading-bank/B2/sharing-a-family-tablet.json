@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "technology",
+  "title": "Sharing a Family Tablet",
+  "story": "The Khan family had one tablet and four people who wanted it after school. Amir needed it for a language app, his sister Leila needed it for a history project, and their parents used it for video calls with grandparents. Arguments started when the battery died before Leila had finished, or when a game filled the storage and the project would not save. Although everyone agreed that the tablet was useful, nobody agreed whose turn it was.\n\nTheir mother, Farah, called a short family meeting on Sunday. She asked each person to name the tasks that truly had to be done on the tablet, in order to separate urgent work from entertainment. Homework and the weekly call had priority. Games were allowed only after those tasks, and only if the battery was above a set level. In addition, each person received a profile with a simple password, so downloads were no longer a surprise. Farah did not want to police every minute. She wanted a rule that the children could apply without a fresh debate.\n\nThe first evenings were clumsy. Amir forgot to sign out, and Leila's project opened under his profile. Even so, the source of the problem was now visible. They could see which app had used the storage, and they removed two large games that nobody had opened for a month. Meanwhile, they started charging the tablet in the kitchen at nine, rather than leaving it in a bedroom. That single change stopped the morning discovery of a dead battery.\n\nA week later, the grandparents' call began on time, and Leila exported her project before dinner. Amir still wanted longer game sessions. However, he admitted that the old habit had caused the worst arguments. The family reviewed the rules on the following Sunday and adjusted only one point. A finished project could borrow fifteen minutes from the next day. It was a compromise, yet it was clear. Sharing a device is easier when time, storage, and charging are planned instead of negotiated in a rush.",
+  "vocabulary": [
+    {
+      "word": "priority",
+      "definition": "Something that should be done before other things."
+    },
+    {
+      "word": "profile",
+      "definition": "A separate user space on a shared device."
+    },
+    {
+      "word": "storage",
+      "definition": "The space a device has for saving files and apps."
+    },
+    {
+      "word": "exported",
+      "definition": "Saved or sent a finished file out of an app."
+    },
+    {
+      "word": "compromise",
+      "definition": "An agreement in which each side gives up a little."
+    },
+    {
+      "word": "negotiated",
+      "definition": "Discussed in the moment until people reach a deal."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "When could the children play games?",
+      "options": [
+        "After the important tasks, with enough battery",
+        "Before school, with no time limit",
+        "Only while the grandparents were calling",
+        "Whenever the storage space was full"
+      ],
+      "correctAnswer": "After the important tasks, with enough battery",
+      "explanation": "Games came only after the set tasks, and only if the battery was above the agreed level.",
+      "supportingSentence": "Games were allowed only after those tasks, and only if the battery was above a set level.",
+      "skill": "detail"
+    },
+    {
+      "question": "What new evening habit prevented a flat battery in the morning?",
+      "options": [
+        "Deleting the language app before bed",
+        "Leaving the device in a bedroom all night",
+        "Charging the tablet in the kitchen from nine",
+        "Ending the Sunday meeting early"
+      ],
+      "correctAnswer": "Charging the tablet in the kitchen from nine",
+      "explanation": "They started charging the tablet in the kitchen at nine, and that stopped the morning discovery of a dead battery.",
+      "supportingSentence": "Meanwhile, they started charging the tablet in the kitchen at nine, rather than leaving it in a bedroom.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did removing the unused games make possible?",
+      "options": [
+        "A longer video call during breakfast",
+        "A separate tablet for each person",
+        "An end to every password on the device",
+        "Space for work that had failed to save"
+      ],
+      "correctAnswer": "Space for work that had failed to save",
+      "explanation": "A game had filled the storage so a project would not save, and the family then removed two large unused games.",
+      "supportingSentence": "They could see which app had used the storage, and they removed two large games that nobody had opened for a month.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does the fifteen-minute change show about the family agreement?",
+      "options": [
+        "The whole agreement was cancelled after a week",
+        "Most of it stayed, with one practical adjustment",
+        "Games replaced homework as the first task",
+        "Only the grandparents had to follow it"
+      ],
+      "correctAnswer": "Most of it stayed, with one practical adjustment",
+      "explanation": "The family adjusted only one point, which shows the rules mostly remained and could still be tuned.",
+      "supportingSentence": "The family reviewed the rules on the following Sunday and adjusted only one point.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does \"compromise\" mean here?",
+      "options": [
+        "A deal where each side gives something up",
+        "A password shared by the whole family",
+        "A game that fills the storage space",
+        "A call that begins after dinner"
+      ],
+      "correctAnswer": "A deal where each side gives something up",
+      "explanation": "The extra fifteen minutes was a compromise: the rules stayed, but a finished project could borrow a little time.",
+      "supportingSentence": "It was a compromise, yet it was clear.",
+      "skill": "vocabulary"
+    }
+  ]
+}

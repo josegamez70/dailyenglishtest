@@ -1,0 +1,99 @@
+{
+  "level": "B1",
+  "topic": "technology",
+  "title": "A Video Call Home",
+  "story": "Marco had been away for three weeks, and he missed Sunday lunch at home. His sister Nora suggested a video call so the family could eat together on screen. Marco set his laptop on a pile of books. His room was dark, so he opened the curtain and turned on a small lamp.\n\nAt one o'clock he pressed the green button. For a few seconds the picture froze, and he heard only half of Nora's words. He moved closer to the window, where the signal was stronger. Then he saw the kitchen table, a bowl of rice, and his father's blue shirt. Marco held up his plate of pasta and joked that his cooking was still terrible.\n\nA loud bus passed, and the microphone picked up the noise. His mother frowned and asked him to repeat the news about his class. Marco closed the window and put on headphones. His little cousin showed a drawing of a red boat, and Marco guessed the name on his third try.\n\nThe call lasted thirty-five minutes. Before they said goodbye, Marco's mother reminded him to sleep early on weeknights. He promised, then saved a photo of the family. Later he thanked Nora in a short message. The screen could not carry the smell of the rice, but it made the distance feel smaller. Marco planned another call for the next Sunday, before the street became noisy.",
+  "vocabulary": [
+    {
+      "word": "froze",
+      "definition": "Stopped moving for a short time"
+    },
+    {
+      "word": "signal",
+      "definition": "The strength of the connection"
+    },
+    {
+      "word": "microphone",
+      "definition": "The part that picks up sound"
+    },
+    {
+      "word": "frowned",
+      "definition": "Made an unhappy or worried face"
+    },
+    {
+      "word": "headphones",
+      "definition": "Small speakers worn over the ears"
+    },
+    {
+      "word": "distance",
+      "definition": "How far one place is from another"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How long had Marco been away from home?",
+      "options": [
+        "For three weeks",
+        "For three days",
+        "For one year",
+        "For thirty-five minutes"
+      ],
+      "correctAnswer": "For three weeks",
+      "explanation": "The first sentence says Marco had been away for three weeks.",
+      "supportingSentence": "Marco had been away for three weeks, and he missed Sunday lunch at home.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did the picture become easier to see?",
+      "options": [
+        "The signal was stronger near the window",
+        "Nora sent him a new laptop",
+        "His father turned off the lights",
+        "The bus blocked the street noise"
+      ],
+      "correctAnswer": "The signal was stronger near the window",
+      "explanation": "Marco moved closer to the window because the signal was stronger there.",
+      "supportingSentence": "He moved closer to the window, where the signal was stronger.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does frowned mean?",
+      "options": [
+        "Made an unhappy or worried face",
+        "Spoke in a very loud voice",
+        "Smiled at a funny picture",
+        "Wrote a long message"
+      ],
+      "correctAnswer": "Made an unhappy or worried face",
+      "explanation": "His mother frowned when the bus noise made his news hard to hear.",
+      "supportingSentence": "His mother frowned and asked him to repeat the news about his class.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What did Marco do when the bus noise entered the call?",
+      "options": [
+        "He closed the window and used headphones",
+        "He ended the call at once",
+        "He walked to his sister's kitchen",
+        "He asked the driver to wait"
+      ],
+      "correctAnswer": "He closed the window and used headphones",
+      "explanation": "After the microphone picked up the bus, Marco closed the window and put on headphones.",
+      "supportingSentence": "Marco closed the window and put on headphones.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the mother's reminder suggest about her?",
+      "options": [
+        "She cares about his routine while he is away",
+        "She wants him to leave his class",
+        "She is angry about his cooking",
+        "She cannot see the kitchen table"
+      ],
+      "correctAnswer": "She cares about his routine while he is away",
+      "explanation": "She reminds him to sleep early, which shows she is thinking about his daily life.",
+      "supportingSentence": "Before they said goodbye, Marco's mother reminded him to sleep early on weeknights.",
+      "skill": "inference"
+    }
+  ]
+}

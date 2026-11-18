@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "science",
+  "title": "Notes from the Field Station",
+  "story": "The handover at the field station took most of a morning, because the outgoing lead would not summarize a season that had not been uniform. The generator log, the freezer chart, and the sample book told different stories if a person read only one of them. Twice during a planned generator service the chest freezer had climbed and then recovered before dawn. Both rises stayed inside the tolerance written in the protocol for that kind of sample. The night tech had annotated the affected boxes and had left them in the set. Discarding them would have pretended that a recorded, permitted excursion was the same thing as a failure. Keeping them without a mark would have pretended the excursion had not happened.\n\nA second break was easier to miss. In week three the crew changed the filter size used for the water samples. The new size was a reasonable response to sediment after a storm, and it was written in the margin of a bench notebook, not in the shared log. Early samples and later samples were therefore not comparable in a direct way. A difference in the counts might be a difference in the water, or a difference in what the filter had been willing to catch. The incoming lead, Tomas Elling, asked for a boundary in the dataset at the week of the change, with the filter size stored beside every count. He initialed each page of the freezer chart, so a later audit could see who had accepted the annotated boxes into the set. He did not ask anyone to rerun the season. The samples could not be unfiltered.\n\nElling also refused a tidy merge that would have filled gaps in the weather sheet by copying the nearest hour. Some gaps were short, caused by a sensor that had been unplugged during the same generator work. Those could be flagged and left empty. An empty cell is a statement that the station does not know. A copied cell is a statement that it does, and the copy would have been hardest to detect exactly where a later user most wanted a continuous line.\n\nThe notes he accepted ran to six pages, which the previous lead apologized for. Elling said the length was the point. A field station's continuity is not the feeling that one team smoothly replaced another. It is the written trail that lets the next person see where the method, the temperature, and the record itself changed, and where they did not. The season remained usable because those edges had been kept sharp.",
+  "vocabulary": [
+    {
+      "word": "handover",
+      "definition": "The passing of responsibility and records from one lead to the next."
+    },
+    {
+      "word": "tolerance",
+      "definition": "The amount of variation a written rule still allows."
+    },
+    {
+      "word": "excursion",
+      "definition": "A departure from the usual temperature that later returned."
+    },
+    {
+      "word": "annotated",
+      "definition": "Marked with a note so a later reader can see what happened."
+    },
+    {
+      "word": "comparable",
+      "definition": "Able to be set beside one another as the same kind of measurement."
+    },
+    {
+      "word": "protocol",
+      "definition": "The written rules for how the samples were to be handled."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How did the two overnight freezer rises compare with the limit written for those samples?",
+      "options": [
+        "Both stayed inside the written limit.",
+        "Both went past it and forced the boxes to be thrown away.",
+        "Only the second rise was written down, and it matched the outdoor air.",
+        "The written rules contained no limit for freezer temperature."
+      ],
+      "correctAnswer": "Both stayed inside the written limit.",
+      "explanation": "Both rises stayed inside the tolerance written in the protocol for that kind of sample.",
+      "supportingSentence": "Both rises stayed inside the tolerance written in the protocol for that kind of sample.",
+      "skill": "detail"
+    },
+    {
+      "question": "What do throwing the warmed boxes away and keeping them with no mark have in common here?",
+      "options": [
+        "Each would hide the truth about a rise that stayed inside the rules.",
+        "Each would make the freezer chart and the sample book say the same thing.",
+        "Each would make the early and later water counts directly alike.",
+        "Each would meet the rules by deleting the generator log."
+      ],
+      "correctAnswer": "Each would hide the truth about a rise that stayed inside the rules.",
+      "explanation": "Discarding the boxes would pretend a permitted rise was a failure, and leaving them unmarked would pretend it never happened.",
+      "supportingSentence": "Keeping them without a mark would have pretended the excursion had not happened.",
+      "skill": "inference"
+    },
+    {
+      "question": "What is Elling protecting by leaving the short weather gaps empty?",
+      "options": [
+        "A clear signal that those hours were not actually measured.",
+        "A smoother line that makes the generator log more accurate.",
+        "Proof that the sensor kept recording throughout the service.",
+        "A way to erase the filter change from the sample book."
+      ],
+      "correctAnswer": "A clear signal that those hours were not actually measured.",
+      "explanation": "An empty cell says the station does not know, while a copied value would claim a measurement that was never made.",
+      "supportingSentence": "An empty cell is a statement that the station does not know.",
+      "skill": "inference"
+    },
+    {
+      "question": "In this passage, what is an “excursion”?",
+      "options": [
+        "A departure from the usual freezer temperature during the generator service.",
+        "A change of filter size that was copied into the shared log.",
+        "A weather value filled in by copying the nearest hour.",
+        "A failure that required every marked box to be discarded."
+      ],
+      "correctAnswer": "A departure from the usual freezer temperature during the generator service.",
+      "explanation": "The excursion is the freezer’s rise during the service, and it was permitted because it stayed inside the written tolerance.",
+      "supportingSentence": "Discarding them would have pretended that a recorded, permitted excursion was the same thing as a failure.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the passage defend six pages of notes instead of a short summary?",
+      "options": [
+        "To show that a usable season depends on keeping the breaks visible.",
+        "To suggest the outgoing lead should have reduced the season to one line.",
+        "To argue that the generator should never be serviced again.",
+        "To prove that early and later samples can be pooled with no boundary."
+      ],
+      "correctAnswer": "To show that a usable season depends on keeping the breaks visible.",
+      "explanation": "The length matters because the next person needs a written trail of where the method, the temperature, and the record changed.",
+      "supportingSentence": "It is the written trail that lets the next person see where the method, the temperature, and the record itself changed, and where they did not.",
+      "skill": "intent"
+    }
+  ]
+}

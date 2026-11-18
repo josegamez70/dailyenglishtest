@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "economy_finance",
+  "title": "Opening a Savings Jar",
+  "story": "Marta had been dropping coins and the odd note into a large jar since January, aiming at a second-hand camera she had seen for four hundred and forty pounds. In November she lifted the jar down, spread the money on her bed, and counted it twice. She had expected something close to four hundred. The balance was two hundred and sixty. The gap was not a mystery of arithmetic. It was a record of small withdrawals she had promised to replace and then forgotten.\n\nShe could remember a concert ticket, three lunches in a wet week, and a birthday card for her father. Each time she had told herself the jar was only lending the money to her future self. Without a note, the loan had no date and no plan to repay. She took a card, wrote every amount she could honestly recall, and taped it under the lid. New rules went on the same card. Anything taken out would be written on the day, and it would be repaid within seven days from her Saturday wages. Her Saturday job at the florist paid her in cash, which made those repayments easy to keep apart from her bus money. The jar itself moved to a high cupboard, so spending it would require a chair and a second thought.\n\nThen she worked forward instead of backward. If she saved twelve pounds a week and took nothing back, she would reach the camera in fifteen more weeks. She circled that date on a calendar above the desk. While she was stacking the coins again she found a folded note from her younger brother, Leo, with twenty pounds inside. He had written that it was an early birthday gift and that she was not to spend it on lunch. Marta laughed, then added his gift as a separate line under that day's date. She wanted her own target to stay visible beside his kindness, not buried under it. The jar closed on a plan as well as on the cash.",
+  "vocabulary": [
+    {
+      "word": "balance",
+      "definition": "The amount of money left when it is counted."
+    },
+    {
+      "word": "withdrawals",
+      "definition": "Sums taken out of the money that was saved."
+    },
+    {
+      "word": "repay",
+      "definition": "To put back money that was taken."
+    },
+    {
+      "word": "wages",
+      "definition": "Money paid to Marta for her Saturday work."
+    },
+    {
+      "word": "calendar",
+      "definition": "A chart of dates used to mark a future plan."
+    },
+    {
+      "word": "target",
+      "definition": "The amount or aim a person is trying to reach."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How much was in the jar when Marta counted it?",
+      "options": [
+        "Something close to four hundred pounds",
+        "Four hundred and forty pounds",
+        "Two hundred and sixty pounds",
+        "Twenty pounds from her brother"
+      ],
+      "correctAnswer": "Two hundred and sixty pounds",
+      "explanation": "After counting twice, Marta found that the balance was two hundred and sixty pounds.",
+      "supportingSentence": "The balance was two hundred and sixty.",
+      "skill": "detail"
+    },
+    {
+      "question": "How soon did the new rule say taken money must be put back?",
+      "options": [
+        "Within seven days",
+        "On the same day it was taken",
+        "Within fifteen weeks",
+        "Before the end of January"
+      ],
+      "correctAnswer": "Within seven days",
+      "explanation": "Money taken from the jar had to be written down and repaid within seven days.",
+      "supportingSentence": "Anything taken out would be written on the day, and it would be repaid within seven days from her Saturday wages.",
+      "skill": "detail"
+    },
+    {
+      "question": "What would most likely happen if Marta stopped writing down what she took?",
+      "options": [
+        "The camera would drop in price to the sum in the jar",
+        "Leo would add twenty pounds every week",
+        "The florist would stop paying her in cash",
+        "Small sums would leave the jar again with nothing to remind her"
+      ],
+      "correctAnswer": "Small sums would leave the jar again with nothing to remind her",
+      "explanation": "Without a note, her earlier withdrawals were forgotten, so the same gap would be likely to return.",
+      "supportingSentence": "Without a note, the loan had no date and no plan to repay.",
+      "skill": "inference"
+    },
+    {
+      "question": "What is true about the fifteen-week plan and Leo's gift?",
+      "options": [
+        "Marta had already made the plan before she found his money",
+        "His gift was the sum she would still need after fifteen weeks",
+        "His gift meant she no longer had to save each week",
+        "His gift was one Saturday's pay from the florist"
+      ],
+      "correctAnswer": "Marta had already made the plan before she found his money",
+      "explanation": "She worked out the fifteen weeks and circled the date, and only then found Leo's twenty pounds.",
+      "supportingSentence": "If she saved twelve pounds a week and took nothing back, she would reach the camera in fifteen more weeks.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does the word balance mean in this story?",
+      "options": [
+        "The price she had hoped to see in the jar",
+        "The amount of money in the jar when she counted it",
+        "A steady way of standing on a chair",
+        "The date she circled above the desk"
+      ],
+      "correctAnswer": "The amount of money in the jar when she counted it",
+      "explanation": "The balance is the counted sum left in the jar, which was two hundred and sixty pounds.",
+      "supportingSentence": "The balance was two hundred and sixty.",
+      "skill": "vocabulary"
+    }
+  ]
+}

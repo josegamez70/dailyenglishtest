@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "travel",
+  "title": "The Hostel Kitchen",
+  "story": "Imani arrived at the hostel in the evening and received a key from the front desk. Her room had a bunk and a small lamp, but no place to cook. A sign in the hall said guests could use the shared kitchen until ten. Imani was hungry after the long bus ride, so she carried her food box downstairs. The kitchen had two cookers, a sink, and a long table. A guest called Rafi was boiling pasta and singing quietly. She washed a pan and set it on the free cooker. She had rice, eggs, and a few vegetables from the market. While the rice cooked, she cut the vegetables on a board and kept the knife away from the edge. Rafi offered her a little salt and asked where she was from. At nine Imani realised she had used Rafi's wooden spoon and had not asked. She washed it at once and said sorry. Rafi smiled and said sharing was normal in a hostel kitchen if you cleaned up. Imani put her leftovers in a box with her name on the lid. She wiped the table, washed the pan, and hung the cloth on a hook. Before she left, she checked that the cooker was off. Upstairs, the room felt more welcoming because dinner was done and the kitchen was ready for the next person. Imani wrote a short note to herself: clean, label, and switch off.",
+  "vocabulary": [
+    {
+      "word": "hostel",
+      "definition": "a cheap place where travellers can sleep"
+    },
+    {
+      "word": "bunk",
+      "definition": "a bed fixed above or below another bed"
+    },
+    {
+      "word": "cooker",
+      "definition": "a machine used for cooking food"
+    },
+    {
+      "word": "leftovers",
+      "definition": "food that is left after a meal"
+    },
+    {
+      "word": "hook",
+      "definition": "a curved object used for hanging things"
+    },
+    {
+      "word": "label",
+      "definition": "a note that says who something belongs to"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Until what time could guests use the kitchen?",
+      "options": [
+        "ten",
+        "seven",
+        "midnight",
+        "noon"
+      ],
+      "correctAnswer": "ten",
+      "explanation": "The sign in the hall gave that hour.",
+      "supportingSentence": "A sign in the hall said guests could use the shared kitchen until ten.",
+      "skill": "detail"
+    },
+    {
+      "question": "What was Rafi doing in the kitchen?",
+      "options": [
+        "boiling pasta",
+        "frying fish",
+        "washing the floor",
+        "reading a map"
+      ],
+      "correctAnswer": "boiling pasta",
+      "explanation": "He was busy at a cooker when she arrived.",
+      "supportingSentence": "A guest called Rafi was boiling pasta and singing quietly.",
+      "skill": "detail"
+    },
+    {
+      "question": "Where did Imani put her name?",
+      "options": [
+        "on the lid",
+        "on the bunk",
+        "on the front desk",
+        "on the bus ticket"
+      ],
+      "correctAnswer": "on the lid",
+      "explanation": "The food box needed her name.",
+      "supportingSentence": "Imani put her leftovers in a box with her name on the lid.",
+      "skill": "detail"
+    },
+    {
+      "question": "Which word means food that is left after a meal?",
+      "options": [
+        "leftovers",
+        "bunk",
+        "hook",
+        "salt"
+      ],
+      "correctAnswer": "leftovers",
+      "explanation": "She stored that food in a named box.",
+      "supportingSentence": "Imani put her leftovers in a box with her name on the lid.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did the room feel more welcoming afterwards?",
+      "options": [
+        "dinner was done and the kitchen was ready",
+        "the bus was still waiting outside",
+        "Rafi had taken her key",
+        "the lamp in the room was broken"
+      ],
+      "correctAnswer": "dinner was done and the kitchen was ready",
+      "explanation": "A finished meal and a tidy kitchen changed how the room felt.",
+      "supportingSentence": "Upstairs, the room felt more welcoming because dinner was done and the kitchen was ready for the next person.",
+      "skill": "inference"
+    }
+  ],
+  "file": "b1-b.txt"
+}

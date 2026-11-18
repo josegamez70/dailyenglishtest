@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "technology",
+  "title": "Retiring the Old Server",
+  "story": "Everyone in the library called the booking machine the kettle, because of the fan. It had been installed as a temporary host for room reservations nine years earlier, during a renovation that was supposed to end with a proper move. The move happened. The machine stayed, on a shelf in the plant room, running a system that the new calendar had officially replaced. The facilities manager wanted it unplugged before the electrical inspection in May. A retired server, he said, should not be drawing current and heat in a cupboard that failed its last check for clutter.\n\nThe systems librarian, Idris Pell, agreed that the original function was finished. Patrons reserved rooms on the new calendar. What he doubted was the claim that the machine now did only that. No one had written the dependencies down. The install notes had left with a contractor, and the staff who remembered the renovation had mostly retired. Pell spent a week watching what still called the old host. A script on it built the Saturday club's mailing list from a table the new calendar did not contain. Another task copied closed-day exceptions to the door signs. Neither job appeared in the project that had justified the machine, and both would fail quietly if the plug were pulled on the announced date.\n\nHe asked for a parallel run rather than a ceremonial switch-off. For three Saturdays the club list would be produced twice, once by the old script and once by a replacement he would write against the new calendar, and the two lists would be compared before anything was sent. The door-sign task would be rebuilt in the same interval. Only when both outputs matched, or when the differences were understood and accepted, would he call the cutover done. The manager disliked the delay. Pell disliked discovering a public mailing list by watching who complained after a silent failure. A parallel run costs three Saturdays. A wrong list costs the trust of people who come only because the message arrived.\n\nUnder the keyboard he found a sticker with a home number for the colleague who had set the script up. The call confirmed what the traffic had suggested: the list was not a leftover test, and several members received no other notice of a cancelled class. Pell added that fact to the decommission sheet. Retiring the machine was still the right end. The interim was for naming every side effect the official replacement had never been told to cover, and for refusing to learn those names from a dark Saturday.",
+  "vocabulary": [
+    {
+      "word": "dependencies",
+      "definition": "Other tasks that still rely on a system and may fail with it."
+    },
+    {
+      "word": "parallel",
+      "definition": "Running the old method and the new one at the same time for comparison."
+    },
+    {
+      "word": "cutover",
+      "definition": "The switch from an old system to the one that replaces it."
+    },
+    {
+      "word": "decommission",
+      "definition": "The formal process of taking a machine out of service."
+    },
+    {
+      "word": "interim",
+      "definition": "The in-between period before the final change is made."
+    },
+    {
+      "word": "ceremonial",
+      "definition": "Done for show, without a practical test of what would break."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What produced the Saturday club’s mailing list?",
+      "options": [
+        "A script on the old host, drawing on a table the new calendar lacked",
+        "The new calendar, which had officially replaced room booking",
+        "A door sign that staff rewrote by hand each closed day",
+        "The electrical inspection scheduled for May"
+      ],
+      "correctAnswer": "A script on the old host, drawing on a table the new calendar lacked",
+      "explanation": "A script on the old machine built the list from a table the new calendar did not contain.",
+      "supportingSentence": "A script on it built the Saturday club's mailing list from a table the new calendar did not contain.",
+      "skill": "detail"
+    },
+    {
+      "question": "What has the facilities manager missed in wanting the machine unplugged for the inspection?",
+      "options": [
+        "Tasks that still run on it and were never part of the project that justified it.",
+        "A duty to keep the noisy fan running until May is over.",
+        "Patrons who still reserve every room on the old booking screen.",
+        "A contractor who holds the only key to the plant room."
+      ],
+      "correctAnswer": "Tasks that still run on it and were never part of the project that justified it.",
+      "explanation": "Hidden jobs still depend on the machine, so unplugging it would break more than the retired booking function.",
+      "supportingSentence": "Neither job appeared in the project that had justified the machine, and both would fail quietly if the plug were pulled on the announced date.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does the need to call a number found under the keyboard suggest about the library’s records?",
+      "options": [
+        "Knowledge of how the script was set up lived with a former colleague, not in notes the library still held.",
+        "The keyboard was the only part of the machine the inspection would permit.",
+        "The Saturday club had been typing the list by hand for nine years.",
+        "The new calendar already stored the closed-day table."
+      ],
+      "correctAnswer": "Knowledge of how the script was set up lived with a former colleague, not in notes the library still held.",
+      "explanation": "The install notes were gone, and Pell had to call the person who had set the script up.",
+      "supportingSentence": "Under the keyboard he found a sticker with a home number for the colleague who had set the script up.",
+      "skill": "inference"
+    },
+    {
+      "question": "In this passage, what is the “cutover”?",
+      "options": [
+        "The switch to the replacement, made only after the outputs are compared.",
+        "The three Saturdays during which two lists are still being produced.",
+        "The electrical inspection of the plant-room cupboard.",
+        "The sticker that keeps a former colleague’s phone number."
+      ],
+      "correctAnswer": "The switch to the replacement, made only after the outputs are compared.",
+      "explanation": "Pell will call the cutover done only when the old and new outputs match or their differences are accepted.",
+      "supportingSentence": "Only when both outputs matched, or when the differences were understood and accepted, would he call the cutover done.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the passage set the cost of three Saturdays against the cost of a wrong list?",
+      "options": [
+        "To justify the delay as protection for people who rely on the message.",
+        "To argue that the Saturday club should be closed.",
+        "To show that the facilities manager wants a slower inspection.",
+        "To recommend that every library notice be sent on paper."
+      ],
+      "correctAnswer": "To justify the delay as protection for people who rely on the message.",
+      "explanation": "The contrast asks the reader to see the wait as the price of not breaking trust with people who depend on the list.",
+      "supportingSentence": "A wrong list costs the trust of people who come only because the message arrived.",
+      "skill": "intent"
+    }
+  ]
+}

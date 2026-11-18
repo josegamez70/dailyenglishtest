@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "school_college",
+  "title": "The Open Day Tour",
+  "story": "Leila arrived at Northbridge College an hour early, although the open day tour was not due to start until ten. She had read the prospectus twice on the bus, marking courses that might suit her, yet the campus still felt larger than the photographs suggested. Her father waited by the entrance while she collected a map from a student guide called Samir, who gathered the group and warned them that the route included stairs. Anyone who preferred a lift could tell him at once, and nobody would be left behind for asking.\n\nThe first stop was the library. Samir explained that students could borrow laptops as well as books, and that quiet floors were strictly for silent study. However, the workshop next door was anything but quiet, because engineering students were testing a small bridge made of thin wood, and a tutor invited the visitors to watch rather than touch. Leila asked how much independent study the course required. The tutor said the timetable looked light only until the project weeks began, when workshops stayed open late.\n\nOver lunch Leila sat with two applicants who were equally unsure. One wanted nursing, and the other was choosing between business and design. Their questions were practical and covered travel time, the cost of materials, and whether support was available for students who worked evenings. Samir answered honestly. He admitted that the first term had overwhelmed him, especially the number of deadlines, but that tutors noticed if someone stopped attending. He also pointed out a small advice centre beside the cafeteria.\n\nIn the afternoon Leila visited a language classroom and sat at the back of a sample lesson. The teacher asked the visitors to describe their towns in three sentences. Leila's voice shook at first, but she finished, and another student smiled at her. On the way out she told her father that the college no longer felt impossible. She had not made a final choice, but she had enough information to compare this campus with the others on her list.",
+  "vocabulary": [
+    {
+      "word": "prospectus",
+      "definition": "A printed guide that describes a college and its courses."
+    },
+    {
+      "word": "independent",
+      "definition": "Done on your own, without someone directing every step."
+    },
+    {
+      "word": "applicants",
+      "definition": "People who are asking to be considered for a place."
+    },
+    {
+      "word": "overwhelmed",
+      "definition": "Feeling that there is more to deal with than you can manage."
+    },
+    {
+      "word": "sample",
+      "definition": "A short example of what something is usually like."
+    },
+    {
+      "word": "compare",
+      "definition": "To look at things together in order to judge the differences."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How does Leila seem to feel when she first reaches the college?",
+      "options": [
+        "Ready to reject the place before the tour begins",
+        "Interested in the courses, but surprised by how large the campus feels",
+        "Angry that her father has stayed outside",
+        "Certain that she will sign up before lunch"
+      ],
+      "correctAnswer": "Interested in the courses, but surprised by how large the campus feels",
+      "explanation": "She has already marked possible courses, yet the real campus feels larger than the photographs, so she is keen and slightly daunted.",
+      "supportingSentence": "She had read the prospectus twice on the bus, marking courses that might suit her, yet the campus still felt larger than the photographs suggested.",
+      "skill": "inference"
+    },
+    {
+      "question": "What rule did Samir give for the quiet library floors?",
+      "options": [
+        "Visitors could eat beside the computers",
+        "Laptops had to be left at the entrance",
+        "Group discussion was encouraged there",
+        "They were strictly for silent study"
+      ],
+      "correctAnswer": "They were strictly for silent study",
+      "explanation": "He said students could borrow books and laptops, and that the quiet floors were strictly for silent study.",
+      "supportingSentence": "Samir explained that students could borrow laptops as well as books, and that quiet floors were strictly for silent study.",
+      "skill": "detail"
+    },
+    {
+      "question": "What should a possible student take from Samir's account of his first term?",
+      "options": [
+        "Guides are forbidden to mention any difficulty",
+        "The start of a course can feel like too much because deadlines build up",
+        "Tutors never notice whether a student attends",
+        "The first term contains almost no deadlines"
+      ],
+      "correctAnswer": "The start of a course can feel like too much because deadlines build up",
+      "explanation": "Samir says the number of deadlines overwhelmed him, so a new student can expect the opening term to feel heavy.",
+      "supportingSentence": "He admitted that the first term had overwhelmed him, especially the number of deadlines, but that tutors noticed if someone stopped attending.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does overwhelmed mean in this story?",
+      "options": [
+        "Feeling that there is more to manage than you can handle",
+        "Receiving the highest result in the year",
+        "Leaving the college before the first class",
+        "Having no work left to do"
+      ],
+      "correctAnswer": "Feeling that there is more to manage than you can handle",
+      "explanation": "Samir uses it for the feeling created by the number of deadlines in his first term.",
+      "supportingSentence": "He admitted that the first term had overwhelmed him, especially the number of deadlines, but that tutors noticed if someone stopped attending.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What warning did the engineering tutor give about the timetable?",
+      "options": [
+        "Lectures finished at lunch every day",
+        "Students did no practical work at all",
+        "The course was taught only to visitors",
+        "It looked light only until project weeks kept the workshops open late"
+      ],
+      "correctAnswer": "It looked light only until project weeks kept the workshops open late",
+      "explanation": "The tutor said the timetable seemed light only until the project weeks, when the workshops stayed open late.",
+      "supportingSentence": "The tutor said the timetable looked light only until the project weeks began, when workshops stayed open late.",
+      "skill": "detail"
+    }
+  ]
+}

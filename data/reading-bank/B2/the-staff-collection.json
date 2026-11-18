@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "economy_finance",
+  "title": "The Staff Collection",
+  "story": "When Paul, the bookshop manager, announced that he was leaving, the staff decided to collect for a gift. Somebody suggested that each person put ten pounds into an envelope. It sounded simple until Idris, who worked only on Wednesdays, said he would be paying the same as colleagues who worked the whole week. The room went quiet. Nobody wanted a mean argument, but nobody wanted a collection that felt unfair either.\n\nLeila, who kept the till, turned over a used paper bag and listed the days each person would work in Paul's last week. The full-time names each showed five days, and Idris's name showed one. A flat ten pounds would take a much larger share of his pay. She proposed two pounds for each day worked, written down so anyone could check the sum. The idea was still a contribution, not a tax, and anyone in real difficulty could speak to her privately. People nodded, relieved to have a rule instead of a guess. Nobody was asked to give more than the list required.\n\nThey filled the list that afternoon. Most of the full-time staff put in ten pounds, matching five days. Idris put in two and looked less cornered. One colleague who had already dropped in ten pounds, then realised she had been away for two days, took four pounds back and initialled the change. The envelope reached forty-six pounds. Before they chose the print, Leila checked the prices in two shops and refused a frame that would have swallowed the whole envelope. The card cost four pounds, and the print cost forty-two. Leila kept the paper bag in the till drawer until the gift was bought, because a collection without a record is only a story about who remembers what. Paul was surprised by the print of the old market. He was more surprised, when Leila showed him the list later, by how carefully they had shared the cost.",
+  "vocabulary": [
+    {
+      "word": "collection",
+      "definition": "Money gathered from a group for one shared purpose."
+    },
+    {
+      "word": "envelope",
+      "definition": "The paper cover in which the collected money was kept."
+    },
+    {
+      "word": "colleagues",
+      "definition": "People who work in the same place."
+    },
+    {
+      "word": "contribution",
+      "definition": "Money a person chooses to give toward a shared cost."
+    },
+    {
+      "word": "initialled",
+      "definition": "Marked with the first letters of someone's name."
+    },
+    {
+      "word": "record",
+      "definition": "A written note that other people can check later."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How much did Leila propose for each day someone worked?",
+      "options": [
+        "Ten pounds",
+        "Four pounds",
+        "Forty-two pounds",
+        "Two pounds"
+      ],
+      "correctAnswer": "Two pounds",
+      "explanation": "Leila proposed two pounds for each day worked in Paul's last week.",
+      "supportingSentence": "She proposed two pounds for each day worked, written down so anyone could check the sum.",
+      "skill": "detail"
+    },
+    {
+      "question": "What price did Leila find for the print?",
+      "options": [
+        "Forty-two pounds",
+        "Four pounds",
+        "Forty-six pounds",
+        "Ten pounds"
+      ],
+      "correctAnswer": "Forty-two pounds",
+      "explanation": "The print cost forty-two pounds, and the card cost four pounds.",
+      "supportingSentence": "The card cost four pounds, and the print cost forty-two.",
+      "skill": "detail"
+    },
+    {
+      "question": "What can the reader conclude about the money one colleague took back?",
+      "options": [
+        "She wanted the gift itself to cost less",
+        "Leila had charged her for the frame that was refused",
+        "She changed her share so it matched the days she had worked",
+        "She asked for her name to be removed from the card"
+      ],
+      "correctAnswer": "She changed her share so it matched the days she had worked",
+      "explanation": "She had been away for two days, and at two pounds a day the extra she returned was four pounds.",
+      "supportingSentence": "One colleague who had already dropped in ten pounds, then realised she had been away for two days, took four pounds back and initialled the change.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does Paul's greater surprise suggest?",
+      "options": [
+        "He had wanted the staff to keep the money for the shop",
+        "The list proved that Idris had paid nothing at all",
+        "He was angry that a dearer frame had been refused",
+        "The fair sharing stood out more than the gift itself"
+      ],
+      "correctAnswer": "The fair sharing stood out more than the gift itself",
+      "explanation": "The print surprised him, but he was more surprised by how carefully the staff had shared the cost.",
+      "supportingSentence": "He was more surprised, when Leila showed him the list later, by how carefully they had shared the cost.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does the word contribution mean in this story?",
+      "options": [
+        "A tax that every worker has to pay",
+        "Money someone chooses to give toward a shared cost",
+        "The frame that would have used the whole sum",
+        "The list of working days kept in the till"
+      ],
+      "correctAnswer": "Money someone chooses to give toward a shared cost",
+      "explanation": "Leila calls the payment a contribution, not a tax, and someone in difficulty could speak to her privately.",
+      "supportingSentence": "The idea was still a contribution, not a tax, and anyone in real difficulty could speak to her privately.",
+      "skill": "vocabulary"
+    }
+  ]
+}

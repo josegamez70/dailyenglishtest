@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "science",
+  "title": "Calibrating the Rain Gauge",
+  "story": "The rain gauge on the east slope had been under-reading since the stand was moved in March. The new site was more open, which the crew had wanted, because the old hedge had sheltered the funnel and had also dropped debris into it. Open ground brought a different error. In wind, rain crossed the mouth of the gauge at an angle, and the tipping bucket caught less than a cylinder standing at ground level in the lee of the equipment box. The instrument was not broken. Its exposure had changed, and the change had a direction: the recorded catch was low, not scattered at random.\n\nFor ten storms the technician, Nia Berent, set a manual cylinder beside the gauge and read both after the rain had stopped. She excluded two storms in which the cylinder had overflowed, because an overflow is not a measurement of the difference. In the remaining eight, the bucket recorded between four and eleven percent less than the cylinder, with the larger gaps on the windier days. The ground-level cylinder was not a perfect truth. Splash and evaporation could touch it too. Berent chose it as a reference because those errors were smaller, in these storms, than the wind loss at the raised mouth, and because she could see the water she was counting. A cup anemometer at the same post gave her the wind, so the comparison was not a guess about the weather taken from memory. The bias was consistent enough to describe, and too dependent on wind to treat as a single magic number for every future shower.\n\nA colleague suggested multiplying the whole season by 1.07 and reissuing the file. Berent refused. The gauge had not stood in the same exposure before the move, and applying a factor derived from spring storms to January would invent a precision the comparison had never earned. She also refused to overwrite the original readings. The bucket's numbers were what the instrument had recorded. The correction was a later claim about those numbers, valid, if at all, for the interval in which the paired readings had been made.\n\nShe attached an adjusted column to the days from the move through the last paired storm, flagged each adjusted value, and wrote the rule beside the column: the factor may be used for that interval when wind at the post resembles the storms in the comparison, and it must not be copied to other months or other gauges. A correction is a statement with edges. Outside those edges it stops being a correction and becomes a story the rain did not tell.",
+  "vocabulary": [
+    {
+      "word": "exposure",
+      "definition": "How open an instrument is to wind and weather at its site."
+    },
+    {
+      "word": "catch",
+      "definition": "The rain a gauge actually collects."
+    },
+    {
+      "word": "anemometer",
+      "definition": "An instrument that measures how hard the wind is blowing."
+    },
+    {
+      "word": "bias",
+      "definition": "A consistent error in one direction, not a random scatter."
+    },
+    {
+      "word": "interval",
+      "definition": "The stretch of time for which a stated claim is valid."
+    },
+    {
+      "word": "flagged",
+      "definition": "Marked so a reader can see that a value was adjusted."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How many storms remained in the paired comparison after the overflows were set aside?",
+      "options": [
+        "Eight",
+        "Ten",
+        "Two",
+        "Eleven"
+      ],
+      "correctAnswer": "Eight",
+      "explanation": "Two of the ten storms were excluded because the cylinder overflowed, leaving eight.",
+      "supportingSentence": "In the remaining eight, the bucket recorded between four and eleven percent less than the cylinder, with the larger gaps on the windier days.",
+      "skill": "detail"
+    },
+    {
+      "question": "What would have been lost if the bucket’s original numbers had been replaced by adjusted ones?",
+      "options": [
+        "The record of what the instrument itself had registered.",
+        "The wind readings from the windier days.",
+        "The hedge that used to shelter the earlier site.",
+        "The decision to move the stand in March."
+      ],
+      "correctAnswer": "The record of what the instrument itself had registered.",
+      "explanation": "The bucket’s numbers were the instrument’s own record, so replacing them would have erased that record.",
+      "supportingSentence": "She also refused to overwrite the original readings.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why would copying this factor onto a different gauge go beyond the evidence?",
+      "options": [
+        "The comparison describes one moved instrument in stated winds, not every gauge.",
+        "Other gauges are unable to record rain as a percent.",
+        "The manual cylinder overflowed at every other site.",
+        "Only the January file still contains any readings."
+      ],
+      "correctAnswer": "The comparison describes one moved instrument in stated winds, not every gauge.",
+      "explanation": "The factor comes from this gauge, after its move, in particular winds, so another gauge is a new claim.",
+      "supportingSentence": "She attached an adjusted column to the days from the move through the last paired storm, flagged each adjusted value, and wrote the rule beside the column: the factor may be used for that interval when wind at the post resembles the storms in the comparison, and it must not be copied to other months or other gauges.",
+      "skill": "inference"
+    },
+    {
+      "question": "In this passage, what does “exposure” refer to?",
+      "options": [
+        "How open the gauge is to wind and weather at its site.",
+        "The percent written into the adjusted column.",
+        "The overflow line painted on the manual cylinder.",
+        "The proposal to reissue a whole season of figures."
+      ],
+      "correctAnswer": "How open the gauge is to wind and weather at its site.",
+      "explanation": "The gauge’s exposure changed when it was moved to a more open site, and that change lowered the catch in wind.",
+      "supportingSentence": "Its exposure had changed, and the change had a direction: the recorded catch was low, not scattered at random.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the passage say that a correction outside its edges becomes a story the rain did not tell?",
+      "options": [
+        "To warn that extending the factor past the tested conditions invents a result.",
+        "To admit that the gauge was broken and should be thrown away.",
+        "To argue that wind should be deleted from every weather record.",
+        "To show that the manual cylinder was less accurate than the bucket."
+      ],
+      "correctAnswer": "To warn that extending the factor past the tested conditions invents a result.",
+      "explanation": "The writer wants the reader to keep the correction inside the conditions that were actually compared.",
+      "supportingSentence": "Outside those edges it stops being a correction and becomes a story the rain did not tell.",
+      "skill": "intent"
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "economy_finance",
+  "title": "The Reserve Fund",
+  "story": "The housing cooperative had been proud of its reserve fund, and the pride had a spreadsheet to prove it. For eight years the residents of Block C had paid a little extra each month so that a roof, a lift, or a boiler could fail without becoming an emergency loan. In September the roof failed anyway. After the storms, water came through the top-floor ceilings, and the fund did exactly what it had been built to do. By October the roof was sound, the ceilings were dry, and the reserve that was supposed to cover a decade of major repairs had been cut almost in half.\n\nThe boiler was the problem the fund had been saving for next. The engineer's report, read aloud at the November meeting, gave it two winters at best, and one if the cold came early. A full replacement would cost more than the fund now held. Irene, who chaired the meeting and disliked drama, wrote two columns on the whiteboard. One was a special levy, collected over six months from every flat according to its size. The other was a loan from the local credit union, repaid over five years, with interest that would outlast the boiler itself. People who had already paid for the roof did not like the look of either column.\n\nThe argument that followed was less about the machine than about fairness across time. Residents who planned to move within a year preferred the loan, because a levy asked them to fund a boiler they might never use. Residents who intended to stay preferred the levy, because interest was a fee paid for the comfort of waiting. The treasurer added a third fact that cooled the room. If they borrowed, the cooperative's rules required them to keep a minimum cash balance, and the thinned reserve would sit under that line unless the repayments started high. A cheap loan on paper could become a covenant problem in practice.\n\nThey chose a narrower path. A modest levy would restore the reserve to its minimum by spring, and a smaller loan would cover the rest of the boiler, taken only after two further quotes. The work would be scheduled for late summer, when a failure would be an inconvenience rather than a freeze. Irene wrote the decision into the minutes in plain figures, without the adjectives the debate had attracted. The fund was no longer a cushion they could point to with satisfaction. It was a tool they had used, and now had to rebuild on purpose.",
+  "vocabulary": [
+    {
+      "word": "reserve",
+      "definition": "Money kept aside for large future costs."
+    },
+    {
+      "word": "levy",
+      "definition": "A special charge collected from the people who share a cost."
+    },
+    {
+      "word": "interest",
+      "definition": "The extra money paid for borrowing."
+    },
+    {
+      "word": "covenant",
+      "definition": "A binding rule, here one that sets how much cash must be kept."
+    },
+    {
+      "word": "minimum",
+      "definition": "The lowest amount allowed."
+    },
+    {
+      "word": "quotes",
+      "definition": "Prices offered by different suppliers for the same job."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did the engineer's report say about how long the boiler might last?",
+      "options": [
+        "It had already failed during the September storms.",
+        "It would last another decade without any work.",
+        "Two winters at best, and only one if the cold came early",
+        "It could be repaired from the roof money in October."
+      ],
+      "correctAnswer": "Two winters at best, and only one if the cold came early",
+      "explanation": "The report, read at the November meeting, gave the boiler two winters at best, or one if the cold came early.",
+      "supportingSentence": "The engineer's report, read aloud at the November meeting, gave it two winters at best, and one if the cold came early.",
+      "skill": "detail"
+    },
+    {
+      "question": "What are the two groups of residents really disagreeing about?",
+      "options": [
+        "Whether people who may leave soon should pay now, or people who stay should pay to borrow",
+        "Whether the roof should be opened again in winter",
+        "Whether Irene should stop chairing the meetings",
+        "Whether the credit union should buy the building"
+      ],
+      "correctAnswer": "Whether people who may leave soon should pay now, or people who stay should pay to borrow",
+      "explanation": "Residents who expect to move prefer a loan, while those who will stay prefer a levy. The dispute is about who carries the cost across time.",
+      "supportingSentence": "The argument that followed was less about the machine than about fairness across time.",
+      "skill": "inference"
+    },
+    {
+      "question": "What was the awkward result of using the fund to repair the roof?",
+      "options": [
+        "The ceilings were left wet until the summer.",
+        "The cooperative no longer held enough for the next large repair.",
+        "The residents immediately stopped every monthly payment.",
+        "The credit union cancelled the cooperative's right to meet."
+      ],
+      "correctAnswer": "The cooperative no longer held enough for the next large repair.",
+      "explanation": "The roof repair did its job, but it cut the reserve sharply, and a new boiler would cost more than the fund then held.",
+      "supportingSentence": "By October the roof was sound, the ceilings were dry, and the reserve that was supposed to cover a decade of major repairs had been cut almost in half.",
+      "skill": "inference"
+    },
+    {
+      "question": "In this story, what is a levy?",
+      "options": [
+        "A loan from the local credit union",
+        "A written warning from an engineer",
+        "A discount on next year's payments",
+        "A special sum collected from the flats"
+      ],
+      "correctAnswer": "A special sum collected from the flats",
+      "explanation": "Irene's first column is a special levy collected over six months from every flat, so the word means a charge on the residents.",
+      "supportingSentence": "One was a special levy, collected over six months from every flat according to its size.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer bother to say that the minutes used plain figures and no adjectives?",
+      "options": [
+        "To complain that Irene cannot write vividly",
+        "To show the decision being recorded without the heat of the debate",
+        "To hint that the boiler repair was cancelled",
+        "To praise the credit union's advertising"
+      ],
+      "correctAnswer": "To show the decision being recorded without the heat of the debate",
+      "explanation": "The plain figures set the final choice apart from the strong language the argument had attracted.",
+      "supportingSentence": "Irene wrote the decision into the minutes in plain figures, without the adjectives the debate had attracted.",
+      "skill": "intent"
+    }
+  ]
+}

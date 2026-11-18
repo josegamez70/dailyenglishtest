@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "adventure",
+  "title": "A Night in the Bothy",
+  "story": "By the time Niall reached the bothy, rain had found every gap in his jacket. The bothy was only a stone room with a sleeping platform, a metal stove, and a visitor book swollen by the damp. Farah was feeding the stove with the last dry sticks, and a teenager called Owen was spreading a wet map across his knees.\n\nNiall had left the valley late, trusting a forecast of light showers. Farah had taken a higher path after a footbridge was closed, and Owen had lost his uncle when mist hid the fork above the loch. The burn outside was rising, and the track to the road would be awkward in the dark.\n\nThey made the room work. Farah moved her kit so Owen could stretch his legs, and Niall boiled water once the basket was empty. The visitor book, which they read while they ate, was full of short warnings about the same burn. One note, left the previous spring, advised walkers to wait for daylight rather than follow the water downhill.\n\nOwen admitted that his phone had no signal and that his uncle would be worried. Niall, who knew these hills better than the others, said the nearest farm was two hours away in good light and longer in rain. Crossing the swollen burn at night would be a poor exchange for a message that could be sent at dawn. Farah agreed, although she disliked waiting while someone else might be searching.\n\nThey kept the stove alive and hung their clothes where the heat could reach them. Niall wrote their three names in the book, with the time they had chosen to wait, so a ranger would know the bothy was occupied on purpose.\n\nIn the morning the path was visible again. Owen's uncle met them before the road, muddy and too relieved to scold. Nobody treated the night as a story worth repeating. The plain stone room had done the job it was built for.",
+  "vocabulary": [
+    {
+      "word": "bothy",
+      "definition": "A simple shelter left open for walkers."
+    },
+    {
+      "word": "swollen",
+      "definition": "Made larger by water or damp."
+    },
+    {
+      "word": "forecast",
+      "definition": "A report of the weather that is expected."
+    },
+    {
+      "word": "burn",
+      "definition": "A small stream."
+    },
+    {
+      "word": "awkward",
+      "definition": "Difficult and inconvenient to manage."
+    },
+    {
+      "word": "occupied",
+      "definition": "Being used by someone."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did the note from the previous spring tell walkers to do?",
+      "options": [
+        "Wait for daylight rather than follow the water downhill",
+        "Cross the burn at once before the farm closed",
+        "Climb the higher path after the footbridge",
+        "Leave no names in the visitor book"
+      ],
+      "correctAnswer": "Wait for daylight rather than follow the water downhill",
+      "explanation": "The note advised walkers to wait for daylight rather than follow the water downhill.",
+      "supportingSentence": "One note, left the previous spring, advised walkers to wait for daylight rather than follow the water downhill.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why was crossing the burn that night a poor idea?",
+      "options": [
+        "The visitor book had no empty pages left",
+        "The danger was too great just to send a message sooner",
+        "Farah had already let the stove go out",
+        "Owen's phone worked only inside the shelter"
+      ],
+      "correctAnswer": "The danger was too great just to send a message sooner",
+      "explanation": "Niall says a night crossing would be a poor exchange for a message that could wait until dawn.",
+      "supportingSentence": "Crossing the swollen burn at night would be a poor exchange for a message that could be sent at dawn.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why did Niall write three names in the visitor book?",
+      "options": [
+        "To ask the next walker to bring dry sticks",
+        "To show Owen's uncle which fork to use",
+        "So a ranger would know the stay was deliberate",
+        "So Farah could remember the weather report"
+      ],
+      "correctAnswer": "So a ranger would know the stay was deliberate",
+      "explanation": "He recorded their names and the time they chose to wait so a ranger would know the bothy was occupied on purpose.",
+      "supportingSentence": "Niall wrote their three names in the book, with the time they had chosen to wait, so a ranger would know the bothy was occupied on purpose.",
+      "skill": "detail"
+    },
+    {
+      "question": "What is the bothy in this story?",
+      "options": [
+        "A report of light showers",
+        "A footbridge that has been closed",
+        "A wet map spread over someone's knees",
+        "A simple stone room where walkers can shelter"
+      ],
+      "correctAnswer": "A simple stone room where walkers can shelter",
+      "explanation": "The story describes the bothy as only a stone room with a place to sleep, a stove, and a visitor book.",
+      "supportingSentence": "The bothy was only a stone room with a sleeping platform, a metal stove, and a visitor book swollen by the damp.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "How did Owen's uncle seem when he met the group?",
+      "options": [
+        "More glad they were safe than ready to scold them",
+        "Angry that they had not walked out in the dark",
+        "Still lost on the higher path in the mist",
+        "Too tired to notice that they had arrived"
+      ],
+      "correctAnswer": "More glad they were safe than ready to scold them",
+      "explanation": "He was muddy from searching, but he was too relieved to scold, so relief was stronger than anger.",
+      "supportingSentence": "Owen's uncle met them before the road, muddy and too relieved to scold.",
+      "skill": "inference"
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "health_sports",
+  "title": "The Physiotherapy Plan",
+  "story": "Mara had expected the sprain to settle if she stayed off her feet, yet three weeks later her ankle still protested on the stairs. At the community clinic, the physiotherapist Lena refused to promise a miracle. She handed over a written plan, explained every line, and told Mara to pin it where it could not be ignored. Each morning Mara circled the foot slowly, then rose onto her toes until the calf began to tremble. A short evening walk on flat ground was allowed only when the swelling had not returned.\n\nLena described pain as a signal rather than a target, and she warned that a sharp stab would set the recovery back by days. Mara coached a junior netball side and hated the thought of another Saturday spent on a plastic chair. She asked whether she could demonstrate a chest pass while seated. Lena agreed, provided the injured foot stayed off the floor and Mara stopped if the ache turned from dull to bright. That permission mattered, because coaching was the part of the week that made her feel useful.\n\nBy the second week the exercises felt less like a punishment and more like a private routine. Mara marked each one in a notebook, not because anyone checked, but because the ticks made slow progress visible. One Thursday the swelling stayed down, and she climbed the stairs without gripping the rail. She still wore a support bandage to training and sat out the sprints, which annoyed players who wanted her voice beside them. Lena said a coach who limped through a session taught the wrong lesson about courage.\n\nThe plan would continue for six more weeks, with a review if the ankle stiffened after rain. Mara taped a fresh page beside the first and wrote the date she hoped to jog. It was a direction rather than a promise, and the injury began to feel like a problem she could manage. She learned to tell tired muscle from a warning pain.",
+  "vocabulary": [
+    {
+      "word": "sprain",
+      "definition": "An injury caused by twisting a joint."
+    },
+    {
+      "word": "physiotherapist",
+      "definition": "A person who treats injuries with movement and exercise."
+    },
+    {
+      "word": "swelling",
+      "definition": "An enlarged area caused by fluid under the skin."
+    },
+    {
+      "word": "signal",
+      "definition": "A sign that gives information and should guide action."
+    },
+    {
+      "word": "bandage",
+      "definition": "A strip of material used to support an injured part."
+    },
+    {
+      "word": "routine",
+      "definition": "A set of actions that someone repeats regularly."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "When was Mara allowed to take her evening walk?",
+      "options": [
+        "On the stairs, as many times as she wished",
+        "Only while she was coaching the Saturday session",
+        "After a sharp pain, so she could test the ankle",
+        "Only on flat ground, and only if the swelling had stayed away"
+      ],
+      "correctAnswer": "Only on flat ground, and only if the swelling had stayed away",
+      "explanation": "The plan allowed a short walk on flat ground only when the swelling had not come back.",
+      "supportingSentence": "A short evening walk on flat ground was allowed only when the swelling had not returned.",
+      "skill": "detail"
+    },
+    {
+      "question": "How long did Lena expect the rest of the plan to last?",
+      "options": [
+        "Until the next Saturday, when a match was due",
+        "Six more weeks, with a check if rain made the ankle stiff",
+        "Two days of total rest and then full sprints",
+        "A year, with no further visit to the clinic"
+      ],
+      "correctAnswer": "Six more weeks, with a check if rain made the ankle stiff",
+      "explanation": "Lena set six further weeks and a review if the ankle stiffened after rain.",
+      "supportingSentence": "The plan would continue for six more weeks, with a review if the ankle stiffened after rain.",
+      "skill": "detail"
+    },
+    {
+      "question": "What seems to weigh on Mara more than the exercises themselves?",
+      "options": [
+        "The cost of each visit to the community clinic",
+        "A race she had already entered for the spring",
+        "Being kept away from the coaching that made her feel useful",
+        "Having to copy the plan into her own handwriting"
+      ],
+      "correctAnswer": "Being kept away from the coaching that made her feel useful",
+      "explanation": "The seated pass mattered because coaching was the part of the week that made her feel useful.",
+      "supportingSentence": "That permission mattered, because coaching was the part of the week that made her feel useful.",
+      "skill": "inference"
+    },
+    {
+      "question": "What is Lena's view of Mara limping through a training session?",
+      "options": [
+        "It would teach the players an unhelpful idea of bravery",
+        "It would make the ankle heal more quickly",
+        "It would be fine if Mara hid the bandage",
+        "It would show that a sharp pain can be ignored"
+      ],
+      "correctAnswer": "It would teach the players an unhelpful idea of bravery",
+      "explanation": "Lena says a limping coach teaches the wrong lesson about courage, so a hasty return is not bravery.",
+      "supportingSentence": "Lena said a coach who limped through a session taught the wrong lesson about courage.",
+      "skill": "inference"
+    },
+    {
+      "question": "In Lena's advice, what does the word signal suggest about pain?",
+      "options": [
+        "A score she is supposed to beat each morning",
+        "Information that should guide what Mara does next",
+        "Proof that the written plan has already failed",
+        "A sign that the ankle is ready for sprints"
+      ],
+      "correctAnswer": "Information that should guide what Mara does next",
+      "explanation": "Lena calls pain a signal rather than a target, so it is information to act on, not a goal.",
+      "supportingSentence": "Lena described pain as a signal rather than a target, and she warned that a sharp stab would set the recovery back by days.",
+      "skill": "vocabulary"
+    }
+  ]
+}

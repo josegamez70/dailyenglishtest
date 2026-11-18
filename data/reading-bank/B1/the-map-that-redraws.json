@@ -1,0 +1,99 @@
+{
+  "level": "B1",
+  "topic": "fantasy",
+  "title": "The Map That Redraws",
+  "story": "Idris found an old map in a drawer at the town library. The paper was blank except for a thin blue border. When he wrote his home address on a card, lines began to appear. The map drew streets, a park, and a bridge in neat ink. Librarian Helen said the map redrew itself when danger changed. It would not show treasures, secrets, or shortcuts for fun. It showed only a safe way for the person holding it.\n\nThat evening, thick fog covered the town, and the buses stopped. Idris opened the map under a street lamp. A new line curved away from the main road and through the park. He followed it and soon saw a fallen tree across the usual path. The map had already bent its ink around the blocked place. Near the pond, the line paused at a bench. Idris waited, and a cyclist passed with a weak light. Then the line continued to a gate he rarely used. The gate led into his own street, close to his building. At his door, the ink faded until only the blue border remained.\n\nThe next day, Idris told Helen about the tree and the fog. Helen nodded and placed the map back in the drawer. She said it would rest until another careful walker needed it. Idris walked home on the clear main road and felt grateful.",
+  "vocabulary": [
+    {
+      "word": "border",
+      "definition": "A line around the edge of something."
+    },
+    {
+      "word": "redrew",
+      "definition": "Drew again in a new way."
+    },
+    {
+      "word": "fog",
+      "definition": "Thick cloud near the ground that is hard to see through."
+    },
+    {
+      "word": "curved",
+      "definition": "Bent in a smooth line, not straight."
+    },
+    {
+      "word": "faded",
+      "definition": "Became lighter until it disappeared."
+    },
+    {
+      "word": "grateful",
+      "definition": "Feeling thankful."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What was on the paper when Idris first found it?",
+      "options": [
+        "A map of the whole country",
+        "Only a thin blue border",
+        "Pictures of treasure",
+        "The name of every bus"
+      ],
+      "correctAnswer": "Only a thin blue border",
+      "explanation": "The paper was blank except for a thin blue border.",
+      "supportingSentence": "The paper was blank except for a thin blue border.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did the map refuse to show?",
+      "options": [
+        "Streets and parks",
+        "Treasures, secrets, or shortcuts for fun",
+        "The town library",
+        "A safe way home"
+      ],
+      "correctAnswer": "Treasures, secrets, or shortcuts for fun",
+      "explanation": "It would not show treasures, secrets, or shortcuts for fun.",
+      "supportingSentence": "It would not show treasures, secrets, or shortcuts for fun.",
+      "skill": "detail"
+    },
+    {
+      "question": "What was lying across the usual path?",
+      "options": [
+        "A fallen tree",
+        "A sleeping dragon",
+        "A market stall",
+        "Helen's bicycle"
+      ],
+      "correctAnswer": "A fallen tree",
+      "explanation": "Idris saw a fallen tree across the usual path.",
+      "supportingSentence": "He followed it and soon saw a fallen tree across the usual path.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the word faded mean here?",
+      "options": [
+        "Became wet and heavy",
+        "Became lighter and disappeared",
+        "Turned into a tree",
+        "Made a loud sound"
+      ],
+      "correctAnswer": "Became lighter and disappeared",
+      "explanation": "The ink faded until only the border remained, so it grew lighter and went away.",
+      "supportingSentence": "At his door, the ink faded until only the blue border remained.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did the ink line bend around the fallen tree?",
+      "options": [
+        "Idris wanted a longer walk",
+        "Helen had closed the park",
+        "That place was not safe to cross",
+        "The pond was his home"
+      ],
+      "correctAnswer": "That place was not safe to cross",
+      "explanation": "The map only shows a safe way, so it went around the place blocked by the tree.",
+      "supportingSentence": "The map had already bent its ink around the blocked place.",
+      "skill": "inference"
+    }
+  ]
+}

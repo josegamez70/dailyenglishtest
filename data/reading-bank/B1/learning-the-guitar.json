@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "hobbies",
+  "title": "Learning the Guitar",
+  "story": "Lina wanted to learn a simple song before her brother's birthday. She borrowed a guitar from the community centre and carried it home on Tuesday. The case was heavy, and the strings looked new. On Wednesday evening her tutor Owen sat with her in the music room. He showed her how to hold the neck without squeezing it. Then he taught her one chord. Lina pressed three fingers onto the strings. The sound was dull and buzzy. Owen asked her to lift her wrist and try again. The second sound was cleaner. Lina smiled, though her fingertips were sore. Owen said sore fingers were normal in the first week. He told her to practise for fifteen minutes and then rest. Lina agreed and wrote the plan in her notebook. Each evening she sat on a chair and played the chord slowly. She counted a steady rhythm under her breath. On Friday she could move to the next chord without a long pause. She made mistakes, but she did not stop. On Saturday her brother knocked and asked about the noise. Lina played the short tune once for him. One note was late, but the rhythm stayed even. Her brother clapped and said he could hear the song. Lina put the guitar back in the case and flexed her sore hand. She was not ready for a concert, but she could try the tune at the birthday tea.",
+  "vocabulary": [
+    {
+      "word": "tutor",
+      "definition": "a teacher who helps one student"
+    },
+    {
+      "word": "chord",
+      "definition": "several notes played together"
+    },
+    {
+      "word": "strings",
+      "definition": "the long wires that make the sound on a guitar"
+    },
+    {
+      "word": "sore",
+      "definition": "painful and tender"
+    },
+    {
+      "word": "practise",
+      "definition": "to do something often so you improve"
+    },
+    {
+      "word": "rhythm",
+      "definition": "a steady pattern of beats"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where did Lina get the guitar?",
+      "options": [
+        "from the community centre",
+        "from a concert hall",
+        "from her brother",
+        "from a shop near the school"
+      ],
+      "correctAnswer": "from the community centre",
+      "explanation": "She borrowed it and carried it home on Tuesday.",
+      "supportingSentence": "She borrowed a guitar from the community centre and carried it home on Tuesday.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Owen teach her before any full song?",
+      "options": [
+        "one chord",
+        "a concert programme",
+        "how to build a guitar",
+        "the names of famous players"
+      ],
+      "correctAnswer": "one chord",
+      "explanation": "He started with a single shape on the strings.",
+      "supportingSentence": "Then he taught her one chord.",
+      "skill": "detail"
+    },
+    {
+      "question": "How long did Owen tell her to play before a rest?",
+      "options": [
+        "for fifteen minutes",
+        "for three hours",
+        "until midnight",
+        "for the whole weekend"
+      ],
+      "correctAnswer": "for fifteen minutes",
+      "explanation": "He wanted a short session and then a stop.",
+      "supportingSentence": "He told her to practise for fifteen minutes and then rest.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does sore mean?",
+      "options": [
+        "painful and tender",
+        "perfectly in tune",
+        "very loud",
+        "already famous"
+      ],
+      "correctAnswer": "painful and tender",
+      "explanation": "Her fingertips felt that way after pressing down.",
+      "supportingSentence": "Lina smiled, though her fingertips were sore.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why was Lina willing to try the tune at the birthday tea?",
+      "options": [
+        "Daily practice had made the simple song clear enough to share.",
+        "Owen was going to play it for the guests.",
+        "Her brother had written the tune.",
+        "The guitar no longer needed any strings."
+      ],
+      "correctAnswer": "Daily practice had made the simple song clear enough to share.",
+      "explanation": "She was not ready for a concert, but the short tune was ready to share.",
+      "supportingSentence": "She was not ready for a concert, but she could try the tune at the birthday tea.",
+      "skill": "inference"
+    }
+  ],
+  "file": "b1-c.txt"
+}

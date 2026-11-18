@@ -1,0 +1,99 @@
+{
+  "level": "B1",
+  "topic": "science",
+  "title": "The Night Sky Walk",
+  "story": "The town library offered a free night sky walk, and Noor went with her neighbour Samir. They met the guide, Leila, in the park at eight. Leila gave each person a red torch. Red light shows the path without ruining night vision as much as white light does. Phones stayed in pockets, because a bright screen makes faint stars harder to see. The group walked to the hill above the football field, away from the shop lights.\n\nThe moon was a thin curve. Leila asked them to cover it with a thumb. When they looked beside it, more stars seemed to appear. She said the moon is dazzling if you stare at it. Then she showed a pale band across the sky and described it as countless distant suns seen together.\n\nSamir had brought binoculars. Through them a fuzzy patch became a cluster of separate points. Leila said the cluster was far beyond the planets, so its light had travelled for a very long time. A cloud covered the band for ten minutes. The group talked about light pollution from the new car park. Leila said a hooded lamp sends light down, while an open lamp throws it up and washes out the stars.\n\nNoor found the band more easily once she knew where to look. At home she wrote three notes: use red light, look beside the moon, and shield outdoor lamps.",
+  "vocabulary": [
+    {
+      "word": "torch",
+      "definition": "A small light you can carry in your hand"
+    },
+    {
+      "word": "vision",
+      "definition": "The ability to see"
+    },
+    {
+      "word": "dazzling",
+      "definition": "So bright that it is hard to look at"
+    },
+    {
+      "word": "binoculars",
+      "definition": "A tool with two lenses for seeing distant things"
+    },
+    {
+      "word": "cluster",
+      "definition": "A close group of similar things"
+    },
+    {
+      "word": "pollution",
+      "definition": "Unwanted light or dirt that causes harm"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Why were the walking lights red instead of white?",
+      "options": [
+        "Red light protects night vision better than white light",
+        "Red light is brighter than the moon",
+        "The shop sold only red batteries",
+        "White light was too weak for the path"
+      ],
+      "correctAnswer": "Red light protects night vision better than white light",
+      "explanation": "Red light lets people see the path without ruining night vision as much as white light.",
+      "supportingSentence": "Red light shows the path without ruining night vision as much as white light does.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did phones have to stay in pockets?",
+      "options": [
+        "A bright screen makes faint stars harder to see",
+        "The hill had no place to sit",
+        "Samir needed the phones for music",
+        "Leila was collecting phones to sell"
+      ],
+      "correctAnswer": "A bright screen makes faint stars harder to see",
+      "explanation": "Phones stayed in pockets because a bright screen makes faint stars harder to see.",
+      "supportingSentence": "Phones stayed in pockets, because a bright screen makes faint stars harder to see.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does dazzling mean?",
+      "options": [
+        "So bright that it is hard to look at",
+        "Too far away to notice",
+        "Hidden behind a thin cloud",
+        "Useful for finding the path"
+      ],
+      "correctAnswer": "So bright that it is hard to look at",
+      "explanation": "Leila says the moon is dazzling if you stare at it, so the group looks beside it instead.",
+      "supportingSentence": "She said the moon is dazzling if you stare at it.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What tool had Samir brought for looking at the sky?",
+      "options": [
+        "Binoculars",
+        "A beach ball",
+        "A white lamp",
+        "A football"
+      ],
+      "correctAnswer": "Binoculars",
+      "explanation": "Samir had brought binoculars, and a fuzzy patch became separate points through them.",
+      "supportingSentence": "Samir had brought binoculars.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does Leila's comment about lamps suggest for the town?",
+      "options": [
+        "Light aimed downward would hide fewer stars",
+        "Open lamps would make the sky clearer",
+        "Hooded lamps create the clouds",
+        "Stars appear only above the car park"
+      ],
+      "correctAnswer": "Light aimed downward would hide fewer stars",
+      "explanation": "A hooded lamp sends light down, while an open lamp throws light up and hides the stars.",
+      "supportingSentence": "Leila said a hooded lamp sends light down, while an open lamp throws it up and washes out the stars.",
+      "skill": "inference"
+    }
+  ]
+}

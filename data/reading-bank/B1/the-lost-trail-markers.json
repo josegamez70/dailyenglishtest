@@ -1,0 +1,99 @@
+{
+  "level": "B1",
+  "topic": "adventure",
+  "title": "The Lost Trail Markers",
+  "story": "Priya and her uncle Dev were returning to camp before dark. Colored markers usually showed the way through the pine wood. Today the first post was empty, and the ribbon was gone. Priya checked her pocket and found the small compass Dev had lent her. The needle pointed north, and Dev turned the paper map. They remembered that camp lay east of a wide fallen tree. They walked slowly and looked for broken twigs, not for ribbons. A squirrel called from a branch, but they stayed calm.\n\nAfter ten minutes, Priya spotted the fallen tree across a ditch. They climbed over it carefully and found mud on the other side. In the mud, two footprints led toward a sunny gap. Dev said those prints were probably their own from the morning. They decided not to follow them without another check. Priya held the compass flat, and the needle stayed steady. Walking east led them up a gentle slope to a ring of stones.\n\nFrom there, they could smell wood smoke from the camp stove. A yellow tent appeared between the trees, and someone waved. Their friend Omar had already started the soup. The soup smelled rich and warm. Priya told him about the missing markers. Omar said he would tie new ribbons in the morning. Dev praised Priya for trusting the compass when the trail went quiet.",
+  "vocabulary": [
+    {
+      "word": "markers",
+      "definition": "Signs that show the way."
+    },
+    {
+      "word": "compass",
+      "definition": "A tool that shows direction."
+    },
+    {
+      "word": "lent",
+      "definition": "Gave something for a time, to be returned."
+    },
+    {
+      "word": "steady",
+      "definition": "Not shaking."
+    },
+    {
+      "word": "gentle",
+      "definition": "Not steep or rough."
+    },
+    {
+      "word": "praised",
+      "definition": "Said that someone had done well."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did Priya find in her pocket?",
+      "options": [
+        "A yellow ribbon",
+        "A bowl of soup",
+        "A small compass",
+        "Omar's tent"
+      ],
+      "correctAnswer": "A small compass",
+      "explanation": "Priya found the small compass that Dev had lent her.",
+      "supportingSentence": "Priya checked her pocket and found the small compass Dev had lent her.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did they look for instead of ribbons?",
+      "options": [
+        "Broken twigs",
+        "A yellow tent",
+        "Fresh paint",
+        "A second map"
+      ],
+      "correctAnswer": "Broken twigs",
+      "explanation": "They looked for broken twigs, not for ribbons.",
+      "supportingSentence": "They walked slowly and looked for broken twigs, not for ribbons.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Omar plan to do the next morning?",
+      "options": [
+        "Tie new ribbons",
+        "Close the camp",
+        "Throw away the compass",
+        "Cut down the trees"
+      ],
+      "correctAnswer": "Tie new ribbons",
+      "explanation": "Omar said he would tie new ribbons in the morning.",
+      "supportingSentence": "Omar said he would tie new ribbons in the morning.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the word steady mean in this story?",
+      "options": [
+        "Very loud",
+        "Hard to see",
+        "Not shaking",
+        "Full of mud"
+      ],
+      "correctAnswer": "Not shaking",
+      "explanation": "The compass needle stayed steady, so it was not shaking.",
+      "supportingSentence": "Priya held the compass flat, and the needle stayed steady.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why might the footprints lead them the wrong way?",
+      "options": [
+        "A bear was waiting in the gap",
+        "The prints were probably their own",
+        "The compass was broken",
+        "Omar had told them to run"
+      ],
+      "correctAnswer": "The prints were probably their own",
+      "explanation": "Dev thought the prints were from their morning walk, so they might lead the wrong way.",
+      "supportingSentence": "Dev said those prints were probably their own from the morning.",
+      "skill": "inference"
+    }
+  ]
+}

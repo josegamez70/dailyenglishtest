@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "travel",
+  "title": "A Map in the Rain",
+  "story": "Amina and Ben were visiting an old town for the first time. They left the hotel with a paper map folded in Amina's coat. After ten minutes a hard rain began, and the streets shone. They stood under a shop awning and opened the map. A drop landed on the paper and made a pale mark near the river. Ben wanted to find the museum before lunch. Amina turned the map the right way and pointed to a bridge. She said they were on the north side and the museum was on the south side. They needed to cross the river and then turn left. The wind pulled at the map, so Ben held one corner while Amina held the other. They agreed to walk fast and to keep the map inside the coat between streets. At the bridge they checked the map once more under a stone arch. The mark from the rain had not covered the road they needed. They crossed, turned left, and saw a sign for the museum at the end of the lane. Inside the entrance it was warm and dry. Ben said the map had done its job even with a wet spot. Before they left, Amina folded the map carefully and put it in a plastic sleeve from the ticket desk. The next walk would be easier if the paper stayed whole.",
+  "vocabulary": [
+    {
+      "word": "awning",
+      "definition": "a cover that sticks out above a shop door"
+    },
+    {
+      "word": "folded",
+      "definition": "closed by laying one part of the paper over another"
+    },
+    {
+      "word": "bridge",
+      "definition": "a structure that takes a road over a river"
+    },
+    {
+      "word": "arch",
+      "definition": "a curved stone shape you can stand under"
+    },
+    {
+      "word": "sleeve",
+      "definition": "a cover that protects a piece of paper"
+    },
+    {
+      "word": "entrance",
+      "definition": "the door or way into a building"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where did they open the map in the rain?",
+      "options": [
+        "under a shop awning",
+        "inside the museum",
+        "on the hotel roof",
+        "in a taxi"
+      ],
+      "correctAnswer": "under a shop awning",
+      "explanation": "They stood there when the rain hit.",
+      "supportingSentence": "They stood under a shop awning and opened the map.",
+      "skill": "detail"
+    },
+    {
+      "question": "Which side of the river was the museum on?",
+      "options": [
+        "the south side",
+        "the north side",
+        "the hotel roof",
+        "the ticket desk"
+      ],
+      "correctAnswer": "the south side",
+      "explanation": "Amina read that place from the map.",
+      "supportingSentence": "She said they were on the north side and the museum was on the south side.",
+      "skill": "detail"
+    },
+    {
+      "question": "Where did they check the map again?",
+      "options": [
+        "under a stone arch",
+        "in the painting room",
+        "at the hotel desk",
+        "on a city bus"
+      ],
+      "correctAnswer": "under a stone arch",
+      "explanation": "They stopped there before the crossing.",
+      "supportingSentence": "At the bridge they checked the map once more under a stone arch.",
+      "skill": "detail"
+    },
+    {
+      "question": "Which word means a cover that protects a piece of paper?",
+      "options": [
+        "sleeve",
+        "awning",
+        "bridge",
+        "arch"
+      ],
+      "correctAnswer": "sleeve",
+      "explanation": "Amina used one before the next walk.",
+      "supportingSentence": "Before they left, Amina folded the map carefully and put it in a plastic sleeve from the ticket desk.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Amina want the map kept in a plastic sleeve?",
+      "options": [
+        "if the paper stayed whole",
+        "so Ben could sell it",
+        "so the museum would close",
+        "so the rain would start again"
+      ],
+      "correctAnswer": "if the paper stayed whole",
+      "explanation": "She was thinking about the next walk.",
+      "supportingSentence": "The next walk would be easier if the paper stayed whole.",
+      "skill": "inference"
+    }
+  ],
+  "file": "b1-b.txt"
+}

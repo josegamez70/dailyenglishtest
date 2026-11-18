@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "health_sports",
+  "title": "The Morning Run",
+  "story": "Jonas had promised himself a morning run three days a week. On Thursday he woke before the alarm and tied his trainers. The street was quiet, and the air felt cool on his face. He did a short stretch by the park gate. Then he set off along his usual route around the lake. He kept an easy pace and did not race the cyclists. At first he could breathe without effort. After one lap his chest felt tighter. He slowed down, shook his arms, and drank from his bottle. The tight feeling passed, and his steps grew even again. His friend Yusuf waved from a bench. Jonas lifted a hand but did not stop to talk. He wanted to finish the route he had planned. Near the bridge he looked at his watch. He had been moving for twenty minutes. His knees felt fine, and his breathing was steady. A thought about a college test came into his head. He let the thought go and watched the water instead. The run was for a clear head, not for worry. On the last street he kept that easy pace and stopped at his door. He walked slowly for two minutes so his heart could settle. His face was warm, and his shirt was damp, but he felt proud. Inside he drank water and ate a banana. He wrote the time in a notebook beside his bed.",
+  "vocabulary": [
+    {
+      "word": "trainers",
+      "definition": "soft shoes used for sport"
+    },
+    {
+      "word": "stretch",
+      "definition": "a movement that loosens the muscles"
+    },
+    {
+      "word": "route",
+      "definition": "the way you go from one place to another"
+    },
+    {
+      "word": "pace",
+      "definition": "the speed at which you move"
+    },
+    {
+      "word": "breathe",
+      "definition": "to take air in and out"
+    },
+    {
+      "word": "lap",
+      "definition": "one complete trip around a path"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did Jonas tie before he left the flat?",
+      "options": [
+        "his trainers",
+        "a heavy winter coat",
+        "a pair of football boots",
+        "the strap of a swim bag"
+      ],
+      "correctAnswer": "his trainers",
+      "explanation": "He put them on after he woke.",
+      "supportingSentence": "On Thursday he woke before the alarm and tied his trainers.",
+      "skill": "detail"
+    },
+    {
+      "question": "Where did his usual route go?",
+      "options": [
+        "around the lake",
+        "through a shopping centre",
+        "along a fast motorway",
+        "inside the sports hall"
+      ],
+      "correctAnswer": "around the lake",
+      "explanation": "He set off on that path after the stretch.",
+      "supportingSentence": "Then he set off along his usual route around the lake.",
+      "skill": "detail"
+    },
+    {
+      "question": "Who waved from a bench?",
+      "options": [
+        "Yusuf",
+        "his college tutor",
+        "a ferry worker",
+        "the shop assistant"
+      ],
+      "correctAnswer": "Yusuf",
+      "explanation": "Jonas saw the friend but did not stop.",
+      "supportingSentence": "His friend Yusuf waved from a bench.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does lap mean?",
+      "options": [
+        "one complete trip around a path",
+        "a kind of breakfast",
+        "a painful ankle",
+        "a new pair of shoes"
+      ],
+      "correctAnswer": "one complete trip around a path",
+      "explanation": "His chest felt tighter after one trip around the path.",
+      "supportingSentence": "After one lap his chest felt tighter.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Jonas let go of the thought about the test?",
+      "options": [
+        "The run was meant to clear his head.",
+        "Yusuf told him to stop thinking.",
+        "He had already taken the test.",
+        "His watch had stopped at the bridge."
+      ],
+      "correctAnswer": "The run was meant to clear his head.",
+      "explanation": "He had decided the run was not a time for worry.",
+      "supportingSentence": "The run was for a clear head, not for worry.",
+      "skill": "inference"
+    }
+  ],
+  "file": "b1-c.txt"
+}

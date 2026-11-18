@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "school_college",
+  "title": "Drafting the Abstract",
+  "story": "Maya's abstract was twelve words over the limit and, in her supervisor's view, several degrees too sure of itself. The conference asked for a summary of no more than one hundred and eighty words. Maya had drafted it late, after a week of checking tables, and she had let the final sentence say that the workshop model improved retention among first-year students. Professor Okonkwo circled that sentence and wrote, in the margin, that the study had found a modest association in one college, not an improvement the profession could yet rely on.\n\nMaya defended the stronger verb because the conference panel favoured clear results, and because a tentative abstract might be passed over by reviewers who read fifty of them in an evening. The professor did not dispute the temptation. She said a clear sentence could still be accurate, and that confidence borrowed from a verb was the first thing a specialist audience would punish. If the data showed a difference only for students who had attended every session, the abstract had to carry that condition, even if the sentence grew less elegant. She also marked a clause that implied the comparison group had received no support at all, which was not what the method section reported.\n\nMaya cut the boast first. In place of improved retention she wrote that the workshops were associated with higher completion of the first assessment among students who attended every session. The new line was uglier and harder to say aloud. It was also closer to the table. They then removed a relative clause about national policy, which had made the project sound as if it could guide a ministry, and replaced a vague phrase about engagement with the actual measure, submitted work. Each cut hurt a little.\n\nWith the limit satisfied, Professor Okonkwo read the paragraph once more from the top. She asked whether a reader could still tell why the study mattered. Maya added a short opening that named the problem of early withdrawal without promising that her workshops had solved it. The professor nodded at that distinction. A hedge, she said, was not an apology. It was a direction to the reader about how far the evidence reached. Maya saved the file under a dull name and resisted the urge to restore the original verb before she uploaded it. If the panel wanted drama, they would not find it in her summary. They would find a claim she could defend if someone in the room asked her to point to the row that justified it.",
+  "vocabulary": [
+    {
+      "word": "tentative",
+      "definition": "Said with caution, not as a final certainty"
+    },
+    {
+      "word": "association",
+      "definition": "A link between two things, without claiming one caused the other"
+    },
+    {
+      "word": "elegant",
+      "definition": "Neat and graceful in the way it is expressed"
+    },
+    {
+      "word": "hedge",
+      "definition": "Careful wording that shows the limit of a claim"
+    },
+    {
+      "word": "justified",
+      "definition": "Shown to be reasonable by the evidence"
+    },
+    {
+      "word": "modest",
+      "definition": "Limited in size, and not exaggerated"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How long was the summary allowed to be?",
+      "options": [
+        "No more than one hundred and eighty words",
+        "Twelve words over whatever Maya preferred",
+        "A full copy of the method section",
+        "Long enough to recommend a national policy"
+      ],
+      "correctAnswer": "No more than one hundred and eighty words",
+      "explanation": "The conference asked for a summary of no more than one hundred and eighty words.",
+      "supportingSentence": "The conference asked for a summary of no more than one hundred and eighty words.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did the supervisor reject the stronger verb in the last sentence?",
+      "options": [
+        "The findings were too limited for other people to rely on yet",
+        "The draft was already shorter than the conference allowed",
+        "The comparison group had received no help of any kind",
+        "The panel had forbidden any mention of students"
+      ],
+      "correctAnswer": "The findings were too limited for other people to rely on yet",
+      "explanation": "She noted a modest association in one college, not an improvement the profession could yet rely on.",
+      "supportingSentence": "Professor Okonkwo circled that sentence and wrote, in the margin, that the study had found a modest association in one college, not an improvement the profession could yet rely on.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why was the uglier new sentence an improvement?",
+      "options": [
+        "It stayed nearer to the result the table showed",
+        "It brought back the claim about guiding a ministry",
+        "It removed the students from the summary entirely",
+        "It added the twelve words Maya had just cut"
+      ],
+      "correctAnswer": "It stayed nearer to the result the table showed",
+      "explanation": "The line was harder to say, but it was closer to the table than the boast had been.",
+      "supportingSentence": "It was also closer to the table.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does the professor mean by a hedge?",
+      "options": [
+        "A direction showing how far the evidence can be taken",
+        "An apology for sending in dull work",
+        "A deletion that only fixes the word limit",
+        "A verb chosen to impress a hurried reviewer"
+      ],
+      "correctAnswer": "A direction showing how far the evidence can be taken",
+      "explanation": "She says a hedge is not an apology, but a signal of how far the evidence reaches.",
+      "supportingSentence": "It was a direction to the reader about how far the evidence reached.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does Maya leave the original verb out of the uploaded file?",
+      "options": [
+        "She wants a claim she could point back to in the data",
+        "She hopes nobody will notice the length of the summary",
+        "She decides that drama matters more than the table",
+        "She rejects the new opening about early withdrawal"
+      ],
+      "correctAnswer": "She wants a claim she could point back to in the data",
+      "explanation": "The summary should contain a claim she could defend by showing the row that supported it.",
+      "supportingSentence": "They would find a claim she could defend if someone in the room asked her to point to the row that justified it.",
+      "skill": "intent"
+    }
+  ]
+}

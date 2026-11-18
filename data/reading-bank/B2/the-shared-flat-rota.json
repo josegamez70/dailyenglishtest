@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "daily life",
+  "title": "The Shared Flat Rota",
+  "story": "When Maya moved into the third-floor flat, her new housemates promised that the housework would be shared fairly. A handwritten rota was already stuck to the fridge, although so many names had been crossed out that the paper looked exhausted. For the first fortnight she washed up without complaint. However, by the third week the sink was often full when she returned from her evening shift, and the bathroom mirror was spotted with toothpaste.\n\nOn Sunday she asked everyone to sit down for ten minutes. Jonah arrived late and Priya was still wearing her coat, while Luis kept checking his phone until Maya spread a clean sheet of paper on the table and suggested a simpler system. One person would take the kitchen, one the bathroom, one the floors, and one the rubbish, with the jobs rotating every Monday. Priya explained that she travelled for work and could not always be home on bin day. Luis argued that he already cooked most evenings, so cleaning on top of that felt unfair. Jonah admitted, rather reluctantly, that he forgot tasks once they were out of sight.\n\nWithout raising her voice, Maya said the resentment in the flat was already affecting the atmosphere, and that a rota would work only if people swapped duties before a problem appeared. After a long discussion they agreed on three changes. Anyone who was going away had to arrange a swap in advance; unfinished jobs would be mentioned calmly in the group chat rather than shouted about in the corridor; and they would review the plan after one month instead of dropping it at the first difficulty. They also started a small household fund: each missed task meant a modest contribution towards shared items such as washing-up liquid and light bulbs.\n\nThe new rota went up that night. It was not perfect, and Maya still found a dirty mug on Tuesday morning. Nevertheless, the bathroom was clean, the bins went out on time, and nobody pretended the problem belonged to somebody else.",
+  "vocabulary": [
+    {
+      "word": "fortnight",
+      "definition": "A period of two weeks."
+    },
+    {
+      "word": "reluctantly",
+      "definition": "In a way that shows you do not really want to do something."
+    },
+    {
+      "word": "resentment",
+      "definition": "A bitter feeling that a situation is unfair."
+    },
+    {
+      "word": "atmosphere",
+      "definition": "The mood shared by the people in a place."
+    },
+    {
+      "word": "modest",
+      "definition": "Fairly small rather than large."
+    },
+    {
+      "word": "nevertheless",
+      "definition": "In spite of what has just been said."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How often would the household jobs change hands?",
+      "options": [
+        "Each person would keep the same job all year",
+        "They would pass to a different person every Monday",
+        "The group would choose new jobs every morning",
+        "Only the bins would move to someone new"
+      ],
+      "correctAnswer": "They would pass to a different person every Monday",
+      "explanation": "Maya's plan gave each person one area, and those jobs rotated every Monday.",
+      "supportingSentence": "One person would take the kitchen, one the bathroom, one the floors, and one the rubbish, with the jobs rotating every Monday.",
+      "skill": "detail"
+    },
+    {
+      "question": "What happened if somebody missed an assigned job?",
+      "options": [
+        "They had to leave the flat within a week",
+        "They lost the right to cook in the kitchen",
+        "They added a small sum to a fund for shared goods",
+        "The others cancelled the rota that night"
+      ],
+      "correctAnswer": "They added a small sum to a fund for shared goods",
+      "explanation": "A missed task meant a modest contribution towards things the flat shared, such as light bulbs.",
+      "supportingSentence": "They also started a small household fund: each missed task meant a modest contribution towards shared items such as washing-up liquid and light bulbs.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the state of the paper on the fridge suggest?",
+      "options": [
+        "The list had been written once and never altered",
+        "Maya had brought it from her previous home",
+        "It was a menu for Sunday dinner",
+        "Earlier versions of the plan had been changed again and again"
+      ],
+      "correctAnswer": "Earlier versions of the plan had been changed again and again",
+      "explanation": "So many names had been crossed out that the paper looked worn out, which points to repeated changes.",
+      "supportingSentence": "A handwritten rota was already stuck to the fridge, although so many names had been crossed out that the paper looked exhausted.",
+      "skill": "inference"
+    },
+    {
+      "question": "What point is Luis making about his place in the flat?",
+      "options": [
+        "He feels that cooking most evenings is already a heavy share of the work",
+        "He wants the others to stop eating meals at home",
+        "He is planning to move out before Monday",
+        "He would rather clean every room than cook at all"
+      ],
+      "correctAnswer": "He feels that cooking most evenings is already a heavy share of the work",
+      "explanation": "He says extra cleaning feels unfair because he already cooks on most evenings.",
+      "supportingSentence": "Luis argued that he already cooked most evenings, so cleaning on top of that felt unfair.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does resentment mean in this story?",
+      "options": [
+        "A bitter feeling caused by unfairness",
+        "A written list of household jobs",
+        "A payment into a shared fund",
+        "A calm discussion in the kitchen"
+      ],
+      "correctAnswer": "A bitter feeling caused by unfairness",
+      "explanation": "Maya uses the word for the bad feeling that is already changing the mood of the flat.",
+      "supportingSentence": "Without raising her voice, Maya said the resentment in the flat was already affecting the atmosphere, and that a rota would work only if people swapped duties before a problem appeared.",
+      "skill": "vocabulary"
+    }
+  ]
+}

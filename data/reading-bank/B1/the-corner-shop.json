@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "daily life",
+  "title": "The Corner Shop",
+  "story": "Rosa stopped at the corner shop on her way home because there was no milk and no bread in the flat. The shop was narrow, and the shelves were full. Luis, the owner, looked up from the counter and smiled at her. Rosa took a wire basket and checked the list in her hand. She chose milk, eggs, tomatoes, and a loaf of bread. Near the window, oranges sat in a wooden crate, so she picked four ripe ones. A boy next to her stood on his toes and still could not reach a tin of beans. Rosa lifted the tin down and put it in his hands. At the counter Luis entered each price on the till and turned the screen so Rosa could see the total. She opened her purse and found that she was short. Her cheeks grew warm, and she reached for the oranges to put them back. Luis said she could take the food home and bring the rest of the money the next day. Rosa did not like to owe money, but the fridge at home was empty. She agreed and wrote her name and the amount in a notebook by the till. The next evening she returned with the coins and a little card. Luis smiled and pinned the card to the board above the counter. He said trust between neighbours kept a small shop alive.",
+  "vocabulary": [
+    {
+      "word": "basket",
+      "definition": "a container with a handle for carrying shopping"
+    },
+    {
+      "word": "till",
+      "definition": "the machine that adds up prices in a shop"
+    },
+    {
+      "word": "purse",
+      "definition": "a small bag used to carry money"
+    },
+    {
+      "word": "short",
+      "definition": "not having enough money"
+    },
+    {
+      "word": "owe",
+      "definition": "to need to pay money back"
+    },
+    {
+      "word": "pinned",
+      "definition": "fastened onto a board"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where did the oranges sit?",
+      "options": [
+        "in a wooden crate",
+        "on the top shelf",
+        "inside the fridge",
+        "beside the tea"
+      ],
+      "correctAnswer": "in a wooden crate",
+      "explanation": "Rosa found the fruit by the window.",
+      "supportingSentence": "Near the window, oranges sat in a wooden crate, so she picked four ripe ones.",
+      "skill": "detail"
+    },
+    {
+      "question": "Who could not reach a tin of beans?",
+      "options": [
+        "A boy next to her",
+        "Luis the owner",
+        "the bus driver",
+        "Rosa's sister"
+      ],
+      "correctAnswer": "A boy next to her",
+      "explanation": "He was standing beside Rosa.",
+      "supportingSentence": "A boy next to her stood on his toes and still could not reach a tin of beans.",
+      "skill": "detail"
+    },
+    {
+      "question": "Where did Rosa write her name and the amount?",
+      "options": [
+        "in a notebook by the till",
+        "on the little card",
+        "on the wooden crate",
+        "on the front door"
+      ],
+      "correctAnswer": "in a notebook by the till",
+      "explanation": "She recorded what she still had to pay.",
+      "supportingSentence": "She agreed and wrote her name and the amount in a notebook by the till.",
+      "skill": "detail"
+    },
+    {
+      "question": "Which word means a small bag used to carry money?",
+      "options": [
+        "purse",
+        "basket",
+        "till",
+        "crate"
+      ],
+      "correctAnswer": "purse",
+      "explanation": "She opened it when she wanted to pay.",
+      "supportingSentence": "She opened her purse and found that she was short.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Rosa agree to pay the rest the next day?",
+      "options": [
+        "the fridge at home was empty",
+        "the boy asked her to stay",
+        "the tea was free that day",
+        "the bell would not ring"
+      ],
+      "correctAnswer": "the fridge at home was empty",
+      "explanation": "She needed food even though she disliked debt.",
+      "supportingSentence": "Rosa did not like to owe money, but the fridge at home was empty.",
+      "skill": "inference"
+    }
+  ],
+  "file": "b1-b.txt"
+}

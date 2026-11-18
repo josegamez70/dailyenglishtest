@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "health_sports",
+  "title": "The First Aid Course",
+  "story": "The community hall smelled of floor polish and instant coffee when Helen arrived for the evening first-aid course. Owen, the instructor, said that confidence without a method could be as risky as panic. He asked the class to picture a casualty on a park path and to resist acting before they had looked. The first job was to assess the scene, because a helper who became a second patient helped nobody. Helen wrote the order in large letters, starting with danger and ending with breathing.\n\nThey practised on a plastic model whose chest clicked when the head was tilted. Owen showed how a hand under the chin could lift the tongue clear of the airway, and he corrected Helen when she pressed on the soft throat. The movement felt awkward until she stopped rushing it. In the next exercise a classmate pretended to have a deep cut on the forearm. Helen had to sit him down and press a clean compress over the wound while wearing gloves. She forgot the gloves, and Owen made the pair begin again.\n\nDuring the break Helen admitted that she had joined because her father lived alone and she feared freezing if he fell. Owen did not answer with a guarantee. He said a calm voice could reassure a frightened person even before an ambulance was arranged, and that this was a skill rather than a gift. Helen practised a few plain sentences: she would give her name, say what she was doing, and say that help was on the way.\n\nThe final scenario placed three problems in the room, and the class had to choose an order. Helen checked for danger, spoke first to the quiet figure, and sent another learner to the bleeding wrist. Owen watched without interrupting. Afterwards he said the sequence had been sound, although her compress had been too gentle to control the pretend bleeding. Helen packed the gloves in her bag and felt that fear and preparation could share the same evening.",
+  "vocabulary": [
+    {
+      "word": "casualty",
+      "definition": "A person who has been injured."
+    },
+    {
+      "word": "assess",
+      "definition": "To look carefully at a situation before acting."
+    },
+    {
+      "word": "airway",
+      "definition": "The passage that carries air to the lungs."
+    },
+    {
+      "word": "compress",
+      "definition": "A clean pad pressed onto a wound."
+    },
+    {
+      "word": "reassure",
+      "definition": "To help a frightened person feel calmer."
+    },
+    {
+      "word": "scenario",
+      "definition": "A practice situation that imitates a real emergency."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did Owen tell the class to do before helping?",
+      "options": [
+        "Run straight to the injured person and move them",
+        "Phone a relative and wait away from the path",
+        "Take the plastic model out of the hall",
+        "Check the scene so the helper did not become a second patient"
+      ],
+      "correctAnswer": "Check the scene so the helper did not become a second patient",
+      "explanation": "He said the first job was to assess the scene, because a helper who got hurt would help nobody.",
+      "supportingSentence": "The first job was to assess the scene, because a helper who became a second patient helped nobody.",
+      "skill": "detail"
+    },
+    {
+      "question": "What weakness did Owen still find in Helen's final practice?",
+      "options": [
+        "She had failed to notice the quiet person",
+        "Her pressure on the pretend wound was too light",
+        "She had refused to give her name",
+        "She had sent the other learners out of the room"
+      ],
+      "correctAnswer": "Her pressure on the pretend wound was too light",
+      "explanation": "He said the order of her actions was sound, but the compress was too gentle to control the bleeding.",
+      "supportingSentence": "Afterwards he said the sequence had been sound, although her compress had been too gentle to control the pretend bleeding.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the repeated glove exercise show about Owen?",
+      "options": [
+        "He enjoys making learners feel foolish for no reason",
+        "He thinks gloves matter only for hospital staff",
+        "He treats a missed safety step as something that must be done again",
+        "He has lost track of the order of the lesson"
+      ],
+      "correctAnswer": "He treats a missed safety step as something that must be done again",
+      "explanation": "Forgetting the gloves meant starting the exercise again, so that step was not optional.",
+      "supportingSentence": "She forgot the gloves, and Owen made the pair begin again.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why did Owen keep quiet during the final practice?",
+      "options": [
+        "He wanted to see whether the class could order the problems without him",
+        "He had gone outside to wait for a real ambulance",
+        "He could not tell which injury was supposed to matter",
+        "He was refusing to watch because of the earlier glove mistake"
+      ],
+      "correctAnswer": "He wanted to see whether the class could order the problems without him",
+      "explanation": "He watched without stepping in and judged the sequence afterwards, so the silence was part of the test.",
+      "supportingSentence": "Owen watched without interrupting.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does reassure mean in Owen's comment about a calm voice?",
+      "options": [
+        "Prove that no ambulance will be required",
+        "Help a frightened person feel steadier",
+        "Check whether the person is breathing",
+        "Win a debate about the right treatment"
+      ],
+      "correctAnswer": "Help a frightened person feel steadier",
+      "explanation": "He says a calm voice can reassure a frightened person, which means it helps them feel less afraid.",
+      "supportingSentence": "He said a calm voice could reassure a frightened person even before an ambulance was arranged, and that this was a skill rather than a gift.",
+      "skill": "vocabulary"
+    }
+  ]
+}

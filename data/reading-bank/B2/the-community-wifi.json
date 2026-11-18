@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "technology",
+  "title": "The Community Wifi",
+  "story": "The community hall on Plover Street had never had a reliable internet connection. Tutors printed worksheets at home, and job-club visitors had to leave if a form needed a link. When a local grant paid for a router and a stronger line, the committee put the wifi password on the noticeboard so that anyone in the building could connect. For two days the idea worked. On the third afternoon the connection crawled. A software update on several phones, plus three video calls, had filled the available bandwidth.\n\nRavi, who volunteers with the hall's equipment, checked the router log. Twenty-eight devices were connected, although only eleven people were in the room. Some phones belonged to neighbours in the flats upstairs, who could see the network name and had copied the password from the board. The hall was paying for the line. However, it could not carry the whole street. Ravi explained the difference between a guest network and a private one, and the committee agreed to change the setup before the evening class.\n\nThey created a guest network for visitors and a separate one for the office computer and the tutor laptop. The guest password changed every Monday, and it was written on a small card at the reception desk rather than on the public board. In addition, video calls were asked to use the meeting room, where the signal was reserved during classes. Large downloads were left until after nine, when the hall was empty. These limits were posted in plain language.\n\nThe following week, the job club completed six online forms without a single timeout. The evening language class streamed a short listening clip, and it played smoothly. One neighbour came to the desk and asked for the old password. Ravi refused politely and offered the daytime guest hours instead. Access had to be shared fairly, or it would fail for the people the grant was meant to help. The wifi was still public in spirit. It was no longer open to every device within reach.",
+  "vocabulary": [
+    {
+      "word": "reliable",
+      "definition": "Able to be trusted to work when people need it."
+    },
+    {
+      "word": "bandwidth",
+      "definition": "How much data a connection can carry at one time."
+    },
+    {
+      "word": "grant",
+      "definition": "Money given to pay for a particular purpose."
+    },
+    {
+      "word": "reserved",
+      "definition": "Kept for a particular use and not given to everyone."
+    },
+    {
+      "word": "timeout",
+      "definition": "A failure that happens when a connection takes too long."
+    },
+    {
+      "word": "access",
+      "definition": "The ability to connect and use something."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What does \"bandwidth\" mean in this story?",
+      "options": [
+        "A paper card kept at the reception desk",
+        "A password written on the noticeboard",
+        "A form the job club could not open",
+        "How much data the connection can carry at once"
+      ],
+      "correctAnswer": "How much data the connection can carry at once",
+      "explanation": "The updates and video calls filled the bandwidth, meaning they used up the line's carrying capacity.",
+      "supportingSentence": "A software update on several phones, plus three video calls, had filled the available bandwidth.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "How many devices did the router log show?",
+      "options": [
+        "Eleven",
+        "Twenty-eight",
+        "Six",
+        "Three"
+      ],
+      "correctAnswer": "Twenty-eight",
+      "explanation": "Twenty-eight devices were connected, although only eleven people were in the room.",
+      "supportingSentence": "Twenty-eight devices were connected, although only eleven people were in the room.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why was a password on the public board a poor way to share the line?",
+      "options": [
+        "People outside the hall could join and fill it",
+        "Tutors refused to print any more worksheets",
+        "The grant could be spent only on paper forms",
+        "The office computer had no separate network"
+      ],
+      "correctAnswer": "People outside the hall could join and fill it",
+      "explanation": "Neighbours upstairs copied the password from the board, so the hall line was carrying more than the people in the room.",
+      "supportingSentence": "Some phones belonged to neighbours in the flats upstairs, who could see the network name and had copied the password from the board.",
+      "skill": "inference"
+    },
+    {
+      "question": "How often was the visitor password changed?",
+      "options": [
+        "Every evening after nine",
+        "Only when the line failed",
+        "Every Monday",
+        "Once, on the day of the grant"
+      ],
+      "correctAnswer": "Every Monday",
+      "explanation": "The guest password changed every Monday and was kept on a card at the desk.",
+      "supportingSentence": "The guest password changed every Monday, and it was written on a small card at the reception desk rather than on the public board.",
+      "skill": "detail"
+    },
+    {
+      "question": "What do the six completed forms suggest about the new limits?",
+      "options": [
+        "The noticeboard password had been restored",
+        "Video calls were banned in every room",
+        "The neighbours were paying for the line",
+        "Ordinary hall tasks could finish without the line stalling"
+      ],
+      "correctAnswer": "Ordinary hall tasks could finish without the line stalling",
+      "explanation": "The job club finished six forms with no timeout, which suggests the limits left enough capacity for hall work.",
+      "supportingSentence": "The following week, the job club completed six online forms without a single timeout.",
+      "skill": "inference"
+    }
+  ]
+}

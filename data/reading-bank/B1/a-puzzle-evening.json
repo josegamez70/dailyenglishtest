@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "hobbies",
+  "title": "A Puzzle Evening",
+  "story": "Sofia cleared the low table and opened a box of puzzle pieces. Her friend Mateo had brought the puzzle to her flat. The picture on the lid showed a red boat on a blue lake. They turned every piece face up before they began. Sofia started with the border because the straight edges were easier to see. Mateo looked for corners and passed her four of them. The frame grew slowly around the lake. After an hour a gap remained near the boat. They searched the box, the floor, and both chairs. The missing piece was not in any of those places. Sofia sat back and tried to stay patient. Mateo lifted a sofa cushion and found the piece under it. He pressed it into the gap, and the boat was whole. They still had the sky to finish. The pale pieces looked almost the same, so they sorted them by shade. Bit by bit the clouds took shape. At nine the puzzle was complete. Sofia slid a board under it so they could move it safely. Mateo took a photo, and they left the puzzle on the table overnight. Sofia made tea, and they talked about a harder puzzle next month. She felt tired, but the finished lake made the room feel calm. Working side by side had been better than hunting for pieces alone.",
+  "vocabulary": [
+    {
+      "word": "pieces",
+      "definition": "small parts that fit together"
+    },
+    {
+      "word": "border",
+      "definition": "the outside edge of a picture"
+    },
+    {
+      "word": "corners",
+      "definition": "the points where two edges meet"
+    },
+    {
+      "word": "gap",
+      "definition": "an empty space where something is missing"
+    },
+    {
+      "word": "patient",
+      "definition": "able to wait without getting upset"
+    },
+    {
+      "word": "complete",
+      "definition": "finished, with nothing missing"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What picture was on the box lid?",
+      "options": [
+        "a red boat on a blue lake",
+        "a green garden in winter",
+        "a night market square",
+        "a yellow train by a hill"
+      ],
+      "correctAnswer": "a red boat on a blue lake",
+      "explanation": "The lid showed the finished scene.",
+      "supportingSentence": "The picture on the lid showed a red boat on a blue lake.",
+      "skill": "detail"
+    },
+    {
+      "question": "Where did Mateo find the missing piece?",
+      "options": [
+        "under a sofa cushion",
+        "in the teapot",
+        "behind the fridge",
+        "outside the flat"
+      ],
+      "correctAnswer": "under a sofa cushion",
+      "explanation": "He lifted the cushion and found it there.",
+      "supportingSentence": "Mateo lifted a sofa cushion and found the piece under it.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did they do with the pale sky pieces?",
+      "options": [
+        "They sorted them by shade.",
+        "They threw them away.",
+        "They painted them dark red.",
+        "They took them back to the shop."
+      ],
+      "correctAnswer": "They sorted them by shade.",
+      "explanation": "Those pieces looked almost the same.",
+      "supportingSentence": "The pale pieces looked almost the same, so they sorted them by shade.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does patient mean?",
+      "options": [
+        "able to wait without getting upset",
+        "finished and framed",
+        "lost under furniture",
+        "very brightly coloured"
+      ],
+      "correctAnswer": "able to wait without getting upset",
+      "explanation": "Sofia tried to stay that way during the search.",
+      "supportingSentence": "Sofia sat back and tried to stay patient.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why was Sofia glad they had worked side by side?",
+      "options": [
+        "Hunting for pieces alone would have been worse.",
+        "The shop was about to close.",
+        "Mateo could not see the colours.",
+        "The tea had spilled on the lid."
+      ],
+      "correctAnswer": "Hunting for pieces alone would have been worse.",
+      "explanation": "The last line compares working together with searching alone.",
+      "supportingSentence": "Working side by side had been better than hunting for pieces alone.",
+      "skill": "inference"
+    }
+  ],
+  "file": "b1-c.txt"
+}

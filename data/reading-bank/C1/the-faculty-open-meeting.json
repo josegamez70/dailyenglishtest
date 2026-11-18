@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "school_college",
+  "title": "The Faculty Open Meeting",
+  "story": "The faculty open meeting had been called to discuss a single proposal, though everyone arrived ready to discuss the workload hiding inside it. The draft asked schools to bring the deadline for the spring essay forward by ten days, so that markers would finish before the examination board. Adeel, who chaired the meeting, reminded the room that this was a consultation, not a vote. Staff from the larger programmes said the change would stop a crush of scripts in the same week as invigilation. Others, particularly those who taught students with jobs, said an earlier deadline would simply move the crush into the students' lives, where several essays would now fall on one weekend.\n\nThe first contribution came from Nora, who ran the evening classes. She described a cohort that wrote after shifts, and she asked what support would be removed if the calendar tightened. A colleague in assessment answered that the proposal included an extra drafting tutorial, which might offset the lost days for students who could attend it. That reply split the room. People who already taught over their contracted hours heard another task. People who marked into the night heard a chance to protect the board from hurried judgements. Adeel kept a running list on the board, two columns that refused to become a consensus.\n\nHalfway through, a student representative asked whether the consultation had included the people who would lose the ten days. The question was fair, and it exposed a gap. The paper had been circulated to staff and to programme boards, but not to the student forum, because the chair of that forum had been away and nobody had wanted to delay. Adeel did not defend the omission. He said a change to assessment timing was exactly the sort of decision that became contentious when it was explained after it was finished. If the faculty approved the shift and only then discovered a clash with placements, the reversal would cost more goodwill than the original delay.\n\nNo vote was taken. Adeel adjourned the decision until a revised paper could set the staff saving beside a proper account of student clustering, including the evening cohort Nora had described. He asked for the comparison within two weeks and promised that the next open meeting would begin with it, rather than with another general defence of being busy. The minutes, which went out the next morning, were unusually plain. They recorded the proposal, the objection, and the condition on which discussion would resume. Anyone reading them could see that the faculty had chosen not to confuse speed with agreement.",
+  "vocabulary": [
+    {
+      "word": "proposal",
+      "definition": "A formal suggestion offered for discussion"
+    },
+    {
+      "word": "workload",
+      "definition": "The amount of work someone is expected to do"
+    },
+    {
+      "word": "consensus",
+      "definition": "General agreement in a group"
+    },
+    {
+      "word": "circulated",
+      "definition": "Sent round so that people can read it"
+    },
+    {
+      "word": "contentious",
+      "definition": "Likely to cause serious disagreement"
+    },
+    {
+      "word": "adjourned",
+      "definition": "Stopped for now and left until later"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How did staff who already taught extra hours hear the offered tutorial?",
+      "options": [
+        "As one more demand on time they were already giving",
+        "As a way to finish the examination board early",
+        "As a reason to close the evening classes",
+        "As proof that students had approved the change"
+      ],
+      "correctAnswer": "As one more demand on time they were already giving",
+      "explanation": "People teaching over their contracted hours heard the extra tutorial as another task.",
+      "supportingSentence": "People who already taught over their contracted hours heard another task.",
+      "skill": "inference"
+    },
+    {
+      "question": "How much earlier did the draft want the spring deadline?",
+      "options": [
+        "Ten days earlier",
+        "A full fortnight earlier",
+        "One weekend later",
+        "Until after the examination board"
+      ],
+      "correctAnswer": "Ten days earlier",
+      "explanation": "The draft asked schools to bring that deadline forward by ten days.",
+      "supportingSentence": "The draft asked schools to bring the deadline for the spring essay forward by ten days, so that markers would finish before the examination board.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does adjourned say about the decision?",
+      "options": [
+        "It was delayed until a revised paper was ready",
+        "It was passed by a vote that same evening",
+        "It was deleted from the faculty record",
+        "It was left to the evening students alone"
+      ],
+      "correctAnswer": "It was delayed until a revised paper was ready",
+      "explanation": "Adeel put the decision off until a paper could set the staff saving beside the effect on students.",
+      "supportingSentence": "Adeel adjourned the decision until a revised paper could set the staff saving beside a proper account of student clustering, including the evening cohort Nora had described.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What risk does Adeel see in deciding before the clash with placements is known?",
+      "options": [
+        "Changing course later would cost more goodwill than waiting",
+        "The examination board would reject every script",
+        "Nora would have to cancel the evening cohort",
+        "The minutes would be too short to send out"
+      ],
+      "correctAnswer": "Changing course later would cost more goodwill than waiting",
+      "explanation": "Approving the shift and only then finding a clash would cost more goodwill than the original delay.",
+      "supportingSentence": "If the faculty approved the shift and only then discovered a clash with placements, the reversal would cost more goodwill than the original delay.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why does the final sentence place speed beside agreement?",
+      "options": [
+        "To present the delay as a deliberate choice",
+        "To announce that the earlier deadline has been approved",
+        "To blame students for missing the open meeting",
+        "To show that the chair lost a vote"
+      ],
+      "correctAnswer": "To present the delay as a deliberate choice",
+      "explanation": "A reader of the minutes can see that the faculty refused to treat speed as if it were agreement.",
+      "supportingSentence": "Anyone reading them could see that the faculty had chosen not to confuse speed with agreement.",
+      "skill": "intent"
+    }
+  ]
+}

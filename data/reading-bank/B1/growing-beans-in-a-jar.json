@@ -1,0 +1,99 @@
+{
+  "level": "B1",
+  "topic": "science",
+  "title": "Growing Beans in a Jar",
+  "story": "For three weeks the class grew beans in glass jars. Each pair pressed a dry bean to the side of a jar, held it with a wet paper towel, and added a little water. They used no soil, because they wanted to see every change. The jars stood on a sunny shelf.\n\nFor four days bean A and bean B looked the same. On day five, bean A split and a white root pointed down. Bean B had been left in a dark cupboard by mistake, so it showed no root yet. The pair moved it to the window. Two days later a root appeared, but it was shorter and paler. The class thought light and warmth had made a difference.\n\nIn week two the roots grew tiny hairs, and green shoots pushed up. The teacher asked why roots go down while shoots go up. The pupils talked about gravity pulling the root, and about the shoot growing toward light. One group turned a jar onto its side to test the idea. After three days the root bent down again, and the shoot bent toward the window.\n\nBy Friday the strongest plant had two leaves. It measured eleven centimetres. The cupboard bean was only six centimetres, even after it caught up a little. The class wrote that plants need water, light, and time, and that a late start is hard to fix.",
+  "vocabulary": [
+    {
+      "word": "towel",
+      "definition": "A cloth that can hold water beside the bean"
+    },
+    {
+      "word": "root",
+      "definition": "The part of a plant that grows downward"
+    },
+    {
+      "word": "shoots",
+      "definition": "New green growth rising from a seed"
+    },
+    {
+      "word": "gravity",
+      "definition": "The force that pulls things down"
+    },
+    {
+      "word": "bent",
+      "definition": "Curved in a new direction"
+    },
+    {
+      "word": "centimetres",
+      "definition": "Small units used to measure length"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Why did the pupils leave the beans out of the soil?",
+      "options": [
+        "They wanted to see every change",
+        "The jars were already full of stones",
+        "Soil stops all roots from growing",
+        "The class had no water left"
+      ],
+      "correctAnswer": "They wanted to see every change",
+      "explanation": "They used no soil because they wanted to see every change.",
+      "supportingSentence": "They used no soil, because they wanted to see every change.",
+      "skill": "detail"
+    },
+    {
+      "question": "Where had bean B been left by mistake?",
+      "options": [
+        "In a dark cupboard",
+        "On the sunny shelf",
+        "In a pot of soil",
+        "Beside the window from the start"
+      ],
+      "correctAnswer": "In a dark cupboard",
+      "explanation": "Bean B had been left in a dark cupboard, so it had no root yet.",
+      "supportingSentence": "Bean B had been left in a dark cupboard by mistake, so it showed no root yet.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does gravity mean?",
+      "options": [
+        "The pull that draws the root downward",
+        "A kind of clear glass jar",
+        "Water held by a paper towel",
+        "The top leaf of a plant"
+      ],
+      "correctAnswer": "The pull that draws the root downward",
+      "explanation": "The pupils say gravity is what pulls the root down.",
+      "supportingSentence": "The pupils talked about gravity pulling the root, and about the shoot growing toward light.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What length did the class record for the strongest plant?",
+      "options": [
+        "Eleven centimetres",
+        "Six centimetres",
+        "Three weeks",
+        "Two days"
+      ],
+      "correctAnswer": "Eleven centimetres",
+      "explanation": "By Friday the strongest plant measured eleven centimetres.",
+      "supportingSentence": "It measured eleven centimetres.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the final comparison suggest about the cupboard bean?",
+      "options": [
+        "Its late move into the light left it shorter",
+        "It grew taller than the sunny bean",
+        "Extra soil made it grow faster",
+        "It already had two leaves on day one"
+      ],
+      "correctAnswer": "Its late move into the light left it shorter",
+      "explanation": "The cupboard bean was still only six centimetres, so the dark start left it behind.",
+      "supportingSentence": "The cupboard bean was only six centimetres, even after it caught up a little.",
+      "skill": "inference"
+    }
+  ]
+}

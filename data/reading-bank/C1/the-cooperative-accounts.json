@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "economy_finance",
+  "title": "The Cooperative Accounts",
+  "story": "When the bakery cooperative closed its books in March, the surplus looked healthier than anyone in the workroom had expected. Nia, who kept the ledger after her shifts at the oven, did not trust the figure. Sales had been steady, flour had grown more expensive, and two delivery vans had needed repairs that the members still discussed in the yard. A generous surplus, arriving just before the annual meeting, felt less like luck than like a story the numbers had been asked to tell.\n\nShe began with a reconciliation of the member accounts. Several colleagues had lent the cooperative money during a thin winter, on the understanding that the loans would be repaid before any dividend was declared. In the spreadsheet the outgoing treasurer had circulated, those loans appeared as ordinary sales to unnamed catering clients. The cash was real. The description was not. She also noted which meeting had approved each loan, so the circle could see that the debt was not a private arrangement. Each invented sale reduced the recorded debt and enlarged the surplus by the same amount. Nia marked the lines in pencil and then, because pencil could be dismissed, copied them into a separate notebook with the dates, the amounts, and the names of the members who were still owed money.\n\nAt the finance circle on Thursday she did not accuse anyone of theft. She set the notebook beside the printed accounts and asked the circle to read both. The outgoing treasurer said he had been trying to present the cooperative as solvent to a supplier who wanted reassurance before extending credit. The loans, he argued, were internal and would only worry an outsider. Mara, who had lent four hundred pounds in January and had not been repaid, asked whether a dividend built on unpaid internal debt was a dividend at all. The room went quiet in the particular way of people who are counting, not sulking.\n\nThey voted to postpone any distribution and to commission an independent examination of the year, paid from the operating budget rather than from anyone's pocket. Nia was asked to remain as bookkeeper while the examination took place, with a second member signing every transfer. The loans would be restored to the ledger as liabilities before the next meeting, and nothing would be shared out until the arrears to members had been cleared or formally rescheduled. Nobody proposed expelling the treasurer. The sharper decision was the quieter one. The cooperative would rather show a smaller, truer number than a surplus that could not survive a careful reading.",
+  "vocabulary": [
+    {
+      "word": "surplus",
+      "definition": "Money left over after costs have been met."
+    },
+    {
+      "word": "ledger",
+      "definition": "The record of money coming in, going out, and still owed."
+    },
+    {
+      "word": "reconciliation",
+      "definition": "A check that makes two sets of figures agree."
+    },
+    {
+      "word": "dividend",
+      "definition": "A share of a surplus paid out to members."
+    },
+    {
+      "word": "solvent",
+      "definition": "Able to pay the amounts that are owed."
+    },
+    {
+      "word": "arrears",
+      "definition": "Money that is overdue and still unpaid."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How was the independent examination of the year supposed to be paid for?",
+      "options": [
+        "From the outgoing treasurer's own savings",
+        "From the operating budget",
+        "From the unpaid loans of individual members",
+        "From a new sale to the catering clients"
+      ],
+      "correctAnswer": "From the operating budget",
+      "explanation": "The members voted for an examination paid from the operating budget, not from a person's pocket.",
+      "supportingSentence": "They voted to postpone any distribution and to commission an independent examination of the year, paid from the operating budget rather than from anyone's pocket.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the treasurer's defence fail to face?",
+      "options": [
+        "The supplier had already refused any further credit.",
+        "The loan money had never reached the bakery.",
+        "The people who had lent the money were members, so the debt was already inside the cooperative.",
+        "The annual meeting had been moved to another town."
+      ],
+      "correctAnswer": "The people who had lent the money were members, so the debt was already inside the cooperative.",
+      "explanation": "He said the loans would worry only an outsider, but members such as Mara were the ones still waiting to be repaid.",
+      "supportingSentence": "The loans, he argued, were internal and would only worry an outsider.",
+      "skill": "inference"
+    },
+    {
+      "question": "What is likely to happen to the reported surplus once the loans are entered as debts again?",
+      "options": [
+        "It will get smaller, because those amounts will no longer swell it by being called sales.",
+        "It will be paid at once to the unnamed catering clients.",
+        "It will grow by the cost of the van repairs.",
+        "It will be given to the supplier as a cash gift."
+      ],
+      "correctAnswer": "It will get smaller, because those amounts will no longer swell it by being called sales.",
+      "explanation": "Each mislabelled loan had enlarged the surplus by the same amount. Putting the loans back as debts reverses that effect.",
+      "supportingSentence": "Each invented sale reduced the recorded debt and enlarged the surplus by the same amount.",
+      "skill": "inference"
+    },
+    {
+      "question": "In this story, what does solvent mean?",
+      "options": [
+        "Closed until the next annual meeting",
+        "Recently sold to a new owner",
+        "Willing to publish every transaction",
+        "Able to pay what is owed"
+      ],
+      "correctAnswer": "Able to pay what is owed",
+      "explanation": "The treasurer wanted a supplier to see the cooperative as solvent before giving it more credit, meaning able to meet its debts.",
+      "supportingSentence": "The outgoing treasurer said he had been trying to present the cooperative as solvent to a supplier who wanted reassurance before extending credit.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer finish on the figure the cooperative prefers to show?",
+      "options": [
+        "To argue that member loans are against the law",
+        "To show that a figure people can trust mattered more than an impressive one",
+        "To suggest the supplier should take over the bakery",
+        "To prove that Nia wanted the treasurer removed"
+      ],
+      "correctAnswer": "To show that a figure people can trust mattered more than an impressive one",
+      "explanation": "The ending turns on a smaller, truer number rather than a surplus that a careful reading would undo.",
+      "supportingSentence": "The cooperative would rather show a smaller, truer number than a surplus that could not survive a careful reading.",
+      "skill": "intent"
+    }
+  ]
+}

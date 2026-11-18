@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "health_sports",
+  "title": "Altitude and the Timetable",
+  "story": "The training camp had been planned at the coast, where the mornings were heavy and the roads were familiar, but a late invitation moved the squad to a rented lodge at two thousand metres. The sports director, Helen Varga, liked the promise of thin air and disliked the way the promise had arrived, six days before departure, with the old timetable still printed. Riders who had expected sea-level work were now being asked to sleep, eat, and climb in air that would make an easy effort feel dishonest.\n\nDoctor Paulo Serrato, who travelled with the team, walked the first afternoon with a pulse oximeter and a notebook. Two climbers, Nessa Holde and Chris Amaro, dropped more than the others overnight. They were not ill, he said at breakfast, but they were not adapted, and adaptation is a bodily vote that cannot be hurried by a schedule pinned to a door. He wanted the time trial, set for the third morning, delayed by forty-eight hours. The mechanic objected that the closed-road permit would not move. The permit, Helen said, was a piece of paper, and paper was cheaper than a headache the team had been told to respect.\n\nThey rewrote the week on the long table in the lodge kitchen. Hard efforts slid toward the final days. The early rides became conversational, with heart rate capped and the summit saved for the bus. Nessa hated the cap. She had come to test her climbing, and a limit felt like a rumour she could not check. Paulo answered with the numbers from the night, then with a plainer sentence: if she forced the issue, the test would measure distress, not talent. Chris, who hid his fatigue behind jokes, admitted that the stairs to the bunk room had made his ears ring. That admission did more than the lecture. The room stopped treating the delay as an insult.\n\nHelen still had a sponsor's filming window to protect, a two-hour block on the fourth afternoon that the contract called flexible and that the producer called fixed. She moved the filming to the lodge balcony and to a spin on the indoor trainers, and she told the producer the mountain would be a backdrop rather than a performance. Seeing the riders' faces, he became practical. The time trial eventually ran on the fifth morning, in cold sun, after Helen herself obtained an extension of the permit. Nessa finished strongly and did not pretend she would have finished the same way on the original day. In the report Helen wrote that altitude had been useful only after the timetable admitted what the bodies were already saying.",
+  "vocabulary": [
+    {
+      "word": "oximeter",
+      "definition": "A device that measures how much oxygen is in the blood."
+    },
+    {
+      "word": "adapted",
+      "definition": "Adjusted to new conditions, here the thin air."
+    },
+    {
+      "word": "permit",
+      "definition": "Official permission to use the closed road."
+    },
+    {
+      "word": "capped",
+      "definition": "Kept from rising above a set limit."
+    },
+    {
+      "word": "distress",
+      "definition": "Serious physical strain, rather than a fair test of skill."
+    },
+    {
+      "word": "backdrop",
+      "definition": "A background, not the event the camera is there to judge."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How long did Paulo want the time trial delayed?",
+      "options": [
+        "Until the squad returned to the coast",
+        "By forty-eight hours",
+        "By six days before departure",
+        "Until the following season"
+      ],
+      "correctAnswer": "By forty-eight hours",
+      "explanation": "He asked for the trial planned on the third morning to be delayed by forty-eight hours.",
+      "supportingSentence": "He wanted the time trial, set for the third morning, delayed by forty-eight hours.",
+      "skill": "detail"
+    },
+    {
+      "question": "What disagreement sat between Nessa and Paulo about the early rides?",
+      "options": [
+        "She wanted a real test of her climbing, while he thought an early effort would not be one",
+        "She wanted to leave the mountain, while he ordered a night race",
+        "She trusted the coastal timetable, while he cancelled the whole camp",
+        "She asked to ride the bus, while he told her to climb alone"
+      ],
+      "correctAnswer": "She wanted a real test of her climbing, while he thought an early effort would not be one",
+      "explanation": "Nessa had come to test her climbing, but Paulo said a forced effort would measure distress rather than talent.",
+      "supportingSentence": "She had come to test her climbing, and a limit felt like a rumour she could not check.",
+      "skill": "inference"
+    },
+    {
+      "question": "What did the producer give up once he had seen the riders?",
+      "options": [
+        "The closed-road permit for the fifth morning",
+        "Chris's place in the squad",
+        "A filmed performance on the climb",
+        "The lodge kitchen as a meeting room"
+      ],
+      "correctAnswer": "A filmed performance on the climb",
+      "explanation": "He had called the filming window fixed, but after seeing the riders he accepted a shoot in which the mountain was only a backdrop.",
+      "supportingSentence": "Seeing the riders' faces, he became practical.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does capped mean for the heart rate on the early rides?",
+      "options": [
+        "It was not allowed to rise above a chosen level",
+        "It was ignored so the riders could sprint",
+        "It was measured only during the time trial",
+        "It replaced the need for a road permit"
+      ],
+      "correctAnswer": "It was not allowed to rise above a chosen level",
+      "explanation": "The early rides stayed conversational because heart rate had an upper limit, and the summit was left for the bus.",
+      "supportingSentence": "The early rides became conversational, with heart rate capped and the summit saved for the bus.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer include Helen's remark that the permit was only paper?",
+      "options": [
+        "To suggest the mechanic had forged the document",
+        "To show she put the riders' health ahead of the original paperwork",
+        "To argue that thin air has no effect on climbers",
+        "To blame Paulo for losing the closed road"
+      ],
+      "correctAnswer": "To show she put the riders' health ahead of the original paperwork",
+      "explanation": "She treats the permit as cheaper than ignoring a headache the team had already been told to respect.",
+      "supportingSentence": "The permit, Helen said, was a piece of paper, and paper was cheaper than a headache the team had been told to respect.",
+      "skill": "intent"
+    }
+  ]
+}

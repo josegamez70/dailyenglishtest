@@ -1,0 +1,99 @@
+{
+  "level": "B1",
+  "topic": "mystery",
+  "title": "The Quiet Library Alarm",
+  "story": "The town library used a quiet alarm. It did not ring. It flashed a small red light at the desk when a book left without a proper loan. On Thursday the light flashed for a book that was still on the shelf. Librarian Greta checked the shelf twice. The book, a guide to local birds, was in the right place, but the light kept flashing.\n\nA student named Paul had stood near that shelf all afternoon. He said he had read a few pages and put the book back. Greta believed him, yet the alarm stayed on. She looked more carefully. A second copy was missing from the row, and a thin metal strip from an old label was stuck inside Paul's notebook. That strip was the part that set the alarm off. It had fallen from a book he had returned the week before.\n\nPaul had not taken anything. He emptied the notebook, and the light went dark. Greta fixed the strip back into the returned book and tested the gate. The alarm stayed quiet, which was normal when every loan was correct. She thanked Paul for waiting. Paul checked his bag again in case another strip was hiding. He said a quiet alarm can still cause a loud worry. Greta closed the notebook and smiled at him. Greta wrote a note to check loose strips at the end of each day.",
+  "vocabulary": [
+    {
+      "word": "alarm",
+      "definition": "A signal that warns people about a problem."
+    },
+    {
+      "word": "loan",
+      "definition": "The act of borrowing a library book."
+    },
+    {
+      "word": "librarian",
+      "definition": "A person who works in a library."
+    },
+    {
+      "word": "strip",
+      "definition": "A thin piece of material."
+    },
+    {
+      "word": "notebook",
+      "definition": "A book of blank pages used for writing."
+    },
+    {
+      "word": "gate",
+      "definition": "The exit where books are checked."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How did the alarm warn the staff?",
+      "options": [
+        "It flashed a small red light",
+        "It rang a loud bell",
+        "It locked the front door",
+        "It sent a letter home"
+      ],
+      "correctAnswer": "It flashed a small red light",
+      "explanation": "The quiet alarm flashed a small red light at the desk.",
+      "supportingSentence": "It flashed a small red light at the desk when a book left without a proper loan.",
+      "skill": "detail"
+    },
+    {
+      "question": "Which book was still on the shelf?",
+      "options": [
+        "A guide to local birds",
+        "Paul's notebook",
+        "A book returned last week",
+        "A book with no label"
+      ],
+      "correctAnswer": "A guide to local birds",
+      "explanation": "The guide to local birds was still in the right place.",
+      "supportingSentence": "The book, a guide to local birds, was in the right place, but the light kept flashing.",
+      "skill": "detail"
+    },
+    {
+      "question": "What was stuck inside the notebook?",
+      "options": [
+        "A thin metal strip from an old label",
+        "The guide to local birds",
+        "A red light from the desk",
+        "Greta's closing note"
+      ],
+      "correctAnswer": "A thin metal strip from an old label",
+      "explanation": "A thin metal strip from an old label was stuck in Paul's notebook.",
+      "supportingSentence": "A second copy was missing from the row, and a thin metal strip from an old label was stuck inside Paul's notebook.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what is a loan?",
+      "options": [
+        "Letting a reader borrow a book",
+        "A red light at the desk",
+        "A thin piece of metal",
+        "A note written at closing time"
+      ],
+      "correctAnswer": "Letting a reader borrow a book",
+      "explanation": "A loan is when a reader borrows a book in the correct way.",
+      "supportingSentence": "The alarm stayed quiet, which was normal when every loan was correct.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Was the alarm broken on Thursday?",
+      "options": [
+        "No, it reacted to a loose strip",
+        "Yes, it only worked on Friday",
+        "Yes, Greta had turned it off",
+        "No, the building had no alarm"
+      ],
+      "correctAnswer": "No, it reacted to a loose strip",
+      "explanation": "The strip set the alarm off, so the alarm was working.",
+      "supportingSentence": "That strip was the part that set the alarm off.",
+      "skill": "inference"
+    }
+  ]
+}

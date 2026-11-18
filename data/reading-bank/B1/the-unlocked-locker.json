@@ -1,0 +1,99 @@
+{
+  "level": "B1",
+  "topic": "mystery",
+  "title": "The Unlocked Locker",
+  "story": "After gym class, Jonah found his locker door open. He was sure he had shut it. His sports bag was inside, but his wallet was gone. The wallet held a bus pass and eight euros. He looked along the row and saw nobody. A blue hair tie lay on the floor by his feet, and Jonah never wore hair ties.\n\nHe told the coach. The coach asked the class to wait and to show their bags. Most students opened them at once. Elena kept her bag shut and looked at the floor. The coach asked her, in a calm voice, to open it. Elena sighed and took out the wallet. She said the locker had been unlocked and she had taken the wallet to keep it safe until after lunch.\n\nJonah still felt unsure. The hair tie matched the one in Elena's hair, so she had stood at his locker. The bus pass was still inside, and the money was there too. Her hands shook as she gave it back. The coach said that taking a wallet, even to help, was the wrong choice. Elena apologised, and Jonah took the wallet. Jonah checked the bus pass and counted the coins twice. Elena promised to tell a teacher if she found an open locker again. From that day he checked the lock twice before he left the gym.",
+  "vocabulary": [
+    {
+      "word": "wallet",
+      "definition": "A small case for money and cards."
+    },
+    {
+      "word": "coach",
+      "definition": "The person who leads a sports class."
+    },
+    {
+      "word": "unlocked",
+      "definition": "Not closed with the lock."
+    },
+    {
+      "word": "apologised",
+      "definition": "Said sorry."
+    },
+    {
+      "word": "coins",
+      "definition": "Pieces of metal money."
+    },
+    {
+      "word": "shook",
+      "definition": "Moved quickly from side to side."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What was missing from Jonah's locker?",
+      "options": [
+        "His wallet",
+        "His sports bag",
+        "A blue hair tie",
+        "The coach's keys"
+      ],
+      "correctAnswer": "His wallet",
+      "explanation": "The sports bag was still there, but the wallet was gone.",
+      "supportingSentence": "His sports bag was inside, but his wallet was gone.",
+      "skill": "detail"
+    },
+    {
+      "question": "What was inside the missing item?",
+      "options": [
+        "A bus pass and eight euros",
+        "A blue hair tie",
+        "A sports bag",
+        "A packed lunch"
+      ],
+      "correctAnswer": "A bus pass and eight euros",
+      "explanation": "The wallet held a bus pass and eight euros.",
+      "supportingSentence": "The wallet held a bus pass and eight euros.",
+      "skill": "detail"
+    },
+    {
+      "question": "When did Elena say she would give it back?",
+      "options": [
+        "After lunch",
+        "Before gym class",
+        "The next morning",
+        "At the end of term"
+      ],
+      "correctAnswer": "After lunch",
+      "explanation": "She said she planned to keep it safe until after lunch.",
+      "supportingSentence": "She said the locker had been unlocked and she had taken the wallet to keep it safe until after lunch.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does apologised mean?",
+      "options": [
+        "Said sorry",
+        "Shut a locker",
+        "Counted metal money",
+        "Opened a sports bag"
+      ],
+      "correctAnswer": "Said sorry",
+      "explanation": "Elena apologised, which means she said sorry.",
+      "supportingSentence": "Elena apologised, and Jonah took the wallet.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Jonah start checking the lock twice?",
+      "options": [
+        "He wanted to stop another open door",
+        "The coach bought him a new lock",
+        "Elena still had the bus pass",
+        "His sports bag no longer fit"
+      ],
+      "correctAnswer": "He wanted to stop another open door",
+      "explanation": "After the open locker, he began checking the lock twice so it would not happen again.",
+      "supportingSentence": "From that day he checked the lock twice before he left the gym.",
+      "skill": "inference"
+    }
+  ]
+}

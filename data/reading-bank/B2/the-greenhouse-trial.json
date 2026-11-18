@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "science",
+  "title": "The Greenhouse Trial",
+  "story": "The college greenhouse was warm even before the first lesson. Tutor Leah had set up a small trial to test whether tomato seedlings grew taller under a white cloth shade than on the open bench. The question sounded simple. The design had to be careful, or the answer would be useless. She divided thirty similar seedlings into two groups of fifteen. One group stayed in full light. The other sat under the cloth, which reduced the brightness but did not block the air.\n\nStudents measured each plant on Monday and again ten days later. They recorded height in millimetres, counted leaves, and wrote down any plant that looked wilted. Watering was the same for both groups, and the pots were the same size. In addition, the trays were swapped in position halfway through the trial, so that one side of the greenhouse would not favour a group. Leah called these the controlled conditions. If too many things changed at once, they could not tell which change had mattered.\n\nThe shaded plants were, on average, a little taller, whereas the open-bench plants had thicker stems and darker leaves. Two shaded seedlings had bent toward the cloth edge, where the light was stronger. Consequently, the class did not announce that shade was better. Height alone was a poor way to choose a winner. A taller plant might be stretching for light rather than growing in a healthy way. They therefore reported both results and described the limit of the trial. Ten days is a short period, and the tomatoes still had weeks of growth ahead.\n\nLeah asked what they would alter next time. The students suggested a third group with only afternoon shade, plus a note of soil temperature. They also wanted more plants, so that one weak seedling could not shift the average. The trial had not produced a rule for every greenhouse. It had produced a clearer question, and a habit of comparing like with like before anyone trusted a result.",
+  "vocabulary": [
+    {
+      "word": "seedlings",
+      "definition": "Very young plants grown from seed."
+    },
+    {
+      "word": "trial",
+      "definition": "A test set up to compare what happens."
+    },
+    {
+      "word": "wilted",
+      "definition": "Soft and drooping instead of firm."
+    },
+    {
+      "word": "controlled",
+      "definition": "Kept the same so they do not confuse the result."
+    },
+    {
+      "word": "average",
+      "definition": "A typical figure found from a whole group."
+    },
+    {
+      "word": "brightness",
+      "definition": "The strength of the light in a place."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Why was extra height a weak reason to prefer the shade?",
+      "options": [
+        "The shaded plants received no water at all",
+        "The cloth blocked every bit of air",
+        "The open bench had no tomato plants",
+        "The unshaded plants were sturdier in other ways"
+      ],
+      "correctAnswer": "The unshaded plants were sturdier in other ways",
+      "explanation": "The shaded plants were a little taller, but the open-bench plants had thicker stems and darker leaves, so height alone was a poor winner.",
+      "supportingSentence": "The shaded plants were, on average, a little taller, whereas the open-bench plants had thicker stems and darker leaves.",
+      "skill": "inference"
+    },
+    {
+      "question": "What could a reader not tell if the trays had never been moved?",
+      "options": [
+        "Whether the cloth or the greenhouse side caused the change",
+        "Whether the plants were tomatoes or herbs",
+        "Whether Monday was a measuring day",
+        "Whether any pot had soil in it"
+      ],
+      "correctAnswer": "Whether the cloth or the greenhouse side caused the change",
+      "explanation": "The trays were swapped so one side of the greenhouse would not favour a group, otherwise the side and the cloth would be mixed together.",
+      "supportingSentence": "In addition, the trays were swapped in position halfway through the trial, so that one side of the greenhouse would not favour a group.",
+      "skill": "inference"
+    },
+    {
+      "question": "How many seedlings were placed in each group?",
+      "options": [
+        "Thirty",
+        "Ten",
+        "Fifteen",
+        "Two"
+      ],
+      "correctAnswer": "Fifteen",
+      "explanation": "Leah divided thirty similar seedlings into two groups of fifteen.",
+      "supportingSentence": "She divided thirty similar seedlings into two groups of fifteen.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does \"wilted\" mean in this story?",
+      "options": [
+        "Taller because of a white cloth",
+        "Soft and drooping instead of firm",
+        "Measured again after ten days",
+        "Moved to the other side of the bench"
+      ],
+      "correctAnswer": "Soft and drooping instead of firm",
+      "explanation": "They wrote down any plant that looked wilted, meaning soft and drooping.",
+      "supportingSentence": "They recorded height in millimetres, counted leaves, and wrote down any plant that looked wilted.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Which things did both groups receive in equal measure?",
+      "options": [
+        "The same brightness and the same shelf",
+        "The same height and the same leaf colour",
+        "The same cloth and the same bending",
+        "The same water and the same size of pot"
+      ],
+      "correctAnswer": "The same water and the same size of pot",
+      "explanation": "Watering was the same for both groups, and the pots were the same size.",
+      "supportingSentence": "Watering was the same for both groups, and the pots were the same size.",
+      "skill": "detail"
+    }
+  ]
+}

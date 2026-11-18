@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "travel",
+  "title": "The Delayed Connection",
+  "story": "Mara Ellison had left a generous interval between her morning flight and the afternoon train, although the winter timetable offered little room for mistakes. When the aircraft finally reached the coastal city, almost two hours late, she hurried through the arrivals hall with a suitcase and a printed ticket that was already losing its value. Above the station entrance, the departure board listed her connection in amber letters. However, the crowd gathering there suggested that confirmation would come too late for anyone who still needed to cross the city.\n\nA clerk named Tomas explained that the aircraft was not the only disruption, because signalling work on the inland route had reduced the number of carriages. Although he could not promise a seat, he offered to stamp her ticket so that a conductor further along the line would treat the delay as the railway's responsibility rather than her own. Mara accepted the stamp with relief, yet she remained uneasy, since the next reliable service would not leave until evening and she had promised to meet a colleague before dark.\n\nMara stood apart from the crowd, calculating whether a taxi to the following station might recover the lost time. The idea was tempting, although the fare would be considerable and the roads were already crowded. When the train finally appeared, it was shorter than anyone had expected, and the doors opened with a reluctant sigh.\n\nShe found a narrow space beside a luggage rack and sent a brief message admitting that she would arrive after the meeting had begun. The carriage grew warm as more travellers pressed in, and the conductor checked the stamped ticket without comment. However, once the train had cleared the suburbs, Mara noticed an unexpected benefit. The low winter sun was still above the hills, and the route she had nearly abandoned looked remarkably beautiful. She slid the ticket into her notebook and decided that the connection, late as it was, had not entirely failed her.",
+  "vocabulary": [
+    {
+      "word": "interval",
+      "definition": "A stretch of time between two events."
+    },
+    {
+      "word": "disruption",
+      "definition": "Something that stops a plan from running as expected."
+    },
+    {
+      "word": "amber",
+      "definition": "A deep yellow-orange colour."
+    },
+    {
+      "word": "considerable",
+      "definition": "Large enough to be important."
+    },
+    {
+      "word": "reluctant",
+      "definition": "Slow or unwilling."
+    },
+    {
+      "word": "suburbs",
+      "definition": "The districts on the edge of a city."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How late was Mara's aircraft when it reached the coastal city?",
+      "options": [
+        "Nearly four hours",
+        "Less than thirty minutes",
+        "Almost two hours",
+        "A little over one day"
+      ],
+      "correctAnswer": "Almost two hours",
+      "explanation": "The aircraft reached the city almost two hours late.",
+      "supportingSentence": "When the aircraft finally reached the coastal city, almost two hours late, she hurried through the arrivals hall with a suitcase and a printed ticket that was already losing its value.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did Tomas stamp Mara's ticket?",
+      "options": [
+        "So a later conductor would see the delay as the railway's responsibility",
+        "So she could board without any ticket at all",
+        "So the last seat would be kept for her",
+        "So the airline would refund her fare"
+      ],
+      "correctAnswer": "So a later conductor would see the delay as the railway's responsibility",
+      "explanation": "Tomas stamped the ticket so a conductor would treat the delay as the railway's responsibility.",
+      "supportingSentence": "Although he could not promise a seat, he offered to stamp her ticket so that a conductor further along the line would treat the delay as the railway's responsibility rather than her own.",
+      "skill": "detail"
+    },
+    {
+      "question": "What happened to Mara's idea of taking a taxi?",
+      "options": [
+        "She asked Tomas to pay the driver",
+        "She walked to the next station instead",
+        "She waited until evening and then called a car",
+        "She gave it up and travelled by train"
+      ],
+      "correctAnswer": "She gave it up and travelled by train",
+      "explanation": "The taxi stayed only an idea. Mara was soon on the train, sending a message from the carriage.",
+      "supportingSentence": "She found a narrow space beside a luggage rack and sent a brief message admitting that she would arrive after the meeting had begun.",
+      "skill": "inference"
+    },
+    {
+      "question": "How did the conductor treat Mara's stamped ticket?",
+      "options": [
+        "The conductor ordered her off at the next stop",
+        "The conductor checked it and raised no objection",
+        "The conductor sold her a second ticket",
+        "The conductor said the stamp was unofficial"
+      ],
+      "correctAnswer": "The conductor checked it and raised no objection",
+      "explanation": "The conductor checked the stamped ticket and said nothing, so the stamp was accepted.",
+      "supportingSentence": "The carriage grew warm as more travellers pressed in, and the conductor checked the stamped ticket without comment.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does reluctant suggest about the train doors?",
+      "options": [
+        "They were painted a bright colour",
+        "They belonged to a much longer train",
+        "They opened slowly, as if unwilling",
+        "They slammed shut on the luggage"
+      ],
+      "correctAnswer": "They opened slowly, as if unwilling",
+      "explanation": "A reluctant sigh means the doors seemed slow and unwilling as they opened.",
+      "supportingSentence": "When the train finally appeared, it was shorter than anyone had expected, and the doors opened with a reluctant sigh.",
+      "skill": "vocabulary"
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "school_college",
+  "title": "The Archive Placement",
+  "story": "Sofia's placement was in the municipal archive, a quiet building behind the library. Her supervisor, Tomas, spent the first morning on the handling rules. He showed her gloves for the photographs, weights rather than fingers to hold a page open, and a ban on water near any box. The collection she was to catalogue had arrived from a local clinic that had closed, and the donor agreement set a restriction on anything that could identify a patient. Names could be recorded in the private accession file but were not to appear in the public list.\n\nThe work was slow. Sofia learned to describe a letter without quoting the line that made it interesting, and to note a date only when the date was written on the item. Tomas checked a sample each afternoon. He was strict about consistency and surprisingly kind about pace, saying that a careful description saved a later researcher from handling the paper twice. It felt like translation, turning a fragile object into a record that would let someone find it without wearing it out.\n\nThen she nearly broke the rule she had started to admire. A letter from the clinic's matron discussed a donation of blankets and, in a postscript, named a child who had stayed on the ward through a winter. The story was moving, and the name seemed harmless after so many decades. Sofia typed it into the public description, thinking a single name would help a family historian and would not violate the spirit of the restriction. Tomas, reading over her shoulder, asked her to stop and to delete the line before the record was saved. The agreement, he said, did not become optional because a case felt sympathetic or because the people concerned were likely to be dead. If a descendant searched that name, the archive would have published a medical stay that the donor had tried to keep off the open shelves.\n\nSofia rewrote the entry so that the blankets remained and the child became an unnamed patient. She also added a cross-reference in the private file, where the name could be retrieved by staff if a formal request justified it. Tomas did not treat the mistake as a scandal, but he did ask her to reread the donor clause and to mark every future postscript before she summarised it. Discretion, she realised, was not a mood. It was a procedure that had to survive the moments when a story seemed too human to leave incomplete. By the end of the placement she could catalogue a box without hoping it would make her interesting.",
+  "vocabulary": [
+    {
+      "word": "catalogue",
+      "definition": "To describe and list items so they can be found"
+    },
+    {
+      "word": "restriction",
+      "definition": "A rule that limits what may be shown or used"
+    },
+    {
+      "word": "accession",
+      "definition": "The private record made when new material enters a collection"
+    },
+    {
+      "word": "fragile",
+      "definition": "Easily damaged, and needing careful handling"
+    },
+    {
+      "word": "discretion",
+      "definition": "Careful judgement about what should be left unsaid"
+    },
+    {
+      "word": "sympathetic",
+      "definition": "Arousing pity or fellow feeling"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Why does Tomas stop the public description from being saved?",
+      "options": [
+        "A name would have revealed a stay the donor wanted kept private",
+        "The blankets were too damaged to be listed at all",
+        "The matron's letter had no date written on the page",
+        "A family historian had already reserved that file"
+      ],
+      "correctAnswer": "A name would have revealed a stay the donor wanted kept private",
+      "explanation": "The agreement did not become optional just because the case felt sympathetic or the people were likely dead.",
+      "supportingSentence": "The agreement, he said, did not become optional because a case felt sympathetic or because the people concerned were likely to be dead.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does Sofia decide that discretion actually is?",
+      "options": [
+        "A procedure that holds even when a story feels unfinished",
+        "A feeling that depends on how moving a letter is",
+        "A public list of every name found in a box",
+        "A glove worn while turning the pages"
+      ],
+      "correctAnswer": "A procedure that holds even when a story feels unfinished",
+      "explanation": "She realises it is a procedure that has to survive the moments when a story seems too human to leave incomplete.",
+      "supportingSentence": "It was a procedure that had to survive the moments when a story seemed too human to leave incomplete.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Where could a patient's name be recorded?",
+      "options": [
+        "In the private file for new material",
+        "On the public list of the collection",
+        "On the label inside the photograph gloves",
+        "On the sign-in sheet by the library door"
+      ],
+      "correctAnswer": "In the private file for new material",
+      "explanation": "Names could go in the private accession file, but not on the public list.",
+      "supportingSentence": "Names could be recorded in the private accession file but were not to appear in the public list.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did the child's name seem acceptable to Sofia at first?",
+      "options": [
+        "So much time had passed that she thought the harm had faded",
+        "Tomas had asked her to make the public list more personal",
+        "The matron had signed a fresh agreement that morning",
+        "The clinic had donated blankets and nothing else"
+      ],
+      "correctAnswer": "So much time had passed that she thought the harm had faded",
+      "explanation": "The story was moving, and the name seemed harmless after so many decades.",
+      "supportingSentence": "The story was moving, and the name seemed harmless after so many decades.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why does the writer begin with gloves, weights, and a ban on water?",
+      "options": [
+        "To show that protecting the objects is part of the work itself",
+        "To prove that the clinic papers were already ruined",
+        "To suggest Sofia should have turned the placement down",
+        "To argue that names belong on the open shelves"
+      ],
+      "correctAnswer": "To show that protecting the objects is part of the work itself",
+      "explanation": "The handling rules introduce the idea that care is a set of practices, not a feeling added later.",
+      "supportingSentence": "He showed her gloves for the photographs, weights rather than fingers to hold a page open, and a ban on water near any box.",
+      "skill": "intent"
+    }
+  ]
+}

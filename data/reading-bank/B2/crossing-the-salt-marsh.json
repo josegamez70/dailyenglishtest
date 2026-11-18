@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "adventure",
+  "title": "Crossing the Salt Marsh",
+  "story": "The salt marsh looked solid from the sea wall, a wide brown field crossed by old posts. Mara knew that look was a lie. She had guided walkers here for seven summers, and she still tested every step with her staff before she trusted it.\n\nThey were crossing to the bird hide on the far island, where a researcher had left samples that had to be collected before the afternoon flood. The safe route did not follow a straight line. It bent around creeks that were narrow enough to step over at low water and deep enough, an hour later, to reach a person's waist. Mara had timed their start for the last of the ebb, which left a short window and very little room for pride.\n\nHalfway across, Pavel pointed to a shorter gap between two posts and said they could save ten minutes. The mud there shone in a way Mara distrusted. She told him that a bright surface often meant a soft pocket left by the night current, and that one sunken knee would tire the whole group. He accepted the warning, though not happily, and stayed on the footprints she made.\n\nA channel forced them onto the guide rope that volunteers replaced each spring. The rope was rough, salted, and lower than Mara remembered. She sent Pavel over first, with the sample case against his chest, and she kept the rope taut until he reached the firmer shelf. Behind them, the creek they had stepped across was already filling with a thin sheet of water.\n\nThey reached the hide with wet boots and a little time to spare. The key was taped under a bench, as the message had promised, and the case was labeled with the hour it had to leave. On the return, Mara allowed no conversation until they were back on the wall. Pavel looked at the place where his shortcut had been and saw only a sliding shine. He said he would not argue with a rope or a tide again.",
+  "vocabulary": [
+    {
+      "word": "marsh",
+      "definition": "Low, wet ground, often near the sea."
+    },
+    {
+      "word": "ebb",
+      "definition": "The movement of the tide as it falls."
+    },
+    {
+      "word": "creek",
+      "definition": "A narrow channel of water."
+    },
+    {
+      "word": "distrusted",
+      "definition": "Felt that something could not be relied on."
+    },
+    {
+      "word": "taut",
+      "definition": "Stretched tight."
+    },
+    {
+      "word": "shortcut",
+      "definition": "A quicker way than the usual route."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What does the creek filling behind them suggest?",
+      "options": [
+        "Their safe time on the wet ground was beginning to run out",
+        "The samples no longer needed to leave the island",
+        "The guide rope had just been replaced",
+        "Pavel's shorter gap had turned firm and dry"
+      ],
+      "correctAnswer": "Their safe time on the wet ground was beginning to run out",
+      "explanation": "Water was already returning to a creek they had crossed, so the safe window was closing.",
+      "supportingSentence": "Behind them, the creek they had stepped across was already filling with a thin sheet of water.",
+      "skill": "inference"
+    },
+    {
+      "question": "Where was the key to the hide?",
+      "options": [
+        "Inside the labeled sample case",
+        "Taped under a bench, as the message had said",
+        "Tied to the top of an old post",
+        "Buried in the soft patch of mud"
+      ],
+      "correctAnswer": "Taped under a bench, as the message had said",
+      "explanation": "The key was taped under a bench, just as the message had promised.",
+      "supportingSentence": "The key was taped under a bench, as the message had promised, and the case was labeled with the hour it had to leave.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does ebb mean in Mara's choice of starting time?",
+      "options": [
+        "The bright shine on soft mud",
+        "The rope pulled tight across a channel",
+        "The falling of the tide",
+        "The flood that covers the island later"
+      ],
+      "correctAnswer": "The falling of the tide",
+      "explanation": "Mara starts at the last of the ebb so they still have a short window before the water returns, which means the tide is falling.",
+      "supportingSentence": "Mara had timed their start for the last of the ebb, which left a short window and very little room for pride.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What did Pavel think the gap between two posts would do?",
+      "options": [
+        "Lead them back to the sea wall",
+        "Force them to swim the channel",
+        "Hide the sample case from the water",
+        "Save them ten minutes"
+      ],
+      "correctAnswer": "Save them ten minutes",
+      "explanation": "Pavel pointed to a shorter gap and said they could save ten minutes.",
+      "supportingSentence": "Halfway across, Pavel pointed to a shorter gap between two posts and said they could save ten minutes.",
+      "skill": "detail"
+    },
+    {
+      "question": "What is Pavel likely to trust more on a later crossing?",
+      "options": [
+        "A shining patch that looks quicker",
+        "His watch, even when the water is turning",
+        "The rope and the tide, rather than a shortcut of his own",
+        "A long conversation on the walk back"
+      ],
+      "correctAnswer": "The rope and the tide, rather than a shortcut of his own",
+      "explanation": "He says he will not argue with a rope or a tide again, so he has learned to trust them more than his own shortcut.",
+      "supportingSentence": "He said he would not argue with a rope or a tide again.",
+      "skill": "inference"
+    }
+  ]
+}

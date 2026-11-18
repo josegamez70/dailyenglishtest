@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "science",
+  "title": "The Museum Workshop",
+  "story": "On Saturday the city museum opened its workshop bench for a session called Slow Machines. Families could test a simple ramp, a pulley, and a set of gears, using wooden blocks rather than a screen. The guide, Marta, did not begin with a speech about famous discoveries. She began with a prediction. Each pair had to write what they thought would happen before they touched the equipment.\n\nNoor and her father chose the pulley. They predicted that two wheels would make the block feel twice as heavy. The first lift surprised them. The block rose more easily, although the string they pulled was longer than the distance the block travelled. Marta asked them not to change their written prediction. The point of the sheet was to keep the first idea visible, so they could compare it with the evidence. In addition, she asked them to repeat the lift three times and to note whether the result stayed the same.\n\nAt the next bench the gears produced a different lesson. A large gear turned a small one quickly, whereas the small gear turned the large one with less speed and more force. A boy called Eli had expected the opposite, because the large gear looked stronger. He was not wrong to notice its size. He was wrong about what that size did. Marta treated the mistake as useful. A clear wrong prediction is easier to correct than a guess that was never written down.\n\nBefore leaving, every pair completed one sentence about what they would change in their prediction, and which observation had forced the change. Noor wrote that the pulley traded a longer pull for an easier lift. Eli wrote that size in a gear can increase force or speed, but not both at once. The workshop had stayed small and concrete. Nevertheless, it had trained a habit that careful investigators rely on, which is to predict, test, and revise in public, even when the first idea fails.",
+  "vocabulary": [
+    {
+      "word": "prediction",
+      "definition": "An idea, written first, of what a test will do."
+    },
+    {
+      "word": "evidence",
+      "definition": "What people observe when they test an idea."
+    },
+    {
+      "word": "pulley",
+      "definition": "A wheel and string used to lift a weight."
+    },
+    {
+      "word": "force",
+      "definition": "A push or pull that can move something."
+    },
+    {
+      "word": "observation",
+      "definition": "Something noticed carefully during a test."
+    },
+    {
+      "word": "revise",
+      "definition": "Change an idea after looking at the results."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What does \"prediction\" mean in this story?",
+      "options": [
+        "A wooden block used instead of a screen",
+        "A gear that looks larger than the others",
+        "An idea, written first, of what a test will do",
+        "A speech about famous discoveries"
+      ],
+      "correctAnswer": "An idea, written first, of what a test will do",
+      "explanation": "Each pair wrote what they thought would happen before they touched the equipment, and that first idea was their prediction.",
+      "supportingSentence": "She began with a prediction.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What bargain did the pulley test reveal?",
+      "options": [
+        "A heavier block in return for a shorter string",
+        "An easier lift in return for more string to pull",
+        "Two wheels that stopped the block from rising",
+        "A screen that replaced the wooden blocks"
+      ],
+      "correctAnswer": "An easier lift in return for more string to pull",
+      "explanation": "The block rose more easily, but the string pulled was longer than the distance the block travelled.",
+      "supportingSentence": "The block rose more easily, although the string they pulled was longer than the distance the block travelled.",
+      "skill": "inference"
+    },
+    {
+      "question": "What did Noor and her father expect the two wheels to do?",
+      "options": [
+        "Make the block feel twice as heavy",
+        "Make the string shorter than the lift",
+        "Stop the block from moving at all",
+        "Turn the large gear with less force"
+      ],
+      "correctAnswer": "Make the block feel twice as heavy",
+      "explanation": "They predicted that two wheels would make the block feel twice as heavy.",
+      "supportingSentence": "They predicted that two wheels would make the block feel twice as heavy.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Eli misunderstand about size?",
+      "options": [
+        "He refused to write anything before the test",
+        "He believed the pulley would feel twice as light",
+        "He said size changes neither speed nor force",
+        "He thought a bigger gear was simply the stronger one"
+      ],
+      "correctAnswer": "He thought a bigger gear was simply the stronger one",
+      "explanation": "Eli expected the opposite because the large gear looked stronger, but he was wrong about what that size actually did.",
+      "supportingSentence": "A boy called Eli had expected the opposite, because the large gear looked stronger.",
+      "skill": "inference"
+    },
+    {
+      "question": "How many times was the pulley lift supposed to be repeated?",
+      "options": [
+        "Two times",
+        "One time",
+        "Three times",
+        "Until the first idea was erased"
+      ],
+      "correctAnswer": "Three times",
+      "explanation": "Marta asked them to repeat the lift three times and note whether the result stayed the same.",
+      "supportingSentence": "In addition, she asked them to repeat the lift three times and to note whether the result stayed the same.",
+      "skill": "detail"
+    }
+  ]
+}

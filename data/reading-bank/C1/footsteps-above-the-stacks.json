@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "mystery",
+  "title": "Footsteps above the Stacks",
+  "story": "The stacks were supposed to be empty after ten. Ruth had checked the reading rooms, silenced the last photocopier, and signed the late book with her own name and the time. She was halfway down the central aisle, turning lights off in pairs, when she heard footsteps above her. The gallery that ran over the stacks led only to the rare-books annex, and the annex had been closed since a leak in September. The footsteps were unhurried. They crossed from the stair end toward the annex door, stopped, and did not come back.\n\nRuth did not go up. The gallery stairs were narrow, and she had no reason to meet, in a closed library, a person she had not admitted. She returned to the desk and opened the door log. The street doors had not moved since nine. The staff entrance recorded only her card, at half past seven, when her shift began. The gallery door was a different line. It had been opened from the inside at ten fourteen, and it had not been closed in the way that writes a second line. Someone was, or had been, up there, and had not come through any door the system was willing to call an entrance.\n\nShe took the torch and the radio and climbed as far as the landing, where she could see the gallery without standing on it. The annex door was ajar. A window at the far end, the one above the lane, showed a slice of night, and the latch hung loose in the way of a latch that has been lifted and not set back. On the floor just inside the annex lay a reading slip of the kind the library no longer used, filled out in pencil for a volume Ruth knew was kept on the locked shelf. The shelf, when she looked from the doorway, had a gap at that number. The slip was dated the previous day. The annex had been locked the previous day. She had locked it herself.\n\nRuth backed down, called the night security desk, and waited in the lit aisle. She did not pick up the slip. When the officer arrived, the gallery was silent, the window was still unlatched, and the gap on the shelf remained. The log had nothing new to add. Whoever had walked above the stacks had known which door opened quietly from the inside, and had left by a window the library had treated as scenery. The building's record of the evening showed one member of staff and a series of doors behaving like invitations.",
+  "vocabulary": [
+    {
+      "word": "gallery",
+      "definition": "An upper walkway looking over the floor below."
+    },
+    {
+      "word": "annex",
+      "definition": "A separate section of a building, here the closed rare-books room."
+    },
+    {
+      "word": "unhurried",
+      "definition": "Calm and not rushed."
+    },
+    {
+      "word": "ajar",
+      "definition": "Slightly open."
+    },
+    {
+      "word": "latch",
+      "definition": "The fastening that holds a window or door shut."
+    },
+    {
+      "word": "slip",
+      "definition": "A small paper form, here one used to request a book."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "When did the log record the gallery door opening from the inside?",
+      "options": [
+        "At half past seven",
+        "At ten fourteen",
+        "At nine o'clock",
+        "After the security officer arrived"
+      ],
+      "correctAnswer": "At ten fourteen",
+      "explanation": "The gallery door had been opened from the inside at ten fourteen, and the log did not show it closing.",
+      "supportingSentence": "It had been opened from the inside at ten fourteen, and it had not been closed in the way that writes a second line.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why is the date on the reading slip difficult to take at face value?",
+      "options": [
+        "Ruth wrote the slip for the night officer that evening.",
+        "The library dates a slip only after a book is returned.",
+        "It carries the date of a day when the annex was locked.",
+        "The September leak washed the date off every form."
+      ],
+      "correctAnswer": "It carries the date of a day when the annex was locked.",
+      "explanation": "The slip is dated the previous day, but the annex had been locked that day, and Ruth had locked it herself.",
+      "supportingSentence": "The slip was dated the previous day.",
+      "skill": "inference"
+    },
+    {
+      "question": "What do Ruth's decision to stay off the gallery and her decision to leave the slip share?",
+      "options": [
+        "She believes the footsteps came from the heating pipes.",
+        "She has already hidden the missing volume in her desk.",
+        "She wants the annex alarm to reset by itself.",
+        "She is avoiding a confrontation and leaving the scene untouched."
+      ],
+      "correctAnswer": "She is avoiding a confrontation and leaving the scene untouched.",
+      "explanation": "She will not go up to meet a person she did not admit, and she does not pick up the slip before security arrives.",
+      "supportingSentence": "She did not pick up the slip.",
+      "skill": "inference"
+    },
+    {
+      "question": "What is the annex in this story?",
+      "options": [
+        "The closed rare-books section reached from the gallery",
+        "The staff door that opens onto the street",
+        "The room that holds the photocopier",
+        "The security desk in another building"
+      ],
+      "correctAnswer": "The closed rare-books section reached from the gallery",
+      "explanation": "The gallery leads only to the rare-books annex, and that annex has been closed since a leak in September.",
+      "supportingSentence": "The gallery that ran over the stacks led only to the rare-books annex, and the annex had been closed since a leak in September.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What impression does the writer leave by describing the doors as invitations?",
+      "options": [
+        "Ruth had invited a guest and forgotten the name.",
+        "The library had planned to move the rare books that night.",
+        "The building's own record made the intrusion look almost permitted.",
+        "Footsteps in a library after ten are always harmless."
+      ],
+      "correctAnswer": "The building's own record made the intrusion look almost permitted.",
+      "explanation": "The final image is of one member of staff and a series of doors behaving like invitations, so the records themselves look strangely welcoming.",
+      "supportingSentence": "The building's record of the evening showed one member of staff and a series of doors behaving like invitations.",
+      "skill": "intent"
+    }
+  ]
+}

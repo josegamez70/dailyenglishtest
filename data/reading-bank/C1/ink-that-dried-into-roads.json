@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "fantasy",
+  "title": "Ink That Dried into Roads",
+  "story": "The ink in the municipal office was supposed to be ordinary. It sat in a glass well, smelled faintly of iron, and stained the clerks' cuffs in the honest way of ink. Nessa discovered its other habit on a wet Thursday, when she finished a permit for a lane behind the tannery and went out to post the notice. The lane had not been there in the morning. By evening it was, narrow and fresh, with puddles in the exact shape of her last three sentences. She walked the new lane twice, once in each direction, and the puddles repeated her punctuation with embarrassing loyalty. A baker had already set a crate where the lane bent.\n\nShe tested the discovery in small ways, because a large test would have been a crime with witnesses. A line in the margin became a footpath across a vacant lot, useful and a little crooked, which taught her that her handwriting had opinions. A crossed-out word did not vanish the thing it had made. It left a scar in the ground, a sunken stripe where grass would not grow, and people tripped there and blamed the council. Erasure, she learned, was not the opposite of creation. It was a second, ruder act.\n\nThe mayor, once he understood, asked for a bridge. The river had wanted one for years, and the engineers had wanted money for just as long. Nessa wrote the bridge at night, slowly, describing the arches, the height above flood, the place where a person could stand out of the wind. At dawn the arches were there, pale as dried ink, and a boy was already halfway across, shouting that the boards held. She felt pride, then the weight that follows pride. If a sentence could become a road, a careless sentence could become a wall across someone else's door.\n\nShe set rules where no one had written rules. She would add nothing that closed a view a neighbour used to judge the weather. She would build no street that served only the person who paid for the words. And she would keep, in a drawer, a page of unsent lines: a garden stair, a wider market, a quiet path to the river that did not cut the washerwomen's stones. Some ink dried into roads. Some ink dried into patience. When visitors praised the new bridge, Nessa looked at their shoes, not their faces, and was glad the road had been kind to them. Then she capped the well, because the city was already walking on her handwriting, and it did not need another sentence before supper.",
+  "vocabulary": [
+    {
+      "word": "municipal",
+      "definition": "Belonging to the town's local government."
+    },
+    {
+      "word": "permit",
+      "definition": "An official paper that allows a particular thing to be done."
+    },
+    {
+      "word": "erasure",
+      "definition": "The act of rubbing out something that was written."
+    },
+    {
+      "word": "arches",
+      "definition": "Curved supports that hold up a bridge."
+    },
+    {
+      "word": "unsent",
+      "definition": "Written, but deliberately not released into the world."
+    },
+    {
+      "word": "handwriting",
+      "definition": "The particular way a person forms letters by hand."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What does \"erasure\" mean in this story?",
+      "options": [
+        "A fee the mayor pays for each new bridge",
+        "The act of rubbing out a mark already made",
+        "A fresh lane opened behind the tannery",
+        "The pale colour left by ink as it dries"
+      ],
+      "correctAnswer": "The act of rubbing out a mark already made",
+      "explanation": "Erasure is crossing a word out, and in this story that act still leaves a scar.",
+      "supportingSentence": "Erasure, she learned, was not the opposite of creation.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What did a crossed-out word leave behind?",
+      "options": [
+        "A second bridge beside the one the mayor ordered",
+        "A wide street that served only the person who paid",
+        "A sunken stripe of ground where grass would not grow",
+        "A crate the baker was no longer able to lift"
+      ],
+      "correctAnswer": "A sunken stripe of ground where grass would not grow",
+      "explanation": "The crossed-out word left a sunken stripe, and people tripped there.",
+      "supportingSentence": "It left a scar in the ground, a sunken stripe where grass would not grow, and people tripped there and blamed the council.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the baker's crate tell Nessa?",
+      "options": [
+        "The tannery has paid her to make the lane wider",
+        "The morning puddles have washed her permit away",
+        "Her letters are too crooked to become a real path",
+        "Other people are already using a road her words created"
+      ],
+      "correctAnswer": "Other people are already using a road her words created",
+      "explanation": "A crate at the bend means the new lane is already part of someone else's working day.",
+      "supportingSentence": "A baker had already set a crate where the lane bent.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why does the writer place a boy on the bridge at dawn?",
+      "options": [
+        "To show that the written arches have become a public way",
+        "To reveal that the boy stole the permit during the night",
+        "To suggest the arches are still only a drawing",
+        "To explain why the engineers have left the town"
+      ],
+      "correctAnswer": "To show that the written arches have become a public way",
+      "explanation": "The boy is already crossing, and the boards hold, so the sentence has become a bridge people can use.",
+      "supportingSentence": "At dawn the arches were there, pale as dried ink, and a boy was already halfway across, shouting that the boards held.",
+      "skill": "intent"
+    },
+    {
+      "question": "Why does Nessa look at shoes rather than faces?",
+      "options": [
+        "She hopes the visitors will pay for another sentence",
+        "She is checking whether the road has been kind to the people on it",
+        "She is searching their cuffs for stains from her ink",
+        "She does not want them to notice that the well is empty"
+      ],
+      "correctAnswer": "She is checking whether the road has been kind to the people on it",
+      "explanation": "Shoes carry the evidence of the walk, and she is glad when the road has treated people gently.",
+      "supportingSentence": "When visitors praised the new bridge, Nessa looked at their shoes, not their faces, and was glad the road had been kind to them.",
+      "skill": "inference"
+    }
+  ]
+}

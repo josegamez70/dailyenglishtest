@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "health_sports",
+  "title": "A Disputed Offside",
+  "story": "The goal that would have tied the semi-final arrived in the eighty-seventh minute, and it was disallowed before the scorer had finished celebrating. From the far touchline the assistant referee had raised her flag, judging that the winger, Tomas Adler, had been beyond the last defender when the pass left his teammate's foot. Half the ground saw a clear offence. The other half saw a shoulder that had never quite crossed the line. Captain Nia Rahman, who had played the ball, stood with her hands on her hips and did not chase the official, which surprised the substitutes more than the decision itself.\n\nIn the tunnel afterwards the argument changed shape. The club secretary wanted a formal complaint, complete with a still from a supporter's phone, cropped and brightened until the line looked friendly to their case. Nia asked to see the image before anyone sent it. The winger's trailing arm was level with the defender, and the boot that mattered was ambiguous in the blur. She handed the phone back and said a protest built on an unclear picture would sound like a refusal to lose. The secretary replied that silence would be read as consent, and that consent would travel into the next committee meeting, where disciplinary habits were formed.\n\nThe referee's written report, delivered the next morning, was drier than the night had been. She stated that the flag had gone up late, that she had considered overruling it, and that she had kept the decision because the assistant's angle was better than her own. She also noted that both captains had kept their players at a distance. That last line pleased the league officer who called the club, though he was careful not to call the decision correct. He called it finished. Under the competition rules a factual error could be reviewed only if the club produced an angle the officials had not had. A supporter's enlarged still, he said, was not such an angle.\n\nNia told the squad before Thursday's training. She described the picture, the rule, and the choice not to appeal. Two younger players wanted the grievance kept alive, because a shared grievance can feel like loyalty. She answered that loyalty also included protecting the next match from a story that would make every tackle personal. They could be angry on the walk home, she said, and precise on the pitch. The secretary filed no complaint. In the match report the club recorded the score, the disallowed goal, and a single sentence of thanks to the players for accepting a decision they still disliked. The sentence was political, and it was also accurate.",
+  "vocabulary": [
+    {
+      "word": "disallowed",
+      "definition": "Ruled not to count."
+    },
+    {
+      "word": "cropped",
+      "definition": "Cut so that part of a picture is removed."
+    },
+    {
+      "word": "ambiguous",
+      "definition": "Unclear, and able to be read in more than one way."
+    },
+    {
+      "word": "overruling",
+      "definition": "Using a higher authority to cancel a decision."
+    },
+    {
+      "word": "disciplinary",
+      "definition": "Concerned with how rules are enforced."
+    },
+    {
+      "word": "grievance",
+      "definition": "A complaint about unfair treatment."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What kind of evidence would have allowed the club to seek a review?",
+      "options": [
+        "Any photograph taken by a supporter",
+        "A written protest from the team captain",
+        "A new angle the match officials had not seen",
+        "A second look at the assistant's flag"
+      ],
+      "correctAnswer": "A new angle the match officials had not seen",
+      "explanation": "The rules allowed a review only if the club produced an angle the officials had not had.",
+      "supportingSentence": "Under the competition rules a factual error could be reviewed only if the club produced an angle the officials had not had.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did Nia's stillness after the flag surprise the substitutes?",
+      "options": [
+        "They had expected the captain to argue with the official",
+        "They thought the goal had been scored by the other team",
+        "They believed the match had already been won",
+        "They wanted Nia to leave the pitch at once"
+      ],
+      "correctAnswer": "They had expected the captain to argue with the official",
+      "explanation": "She did not chase the official, and that restraint surprised the substitutes more than the decision itself.",
+      "supportingSentence": "Captain Nia Rahman, who had played the ball, stood with her hands on her hips and did not chase the official, which surprised the substitutes more than the decision itself.",
+      "skill": "inference"
+    },
+    {
+      "question": "What did the league officer's choice of words show about the offside decision?",
+      "options": [
+        "He was ending the case without saying the flag was certainly right",
+        "He promised to restore the goal before Thursday",
+        "He blamed both captains for standing too far away",
+        "He accepted the supporter's picture as a new official angle"
+      ],
+      "correctAnswer": "He was ending the case without saying the flag was certainly right",
+      "explanation": "He avoided calling the decision correct, and the word he used for it was finished.",
+      "supportingSentence": "That last line pleased the league officer who called the club, though he was careful not to call the decision correct.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does ambiguous say about the boot in the phone picture?",
+      "options": [
+        "It was clearly behind the last defender",
+        "Its position could not be settled from that blur",
+        "It belonged to the assistant referee",
+        "It had been removed from the image"
+      ],
+      "correctAnswer": "Its position could not be settled from that blur",
+      "explanation": "The boot that mattered could not be read clearly, so the picture did not prove where the player had been.",
+      "supportingSentence": "The winger's trailing arm was level with the defender, and the boot that mattered was ambiguous in the blur.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer include the club's single sentence of thanks in the match report?",
+      "options": [
+        "To show that the score had been changed overnight",
+        "To blame the players for the secretary's complaint",
+        "To announce that the next match would be cancelled",
+        "To show a public acceptance that still admitted disagreement"
+      ],
+      "correctAnswer": "To show a public acceptance that still admitted disagreement",
+      "explanation": "The report thanks the players for accepting a decision they still disliked, which is both a public stance and a true description.",
+      "supportingSentence": "In the match report the club recorded the score, the disallowed goal, and a single sentence of thanks to the players for accepting a decision they still disliked.",
+      "skill": "intent"
+    }
+  ]
+}

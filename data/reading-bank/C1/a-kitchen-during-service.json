@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "culture_food",
+  "title": "A Kitchen during Service",
+  "story": "By half past seven the pass was a narrow country with its own weather. Chef Anouk Pelletier called tickets in a voice that carried, and the cooks answered with times rather than opinions. A sauce could be thirty seconds away. A table could not. On the board, the first seating had ordered more baked hake than the morning delivery could support, because a crate of fish had been left on the wrong quay and was warming in a van. Anouk heard the news from the porter and did not spend a sentence on blame.\n\nShe changed the menu with small corrections announced before anyone could invent a larger one. Two portions of hake would be finished for guests already promised the dish. The remaining tickets would be offered a mussel stew that the kitchen could make well, or a chicken braise intended for the next day and already ready. Server Elias Kwon was to say that the fish had not arrived, not that the kitchen had run out, because the second phrase sounded like carelessness and the first sounded like weather. He repeated the line once, then took it into the dining room.\n\nWhat tested the plan was not the stew. It was a birthday table, whose host had announced the hake to his guests as if he had caught it. Elias came back with the refusal and with the temperature of the man's pride. Anouk stepped to the pass, wiped her hands, and gave him a better offer: the two finished portions for the host and the guest of honour, and the stew presented as a kitchen choice rather than as a shortage. She plated them herself, checked the salt, and sent the stew in wide bowls that did not look like apologies. The host accepted, partly because the bowls arrived quickly and partly because no one was handed a speech.\n\nHalfway through service the missing crate appeared, still cold enough to use, which was its own kind of insult. Anouk refused to throw the new plan away for the sake of being right. The hake would return on the late tickets, she said, and the stew would stay for anyone who had already agreed to it. A junior cook called the decision stubborn. The sous-chef, Marta Beltran, called it coherent. Coherent meant the room would not watch one table eat a public correction of another table's meal. When the board finally emptied, Anouk ate a spoon of the stew over the pass and salted the next batch. The service had been held together by a sentence the diners were never asked to admire.",
+  "vocabulary": [
+    {
+      "word": "porter",
+      "definition": "The worker who brought news of the missing crate."
+    },
+    {
+      "word": "braise",
+      "definition": "A dish of meat cooked slowly in liquid."
+    },
+    {
+      "word": "carelessness",
+      "definition": "A failure that looks like the kitchen's own fault."
+    },
+    {
+      "word": "shortage",
+      "definition": "Not having enough of something that was expected."
+    },
+    {
+      "word": "coherent",
+      "definition": "Fitting together so that the room tells one story."
+    },
+    {
+      "word": "insult",
+      "definition": "Here, a late arrival that mocked the trouble already taken."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Why was there not enough baked hake at the start of service?",
+      "options": [
+        "The guests had all ordered mussel stew",
+        "Anouk had sold the morning fish to another kitchen",
+        "The porter had cooked it for the staff breakfast",
+        "A crate of fish had been left on the wrong quay"
+      ],
+      "correctAnswer": "A crate of fish had been left on the wrong quay",
+      "explanation": "The first seating ordered more hake than the delivery could support because the crate was left on the wrong quay and was warming in a van.",
+      "supportingSentence": "On the board, the first seating had ordered more baked hake than the morning delivery could support, because a crate of fish had been left on the wrong quay and was warming in a van.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why was the birthday table harder to move off the hake than the other tickets?",
+      "options": [
+        "The host had already presented the missing fish as his own promise",
+        "The stew had burned before it left the kitchen",
+        "Elias refused to speak to anyone in the room",
+        "The chicken braise was reserved for the staff"
+      ],
+      "correctAnswer": "The host had already presented the missing fish as his own promise",
+      "explanation": "He had announced the hake to his guests as if he had caught it, so a plain substitution would expose that promise.",
+      "supportingSentence": "It was a birthday table, whose host had announced the hake to his guests as if he had caught it.",
+      "skill": "inference"
+    },
+    {
+      "question": "Once the fish was cold enough to use, what did Anouk refuse to give up?",
+      "options": [
+        "The chance to blame the porter in front of the cooks",
+        "A steady plan for guests who had already accepted the stew",
+        "The birthday host's request for a speech",
+        "Marta's wish to close the kitchen early"
+      ],
+      "correctAnswer": "A steady plan for guests who had already accepted the stew",
+      "explanation": "She would not throw away the new plan merely to be right, and the stew stayed for anyone who had already agreed to it.",
+      "supportingSentence": "Anouk refused to throw the new plan away for the sake of being right.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does carelessness describe in the line Anouk gives Elias?",
+      "options": [
+        "The weather that delayed the van",
+        "A sauce that needed thirty more seconds",
+        "Wording that would make the kitchen look at fault",
+        "The wide bowls used for the stew"
+      ],
+      "correctAnswer": "Wording that would make the kitchen look at fault",
+      "explanation": "Saying the kitchen had run out would sound like carelessness, while saying the fish had not arrived would sound like weather.",
+      "supportingSentence": "Server Elias Kwon was to say that the fish had not arrived, not that the kitchen had run out, because the second phrase sounded like carelessness and the first sounded like weather.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer end on a sentence the diners were never asked to admire?",
+      "options": [
+        "To admit the stew was too poor to praise",
+        "To suggest the birthday host had written the menu",
+        "To argue that servers should never speak to tables",
+        "To show that the rescue depended on wording the guests did not need to notice"
+      ],
+      "correctAnswer": "To show that the rescue depended on wording the guests did not need to notice",
+      "explanation": "The service holds together because of a sentence spoken in the room, and the diners are not asked to admire the trick of it.",
+      "supportingSentence": "The service had been held together by a sentence the diners were never asked to admire.",
+      "skill": "intent"
+    }
+  ]
+}

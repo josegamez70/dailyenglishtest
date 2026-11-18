@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "culture_food",
+  "title": "Preserving the Old Orchard",
+  "story": "The old orchard sat on a slope above the river, and the council's new road was drawn through it in a line so straight that it looked like an opinion. Sixty trees remained, most of them apples with names that did not appear in supermarkets, plus a row of pears that fruited only when the spring was patient. Amira Soltani, who had leased the ground from her uncle, called a Saturday grafting morning and was surprised by the number of people who came. Some wanted scions. Some wanted to be seen defending a place. She needed both, and she needed them to leave with a task, because affection without labour would not impress a planning hearing.\n\nA surveyor had described the orchard as underused. The word offended the volunteers until Amira admitted it was not entirely false. Fruit had fallen uncollected in recent years, and the wasps had enjoyed a better season than the neighbours. If they argued only that the place was beautiful, the road would be called necessary and the beauty would be called a private taste. She wanted a record of use: jars sold, trees adopted, varieties named, and fruit the regional wholesaler did not stock. Nostalgia could open the meeting. Evidence would have to keep it open.\n\nThey grafted in the barn because the wind was unkind. Amira showed the cut, the tongue of green wood, the tape, and a pencil label that would survive the damp. Each scion came from a tree they might lose, and each was set onto rootstock that a local nursery had donated without quite joining the protest. Children could wind tape but could not make the cut. A retired botanist, Yusuf Maren, corrected grips with a kindness that assumed people could improve. By noon there were ninety grafts, which would not stop a road but might continue the orchard somewhere else.\n\nThe continuation was the delicate part. Amira did not want the backup to weaken the fight to keep the slope. She told the group that grafting was prudence, not permission. Letters would still go to the council, and last autumn's jars would sit on the table at the hearing, labelled with variety and week. Anyone who spoke would describe a job, not a feeling: pruning in February, blossom watched for frost, fruit carried down the muddy track. Yusuf added that a heritage tree no one could propagate was only a story, while a heritage tree with living copies was an argument. People laughed, then wrote their names beside the aftercare list. The road remained on the map. So did a plan for making that straight line look expensive.",
+  "vocabulary": [
+    {
+      "word": "scions",
+      "definition": "Young shoots cut from a tree so they can be grafted onto another."
+    },
+    {
+      "word": "underused",
+      "definition": "Not being used as fully as it could be."
+    },
+    {
+      "word": "nostalgia",
+      "definition": "Affection for the past."
+    },
+    {
+      "word": "rootstock",
+      "definition": "The rooted plant onto which a graft is set."
+    },
+    {
+      "word": "prudence",
+      "definition": "Sensible care taken ahead of a possible loss."
+    },
+    {
+      "word": "propagate",
+      "definition": "To grow new living plants from an existing one."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did Amira expect if the orchard was defended only for its beauty?",
+      "options": [
+        "The council would cancel the hearing out of respect",
+        "The road would be called necessary, and the beauty a private taste",
+        "The wholesaler would start selling their named apples",
+        "The volunteers would be asked to leave the barn"
+      ],
+      "correctAnswer": "The road would be called necessary, and the beauty a private taste",
+      "explanation": "She says that a beauty-only argument would let the road be called necessary and the beauty a private taste.",
+      "supportingSentence": "If they argued only that the place was beautiful, the road would be called necessary and the beauty would be called a private taste.",
+      "skill": "detail"
+    },
+    {
+      "question": "What balance is Amira trying to keep by grafting before the hearing?",
+      "options": [
+        "Preparing for possible loss without making that loss seem acceptable",
+        "Selling the slope before the council can meet",
+        "Replacing the old trees with supermarket varieties",
+        "Letting the children decide the line of the road"
+      ],
+      "correctAnswer": "Preparing for possible loss without making that loss seem acceptable",
+      "explanation": "The grafts might continue the orchard elsewhere, but she calls grafting prudence rather than permission and does not want the backup to weaken the fight.",
+      "supportingSentence": "She told the group that grafting was prudence, not permission.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why does Amira partly accept the surveyor's description of the orchard?",
+      "options": [
+        "Uncollected fruit had made the charge of neglect partly fair",
+        "She wanted the road to pass through the oldest pears",
+        "Yusuf had asked her to agree with the council",
+        "The nursery had already bought the slope"
+      ],
+      "correctAnswer": "Uncollected fruit had made the charge of neglect partly fair",
+      "explanation": "She admits the word underused is not entirely false, and the story has just said fruit had fallen uncollected while the wasps ate well.",
+      "supportingSentence": "Fruit had fallen uncollected in recent years, and the wasps had enjoyed a better season than the neighbours.",
+      "skill": "inference"
+    },
+    {
+      "question": "What is a scion in this grafting morning?",
+      "options": [
+        "The council map of the new road",
+        "A jar of fruit saved from last autumn",
+        "A shoot taken from a tree they might lose",
+        "The rooted plant given by the nursery"
+      ],
+      "correctAnswer": "A shoot taken from a tree they might lose",
+      "explanation": "Each scion is cut from a tree they might lose and then set onto rootstock.",
+      "supportingSentence": "Each scion came from a tree they might lose, and each was set onto rootstock that a local nursery had donated without quite joining the protest.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer list jobs such as pruning and carrying fruit?",
+      "options": [
+        "To suggest the orchard was already closed in February",
+        "To blame the children for the muddy track",
+        "To argue that nostalgia by itself would win the hearing",
+        "To show that the hearing needed concrete work, not only feeling"
+      ],
+      "correctAnswer": "To show that the hearing needed concrete work, not only feeling",
+      "explanation": "Speakers are told to describe a job rather than a feeling, because evidence, not nostalgia alone, has to carry the meeting.",
+      "supportingSentence": "Anyone who spoke would describe a job, not a feeling: pruning in February, blossom watched for frost, fruit carried down the muddy track.",
+      "skill": "intent"
+    }
+  ]
+}

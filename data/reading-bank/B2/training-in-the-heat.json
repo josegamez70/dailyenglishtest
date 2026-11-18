@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "health_sports",
+  "title": "Training in the Heat",
+  "story": "The forecast promised a heavy, bright afternoon, so coach Priya moved the track session earlier and hoped to finish before the worst of the heat. Even at nine the air was thick with humidity, and the warm-up left shirts dark with sweat. Priya gathered the runners by the stand and set out a precaution that was not open to debate. Anyone whose face went pale, or who stopped sweating, had to leave the track and sit with a cold drink. Pride, she told them, was a poor partner on a day like this.\n\nJonah had hoped to chase a fast time over one lap. Priya cut that idea before he could argue. The workout became repetitions at a comfortable pace, with a full walk between them and a drink that replaced more than water. She called the bottles an electrolyte mix, a salty drink to replace what sweat removed, and made every runner taste one. Jonah found the flavour salty, yet he finished the bottle because the alternative was a seat in the shade.\n\nHalfway through the set the far straight began to shimmer. Jonah's legs felt heavier than the pace deserved, which Priya had said might happen when the body spent effort on cooling itself. She shortened the last two runs and moved the group onto the grass beneath the trees. A younger runner wanted extra sprints in the sun to prove he was fine. Priya refused, and she asked him to explain why the idea was unsafe. He mentioned dehydration and then went quiet, which was answer enough.\n\nJonah cooled down with easy strides where the shade was deepest, then read the card Priya had scribbled for him. It told him to weigh himself before and after hot sessions and to sleep earlier before a warm race. He was disappointed to leave without a sharp time, but he understood that a collapsed runner helped nobody. On the bus he wrote that the session had been slow and that the slowness had been the point.",
+  "vocabulary": [
+    {
+      "word": "humidity",
+      "definition": "Dampness held in the air."
+    },
+    {
+      "word": "precaution",
+      "definition": "An action taken in advance to stop harm."
+    },
+    {
+      "word": "pace",
+      "definition": "The speed at which a person runs."
+    },
+    {
+      "word": "electrolyte",
+      "definition": "A salt, in a drink, that replaces what sweat takes from the body."
+    },
+    {
+      "word": "dehydration",
+      "definition": "A dangerous lack of water in the body."
+    },
+    {
+      "word": "shade",
+      "definition": "An area that is out of direct sun."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Why did Priya bring the track session forward?",
+      "options": [
+        "The clubhouse clock was running an hour fast",
+        "She hoped to finish before the hottest part of the day",
+        "Another sport had booked the track after nine",
+        "Jonah had asked to race that same afternoon"
+      ],
+      "correctAnswer": "She hoped to finish before the hottest part of the day",
+      "explanation": "A hot afternoon was forecast, so she moved the session in order to finish before the worst heat.",
+      "supportingSentence": "The forecast promised a heavy, bright afternoon, so coach Priya moved the track session earlier and hoped to finish before the worst of the heat.",
+      "skill": "detail"
+    },
+    {
+      "question": "Which habits did the card tell Jonah to take up?",
+      "options": [
+        "Skipping drinks so that he would feel lighter",
+        "Adding sprints in full sun after every easy run",
+        "Training at midday to get used to collapsing",
+        "Checking his weight around hot sessions and sleeping earlier before a warm race"
+      ],
+      "correctAnswer": "Checking his weight around hot sessions and sleeping earlier before a warm race",
+      "explanation": "The card told him to weigh himself before and after hot sessions and to sleep earlier before a warm race.",
+      "supportingSentence": "It told him to weigh himself before and after hot sessions and to sleep earlier before a warm race.",
+      "skill": "detail"
+    },
+    {
+      "question": "What matters most to Priya once the day turns hot?",
+      "options": [
+        "Stopping pride from pushing anyone into a risky effort",
+        "Giving the people in the stand something exciting to watch",
+        "Proving that her group can beat every neighbouring club",
+        "Making the drinks taste less salty for Jonah"
+      ],
+      "correctAnswer": "Stopping pride from pushing anyone into a risky effort",
+      "explanation": "She calls pride a poor partner and builds the session around rules that keep runners from overreaching.",
+      "supportingSentence": "Pride, she told them, was a poor partner on a day like this.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why did Priya ask the younger runner to explain his idea?",
+      "options": [
+        "She needed a volunteer to lead sprints in the sun",
+        "She was unsure of the workout and wanted him to redesign it",
+        "She wanted him to see the danger, not only to follow an order",
+        "She hoped the group would vote to keep running"
+      ],
+      "correctAnswer": "She wanted him to see the danger, not only to follow an order",
+      "explanation": "Making him say why the extra sprints were unsafe pushed him to understand the risk himself.",
+      "supportingSentence": "Priya refused, and she asked him to explain why the idea was unsafe.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does humidity describe at the start of this session?",
+      "options": [
+        "A cold wind blowing across the track",
+        "A running shoe designed for wet weather",
+        "The covered stand beside the finishing line",
+        "Dampness in the air that made the morning feel heavy"
+      ],
+      "correctAnswer": "Dampness in the air that made the morning feel heavy",
+      "explanation": "The air was thick with humidity, so the word refers to the moisture that made the morning feel heavy.",
+      "supportingSentence": "Even at nine the air was thick with humidity, and the warm-up left shirts dark with sweat.",
+      "skill": "vocabulary"
+    }
+  ]
+}

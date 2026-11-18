@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "fantasy",
+  "title": "Seeds from the Moon Market",
+  "story": "The moon market appeared in the lower field only when the moon was full and the grass was dry enough to hold a stall. Harun heard pans ticking as they cooled, and a low argument about prices that were never written down. He was the town cook, and ordinary seeds had given him ordinary soup. A feast for the harbor workers was two days away, and he wanted a flavor that would make tired people lift their heads.\n\nEach packet carried a label that had to be spoken honestly before the seed would grow. Harun was tempted by a gold packet marked with the taste of home. Vesa, the seller, told him to think carefully. Such a seed grew a memory so strong that later meals tasted thin beside it. A feast should comfort people and then let them return to their own kitchens.\n\nHe chose three smaller packets: patience, salt wind, and yellow heat. Vesa repeated the market's other rule. Plant only what you can tend. A neglected moon seed did not die quietly. It spoiled the soil around it and remembered the neglect.\n\nHarun planted salt wind and yellow heat in pots on his steps, where he would see them every morning. He almost left the patience seed in a drawer. Then he thought of the warning and set it in a box by the window, though he doubted that a moon seed could be slow. He was wrong in a useful way. The first two herbs greened by the next night and gave the feast a bright, sea-sharp taste that the workers praised without quite naming. The patience seed did nothing for a week.\n\nOn the eighth morning it put out a single curled leaf. Harun laughed, then stopped and watered it. The label had been literal, which was the market's habit. He had cooked the feast without that leaf, and he kept the plant. Some flavors were not late. They were keeping a promise about time.",
+  "vocabulary": [
+    {
+      "word": "tempted",
+      "definition": "Strongly attracted to something that may be unwise."
+    },
+    {
+      "word": "neglected",
+      "definition": "Not given the care that is needed."
+    },
+    {
+      "word": "literal",
+      "definition": "Matching the exact meaning of the words."
+    },
+    {
+      "word": "praised",
+      "definition": "Spoken of with approval."
+    },
+    {
+      "word": "tend",
+      "definition": "To look after something so that it can grow."
+    },
+    {
+      "word": "curled",
+      "definition": "Bent into a curved shape."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Who was the feast meant to feed?",
+      "options": [
+        "The workers at the harbor",
+        "The sellers in the moon market",
+        "Vesa's neighbors in the lower field",
+        "Travelers who had missed the full moon"
+      ],
+      "correctAnswer": "The workers at the harbor",
+      "explanation": "The feast for the harbor workers was two days away.",
+      "supportingSentence": "A feast for the harbor workers was two days away, and he wanted a flavor that would make tired people lift their heads.",
+      "skill": "detail"
+    },
+    {
+      "question": "What risk did Vesa see in the gold packet?",
+      "options": [
+        "It would grow only after the feast was finished",
+        "Ordinary meals afterward would taste poor beside that memory",
+        "The seed would spoil every pot on the steps",
+        "The label could be spoken only in another town"
+      ],
+      "correctAnswer": "Ordinary meals afterward would taste poor beside that memory",
+      "explanation": "A memory so strong that later meals tasted thin would make everyday food disappointing.",
+      "supportingSentence": "Such a seed grew a memory so strong that later meals tasted thin beside it.",
+      "skill": "inference"
+    },
+    {
+      "question": "What did the patience seed do during its first week?",
+      "options": [
+        "It became green on the first night",
+        "It supplied the bright taste for the feast",
+        "It did nothing",
+        "It spoiled the soil in the window box"
+      ],
+      "correctAnswer": "It did nothing",
+      "explanation": "The patience seed did nothing for a week.",
+      "supportingSentence": "The patience seed did nothing for a week.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does literal mean about the word on that label?",
+      "options": [
+        "Secret, so only the seller knows it",
+        "False, and used as a joke about the price",
+        "Decorative, like the color of a gold packet",
+        "Exact, with the word meaning just what it says"
+      ],
+      "correctAnswer": "Exact, with the word meaning just what it says",
+      "explanation": "The seed named patience waited a full week, so the label meant exactly what it said.",
+      "supportingSentence": "The label had been literal, which was the market's habit.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Harun plant the slow seed instead of leaving it in the drawer?",
+      "options": [
+        "He remembered the warning about failing to care for it",
+        "He needed its leaf for the feast that same night",
+        "Vesa said seeds kept in drawers grew faster",
+        "The first two packets had already failed"
+      ],
+      "correctAnswer": "He remembered the warning about failing to care for it",
+      "explanation": "He thought of the warning and planted it, even though he doubted a moon seed could be slow.",
+      "supportingSentence": "Then he thought of the warning and set it in a box by the window, though he doubted that a moon seed could be slow.",
+      "skill": "inference"
+    }
+  ]
+}

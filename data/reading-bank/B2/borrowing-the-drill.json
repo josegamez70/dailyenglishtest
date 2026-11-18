@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "daily life",
+  "title": "Borrowing the Drill",
+  "story": "Ruth had promised to put up a set of shelves before her sister visited on Saturday, but the flat was small and the boxes of books on the floor made the living room look unfinished. She owned a tape measure, a pencil, and a spirit level, although she did not own a drill. The hardware shop nearby hired tools, yet the deposit was high and the shop shut at five. It was already half past four, and she still had to find the wall studs before she could begin.\n\nHer neighbour Patrick had once mentioned that he kept a few tools in a cupboard on the landing. Ruth disliked asking for favours. However, she knocked anyway, and Patrick opened the door in his work clothes and listened while she explained. He was cautious at first, because a previous tenant had borrowed the drill and returned it with a damaged bit, then avoided him for weeks. Ruth said she understood his concern. She offered to use it that evening only, to return it before ten, and to replace anything she broke.\n\nPatrick considered the offer and then agreed, although he added two conditions. She had to take the spare battery as well, and she had to stop if the wall sounded hollow in the wrong place. He also showed her how to hold the drill with both hands so it would not slip. Ruth thanked him and carried the case upstairs, where the first hole was slightly crooked, which annoyed her, but the next ones were straight. By nine the shelves were firm enough to hold the books.\n\nMeanwhile, she kept an eye on the time. At ten to ten she wiped the drill, put every bit back in its place, and knocked on Patrick's door. He checked the case, seemed satisfied, and told her she could borrow it again if she gave him notice. Ruth felt grateful rather than awkward, because asking properly had been better than struggling alone or hiring a tool she could not afford.",
+  "vocabulary": [
+    {
+      "word": "deposit",
+      "definition": "Money paid before you are allowed to borrow something."
+    },
+    {
+      "word": "cautious",
+      "definition": "Careful, because something might go wrong."
+    },
+    {
+      "word": "grateful",
+      "definition": "Feeling or showing thanks."
+    },
+    {
+      "word": "awkward",
+      "definition": "Slightly uncomfortable or embarrassed."
+    },
+    {
+      "word": "meanwhile",
+      "definition": "At the same time as something else is happening."
+    },
+    {
+      "word": "notice",
+      "definition": "A warning given before you do something."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What made hiring a drill a poor choice that afternoon?",
+      "options": [
+        "The shop had stopped hiring tools to the public",
+        "The deposit was high, and the shop closed at five",
+        "Patrick worked there and refused to serve her",
+        "Drills could be hired only on a Saturday"
+      ],
+      "correctAnswer": "The deposit was high, and the shop closed at five",
+      "explanation": "The shop did hire tools, but the deposit cost a lot and it shut at five, when it was already half past four.",
+      "supportingSentence": "The hardware shop nearby hired tools, yet the deposit was high and the shop shut at five.",
+      "skill": "detail"
+    },
+    {
+      "question": "What has made Patrick protective of the drill?",
+      "options": [
+        "He needs it himself for shelves that same evening",
+        "The tool still belongs to the hardware shop",
+        "He has never spoken to Ruth before",
+        "The last person who borrowed it damaged it and then avoided him"
+      ],
+      "correctAnswer": "The last person who borrowed it damaged it and then avoided him",
+      "explanation": "A previous tenant brought it back with a damaged bit and then stayed away, so Patrick is slow to lend it again.",
+      "supportingSentence": "He was cautious at first, because a previous tenant had borrowed the drill and returned it with a damaged bit, then avoided him for weeks.",
+      "skill": "inference"
+    },
+    {
+      "question": "What conditions came with the loan?",
+      "options": [
+        "Return the case on Saturday morning",
+        "Pay a fee for every hole",
+        "Take the spare battery and stop if the wall sounded hollow in the wrong place",
+        "Use the drill only on the landing door"
+      ],
+      "correctAnswer": "Take the spare battery and stop if the wall sounded hollow in the wrong place",
+      "explanation": "Patrick agreed, then added those two limits before Ruth took the case upstairs.",
+      "supportingSentence": "She had to take the spare battery as well, and she had to stop if the wall sounded hollow in the wrong place.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does cautious mean in this story?",
+      "options": [
+        "Careful because something could go wrong",
+        "Eager to give things away",
+        "Too busy to open the door",
+        "Unsure which way a shelf should face"
+      ],
+      "correctAnswer": "Careful because something could go wrong",
+      "explanation": "Patrick is cautious because a previous loan ended with damage, so he does not agree at once.",
+      "supportingSentence": "He was cautious at first, because a previous tenant had borrowed the drill and returned it with a damaged bit, then avoided him for weeks.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What does Patrick's final offer suggest?",
+      "options": [
+        "He wants Ruth to keep the drill upstairs",
+        "He is still too annoyed to speak to her",
+        "He now trusts her to borrow it again if she asks first",
+        "He expects her to repair an old damaged bit tonight"
+      ],
+      "correctAnswer": "He now trusts her to borrow it again if she asks first",
+      "explanation": "After checking the case and seeming satisfied, he says she may borrow it again if she gives him notice.",
+      "supportingSentence": "He checked the case, seemed satisfied, and told her she could borrow it again if she gave him notice.",
+      "skill": "inference"
+    }
+  ]
+}

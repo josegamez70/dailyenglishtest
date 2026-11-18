@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "economy_finance",
+  "title": "Two Leases, One Street",
+  "story": "On a wet Thursday, Lale walked the length of Harbor Street with two sets of keys and a notebook she had ruled into columns. Both shops were empty. Both landlords wanted a five-year lease for her coffee counter, and both had described their offer as fair before she had read past the first page. The north unit advertised a lower rent. The south unit cost more each month and looked, at a glance, like the worse bargain.\n\nThe cheaper lease earned its discount in the lines most tenants skim. The service charge was uncapped, and the landlord could raise it once a year with a month's notice. Repairs to the frontage, the shared yard, and the aging boiler sat with the tenant, even when the damage was older than the tenancy. A break clause let the landlord end the agreement after thirty months if he found a buyer, while Lale could leave only by paying the remaining rent. The deposit was three months, held by the landlord himself, and the renewal terms were silent. A low headline rent, spread over a lease with that shape, was a number that could move against her without her consent.\n\nThe south lease was plainer and, in the ways that mattered, tighter. The rent was higher, but it rose only with a published price index, and never by more than four percent in a year. The service charge was a fixed monthly sum, with an annual statement she could inspect. Structural repairs stayed with the landlord. Her break clause matched his: either side could end the lease at the three-year mark by giving six months' notice, with no penalty beyond the rent already due. The deposit would sit with an independent holder. None of this made the unit beautiful. The counter was chipped, and the back room smelled of previous tenants' cardboard. It did make the cost predictable.\n\nLale took the figures home and priced both leases across five years, including a cautious guess at the uncapped charges and a single boiler failure. The north unit, cheaper on the advertisement, came out more expensive in three of her four scenarios, and wildly so in the fourth. She slept on the comparison and still preferred the predictable cost in the morning. She returned the north keys on Friday and asked the south landlord to strike one covenant that would have banned hot food after dark. He agreed, because the rest of the lease already protected him. She signed that afternoon. The rent was the larger number on the page. It was also the number she could plan around.",
+  "vocabulary": [
+    {
+      "word": "lease",
+      "definition": "A contract that lets someone use a property for a set time."
+    },
+    {
+      "word": "uncapped",
+      "definition": "Not limited, so a charge can keep rising."
+    },
+    {
+      "word": "deposit",
+      "definition": "A sum of money held as security during a tenancy."
+    },
+    {
+      "word": "index",
+      "definition": "A published measure used here to decide how far rent may rise."
+    },
+    {
+      "word": "covenant",
+      "definition": "A specific promise or restriction written into a lease."
+    },
+    {
+      "word": "predictable",
+      "definition": "Able to be foreseen, without sudden changes."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What limit did the south lease put on a rent increase in one year?",
+      "options": [
+        "Four percent",
+        "No limit, if the landlord gave a month's notice",
+        "The full cost of a new boiler",
+        "Three months of rent"
+      ],
+      "correctAnswer": "Four percent",
+      "explanation": "On the south lease the rent could follow a price index, but it could not rise by more than four percent in a year.",
+      "supportingSentence": "The rent was higher, but it rose only with a published price index, and never by more than four percent in a year.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does Lale's final choice suggest she values in a lease?",
+      "options": [
+        "A landlord who will pay her deposit for her",
+        "The right to walk away after one month",
+        "A cost she can predict, even when the advertised rent is higher",
+        "The prettier room, whatever the contract says"
+      ],
+      "correctAnswer": "A cost she can predict, even when the advertised rent is higher",
+      "explanation": "She rejects the lower advertised rent after comparing the real costs, then chooses the higher rent because she can plan around it.",
+      "supportingSentence": "It was also the number she could plan around.",
+      "skill": "inference"
+    },
+    {
+      "question": "How does the south deposit reduce a risk that the north lease leaves open?",
+      "options": [
+        "An independent party would hold the money, rather than the landlord.",
+        "Lale would not have to pay a deposit at all.",
+        "The deposit would be spent on kitchen equipment.",
+        "The landlord would add the deposit to the service charge every month."
+      ],
+      "correctAnswer": "An independent party would hold the money, rather than the landlord.",
+      "explanation": "On the north lease the landlord would hold the deposit himself. On the south lease an independent holder would keep it.",
+      "supportingSentence": "The deposit would sit with an independent holder.",
+      "skill": "inference"
+    },
+    {
+      "question": "In this story, what is a covenant?",
+      "options": [
+        "A monthly bill for shared repairs",
+        "A rule in the lease, such as a ban the tenant wants removed",
+        "A set of keys to two shops",
+        "A forecast of rent over five years"
+      ],
+      "correctAnswer": "A rule in the lease, such as a ban the tenant wants removed",
+      "explanation": "Lale asks the landlord to strike a covenant that would have banned hot food, so here the word is a restriction written into the lease.",
+      "supportingSentence": "She returned the north keys on Friday and asked the south landlord to strike one covenant that would have banned hot food after dark.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer mention the chipped counter and the smell of cardboard?",
+      "options": [
+        "To show that Lale chose the south unit for its looks",
+        "To warn that the building was unsafe to enter",
+        "To explain why the north landlord cut the rent",
+        "To make plain that the condition of the room did not drive her decision"
+      ],
+      "correctAnswer": "To make plain that the condition of the room did not drive her decision",
+      "explanation": "The worn room is mentioned just before the story says the real gain was a predictable cost, so appearance is not her reason.",
+      "supportingSentence": "The counter was chipped, and the back room smelled of previous tenants' cardboard.",
+      "skill": "intent"
+    }
+  ]
+}

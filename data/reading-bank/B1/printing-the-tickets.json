@@ -1,0 +1,99 @@
+{
+  "level": "B1",
+  "topic": "technology",
+  "title": "Printing the Tickets",
+  "story": "Eva and her brother Nico had tickets for a Saturday concert, but the file was still on Eva's laptop. The venue would not accept a phone photo, so they needed paper copies. On Friday evening they went to a print shop near the market. Eva opened her email and clicked the attachment. A circle spun on the screen for a long time.\n\nThe assistant shook her head. The file was too large for the old printer, and the shop network was slow. She told Eva to download the tickets onto a memory stick at home. Eva felt annoyed, because the concert was the next day and the shop closed at noon.\n\nThat night Eva connected the laptop to the family router with a cable, not the wireless signal. The download finished in two minutes. She saved both tickets as one document and copied it onto the stick. She checked the names and the start time, which was seven thirty. Nico noticed that one seat was in row D and the other was in row E. They were not side by side.\n\nEva wrote to the ticket office and asked for a change. An automatic reply said the office would answer in the morning. At breakfast the office had moved them to row F, seats twelve and thirteen. Eva returned to the shop at ten, and the assistant printed two clear pages. Nico paid four coins for the paper.",
+  "vocabulary": [
+    {
+      "word": "venue",
+      "definition": "The place where an event happens"
+    },
+    {
+      "word": "attachment",
+      "definition": "A file sent together with an email"
+    },
+    {
+      "word": "download",
+      "definition": "To copy a file from the internet onto your device"
+    },
+    {
+      "word": "router",
+      "definition": "A device that connects a home to the internet"
+    },
+    {
+      "word": "document",
+      "definition": "A computer file that holds written pages"
+    },
+    {
+      "word": "automatic",
+      "definition": "Done by a machine without a person writing it"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Why did Eva and Nico need paper copies?",
+      "options": [
+        "The venue would not accept a phone photo",
+        "The concert had been cancelled",
+        "Nico had lost the laptop",
+        "The shop had run out of ink"
+      ],
+      "correctAnswer": "The venue would not accept a phone photo",
+      "explanation": "The venue would not accept a phone photo, so they needed the tickets on paper.",
+      "supportingSentence": "The venue would not accept a phone photo, so they needed paper copies.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why could the assistant not print the tickets on Friday evening?",
+      "options": [
+        "The file was too large and the network was slow",
+        "The tickets were for the wrong month",
+        "Eva had forgotten both names",
+        "The shop closed at seven thirty"
+      ],
+      "correctAnswer": "The file was too large and the network was slow",
+      "explanation": "The file was too large for the old printer, and the shop network was slow.",
+      "supportingSentence": "The file was too large for the old printer, and the shop network was slow.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does automatic mean?",
+      "options": [
+        "Done by a machine without a person writing it",
+        "Printed in very large letters",
+        "Delivered several days late",
+        "Written by hand with a pen"
+      ],
+      "correctAnswer": "Done by a machine without a person writing it",
+      "explanation": "An automatic reply arrives before a person at the office answers in the morning.",
+      "supportingSentence": "An automatic reply said the office would answer in the morning.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Which seats did Nico notice before the office wrote back?",
+      "options": [
+        "One in row D and one in row E",
+        "Two seats together in row F",
+        "Seats twelve and thirteen",
+        "A whole row beside the stage"
+      ],
+      "correctAnswer": "One in row D and one in row E",
+      "explanation": "Nico saw one seat in row D and the other in row E, so they were not together.",
+      "supportingSentence": "Nico noticed that one seat was in row D and the other was in row E.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did Eva most likely use a cable at home?",
+      "options": [
+        "She wanted a steadier link than wireless",
+        "The memory stick worked only at school",
+        "Nico had broken the family printer",
+        "The office had closed her email"
+      ],
+      "correctAnswer": "She wanted a steadier link than wireless",
+      "explanation": "After the slow shop network, she connects the router with a cable instead of the wireless signal.",
+      "supportingSentence": "That night Eva connected the laptop to the family router with a cable, not the wireless signal.",
+      "skill": "inference"
+    }
+  ]
+}

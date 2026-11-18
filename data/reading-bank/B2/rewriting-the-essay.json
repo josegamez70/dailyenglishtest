@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "school_college",
+  "title": "Rewriting the Essay",
+  "story": "Marco received his history essay back on Monday with a grade that disappointed him. He had spent a whole weekend on it, although the comments in the margin suggested that effort alone had not been enough. His tutor, Adeyemi, had written that the introduction was promising but the argument drifted. Several paragraphs described events without explaining why they mattered, and there were long quotations where a short one would have been clearer. However, the final note was not unkind, and it said the ideas were worth revising.\n\nAt first Marco wanted to defend every sentence. He told a classmate that the question had been too broad and that the word limit was unfair. By Tuesday his irritation had cooled, so he read the feedback again with a pen and underlined the comments he could act on. Adeyemi had offered a short meeting, which Marco booked. In the tutor's office he was asked to say, in one sentence, what his essay was trying to prove, yet he could not do it. That silence was more useful than another hour of writing.\n\nTogether they built a simple plan. The essay needed a claim, two or three reasons, and evidence that actually supported those reasons, while background information had to be reduced. Words such as many people had to be replaced with precise references. Adeyemi also showed him a paragraph that was coherent and one that was only a list of facts. The difference was the linking sentence at the end, which told the reader how the evidence answered the question. Marco left with a checklist and a deadline of Friday.\n\nHe rewrote the essay in two evenings, cutting almost two hundred words before adding better ones. It was slower than he expected, because deleting his own sentences felt personal. On Friday he submitted the new version and kept the old file so he could see the change. The improved grade mattered, but the clearer method mattered more. Next time, he decided, he would plan the argument before he started typing.",
+  "vocabulary": [
+    {
+      "word": "disappointed",
+      "definition": "Unhappy because something was worse than you had hoped."
+    },
+    {
+      "word": "drifted",
+      "definition": "Moved gradually away from the main point."
+    },
+    {
+      "word": "revising",
+      "definition": "Changing a piece of writing in order to improve it."
+    },
+    {
+      "word": "coherent",
+      "definition": "Clear, connected, and easy to follow."
+    },
+    {
+      "word": "precise",
+      "definition": "Exact and specific rather than vague."
+    },
+    {
+      "word": "checklist",
+      "definition": "A list of points to remember or complete."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What criticism did Adeyemi make of the essay's shape?",
+      "options": [
+        "There was no introduction at all",
+        "The opening worked, but the argument lost its direction",
+        "The grade had been entered by mistake",
+        "The essay was too short to mark"
+      ],
+      "correctAnswer": "The opening worked, but the argument lost its direction",
+      "explanation": "Adeyemi wrote that the introduction was promising, but the argument drifted.",
+      "supportingSentence": "His tutor, Adeyemi, had written that the introduction was promising but the argument drifted.",
+      "skill": "detail"
+    },
+    {
+      "question": "What do Marco's comments to his classmate reveal?",
+      "options": [
+        "He wanted to blame the task before examining his own writing",
+        "He thought Adeyemi had lost the only copy",
+        "He was already satisfied with every paragraph",
+        "He had agreed a new question that afternoon"
+      ],
+      "correctAnswer": "He wanted to blame the task before examining his own writing",
+      "explanation": "He complains that the question was too broad and the word limit unfair, instead of starting with the weaknesses in the essay.",
+      "supportingSentence": "He told a classmate that the question had been too broad and that the word limit was unfair.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does coherent mean in this story?",
+      "options": [
+        "Copied from another student's work",
+        "Finished after the deadline",
+        "Clear and joined together, so the point is easy to follow",
+        "Filled with long quotations"
+      ],
+      "correctAnswer": "Clear and joined together, so the point is easy to follow",
+      "explanation": "Adeyemi contrasts a coherent paragraph with one that is only a list of facts.",
+      "supportingSentence": "Adeyemi also showed him a paragraph that was coherent and one that was only a list of facts.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What did Marco do with the two versions on Friday?",
+      "options": [
+        "He deleted both files after the meeting",
+        "He asked a classmate to hand them in",
+        "He printed only the first draft",
+        "He handed in the new one and kept the old one"
+      ],
+      "correctAnswer": "He handed in the new one and kept the old one",
+      "explanation": "He submitted the new version and kept the old file so that he could see what had changed.",
+      "supportingSentence": "On Friday he submitted the new version and kept the old file so he could see the change.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does Marco value most once the essay has been rewritten?",
+      "options": [
+        "Finishing in less time than the first attempt",
+        "A clearer way of working, ahead of the higher mark",
+        "Avoiding history essays from then on",
+        "Keeping the new grade secret from his tutor"
+      ],
+      "correctAnswer": "A clearer way of working, ahead of the higher mark",
+      "explanation": "The better grade matters to him, but he decides that the clearer method matters more.",
+      "supportingSentence": "The improved grade mattered, but the clearer method mattered more.",
+      "skill": "inference"
+    }
+  ]
+}

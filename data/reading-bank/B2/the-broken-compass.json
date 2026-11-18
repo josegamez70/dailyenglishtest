@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "adventure",
+  "title": "The Broken Compass",
+  "story": "The compass failed on the second morning, not with a crack but with a lazy swing that never settled. Ruth noticed when she checked their bearing at the edge of a pine wood. The needle drifted toward the metal clip on her pack, then toward nothing she could name. A fall the day before had left a pale mark on the case, and she understood that the mark was more than a scratch.\n\nEd, who had trusted the instrument without reading the map, wanted to keep the heading they had used since breakfast. Ruth spread the map on a flat stone and made him look at the land itself. The contours showed a long slope falling toward a river, and that river would lead south to a footbridge marked in red. If they chased a broken needle, they might circle until the light went.\n\nThe old tricks were weaker than the stories. Moss did not grow on only one side of the trunks, because the wood was damp all round. The sun was a pale disc, enough for a rough sense of east, but clouds kept taking it away. What stayed reliable was the slope under their boots. Water, Ruth said, could be believed when a magnet could not.\n\nThey walked downhill and marked each pause with a small pile of cones, so they would know if they crossed their own route. After an hour the ground grew softer, and the air smelled of wet leaves. Then a thin sound became a stream and, soon after, the river on the map. The current moved with a purpose their compass no longer had.\n\nBy midafternoon they reached the footbridge and a path with fresh boot prints. Ed wrapped the compass in a cloth and put it at the bottom of his pack, where it could not pretend to help. They still had a long walk to the road, but they were no longer asking a damaged tool to invent the way.",
+  "vocabulary": [
+    {
+      "word": "bearing",
+      "definition": "The direction in which someone is traveling."
+    },
+    {
+      "word": "drifted",
+      "definition": "Moved slowly without holding a firm direction."
+    },
+    {
+      "word": "contours",
+      "definition": "Lines on a map that show the shape of the land."
+    },
+    {
+      "word": "reliable",
+      "definition": "Able to be trusted."
+    },
+    {
+      "word": "current",
+      "definition": "The flow of water in a river or stream."
+    },
+    {
+      "word": "invent",
+      "definition": "To make something up rather than find the real thing."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where did the map say the downward slope would lead them?",
+      "options": [
+        "South, by a river, to a footbridge marked in red",
+        "East, toward the metal clip on the pack",
+        "Back to the pine wood they had just left",
+        "In a circle until the daylight was gone"
+      ],
+      "correctAnswer": "South, by a river, to a footbridge marked in red",
+      "explanation": "The contours showed a slope falling toward a river, and that river led south to a footbridge marked in red.",
+      "supportingSentence": "The contours showed a long slope falling toward a river, and that river would lead south to a footbridge marked in red.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does reliable mean in this passage?",
+      "options": [
+        "Interesting but impossible to prove",
+        "Able to be trusted",
+        "Hidden by cloud for most of the day",
+        "Damaged in a fall the day before"
+      ],
+      "correctAnswer": "Able to be trusted",
+      "explanation": "The slope under their boots stays reliable after the compass, the moss, and the sun have all failed, so it is something they can trust.",
+      "supportingSentence": "What stayed reliable was the slope under their boots.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did they leave a pile of cones each time they paused?",
+      "options": [
+        "To build a new instrument that could settle",
+        "To notice if they crossed their own route and began to circle",
+        "To give Ed a heading he could follow without a map",
+        "To keep the pale sun visible through the trees"
+      ],
+      "correctAnswer": "To notice if they crossed their own route and began to circle",
+      "explanation": "They marked each pause so they would know if they crossed their own route, which would mean they were going in a circle.",
+      "supportingSentence": "They walked downhill and marked each pause with a small pile of cones, so they would know if they crossed their own route.",
+      "skill": "inference"
+    },
+    {
+      "question": "What did Ed do with the compass when they reached the footbridge?",
+      "options": [
+        "He hung it from the rail for other walkers",
+        "He traded it for a better map",
+        "He left it beside the last pile of cones",
+        "He wrapped it and put it at the bottom of his pack"
+      ],
+      "correctAnswer": "He wrapped it and put it at the bottom of his pack",
+      "explanation": "Ed wrapped the compass in a cloth and put it at the bottom of his pack.",
+      "supportingSentence": "Ed wrapped the compass in a cloth and put it at the bottom of his pack, where it could not pretend to help.",
+      "skill": "detail"
+    },
+    {
+      "question": "What was true after they found the footbridge?",
+      "options": [
+        "A long walk remained, but they were no longer inventing the route",
+        "The boot prints showed that they had walked in a circle",
+        "They needed the compass again before they could move",
+        "The river on the map had been flowing the wrong way"
+      ],
+      "correctAnswer": "A long walk remained, but they were no longer inventing the route",
+      "explanation": "They still had a long walk, but they were no longer asking a damaged tool to invent the way, so the route itself was real.",
+      "supportingSentence": "They still had a long walk to the road, but they were no longer asking a damaged tool to invent the way.",
+      "skill": "inference"
+    }
+  ]
+}

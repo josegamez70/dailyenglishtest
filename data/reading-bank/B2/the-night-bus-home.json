@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "daily life",
+  "title": "The Night Bus Home",
+  "story": "The last train had already left when Nico reached the station, so he walked to the stop where the night bus picked up passengers after midnight. The street was almost deserted, although a bakery on the corner still had its lights on. He checked the timetable twice and saw that the bus was due at twenty past twelve, yet the minutes passed and nothing came. He thought about calling a taxi, but the fare across the city would have used most of his weekly travel money.\n\nA woman in a red coat arrived and stood a short distance away. She looked weary, and she kept glancing down the road. Nico hesitated before speaking, because he did not want to alarm her, but at last he asked whether she was waiting for the same service. She said she was, and that this route was often late after concerts finished in the centre. Her name was Farah. She had missed her earlier bus after a long shift at a hospital, and she still had a twenty-minute walk at the other end, which made Nico feel less foolish for waiting beside her.\n\nHowever, another half hour went by. Farah suggested they check the transport notice on her phone, and a short message said the bus had been held up by a road closure and would arrive soon. They stayed under the shelter and talked quietly about the kind of work that ends when everyone else is asleep. Nico packed boxes in a warehouse, whereas Farah cleaned operating theatres. Neither job was glamorous, but both required them to be punctual the next day, which made a cancelled bus more than an inconvenience.\n\nWhen the vehicle finally appeared, they boarded and found a few free seats. Farah got off first and wished him a safe rest of the journey. Nico watched the empty streets slide past and felt a quiet relief, because the night had been inconvenient, yet a stranger's company had made it easier to bear.",
+  "vocabulary": [
+    {
+      "word": "deserted",
+      "definition": "Empty of people."
+    },
+    {
+      "word": "weary",
+      "definition": "Very tired."
+    },
+    {
+      "word": "hesitated",
+      "definition": "Paused before acting, because of uncertainty."
+    },
+    {
+      "word": "punctual",
+      "definition": "On time, at the hour you are expected."
+    },
+    {
+      "word": "relief",
+      "definition": "The easing of a worry."
+    },
+    {
+      "word": "inconvenient",
+      "definition": "Causing trouble or making a situation difficult."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How had Nico felt about waiting before he heard Farah's story?",
+      "options": [
+        "Proud that he had missed the train",
+        "Sure that a taxi would be the cheaper choice",
+        "A little foolish for standing at the stop",
+        "Ready to walk across the city by himself"
+      ],
+      "correctAnswer": "A little foolish for standing at the stop",
+      "explanation": "Hearing about her long shift and her walk made him feel less foolish, so the wait had embarrassed him before that.",
+      "supportingSentence": "She had missed her earlier bus after a long shift at a hospital, and she still had a twenty-minute walk at the other end, which made Nico feel less foolish for waiting beside her.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why did Nico decide against a taxi?",
+      "options": [
+        "The fare would have taken most of the money he kept for weekly travel",
+        "Taxis were not allowed to stop near the station",
+        "Farah had offered him a seat in her car",
+        "He had left his wallet at the warehouse"
+      ],
+      "correctAnswer": "The fare would have taken most of the money he kept for weekly travel",
+      "explanation": "He thought about a taxi, then realised the fare across the city would use most of his weekly travel money.",
+      "supportingSentence": "He thought about calling a taxi, but the fare across the city would have used most of his weekly travel money.",
+      "skill": "detail"
+    },
+    {
+      "question": "What reason did the phone message give for the delay?",
+      "options": [
+        "The driver had already finished work",
+        "Concert crowds had cancelled the service",
+        "The printed timetable was for another day",
+        "A road closure had held the bus up"
+      ],
+      "correctAnswer": "A road closure had held the bus up",
+      "explanation": "The notice said the bus had been held up by a road closure and would arrive soon.",
+      "supportingSentence": "Farah suggested they check the transport notice on her phone, and a short message said the bus had been held up by a road closure and would arrive soon.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does weary mean in this story?",
+      "options": [
+        "Extremely tired",
+        "Newly arrived",
+        "Dressed for cold weather",
+        "Unsure of the route"
+      ],
+      "correctAnswer": "Extremely tired",
+      "explanation": "It describes Farah after a long hospital shift, while she is still waiting at the stop.",
+      "supportingSentence": "She looked weary, and she kept glancing down the road.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What does Nico's pause before speaking show?",
+      "options": [
+        "He could not remember which bus he needed",
+        "He was careful not to frighten someone he did not know",
+        "He hoped Farah would pay the taxi fare",
+        "He had decided to give up on the journey"
+      ],
+      "correctAnswer": "He was careful not to frighten someone he did not know",
+      "explanation": "He waited before talking because he did not want to alarm her, late at night and at an empty stop.",
+      "supportingSentence": "Nico hesitated before speaking, because he did not want to alarm her, but at last he asked whether she was waiting for the same service.",
+      "skill": "inference"
+    }
+  ]
+}

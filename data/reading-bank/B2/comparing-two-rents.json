@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "economy_finance",
+  "title": "Comparing Two Rents",
+  "story": "Lena had one week to choose a room, and both landlords wanted an answer by Friday. The room on Mill Street cost five hundred and forty pounds a month, with heating billed on top, and it sat a long bus ride from the college. The room above the bakery cost six hundred and ten pounds, heating included, and she could walk there in twelve minutes. On a quick look, Mill Street seemed the sensible saving.\n\nShe made herself write a proper comparison before she fell in love with the lower rent. Heating on Mill Street was about seventy pounds in a cold month. The bus fare, counted both ways across a study week, came to sixty-four. Added together, the cheaper room cost more to live in than the room above the bakery. The walk also gave her back nearly an hour a day, which she needed for evening classes and for sleep. Money was only half of the decision, but the half she could put in a column already pointed away from Mill Street.\n\nShe almost sent the bakery a polite refusal on Wednesday, because the higher rent looked reckless on its own. The deposits told a harder story. Mill Street asked for one month in advance, five hundred and forty pounds, which she had saved. The bakery asked for a deposit of eight hundred pounds, so she was short by two hundred and sixty. Her sister Noor offered to cover that gap if Lena repaid twenty-six pounds a month for ten months. Twenty-six was less than the sixty-four she would save each month, so the help would not put her behind. Lena wrote those repayments into the same comparison. On Friday she took the bakery room. The headline rent was higher, yet the month she would actually live was cheaper, and the walk home left her fit to study. She pinned the comparison above her desk that night and slept without reopening the rents.",
+  "vocabulary": [
+    {
+      "word": "landlords",
+      "definition": "People who own rooms and rent them to others."
+    },
+    {
+      "word": "included",
+      "definition": "Already part of the price, not charged on top."
+    },
+    {
+      "word": "comparison",
+      "definition": "A careful look at how two choices differ."
+    },
+    {
+      "word": "fare",
+      "definition": "The money paid for a bus journey."
+    },
+    {
+      "word": "deposit",
+      "definition": "Money paid in advance to secure a room."
+    },
+    {
+      "word": "repayments",
+      "definition": "Sums paid back a little at a time."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What was the monthly price of the room on Mill Street?",
+      "options": [
+        "Six hundred and ten pounds",
+        "Eight hundred pounds",
+        "Five hundred and forty pounds",
+        "Seventy pounds"
+      ],
+      "correctAnswer": "Five hundred and forty pounds",
+      "explanation": "The Mill Street room cost five hundred and forty pounds a month, with heating billed on top.",
+      "supportingSentence": "The room on Mill Street cost five hundred and forty pounds a month, with heating billed on top, and it sat a long bus ride from the college.",
+      "skill": "detail"
+    },
+    {
+      "question": "How large a deposit did the bakery room require?",
+      "options": [
+        "Two hundred and sixty pounds",
+        "Eight hundred pounds",
+        "Twenty-six pounds each month",
+        "Sixty-four pounds"
+      ],
+      "correctAnswer": "Eight hundred pounds",
+      "explanation": "The bakery asked for a deposit of eight hundred pounds, and Lena was short of that sum.",
+      "supportingSentence": "The bakery asked for a deposit of eight hundred pounds, so she was short by two hundred and sixty.",
+      "skill": "detail"
+    },
+    {
+      "question": "What would judging only by the headline rent have led Lena to do?",
+      "options": [
+        "Refuse both rooms and keep looking all month",
+        "Ask the college to pay her bus journeys",
+        "Take the bakery because the walk was longer",
+        "Choose the room that cost more once heating and bus costs were added"
+      ],
+      "correctAnswer": "Choose the room that cost more once heating and bus costs were added",
+      "explanation": "Mill Street looked cheaper at first, but heating and the bus made it cost more to live in than the bakery room.",
+      "supportingSentence": "On a quick look, Mill Street seemed the sensible saving.",
+      "skill": "inference"
+    },
+    {
+      "question": "After the monthly sum paid back to her sister, which room still cost less to live in?",
+      "options": [
+        "The room above the bakery",
+        "The room on Mill Street",
+        "Neither room, because the deposit wiped out the saving",
+        "Her sister's home until all ten months had passed"
+      ],
+      "correctAnswer": "The room above the bakery",
+      "explanation": "The sum paid to Noor was smaller than the monthly saving, so the bakery room still cost less to live in.",
+      "supportingSentence": "Twenty-six was less than the sixty-four she would save each month, so the help would not put her behind.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does the word fare mean in this story?",
+      "options": [
+        "Money paid to a landlord before moving in",
+        "The heating bill for a cold month",
+        "The cost of travelling by bus",
+        "A rent that only looks low at first"
+      ],
+      "correctAnswer": "The cost of travelling by bus",
+      "explanation": "The fare is what Lena would pay for the bus between Mill Street and the college.",
+      "supportingSentence": "The bus fare, counted both ways across a study week, came to sixty-four.",
+      "skill": "vocabulary"
+    }
+  ]
+}

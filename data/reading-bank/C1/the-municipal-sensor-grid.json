@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "technology",
+  "title": "The Municipal Sensor Grid",
+  "story": "The city installed its sensor grid over one winter, mostly where a crew could find power and a pole that already belonged to the streets department. That practical rule shaped the map more than the scientific brief did. Boxes measuring airborne particles and traffic noise clustered along the central corridor and the bus routes, where the poles were close together and the electric supply was easy to share. The warehouse streets by the river, and the courtyards behind the older blocks, received fewer instruments, not because the air there was presumed clean, but because a crew would have had to dig, negotiate access, or wait.\n\nBy spring the public dashboard was publishing hourly means. The means were real, and they were also smooth. A short spike from a queue of buses, or from a delivery engine left running in an alley, could rise and fall inside the hour and barely move the published figure. A clinic near the market asked for the ungrouped readings because it was studying cough complaints on weekday mornings. The contract with the installer allowed the city to publish the hourly aggregates and to use the raw stream for its own work. It did not allow the city to redistribute the raw files to outside groups. The clinic could be shown a chart in a meeting. It could not be handed the file.\n\nA councillor proposed moving two boxes to the park, where families would see them and where the readings would look kinder in a press note. The analyst, Ruth Hale, argued that a kinder reading would be a different measurement, not a corrected one. The park sits back from the idling buses. A sensor there would be easier to calibrate, because the air around it changes more slowly, and it would be worse as a witness to the exposure people actually walk through on the way to work. Siting, she told the committee, is part of the result. A grid reports the places it was permitted to stand, on the terms the contract allows the city to repeat.\n\nThe committee left the boxes along the corridor and asked Hale for a second product: a note, beside the hourly mean, marking hours in which the raw stream had crossed a stated threshold even if the average had not. She asked that the note name the threshold in ordinary units, so a reader could see what had been hidden rather than being told only that a mark existed. The grid would not become denser that season. It would become harder to misread.",
+  "vocabulary": [
+    {
+      "word": "corridor",
+      "definition": "The main route through the city where many of the boxes were placed."
+    },
+    {
+      "word": "spike",
+      "definition": "A short, sharp rise in a measurement that may not last."
+    },
+    {
+      "word": "aggregates",
+      "definition": "Figures that combine many readings, such as an average for an hour."
+    },
+    {
+      "word": "redistribute",
+      "definition": "To pass files on to people or groups outside the city."
+    },
+    {
+      "word": "calibrate",
+      "definition": "To check an instrument so its readings can be trusted."
+    },
+    {
+      "word": "siting",
+      "definition": "The choice of the places where instruments are put."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What form of the measurements was the city allowed to publish?",
+      "options": [
+        "The hourly aggregates",
+        "The raw files, sent to any outside clinic",
+        "Only the readings taken beside the park",
+        "A list of weekday cough complaints"
+      ],
+      "correctAnswer": "The hourly aggregates",
+      "explanation": "The contract allowed the city to publish the hourly aggregates.",
+      "supportingSentence": "The contract with the installer allowed the city to publish the hourly aggregates and to use the raw stream for its own work.",
+      "skill": "detail"
+    },
+    {
+      "question": "What can happen during an hour even when the published hourly figure barely changes?",
+      "options": [
+        "A short burst of particles or noise can rise and fall.",
+        "The instruments stop recording until the next morning.",
+        "The contract requires the raw files to be sent to the clinic.",
+        "The hourly figure is replaced by a yearly average."
+      ],
+      "correctAnswer": "A short burst of particles or noise can rise and fall.",
+      "explanation": "A short spike can rise and fall inside the hour without much changing the published figure.",
+      "supportingSentence": "A short spike from a queue of buses, or from a delivery engine left running in an alley, could rise and fall inside the hour and barely move the published figure.",
+      "skill": "inference"
+    },
+    {
+      "question": "What judgment is visible in the committee’s choice to keep the boxes where they were and add a threshold note?",
+      "options": [
+        "The present sites should stay, and the hourly figures should reveal when a short burst was smoothed away.",
+        "The boxes should be moved to the park before the next press note.",
+        "The clinic should receive the raw files despite the contract.",
+        "The grid should be turned off until every courtyard has an instrument."
+      ],
+      "correctAnswer": "The present sites should stay, and the hourly figures should reveal when a short burst was smoothed away.",
+      "explanation": "The committee kept the corridor boxes and asked for a note when the raw stream crossed a threshold even if the average did not.",
+      "supportingSentence": "The committee left the boxes along the corridor and asked Hale for a second product: a note, beside the hourly mean, marking hours in which the raw stream had crossed a stated threshold even if the average had not.",
+      "skill": "inference"
+    },
+    {
+      "question": "In Hale’s remark, what does “siting” refer to?",
+      "options": [
+        "The choice of places where the instruments are allowed to stand.",
+        "The hourly figure published on the public dashboard.",
+        "A contract clause that forbids showing charts in meetings.",
+        "The clinic’s study of coughs on weekday mornings."
+      ],
+      "correctAnswer": "The choice of places where the instruments are allowed to stand.",
+      "explanation": "Hale uses siting for the places the grid was permitted to stand, which she says is part of the result.",
+      "supportingSentence": "Siting, she told the committee, is part of the result.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the passage point out that the quieter streets were not skipped because anyone thought the air there was clean?",
+      "options": [
+        "To stop the reader from mistaking a practical gap for a scientific judgment.",
+        "To prove that courtyard air is always cleaner than air on the bus routes.",
+        "To argue that the streets department should stop sharing power.",
+        "To recommend that the clinic end its weekday study."
+      ],
+      "correctAnswer": "To stop the reader from mistaking a practical gap for a scientific judgment.",
+      "explanation": "The writer includes the reason so the reader sees an installation limit, not a decision that those places were clean.",
+      "supportingSentence": "The warehouse streets by the river, and the courtyards behind the older blocks, received fewer instruments, not because the air there was presumed clean, but because a crew would have had to dig, negotiate access, or wait.",
+      "skill": "intent"
+    }
+  ]
+}

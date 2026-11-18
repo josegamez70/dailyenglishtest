@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "fantasy",
+  "title": "A Market That Opened at Dusk",
+  "story": "The market arrived with the first honest shadow. Stalls unfolded out of what had been, a moment earlier, an ordinary square used for nothing more romantic than parking carts. Canvas took the colour of the sky it had stolen from, and lamps were lit only halfway, because a full flame made the goods shy. People who knew the custom came without baskets. What was sold there could not be carried in the usual sense, and what was bought had to be paid for with something the buyer would not entirely miss.\n\nIren walked the rows with her hands in her coat. At one stall a woman sold the last warm afternoon of a childhood street, corked in a jar that fogged when it was shaken. At another, a man with careful fingers offered the name of a song without the song itself, useful to anyone who had been humming the shape of a tune for years and waking annoyed. Prices were written on slate and then wiped, not to cheat, but because a price that stayed still became a different kind of object and could no longer be traded. Iren had come for none of these. She had come because her brother had forgotten the way her voice sounded when she was not being brave.\n\nShe found the stall at the end of the second row, where a clerk kept small tins labelled in pencil. He did not ask what she wanted. He asked what she could spare. Iren considered the afternoon she had wasted being angry at a neighbour, and the clerk accepted it with a nod that was almost kind. In return he gave her a tin no larger than a coin. When she opened it, later, in her own kitchen, the room held for a few breaths the exact pitch of her laugh at seventeen, aimed at her brother across a table that no longer existed. She did not try to keep the sound. Kept sounds went thin. She let it cross the room, and she watched her brother's face change as he recognised a person he had not known he was missing.\n\nThe market closed when the first lamp in the square was turned up too high. Canvas slackened. Jars became jars. The clerk was suddenly a man packing pencils into an ordinary case, and he would not meet anyone's eye, because eye contact after closing was a kind of debt. Iren bought nothing else. She walked her brother home by the long way, and neither of them hurried, in case the evening still had one more thing it was willing to return.",
+  "vocabulary": [
+    {
+      "word": "romantic",
+      "definition": "Full of imagined charm, beyond plain everyday use."
+    },
+    {
+      "word": "shy",
+      "definition": "Quick to draw back when conditions are too strong."
+    },
+    {
+      "word": "spare",
+      "definition": "To give something up without a serious loss."
+    },
+    {
+      "word": "recognised",
+      "definition": "Knew someone or something again after a gap."
+    },
+    {
+      "word": "slackened",
+      "definition": "Became loose after having been stretched tight."
+    },
+    {
+      "word": "debt",
+      "definition": "Something still owed after a deal should have ended."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What had Iren's brother forgotten?",
+      "options": [
+        "The name of a tune he had hummed for years",
+        "The road into the square where the carts waited",
+        "How her voice sounded when she was not acting brave",
+        "The price last written on the clerk's slate"
+      ],
+      "correctAnswer": "How her voice sounded when she was not acting brave",
+      "explanation": "She came because he had forgotten the sound of her voice when she was not being brave.",
+      "supportingSentence": "She had come because her brother had forgotten the way her voice sounded when she was not being brave.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why is the wasted angry afternoon a suitable payment?",
+      "options": [
+        "It is a piece of the day she can lose without real harm",
+        "The neighbour has asked her to sell the quarrel",
+        "The little tin is worth only one kitchen coin",
+        "The clerk collects anger in order to light the lamps"
+      ],
+      "correctAnswer": "It is a piece of the day she can lose without real harm",
+      "explanation": "The market takes what a buyer will not entirely miss, and a wasted quarrel is exactly that kind of offering.",
+      "supportingSentence": "Iren considered the afternoon she had wasted being angry at a neighbour, and the clerk accepted it with a nod that was almost kind.",
+      "skill": "inference"
+    },
+    {
+      "question": "What happens to the clerk when the market ends?",
+      "options": [
+        "He packs the unsold jars so he can open again at dawn",
+        "He follows Iren in order to ask for a second payment",
+        "He becomes an ordinary man and will not continue the trade",
+        "He turns the square lamp down until the goods return"
+      ],
+      "correctAnswer": "He becomes an ordinary man and will not continue the trade",
+      "explanation": "The ordinary pencil case and the avoided look show that he has stepped out of the market's bargain.",
+      "supportingSentence": "The clerk was suddenly a man packing pencils into an ordinary case, and he would not meet anyone's eye, because eye contact after closing was a kind of debt.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why does the writer send the pair home slowly?",
+      "options": [
+        "To show that they can no longer find the way out",
+        "To keep open the hope that the evening might return one more thing",
+        "To explain that the brother refused to hear the laugh",
+        "To prove that the stalls have followed them into the street"
+      ],
+      "correctAnswer": "To keep open the hope that the evening might return one more thing",
+      "explanation": "They do not hurry, in case the evening still has something left that it is willing to give back.",
+      "supportingSentence": "She walked her brother home by the long way, and neither of them hurried, in case the evening still had one more thing it was willing to return.",
+      "skill": "intent"
+    },
+    {
+      "question": "What does \"shy\" mean about the goods?",
+      "options": [
+        "They cost more than a buyer in a plain coat can pay",
+        "They can be carried home in an ordinary basket",
+        "They are offered only to children at dusk",
+        "They draw back when the flame is too bright"
+      ],
+      "correctAnswer": "They draw back when the flame is too bright",
+      "explanation": "A full flame makes the goods shy, which is why the lamps are kept only halfway lit.",
+      "supportingSentence": "Canvas took the colour of the sky it had stolen from, and lamps were lit only halfway, because a full flame made the goods shy.",
+      "skill": "vocabulary"
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "travel",
+  "title": "A Window Seat",
+  "story": "Hugo found his seat on the coach and felt lucky because it was by the window. He put his bag under the seat in front and kept a bottle of water in the pocket beside him. Nia sat down in the aisle seat and said hello. She was going to the same town for a job interview. The coach left the station on time and rolled onto the main road. For a while Hugo watched fields, small houses, and a long line of trees. Then the sky grew dark and rain began to hit the glass. Nia opened a book, but the coach shook and she could not read. Hugo offered to change seats so she could look out and rest her eyes. Nia thanked him and said she was fine in the aisle. Halfway there, the coach stopped at a service area. Hugo bought a sandwich and was careful to keep his ticket in his jacket. Back on the coach, he returned to the window and wiped a small circle on the glass with his sleeve. They talked about interviews, rivers, and how a long ride feels shorter with company. When the town appeared, he smiled at the station clock. He had kept the window seat, made a new friend, and arrived ready for the week.",
+  "vocabulary": [
+    {
+      "word": "aisle",
+      "definition": "the walkway between rows of seats"
+    },
+    {
+      "word": "interview",
+      "definition": "a meeting where questions are asked for a job"
+    },
+    {
+      "word": "fields",
+      "definition": "open pieces of land on a farm"
+    },
+    {
+      "word": "sleeve",
+      "definition": "the part of clothing that covers an arm"
+    },
+    {
+      "word": "company",
+      "definition": "people with you so you are not alone"
+    },
+    {
+      "word": "ticket",
+      "definition": "a paper that shows you have paid for a journey"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where did Hugo put his bag?",
+      "options": [
+        "under the seat in front",
+        "on the station clock",
+        "inside Nia's book",
+        "on the river path"
+      ],
+      "correctAnswer": "under the seat in front",
+      "explanation": "He stored it before the coach left.",
+      "supportingSentence": "He put his bag under the seat in front and kept a bottle of water in the pocket beside him.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why was Nia travelling to the town?",
+      "options": [
+        "a job interview",
+        "a football match",
+        "a cooking course",
+        "a visit to Hugo's cousin"
+      ],
+      "correctAnswer": "a job interview",
+      "explanation": "She told him her reason.",
+      "supportingSentence": "She was going to the same town for a job interview.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Hugo do to the wet glass?",
+      "options": [
+        "wiped a small circle",
+        "opened the window wide",
+        "broke the glass",
+        "painted the hills"
+      ],
+      "correctAnswer": "wiped a small circle",
+      "explanation": "He cleared a place so he could see.",
+      "supportingSentence": "Back on the coach, he returned to the window and wiped a small circle on the glass with his sleeve.",
+      "skill": "detail"
+    },
+    {
+      "question": "Which word means people with you so you are not alone?",
+      "options": [
+        "company",
+        "fields",
+        "sleeve",
+        "ticket"
+      ],
+      "correctAnswer": "company",
+      "explanation": "The long ride felt shorter because of this.",
+      "supportingSentence": "They talked about interviews, rivers, and how a long ride feels shorter with company.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What shows that the journey ended well for Hugo?",
+      "options": [
+        "arrived ready for the week",
+        "missed the town completely",
+        "lost his ticket to Nia",
+        "watched the clock break"
+      ],
+      "correctAnswer": "arrived ready for the week",
+      "explanation": "The closing line gathers the good parts of the ride.",
+      "supportingSentence": "He had kept the window seat, made a new friend, and arrived ready for the week.",
+      "skill": "inference"
+    }
+  ],
+  "file": "b1-b.txt"
+}

@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "travel",
+  "title": "A Room with a Courtyard",
+  "story": "The hotel that Lena Varga had booked from home looked adequate in the photographs, although the street was narrower and louder than she had imagined. A scooter buzzed under the window, and the room faced a blank wall. The receptionist, a patient man named Paolo, listened to her complaint without interrupting. He explained that the quieter rooms overlooking the inner courtyard were usually kept for guests who stayed longer than three nights. However, one of those rooms had just been released because a couple had missed their flight, and he could offer it if Lena changed before the evening shift began.\n\nShe accepted at once and followed him up a worn staircase that the lift did not serve. The new room was smaller, yet the shutters opened onto pale stone, a lemon tree, and a fountain whose murmur never quite stopped. Although the furniture was plain, the light was soft, and the noise of the street had almost disappeared. Lena thanked him and, for the first time since leaving the station, felt that the journey had been worth the trouble.\n\nIn the late afternoon she sat with her notebook and watched the courtyard settle into its routine. Two guests spoke quietly in a language Lena could not identify, and their laughter rose and fell with the water. She had intended to search for a celebrated restaurant near the harbour, but the courtyard made that plan seem unnecessary. However, she still wanted a proper meal, so she asked whether the hotel served supper.\n\nPaolo said the kitchen closed early, although the cook would prepare soup and bread for anyone who asked before seven. Lena ate at a small table by the courtyard door, where the air was cool and the lemon leaves tapped the glass. She wrote to her sister about the fountain rather than the cancelled restaurant, then went to bed with the shutters open a little. The city continued beyond the walls, yet inside the courtyard the night remained measured, fragrant, and unexpectedly calm.",
+  "vocabulary": [
+    {
+      "word": "adequate",
+      "definition": "Good enough, even if it is not excellent."
+    },
+    {
+      "word": "receptionist",
+      "definition": "The person who welcomes guests at a front desk."
+    },
+    {
+      "word": "courtyard",
+      "definition": "An open space enclosed by a building."
+    },
+    {
+      "word": "murmur",
+      "definition": "A low, continuous sound."
+    },
+    {
+      "word": "shutters",
+      "definition": "Covers that close over a window."
+    },
+    {
+      "word": "fragrant",
+      "definition": "Having a pleasant smell."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Why could Paolo offer Lena a quieter room?",
+      "options": [
+        "Lena had reserved it months before",
+        "A couple had missed their flight",
+        "The street rooms were being painted",
+        "The evening shift had already finished"
+      ],
+      "correctAnswer": "A couple had missed their flight",
+      "explanation": "The quieter room was free because a couple had missed their flight.",
+      "supportingSentence": "However, one of those rooms had just been released because a couple had missed their flight, and he could offer it if Lena changed before the evening shift began.",
+      "skill": "detail"
+    },
+    {
+      "question": "What could a guest still get from the kitchen?",
+      "options": [
+        "A full dinner until midnight",
+        "Only drinks from a machine",
+        "Breakfast packed for the harbour",
+        "Soup and bread if they asked before seven"
+      ],
+      "correctAnswer": "Soup and bread if they asked before seven",
+      "explanation": "The cook would prepare soup and bread for anyone who asked before seven.",
+      "supportingSentence": "Paolo said the kitchen closed early, although the cook would prepare soup and bread for anyone who asked before seven.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why was the smaller room still a welcome change?",
+      "options": [
+        "It opened onto a calm courtyard",
+        "It had a private lift beside the bed",
+        "It was cheaper than the first room",
+        "It stood next to a famous restaurant"
+      ],
+      "correctAnswer": "It opened onto a calm courtyard",
+      "explanation": "The room was smaller, but the shutters opened onto stone, a lemon tree, and a fountain, so the view made up for the size.",
+      "supportingSentence": "The new room was smaller, yet the shutters opened onto pale stone, a lemon tree, and a fountain whose murmur never quite stopped.",
+      "skill": "inference"
+    },
+    {
+      "question": "What was the result of Lena's complaint about the first room?",
+      "options": [
+        "She was asked to leave that night",
+        "She had to pay for two rooms",
+        "She ended up glad she had made the change",
+        "She moved to a hotel by the harbour"
+      ],
+      "correctAnswer": "She ended up glad she had made the change",
+      "explanation": "After the move she thanked Paolo and felt the journey had been worth the trouble, so speaking up had helped.",
+      "supportingSentence": "Lena thanked him and, for the first time since leaving the station, felt that the journey had been worth the trouble.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does fragrant say about the courtyard at night?",
+      "options": [
+        "It was locked to guests",
+        "It had a pleasant smell",
+        "It stayed noisy until morning",
+        "It was hard to find in the dark"
+      ],
+      "correctAnswer": "It had a pleasant smell",
+      "explanation": "Fragrant means the night air in the courtyard smelled pleasant.",
+      "supportingSentence": "The city continued beyond the walls, yet inside the courtyard the night remained measured, fragrant, and unexpectedly calm.",
+      "skill": "vocabulary"
+    }
+  ]
+}

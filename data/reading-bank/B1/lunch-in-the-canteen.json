@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "school_college",
+  "title": "Lunch in the Canteen",
+  "story": "Mateo carried his tray into the school canteen and looked for a free seat. The room was loud, and the smell of tomato soup was strong. He saw his friend Greta at a table by the window and walked over. Greta moved her bag so he could sit down. Mateo had soup, bread, and an apple. Greta had rice and a piece of chicken. They talked about the morning lessons while they ate. Mateo had found the science test difficult, and he was still thinking about one question. Greta said she had written the steps in her notebook, and she offered to show him after lunch. Mateo felt better at once. Halfway through the meal he knocked his cup with his elbow. Water ran across the table and toward Greta's notebook. He grabbed a paper napkin and stopped the water before it reached the pages. A canteen assistant called Rita brought a cloth and wiped the table. She told them spills happen every day and nobody needed to feel ashamed. Mateo thanked her and moved his cup farther from the edge. When the bell rang, the two friends put their trays on the rack by the door. Greta kept her promise and opened the notebook on a bench in the corridor. Mateo copied the science steps and understood the question at last. He was glad he had sat with a friend, and glad the notebook had stayed dry.",
+  "vocabulary": [
+    {
+      "word": "tray",
+      "definition": "a flat holder used to carry plates and cups"
+    },
+    {
+      "word": "canteen",
+      "definition": "the room where students eat at school"
+    },
+    {
+      "word": "napkin",
+      "definition": "a small cloth or paper used to wipe spills"
+    },
+    {
+      "word": "spills",
+      "definition": "liquid that falls out by accident"
+    },
+    {
+      "word": "ashamed",
+      "definition": "feeling bad about something you did"
+    },
+    {
+      "word": "rack",
+      "definition": "a frame where people put trays"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What food did Mateo have on his tray?",
+      "options": [
+        "soup, bread, and an apple",
+        "rice and chicken",
+        "only a green salad",
+        "cake and ice cream"
+      ],
+      "correctAnswer": "soup, bread, and an apple",
+      "explanation": "Those were the things he chose.",
+      "supportingSentence": "Mateo had soup, bread, and an apple.",
+      "skill": "detail"
+    },
+    {
+      "question": "Where was Greta sitting?",
+      "options": [
+        "at a table by the window",
+        "in the science lab",
+        "on the school bus",
+        "behind the serving hatch"
+      ],
+      "correctAnswer": "at a table by the window",
+      "explanation": "Mateo walked to that place.",
+      "supportingSentence": "He saw his friend Greta at a table by the window and walked over.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did the water run toward?",
+      "options": [
+        "Greta's notebook",
+        "the school bell",
+        "Mateo's apple",
+        "Rita's shoes"
+      ],
+      "correctAnswer": "Greta's notebook",
+      "explanation": "The spill moved across the table.",
+      "supportingSentence": "Water ran across the table and toward Greta's notebook.",
+      "skill": "detail"
+    },
+    {
+      "question": "Which word means feeling bad about something you did?",
+      "options": [
+        "ashamed",
+        "loud",
+        "glad",
+        "dry"
+      ],
+      "correctAnswer": "ashamed",
+      "explanation": "Rita said nobody needed that feeling.",
+      "supportingSentence": "She told them spills happen every day and nobody needed to feel ashamed.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Mateo feel better while they were eating?",
+      "options": [
+        "she offered to show him after lunch",
+        "the soup had gone cold",
+        "Rita closed the room",
+        "the bell rang early"
+      ],
+      "correctAnswer": "she offered to show him after lunch",
+      "explanation": "Greta gave him a way to understand the test.",
+      "supportingSentence": "Greta said she had written the steps in her notebook, and she offered to show him after lunch.",
+      "skill": "inference"
+    }
+  ],
+  "file": "b1-b.txt"
+}

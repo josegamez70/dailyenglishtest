@@ -1,0 +1,99 @@
+{
+  "level": "B1",
+  "topic": "adventure",
+  "title": "The Hill Path",
+  "story": "Mara and her brother Luis wanted a quiet walk before lunch. They left the village and followed a dirt track toward the green hills. The morning was cool, and the grass was wet. Mara carried water, and Luis carried a small map. After twenty minutes, the track became a narrow hill path. Loose stones rolled under their shoes, so they walked slowly. Luis stopped and pointed at a wooden sign by a low fence. The paint was old, but the words were still easy to read. The sign said the path was safe if people stayed on it.\n\nThey held the fence when the ground dropped away beside them. Far below, a river shone in the sun. A bird called, and the sound bounced between the rocks. Halfway up, they found a flat rock and sat down. Mara shared an apple, and Luis looked at the map again. He smiled because the top was closer than he had expected.\n\nThey stood up, and the wind grew stronger. Near the top, the path turned behind a large bush. Then the hill opened, and the view became wide and clear. Fields, roofs, and the river lay below them. They took a photo and wrote the time in a notebook. The walk down was easier, but they watched their feet. At the sign, Mara touched the wood and thanked Luis for the map. They reached home in time for lunch.",
+  "vocabulary": [
+    {
+      "word": "narrow",
+      "definition": "Not wide."
+    },
+    {
+      "word": "loose",
+      "definition": "Not firmly fixed in place."
+    },
+    {
+      "word": "bounced",
+      "definition": "Hit a surface and came back."
+    },
+    {
+      "word": "expected",
+      "definition": "Thought something would happen."
+    },
+    {
+      "word": "view",
+      "definition": "What you can see from a place."
+    },
+    {
+      "word": "notebook",
+      "definition": "A small book for writing notes."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did Luis carry on the walk?",
+      "options": [
+        "A bottle of water",
+        "A small map",
+        "The wooden sign",
+        "An apple"
+      ],
+      "correctAnswer": "A small map",
+      "explanation": "The story says Luis carried a small map, while Mara carried water.",
+      "supportingSentence": "Mara carried water, and Luis carried a small map.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did the wooden sign tell people to do?",
+      "options": [
+        "Swim in the river",
+        "Climb over the fence",
+        "Stay on the path",
+        "Feed the birds"
+      ],
+      "correctAnswer": "Stay on the path",
+      "explanation": "The sign said the path was safe if people stayed on it.",
+      "supportingSentence": "The sign said the path was safe if people stayed on it.",
+      "skill": "detail"
+    },
+    {
+      "question": "Where did Mara and Luis sit halfway up the hill?",
+      "options": [
+        "By the low fence",
+        "Beside the river",
+        "Inside the bush",
+        "On a flat rock"
+      ],
+      "correctAnswer": "On a flat rock",
+      "explanation": "Halfway up, they found a flat rock and sat down.",
+      "supportingSentence": "Halfway up, they found a flat rock and sat down.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the word narrow mean in this story?",
+      "options": [
+        "Very wet",
+        "Not wide",
+        "Full of birds",
+        "Easy to read"
+      ],
+      "correctAnswer": "Not wide",
+      "explanation": "A narrow path has little space from one side to the other.",
+      "supportingSentence": "After twenty minutes, the track became a narrow hill path.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "How did Luis feel when he looked at the map again?",
+      "options": [
+        "Angry about the wind",
+        "Afraid of the bird",
+        "Pleased that the top was near",
+        "Lost without a plan"
+      ],
+      "correctAnswer": "Pleased that the top was near",
+      "explanation": "He smiled because the top was closer than he had expected.",
+      "supportingSentence": "He smiled because the top was closer than he had expected.",
+      "skill": "inference"
+    }
+  ]
+}

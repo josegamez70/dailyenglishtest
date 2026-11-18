@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "science",
+  "title": "The Footbridge Load Test",
+  "story": "The footbridge over the canal had been closed since the bearings were replaced in April. Before the town reopened it, the engineering office ran a load test that a crowd could not provide. Water tanks were rolled to midspan in stages, filled from a metered standpipe, and held until the deflection gauges stopped moving. A tank can be emptied in a known order. A Saturday crowd cannot, and an uncontrolled unloading is a poor way to learn whether a span comes back to its original line. The test asked a static question: under this much weight, applied gradually, how far does the deck move, and does it recover?\n\nAt the full planned load the midspan deflection sat a little above the figure in the design model and comfortably inside the allowance in the code the office was required to use. Nothing cracked. Nothing failed to recover when the tanks were drained. The gauges were read by two people, and the two figures had to agree before a stage was accepted. A single glance at a flickering dial was not going to carry a reopening. A councillor, thinking of the weekend market, treated that margin as a reason to remove every restriction and let the bridge carry a dense crowd from the first hour. The project engineer, Samir Adeyemi, separated the result from that wish. The model had been slightly stiff, which is a reason to trust the model less as a forecast, not a reason to ignore the measurement. The measurement itself had answered only the question the tanks were built to ask.\n\nWhat the tanks did not reproduce was rhythmic walking. A crowd that falls into step can drive a light footbridge farther than the same weight standing still, and the code's static allowance does not, by itself, describe that motion. Adeyemi would reopen the bridge with a posted limit on the number of people, a request that walkers not stop in a tight group at midspan, and a repeat measurement on the first busy afternoon, taken from gauges left in place. If that afternoon stayed calm, the limit could be reviewed. If it did not, the office would already have evidence gathered under the use people actually make of the span.\n\nThe councillor accepted the posted limit once the alternative was explained as a gap in the test rather than as caution for its own sake. Passing a staged load test is a real pass. It certifies the answers to the questions that were loaded onto the deck, and it leaves the others still open.",
+  "vocabulary": [
+    {
+      "word": "bearings",
+      "definition": "The parts that support the bridge and were replaced before the test."
+    },
+    {
+      "word": "midspan",
+      "definition": "The middle of the bridge’s length, between its supports."
+    },
+    {
+      "word": "deflection",
+      "definition": "How far the deck bends downward under a load."
+    },
+    {
+      "word": "allowance",
+      "definition": "The amount of movement the required code permits."
+    },
+    {
+      "word": "static",
+      "definition": "Still, rather than produced by people walking in step."
+    },
+    {
+      "word": "rhythmic",
+      "definition": "Regular and repeated, like footsteps that fall into the same timing."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How did the engineering office apply the weight during the test?",
+      "options": [
+        "With water tanks brought on in stages",
+        "With a dense crowd standing still at the middle",
+        "With one sudden unloading of the whole deck",
+        "With people walking in step from the first minute"
+      ],
+      "correctAnswer": "With water tanks brought on in stages",
+      "explanation": "Water tanks were rolled to the middle in stages and filled from a metered pipe.",
+      "supportingSentence": "Water tanks were rolled to midspan in stages, filled from a metered standpipe, and held until the deflection gauges stopped moving.",
+      "skill": "detail"
+    },
+    {
+      "question": "What gap in the tank test makes the code’s limit for a load held still an incomplete answer?",
+      "options": [
+        "The tanks never reproduced the extra movement that walking in step can cause.",
+        "The tanks cracked the new supports and the deck did not rise again.",
+        "The movement at the middle went far outside the code’s permitted limit.",
+        "The design model had been too soft and had predicted too much bend."
+      ],
+      "correctAnswer": "The tanks never reproduced the extra movement that walking in step can cause.",
+      "explanation": "A crowd walking in step can move a light bridge more than the same weight standing still, and the tanks did not copy that.",
+      "supportingSentence": "What the tanks did not reproduce was rhythmic walking.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does the demand for two matching gauge readings suggest about the decision that follows the test?",
+      "options": [
+        "It was too important to rest on one unchecked look at the dial.",
+        "The dials were known to be broken and were only there for show.",
+        "A councillor had to carry each tank onto the deck in person.",
+        "The code limit could be read only on a weekday morning."
+      ],
+      "correctAnswer": "It was too important to rest on one unchecked look at the dial.",
+      "explanation": "Two people had to agree, because one quick look at the dial was not enough to carry a reopening.",
+      "supportingSentence": "A single glance at a flickering dial was not going to carry a reopening.",
+      "skill": "inference"
+    },
+    {
+      "question": "In this passage, what is the “allowance”?",
+      "options": [
+        "The limit of movement the code permits under the required check.",
+        "The number of market stalls planned for the weekend.",
+        "The extra distance caused by people walking in time.",
+        "The volume of water one tank holds before it is drained."
+      ],
+      "correctAnswer": "The limit of movement the code permits under the required check.",
+      "explanation": "The measured bend stayed inside the allowance, meaning inside the movement the code permits.",
+      "supportingSentence": "At the full planned load the midspan deflection sat a little above the figure in the design model and comfortably inside the allowance in the code the office was required to use.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the passage end by saying a real pass still leaves other questions open?",
+      "options": [
+        "To stop a successful still-weight test from being treated as the answer to every use of the bridge.",
+        "To cancel the reopening even if a person limit is posted.",
+        "To show that the tanks never returned to their starting line.",
+        "To recommend a denser crowd from the first hour of the market."
+      ],
+      "correctAnswer": "To stop a successful still-weight test from being treated as the answer to every use of the bridge.",
+      "explanation": "The ending treats the pass as real for the questions that were loaded, and it warns the reader that other questions remain open.",
+      "supportingSentence": "It certifies the answers to the questions that were loaded onto the deck, and it leaves the others still open.",
+      "skill": "intent"
+    }
+  ]
+}

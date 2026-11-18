@@ -1,0 +1,99 @@
+{
+  "level": "B1",
+  "topic": "health_sports",
+  "title": "The Team Warm-Up",
+  "story": "Before the evening match, the Riverside team met on the small pitch behind the community hall. The captain, Hana, checked that everyone had water. She told the players to leave their bags by the bench and line up. Hana blew her whistle once, and the group started a slow jog around the pitch.\n\nThey ran two easy laps and then moved to the centre circle. Hana led stretches for the legs, the back, and the shoulders. She reminded them that cold muscles can pull. Each player held a stretch and counted to twenty. Young Mateo said his left calf felt tight. Hana told Mateo to ease off and not to bounce.\n\nNext they worked on their joints. They circled their ankles, swung their arms, and lifted their knees. The coach, Idris, walked between them and corrected a few positions. Idris said the warm-up should make the body ready, not tired. He kept the knee lifts short and added a simple passing drill. The players called for the ball and moved it quickly along the ground. They still had eight minutes before the match. Hana gathered the team and asked each person to name one aim. Several players said they would talk more on the pitch. Mateo said he would listen to his calf and speak up if it hurt. Hana smiled and put the whistle away. The warm-up was finished, and the players felt focused for the match.",
+  "vocabulary": [
+    {
+      "word": "captain",
+      "definition": "The player who leads the team."
+    },
+    {
+      "word": "whistle",
+      "definition": "A small object that makes a high sound as a signal."
+    },
+    {
+      "word": "jog",
+      "definition": "A slow, easy run."
+    },
+    {
+      "word": "muscles",
+      "definition": "The parts of the body that help you move."
+    },
+    {
+      "word": "joints",
+      "definition": "The places where parts of the body bend."
+    },
+    {
+      "word": "focused",
+      "definition": "Giving all your attention to something."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where did the team meet before the match?",
+      "options": [
+        "On the pitch behind the community hall",
+        "Inside the community hall",
+        "At the river swimming pool",
+        "On the school running track"
+      ],
+      "correctAnswer": "On the pitch behind the community hall",
+      "explanation": "The team met on the small pitch behind the community hall.",
+      "supportingSentence": "Before the evening match, the Riverside team met on the small pitch behind the community hall.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Hana tell Mateo to do about his tight calf?",
+      "options": [
+        "To ease off and not to bounce",
+        "To run three extra laps",
+        "To leave the pitch immediately",
+        "To jump higher than the others"
+      ],
+      "correctAnswer": "To ease off and not to bounce",
+      "explanation": "Hana told Mateo to ease off and not to bounce.",
+      "supportingSentence": "Hana told Mateo to ease off and not to bounce.",
+      "skill": "detail"
+    },
+    {
+      "question": "How much time was left before the match?",
+      "options": [
+        "Three minutes",
+        "Eight minutes",
+        "Twenty minutes",
+        "Half an hour"
+      ],
+      "correctAnswer": "Eight minutes",
+      "explanation": "After the drill, they still had eight minutes before the match.",
+      "supportingSentence": "They still had eight minutes before the match.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does jog mean in this warm-up?",
+      "options": [
+        "A slow, easy run",
+        "A fast sprint to the goal",
+        "A long stretch for the shoulders",
+        "A team talk before the match"
+      ],
+      "correctAnswer": "A slow, easy run",
+      "explanation": "Hana's whistle started the group on a slow jog around the pitch.",
+      "supportingSentence": "Hana blew her whistle once, and the group started a slow jog around the pitch.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Hana ask every player to name an aim?",
+      "options": [
+        "She wanted them to focus their minds",
+        "She needed to choose a new captain",
+        "She was checking who had forgotten water",
+        "She planned to cancel the match"
+      ],
+      "correctAnswer": "She wanted them to focus their minds",
+      "explanation": "The players named ways to play well, and they felt focused when the warm-up ended.",
+      "supportingSentence": "Hana gathered the team and asked each person to name one aim.",
+      "skill": "inference"
+    }
+  ]
+}

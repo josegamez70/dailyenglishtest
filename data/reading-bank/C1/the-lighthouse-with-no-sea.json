@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "fantasy",
+  "title": "The Lighthouse with No Sea",
+  "story": "The lighthouse stood in a field of barley, which visitors found funny until they stayed for the night. There was no sea. The nearest harbour was two days' walk and had its own lamp, a sensible one, pointed at water. This tower pointed at the land. Its keeper, a woman named Nell, trimmed the wick at dusk and set the beam turning, and the farmers who understood the arrangement did not laugh at all.\n\nWhat the light kept back was not water but a tide of pale fog that rose from the sunken pastures when the ground cooled. The fog was beautiful and dishonest. It laid a smooth floor over ditches, wells, and the low walls that stopped cattle from wandering into the bog. A person could walk into it believing the field continued, and the field would fail to catch them. Before the tower, the district had lost someone most autumns, usually a neighbour who knew the paths and therefore did not think to doubt them. Knowledge, Nell liked to say, was a fair-weather instrument.\n\nOn the night the mechanism jammed, she climbed the stair with a can of oil and the particular anger of a person whose tool has betrayed a promise. The beam had stopped with its face towards the empty hill, leaving the lane and the pastures in the dark. Fog was already pooling, bright where starlight touched it and grey in its folds. She freed the seized wheel, burned two fingers, and set the lamp moving again. Down in the lane she heard a shout, then a laugh that was mostly relief. Someone had been about to step where the wall should have been, and the returning light had drawn the wall back into the world. She stayed at the lamp until the lane was a clear dark ribbon and the fog had drawn back to the pasture line.\n\nIn the morning the council suggested, as councils do, that a fence would be cheaper than a keeper. Nell took them to the pasture edge and asked them to find the corner post in daylight, which they did, and then to imagine the same post after dark under a white floor. A fence unseen is a story people tell about safety. A light is a fact that arrives in the eye. They renewed her stores without quite admitting she had won. That evening the beam turned over barley, stone, and the pale beginning of fog, and the sea, wherever it was, went on without them. The tower kept its own shore, which moved, and which would not be argued with.",
+  "vocabulary": [
+    {
+      "word": "dishonest",
+      "definition": "Pleasant on the surface while hiding a real danger."
+    },
+    {
+      "word": "mechanism",
+      "definition": "The moving parts that make the lamp turn."
+    },
+    {
+      "word": "seized",
+      "definition": "Stuck so tightly that it will not move."
+    },
+    {
+      "word": "arrangement",
+      "definition": "A working plan that the people involved understand."
+    },
+    {
+      "word": "instrument",
+      "definition": "A tool used to do or judge something."
+    },
+    {
+      "word": "renewed",
+      "definition": "Supplied or continued again for another period."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Why do the farmers refuse to laugh at the tower?",
+      "options": [
+        "They are paid to pretend the harbour is close by",
+        "They know the turning beam is holding a real danger back",
+        "They use the light to ripen the barley after dark",
+        "They have never seen fog lie on the pastures"
+      ],
+      "correctAnswer": "They know the turning beam is holding a real danger back",
+      "explanation": "The farmers understand the arrangement, so the inland light is a serious tool rather than a joke.",
+      "supportingSentence": "Its keeper, a woman named Nell, trimmed the wick at dusk and set the beam turning, and the farmers who understood the arrangement did not laugh at all.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does \"seized\" mean about the wheel?",
+      "options": [
+        "Stolen from the sensible lamp at the harbour",
+        "Polished until it threw a clean white beam",
+        "Stuck fast so that it would not turn",
+        "Newly oiled and ready for the next dusk"
+      ],
+      "correctAnswer": "Stuck fast so that it would not turn",
+      "explanation": "Nell has to free the wheel before the lamp can move again, so the word means jammed.",
+      "supportingSentence": "She freed the seized wheel, burned two fingers, and set the lamp moving again.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What rises from the sunken pastures?",
+      "options": [
+        "A night tide rolling in from the harbour",
+        "Smoke from a fire lit in the barley",
+        "Oil running down from the jammed lamp",
+        "A pale fog when the ground grows cool"
+      ],
+      "correctAnswer": "A pale fog when the ground grows cool",
+      "explanation": "The beam holds back pale fog that rises from the pastures as the ground cools, not seawater.",
+      "supportingSentence": "What the light kept back was not water but a tide of pale fog that rose from the sunken pastures when the ground cooled.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why does Nell think a fence would fail after dark?",
+      "options": [
+        "Once the fog hides it, an unseen fence cannot warn anybody",
+        "The council has already spent every coin on oil",
+        "Cattle would pull the corner posts out by morning",
+        "The pasture edge is too wet to hold any wood"
+      ],
+      "correctAnswer": "Once the fog hides it, an unseen fence cannot warn anybody",
+      "explanation": "She calls an unseen fence only a story about safety, while light is a fact that reaches the eye.",
+      "supportingSentence": "A fence unseen is a story people tell about safety.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why does the writer mention neighbours who knew the paths?",
+      "options": [
+        "To blame Nell for refusing to walk beside them",
+        "To prove that the old paths were drawn incorrectly",
+        "To show that familiarity can make the fog more dangerous",
+        "To explain why visitors came to the tower only in autumn"
+      ],
+      "correctAnswer": "To show that familiarity can make the fog more dangerous",
+      "explanation": "The people who trusted what they already knew were the ones who did not doubt the covered ground.",
+      "supportingSentence": "Before the tower, the district had lost someone most autumns, usually a neighbour who knew the paths and therefore did not think to doubt them.",
+      "skill": "intent"
+    }
+  ]
+}

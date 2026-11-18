@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "school_college",
+  "title": "The Late Bus to Class",
+  "story": "Priya left home early, but the bus was not at the stop. A cold wind moved the trees, and a few students waited with their bags. Jonas looked at his watch and said the bus was already ten minutes late. Priya had a maths test in the first lesson, and she did not want to miss the start. She checked the paper timetable on the post. The bus should have come at half past seven. Jonas suggested they walk, but the school was too far for that. Priya kept her test notes in her hand so she could read them while she waited. At last the bus turned the corner. The driver opened the door and said there had been a broken traffic light in the town centre. Priya climbed on, showed her pass, and sat near the front. She used the ride to look over the first page of notes. When they reached the school gate, the bell was ringing. Priya thanked the driver and hurried across the yard with Jonas. They reached the classroom as the teacher was giving out the papers. Priya sat down, took a breath, and wrote her name. At lunch she told Jonas that waiting calmly had been better than starting a long walk. She also decided to leave home ten minutes earlier the next day, in case the bus was slow again.",
+  "vocabulary": [
+    {
+      "word": "timetable",
+      "definition": "a list of times when buses or lessons happen"
+    },
+    {
+      "word": "pass",
+      "definition": "a card that lets you travel"
+    },
+    {
+      "word": "yard",
+      "definition": "an open area outside a building"
+    },
+    {
+      "word": "breath",
+      "definition": "air that you take into your body"
+    },
+    {
+      "word": "calmly",
+      "definition": "in a quiet way, without panic"
+    },
+    {
+      "word": "earlier",
+      "definition": "before the usual time"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Why did the driver say the bus was late?",
+      "options": [
+        "a broken traffic light",
+        "a lost school bag",
+        "a flat bicycle tyre",
+        "a closed library"
+      ],
+      "correctAnswer": "a broken traffic light",
+      "explanation": "He explained the delay at the door.",
+      "supportingSentence": "The driver opened the door and said there had been a broken traffic light in the town centre.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Priya do during the ride?",
+      "options": [
+        "look over the first page of notes",
+        "sleep under her coat",
+        "phone the teacher",
+        "write on the window"
+      ],
+      "correctAnswer": "look over the first page of notes",
+      "explanation": "She used the time on the bus.",
+      "supportingSentence": "She used the ride to look over the first page of notes.",
+      "skill": "detail"
+    },
+    {
+      "question": "When did they reach the classroom?",
+      "options": [
+        "as the teacher was giving out the papers",
+        "after the test had ended",
+        "before they left home",
+        "during the lunch break"
+      ],
+      "correctAnswer": "as the teacher was giving out the papers",
+      "explanation": "They arrived at that moment.",
+      "supportingSentence": "They reached the classroom as the teacher was giving out the papers.",
+      "skill": "detail"
+    },
+    {
+      "question": "Which word means a list of times when buses or lessons happen?",
+      "options": [
+        "timetable",
+        "breath",
+        "yard",
+        "notes"
+      ],
+      "correctAnswer": "timetable",
+      "explanation": "Priya read it while she waited.",
+      "supportingSentence": "She checked the paper timetable on the post.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Priya decide to leave sooner the next morning?",
+      "options": [
+        "in case the bus was slow again",
+        "so she could miss the test",
+        "so Jonas could drive the bus",
+        "so the wind would stop"
+      ],
+      "correctAnswer": "in case the bus was slow again",
+      "explanation": "She wanted extra time if the delay happened again.",
+      "supportingSentence": "She also decided to leave home ten minutes earlier the next day, in case the bus was slow again.",
+      "skill": "inference"
+    }
+  ],
+  "file": "b1-b.txt"
+}

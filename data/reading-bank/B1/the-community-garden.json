@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "hobbies",
+  "title": "The Community Garden",
+  "story": "Omar met Greta at the community garden on Sunday morning. She gave him a pair of gloves and showed him a small plot by the gate. Weeds covered the soil, and the path beside the plot was narrow. Greta showed him which leaves were weeds and which were young plants. Omar pulled the weeds slowly so he would not break the good roots. Then Greta filled a can at the tap. She said the seedlings needed gentle watering, not a flood. Omar poured a little water around each small stem. The soil turned dark and soft. Greta handed him a packet of lettuce seeds and pointed to an empty row. He made a shallow line with a stick and placed the seeds along it. He covered them with a thin layer of soil. An older member waved from the next plot and lent him a spare trowel. At noon they sat on a bench and shared two apples. Greta said the harvest would come in a few weeks if the soil stayed damp. Omar wrote the watering days on a card and pinned it inside the shed. Before he left, he washed the tools and hung the gloves on a nail. His back was tired, but the plot looked open and neat. He planned to return on Wednesday to look for the first shoots. The garden felt larger once he had work of his own inside it.",
+  "vocabulary": [
+    {
+      "word": "gloves",
+      "definition": "coverings worn on the hands"
+    },
+    {
+      "word": "plot",
+      "definition": "a small piece of ground for growing plants"
+    },
+    {
+      "word": "weeds",
+      "definition": "wild plants growing where they are not wanted"
+    },
+    {
+      "word": "seedlings",
+      "definition": "very young plants"
+    },
+    {
+      "word": "watering",
+      "definition": "giving water to plants"
+    },
+    {
+      "word": "harvest",
+      "definition": "the crop that is ready to pick"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did Greta give Omar when he arrived?",
+      "options": [
+        "a pair of gloves",
+        "a basket of apples",
+        "a bunch of cut flowers",
+        "a key to the street"
+      ],
+      "correctAnswer": "a pair of gloves",
+      "explanation": "She handed them over while showing him the ground.",
+      "supportingSentence": "She gave him a pair of gloves and showed him a small plot by the gate.",
+      "skill": "detail"
+    },
+    {
+      "question": "What kind of watering did the seedlings need?",
+      "options": [
+        "gentle watering",
+        "a heavy flood",
+        "no water until winter",
+        "salt water from a bucket"
+      ],
+      "correctAnswer": "gentle watering",
+      "explanation": "Greta warned him not to flood the young plants.",
+      "supportingSentence": "She said the seedlings needed gentle watering, not a flood.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Omar write on the card in the shed?",
+      "options": [
+        "the watering days",
+        "the price of the apples",
+        "Greta's home address",
+        "the name of the gate"
+      ],
+      "correctAnswer": "the watering days",
+      "explanation": "He pinned the card where he would see it.",
+      "supportingSentence": "Omar wrote the watering days on a card and pinned it inside the shed.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does harvest mean?",
+      "options": [
+        "the crop that is ready to pick",
+        "a tool for digging",
+        "a pair of work gloves",
+        "a narrow garden path"
+      ],
+      "correctAnswer": "the crop that is ready to pick",
+      "explanation": "Greta said it would come if the soil stayed damp.",
+      "supportingSentence": "Greta said the harvest would come in a few weeks if the soil stayed damp.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did the garden feel larger to Omar at the end?",
+      "options": [
+        "He now had work of his own in it.",
+        "Greta had removed the gate.",
+        "The shed had become a house.",
+        "The apples had filled every path."
+      ],
+      "correctAnswer": "He now had work of his own in it.",
+      "explanation": "Having a task of his own changed how the place felt.",
+      "supportingSentence": "The garden felt larger once he had work of his own inside it.",
+      "skill": "inference"
+    }
+  ],
+  "file": "b1-c.txt"
+}

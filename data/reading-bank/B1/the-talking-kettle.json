@@ -1,0 +1,99 @@
+{
+  "level": "B1",
+  "topic": "fantasy",
+  "title": "The Talking Kettle",
+  "story": "Lila was staying in her grandmother's cottage for the weekend. Rain tapped the windows, and the kitchen felt warm. On the stove sat a round copper kettle with a scratched lid. When the water boiled, the kettle gave a soft whistle. Then a tiny voice said the tea was ready for two cups. Lila stepped back, because kettles in her city never spoke. The voice was polite and a little sleepy. It told her to pour slowly and leave a cup by the window. Lila obeyed, and the steam smelled of mint.\n\nA grey cat jumped onto the chair and watched the cup. The kettle explained that the cat guarded the cottage during storms. It also said the east window needed to be closed. Lila shut the window just before the rain became heavy. She asked the kettle how it had learned to talk. The kettle said its first owner had spoken kindly long ago. Kind words stayed in the metal when they were said with care. Lila did not fully understand, but she thanked the kettle.\n\nShe drank her tea and read while the cat slept. Before bed, the kettle whispered that the rain would end by dawn. In the morning, the garden shone, and the kettle was silent. Lila left a note asking the kettle to speak on her next visit. Her grandmother smiled, as if the news was no surprise.",
+  "vocabulary": [
+    {
+      "word": "whistle",
+      "definition": "A high, clear sound made by air or steam."
+    },
+    {
+      "word": "polite",
+      "definition": "Showing good manners."
+    },
+    {
+      "word": "obeyed",
+      "definition": "Did what someone asked."
+    },
+    {
+      "word": "guarded",
+      "definition": "Watched a place to keep it safe."
+    },
+    {
+      "word": "whispered",
+      "definition": "Spoke in a very quiet voice."
+    },
+    {
+      "word": "dawn",
+      "definition": "The time when morning begins."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did the kettle tell Lila when the water boiled?",
+      "options": [
+        "The window was broken",
+        "The cat was lost",
+        "The tea was ready",
+        "The garden was on fire"
+      ],
+      "correctAnswer": "The tea was ready",
+      "explanation": "A tiny voice said the tea was ready for two cups.",
+      "supportingSentence": "Then a tiny voice said the tea was ready for two cups.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did the kettle say the cat did during storms?",
+      "options": [
+        "It guarded the cottage",
+        "It opened the window",
+        "It boiled the water",
+        "It wrote a note"
+      ],
+      "correctAnswer": "It guarded the cottage",
+      "explanation": "The kettle said the cat guarded the cottage during storms.",
+      "supportingSentence": "The kettle explained that the cat guarded the cottage during storms.",
+      "skill": "detail"
+    },
+    {
+      "question": "When did the kettle say the rain would end?",
+      "options": [
+        "By dawn",
+        "Next weekend",
+        "In the winter",
+        "Before supper"
+      ],
+      "correctAnswer": "By dawn",
+      "explanation": "Before bed, the kettle whispered that the rain would end by dawn.",
+      "supportingSentence": "Before bed, the kettle whispered that the rain would end by dawn.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the word obeyed mean in this story?",
+      "options": [
+        "Ran out into the rain",
+        "Broke the metal lid",
+        "Forgot about the tea",
+        "Did what she was told"
+      ],
+      "correctAnswer": "Did what she was told",
+      "explanation": "Lila obeyed, which means she did what the kettle told her to do.",
+      "supportingSentence": "Lila obeyed, and the steam smelled of mint.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What can the reader guess about Lila's grandmother?",
+      "options": [
+        "She wanted to sell the cottage",
+        "She was afraid of the cat",
+        "She already knew the kettle could speak",
+        "She had never met Lila"
+      ],
+      "correctAnswer": "She already knew the kettle could speak",
+      "explanation": "She smiled as if the news was no surprise, so she already knew about the kettle.",
+      "supportingSentence": "Her grandmother smiled, as if the news was no surprise.",
+      "skill": "inference"
+    }
+  ]
+}

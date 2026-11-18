@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "travel",
+  "title": "Lost Luggage at the Port",
+  "story": "When the ferry finally docked, Nia Okonkwo stood at the barrier with a claim form in one hand and a sinking feeling in the other. Her suitcase had not appeared on the conveyor, although the crew insisted that every piece of luggage had been unloaded. A porter named Elias checked the remaining labels and shook his head. The missing case, he said, had probably been left in the hold during a rushed turnaround at the previous harbour, where a sudden swell had shortened the afternoon sailing. However, he could not be certain until the shipping office compared its list with the tags collected on board.\n\nThe suitcase was dark green, scuffed at one corner, and marked with a ribbon her niece had tied around the handle. Inside were clothes for a wedding, shoes she could not easily replace, and a folder of printed music for a rehearsal the next morning. Elias wrote each detail on the form and warned her that the office closed in less than an hour. Although the port was busy, he walked her past the customs hall to a side counter where a clerk named Ruth was sorting papers into tired piles.\n\nRuth stamped the form and explained the procedure without promising a miracle. If the case was found at the previous harbour, it could travel on the first morning sailing. However, Nia would have to collect it herself, because the company did not deliver to guesthouses on the hill. She received a reference number and was told to keep her copy, since a replacement would not be issued once the door was locked.\n\nOutside, wind carried diesel and salt across the quay. Nia bought a canvas bag at a stall and filled it with essentials from a late shop near the terminal. She messaged the bride, explaining that the green dress might not arrive in time, and asked whether anyone had formal shoes to spare. The port lights faded behind her, yet the problem, folded on pink paper, came along to the guesthouse.",
+  "vocabulary": [
+    {
+      "word": "conveyor",
+      "definition": "A moving belt that carries things along."
+    },
+    {
+      "word": "turnaround",
+      "definition": "A short stop before a boat or vehicle leaves again."
+    },
+    {
+      "word": "swell",
+      "definition": "A powerful rising movement of the sea."
+    },
+    {
+      "word": "procedure",
+      "definition": "The official steps for dealing with a problem."
+    },
+    {
+      "word": "reference",
+      "definition": "A number or code that identifies a record."
+    },
+    {
+      "word": "quay",
+      "definition": "A solid edge beside the water where boats stop."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What colour was Nia's missing suitcase?",
+      "options": [
+        "Pale grey",
+        "Bright red",
+        "Dark green",
+        "Navy blue"
+      ],
+      "correctAnswer": "Dark green",
+      "explanation": "The suitcase was dark green, with a ribbon on the handle.",
+      "supportingSentence": "The suitcase was dark green, scuffed at one corner, and marked with a ribbon her niece had tied around the handle.",
+      "skill": "detail"
+    },
+    {
+      "question": "How will Nia get the suitcase if it is found?",
+      "options": [
+        "She will have to collect it herself",
+        "A driver will take it to her guesthouse",
+        "Ruth will bring it to the wedding",
+        "Elias will send it on the evening boat"
+      ],
+      "correctAnswer": "She will have to collect it herself",
+      "explanation": "The company does not deliver to guesthouses, so Nia must collect the case herself.",
+      "supportingSentence": "However, Nia would have to collect it herself, because the company did not deliver to guesthouses on the hill.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why might the green dress be late for the wedding?",
+      "options": [
+        "The bride asked Nia to buy it at the port",
+        "Ruth kept it as proof for the form",
+        "Elias sent it to the wrong address",
+        "It was among the clothes in the missing case"
+      ],
+      "correctAnswer": "It was among the clothes in the missing case",
+      "explanation": "The missing case held clothes for a wedding, and Nia warned the bride that the green dress might not arrive.",
+      "supportingSentence": "She messaged the bride, explaining that the green dress might not arrive in time, and asked whether anyone had formal shoes to spare.",
+      "skill": "inference"
+    },
+    {
+      "question": "What do Nia's purchases near the terminal suggest?",
+      "options": [
+        "She was buying a present for the porter",
+        "She expected to manage that night without the suitcase",
+        "She had decided to sail away again",
+        "She was replacing the claim form"
+      ],
+      "correctAnswer": "She expected to manage that night without the suitcase",
+      "explanation": "She bought a bag and essentials, which shows she was preparing to cope without the suitcase.",
+      "supportingSentence": "Nia bought a canvas bag at a stall and filled it with essentials from a late shop near the terminal.",
+      "skill": "inference"
+    },
+    {
+      "question": "In Elias's explanation, what does swell mean?",
+      "options": [
+        "A heavy movement of the sea",
+        "A crowd waiting at the barrier",
+        "A tear in the corner of a bag",
+        "A stamp on an official form"
+      ],
+      "correctAnswer": "A heavy movement of the sea",
+      "explanation": "A swell is a strong movement of the sea, and here it shortened the stop.",
+      "supportingSentence": "The missing case, he said, had probably been left in the hold during a rushed turnaround at the previous harbour, where a sudden swell had shortened the afternoon sailing.",
+      "skill": "vocabulary"
+    }
+  ]
+}

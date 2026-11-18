@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "technology",
+  "title": "The Office Backup",
+  "story": "When Priya's laptop stayed black on Monday morning, the newest posters for the weekend market were trapped inside it. She had meant to copy them onto the shared drive, although the latest versions existed only on that machine. A local repair shop warned that the damaged drive might take several days to examine. The market, however, was on Saturday, so the team could not wait for the repair. They therefore searched old messages and printed drafts, rebuilding the posters from memory. The new files were usable. Even so, two prices were wrong, and one illustration was an earlier version.\n\nAfter the market, the office manager, Elena, introduced a backup procedure that everyone had to follow. Each project file would be stored in two places before the end of the working day. In addition, the copy had to be automatic, because busy people often skip a task that depends on memory. Luis, who maintained the office computers, set every laptop to send its project folder to the shared drive at half past five. He also kept a small external drive in a locked cupboard, in case the office network failed. The first week was imperfect. One transfer stopped because a folder was too large, and another laptop reported that its disk was full. Nevertheless, the staff repeated the routine until it felt ordinary.\n\nThe procedure proved useful during a sudden power cut. Nora had been editing a client brochure when the lights went out, and the latest paragraph vanished. She did not have to begin the whole document again. The afternoon copy was still on the shared drive, so she restored it and rewrote only the missing lines. As a result, the brochure reached the client that evening rather than the next morning. Priya admitted that the daily check felt dull, whereas rebuilding a whole project had been stressful. The team now reads the backup log each morning in order to confirm that every copy has finished. It is quiet work, but it is reliable.",
+  "vocabulary": [
+    {
+      "word": "procedure",
+      "definition": "A set of steps that people agree to follow."
+    },
+    {
+      "word": "automatic",
+      "definition": "Done by a machine without a person starting it each time."
+    },
+    {
+      "word": "confirm",
+      "definition": "To check that something has been completed."
+    },
+    {
+      "word": "restored",
+      "definition": "Put back from an earlier saved copy."
+    },
+    {
+      "word": "vanished",
+      "definition": "Disappeared suddenly."
+    },
+    {
+      "word": "reliable",
+      "definition": "Able to be trusted to work properly."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "When was the market that the posters were for?",
+      "options": [
+        "On Monday morning",
+        "On Saturday",
+        "At half past five",
+        "During the power cut"
+      ],
+      "correctAnswer": "On Saturday",
+      "explanation": "The market was on Saturday, so the team could not wait for the slow repair.",
+      "supportingSentence": "The market, however, was on Saturday, so the team could not wait for the repair.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does keeping the morning log suggest about the team?",
+      "options": [
+        "They plan to stop copying files after the market",
+        "They trust only the repair shop with client work",
+        "They prefer printed drafts to any digital copy",
+        "They accept a dull task because lost work is worse"
+      ],
+      "correctAnswer": "They accept a dull task because lost work is worse",
+      "explanation": "Priya contrasts the dull check with the stress of rebuilding a project, and the team still reads the log.",
+      "supportingSentence": "Priya admitted that the daily check felt dull, whereas rebuilding a whole project had been stressful.",
+      "skill": "inference"
+    },
+    {
+      "question": "Where was the second drive stored if the network failed?",
+      "options": [
+        "In a locked cupboard",
+        "At the local repair shop",
+        "Inside a printed draft",
+        "On the client brochure"
+      ],
+      "correctAnswer": "In a locked cupboard",
+      "explanation": "Luis kept a small external drive in a locked cupboard in case the office network failed.",
+      "supportingSentence": "He also kept a small external drive in a locked cupboard, in case the office network failed.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the word \"reliable\" mean in the final sentence?",
+      "options": [
+        "Too dull to repeat each morning",
+        "Full of the wrong prices",
+        "Trusted to do the job properly",
+        "Impossible to bring back after a cut"
+      ],
+      "correctAnswer": "Trusted to do the job properly",
+      "explanation": "Calling the quiet routine reliable means the team can trust it to work.",
+      "supportingSentence": "It is quiet work, but it is reliable.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What risk remains if people check a copy only after a failure?",
+      "options": [
+        "The shared drive would empty itself every evening",
+        "A missed copy might stay hidden until work is lost",
+        "The repair shop would refuse to examine a laptop",
+        "Clients would receive posters before they were made"
+      ],
+      "correctAnswer": "A missed copy might stay hidden until work is lost",
+      "explanation": "The morning log exists to confirm that each copy has finished, so a failure can be seen before a file is needed.",
+      "supportingSentence": "The team now reads the backup log each morning in order to confirm that every copy has finished.",
+      "skill": "inference"
+    }
+  ]
+}

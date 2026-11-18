@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "technology",
+  "title": "A Failure in the Backup",
+  "story": "The night log had been green for forty-one days. Each morning the archive desk received the same line: the copy job had finished, the file count matched the source, and the tape set had been marked complete. Nobody had restored a sample in that time. The check compared names and sizes, then stopped. When a visiting fellow asked for a set of field notes from March, the restored folder opened, and the last third of every long file was simply absent. The job had ended. The bytes had not all arrived.\n\nLina Voss, who kept the archive, pulled the quota notice that the storage group had sent in late February and then forgotten. A shared volume had been capped so that one project could not fill the disk. The copy program, meeting that cap, wrote what would fit, closed the file, and reported success because the close itself had not returned an error. Truncation left a shorter file with a normal ending, which is why a count of files could stay perfect while the text inside them was cut. The failure was quiet. The dashboard had no column for the missing pages, only a lamp that meant the process had stopped running.\n\nVoss refused to treat the green weeks as safe. She froze deletions on the source shelves and chose a restore test that did not trust the log. For a sample of thirty files she compared a checksum made on the source with a checksum made after the copy, and she did the same for the week before the quota notice, when the lengths still agreed. The earlier week matched. Every week after it showed the same pattern: small files intact, long files shortened near the cap. That boundary, not the calendar date alone, told her where the damage began. The green log stayed useful for one limited purpose. It showed which nights a job had started, so the search had edges.\n\nThe repair was dull on purpose. Staff would recopy the damaged weeks from the source, which was still complete, onto new media, and they would not reuse the tapes that had passed only a count. A backup would now count as finished only when a sample of checksums matched, including at least one file large enough to have hit the cap. Voss wrote the rule on the job sheet in plain sentences. A completed run is a fact about the program. It is not a fact about the documents. Until those two facts are the same, the lamp on the desk is only a lamp.",
+  "vocabulary": [
+    {
+      "word": "truncation",
+      "definition": "The cutting short of a file so that part of its contents is lost."
+    },
+    {
+      "word": "quota",
+      "definition": "A limit on how much storage a project is allowed to use."
+    },
+    {
+      "word": "checksum",
+      "definition": "A calculated value used to test whether a file’s contents still match."
+    },
+    {
+      "word": "restore",
+      "definition": "To bring a stored copy back so that someone can open it."
+    },
+    {
+      "word": "recopy",
+      "definition": "To copy the material again from the complete source."
+    },
+    {
+      "word": "boundary",
+      "definition": "The point that marks where one condition ends and another begins."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "For how long had the night log stayed green before the missing text was found?",
+      "options": [
+        "Forty-one days",
+        "Thirty files",
+        "One earlier week",
+        "Since late February"
+      ],
+      "correctAnswer": "Forty-one days",
+      "explanation": "The night log had been green for forty-one days.",
+      "supportingSentence": "The night log had been green for forty-one days.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did Voss stop deletions on the source shelves while she tested the copies?",
+      "options": [
+        "The source was the complete set she might still need to copy from.",
+        "The source files were already shorter than the copies on tape.",
+        "The visiting fellow had asked her to delete the March notes.",
+        "The green log could be kept only by emptying those shelves."
+      ],
+      "correctAnswer": "The source was the complete set she might still need to copy from.",
+      "explanation": "The damaged copies had to be made again from the source, which was still complete.",
+      "supportingSentence": "She froze deletions on the source shelves and chose a restore test that did not trust the log.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why does the new rule refuse to call a backup finished unless the sample includes a large file?",
+      "options": [
+        "Smaller files alone could match even while longer files were still being cut.",
+        "The visiting fellow is allowed to read large files and no others.",
+        "The tape can store a checksum for one file and then stops.",
+        "The size limit had applied only to the notes written in March."
+      ],
+      "correctAnswer": "Smaller files alone could match even while longer files were still being cut.",
+      "explanation": "Small files had stayed intact while long files were shortened near the cap, so a small sample could hide the fault.",
+      "supportingSentence": "A backup would now count as finished only when a sample of checksums matched, including at least one file large enough to have hit the cap.",
+      "skill": "inference"
+    },
+    {
+      "question": "In this passage, what does “truncation” describe?",
+      "options": [
+        "A file cut short that still looked as if it had closed normally.",
+        "A file count that the night log had already rejected.",
+        "A tape the archive refused to mark as complete.",
+        "A checksum that matched the source exactly."
+      ],
+      "correctAnswer": "A file cut short that still looked as if it had closed normally.",
+      "explanation": "Truncation left a shorter file with a normal ending, so the text was cut even though the file looked closed.",
+      "supportingSentence": "Truncation left a shorter file with a normal ending, which is why a count of files could stay perfect while the text inside them was cut.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the passage separate a fact about the program from a fact about the documents?",
+      "options": [
+        "To show that a finished job status can hide an incomplete copy.",
+        "To argue that field notes should be kept on paper only.",
+        "To praise the dashboard lamp as a full check of every page.",
+        "To explain why visitors should stop asking for old notes."
+      ],
+      "correctAnswer": "To show that a finished job status can hide an incomplete copy.",
+      "explanation": "The writer wants the reader to see that a completed run says the program finished, not that the documents are whole.",
+      "supportingSentence": "A completed run is a fact about the program.",
+      "skill": "intent"
+    }
+  ]
+}

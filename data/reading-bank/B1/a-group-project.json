@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "school_college",
+  "title": "A Group Project",
+  "story": "Hana, Felix, and Omar had to prepare a short talk about their town for history class. They met in an empty classroom after lunch and closed the door so they could think. Hana opened a folder and spread three pages of notes on the table. Felix had photos of the old market on his phone, and Omar had a map he had drawn at home. At first they all spoke at once, and nobody wrote anything down. Hana asked them to take turns. She said the talk could last only five minutes, so each person needed one clear part. Omar offered to explain the map. Hana offered to begin and to end the talk. They wrote a simple plan in the folder and numbered the steps. Omar pointed at the map and spoke too fast, so Hana tapped the table and he slowed down. Felix forgot a date, and Omar found it in the notes. They practised the whole talk twice. The second time it fitted the five minutes and sounded calm. Before they left, Hana checked that every photo and the map were in the folder. Felix promised to charge his phone. Omar promised to bring the folder in the morning so nobody would leave it behind. The teacher smiled when the talk finished on time. The three friends learned that a plan and a little patience can turn a noisy group into a team.",
+  "vocabulary": [
+    {
+      "word": "folder",
+      "definition": "a cover that keeps papers together"
+    },
+    {
+      "word": "notes",
+      "definition": "short writing that helps you remember"
+    },
+    {
+      "word": "turns",
+      "definition": "chances to speak one after another"
+    },
+    {
+      "word": "practised",
+      "definition": "did an activity again in order to improve"
+    },
+    {
+      "word": "patience",
+      "definition": "the ability to stay calm and not rush"
+    },
+    {
+      "word": "charge",
+      "definition": "to put power into a phone"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What was the history talk about?",
+      "options": [
+        "their town",
+        "a football final",
+        "a science lab",
+        "a lost dog"
+      ],
+      "correctAnswer": "their town",
+      "explanation": "The task names the subject.",
+      "supportingSentence": "Hana, Felix, and Omar had to prepare a short talk about their town for history class.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Felix have on his phone?",
+      "options": [
+        "photos of the old market",
+        "a bus timetable",
+        "a song for the class",
+        "a picture of the teacher"
+      ],
+      "correctAnswer": "photos of the old market",
+      "explanation": "He brought those pictures with him.",
+      "supportingSentence": "Felix had photos of the old market on his phone, and Omar had a map he had drawn at home.",
+      "skill": "detail"
+    },
+    {
+      "question": "How many times did they practise the whole talk?",
+      "options": [
+        "twice",
+        "once",
+        "five times",
+        "ten times"
+      ],
+      "correctAnswer": "twice",
+      "explanation": "The story gives that number.",
+      "supportingSentence": "They practised the whole talk twice.",
+      "skill": "detail"
+    },
+    {
+      "question": "Which word means the ability to stay calm and not rush?",
+      "options": [
+        "patience",
+        "folder",
+        "market",
+        "teacher"
+      ],
+      "correctAnswer": "patience",
+      "explanation": "The last sentence names this quality.",
+      "supportingSentence": "The three friends learned that a plan and a little patience can turn a noisy group into a team.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Omar promise to bring the folder in the morning?",
+      "options": [
+        "so nobody would leave it behind",
+        "so the teacher could hide it",
+        "so Felix could sell the photos",
+        "so the classroom door would lock"
+      ],
+      "correctAnswer": "so nobody would leave it behind",
+      "explanation": "They did not want the materials left at home.",
+      "supportingSentence": "Omar promised to bring the folder in the morning so nobody would leave it behind.",
+      "skill": "inference"
+    }
+  ],
+  "file": "b1-b.txt"
+}

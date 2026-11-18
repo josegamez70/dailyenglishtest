@@ -1,0 +1,99 @@
+{
+  "level": "B1",
+  "topic": "culture_food",
+  "title": "The Picnic Blanket",
+  "story": "On a warm Saturday, Jules and Sam carried a picnic to the wide park by the canal. They chose a spot under a tree where the shade was cool. Jules shook the blanket and spread it on the grass. A few dry leaves sat in the middle, so Sam brushed them away. They put the basket on one corner so the blanket would not fly up.\n\nInside the basket there were sandwiches, apples, and a flask of cold tea. Sam poured the tea into two cups and passed one to Jules. They ate slowly and watched boats move along the canal. When crumbs fell, two ants appeared at the edge of the blanket. Sam moved the apples to a plate and covered them with a napkin. Jules shook the crumbs farther onto the grass.\n\nShe did not want insects in the food, but she did not want to hurt them either. The ants followed the crumbs and left the blanket alone. After lunch they lay back and looked at the leaves. The shade shifted, so they moved the blanket once. Later a breeze grew stronger, and the cups tipped. Sam caught his cup, but a little tea spilled on his shoe. They laughed and packed everything before the clouds thickened. On the walk home, Jules said the quiet meal had been the best part of the day. Sam agreed and asked to do it again next weekend.",
+  "vocabulary": [
+    {
+      "word": "shade",
+      "definition": "A cooler place that is out of the sun."
+    },
+    {
+      "word": "spread",
+      "definition": "Opened something out so it lay flat."
+    },
+    {
+      "word": "basket",
+      "definition": "A container used to carry the picnic."
+    },
+    {
+      "word": "crumbs",
+      "definition": "Very small pieces of bread or other food."
+    },
+    {
+      "word": "napkin",
+      "definition": "A piece of cloth or paper used at a meal."
+    },
+    {
+      "word": "breeze",
+      "definition": "A light, gentle wind."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where did Jules and Sam put the blanket?",
+      "options": [
+        "Under a tree",
+        "On a boat",
+        "Inside a café",
+        "Beside the school gate"
+      ],
+      "correctAnswer": "Under a tree",
+      "explanation": "They chose a spot under a tree where the shade was cool.",
+      "supportingSentence": "They chose a spot under a tree where the shade was cool.",
+      "skill": "detail"
+    },
+    {
+      "question": "What drink was in the flask?",
+      "options": [
+        "Cold tea",
+        "Hot coffee",
+        "Orange juice",
+        "Warm milk"
+      ],
+      "correctAnswer": "Cold tea",
+      "explanation": "The basket held sandwiches, apples, and a flask of cold tea.",
+      "supportingSentence": "Inside the basket there were sandwiches, apples, and a flask of cold tea.",
+      "skill": "detail"
+    },
+    {
+      "question": "What spilled onto Sam's shoe?",
+      "options": [
+        "A little tea",
+        "The whole basket",
+        "A dry leaf",
+        "An apple"
+      ],
+      "correctAnswer": "A little tea",
+      "explanation": "Sam caught his cup, but a little tea still spilled on his shoe.",
+      "supportingSentence": "Sam caught his cup, but a little tea spilled on his shoe.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does crumbs mean in this story?",
+      "options": [
+        "Tiny pieces of food",
+        "Large picnic plates",
+        "Dark clouds over the canal",
+        "Cups that fall in the wind"
+      ],
+      "correctAnswer": "Tiny pieces of food",
+      "explanation": "Crumbs fell from the food, and ants came to the edge of the blanket.",
+      "supportingSentence": "When crumbs fell, two ants appeared at the edge of the blanket.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did they pack the picnic when the wind grew?",
+      "options": [
+        "Rain seemed likely",
+        "The park gates were locking",
+        "They had to catch a boat",
+        "Sam had hurt his foot"
+      ],
+      "correctAnswer": "Rain seemed likely",
+      "explanation": "The breeze grew stronger and they packed before the clouds thickened, so rain seemed likely.",
+      "supportingSentence": "They laughed and packed everything before the clouds thickened.",
+      "skill": "inference"
+    }
+  ]
+}

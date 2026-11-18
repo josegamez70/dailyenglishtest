@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "technology",
+  "title": "A Bug in the Timetable",
+  "story": "The new timetable program was supposed to make Monday calmer at Westford College. Instead, two classes arrived at the science lab at the same moment. The cooking group needed the sinks, whereas the biology group needed the benches for a microscope lesson. Neither teacher had seen a clash on Friday, when the screen showed a clear week. The corridor filled, and the lesson time was already slipping away.\n\nMina, who helps the office with room bookings, opened the program and compared the week view with the room list. At first the entries looked correct. However, the lab appeared under two codes, LAB-1 and LAB-S, because an old spreadsheet had used both. The program treated those codes as different rooms. Consequently, it allowed a double booking that no person had intended. Mina filtered the week by teacher and saw three further overlaps, including a quiet reading room that had been given to an exam and a choir practice on the same afternoon.\n\nShe merged the two lab codes, then ran a check that highlighted any room with more than one class in the same period. The check was a temporary fix until the college technician could adjust the settings properly. The teachers moved the cooking group to the canteen kitchen for that morning, and biology kept the lab. Meanwhile, Mina sent a short note to every tutor. Rooms should be chosen from the cleaned list, and any warning should be reported before Friday. On Wednesday the choir leader noticed a yellow warning and swapped the rehearsal to the hall. The exam stayed in the reading room. By the end of the week the overlaps were gone.\n\nThe principal thanked Mina, although the real fault had been an old assumption hidden in the data. A room can have only one official name, or the program will not detect a clash. The college now keeps a single room list and reviews the warning screen every Thursday. The bug had been small. The confusion in the corridor had not.",
+  "vocabulary": [
+    {
+      "word": "overlaps",
+      "definition": "Times when two bookings cover the same period."
+    },
+    {
+      "word": "temporary",
+      "definition": "Intended to last only for a short time."
+    },
+    {
+      "word": "assumption",
+      "definition": "Something accepted as true without a fresh check."
+    },
+    {
+      "word": "detect",
+      "definition": "To notice something that is not obvious."
+    },
+    {
+      "word": "merged",
+      "definition": "Joined two separate things into one."
+    },
+    {
+      "word": "highlighted",
+      "definition": "Marked so that it is easy to notice."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What does the calm Friday screen reveal about the clash?",
+      "options": [
+        "The teachers ignored a warning they had printed",
+        "Friday's classes had already been cancelled",
+        "A clear display can still hide a double booking",
+        "The science lab was shut for the whole week"
+      ],
+      "correctAnswer": "A clear display can still hide a double booking",
+      "explanation": "Neither teacher saw a clash because the screen looked clear, yet Monday still produced two classes in one lab.",
+      "supportingSentence": "Neither teacher had seen a clash on Friday, when the screen showed a clear week.",
+      "skill": "inference"
+    },
+    {
+      "question": "How did the program treat the two lab codes?",
+      "options": [
+        "As different rooms",
+        "As one shared booking",
+        "As closed for the week",
+        "As the canteen kitchen"
+      ],
+      "correctAnswer": "As different rooms",
+      "explanation": "The program treated LAB-1 and LAB-S as different rooms, so it allowed both classes.",
+      "supportingSentence": "The program treated those codes as different rooms.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does \"assumption\" mean in this story?",
+      "options": [
+        "A yellow warning on the timetable screen",
+        "A second copy of the room list",
+        "A class moved to the college hall",
+        "Something accepted as true without a new check"
+      ],
+      "correctAnswer": "Something accepted as true without a new check",
+      "explanation": "The old assumption was a belief in the data that nobody had checked again.",
+      "supportingSentence": "The principal thanked Mina, although the real fault had been an old assumption hidden in the data.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why was fixing the room codes more useful than moving only one class?",
+      "options": [
+        "The canteen kitchen had no space on Monday",
+        "Other clashes were already sitting in the week",
+        "The technician deleted every choir practice",
+        "Biology no longer needed benches or sinks"
+      ],
+      "correctAnswer": "Other clashes were already sitting in the week",
+      "explanation": "Mina found three further overlaps, so moving only the cooking group would have left other clashes in place.",
+      "supportingSentence": "Mina filtered the week by teacher and saw three further overlaps, including a quiet reading room that had been given to an exam and a choir practice on the same afternoon.",
+      "skill": "inference"
+    },
+    {
+      "question": "Which booking remained after the choir changed rooms?",
+      "options": [
+        "Biology in the canteen kitchen",
+        "Cooking in the science lab",
+        "The exam in the reading room",
+        "The choir practice in the reading room"
+      ],
+      "correctAnswer": "The exam in the reading room",
+      "explanation": "The choir moved to the hall, and the exam stayed in the reading room.",
+      "supportingSentence": "The exam stayed in the reading room.",
+      "skill": "detail"
+    }
+  ]
+}

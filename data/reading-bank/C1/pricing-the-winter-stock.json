@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "economy_finance",
+  "title": "Pricing the Winter Stock",
+  "story": "The delivery note for spring arrived while the winter stock was still stacked to the rafters in the back room of Pell's garden shop. Sacks of grit, boxes of gloves, and a line of small electric heaters sat where the seed racks needed to be by the first week of March. Adel, who did the buying, had ordered the heaters in October after a cold forecast that never quite became a cold season. They had sold, but slowly, and every week they remained was a week of rent, insurance, and a staff hour spent shifting them to reach something else.\n\nHe priced the season the way he had been taught, then checked the result against the room itself. Each heater had a unit cost, a modest margin, and a holding cost he usually ignored because winter goods were gone by January. This year the holding cost was no longer theoretical. The stock was occupying the warmest storage in the building, the part that stayed dry. If he kept the original price, he might sell the last units to the next cold snap and protect the margin. He might also still be climbing over them when the seed order landed, paying to store metal that customers had already decided to do without.\n\nA deep markdown would clear the floor, and Adel had used that tool before. It would also teach the street a lesson he did not want it to learn. Two regulars had already asked, lightly, whether the heaters would be cheaper if they waited until February. If he confirmed the habit, next October's stock would sit untouched until the discount appeared, and the margin on a whole category would start its year already wounded. Clearance, he decided, was a door you opened on purpose and only part of the way.\n\nHe split the range. The gloves, which took little space and still sold on wet mornings, stayed at their original price. The grit moved to the pavement display at a small reduction, because once the frost ended it would be worth almost nothing. The heaters were offered at a cut large enough to interest a buyer this week, but not so large that the price looked like a collapse. He put the reason on a handwritten card: space needed for seed, not a fault in the goods. By Friday half the heaters had gone, and the back room smelled of cardboard rather than dust on warm metal. The till showed a thinner profit than the October plan. The floor showed a shop that could take delivery without an apology.",
+  "vocabulary": [
+    {
+      "word": "forecast",
+      "definition": "A prediction of what is likely to happen, used here about the weather."
+    },
+    {
+      "word": "margin",
+      "definition": "The difference between what goods cost and what they sell for."
+    },
+    {
+      "word": "markdown",
+      "definition": "A deliberate cut in the selling price."
+    },
+    {
+      "word": "clearance",
+      "definition": "A sale meant to move stock out quickly."
+    },
+    {
+      "word": "reduction",
+      "definition": "An amount taken off a price."
+    },
+    {
+      "word": "insurance",
+      "definition": "A regular payment made against the risk of loss or damage."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Which goods did Adel leave at the price he had first set?",
+      "options": [
+        "The electric heaters",
+        "The gloves",
+        "The sacks of grit",
+        "The spring seed racks"
+      ],
+      "correctAnswer": "The gloves",
+      "explanation": "The gloves still sold and took little space, so they stayed at their original price.",
+      "supportingSentence": "The gloves, which took little space and still sold on wet mornings, stayed at their original price.",
+      "skill": "detail"
+    },
+    {
+      "question": "What links the different prices Adel chooses at the end?",
+      "options": [
+        "He raises every price the customers have already asked about.",
+        "He sells the whole winter range at cost until March.",
+        "He cuts a price according to the space an item uses and how little it will be worth later, rather than by one discount for everything.",
+        "He copies the prices printed on the spring delivery note."
+      ],
+      "correctAnswer": "He cuts a price according to the space an item uses and how little it will be worth later, rather than by one discount for everything.",
+      "explanation": "Gloves stay put because they are small and still selling, grit is reduced because frost gives it an end, and the heaters are cut to free the room. One rule does not cover all of them.",
+      "supportingSentence": "The grit moved to the pavement display at a small reduction, because once the frost ended it would be worth almost nothing.",
+      "skill": "inference"
+    },
+    {
+      "question": "How does Adel appear to judge the result of the week?",
+      "options": [
+        "A thinner profit was acceptable because the shop was ready for the spring delivery.",
+        "The cold forecast had been right after all.",
+        "Selling half the heaters proved the October price should never have changed.",
+        "The gloves should have been cut more deeply than the heaters."
+      ],
+      "correctAnswer": "A thinner profit was acceptable because the shop was ready for the spring delivery.",
+      "explanation": "The till is down on the October plan, but the cleared floor means the shop can take the delivery without an apology. That is the result he has been working toward.",
+      "supportingSentence": "The floor showed a shop that could take delivery without an apology.",
+      "skill": "inference"
+    },
+    {
+      "question": "In this story, what is a markdown?",
+      "options": [
+        "A note written on a delivery",
+        "The weekly cost of keeping goods in a room",
+        "A fine for ordering stock too late",
+        "A deliberate cut in the selling price"
+      ],
+      "correctAnswer": "A deliberate cut in the selling price",
+      "explanation": "Adel talks about a deep markdown as a tool that would clear the floor, so it means cutting prices on purpose.",
+      "supportingSentence": "A deep markdown would clear the floor, and Adel had used that tool before.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer include the regulars who asked about waiting until February?",
+      "options": [
+        "To introduce two new members of staff",
+        "To show the customer habit a deep discount might strengthen",
+        "To prove that February is always the coldest month",
+        "To suggest the heaters were faulty"
+      ],
+      "correctAnswer": "To show the customer habit a deep discount might strengthen",
+      "explanation": "Their light question shows that some buyers are already tempted to wait, which is the lesson Adel does not want a large cut to teach.",
+      "supportingSentence": "Two regulars had already asked, lightly, whether the heaters would be cheaper if they waited until February.",
+      "skill": "intent"
+    }
+  ]
+}

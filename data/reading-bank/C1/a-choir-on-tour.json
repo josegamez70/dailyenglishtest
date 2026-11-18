@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "hobbies",
+  "title": "A Choir on Tour",
+  "story": "The choir from Ostel spent four days in a borrowed minibus, singing in rooms that had never been asked to look after music. Nia Hesk, who kept both the scores and the petrol money, had accepted the tour because a string of small libraries wanted something live between lectures. Their usual hall was under a scaffold, and waiting for the roof would have meant a silent season. Illness had reduced twenty booked voices to sixteen, so they learned a quicker way to arrive, take a note from a pitch pipe, and begin while the audience was still deciding whether to sit.\n\nThe repertoire was deliberately narrow. Four pieces could be held in tune by tired people, and one newer work still made the tenors glance sideways at one another. In the first library the ceiling was low, and the sound came back at them almost before it had left. Nia reduced the volume and asked for consonants that carried the words without giving the room a shove. The second venue, a converted grain store, produced the opposite trouble. Tone thinned before it reached the back chairs. They stood closer, which improved the blend and irritated the bass who guarded his space as if it were part of the score. Nia treated each adjustment as musical work, not as a compromise with an inferior room. A piece that could prosper in only one acoustic was, for this week, unfinished.\n\nOn the last afternoon a lecture overran, and the reading room held half the expected listeners and, by the singers' own later admission, twice the attention. During the new work a tenor missed an entry, found the next phrase, and did not apologise with his eyebrows. Nia counted that restraint as professionalism, because a face that confesses a mistake can persuade an audience that the piece has failed. Afterwards a librarian asked about a return in spring. Nia said she would look at the roof and at the voices, and she would not promise the same programme merely to be agreeable. Walking to the bus, she heard two singers quietly repairing the missed entry until it sat cleanly. The tour had shown them how much of a performance is fitting: altering the sound to the room without sanding the piece down to something easier. In the minibus Nia wrote the adjustments in the margin of the score, not as apologies, but as instructions for the next unsuitable room. The bass, who had given up a little space and survived, asked whether the grain store had been the best of them. Nia said it had been the clearest teacher.",
+  "vocabulary": [
+    {
+      "word": "repertoire",
+      "definition": "The set of pieces a performer or group is ready to present."
+    },
+    {
+      "word": "consonants",
+      "definition": "Speech sounds such as t or k that shape words clearly."
+    },
+    {
+      "word": "blend",
+      "definition": "The way separate voices mix into one sound."
+    },
+    {
+      "word": "acoustic",
+      "definition": "The way a particular room carries and changes sound."
+    },
+    {
+      "word": "phrase",
+      "definition": "A short musical passage within a longer piece."
+    },
+    {
+      "word": "professionalism",
+      "definition": "Skilled, controlled behaviour suitable to the work."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Why could the choir not use its usual hall?",
+      "options": [
+        "The roof work had put the hall under scaffold",
+        "A lecture series had booked it for four days",
+        "Illness had closed every room in Ostel",
+        "The grain store had replaced it permanently"
+      ],
+      "correctAnswer": "The roof work had put the hall under scaffold",
+      "explanation": "Their usual hall was under a scaffold, and waiting for the roof would have meant a silent season.",
+      "supportingSentence": "Their usual hall was under a scaffold, and waiting for the roof would have meant a silent season.",
+      "skill": "detail"
+    },
+    {
+      "question": "What approach to mistakes do Nia and the singers seem to share?",
+      "options": [
+        "Hold steady in front of listeners, then correct the fault in private",
+        "Apologise with a look so the room can share the error",
+        "Drop any piece that still worries the tenors",
+        "Sing louder whenever a ceiling feels low"
+      ],
+      "correctAnswer": "Hold steady in front of listeners, then correct the fault in private",
+      "explanation": "The tenor does not show the miss on his face, and later two singers quietly repair the entry on the way to the bus.",
+      "supportingSentence": "Walking to the bus, she heard two singers quietly repairing the missed entry until it sat cleanly.",
+      "skill": "inference"
+    },
+    {
+      "question": "What do the low library and the grain store together imply?",
+      "options": [
+        "A piece must be adapted to each room rather than sung one fixed way",
+        "A performance succeeds only under a low ceiling",
+        "Sixteen voices are too few for any library",
+        "Listeners at the back should be ignored"
+      ],
+      "correctAnswer": "A piece must be adapted to each room rather than sung one fixed way",
+      "explanation": "One room threw the sound back and the other swallowed it, and Nia treats a piece that can live in only one room as unfinished.",
+      "supportingSentence": "A piece that could prosper in only one acoustic was, for this week, unfinished.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does repertoire refer to in this story?",
+      "options": [
+        "The limited set of music the choir brought",
+        "The route the minibus took between towns",
+        "The petrol money Nia kept for the tour",
+        "The scaffold covering their usual hall"
+      ],
+      "correctAnswer": "The limited set of music the choir brought",
+      "explanation": "The repertoire is described as narrow, and the following lines name the few pieces they could hold when tired.",
+      "supportingSentence": "The repertoire was deliberately narrow.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer end on the grain store as a teacher?",
+      "options": [
+        "To value the difficult room for the lesson it gave",
+        "To announce that the choir plans to buy the building",
+        "To blame the bass for the missed entry",
+        "To claim the lecture was better than the music"
+      ],
+      "correctAnswer": "To value the difficult room for the lesson it gave",
+      "explanation": "The bass had disliked standing close there, yet Nia calls that room the clearest teacher, judging it by what the singers learned.",
+      "supportingSentence": "Nia said it had been the clearest teacher.",
+      "skill": "intent"
+    }
+  ]
+}

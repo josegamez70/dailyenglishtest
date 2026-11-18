@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "fantasy",
+  "title": "The Library That Moved",
+  "story": "The library had been on Market Street on Monday. On Tuesday Neve found an empty shop and a note in the librarian's small handwriting. The shelves had gone to sit by the canal, and anyone who truly needed a book should follow before dusk. Neve did need one. Her apprentice test, set for the next morning, included a repair on a canal lock, and the only clear manual was in the library she had postponed visiting.\n\nShe reached the canal as the lamps were being lit. The library stood where a boathouse had been, its windows fogged from the damp. Oster, the librarian, nodded at Neve's oil-stained notebook and guessed her errand before she explained it.\n\nHe stated the condition before he fetched the manual. A borrower had to return a finished book, because the library traveled more easily when it was not carrying stories nobody was reading. Unfinished books made it stubborn. Neve had a novel in her bag, one she had loved and then kept because she was not ready to miss it. She returned it to a shelf. The shelves gave a small, settling sound, like a boat easing against a wall.\n\nOster let her read by the window while he mended a torn map. The diagrams were plain, and the warnings were plainer: never force a gate against the water, and never trust a dry step that had been wet a minute earlier. Neve copied the pages she would not remember under pressure. The library, Oster said, did not move to impress anyone. It moved because a needed book left too long in one place began to feel dishonest.\n\nIn the morning the canal bank was only a canal bank. A fresh note on Market Street said her novel would be waiting when she wanted it for its own sake. She passed the test with wet sleeves and steady hands. That evening she went back to Market Street, because a promise kept by a building deserved a reader who returned on time.",
+  "vocabulary": [
+    {
+      "word": "postponed",
+      "definition": "Delayed until a later time."
+    },
+    {
+      "word": "errand",
+      "definition": "A short trip made in order to do a task."
+    },
+    {
+      "word": "borrower",
+      "definition": "A person who takes something and is expected to return it."
+    },
+    {
+      "word": "stubborn",
+      "definition": "Unwilling to move or change."
+    },
+    {
+      "word": "diagrams",
+      "definition": "Simple drawings that show how something works."
+    },
+    {
+      "word": "dishonest",
+      "definition": "Not truthful or not right in the circumstances."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How could Oster guess Neve's errand before she explained it?",
+      "options": [
+        "The oil on her notebook suggested hands-on repair work",
+        "She was already holding the canal manual open",
+        "The note on the empty shop described her by name",
+        "Every visitor that day asked for the same novel"
+      ],
+      "correctAnswer": "The oil on her notebook suggested hands-on repair work",
+      "explanation": "He looks at her oil-stained notebook and guesses, so the stains are the clue that her work involves machinery.",
+      "supportingSentence": "Oster, the librarian, nodded at Neve's oil-stained notebook and guessed her errand before she explained it.",
+      "skill": "inference"
+    },
+    {
+      "question": "What did a borrower have to give back before taking the manual?",
+      "options": [
+        "Payment for moving the shelves to the canal",
+        "A book that the borrower had already finished",
+        "A promise to take the test without any notes",
+        "A torn map in exchange for a novel"
+      ],
+      "correctAnswer": "A book that the borrower had already finished",
+      "explanation": "A borrower had to return a finished book before the library would travel more easily.",
+      "supportingSentence": "A borrower had to return a finished book, because the library traveled more easily when it was not carrying stories nobody was reading.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did Neve copy pages instead of only reading them?",
+      "options": [
+        "The window table was not meant for reading",
+        "She still needed to return an unfinished story",
+        "She thought pressure might make her forget the instructions",
+        "The drawings were too plain to read even once"
+      ],
+      "correctAnswer": "She thought pressure might make her forget the instructions",
+      "explanation": "She copied the pages she would not remember under pressure, so she was preparing for a stressful test.",
+      "supportingSentence": "Neve copied the pages she would not remember under pressure.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does stubborn mean when unfinished books affect the library?",
+      "options": [
+        "Eager to travel at a moment's notice",
+        "Already finished and ready to lend",
+        "Closed to every visitor after dusk",
+        "Unwilling to move or give way"
+      ],
+      "correctAnswer": "Unwilling to move or give way",
+      "explanation": "Unfinished books make the library stubborn, while returning a finished book helps it travel, so stubborn means unwilling to move.",
+      "supportingSentence": "Unfinished books made it stubborn.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did the library change streets, according to Oster?",
+      "options": [
+        "A needed book began to feel wrong if it was left too long in one place",
+        "The boathouse owner charged rent every Monday",
+        "Neve asked the shelves to follow her to the test",
+        "Rain had ruined the shop on Market Street"
+      ],
+      "correctAnswer": "A needed book began to feel wrong if it was left too long in one place",
+      "explanation": "Oster said it moved because a needed book left too long in one place began to feel dishonest.",
+      "supportingSentence": "It moved because a needed book left too long in one place began to feel dishonest.",
+      "skill": "detail"
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "level": "B2",
+  "topic": "fantasy",
+  "title": "The Clockmaker of Lantern Lane",
+  "story": "Lantern Lane kept its own evening. The lamps were lit by hand, and the clocks in the windows did not quite agree with the clocks anywhere else. At the end of the lane, Edra mended watches for people who had lost more than minutes. A paper sign said that she repaired timepieces but did not sell hours that belonged to somebody else.\n\nSami brought a silver watch that stopped every day at the same moment. The hands reached sixteen minutes past four and then refused to move. His father used to leave for the harbor at that time, and the watch had been still since their last morning at the gate. Sami wanted it to run like an ordinary watch, because a stopped gift felt like a locked door.\n\nOpening the case, Edra heard a tick that was not the tick of the present. She explained that some mechanisms held a wound memory. The watch was not broken so much as loyal. If she freed the spring, the preserved minute would leave, and no tool on the bench could put that exact minute back. He could keep a watch that remembered, or a watch that told him when to catch a bus. He could not honestly keep both.\n\nSami sat with the choice until the lane lamps were lit. He thought of school mornings when he turned his wrist and felt punished by the same four numbers. Memory already lived in him, and it did not need a machine to trap it. He asked Edra to let the watch run. While she worked, he wrote the old minute on the first page of his notebook, large enough that he would not pretend to have forgotten it.\n\nEdra warned him that the watch would now be late or early like any other, and that this was a kind of health. Outside, Lantern Lane was glowing. For the first time in months, the weight on his wrist matched the hour the rest of the city was using.",
+  "vocabulary": [
+    {
+      "word": "timepieces",
+      "definition": "Clocks or watches."
+    },
+    {
+      "word": "loyal",
+      "definition": "Faithful to a person, a promise, or a remembered moment."
+    },
+    {
+      "word": "preserved",
+      "definition": "Kept as it was, without being lost or changed."
+    },
+    {
+      "word": "mechanisms",
+      "definition": "The working parts inside a machine."
+    },
+    {
+      "word": "punished",
+      "definition": "Made to suffer, as if for doing something wrong."
+    },
+    {
+      "word": "ordinary",
+      "definition": "Normal, and not special or unusual."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What does loyal say about the stopped watch?",
+      "options": [
+        "It is staying faithful to a minute it will not leave",
+        "It has no glass and can never be wound",
+        "It always agrees with the clocks in the city",
+        "It can be sold to any customer in the lane"
+      ],
+      "correctAnswer": "It is staying faithful to a minute it will not leave",
+      "explanation": "Edra says the watch is not broken so much as loyal, after she hears a tick that is not the tick of the present.",
+      "supportingSentence": "The watch was not broken so much as loyal.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "At what moment did the hands of Sami's watch stop?",
+      "options": [
+        "At sunrise, when the harbor gate opened",
+        "At sixteen minutes past four",
+        "When he began writing in his notebook",
+        "After every lamp in the lane was lit"
+      ],
+      "correctAnswer": "At sixteen minutes past four",
+      "explanation": "The hands reached sixteen minutes past four and then refused to move.",
+      "supportingSentence": "The hands reached sixteen minutes past four and then refused to move.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did Sami agree to let the kept minute go?",
+      "options": [
+        "He wanted Edra to store that minute in the shop",
+        "He found the same minute written on the door sign",
+        "He understood that the memory already lived in him",
+        "He needed the watch to stay stopped so he would miss the bus"
+      ],
+      "correctAnswer": "He understood that the memory already lived in him",
+      "explanation": "Because the memory already lived in him, it did not need a machine to trap it, so the watch could be allowed to run.",
+      "supportingSentence": "Memory already lived in him, and it did not need a machine to trap it.",
+      "skill": "inference"
+    },
+    {
+      "question": "How did Edra describe a watch that might run early or late?",
+      "options": [
+        "As a locked door",
+        "As a minute that nobody could put back",
+        "As proof that the repair had failed",
+        "As a kind of health"
+      ],
+      "correctAnswer": "As a kind of health",
+      "explanation": "She warned him that the watch might be early or late like any other, and that this was a kind of health.",
+      "supportingSentence": "Edra warned him that the watch would now be late or early like any other, and that this was a kind of health.",
+      "skill": "detail"
+    },
+    {
+      "question": "What limit does the paper sign put on Edra's work?",
+      "options": [
+        "She will repair timepieces, but she will not sell hours that belong to someone else",
+        "She sells only watches that stop at the same moment each day",
+        "She refuses any customer who arrives after the lamps are lit",
+        "She keeps every notebook a customer brings into the shop"
+      ],
+      "correctAnswer": "She will repair timepieces, but she will not sell hours that belong to someone else",
+      "explanation": "The sign says she repairs timepieces but does not sell hours that belonged to somebody else.",
+      "supportingSentence": "A paper sign said that she repaired timepieces but did not sell hours that belonged to somebody else.",
+      "skill": "inference"
+    }
+  ]
+}

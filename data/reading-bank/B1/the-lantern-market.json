@@ -1,0 +1,99 @@
+{
+  "level": "B1",
+  "topic": "fantasy",
+  "title": "The Lantern Market",
+  "story": "Once each month, a lantern market appeared in a misty field. The stalls opened at dusk and vanished at the first daylight. Amina went there because the road home was dark in winter. She had no coins, but the sellers did not want money. Each lantern cost one true story from the buyer's own life.\n\nAmina told a stall keeper about her grandmother's herb garden. She described the rosemary, the bees, and the old wooden gate. The keeper listened and then handed her a small paper lantern. He said it would light only the correct path home. If she tried to wander, the flame would sink to a faint spark. Amina thanked him and stepped onto the muddy track. The lantern glowed when she faced the river bridge. It dimmed when she turned toward the noisy inn. She followed the brighter glow past sleeping cows and a locked shed.\n\nAt the bridge, she met her neighbor Yusuf, who had lost his way. She shared the light, and the lantern grew a little stronger. Yusuf told a short story about his first day at the bakery. The extra story seemed to feed the flame. Together they crossed the bridge and reached Amina's street. The lantern went out the moment her front door came into view. In the morning, the field was empty, with only circles in the grass. Amina wrote the garden story in her diary so she would remember it.",
+  "vocabulary": [
+    {
+      "word": "dusk",
+      "definition": "The time of day just after sunset."
+    },
+    {
+      "word": "vanished",
+      "definition": "Disappeared completely."
+    },
+    {
+      "word": "faint",
+      "definition": "Weak and hard to see."
+    },
+    {
+      "word": "wander",
+      "definition": "Walk without a clear plan."
+    },
+    {
+      "word": "glowed",
+      "definition": "Shone with a warm light."
+    },
+    {
+      "word": "diary",
+      "definition": "A book for writing about your own days."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "When did the lantern market disappear?",
+      "options": [
+        "At noon each day",
+        "At the first daylight",
+        "Only during summer",
+        "When the cows woke"
+      ],
+      "correctAnswer": "At the first daylight",
+      "explanation": "The stalls vanished at the first daylight.",
+      "supportingSentence": "The stalls opened at dusk and vanished at the first daylight.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did each lantern cost?",
+      "options": [
+        "Ten gold coins",
+        "A paper ticket",
+        "One true story",
+        "A loaf of bread"
+      ],
+      "correctAnswer": "One true story",
+      "explanation": "Each lantern cost one true story from the buyer's own life.",
+      "supportingSentence": "Each lantern cost one true story from the buyer's own life.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did the lantern do when Amina could see her front door?",
+      "options": [
+        "It went out",
+        "It turned into a bird",
+        "It flew back to the field",
+        "It grew as big as the house"
+      ],
+      "correctAnswer": "It went out",
+      "explanation": "The lantern went out when her front door came into view.",
+      "supportingSentence": "The lantern went out the moment her front door came into view.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the word faint mean in this story?",
+      "options": [
+        "Very loud",
+        "Easy to buy",
+        "Cold and wet",
+        "Weak and hard to see"
+      ],
+      "correctAnswer": "Weak and hard to see",
+      "explanation": "A faint spark is a weak light that is hard to see.",
+      "supportingSentence": "If she tried to wander, the flame would sink to a faint spark.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Amina walk toward the river bridge?",
+      "options": [
+        "Yusuf told her to swim",
+        "The inn was her house",
+        "She wanted to buy a cow",
+        "The lantern showed that way was right"
+      ],
+      "correctAnswer": "The lantern showed that way was right",
+      "explanation": "The lantern glowed toward the bridge, and it lit only the correct path.",
+      "supportingSentence": "The lantern glowed when she faced the river bridge.",
+      "skill": "inference"
+    }
+  ]
+}

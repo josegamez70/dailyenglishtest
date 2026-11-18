@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "daily life",
+  "title": "A Neighbourhood Petition",
+  "story": "The petition appeared on a Tuesday, pinned outside the corner shop and again on the community-room door. It asked the council to refuse a late-night takeaway on the parade, on the grounds that the street already had litter, idling cars, and noise after the buses thinned. Ruth read it twice before she signed. She lived above the empty unit, and she had spent the previous summer shutting her windows against a different shop's extractor. The phrasing, which described the whole neighbourhood as united, still troubled her. She knew at least three households who wanted any legal business rather than another boarded front.\n\nPatrick, who had drafted the text, came round that evening to collect paper copies from people who avoided the online form. He was proud of the speed. Forty names had appeared by lunch. Ruth told him she had signed, then asked whether the wording overreached. If the council tested the claim that residents spoke with one voice, a handful of dissenting letters could make the petition look careless. Patrick replied that campaigns needed warmth, and that a document full of caveats would persuade nobody. He offered to add her name to the covering note as a resident who supported refusal but wanted the evidence kept separate from the adjectives.\n\nBy Thursday the dispute had left the doorstep. Someone had photographed the sheet and posted it with a comment that the street was being spoken for by its most anxious minority. Two people asked for their names to be removed. Ruth did not. She wrote a short addition, which Patrick agreed to staple behind the petition, stating that she objected to a late licence and overnight deliveries, not to a daytime counter. The distinction mattered to her because a blanket refusal might be harder to defend if the applicant accepted earlier hours. Patrick thought the extra page weakened the impact. He attached it anyway, partly because Ruth's flat faced the unit and her account of the previous extractor was the most concrete evidence they had.\n\nThey handed the papers in on Friday morning, together with a log of evening noise and a map of the flats whose windows opened onto the parade. Walking home, Patrick admitted that the softer page might survive a challenge that the original sentence would have invited. Ruth was less interested in the tactics than in the record. If a licence were granted with conditions, she wanted those conditions to reflect what she had actually requested. A neighbourhood could ask for limits without pretending that every household on the street wanted the same outcome.",
+  "vocabulary": [
+    {
+      "word": "phrasing",
+      "definition": "The particular way something is worded"
+    },
+    {
+      "word": "dissenting",
+      "definition": "Saying that you disagree"
+    },
+    {
+      "word": "caveats",
+      "definition": "Warnings or limits added to a statement"
+    },
+    {
+      "word": "concrete",
+      "definition": "Based on specific facts, not general claims"
+    },
+    {
+      "word": "blanket",
+      "definition": "Covering every case, with no exceptions"
+    },
+    {
+      "word": "conditions",
+      "definition": "Limits that control how something is allowed"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Why did the wording trouble Ruth even after she signed?",
+      "options": [
+        "It claimed a unity the street did not really have",
+        "It asked the council to approve a late licence",
+        "It left her name off the list on purpose",
+        "It described her flat as the source of the litter"
+      ],
+      "correctAnswer": "It claimed a unity the street did not really have",
+      "explanation": "The petition described the whole neighbourhood as united, though she knew some households disagreed.",
+      "supportingSentence": "The phrasing, which described the whole neighbourhood as united, still troubled her.",
+      "skill": "inference"
+    },
+    {
+      "question": "What did Ruth say she was objecting to?",
+      "options": [
+        "A late licence and deliveries in the night",
+        "Any business of any kind on the parade",
+        "The corner shop that displayed the sheet",
+        "Patrick collecting copies from neighbours"
+      ],
+      "correctAnswer": "A late licence and deliveries in the night",
+      "explanation": "Her added page objected to a late licence and overnight deliveries, not to a daytime counter.",
+      "supportingSentence": "She wrote a short addition, which Patrick agreed to staple behind the petition, stating that she objected to a late licence and overnight deliveries, not to a daytime counter.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did Patrick keep a page he thought weakened the petition?",
+      "options": [
+        "Her account of the previous extractor was their firmest evidence",
+        "The council had ordered every signer to add a second page",
+        "He wanted the online comments to remove more names",
+        "He had stopped wanting the late opening to be refused"
+      ],
+      "correctAnswer": "Her account of the previous extractor was their firmest evidence",
+      "explanation": "He attached it because her flat faced the unit and her account was the most concrete evidence.",
+      "supportingSentence": "He attached it anyway, partly because Ruth's flat faced the unit and her account of the previous extractor was the most concrete evidence they had.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why does the writer include her hope about a licence that comes with limits?",
+      "options": [
+        "To show she wants the official record to match her real request",
+        "To suggest the council should ignore this street",
+        "To prove that Patrick now welcomes a late takeaway",
+        "To argue that daytime trade is noisier than the night"
+      ],
+      "correctAnswer": "To show she wants the official record to match her real request",
+      "explanation": "If a licence were granted with conditions, she wanted those conditions to reflect what she had actually asked for.",
+      "supportingSentence": "If a licence were granted with conditions, she wanted those conditions to reflect what she had actually requested.",
+      "skill": "intent"
+    },
+    {
+      "question": "What are caveats in the reply about campaigns?",
+      "options": [
+        "Careful limits that would make the text less forceful",
+        "Names gathered on paper before lunch",
+        "Photographs posted with critical comments",
+        "Drawings of the flats along the parade"
+      ],
+      "correctAnswer": "Careful limits that would make the text less forceful",
+      "explanation": "He believes a document full of limits would persuade nobody, unlike a warmer campaign.",
+      "supportingSentence": "Patrick replied that campaigns needed warmth, and that a document full of caveats would persuade nobody.",
+      "skill": "vocabulary"
+    }
+  ]
+}

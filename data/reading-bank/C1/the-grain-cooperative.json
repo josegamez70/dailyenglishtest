@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "culture_food",
+  "title": "The Grain Cooperative",
+  "story": "The grain cooperative met in the storehouse because the office was too small for an argument about money. Forty members sat on benches between pallets of wheat, and the smell of clean grain made the quarrel feel slightly indecent. The harvest had been decent, the moisture readings were safe, and the buyer from the mill was offering a price that would cover costs. Chairperson Ruth Alemayehu read the offer once, then read the cost of keeping the grain until March, when the price might be kinder and the rats would certainly be interested.\n\nThe split in the room was not between optimists and pessimists. It was between members who could wait and members who could not. Marek Dolny, who farmed the smallest acreage and had a loan due in November, said storage was a luxury described as strategy. If the cooperative held everything, he would have to sell his share outside the group at a worse price, which made unity look like a fine word for other people's patience. Several older members, who remembered a year when holding grain had paid for new roofs, answered that breaking the pool would teach the mill to deal with them one by one. Both speeches were about fear, and both were accurate.\n\nRuth refused a show of hands until the numbers were on the board. Storage would cost each tonne a fee. A March sale at the average of the last five years would still beat the present offer, but the average was not a promise, and two of those years had been unusual. She proposed a division that pleased no one completely. Sixty percent of the pooled grain would be sold now. Forty percent would be stored, and members who needed cash could assign their share to the sale without leaving the cooperative. The mill would be told the truth about the volume, because a surprise in January was a good way to earn a worse contract later.\n\nMarek asked who would own the stored grain if prices fell. Everyone who left a share in, Ruth said, and no one who had been forced to pretend they could wait. The vote passed by a margin wide enough to act and narrow enough to require good manners. They set a rota for checking temperature in the bins, since damp grain becomes a collective loss faster than a low price does. Before the benches were stacked, Ruth wrote the agreement in sentences a tired person could not misread. The cooperative had not discovered the future of the market. It had discovered which risks the members were actually able to share.",
+  "vocabulary": [
+    {
+      "word": "moisture",
+      "definition": "The amount of water held in the grain."
+    },
+    {
+      "word": "acreage",
+      "definition": "The amount of land a person farms."
+    },
+    {
+      "word": "pooled",
+      "definition": "Put together into one shared supply."
+    },
+    {
+      "word": "margin",
+      "definition": "The size of the gap between the two sides of a vote."
+    },
+    {
+      "word": "rota",
+      "definition": "A schedule of turns."
+    },
+    {
+      "word": "collective",
+      "definition": "Shared by the whole group."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What share of the pooled grain did Ruth propose to sell at once?",
+      "options": [
+        "Forty percent",
+        "The entire harvest",
+        "Only Marek's part",
+        "Sixty percent"
+      ],
+      "correctAnswer": "Sixty percent",
+      "explanation": "Her division sold sixty percent now and kept forty percent in store.",
+      "supportingSentence": "Sixty percent of the pooled grain would be sold now.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does a proposal that pleased nobody completely suggest about this meeting?",
+      "options": [
+        "The group could move only if each side received part of what it wanted",
+        "The cooperative had voted to close after November",
+        "Ruth wanted the mill to set the price without a discussion",
+        "Every member could afford to wait until March"
+      ],
+      "correctAnswer": "The group could move only if each side received part of what it wanted",
+      "explanation": "Some members needed cash and others feared facing the mill alone, so a total win for either side would not have held the room.",
+      "supportingSentence": "She proposed a division that pleased no one completely.",
+      "skill": "inference"
+    },
+    {
+      "question": "How does the final rule answer Marek's complaint about unity?",
+      "options": [
+        "He must wait until March or lose his membership",
+        "The older members will pay his loan from their own roofs",
+        "He can take money now and still remain in the cooperative",
+        "His grain will be sold in secret at a lower price"
+      ],
+      "correctAnswer": "He can take money now and still remain in the cooperative",
+      "explanation": "Marek feared that unity meant waiting he could not afford, but members who need cash may assign their share to the sale without leaving.",
+      "supportingSentence": "Forty percent would be stored, and members who needed cash could assign their share to the sale without leaving the cooperative.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does rota mean in the plan for the stored grain?",
+      "options": [
+        "A schedule of turns for checking the bins",
+        "The fee charged on every tonne",
+        "A promise that the March price will rise",
+        "The mill's written offer from the morning"
+      ],
+      "correctAnswer": "A schedule of turns for checking the bins",
+      "explanation": "They set a rota so members would take turns checking the temperature of the stored grain.",
+      "supportingSentence": "They set a rota for checking temperature in the bins, since damp grain becomes a collective loss faster than a low price does.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer say the cooperative had not discovered the future of the market?",
+      "options": [
+        "To admit that the vote had failed",
+        "To show that the real gain was knowing which risks they could share",
+        "To warn that the moisture readings were false",
+        "To suggest Ruth had hidden the mill's letter"
+      ],
+      "correctAnswer": "To show that the real gain was knowing which risks they could share",
+      "explanation": "The next sentence locates their success in the risks they could actually share, not in predicting the price.",
+      "supportingSentence": "The cooperative had not discovered the future of the market.",
+      "skill": "intent"
+    }
+  ]
+}

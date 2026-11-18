@@ -1,0 +1,99 @@
+{
+  "level": "C1",
+  "topic": "daily life",
+  "title": "The Shared Storage Cage",
+  "story": "The storage cages in the basement had been allocated years ago, one to each flat, though the wire grids had never kept people as tidy as the plan assumed. Over the autumn, the cage belonging to the flat above had begun to encroach on the shared aisle. A rolled carpet leaned into the walkway, and two unmarked crates were stacked where the fire notice said the route should stay clear.\n\nLena mentioned it to Samir, who was still learning which rules the building enforced. He moved the carpet and left the crates, saying he would sort them at the weekend. The weekend passed. When Lena went down for a suitcase she needed for a family visit, the crates had been joined by a lamp and a box of records. She could still open her own padlock, but only by turning sideways. She sent a photograph to the residents' chat and asked whether the committee had a view. Some neighbours treated the aisle as a communal margin that nobody should police. Others argued that a blocked route was a safety matter, and that goodwill had already been tried.\n\nAt the next house meeting the chair asked Samir to explain. He said the flat was smaller than he had expected, that the cage was already full, and that he had not understood the aisle to be forbidden rather than merely discouraged. A long-term resident read out the house note, which made each owner liable for items left outside the allocated space. Samir accepted the wording and promised to remove the overflow within a week. Then another problem surfaced. Lena's large suitcase, the one she had come to collect, was not in her cage. She was sure she had left it there after a trip in September. Samir looked uncomfortable and said a black case had been standing in the aisle when he moved his crates, and that he had set it on the low shelf beside the bikes so that nobody would trip.\n\nThey found it there, scuffed but intact. The meeting agreed a modest reform rather than a penalty. Every item kept in the basement would carry the flat number, the aisle would be marked with tape, and anything still outside a cage after the following Sunday could be moved by the caretaker and reclaimed for a small fee. Samir apologised properly once the suitcase was back in Lena's hands. If the shelf had not been checked, the loss might have hardened into an accusation. As it was, the basement stayed shared, but it would no longer depend on people guessing where a neighbour's patience ended.",
+  "vocabulary": [
+    {
+      "word": "allocated",
+      "definition": "Set aside for a particular person"
+    },
+    {
+      "word": "encroach",
+      "definition": "To spread slowly into space that is not yours"
+    },
+    {
+      "word": "communal",
+      "definition": "Shared by the people who live in a place"
+    },
+    {
+      "word": "liable",
+      "definition": "Legally responsible if something is wrong"
+    },
+    {
+      "word": "reform",
+      "definition": "A change made to improve the way things work"
+    },
+    {
+      "word": "accusation",
+      "definition": "A claim that someone has done something wrong"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where had the black case been put?",
+      "options": [
+        "On the low shelf beside the bikes",
+        "Inside the cage Lena had locked",
+        "In the flat directly above the basement",
+        "Under the fire notice in the lobby"
+      ],
+      "correctAnswer": "On the low shelf beside the bikes",
+      "explanation": "Samir said he had set the case on that shelf so that nobody would trip.",
+      "supportingSentence": "Samir looked uncomfortable and said a black case had been standing in the aisle when he moved his crates, and that he had set it on the low shelf beside the bikes so that nobody would trip.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does encroach describe here?",
+      "options": [
+        "One cage spreading into the shared walkway",
+        "A plan to rent the empty cages to outsiders",
+        "The small fee for collecting a moved item",
+        "A number written on a box to show its owner"
+      ],
+      "correctAnswer": "One cage spreading into the shared walkway",
+      "explanation": "The cage above Lena had begun to push stored things out into the aisle.",
+      "supportingSentence": "Over the autumn, the cage belonging to the flat above had begun to encroach on the shared aisle.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What might the missing suitcase have become if the shelf had not been checked?",
+      "options": [
+        "A suspicion that someone had taken it",
+        "A reason to remove the tape from the aisle",
+        "A demand that Samir give up his flat",
+        "A decision to delete the fire notice"
+      ],
+      "correctAnswer": "A suspicion that someone had taken it",
+      "explanation": "If nobody had checked the shelf, the loss might have hardened into an accusation.",
+      "supportingSentence": "If the shelf had not been checked, the loss might have hardened into an accusation.",
+      "skill": "inference"
+    },
+    {
+      "question": "What kind of response did the meeting choose?",
+      "options": [
+        "A future rule, rather than a punishment",
+        "An order that Samir leave the building",
+        "A plan to take away every cage",
+        "A bill that Lena should pay for a new lock"
+      ],
+      "correctAnswer": "A future rule, rather than a punishment",
+      "explanation": "They agreed a modest reform rather than a penalty, then set labels, tape, and a reclaim fee.",
+      "supportingSentence": "The meeting agreed a modest reform rather than a penalty.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why does the closing sentence focus on patience?",
+      "options": [
+        "To show that sharing works only when the limit is visible",
+        "To blame Lena for arguing about an old suitcase",
+        "To recommend that residents abandon the basement",
+        "To suggest the fire notice caused the case to vanish"
+      ],
+      "correctAnswer": "To show that sharing works only when the limit is visible",
+      "explanation": "The basement stays shared, but people will no longer have to guess where patience ends.",
+      "supportingSentence": "As it was, the basement stayed shared, but it would no longer depend on people guessing where a neighbour's patience ended.",
+      "skill": "intent"
+    }
+  ]
+}

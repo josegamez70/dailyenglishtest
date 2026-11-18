@@ -1,0 +1,99 @@
+{
+  "level": "B1",
+  "topic": "mystery",
+  "title": "Footprints in the Hall",
+  "story": "On Monday morning the school hall was muddy. A line of footprints ran from the side door to the art cupboard. Each print was small and showed a star on the heel. The caretaker, Idris, closed the hall and called Maya and Tom, who had arrived early. Nothing was broken, but a box of new brushes was missing.\n\nMaya thought about the art club. Only one member, Ben, had shoes with a star on the heel, and Ben had wanted those brushes for a weekend poster. They found him in the library with paint on his sleeve. Tom watched the prints while Maya asked the questions. He said he had not entered the hall. Maya asked him to show his shoe. The sole was clean, and there was no star.\n\nThey followed the prints back outside. A younger pupil, Aisha, was washing her shoes at a tap. The sole showed a star, and mud still clung to it. She began to cry. She had taken the brushes to finish a class sign, and she had been too scared to bring them back. The brushes were in her bag and were still clean. Idris thanked her for the truth and walked with her to return the box. Aisha said she would ask before she borrowed class things again. The brushes were back in the cupboard before the first lesson. The muddy hall had a simple answer.",
+  "vocabulary": [
+    {
+      "word": "footprints",
+      "definition": "Marks left by shoes."
+    },
+    {
+      "word": "heel",
+      "definition": "The back part of a shoe."
+    },
+    {
+      "word": "caretaker",
+      "definition": "A person who looks after a building."
+    },
+    {
+      "word": "cupboard",
+      "definition": "A closet used to store things."
+    },
+    {
+      "word": "sole",
+      "definition": "The bottom of a shoe."
+    },
+    {
+      "word": "truth",
+      "definition": "What really happened."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where did the line of footprints go?",
+      "options": [
+        "From the side door to the art cupboard",
+        "From the library to the outside tap",
+        "From the hall to Ben's house",
+        "From the cupboard to the office"
+      ],
+      "correctAnswer": "From the side door to the art cupboard",
+      "explanation": "The footprints ran from the side door to the art cupboard.",
+      "supportingSentence": "A line of footprints ran from the side door to the art cupboard.",
+      "skill": "detail"
+    },
+    {
+      "question": "What was missing from the cupboard?",
+      "options": [
+        "A box of new brushes",
+        "A weekend poster",
+        "A pair of star shoes",
+        "The side door key"
+      ],
+      "correctAnswer": "A box of new brushes",
+      "explanation": "A box of new brushes was missing from the cupboard.",
+      "supportingSentence": "Nothing was broken, but a box of new brushes was missing.",
+      "skill": "detail"
+    },
+    {
+      "question": "Where did they find Ben?",
+      "options": [
+        "In the library",
+        "In the art cupboard",
+        "By the outside tap",
+        "In the caretaker's office"
+      ],
+      "correctAnswer": "In the library",
+      "explanation": "They found Ben in the library.",
+      "supportingSentence": "They found him in the library with paint on his sleeve.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what is a sole?",
+      "options": [
+        "The bottom of a shoe",
+        "A star on a poster",
+        "A box of new brushes",
+        "Mud on the hall floor"
+      ],
+      "correctAnswer": "The bottom of a shoe",
+      "explanation": "Maya looked at the sole, the bottom of the shoe.",
+      "supportingSentence": "The sole was clean, and there was no star.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Who left the star prints in the hall?",
+      "options": [
+        "Aisha",
+        "Ben",
+        "Maya",
+        "Idris"
+      ],
+      "correctAnswer": "Aisha",
+      "explanation": "Aisha was washing the shoe, and its star and mud matched the prints.",
+      "supportingSentence": "The sole showed a star, and mud still clung to it.",
+      "skill": "inference"
+    }
+  ]
+}
