@@ -14,6 +14,8 @@ import {
   listeningContentHash,
   listeningDimensions,
   listeningLessonFromBankPayload,
+  readingLessonFromBankPayload,
+  type ReadingBankLesson,
   grammarSlotKey,
   listeningSlotKey,
   type ExerciseBankKind,
@@ -130,6 +132,40 @@ export async function claimGrammarFromBank(
       continue;
     }
     return { id: claim.row.id, set };
+  }
+  return null;
+}
+
+/**
+ * One unseen reading text for this person, already recorded as served.
+ * Today and tomorrow's challenge pieces are skipped. A missing function returns null.
+ */
+export async function claimReadingFromBank(
+  admin: SupabaseClient,
+  userId: string,
+  request: { level: string; topic: string | null },
+): Promise<{ id: string; lesson: ReadingBankLesson } | null> {
+  for (let attempt = 0; attempt < CLAIM_ATTEMPTS; attempt += 1) {
+    const result = await admin.rpc('claim_reading_bank_item', {
+      uid: userId,
+      reading_level: request.level,
+      reading_topic: request.topic ?? '',
+    });
+    if (result.error) {
+      if (!bankUnavailable(result.error)) {
+        console.error(JSON.stringify({ exerciseBank: 'reading_claim_failed', code: result.error.code ?? '' }));
+      }
+      return null;
+    }
+    const claim = readClaim(result.data);
+    if (claim.status === 'empty' || claim.status === 'bad') return null;
+    if (claim.status === 'conflict') continue;
+    const lesson = readingLessonFromBankPayload(claim.row.payload, request.topic ?? '');
+    if (!lesson) {
+      await releaseGrammarBankItem(admin, userId, claim.row.id);
+      continue;
+    }
+    return { id: claim.row.id, lesson };
   }
   return null;
 }
