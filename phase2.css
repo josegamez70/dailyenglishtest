@@ -214,6 +214,34 @@ html[data-theme="retro95"] .retro-window {
   }
 }
 
+.pixel-art {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  filter: none !important;
+}
+
+.legends-window {
+  margin-top: 1rem;
+  background: #c0c0c0;
+  color: #000;
+  border: 2px solid #fff;
+  border-right-color: #404040;
+  border-bottom-color: #404040;
+  box-shadow: 2px 2px 0 #000;
+}
+.legends-meter {
+  height: 18px;
+  background: #fff;
+  border: 2px solid #404040;
+  border-right-color: #fff;
+  border-bottom-color: #fff;
+}
+.legends-meter > span {
+  display: block;
+  height: 100%;
+  background: #000080;
+}
+
 .badge-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;

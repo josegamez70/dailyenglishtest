@@ -1,8 +1,8 @@
-import React, { useState, useSyncExternalStore } from 'react';
-import { subscribeRetro, useRetro, useRetroTheme } from '../retroTheme';
+import React, { useState } from 'react';
+import { useRetroTheme } from '../retroTheme';
 import { AcademyBadge } from './AcademyBadge';
-import HomeIcon from './icons/HomeIcon';
-import { menuPixelIcon, MenuPixelIcon, PixelIcon } from './PixelIcon';
+import { PixelIcon } from './PixelIcon';
+import { PixelArt } from './PixelArt';
 
 export type ShellItem = 'lesson' | 'grammar' | 'tasks' | 'packs' | 'progress' | 'scoreboard' | 'saved' | 'vocabulary' | 'academy' | 'profile' | 'join';
 
@@ -18,15 +18,30 @@ const baseItems: { id: ShellItem; label: string; path: string }[] = [
   { id: 'profile', label: 'Profile', path: '/profile' },
 ];
 
+const MENU_ICON: Record<string, string> = {
+  lesson: 'reading_listening',
+  grammar: 'grammar',
+  vocabulary: 'vocabulary_builder',
+  tasks: 'tasks',
+  packs: 'task_packs',
+  progress: 'my_progress',
+  scoreboard: 'scoreboard',
+  saved: 'saved_lessons',
+  profile: 'profile',
+  academy: 'my_academy',
+  help: 'how_it_works',
+};
+
 function Wordmark({ variant }: { variant: 'header' | 'side' }) {
-  const retro = useRetroTheme();
   return (
     <p className={variant === 'header'
-      ? 'retro-wordmark min-w-0 flex-1 font-fun text-base leading-none md:hidden'
-      : 'retro-side-mark text-lg font-fun leading-tight'}>
-      {retro && <PixelIcon name="book" />}
-      <span className="text-blue-800 dark:text-blue-300">Daily </span>
-      <span className="text-red-700 dark:text-red-400">English Test</span>
+      ? 'retro-wordmark inline-flex min-w-0 flex-1 items-center gap-1 font-fun text-base leading-none md:hidden'
+      : 'retro-side-mark inline-flex items-center gap-1 text-lg font-fun leading-tight'}>
+      <PixelArt src="/icons/practice_reading.png" size={variant === 'header' ? 20 : 24} />
+      <span>
+        <span className="text-blue-800 dark:text-blue-300">Daily </span>
+        <span className="text-red-700 dark:text-red-400">English Test</span>
+      </span>
     </p>
   );
 }
@@ -42,9 +57,7 @@ function MenuMark() {
 }
 
 function HomeMark() {
-  const retro = useRetroTheme();
-  if (retro) return <PixelIcon name="house" />;
-  return <HomeIcon className="h-4 w-4" />;
+  return <PixelArt src="/icons/home.png" size={24} />;
 }
 
 function NavLinks({
@@ -70,7 +83,6 @@ function NavLinks({
   academyRole?: 'owner' | 'student' | null;
   displayName?: string | null;
 }) {
-  const retro = useSyncExternalStore(subscribeRetro, useRetro, () => false);
   const profile = baseItems[baseItems.length - 1];
   const items = showAcademy
     ? [
@@ -105,11 +117,11 @@ function NavLinks({
               onClick={() => onNavigate(item.path)}
               className={
                 selected
-                  ? 'rounded-lg bg-blue-700 px-3 py-3 text-left text-base font-bold text-white'
-                  : 'rounded-lg px-3 py-3 text-left text-base font-semibold text-slate-900 hover:bg-slate-100 dark:text-slate-50 dark:hover:bg-slate-700'
+                  ? 'inline-flex min-h-11 w-full items-center gap-2 rounded-lg bg-blue-700 px-3 py-3 text-left text-base font-bold text-white'
+                  : 'inline-flex min-h-11 w-full items-center gap-2 rounded-lg px-3 py-3 text-left text-base font-semibold text-slate-900 hover:bg-slate-100 dark:text-slate-50 dark:hover:bg-slate-700'
               }
             >
-              {retro && <MenuPixelIcon name={menuPixelIcon(item.id)} />}
+              <PixelArt src={`/icons/${MENU_ICON[item.id] ?? 'profile'}.png`} />
               {item.label}
             </button>
           );
@@ -118,10 +130,10 @@ function NavLinks({
       <div className="mt-auto border-t border-slate-300 px-4 py-4 dark:border-slate-600">
         <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">Help / Legal</p>
         <div className="mt-2 flex flex-col gap-1 text-sm">
-          <a href="/help" className="inline-flex items-center gap-2 underline">{retro && <MenuPixelIcon name="help" />}How it works</a>
-          <a href="/legal" className="underline">Legal Notice</a>
-          <a href="/privacy" className="underline">Privacy</a>
-          <a href="/terms" className="underline">Terms</a>
+          <a href="/help" className="inline-flex min-h-11 items-center gap-2 underline"><PixelArt src="/icons/how_it_works.png" size={24} />How it works</a>
+          <a href="/legal" className="inline-flex min-h-11 items-center gap-2 underline"><PixelArt src="/icons/legal.png" size={24} />Legal Notice</a>
+          <a href="/privacy" className="inline-flex min-h-11 items-center gap-2 underline"><PixelArt src="/icons/privacy.png" size={24} />Privacy</a>
+          <a href="/terms" className="inline-flex min-h-11 items-center gap-2 underline"><PixelArt src="/icons/terms.png" size={24} />Terms</a>
         </div>
         <button
           type="button"
@@ -130,7 +142,10 @@ function NavLinks({
           aria-busy={signingOut}
           className="mt-4 w-full rounded-lg border-2 border-slate-900 px-3 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-100 disabled:opacity-60 dark:border-slate-100 dark:text-white dark:hover:bg-slate-700"
         >
-          {signingOut ? 'Signing out...' : 'Sign out'}
+          <span className="inline-flex items-center justify-center gap-2">
+            <PixelArt src="/icons/sign_out.png" size={24} />
+            {signingOut ? 'Signing out...' : 'Sign out'}
+          </span>
         </button>
       </div>
     </div>

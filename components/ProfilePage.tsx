@@ -9,6 +9,7 @@ import { PilotStatusBanner } from './PilotPages';
 import { BackButton } from './BackButton';
 import { soundEffectsEnabled, writeSoundEffects } from '../effects';
 import { AchievementsPanel } from './Achievements';
+import { RetroLegendsPanel } from './RetroLegends';
 
 import { type ThemeChoice } from '../themeChoice';
 
@@ -126,6 +127,7 @@ export function ProfilePage({
     <form className="space-y-5" onSubmit={(event) => event.preventDefault()}>
       <h1 className="text-2xl font-bold">Profile</h1>
       <AchievementsPanel />
+      <RetroLegendsPanel />
       <p className="text-base">{email}</p>
       <p className="text-base font-semibold">
         {planLabel(plan, academyStudent)}
