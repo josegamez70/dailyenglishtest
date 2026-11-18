@@ -31,7 +31,7 @@ test('reading practice uses the bank for a list topic and leaves dialogue and cu
 });
 
 test('the challenge index matches the claim function and skips today and tomorrow', () => {
-  assert.equal(readingChallengeIndex('2026-11-18', 'B1', 60), readingChallengeIndex('2026-11-18', 'B1', 60));
+  assert.equal(readingChallengeIndex('2026-11-18', 'B1', 60), 49);
   assert.ok(readingChallengeIndex('2026-11-18', 'B1', 60) >= 0);
   assert.ok(readingChallengeIndex('2026-11-18', 'B1', 60) < 60);
   assert.notEqual(

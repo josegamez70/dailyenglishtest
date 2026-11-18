@@ -1,7 +1,7 @@
 -- Serves one unseen reading text. Does not change test_results or the live generator.
 -- Practice skips the reading piece the daily challenge would use today and tomorrow
 -- in Europe/Madrid, so opening a normal lesson does not use up that day's challenge.
--- The index is abs(first 8 hex digits of md5(day|level|reading) as a signed 32-bit int) mod count,
+-- The index is the first 8 hex digits of md5(day|level|reading), read as an unsigned 32-bit number, mod count,
 -- over active reading rows for that level ordered by content_hash.
 -- A site deploy does not apply this. Run it in Supabase after it is approved.
 
@@ -56,7 +56,7 @@ begin
           and row.level = reading_level
       ) pool
         on pool.idx = mod(
-          abs(('x' || substr(md5(days.day || '|' || reading_level || '|reading'), 1, 8))::bit(32)::bigint),
+          ('x' || substr(md5(days.day || '|' || reading_level || '|reading'), 1, 8))::bit(32)::bigint,
           pool.n
         )
       where pool.id = b.id

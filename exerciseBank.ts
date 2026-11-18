@@ -170,13 +170,12 @@ export function readingBankQuery(input: { customTopic: string; topic: string; fo
 /**
  * Index of the reading piece a daily challenge would freeze for this level and Madrid date.
  * Practice skips today and tomorrow so those pieces are still unseen when the challenge starts.
- * The same md5 prefix is used in claim_reading_bank_item.
+ * The same md5 prefix is used in claim_reading_bank_item, as an unsigned 32-bit number.
  */
 export function readingChallengeIndex(day: string, level: string, count: number): number {
   if (count <= 0) return 0;
   const hex = createHash('md5').update(`${day}|${level}|reading`).digest('hex').slice(0, 8);
-  const value = Buffer.from(hex, 'hex').readInt32BE(0);
-  return Math.abs(value) % count;
+  return Buffer.from(hex, 'hex').readUInt32BE(0) % count;
 }
 
 export type ReadingBankLesson = {
