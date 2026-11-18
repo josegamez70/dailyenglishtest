@@ -2,7 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { ExerciseComplete } from './ExerciseComplete';
 import { FreeLimitNotice } from './FreeLimitNotice';
 import { SpanishWhy } from './SpanishWhy';
-import { primeAudio } from '../effects';
+import { playEffect, primeAudio } from '../effects';
+import { useRetroTheme } from '../retroTheme';
 import { addExercise } from '../badges';
 import { loadBadgeStats } from '../badgeStats';
 import { publishBadgeProgress } from '../badgeToast';
@@ -108,6 +109,7 @@ export function GrammarPage({
   onTaskComplete?: () => void;
   onBack?: () => void;
 }) {
+  const retro = useRetroTheme();
   const [level, setLevel] = useState<GrammarLevel>(initialLevel);
   const [exercise, setExercise] = useState<GrammarExerciseType>('blanks');
   const [topic, setTopic] = useState('');
@@ -303,6 +305,14 @@ export function GrammarPage({
 
   const goNext = () => {
     if (!checked) {
+      const item = items[index];
+      const right = item
+        ? item.kind === 'order'
+          ? gradeOrder(item, placedTexts(placed[index] ?? [], item.shuffled)).correct
+          : (choices[index] ?? '') === item.correctAnswer
+        : false;
+      primeAudio();
+      playEffect(right ? 'correct' : 'wrong', retro);
       setChecked(true);
       return;
     }
