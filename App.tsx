@@ -33,6 +33,10 @@ import { RetroWindow } from './components/RetroWindow';
 import { PixelIcon } from './components/PixelIcon';
 import { setRetroActive, useRetroTheme } from './retroTheme';
 import { primeAudio } from './effects';
+import { addExercise } from './badges';
+import { loadBadgeStats } from './badgeStats';
+import { publishBadgeProgress } from './badgeToast';
+import { BadgeUnlockDialog } from './components/Achievements';
 import { ExerciseComplete } from './components/ExerciseComplete';
 import { SpanishWhy } from './components/SpanishWhy';
 import { QuizErrorBoundary, QuizScreen } from './components/QuizErrorBoundary';
@@ -652,6 +656,10 @@ const App: React.FC = () => {
     });
     setFinishing(true);
     const session = taskSession;
+    const finishedMode = session?.slot === 'listening' ? 'listening' : practiceType === 'listening' ? 'listening' : 'reading';
+    void loadBadgeStats().then((before) => {
+      publishBadgeProgress(before, addExercise(before, finishedMode));
+    }).catch(() => undefined).finally(() => {
     void saveTestResult({
       level: session?.levelLabel || (LEVELS.find((level) => level.value === config.level)?.label ?? config.level),
       topic: session?.title || (storyTopic?.label ?? config.topic),
@@ -688,6 +696,7 @@ const App: React.FC = () => {
       setFinishing(false);
       setResultCelebrate(true);
       setView('results');
+    });
     });
   };
 
@@ -2178,6 +2187,7 @@ const App: React.FC = () => {
             }}
           />
         )}
+        <BadgeUnlockDialog />
         {wordToast && (
           <p className="fixed bottom-4 left-1/2 z-[80] max-w-[90vw] -translate-x-1/2 rounded-lg bg-slate-900 px-4 py-3 text-center text-base font-semibold text-white" role="status">
             {wordToast}

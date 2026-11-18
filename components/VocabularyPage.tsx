@@ -3,6 +3,9 @@ import { BackButton } from './BackButton';
 import { ExerciseComplete } from './ExerciseComplete';
 import { SpanishWhy } from './SpanishWhy';
 import { playEffect, primeAudio } from '../effects';
+import { addVocabAnswers } from '../badges';
+import { loadBadgeStats } from '../badgeStats';
+import { publishBadgeProgress } from '../badgeToast';
 import { useRetroTheme } from '../retroTheme';
 import { defineSearchText, meaningToSave, searchLookupTerm, type DictEntry } from '../dictionary';
 import { PronounceButton, stopPronunciation } from './PronounceButton';
@@ -243,7 +246,15 @@ function Quiz({
   const [done, setDone] = useState(false);
   const [celebrate, setCelebrate] = useState(true);
   const told = useRef(false);
+  const badgeStart = useRef<Awaited<ReturnType<typeof loadBadgeStats>> | null>(null);
   const retro = useRetroTheme();
+  useEffect(() => {
+    let ignore = false;
+    loadBadgeStats().then((stats) => {
+      if (!ignore) badgeStart.current = stats;
+    }).catch(() => undefined);
+    return () => { ignore = true; };
+  }, []);
   useEffect(() => {
     if (!done || told.current) return;
     told.current = true;
@@ -384,8 +395,11 @@ function Quiz({
           <button
             type="button"
             onClick={() => {
-              if (index + 1 >= questions.length) setDone(true);
-              else setIndex((current) => current + 1);
+              if (index + 1 >= questions.length) {
+                const started = badgeStart.current;
+                if (started) publishBadgeProgress(started, addVocabAnswers(started, questions.length));
+                setDone(true);
+              } else setIndex((current) => current + 1);
             }}
             className="mt-4 w-full rounded-lg bg-blue-700 py-3 text-lg font-bold text-white hover:bg-blue-800"
           >

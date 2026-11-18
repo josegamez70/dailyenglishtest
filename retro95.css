@@ -481,6 +481,21 @@ html[data-theme="retro95"] .retro-sober table {
   border: 1px solid #808080;
 }
 
+html[data-theme="retro95"] .badge-card {
+  background: #c0c0c0;
+  color: #000;
+  border-radius: 0;
+}
+
+html[data-theme="retro95"] .badge-name {
+  background: #000080 !important;
+  color: #fff !important;
+  font-family: "VT323", ui-monospace, monospace;
+  font-size: 1.15rem;
+}
+
+html[data-theme="retro95"] .badge-popup-kicker { display: none; }
+
 html[data-theme="retro95"] .scoreboard-scroll table {
   background: #fff;
   color: #000;

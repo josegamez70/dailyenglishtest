@@ -3,6 +3,9 @@ import { ExerciseComplete } from './ExerciseComplete';
 import { FreeLimitNotice } from './FreeLimitNotice';
 import { SpanishWhy } from './SpanishWhy';
 import { primeAudio } from '../effects';
+import { addExercise } from '../badges';
+import { loadBadgeStats } from '../badgeStats';
+import { publishBadgeProgress } from '../badgeToast';
 import {
   exerciseLabel,
   GRAMMAR_ITEM_COUNT,
@@ -270,6 +273,9 @@ export function GrammarPage({
     else pendingRecordRef.current = record;
     if (taskRef.current) onTaskComplete?.();
     const score = nextGrades.filter((grade) => grade.correct).length;
+    void loadBadgeStats().then((before) => {
+      publishBadgeProgress(before, addExercise(before, 'grammar'));
+    }).catch(() => undefined).finally(() => {
     void saveTestResult({
       level,
       topic: savedTopic || exerciseLabel(exercise),
@@ -281,6 +287,7 @@ export function GrammarPage({
         grade.correct ? [] : [{ question: grade.prompt, userAnswer: grade.userAnswer, correctAnswer: grade.correctAnswer }]
       )),
     }).catch(() => undefined);
+    });
   };
 
   const retrySet = () => {
