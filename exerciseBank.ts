@@ -137,6 +137,106 @@ export function grammarUsesBank(topic: string): boolean {
   return topic.trim().length === 0;
 }
 
+export type ReadingBankLevel = 'B1' | 'B2' | 'C1';
+
+/** Profile and lesson bands both map onto the reading bank. */
+export function readingBankLevel(level: string): ReadingBankLevel | null {
+  const key = level.trim().toLowerCase();
+  if (key === 'b2' || key === 'intermediate') return 'B2';
+  if (key === 'c1' || key === 'c2' || key === 'advanced') return 'C1';
+  if (key === 'b1' || key === 'beginner' || key === 'a2') return 'B1';
+  return null;
+}
+
+/**
+ * A typed custom topic, or a dialogue, is generated live.
+ * A list topic, including Any topic, can use the reading bank.
+ */
+export function readingBankQuery(input: { customTopic: string; topic: string; format: string }):
+  | { bank: false; reason: 'custom' | 'dialogue' }
+  | { bank: true; topic: string | null } {
+  if (input.format === 'dialogue') return { bank: false, reason: 'dialogue' };
+  if (input.customTopic.trim()) return { bank: false, reason: 'custom' };
+  const raw = input.topic.trim();
+  const lower = raw.toLowerCase();
+  if (!raw || lower === WILDCARD_TOPIC || lower === 'any topic') return { bank: true, topic: null };
+  const byValue = TOPICS.find((topic) => topic.value === raw || topic.value === lower);
+  if (byValue && byValue.value !== WILDCARD_TOPIC) return { bank: true, topic: byValue.value };
+  const byLabel = TOPICS.find((topic) => topic.label.toLowerCase() === lower);
+  if (byLabel && byLabel.value !== WILDCARD_TOPIC) return { bank: true, topic: byLabel.value };
+  return { bank: false, reason: 'custom' };
+}
+
+/**
+ * Index of the reading piece a daily challenge would freeze for this level and Madrid date.
+ * Practice skips today and tomorrow so those pieces are still unseen when the challenge starts.
+ * The same md5 prefix is used in claim_reading_bank_item, as an unsigned 32-bit number.
+ */
+export function readingChallengeIndex(day: string, level: string, count: number): number {
+  if (count <= 0) return 0;
+  const hex = createHash('md5').update(`${day}|${level}|reading`).digest('hex').slice(0, 8);
+  return Buffer.from(hex, 'hex').readUInt32BE(0) % count;
+}
+
+export type ReadingBankLesson = {
+  title: string;
+  topicLabel: string;
+  topicValue: string;
+  story: string;
+  wordCount: number;
+  vocabulary: { word: string; definition: string }[];
+  quiz: {
+    question: string;
+    options: string[];
+    correctAnswer: string;
+    explanation: string;
+    supportingSentence: string;
+  }[];
+};
+
+/** A stored reading row the app can show. Answers stay inside the returned quiz, as they do for listening. */
+export function readingLessonFromBankPayload(payload: unknown, topicValue: string): ReadingBankLesson | null {
+  const record = asRecord(payload);
+  if (!record || record.mode !== 'reading' || record.format !== 'text') return null;
+  const story = String(record.story ?? '').trim();
+  const title = String(record.title ?? '').trim();
+  if (!story || !title) return null;
+  const vocabulary = Array.isArray(record.vocabulary)
+    ? record.vocabulary.flatMap((item) => {
+      const row = asRecord(item);
+      const word = String(row?.word ?? '').trim();
+      const definition = String(row?.definition ?? '').trim();
+      return word && definition ? [{ word, definition }] : [];
+    })
+    : [];
+  if (vocabulary.length < 6) return null;
+  if (!Array.isArray(record.quiz) || record.quiz.length !== 5) return null;
+  const quiz = [];
+  for (const item of record.quiz) {
+    const row = asRecord(item);
+    const options = Array.isArray(row?.options) ? row.options.map((option) => String(option ?? '').trim()) : [];
+    const correctAnswer = String(row?.correctAnswer ?? '').trim();
+    const question = String(row?.question ?? '').trim();
+    if (!question || options.length !== 4 || !options.includes(correctAnswer)) return null;
+    quiz.push({
+      question,
+      options,
+      correctAnswer,
+      explanation: String(row?.explanation ?? '').trim(),
+      supportingSentence: String(row?.supportingSentence ?? '').trim(),
+    });
+  }
+  return {
+    title,
+    topicLabel: String(record.topic ?? '').trim() || title,
+    topicValue,
+    story,
+    wordCount: countWords(story),
+    vocabulary,
+    quiz,
+  };
+}
+
 export function listeningSlots(): ListeningSlot[] {
   return LISTENING_LEVELS.flatMap((level) => (
     LISTENING_FORMATS.flatMap((format) => (

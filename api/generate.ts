@@ -54,10 +54,13 @@ import {
   isListeningQuestionCount,
   isListeningWordCount,
   listeningBankQuery,
+  readingBankLevel,
+  readingBankQuery,
 } from '../exerciseBank.ts';
 import {
   claimGrammarFromBank,
   claimListeningFromBank,
+  claimReadingFromBank,
   releaseGrammarBankItem,
   signListeningAudio,
 } from '../exerciseBankServer.ts';
@@ -1259,6 +1262,68 @@ async function createListeningLesson(
   };
 }
 
+/**
+ * A list topic takes one unseen reading from the bank, except today's and tomorrow's
+ * challenge pieces. A dialogue, a typed topic, or an empty bank continues into live generation.
+ */
+async function createReadingLesson(
+  admin: SupabaseClient,
+  userId: string,
+  params: LessonParams,
+  headers: Record<string, string>,
+): Promise<HandlerResponse | null> {
+  const level = readingBankLevel(params.level);
+  const choice = readingBankQuery({
+    customTopic: params.customTopic ?? '',
+    topic: params.listTopic || params.topic,
+    format: params.format,
+  });
+  if (!level || !choice.bank) {
+    console.log(JSON.stringify({
+      stage: 'reading_live',
+      level: params.level,
+      format: params.format,
+      reason: choice.bank ? 'level' : choice.reason,
+    }));
+    return null;
+  }
+  const claimed = await claimReadingFromBank(admin, userId, { level, topic: choice.topic });
+  if (!claimed) {
+    console.log(JSON.stringify({ stage: 'reading_live', level, reason: 'bank_empty' }));
+    return null;
+  }
+  const charged = await consumeLessonResponse(admin, userId, headers);
+  if (charged.blocked) {
+    await releaseGrammarBankItem(admin, userId, claimed.id);
+    return charged.blocked;
+  }
+  console.log(JSON.stringify({
+    stage: 'reading_bank',
+    level,
+    topic: claimed.lesson.topicValue || choice.topic,
+    bankId: claimed.id,
+    words: claimed.lesson.wordCount,
+  }));
+  return {
+    statusCode: 200,
+    headers,
+    body: JSON.stringify({
+      stage: 'story',
+      banked: true,
+      bankId: claimed.id,
+      story: claimed.lesson.story,
+      vocabulary: claimed.lesson.vocabulary,
+      resolvedTopic: claimed.lesson.topicLabel,
+      wordCount: claimed.lesson.wordCount,
+      wordCountOk: true,
+      format: 'text',
+      dialogue: [],
+      quiz: claimed.lesson.quiz,
+      ...(charged.lessonsUsed == null ? {} : { lessonsUsed: charged.lessonsUsed }),
+    }),
+  };
+}
+
 function readDefineRequest(bodyText: string | null | undefined): { word: string; sentence: string } | null {
   let body: { mode?: string; word?: string; sentence?: string } = {};
   try {
@@ -1437,6 +1502,11 @@ export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => 
 
     if (params.mode === 'listening' && params.stage === 'story') {
       return await createListeningLesson(apiKey, admin, userId, params, corsHeaders);
+    }
+
+    if (params.mode === 'reading' && params.stage === 'story') {
+      const fromBank = await createReadingLesson(admin, userId, params, corsHeaders);
+      if (fromBank) return fromBank;
     }
 
     const deadline = Date.now() + 23000;
