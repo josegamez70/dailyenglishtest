@@ -82,6 +82,7 @@ test('the quiz is built only from saved words and needs four of them', () => {
   }
   assert.equal(vocabQuizWhy('wake up', 'to stop sleeping · to become alert', true), '“wake up” means to stop sleeping.');
   assert.equal(vocabQuizWhy('wake up', 'to stop sleeping', false), '“to stop sleeping” is the meaning of “wake up”.');
+  assert.equal(vocabQuizWhy('strife', 'Hard work . More words follow. · another sense', true), '“strife” means Hard work.');
   const page = readFileSync(new URL('../components/VocabularyPage.tsx', import.meta.url), 'utf8');
   const pageQuiz = page.slice(page.indexOf('function Quiz'), page.indexOf('export function VocabularyPage'));
   assert.match(pageQuiz, /Exercise complete!|ExerciseComplete/);

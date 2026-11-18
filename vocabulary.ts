@@ -205,9 +205,11 @@ export function shuffleItems<T>(items: readonly T[], random: () => number = Math
   return copy;
 }
 
-/** First saved sense only, so a quiz line never mixes two meanings. */
+/** First sentence of the first saved sense, so a quiz line stays short and does not mix meanings. */
 export function vocabSense(meaning: string): string {
-  return (meaning.split(' · ')[0] ?? meaning).replace(/\s+/g, ' ').trim();
+  const first = (meaning.split(' · ')[0] ?? meaning).replace(/\s+/g, ' ').trim();
+  const cleaned = first.replace(/\s+([.!?])/g, '$1');
+  return (cleaned.split(/(?<=[.!?])\s+/)[0] ?? cleaned).trim();
 }
 
 /** A short reason that only restates the saved meaning. */
