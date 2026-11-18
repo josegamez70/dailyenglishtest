@@ -30,7 +30,10 @@ import { AppShell, type ShellItem } from './components/AppShell';
 import { BackButton } from './components/BackButton';
 import { ProfilePage, type ThemeChoice } from './components/ProfilePage';
 import { RetroWindow } from './components/RetroWindow';
-import { PixelIcon } from './components/PixelIcon';
+import { PixelArt } from './components/PixelArt';
+import { LegendsUnlockDialog } from './components/RetroLegends';
+import { LegendsShot } from './components/LegendsShot';
+import { recordScoredLesson } from './legendsRecord';
 import { setRetroActive, useRetroTheme } from './retroTheme';
 import { playEffect, primeAudio } from './effects';
 import { addExercise } from './badges';
@@ -70,8 +73,6 @@ import { KeyVocabularyList } from './components/KeyVocabularyList';
 import { VocabularyPage } from './components/VocabularyPage';
 import { VocabularyPreview } from './components/VocabularyPreview';
 import Loader from './components/Loader';
-import BookOpenIcon from './components/icons/BookOpenIcon';
-import HeadphonesIcon from './components/icons/HeadphonesIcon';
 import CheckCircleIcon from './components/icons/CheckCircleIcon';
 import XCircleIcon from './components/icons/XCircleIcon';
 import UKFlagIcon from './components/icons/UKFlagIcon';
@@ -287,6 +288,7 @@ const App: React.FC = () => {
   const darkOn = isDarkTheme(themeChoice, window.matchMedia('(prefers-color-scheme: dark)').matches);
 
   useEffect(() => {
+    if (import.meta.env.DEV && path.startsWith('/legends-preview')) return;
     const dark = isDarkTheme(themeChoice, window.matchMedia('(prefers-color-scheme: dark)').matches);
     document.documentElement.classList.toggle('dark', dark);
     document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
@@ -671,6 +673,14 @@ const App: React.FC = () => {
       total: quiz.length,
       mode: session?.slot === 'listening' ? 'listening' : practiceType === 'listening' ? 'listening' : 'reading',
       wrongAnswers,
+    }).then((saved) => {
+      if (!saved.ok || (finishedMode !== 'reading' && finishedMode !== 'listening' && finishedMode !== 'grammar')) return;
+      void recordScoredLesson(
+        finishedMode,
+        quiz.map((question) => `${question.question}\n${question.correctAnswer}`),
+        score,
+        quiz.length,
+      );
     }).catch(() => undefined).finally(() => {
       if (session && (session.slot === 'reading' || session.slot === 'listening')) {
         void saveLesson({
@@ -1379,9 +1389,7 @@ const App: React.FC = () => {
           aria-pressed={practiceType === 'reading'}
           className={modeButtonClass(practiceType === 'reading')}
         >
-          {retro
-            ? <span className="mb-2"><PixelIcon name="book" size={32} /></span>
-            : <BookOpenIcon className={`w-8 h-8 mb-2 ${practiceType === 'reading' ? 'text-white' : 'text-blue-700 dark:text-blue-300'}`} />}
+          <span className="mb-2"><PixelArt src="/icons/practice_reading.png" size={32} /></span>
           <span className="choice-title font-semibold text-lg">Reading</span>
           {practiceType === 'reading' && <span className="choice-note mt-1 text-base text-blue-50">Selected</span>}
         </button>
@@ -1391,9 +1399,7 @@ const App: React.FC = () => {
           aria-pressed={practiceType === 'listening'}
           className={modeButtonClass(practiceType === 'listening')}
         >
-          {retro
-            ? <span className="mb-2"><PixelIcon name="headphones" size={32} /></span>
-            : <HeadphonesIcon className={`w-8 h-8 mb-2 ${practiceType === 'listening' ? 'text-white' : 'text-blue-700 dark:text-blue-300'}`} />}
+          <span className="mb-2"><PixelArt src="/icons/practice_listening.png" size={32} /></span>
           <span className="choice-title font-semibold text-lg">Listening</span>
           {practiceType === 'listening' && <span className="choice-note mt-1 text-base text-blue-50">Selected</span>}
         </button>
@@ -1409,7 +1415,7 @@ const App: React.FC = () => {
             aria-pressed={contentFormat === 'text'}
             className={formatButtonClass(contentFormat === 'text')}
           >
-            {retro && <span className="mb-1"><PixelIcon name="document" size={32} /></span>}
+            <span className="mb-1"><PixelArt src="/icons/terms.png" size={32} /></span>
             <span className="choice-title font-semibold text-base">Text</span>
             <span className={`choice-note mt-0.5 text-center text-sm ${contentFormat === 'text' ? 'text-blue-50' : 'text-slate-700 dark:text-slate-200'}`}>
               A story or monologue
@@ -1421,7 +1427,7 @@ const App: React.FC = () => {
             aria-pressed={contentFormat === 'dialogue'}
             className={formatButtonClass(contentFormat === 'dialogue')}
           >
-            {retro && <span className="mb-1"><PixelIcon name="bubbles" size={32} /></span>}
+            <span className="mb-1"><PixelArt src="/icons/practice_dialogue.png" size={32} /></span>
             <span className="choice-title font-semibold text-base">Dialogue</span>
             <span className={`choice-note mt-0.5 text-center text-sm ${contentFormat === 'dialogue' ? 'text-blue-50' : 'text-slate-700 dark:text-slate-200'}`}>
               Two speakers
@@ -1991,6 +1997,9 @@ const App: React.FC = () => {
   if (import.meta.env.DEV && path.startsWith('/vocabulary-preview')) {
     return <VocabularyPreview scene={path.endsWith('/lesson') ? 'lesson' : 'list'} />;
   }
+  if (import.meta.env.DEV && path.startsWith('/legends-preview')) {
+    return <LegendsShot />;
+  }
   if (import.meta.env.DEV && path.startsWith('/tasks-preview')) {
     const scene = path.endsWith('/saved') ? 'saved' : path.endsWith('/email') ? 'email' : path.endsWith('/complete') ? 'complete' : path.endsWith('/packs') ? 'packs' : 'tasks';
     return <TasksPreview scene={scene} />;
@@ -2191,6 +2200,7 @@ const App: React.FC = () => {
           />
         )}
         <BadgeUnlockDialog />
+        <LegendsUnlockDialog />
         {wordToast && (
           <p className="fixed bottom-4 left-1/2 z-[80] max-w-[90vw] -translate-x-1/2 rounded-lg bg-slate-900 px-4 py-3 text-center text-base font-semibold text-white" role="status">
             {wordToast}

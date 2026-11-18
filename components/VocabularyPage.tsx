@@ -6,6 +6,7 @@ import { playEffect, primeAudio } from '../effects';
 import { addVocabAnswers } from '../badges';
 import { loadBadgeStats } from '../badgeStats';
 import { publishBadgeProgress } from '../badgeToast';
+import { recordScoredLesson } from '../legendsRecord';
 import { useRetroTheme } from '../retroTheme';
 import { defineSearchText, meaningToSave, searchLookupTerm, type DictEntry } from '../dictionary';
 import { PronounceButton, stopPronunciation } from './PronounceButton';
@@ -398,6 +399,12 @@ function Quiz({
               if (index + 1 >= questions.length) {
                 const started = badgeStart.current;
                 if (started) publishBadgeProgress(started, addVocabAnswers(started, questions.length));
+                void recordScoredLesson(
+                  'vocabulary',
+                  questions.map((item) => `${item.term}\n${item.answer}`),
+                  score,
+                  questions.length,
+                );
                 setDone(true);
               } else setIndex((current) => current + 1);
             }}

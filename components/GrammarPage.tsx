@@ -7,6 +7,7 @@ import { useRetroTheme } from '../retroTheme';
 import { addExercise } from '../badges';
 import { loadBadgeStats } from '../badgeStats';
 import { publishBadgeProgress } from '../badgeToast';
+import { recordScoredLesson } from '../legendsRecord';
 import {
   exerciseLabel,
   GRAMMAR_ITEM_COUNT,
@@ -288,6 +289,14 @@ export function GrammarPage({
       wrongAnswers: nextGrades.flatMap((grade) => (
         grade.correct ? [] : [{ question: grade.prompt, userAnswer: grade.userAnswer, correctAnswer: grade.correctAnswer }]
       )),
+    }).then((saved) => {
+      if (!saved.ok) return;
+      void recordScoredLesson(
+        'grammar',
+        nextGrades.map((grade) => `${grade.prompt}\n${grade.correctAnswer}`),
+        score,
+        nextGrades.length,
+      );
     }).catch(() => undefined);
     });
   };
