@@ -4,7 +4,6 @@ import { presentBadges, type BadgeId, type BadgeView } from '../badges';
 import { loadBadgeStats } from '../badgeStats';
 import { dismissBadgeUnlock, subscribeBadgeUnlock } from '../badgeToast';
 import { playEffect } from '../effects';
-import { RetroWindow } from './RetroWindow';
 
 const COPY: Record<BadgeId, { label: string; rule: string }> = {
   reading: { label: 'Reading Completed', rule: 'Finish 1 Reading exercise.' },
@@ -22,7 +21,7 @@ function BadgeCard({ badge }: { badge: BadgeView }) {
   return (
     <li className={`badge-card ${earned ? 'badge-earned' : 'badge-locked'}`}>
       <div className="badge-art">
-        <img src={badge.icon} alt="" width={64} height={64} />
+        <img src={badge.icon} alt="" width={96} height={96} />
         {earned && <img className="badge-check" src="/badges/check.svg" alt="" width={16} height={16} />}
       </div>
       <p className="badge-name">{badge.label}</p>
@@ -73,15 +72,18 @@ export function BadgeUnlockDialog() {
   return createPortal(
     <div className="phase2-dialog badge-popup-layer" data-open="true" role="dialog" aria-modal="true" aria-labelledby="badge-unlock-title">
       <div className="phase2-dialog-card badge-popup">
-        <RetroWindow title="Badge unlocked">
-          <p className="badge-popup-kicker">Badge unlocked</p>
-          <img src={`/badges/${id}.svg`} alt="" width={80} height={80} />
+        <div className="badge-titlebar">
+          <span>Badge unlocked</span>
+          <span className="badge-win-buttons" aria-hidden="true"><i /><i /><i className="badge-close" /></span>
+        </div>
+        <div className="badge-window-body">
+          <img src={`/badges/${id}.png`} alt="" width={128} height={128} />
           <h2 id="badge-unlock-title" className="badge-name">{copy.label}</h2>
           <p className="mt-2 text-base">{copy.rule}</p>
           <button type="button" className="mt-4 w-full py-3 text-lg font-bold" onClick={() => dismissBadgeUnlock()}>
             OK
           </button>
-        </RetroWindow>
+        </div>
       </div>
     </div>,
     document.body,

@@ -61,10 +61,19 @@ test('the badge popup uses the shared sound helper and the panel greys out locke
   assert.match(panel, /playEffect\('complete', true\)/);
   assert.match(effects, /if \(!soundEffectsEnabled\(\)\) return;/);
   assert.equal(panel.includes('gemini'), false);
-  const icons = ['reading', 'listening', 'grammar', 'vocabulary', 'audio', 'video', 'walkman', 'bmx', 'check'];
+  assert.match(panel, /\/badges\/\$\{id\}\.png/);
+  assert.match(panel, /\/badges\/check\.svg/);
+  assert.equal(panel.includes('/badges/reading.svg'), false);
+  const icons = ['reading', 'listening', 'grammar', 'vocabulary', 'audio', 'video', 'walkman', 'bmx'];
   for (const name of icons) {
-    const svg = readFileSync(new URL(`../public/badges/${name}.svg`, import.meta.url), 'utf8');
-    assert.match(svg, /<svg/);
-    assert.equal(svg.toLowerCase().includes('sony'), false);
+    const png = readFileSync(new URL(`../public/badges/${name}.png`, import.meta.url));
+    assert.equal(png.subarray(0, 8).toString('hex'), '89504e470d0a1a0a');
+    assert.equal(png.toString('latin1').toLowerCase().includes('sony'), false);
   }
+  const check = readFileSync(new URL('../public/badges/check.svg', import.meta.url), 'utf8');
+  assert.match(check, /<svg/);
+  const app = readFileSync(new URL('../App.tsx', import.meta.url), 'utf8');
+  const grammar = readFileSync(new URL('../components/GrammarPage.tsx', import.meta.url), 'utf8');
+  assert.match(app, /playEffect\(right \? 'correct' : 'wrong', retro\)/);
+  assert.match(grammar, /playEffect\(right \? 'correct' : 'wrong', retro\)/);
 });

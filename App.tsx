@@ -32,7 +32,7 @@ import { ProfilePage, type ThemeChoice } from './components/ProfilePage';
 import { RetroWindow } from './components/RetroWindow';
 import { PixelIcon } from './components/PixelIcon';
 import { setRetroActive, useRetroTheme } from './retroTheme';
-import { primeAudio } from './effects';
+import { playEffect, primeAudio } from './effects';
 import { addExercise } from './badges';
 import { loadBadgeStats } from './badgeStats';
 import { publishBadgeProgress } from './badgeToast';
@@ -635,6 +635,9 @@ const App: React.FC = () => {
 
   const handleAnswerSelect = (answer: string) => {
     if (userAnswers[currentQuestionIndex]) return;
+    const right = answer === quiz[currentQuestionIndex]?.correctAnswer;
+    primeAudio();
+    playEffect(right ? 'correct' : 'wrong', retro);
     const newAnswers = [...userAnswers];
     newAnswers[currentQuestionIndex] = answer;
     setUserAnswers(newAnswers);

@@ -48,42 +48,42 @@ const COPY: Record<BadgeId, { label: string; rule: string; icon: string }> = {
   reading: {
     label: 'Reading Completed',
     rule: 'Finish 1 Reading exercise.',
-    icon: '/badges/reading.svg',
+    icon: '/badges/reading.png',
   },
   listening: {
     label: 'Listening Completed',
     rule: 'Finish 1 Listening exercise.',
-    icon: '/badges/listening.svg',
+    icon: '/badges/listening.png',
   },
   grammar: {
     label: 'Grammar Completed',
     rule: 'Finish 1 Grammar exercise.',
-    icon: '/badges/grammar.svg',
+    icon: '/badges/grammar.png',
   },
   vocabulary: {
     label: 'Vocabulary Completed',
     rule: 'Answer 4 Vocabulary quiz questions, the shortest quiz.',
-    icon: '/badges/vocabulary.svg',
+    icon: '/badges/vocabulary.png',
   },
   audio: {
     label: 'Audio Lesson Completed',
     rule: 'Finish 5 Listening exercises.',
-    icon: '/badges/audio.svg',
+    icon: '/badges/audio.png',
   },
   video: {
     label: 'Video Lesson Completed',
     rule: 'Coming soon. There is no video lesson to complete yet.',
-    icon: '/badges/video.svg',
+    icon: '/badges/video.png',
   },
   walkman: {
     label: 'Walkman Challenge',
     rule: 'Finish an exercise on 3 days in a row, using the date in Spain.',
-    icon: '/badges/walkman.svg',
+    icon: '/badges/walkman.png',
   },
   bmx: {
     label: 'BMX Master',
     rule: 'Finish 25 Reading, Listening, or Grammar exercises.',
-    icon: '/badges/bmx.svg',
+    icon: '/badges/bmx.png',
   },
 };
 
