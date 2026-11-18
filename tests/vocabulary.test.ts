@@ -90,7 +90,11 @@ test('the quiz is built only from saved words and needs four of them', () => {
   assert.match(pageQuiz, /Correct answer/);
   assert.match(pageQuiz, /Why: /);
   assert.match(pageQuiz, /SpanishWhy/);
+  assert.match(pageQuiz, /if \(locked\) return/);
+  assert.match(pageQuiz, /playEffect\(right \? 'correct' : 'wrong', retro\)/);
   assert.equal(pageQuiz.includes('onNew={onExit}'), false);
+  const effects = readFileSync(new URL('../effects.ts', import.meta.url), 'utf8');
+  assert.match(effects, /if \(!soundEffectsEnabled\(\)\) return;/);
   assert.equal(page.includes('gemini'), false);
   assert.equal(page.includes('generateStory'), false);
   const sql = readFileSync(new URL('../supabase/migrations/20261121_saved_vocabulary.sql', import.meta.url), 'utf8');
