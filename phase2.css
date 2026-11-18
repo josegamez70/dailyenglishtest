@@ -257,5 +257,6 @@ html[data-theme="retro95"] .retro-window {
 }
 .badge-rule { margin: 0; font-size: 0.75rem; }
 .badge-popup { text-align: center; }
+.badge-popup-layer { z-index: 70; }
 .badge-popup img { image-rendering: pixelated; margin: 0.75rem auto; }
 .badge-popup-kicker { margin: 0; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }

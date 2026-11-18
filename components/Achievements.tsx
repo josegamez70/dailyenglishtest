@@ -70,7 +70,7 @@ export function BadgeUnlockDialog() {
   if (!id || typeof document === 'undefined') return null;
   const copy = COPY[id];
   return createPortal(
-    <div className="phase2-dialog" data-open="true" role="dialog" aria-modal="true" aria-labelledby="badge-unlock-title">
+    <div className="phase2-dialog badge-popup-layer" data-open="true" role="dialog" aria-modal="true" aria-labelledby="badge-unlock-title">
       <div className="phase2-dialog-card badge-popup">
         <p className="badge-popup-kicker">Badge unlocked</p>
         <img src={`/badges/${id}.svg`} alt="" width={80} height={80} />
