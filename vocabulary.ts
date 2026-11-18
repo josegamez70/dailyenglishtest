@@ -30,6 +30,8 @@ export type VocabQuizQuestion = {
   prompt: string;
   choices: string[];
   answer: string;
+  /** One sentence from the saved meaning. Nothing is added that the word list does not say. */
+  explanation: string;
 };
 
 export const VOCAB_QUIZ_MIN = 4;
@@ -203,6 +205,20 @@ export function shuffleItems<T>(items: readonly T[], random: () => number = Math
   return copy;
 }
 
+/** First saved sense only, so a quiz line never mixes two meanings. */
+export function vocabSense(meaning: string): string {
+  return (meaning.split(' · ')[0] ?? meaning).replace(/\s+/g, ' ').trim();
+}
+
+/** A short reason that only restates the saved meaning. */
+export function vocabQuizWhy(term: string, meaning: string, askMeaning: boolean): string {
+  const sense = vocabSense(meaning).replace(/[.!?]+$/, '');
+  if (!term.trim() || !sense) return '';
+  return askMeaning
+    ? `“${term}” means ${sense}.`
+    : `“${sense}” is the meaning of “${term}”.`;
+}
+
 /** Multiple choice from saved words only. Returns null until there are 4 words with a meaning. */
 export function buildVocabQuiz(items: readonly SavedWord[], random: () => number = Math.random): VocabQuizQuestion[] | null {
   const usable = items.filter((item) => termKey(item.term) && item.meaning.trim());
@@ -210,10 +226,10 @@ export function buildVocabQuiz(items: readonly SavedWord[], random: () => number
   const chosen = shuffleItems(usable, random).slice(0, Math.min(VOCAB_QUIZ_COUNT, usable.length));
   return chosen.map((item, index) => {
     const askMeaning = index % 2 === 0;
-    const meaning = item.meaning.split(' · ')[0]?.trim() || item.meaning.trim();
+    const meaning = vocabSense(item.meaning);
     const answer = askMeaning ? meaning : item.term;
     const distractors = shuffleItems(usable.filter((other) => termKey(other.term) !== termKey(item.term)), random)
-      .map((other) => (askMeaning ? (other.meaning.split(' · ')[0]?.trim() || other.meaning.trim()) : other.term))
+      .map((other) => (askMeaning ? vocabSense(other.meaning) : other.term))
       .filter((value, valueIndex, list) => value && value.toLowerCase() !== answer.toLowerCase() && list.findIndex((entry) => entry.toLowerCase() === value.toLowerCase()) === valueIndex)
       .slice(0, 3);
     return {
@@ -221,6 +237,7 @@ export function buildVocabQuiz(items: readonly SavedWord[], random: () => number
       prompt: askMeaning ? `What does “${item.term}” mean?` : `Which word means “${meaning}”?`,
       choices: shuffleItems([answer, ...distractors], random),
       answer,
+      explanation: vocabQuizWhy(item.term, item.meaning, askMeaning),
     };
   });
 }

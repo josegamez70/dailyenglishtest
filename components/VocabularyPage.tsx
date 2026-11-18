@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { BackButton } from './BackButton';
 import { ExerciseComplete } from './ExerciseComplete';
+import { SpanishWhy } from './SpanishWhy';
 import { playEffect, primeAudio } from '../effects';
 import { useRetroTheme } from '../retroTheme';
 import { defineSearchText, meaningToSave, searchLookupTerm, type DictEntry } from '../dictionary';
@@ -238,6 +239,7 @@ function Quiz({
   const [questions, setQuestions] = useState<VocabQuizQuestion[] | null>(() => buildVocabQuiz(rows));
   const [index, setIndex] = useState(0);
   const [score, setScore] = useState(0);
+  const [picks, setPicks] = useState<string[]>([]);
   const [done, setDone] = useState(false);
   const [celebrate, setCelebrate] = useState(true);
   const told = useRef(false);
@@ -247,6 +249,15 @@ function Quiz({
     told.current = true;
     onFinished?.();
   }, [done, onFinished]);
+
+  const restart = () => {
+    setQuestions(buildVocabQuiz(rows));
+    setIndex(0);
+    setScore(0);
+    setPicks([]);
+    setDone(false);
+    setCelebrate(true);
+  };
 
   if (!questions) {
     return (
@@ -265,22 +276,45 @@ function Quiz({
           <ExerciseComplete
             score={score}
             total={questions.length}
-            marks={null}
+            marks={questions.map((question, item) => picks[item] === question.answer)}
             onReview={() => setCelebrate(false)}
-            onNew={onExit}
+            onNew={restart}
           />
         )}
         <h2 className="text-2xl font-bold">Quiz result</h2>
         <p className="mt-2 text-xl">You scored {score} out of {questions.length}.</p>
+        <div className="mt-4 space-y-3">
+          {questions.map((item, itemIndex) => {
+            const picked = picks[itemIndex] ?? '';
+            const right = picked === item.answer;
+            return (
+              <div
+                key={`${item.term}-${itemIndex}`}
+                className={`rounded-lg border-2 p-4 ${
+                  right
+                    ? 'border-green-700 bg-green-50 dark:border-green-600 dark:bg-green-950'
+                    : 'border-red-700 bg-red-50 dark:border-red-600 dark:bg-red-950'
+                }`}
+              >
+                <p className="text-base font-semibold text-slate-900 dark:text-slate-50">{itemIndex + 1}. {item.prompt}</p>
+                <p className="mt-2 text-base text-slate-900 dark:text-slate-50">Your answer: {picked || '—'}</p>
+                {!right && (
+                  <p className="mt-1 text-base text-slate-900 dark:text-slate-50">Correct answer: {item.answer}</p>
+                )}
+                {item.explanation && (
+                  <p className="mt-3 text-base text-slate-900 dark:text-slate-50">
+                    <span className="font-semibold">Why: </span>
+                    {item.explanation}
+                  </p>
+                )}
+                {item.explanation && <SpanishWhy text={item.explanation} />}
+              </div>
+            );
+          })}
+        </div>
         <button
           type="button"
-          onClick={() => {
-            setQuestions(buildVocabQuiz(rows));
-            setIndex(0);
-            setScore(0);
-            setDone(false);
-            setCelebrate(true);
-          }}
+          onClick={restart}
           className="mt-4 w-full rounded-lg bg-blue-700 py-3 text-lg font-bold text-white hover:bg-blue-800"
         >
           Try again
@@ -293,14 +327,21 @@ function Quiz({
   }
 
   const question = questions[index];
+  const picked = picks[index] ?? '';
+  const locked = Boolean(picked);
+  const correct = picked === question.answer;
   const choose = (choice: string) => {
-    const correct = choice === question.answer;
+    if (locked) return;
+    const right = choice === question.answer;
     primeAudio();
-    playEffect(correct ? 'correct' : 'wrong', retro);
-    if (correct) setScore((current) => current + 1);
-    if (persistGrades) void recordVocabAnswer(question.term, correct);
-    if (index + 1 >= questions.length) setDone(true);
-    else setIndex((current) => current + 1);
+    playEffect(right ? 'correct' : 'wrong', retro);
+    if (right) setScore((current) => current + 1);
+    if (persistGrades) void recordVocabAnswer(question.term, right);
+    setPicks((current) => {
+      const next = [...current];
+      next[index] = choice;
+      return next;
+    });
   };
 
   return (
@@ -313,12 +354,45 @@ function Quiz({
             key={choice}
             type="button"
             onClick={() => choose(choice)}
-            className="w-full rounded-lg border-2 border-slate-500 bg-white px-3 py-3 text-left text-lg font-semibold text-slate-900 hover:border-blue-700 dark:border-slate-300 dark:bg-slate-800 dark:text-slate-50 quiz-option"
+            disabled={locked}
+            aria-pressed={picked === choice}
+            className={`w-full rounded-lg border-2 px-3 py-3 text-left text-lg font-semibold quiz-option ${
+              locked && choice === question.answer
+                ? 'border-green-700 bg-green-50 text-slate-900'
+                : locked && choice === picked
+                  ? 'border-red-700 bg-red-50 text-slate-900'
+                  : 'border-slate-500 bg-white text-slate-900 hover:border-blue-700 dark:border-slate-300 dark:bg-slate-800 dark:text-slate-50'
+            }`}
           >
             {choice}
           </button>
         ))}
       </div>
+      {locked && (
+        <div className={`mt-4 rounded-lg border-2 p-4 ${correct ? 'border-green-700 bg-green-50 dark:border-green-600 dark:bg-green-950' : 'border-red-700 bg-red-50 dark:border-red-600 dark:bg-red-950'}`}>
+          <p className="text-lg font-bold text-slate-900 dark:text-slate-50">{correct ? 'Right.' : 'Not quite.'}</p>
+          {!correct && (
+            <p className="mt-1 text-base text-slate-900 dark:text-slate-50">Correct answer: {question.answer}</p>
+          )}
+          {question.explanation && (
+            <p className="mt-3 text-base text-slate-900 dark:text-slate-50">
+              <span className="font-semibold">Why: </span>
+              {question.explanation}
+            </p>
+          )}
+          {question.explanation && <SpanishWhy text={question.explanation} />}
+          <button
+            type="button"
+            onClick={() => {
+              if (index + 1 >= questions.length) setDone(true);
+              else setIndex((current) => current + 1);
+            }}
+            className="mt-4 w-full rounded-lg bg-blue-700 py-3 text-lg font-bold text-white hover:bg-blue-800"
+          >
+            {index + 1 >= questions.length ? 'See result' : 'Next'}
+          </button>
+        </div>
+      )}
     </div>
   );
 }
