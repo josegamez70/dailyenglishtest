@@ -20,9 +20,9 @@ test('the mobile menu scrolls inside the drawer and does not lock the page', () 
   assert.match(shell, /menu-item/);
   const css = readFileSync(new URL('../phase2.css', import.meta.url), 'utf8');
   assert.match(css, /\.menu-drawer \{[^}]*width:\s*min\(24rem/);
-  assert.match(css, /\.menu-drawer \.menu-item[\s\S]*font-size:\s*1\.2rem/);
+  assert.match(css, /\.menu-drawer \.menu-item[\s\S]*font-size:\s*0\.96rem/);
   const retro = readFileSync(new URL('../retro95.css', import.meta.url), 'utf8');
-  assert.match(retro, /\.menu-drawer \.menu-item[\s\S]*font-size:\s*1\.7rem/);
+  assert.match(retro, /\.menu-drawer \.menu-item[\s\S]*font-size:\s*1\.36rem/);
   assert.equal(shell.includes('document.body.style.overflow'), false);
   assert.equal(shell.includes("touch-action: none"), false);
 });

@@ -297,23 +297,23 @@ html[data-theme="retro95"] nav button {
 html[data-theme="retro95"] .menu-drawer .menu-item,
 html[data-theme="retro95"] .menu-drawer .menu-link,
 html[data-theme="retro95"] .menu-drawer .menu-signout {
-  font-size: 1.7rem !important;
+  font-size: 1.36rem !important;
   line-height: 1.05 !important;
-  padding: 0.4rem 0.65rem !important;
+  padding: 0.32rem 0.52rem !important;
   letter-spacing: 0;
 }
 html[data-theme="retro95"] .menu-drawer .menu-title {
-  font-size: 1.7rem;
+  font-size: 1.36rem;
 }
 html[data-theme="retro95"] .menu-drawer .menu-email,
 html[data-theme="retro95"] .menu-drawer .menu-status,
 html[data-theme="retro95"] .menu-drawer .menu-foot-title {
-  font-size: 1.35rem !important;
+  font-size: 1.08rem !important;
   color: #000 !important;
 }
 html[data-theme="retro95"] .menu-drawer .retro-pill,
 html[data-theme="retro95"] .menu-drawer .retro-pill span {
-  font-size: 1.25rem;
+  font-size: 1rem;
 }
 html[data-theme="retro95"] .menu-drawer .menu-signout {
   border-top: 2px solid #808080;

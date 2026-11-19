@@ -88,7 +88,7 @@ function NavLinks({
   layout?: 'side' | 'drawer';
 }) {
   const drawer = layout === 'drawer';
-  const icon = drawer ? 34 : 24;
+  const icon = drawer ? 27 : 24;
   const profile = baseItems[baseItems.length - 1];
   const items = showAcademy
     ? [
