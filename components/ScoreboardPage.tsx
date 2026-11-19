@@ -144,17 +144,21 @@ export function ScoreboardPage({
         </p>
       )}
       <div className="scoreboard-tabs mt-4" role="tablist" aria-label="Scoreboard period">
-        {([
-          ['challenge', 'Challenge'],
-          ['daily', 'Today'],
-          ['yesterday', 'Yesterday'],
-          ['all', 'All time'],
-        ] as const).map(([id, label]) => (
-          <button key={id} type="button" role="tab" aria-selected={view === id} onClick={() => setView(id)} className={view === id ? 'is-selected' : undefined}>
-            {id === 'challenge' && <PixelArt src="/icons/daily_challenge.png" size={16} />}
-            {label}
-          </button>
-        ))}
+        <button type="button" role="tab" aria-selected={view === 'challenge'} onClick={() => setView('challenge')} className={view === 'challenge' ? 'scoreboard-tab-challenge is-selected' : 'scoreboard-tab-challenge'}>
+          <PixelArt src="/icons/daily_challenge.png" size={24} />
+          Daily challenge
+        </button>
+        <div className="scoreboard-tab-row">
+          {([
+            ['daily', 'Today'],
+            ['yesterday', 'Yesterday'],
+            ['all', 'All time'],
+          ] as const).map(([id, label]) => (
+            <button key={id} type="button" role="tab" aria-selected={view === id} onClick={() => setView(id)} className={view === id ? 'is-selected' : undefined}>
+              {label}
+            </button>
+          ))}
+        </div>
       </div>
       {view !== 'challenge' && (
         <p className="mt-2 text-sm">

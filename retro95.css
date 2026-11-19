@@ -527,11 +527,17 @@ html[data-theme="retro95"] .scoreboard-head {
   color: #fff;
 }
 
-html[data-theme="retro95"] .scoreboard-tabs > button {
+html[data-theme="retro95"] .scoreboard-tab-challenge {
+  font-size: 1.7rem !important;
+  line-height: 1.05 !important;
+  min-height: 3.1rem;
+}
+html[data-theme="retro95"] .scoreboard-tab-row > button {
   flex: 1 1 0;
   min-width: 0;
-  padding: 4px 1px !important;
-  font-size: 15px !important;
+  min-height: 2.7rem;
+  padding: 8px 4px !important;
+  font-size: 1.35rem !important;
   line-height: 1 !important;
   letter-spacing: 0 !important;
   white-space: nowrap;
