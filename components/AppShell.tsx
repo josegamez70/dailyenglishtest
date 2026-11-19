@@ -103,9 +103,12 @@ function NavLinks({
       <div className={drawer ? 'menu-head' : 'px-4 pt-4'}>
         <Wordmark variant="side" iconSize={icon} />
         {email && (
-          <p className={drawer
-            ? 'menu-email mt-3 font-semibold text-slate-900 dark:text-slate-50'
-            : 'mt-3 truncate text-sm font-semibold text-slate-900 dark:text-slate-50'}>{email}</p>
+          <p
+            className={drawer
+              ? 'menu-email mt-3 font-semibold text-slate-900 dark:text-slate-50'
+              : 'mt-3 truncate text-sm font-semibold text-slate-900 dark:text-slate-50'}
+            title={drawer ? email : undefined}
+          >{email}</p>
         )}
         {academyName != null ? (
           <div className={drawer ? 'menu-badge mt-3' : 'mt-3'}>

@@ -71,7 +71,7 @@ export function ChallengeShot() {
       onNavigate={() => undefined}
       onSignOut={() => undefined}
       onHome={() => undefined}
-      email="demo.learner@example.com"
+      email={params.get('email') || 'demo.learner@example.com'}
       status="Free lessons left: 7 of 12"
       showAcademy={role !== 'individual'}
       academyName={role === 'individual' ? null : 'Demo Academy'}

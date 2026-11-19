@@ -33,6 +33,10 @@ test('the mobile menu scrolls inside the drawer and does not lock the page', () 
   assert.equal(drawerCloseReason({ key: 'Escape', outside: false }), 'escape');
   assert.equal(drawerCloseReason({ key: 'Enter', outside: false }), null);
   assert.equal(drawerCloseReason({ outside: false }), null);
+  assert.match(shell, /title=\{drawer \? email : undefined\}/);
+  assert.match(css, /\.menu-drawer \.menu-email \{[^}]*white-space:\s*nowrap/);
+  assert.match(css, /\.menu-drawer \.menu-email \{[^}]*text-overflow:\s*ellipsis/);
+  assert.match(retro, /\.menu-drawer \.menu-email \{[^}]*nowrap !important/);
   assert.equal(shell.includes('document.body.style.overflow'), false);
   assert.equal(shell.includes("touch-action: none"), false);
 });
