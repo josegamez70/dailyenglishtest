@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "adventure",
+  "target": 140,
+  "title": "One at a Time across the Gap",
+  "story": "A winter storm had collapsed part of the coastal path, leaving a narrow gap above the rocks. A warden met the walking group at the gate and explained that the official route now dropped to the beach, but only when the tide was low. Their bus left later that afternoon, and the tide would still be too high for the beach turning. Nia had brought a short rope and offered a handline if the warden judged the rock safe. He tested the holds, set a spare stake on each side, and tied the rope himself. People crossed one at a time, facing the rock, while he watched the line. Packs were passed across separately so nobody leaned out with extra weight. Everyone crossed. They reached the stop muddy and only a little late. Nia coiled the rope and left the stakes with the warden, who planned a proper rail before the next weekend.",
+  "vocabulary": [
+    {
+      "word": "collapsed",
+      "definition": "Fallen down so it could no longer be used."
+    },
+    {
+      "word": "warden",
+      "definition": "A person responsible for looking after a place."
+    },
+    {
+      "word": "tide",
+      "definition": "The regular rise and fall of the sea."
+    },
+    {
+      "word": "handline",
+      "definition": "A fixed rope people hold while they cross."
+    },
+    {
+      "word": "stake",
+      "definition": "A pointed piece driven into the ground or rock."
+    },
+    {
+      "word": "coiled",
+      "definition": "Wound into neat loops."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "When could walkers use the official beach route?",
+      "options": [
+        "Only at the time of a low sea",
+        "Whenever the bus was running late",
+        "Only after the cliff path had fallen",
+        "At any hour if they carried a rope"
+      ],
+      "correctAnswer": "Only at the time of a low sea",
+      "explanation": "The official route dropped to the beach only when the tide was low.",
+      "supportingSentence": "A warden met the walking group at the gate and explained that the official route now dropped to the beach, but only when the tide was low.",
+      "skill": "detail"
+    },
+    {
+      "question": "How did the group cross the gap?",
+      "options": [
+        "One person at a time, facing the rock, while the line was watched",
+        "All at once, still wearing their packs",
+        "By waiting on the beach until the bus left",
+        "By climbing down with no rope at all"
+      ],
+      "correctAnswer": "One person at a time, facing the rock, while the line was watched",
+      "explanation": "People crossed one at a time, facing the rock, while the warden watched the line.",
+      "supportingSentence": "People crossed one at a time, facing the rock, while he watched the line.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did the beach route not solve the group's problem?",
+      "options": [
+        "The sea would still be too high before their bus left",
+        "The warden had closed the beach for the month",
+        "Nia refused to walk on sand",
+        "The bus stop existed only at noon"
+      ],
+      "correctAnswer": "The sea would still be too high before their bus left",
+      "explanation": "Their bus left that afternoon, and the tide would still be too high for the beach turning.",
+      "supportingSentence": "Their bus left later that afternoon, and the tide would still be too high for the beach turning.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why were the packs passed across on their own?",
+      "options": [
+        "So nobody would lean out while carrying extra weight",
+        "So the warden could keep the packs",
+        "So the rope could be put away before anyone crossed",
+        "So the group would miss the bus on purpose"
+      ],
+      "correctAnswer": "So nobody would lean out while carrying extra weight",
+      "explanation": "The packs were passed separately so nobody leaned out with extra weight.",
+      "supportingSentence": "Packs were passed across separately so nobody leaned out with extra weight.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does collapsed mean in this story?",
+      "options": [
+        "Fallen away so the path could not be used",
+        "Wound into loops for the next weekend",
+        "Tested and judged safe to cross",
+        "Driven into a crack in the rock"
+      ],
+      "correctAnswer": "Fallen away so the path could not be used",
+      "explanation": "The storm had collapsed part of the path and left a gap, so that section had fallen away.",
+      "supportingSentence": "A winter storm had collapsed part of the coastal path, leaving a narrow gap above the rocks.",
+      "skill": "vocabulary"
+    }
+  ]
+}

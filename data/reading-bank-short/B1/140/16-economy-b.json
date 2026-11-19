@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "economy_finance",
+  "target": 140,
+  "title": "An Early Fare to the Museum",
+  "story": "Luis and his mother compared two train fares to the city. The early train was cheaper, but it left at dawn. The later train cost more and arrived at the same station. They chose the early train and kept the difference for museum tickets. They packed their bags the night before and set an alarm. At dawn they walked to the station and bought tea. The carriage was quiet, and Luis read a guide to the museum. When they arrived, they used the saved money for two student tickets. Inside, they saw tools, maps, and a model of the old port. Luis took notes because his class was studying the city. At lunch they still had a little money left for soup. His mother said the early start had paid for the visit. Luis agreed and circled the cheap fare in the leaflet.",
+  "vocabulary": [
+    {
+      "word": "fares",
+      "definition": "the prices of journeys"
+    },
+    {
+      "word": "dawn",
+      "definition": "the time when daylight begins"
+    },
+    {
+      "word": "difference",
+      "definition": "the amount left between two prices"
+    },
+    {
+      "word": "guide",
+      "definition": "a small book that describes a place"
+    },
+    {
+      "word": "notes",
+      "definition": "short writing made to remember facts"
+    },
+    {
+      "word": "leaflet",
+      "definition": "a printed sheet of information"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "When did the cheaper train leave?",
+      "options": [
+        "At dawn",
+        "At noon",
+        "In the evening",
+        "At midnight"
+      ],
+      "correctAnswer": "At dawn",
+      "explanation": "The early train was cheaper, but it left at dawn.",
+      "supportingSentence": "The early train was cheaper, but it left at dawn.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did they buy with the money they had saved?",
+      "options": [
+        "Two student tickets",
+        "A different train",
+        "Tea for the whole carriage",
+        "A model to take home"
+      ],
+      "correctAnswer": "Two student tickets",
+      "explanation": "They used the saved money for two student tickets.",
+      "supportingSentence": "When they arrived, they used the saved money for two student tickets.",
+      "skill": "detail"
+    },
+    {
+      "question": "What was Luis's class studying?",
+      "options": [
+        "The city",
+        "Wild animals",
+        "Football rules",
+        "Home cooking"
+      ],
+      "correctAnswer": "The city",
+      "explanation": "Luis took notes because his class was studying the city.",
+      "supportingSentence": "Luis took notes because his class was studying the city.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does dawn mean?",
+      "options": [
+        "The time when daylight begins",
+        "A cheap paper ticket",
+        "A bowl of hot soup",
+        "A small model of a port"
+      ],
+      "correctAnswer": "The time when daylight begins",
+      "explanation": "They walked to the station at dawn, the early start of the day.",
+      "supportingSentence": "At dawn they walked to the station and bought tea.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What did his mother mean about the early start?",
+      "options": [
+        "The money saved paid for the museum",
+        "The train journey was a waste",
+        "The museum charged nobody",
+        "They should have chosen the later train"
+      ],
+      "correctAnswer": "The money saved paid for the museum",
+      "explanation": "They kept the cheaper fare's difference for tickets, so the early start paid for the visit.",
+      "supportingSentence": "His mother said the early start had paid for the visit.",
+      "skill": "inference"
+    }
+  ]
+}

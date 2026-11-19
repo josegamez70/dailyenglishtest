@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "daily life",
+  "target": 60,
+  "title": "Rain before Breakfast",
+  "story": "It started to rain while Mateo made breakfast. He had left the windows open, so the curtains got wet. He closed them and wiped the floor with a towel. Then he saw his neighbour outside without a coat. Mateo took a spare umbrella from the hall and crossed the street. The neighbour smiled and promised to return it after work. Mateo went back to his toast.",
+  "vocabulary": [
+    {
+      "word": "curtains",
+      "definition": "Cloth covers that hang at a window."
+    },
+    {
+      "word": "wiped",
+      "definition": "Rubbed a surface to make it dry."
+    },
+    {
+      "word": "towel",
+      "definition": "A cloth used for drying."
+    },
+    {
+      "word": "spare",
+      "definition": "Extra and not already in use."
+    },
+    {
+      "word": "umbrella",
+      "definition": "A cover you hold to stay dry in rain."
+    },
+    {
+      "word": "promised",
+      "definition": "Said firmly that you will do something."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What was Mateo doing when the rain began?",
+      "options": [
+        "Making breakfast",
+        "Walking to work",
+        "Buying a coat",
+        "Closing the shop"
+      ],
+      "correctAnswer": "Making breakfast",
+      "explanation": "The rain started while Mateo made breakfast.",
+      "supportingSentence": "It started to rain while Mateo made breakfast.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did the curtains get wet?",
+      "options": [
+        "The windows had been left open",
+        "The towel fell outside",
+        "The neighbour opened the door",
+        "The toast was still hot"
+      ],
+      "correctAnswer": "The windows had been left open",
+      "explanation": "He had left the windows open, so the curtains got wet.",
+      "supportingSentence": "He had left the windows open, so the curtains got wet.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Mateo carry across the street?",
+      "options": [
+        "A spare umbrella",
+        "A wet towel",
+        "A plate of toast",
+        "His winter coat"
+      ],
+      "correctAnswer": "A spare umbrella",
+      "explanation": "He took a spare umbrella from the hall and crossed the street.",
+      "supportingSentence": "Mateo took a spare umbrella from the hall and crossed the street.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does spare mean in this story?",
+      "options": [
+        "Extra and ready if needed",
+        "Broken and useless",
+        "Already soaking wet",
+        "Too heavy to carry"
+      ],
+      "correctAnswer": "Extra and ready if needed",
+      "explanation": "The spare umbrella was an extra one that Mateo could lend.",
+      "supportingSentence": "Mateo took a spare umbrella from the hall and crossed the street.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did the neighbour promise to return the umbrella?",
+      "options": [
+        "It belonged to Mateo",
+        "The rain had already stopped",
+        "Mateo asked him to buy toast",
+        "The windows were still open"
+      ],
+      "correctAnswer": "It belonged to Mateo",
+      "explanation": "People return something they have borrowed, and the neighbour promised to return the umbrella after work.",
+      "supportingSentence": "The neighbour smiled and promised to return it after work.",
+      "skill": "inference"
+    }
+  ]
+}

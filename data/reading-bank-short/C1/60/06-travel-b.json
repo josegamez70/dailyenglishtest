@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "travel",
+  "target": 60,
+  "title": "Carbon Copy at the Border",
+  "story": "At the land border, Pavel was sent back for a second copy of the customs form he had already filled. The officer refused a photograph, because the carbon copy had to travel with the luggage. Pavel rewrote every line from memory and checked the totals. The delay cost him the early bus, yet both sheets were stamped. He later kept a blank form in his coat.",
+  "vocabulary": [
+    {
+      "word": "customs",
+      "definition": "The official check on goods people carry across a border"
+    },
+    {
+      "word": "carbon",
+      "definition": "The duplicate sheet made to travel with the bags"
+    },
+    {
+      "word": "luggage",
+      "definition": "The bags a traveller carries"
+    },
+    {
+      "word": "totals",
+      "definition": "The final amounts written on the form"
+    },
+    {
+      "word": "stamped",
+      "definition": "Marked with an official stamp of approval"
+    },
+    {
+      "word": "blank",
+      "definition": "Empty, with nothing written on it yet"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Why did the officer refuse a photograph of the form?",
+      "options": [
+        "The carbon copy had to travel with the luggage",
+        "Pavel had already left on the early bus",
+        "The totals on the first form were wrong",
+        "Blank forms were no longer issued there"
+      ],
+      "correctAnswer": "The carbon copy had to travel with the luggage",
+      "explanation": "The officer refused a photograph because the carbon copy had to go with the luggage.",
+      "supportingSentence": "The officer refused a photograph, because the carbon copy had to travel with the luggage.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did the delay cost Pavel?",
+      "options": [
+        "The early bus",
+        "His luggage and his coat",
+        "The stamp on both sheets",
+        "A photograph of the officer"
+      ],
+      "correctAnswer": "The early bus",
+      "explanation": "The delay cost him the early bus, even though both sheets were stamped.",
+      "supportingSentence": "The delay cost him the early bus, yet both sheets were stamped.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the blank form in his coat suggest?",
+      "options": [
+        "He meant to avoid another delay over a missing copy",
+        "He hoped to be hired as a customs officer",
+        "He no longer trusted any stamped sheet",
+        "He expected the bus company to supply forms"
+      ],
+      "correctAnswer": "He meant to avoid another delay over a missing copy",
+      "explanation": "After losing the early bus for lack of a second copy, keeping a blank form shows he was preparing for the next border.",
+      "supportingSentence": "He later kept a blank form in his coat.",
+      "skill": "inference"
+    },
+    {
+      "question": "What is a carbon copy in this passage?",
+      "options": [
+        "A duplicate sheet that had to go with the bags",
+        "A photograph stored on a phone",
+        "An official stamp on a bus ticket",
+        "A total rewritten from memory"
+      ],
+      "correctAnswer": "A duplicate sheet that had to go with the bags",
+      "explanation": "The carbon copy is the second sheet that had to travel with the luggage.",
+      "supportingSentence": "The officer refused a photograph, because the carbon copy had to travel with the luggage.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer say Pavel rewrote the form from memory?",
+      "options": [
+        "To show he did not have the first copy in his hands",
+        "To prove the totals had been false",
+        "To suggest the officer had lost the luggage",
+        "To argue that borders should ban paper"
+      ],
+      "correctAnswer": "To show he did not have the first copy in his hands",
+      "explanation": "Rewriting from memory shows the original form was not with him when he was sent back.",
+      "supportingSentence": "Pavel rewrote every line from memory and checked the totals.",
+      "skill": "intent"
+    }
+  ]
+}

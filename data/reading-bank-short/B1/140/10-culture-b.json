@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "culture_food",
+  "target": 140,
+  "title": "A Bowl from the Clay Class",
+  "story": "Kenji joined a Saturday clay class at the town museum. The teacher gave each student a lump of soft clay and a cloth. Kenji wanted to make a bowl for his mother's birthday. He pressed the centre with his thumbs and turned the clay in his hands. The walls became thin, and a crack appeared. The teacher showed him how to smooth the crack with a wet finger. Kenji tried again and shaped a simple wide bowl. He carved a small leaf on the side so it would be easy to recognise. The bowls dried on a shelf and were baked in a hot oven later. The next week he painted the leaf green. He wrapped it in paper and carried it home on the bus. His mother filled it with fruit and put it on the table. Kenji felt proud, because he had repaired the crack instead of starting again.",
+  "vocabulary": [
+    {
+      "word": "clay",
+      "definition": "soft wet earth used to shape pots"
+    },
+    {
+      "word": "thumbs",
+      "definition": "the short thick fingers"
+    },
+    {
+      "word": "crack",
+      "definition": "a thin break in a surface"
+    },
+    {
+      "word": "smooth",
+      "definition": "to make a rough place even"
+    },
+    {
+      "word": "recognise",
+      "definition": "to know which one it is"
+    },
+    {
+      "word": "proud",
+      "definition": "pleased about something you did well"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where did Kenji attend the clay class?",
+      "options": [
+        "At the town museum",
+        "In his mother's kitchen",
+        "At the bus station",
+        "In a school gym"
+      ],
+      "correctAnswer": "At the town museum",
+      "explanation": "He joined a Saturday clay class at the town museum.",
+      "supportingSentence": "Kenji joined a Saturday clay class at the town museum.",
+      "skill": "detail"
+    },
+    {
+      "question": "Who was the finished bowl for?",
+      "options": [
+        "His mother",
+        "His teacher",
+        "A museum visitor",
+        "The bus driver"
+      ],
+      "correctAnswer": "His mother",
+      "explanation": "He wanted to make a bowl for his mother's birthday.",
+      "supportingSentence": "Kenji wanted to make a bowl for his mother's birthday.",
+      "skill": "detail"
+    },
+    {
+      "question": "What colour did Kenji paint the leaf?",
+      "options": [
+        "Green",
+        "Blue",
+        "Red",
+        "Black"
+      ],
+      "correctAnswer": "Green",
+      "explanation": "The next week he painted the leaf green.",
+      "supportingSentence": "The next week he painted the leaf green.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does recognise mean?",
+      "options": [
+        "To know which one it is",
+        "To bake a pot in an oven",
+        "To wrap a gift in paper",
+        "To fill a bowl with fruit"
+      ],
+      "correctAnswer": "To know which one it is",
+      "explanation": "He carved a leaf so the bowl would be easy to recognise as his.",
+      "supportingSentence": "He carved a small leaf on the side so it would be easy to recognise.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What does his mother's action show?",
+      "options": [
+        "She chose to use the bowl",
+        "She hid the bowl in a cupboard",
+        "She sent the bowl back to class",
+        "She asked him to crack it again"
+      ],
+      "correctAnswer": "She chose to use the bowl",
+      "explanation": "She filled the bowl with fruit and put it on the table, so she was using it.",
+      "supportingSentence": "His mother filled it with fruit and put it on the table.",
+      "skill": "inference"
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "science",
+  "target": 140,
+  "title": "Pulse after the Stairs",
+  "story": "In science class the students learned how to feel a pulse in the wrist. The teacher showed them a gentle touch with two fingers. Each pair counted beats for half a minute while sitting still. Then they climbed the stairs to the next floor and back. They sat down and counted again at once. The number was higher after the stairs. Paolo and his partner wrote both results on a sheet. The teacher asked why the pulse changed. A student said the body needed more blood when the muscles worked hard. The class agreed and wrote that sentence in their books. They repeated the count after two minutes of rest. The number fell, but it was still above the first result. The teacher said this was normal for healthy students. They did not run, because the test was about a normal climb.",
+  "vocabulary": [
+    {
+      "word": "pulse",
+      "definition": "the beat of blood you can feel"
+    },
+    {
+      "word": "wrist",
+      "definition": "the joint between the hand and the arm"
+    },
+    {
+      "word": "beats",
+      "definition": "regular movements you can count"
+    },
+    {
+      "word": "muscles",
+      "definition": "body parts that help you move"
+    },
+    {
+      "word": "repeated",
+      "definition": "did something again"
+    },
+    {
+      "word": "normal",
+      "definition": "usual and not a problem"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where did the students learn to feel the pulse?",
+      "options": [
+        "In the wrist",
+        "In the ear",
+        "On the knee",
+        "On the back"
+      ],
+      "correctAnswer": "In the wrist",
+      "explanation": "They learned how to feel a pulse in the wrist.",
+      "supportingSentence": "In science class the students learned how to feel a pulse in the wrist.",
+      "skill": "detail"
+    },
+    {
+      "question": "What was different about the count after the stairs?",
+      "options": [
+        "The number was higher",
+        "The number stayed the same",
+        "The number fell to zero",
+        "They stopped writing results"
+      ],
+      "correctAnswer": "The number was higher",
+      "explanation": "The number was higher after the stairs.",
+      "supportingSentence": "The number was higher after the stairs.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did the count do after two minutes of rest?",
+      "options": [
+        "It fell but stayed above the first result",
+        "It dropped below the first result",
+        "It did not change at all",
+        "It could no longer be felt"
+      ],
+      "correctAnswer": "It fell but stayed above the first result",
+      "explanation": "The number fell, but it was still above the first result.",
+      "supportingSentence": "The number fell, but it was still above the first result.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does muscles mean?",
+      "options": [
+        "Body parts that help you move",
+        "The steps between floors",
+        "Numbers written on a sheet",
+        "Books used for science"
+      ],
+      "correctAnswer": "Body parts that help you move",
+      "explanation": "The student said the muscles worked hard when the body climbed.",
+      "supportingSentence": "A student said the body needed more blood when the muscles worked hard.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Paolo write down both results?",
+      "options": [
+        "So the two counts could be compared",
+        "So the class could skip the rest",
+        "So nobody would climb again",
+        "So the teacher would hide the sheet"
+      ],
+      "correctAnswer": "So the two counts could be compared",
+      "explanation": "Both results were on one sheet, so the sitting count and the stair count could be compared.",
+      "supportingSentence": "Paolo and his partner wrote both results on a sheet.",
+      "skill": "inference"
+    }
+  ]
+}

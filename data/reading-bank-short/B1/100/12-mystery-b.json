@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "mystery",
+  "target": 100,
+  "title": "Lights in the Empty Classroom",
+  "story": "The caretaker, Rosa, locked the science room at six. An hour later she saw light under the door. She had the only key on her belt. Rosa opened the door slowly and found nobody inside. The lamp on the side bench was on. A window was open a little, and the blind was moving. She turned the lamp off and checked the cupboards. Nothing was missing. Then she noticed a timer plug behind a plant tray. The lamp was set to switch on at seven for a bean experiment. A note from the teacher explained the timer. Rosa closed the window and left the timer as it was.",
+  "vocabulary": [
+    {
+      "word": "caretaker",
+      "definition": "a person who looks after a building"
+    },
+    {
+      "word": "lamp",
+      "definition": "a light that can be switched on"
+    },
+    {
+      "word": "blind",
+      "definition": "a cover for a window"
+    },
+    {
+      "word": "cupboards",
+      "definition": "cabinets used for storing things"
+    },
+    {
+      "word": "timer",
+      "definition": "a device that turns something on at a set time"
+    },
+    {
+      "word": "experiment",
+      "definition": "a test done to learn something"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did Rosa see under the door an hour later?",
+      "options": [
+        "A light",
+        "A pool of water",
+        "A lost key",
+        "Smoke"
+      ],
+      "correctAnswer": "A light",
+      "explanation": "She saw light under the door.",
+      "supportingSentence": "An hour later she saw light under the door.",
+      "skill": "detail"
+    },
+    {
+      "question": "Who did Rosa find in the science room?",
+      "options": [
+        "Nobody",
+        "The teacher",
+        "A student",
+        "Two visitors"
+      ],
+      "correctAnswer": "Nobody",
+      "explanation": "She opened the door and found nobody inside.",
+      "supportingSentence": "Rosa opened the door slowly and found nobody inside.",
+      "skill": "detail"
+    },
+    {
+      "question": "When was the lamp set to come on?",
+      "options": [
+        "At seven",
+        "At six",
+        "At noon",
+        "At midnight"
+      ],
+      "correctAnswer": "At seven",
+      "explanation": "The lamp was set to switch on at seven.",
+      "supportingSentence": "The lamp was set to switch on at seven for a bean experiment.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what is a caretaker?",
+      "options": [
+        "A person who looks after the building",
+        "The science teacher",
+        "A type of lamp",
+        "A plant experiment"
+      ],
+      "correctAnswer": "A person who looks after the building",
+      "explanation": "Rosa is the caretaker, and she locks and checks the room.",
+      "supportingSentence": "The caretaker, Rosa, locked the science room at six.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why was the lamp on after Rosa had locked the room?",
+      "options": [
+        "A timer turned it on for an experiment",
+        "Someone broke the lock",
+        "The blind started the lamp",
+        "Rosa left it on at six"
+      ],
+      "correctAnswer": "A timer turned it on for an experiment",
+      "explanation": "The lamp was set to switch on at seven for a bean experiment.",
+      "supportingSentence": "The lamp was set to switch on at seven for a bean experiment.",
+      "skill": "inference"
+    }
+  ]
+}

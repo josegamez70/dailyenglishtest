@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "hobbies",
+  "target": 140,
+  "title": "Waiting for Fresh Fixer",
+  "story": "The darkroom allotted each member ninety minutes, and Sunday's sheet was full when Helen arrived with a river roll. The fixing tray was cloudy because the chemical was exhausted, and no fresh bottle remained. Rui said a delivery would come on Tuesday. Helen could use the weak fixer and risk stained prints, or she could wait. She waited, because the negatives were the sole record of a bridge scheduled for demolition. Rui let her reserve the first Sunday after the delivery and wrote her name in ink so the slot could not be quietly taken. He taught her a precaution: test a tray with a strip of film before trusting it with a real roll. A ruined roll could not be restored by enthusiasm. Helen left the canister on the hold shelf and went home with no prints at all.",
+  "vocabulary": [
+    {
+      "word": "allotted",
+      "definition": "Given out as each person's share."
+    },
+    {
+      "word": "exhausted",
+      "definition": "Used up and no longer effective."
+    },
+    {
+      "word": "demolition",
+      "definition": "The planned knocking-down of a structure."
+    },
+    {
+      "word": "reserve",
+      "definition": "To keep a place for a particular person."
+    },
+    {
+      "word": "precaution",
+      "definition": "A step taken in advance to avoid harm."
+    },
+    {
+      "word": "restored",
+      "definition": "Brought back to its earlier good condition."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "When did Rui expect the replacement chemical to arrive?",
+      "options": [
+        "On Tuesday",
+        "That same Sunday",
+        "After the bridge came down",
+        "Once Helen had made a print"
+      ],
+      "correctAnswer": "On Tuesday",
+      "explanation": "Rui said the delivery would come on Tuesday.",
+      "supportingSentence": "Rui said a delivery would come on Tuesday.",
+      "skill": "detail"
+    },
+    {
+      "question": "Where did Helen leave the canister before going home?",
+      "options": [
+        "On the hold shelf",
+        "In the cloudy fixing tray",
+        "In Rui's delivery bag",
+        "Beside the river"
+      ],
+      "correctAnswer": "On the hold shelf",
+      "explanation": "She left the canister on the hold shelf and went home without prints.",
+      "supportingSentence": "Helen left the canister on the hold shelf and went home with no prints at all.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does Helen's choice to wait suggest about her priority?",
+      "options": [
+        "Protecting the only pictures of the bridge mattered more than speed",
+        "She had decided to give up photography",
+        "She expected the town to record the bridge",
+        "She wanted the finished prints to look stained"
+      ],
+      "correctAnswer": "Protecting the only pictures of the bridge mattered more than speed",
+      "explanation": "She waited because those negatives were the only record of a bridge due for demolition.",
+      "supportingSentence": "She waited, because the negatives were the sole record of a bridge scheduled for demolition.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does exhausted mean when it describes the chemical?",
+      "options": [
+        "Used up and no longer strong enough",
+        "Mixed fresh on that same morning",
+        "Held back for another member",
+        "Locked away in an office cupboard"
+      ],
+      "correctAnswer": "Used up and no longer strong enough",
+      "explanation": "The tray was cloudy because the chemical was exhausted and no fresh bottle remained.",
+      "supportingSentence": "The fixing tray was cloudy because the chemical was exhausted, and no fresh bottle remained.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer include the test with a strip of film?",
+      "options": [
+        "To show how to check a tray before risking a real roll",
+        "To prove Helen had already spoiled three rolls",
+        "To explain why the darkroom was closing forever",
+        "To argue that walking should replace printing"
+      ],
+      "correctAnswer": "To show how to check a tray before risking a real roll",
+      "explanation": "Rui's precaution is a test strip, so a weak tray can be caught before a real roll is ruined.",
+      "supportingSentence": "He taught her a precaution: test a tray with a strip of film before trusting it with a real roll.",
+      "skill": "intent"
+    }
+  ]
+}

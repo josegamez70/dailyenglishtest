@@ -52,6 +52,13 @@ async function pool(admin: SupabaseClient, kind: 'reading' | 'listening' | 'gram
   return (listed.data ?? []) as BankRow[];
 }
 
+function readingWordCount(row: BankRow): number {
+  const dims = row.dimensions && typeof row.dimensions === 'object' ? row.dimensions as { wordCount?: unknown } : {};
+  const payload = row.payload && typeof row.payload === 'object' ? row.payload as { wordCount?: unknown } : {};
+  const words = Number(dims.wordCount ?? payload.wordCount ?? 0);
+  return Number.isFinite(words) ? words : 0;
+}
+
 function readingOf(row: BankRow) {
   const dims = row.dimensions && typeof row.dimensions === 'object' ? row.dimensions as { topic?: unknown } : {};
   const lesson = readingLessonFromBankPayload(row.payload, String(dims.topic ?? ''));
@@ -130,7 +137,10 @@ async function piecesFor(admin: SupabaseClient, day: string, level: ChallengeLev
     pool(admin, 'grammar', level),
   ]);
   if (!readingRows || !listeningRows || !grammarRows) return null;
-  const reading = takeFirst(readingRows, bankChallengeIndex(day, level, 'reading', readingRows.length), readingOf);
+  // Short practice texts stay out of this pool. The index is then the same as it was
+  // when every reading row was a long piece, so today and tomorrow do not move.
+  const longReadings = readingRows.filter((row) => readingWordCount(row) >= 200);
+  const reading = takeFirst(longReadings, bankChallengeIndex(day, level, 'reading', longReadings.length), readingOf);
   const listening = takeFirst(listeningRows, bankChallengeIndex(day, level, 'listening', listeningRows.length), listeningSlice);
   const grammar = takeFirst(grammarRows, bankChallengeIndex(day, level, 'grammar', grammarRows.length), grammarOf);
   return { reading, listening, grammar };

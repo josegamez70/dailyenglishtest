@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "travel",
+  "target": 140,
+  "title": "The Last Bus from the Market",
+  "story": "After a morning at the town market, Yusuf had two heavy bags. The last bus home left from a stop behind the fish stalls. He looked at the main road and could not see a sign. A seller named Pilar pointed to a narrow lane. Yusuf thanked her and walked quickly with both bags. The bus was already at the stop, and the doors were open. He showed his pass, climbed on, and found a seat near the driver. A passenger held one bag while he sat down. Yusuf sent a text to his father to say he had caught the bus. At his stop he lifted both bags and nodded to the passenger. The bags were heavy, but he was glad he had asked for help. That evening he drew a small map of the lane for his next visit. He pinned the map inside the kitchen cupboard.",
+  "vocabulary": [
+    {
+      "word": "stalls",
+      "definition": "stands where people sell things"
+    },
+    {
+      "word": "lane",
+      "definition": "a narrow road or path"
+    },
+    {
+      "word": "pass",
+      "definition": "a card that lets you travel"
+    },
+    {
+      "word": "passenger",
+      "definition": "a person riding, not the driver"
+    },
+    {
+      "word": "text",
+      "definition": "a short phone message"
+    },
+    {
+      "word": "cupboard",
+      "definition": "a piece of furniture with a door and shelves"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where did the last bus leave from?",
+      "options": [
+        "A stop behind the fish stalls",
+        "The front door of the school",
+        "A stop beside the hospital",
+        "The market office"
+      ],
+      "correctAnswer": "A stop behind the fish stalls",
+      "explanation": "The last bus home left from a stop behind the fish stalls.",
+      "supportingSentence": "The last bus home left from a stop behind the fish stalls.",
+      "skill": "detail"
+    },
+    {
+      "question": "Who pointed Yusuf toward the bus?",
+      "options": [
+        "A seller named Pilar",
+        "His father",
+        "The bus driver",
+        "A passenger with a map"
+      ],
+      "correctAnswer": "A seller named Pilar",
+      "explanation": "Pilar pointed to the narrow lane that led to the stop.",
+      "supportingSentence": "A seller named Pilar pointed to a narrow lane.",
+      "skill": "detail"
+    },
+    {
+      "question": "Where did Yusuf sit on the bus?",
+      "options": [
+        "Near the driver",
+        "On the roof",
+        "Beside the fish stalls",
+        "In the kitchen at home"
+      ],
+      "correctAnswer": "Near the driver",
+      "explanation": "He climbed on and found a seat near the driver.",
+      "supportingSentence": "He showed his pass, climbed on, and found a seat near the driver.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does text mean?",
+      "options": [
+        "A short phone message",
+        "A paper map of a town",
+        "A heavy shopping bag",
+        "A seat near the front"
+      ],
+      "correctAnswer": "A short phone message",
+      "explanation": "Yusuf sent a text, a short phone message, to his father.",
+      "supportingSentence": "Yusuf sent a text to his father to say he had caught the bus.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Yusuf draw a map that evening?",
+      "options": [
+        "So he could find the lane next time",
+        "So Pilar could sell more fish",
+        "So his father could drive the bus",
+        "So the bags would feel lighter"
+      ],
+      "correctAnswer": "So he could find the lane next time",
+      "explanation": "He drew the lane for his next visit after nearly missing the stop.",
+      "supportingSentence": "That evening he drew a small map of the lane for his next visit.",
+      "skill": "inference"
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "technology",
+  "target": 60,
+  "title": "Two Names in One Slot",
+  "story": "The clinic calendar showed two patients in the same slot, so Leila checked the booking tool before calling either of them. One appointment had been moved online, but the change had never reached the wall screen. She updated the display and added a note asking staff to refresh it after every edit. The second patient was offered a later time and accepted.",
+  "vocabulary": [
+    {
+      "word": "calendar",
+      "definition": "A plan that shows days and booked times."
+    },
+    {
+      "word": "slot",
+      "definition": "A particular time kept for an appointment."
+    },
+    {
+      "word": "booking",
+      "definition": "An arrangement to see someone at a set time."
+    },
+    {
+      "word": "display",
+      "definition": "A screen that shows information."
+    },
+    {
+      "word": "refresh",
+      "definition": "Load the newest information again."
+    },
+    {
+      "word": "accepted",
+      "definition": "Said yes to an offer."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did Leila check before calling the patients?",
+      "options": [
+        "The booking tool",
+        "A later time for both of them",
+        "The lock on the clinic door",
+        "An online shop for screens"
+      ],
+      "correctAnswer": "The booking tool",
+      "explanation": "She checked the booking tool before calling either patient.",
+      "supportingSentence": "The clinic calendar showed two patients in the same slot, so Leila checked the booking tool before calling either of them.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did the wall screen still show a clash?",
+      "options": [
+        "A change in the booking tool had not been copied onto it",
+        "Both patients had walked in at the same moment",
+        "Leila had offered them one later time already",
+        "The staff had refreshed it after every edit"
+      ],
+      "correctAnswer": "A change in the booking tool had not been copied onto it",
+      "explanation": "One appointment had been moved, but that change had never reached the wall screen.",
+      "supportingSentence": "One appointment had been moved online, but the change had never reached the wall screen.",
+      "skill": "inference"
+    },
+    {
+      "question": "What did the second patient’s answer do to the clash?",
+      "options": [
+        "It removed the clash by moving that patient",
+        "It left both patients in the same slot",
+        "It forced the wall screen to stay wrong",
+        "It cancelled the online appointment"
+      ],
+      "correctAnswer": "It removed the clash by moving that patient",
+      "explanation": "The second patient accepted a later time, so that person was no longer in the shared slot.",
+      "supportingSentence": "The second patient was offered a later time and accepted.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does slot mean in this story?",
+      "options": [
+        "A booked time space",
+        "The clinic’s wall screen",
+        "A note left for the staff",
+        "A patient who arrives late"
+      ],
+      "correctAnswer": "A booked time space",
+      "explanation": "Two patients appear in the same slot, meaning the same appointment time.",
+      "supportingSentence": "The clinic calendar showed two patients in the same slot, so Leila checked the booking tool before calling either of them.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Leila ask staff to refresh the display after edits?",
+      "options": [
+        "So the wall screen would show the latest bookings",
+        "So patients would be called before any check",
+        "So every visit would move online",
+        "So the second patient would refuse a new time"
+      ],
+      "correctAnswer": "So the wall screen would show the latest bookings",
+      "explanation": "Refreshing after every edit would stop the display from missing a change again.",
+      "supportingSentence": "She updated the display and added a note asking staff to refresh it after every edit.",
+      "skill": "intent"
+    }
+  ]
+}

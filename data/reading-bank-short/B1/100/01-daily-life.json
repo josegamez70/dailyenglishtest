@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "daily life",
+  "target": 100,
+  "title": "Rain on the Clothesline",
+  "story": "Marta hung the shirts on the balcony line before breakfast. The sky looked clear, so she left the window open and made toast. Soon she heard rain on the glass. She ran outside and pulled the clothes into a basket. Two shirts were already wet. She spread them over chairs in the warm kitchen. Her brother Nico laughed at the dripping sleeves. Marta did not mind. She waited until the rain stopped. Then she carried the dry shirts back outside. The wet ones stayed indoors until evening. She wrote a note that said to look up first. Next time the weather would not surprise her.",
+  "vocabulary": [
+    {
+      "word": "balcony",
+      "definition": "a platform outside a window or door"
+    },
+    {
+      "word": "basket",
+      "definition": "a container used for carrying things"
+    },
+    {
+      "word": "dripping",
+      "definition": "falling in small drops of water"
+    },
+    {
+      "word": "indoors",
+      "definition": "inside a building"
+    },
+    {
+      "word": "weather",
+      "definition": "sun, rain, wind, or cloud at a time"
+    },
+    {
+      "word": "surprise",
+      "definition": "to catch a person who did not expect it"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did Marta hear before she ran outside?",
+      "options": [
+        "Rain on the glass",
+        "A knock at the door",
+        "The kitchen alarm",
+        "Birds in the yard"
+      ],
+      "correctAnswer": "Rain on the glass",
+      "explanation": "She heard rain on the glass and then ran outside.",
+      "supportingSentence": "Soon she heard rain on the glass.",
+      "skill": "detail"
+    },
+    {
+      "question": "What was already wet when she brought the clothes in?",
+      "options": [
+        "Two shirts",
+        "Every shirt on the line",
+        "Nico's coat",
+        "The breakfast toast"
+      ],
+      "correctAnswer": "Two shirts",
+      "explanation": "The story says two shirts were already wet.",
+      "supportingSentence": "Two shirts were already wet.",
+      "skill": "detail"
+    },
+    {
+      "question": "Where did the wet shirts stay until evening?",
+      "options": [
+        "Indoors",
+        "Back on the balcony line",
+        "In the garden",
+        "At the shop"
+      ],
+      "correctAnswer": "Indoors",
+      "explanation": "The wet ones stayed indoors until evening.",
+      "supportingSentence": "The wet ones stayed indoors until evening.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does dripping mean?",
+      "options": [
+        "Falling in small drops of water",
+        "Making a loud noise",
+        "Folding clothes neatly",
+        "Hanging from a high line"
+      ],
+      "correctAnswer": "Falling in small drops of water",
+      "explanation": "The sleeves were dripping because the rain had made them wet.",
+      "supportingSentence": "Her brother Nico laughed at the dripping sleeves.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Marta write a note?",
+      "options": [
+        "To remember to check the sky first",
+        "To thank Nico for laughing",
+        "To ask for new shirts",
+        "To close the shop"
+      ],
+      "correctAnswer": "To remember to check the sky first",
+      "explanation": "The note said to look up first, so she would check the sky next time.",
+      "supportingSentence": "She wrote a note that said to look up first.",
+      "skill": "inference"
+    }
+  ]
+}

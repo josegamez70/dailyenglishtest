@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "school_college",
+  "target": 140,
+  "title": "Notes Left on the Shelf",
+  "story": "Nadia had to give a short history talk after lunch. She prepared pictures of an old bridge and put them in a yellow folder. At noon she revised in the library and left the folder on a low shelf. When the bell rang, she walked to class without it. Her friend Omar sent a message to say the folder was still there. Nadia asked the teacher for a later turn and hurried back. The librarian had moved the folder to the front desk. Nadia checked the pictures, thanked her, and returned to class. She spoke after the break, and the class could see the bridge clearly. The teacher said the talk was calm and easy to follow. That evening she clipped the folder inside her school bag. She also set a reminder on her phone for the next talk. She did not want to leave her notes behind again.",
+  "vocabulary": [
+    {
+      "word": "folder",
+      "definition": "a cover that holds loose papers"
+    },
+    {
+      "word": "revised",
+      "definition": "looked at work again to prepare"
+    },
+    {
+      "word": "shelf",
+      "definition": "a flat board used to store things"
+    },
+    {
+      "word": "librarian",
+      "definition": "a person who works in a library"
+    },
+    {
+      "word": "calm",
+      "definition": "quiet and not upset"
+    },
+    {
+      "word": "reminder",
+      "definition": "a note that helps you remember"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "When was Nadia supposed to give her history talk?",
+      "options": [
+        "After lunch",
+        "Before breakfast",
+        "During the first lesson",
+        "Late at night"
+      ],
+      "correctAnswer": "After lunch",
+      "explanation": "She had to give the short history talk after lunch.",
+      "supportingSentence": "Nadia had to give a short history talk after lunch.",
+      "skill": "detail"
+    },
+    {
+      "question": "Where did Nadia leave the yellow folder?",
+      "options": [
+        "On a low shelf",
+        "On the teacher's chair",
+        "In Omar's bag",
+        "Under the classroom door"
+      ],
+      "correctAnswer": "On a low shelf",
+      "explanation": "She left the folder on a low shelf in the library.",
+      "supportingSentence": "At noon she revised in the library and left the folder on a low shelf.",
+      "skill": "detail"
+    },
+    {
+      "question": "Who sent Nadia a message about the folder?",
+      "options": [
+        "Her friend Omar",
+        "The history teacher",
+        "The bus driver",
+        "A younger student"
+      ],
+      "correctAnswer": "Her friend Omar",
+      "explanation": "Omar sent a message to say the folder was still there.",
+      "supportingSentence": "Her friend Omar sent a message to say the folder was still there.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does reminder mean?",
+      "options": [
+        "A note that helps you remember",
+        "A picture of an old bridge",
+        "A seat near a window",
+        "A loud bell in the hall"
+      ],
+      "correctAnswer": "A note that helps you remember",
+      "explanation": "She set a reminder on her phone so she would remember the next talk.",
+      "supportingSentence": "She also set a reminder on her phone for the next talk.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Nadia clip the folder inside her school bag?",
+      "options": [
+        "So she would not leave her notes behind",
+        "So the librarian could borrow it",
+        "So Omar could give the talk",
+        "So the pictures would stay yellow"
+      ],
+      "correctAnswer": "So she would not leave her notes behind",
+      "explanation": "She did not want to leave her notes behind again.",
+      "supportingSentence": "She did not want to leave her notes behind again.",
+      "skill": "inference"
+    }
+  ]
+}

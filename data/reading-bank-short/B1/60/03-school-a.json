@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "school_college",
+  "target": 60,
+  "title": "A Stamp from the Library",
+  "story": "Priya needed a book for history class. She went to the school library after lunch. The book was on a high shelf, so the librarian reached it for her. Priya did not have her card, and the librarian could not lend it. Priya ran to her locker and found the card in her pencil case. She returned, got the stamp, and still had time for class.",
+  "vocabulary": [
+    {
+      "word": "history",
+      "definition": "The study of past events."
+    },
+    {
+      "word": "librarian",
+      "definition": "A person who works in a library."
+    },
+    {
+      "word": "shelf",
+      "definition": "A flat board used for storing things."
+    },
+    {
+      "word": "lend",
+      "definition": "To let someone borrow something."
+    },
+    {
+      "word": "locker",
+      "definition": "A small cupboard with a lock at school."
+    },
+    {
+      "word": "stamp",
+      "definition": "A mark that shows a book was borrowed."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Why did Priya need a book?",
+      "options": [
+        "For history class",
+        "For a cooking test",
+        "To replace her pencil case",
+        "To give to a friend"
+      ],
+      "correctAnswer": "For history class",
+      "explanation": "Priya needed a book for history class.",
+      "supportingSentence": "Priya needed a book for history class.",
+      "skill": "detail"
+    },
+    {
+      "question": "Where was the book before the librarian helped?",
+      "options": [
+        "On a high shelf",
+        "In the pencil case",
+        "Inside the locker",
+        "On the lunch table"
+      ],
+      "correctAnswer": "On a high shelf",
+      "explanation": "The book was on a high shelf, so the librarian reached it.",
+      "supportingSentence": "The book was on a high shelf, so the librarian reached it for her.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why could the librarian not lend the book at first?",
+      "options": [
+        "Priya did not have her card",
+        "The shelf was empty",
+        "Lunch was not over",
+        "The library was closed"
+      ],
+      "correctAnswer": "Priya did not have her card",
+      "explanation": "Priya did not have her card, so the librarian could not lend the book.",
+      "supportingSentence": "Priya did not have her card, and the librarian could not lend it.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does lend mean in this story?",
+      "options": [
+        "To let someone borrow an item",
+        "To close a high shelf",
+        "To run to a locker",
+        "To eat lunch quickly"
+      ],
+      "correctAnswer": "To let someone borrow an item",
+      "explanation": "The librarian could not lend the book means she could not let Priya borrow it.",
+      "supportingSentence": "Priya did not have her card, and the librarian could not lend it.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Priya run to her locker?",
+      "options": [
+        "Her library card was there",
+        "Her lunch was getting cold",
+        "The stamp was in the locker",
+        "Class had already finished"
+      ],
+      "correctAnswer": "Her library card was there",
+      "explanation": "She ran to the locker and found the card in her pencil case.",
+      "supportingSentence": "Priya ran to her locker and found the card in her pencil case.",
+      "skill": "inference"
+    }
+  ]
+}

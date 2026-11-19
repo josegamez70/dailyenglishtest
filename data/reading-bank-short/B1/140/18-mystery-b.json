@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "mystery",
+  "target": 140,
+  "title": "The Note under the Bowl",
+  "story": "Ben left a slice of cake on the kitchen table before football. He covered it with a plate and planned to eat it later. When he returned, the plate was empty and clean. He asked the people at home, and each one said they had not taken it. Ben felt cross and looked for crumbs. There were no crumbs on the table or the floor. Then he lifted the fruit bowl and found a folded note underneath. The note was from his little sister, Aya. She had taken the slice to school to share with a new student. She had washed the plate and hidden the note so it would be a surprise. Ben read it twice and stopped feeling cross. He left a reply under the same bowl. In the reply he thanked Aya and said the next slice would be hers. The mystery had a kind ending.",
+  "vocabulary": [
+    {
+      "word": "slice",
+      "definition": "a piece cut from a larger cake"
+    },
+    {
+      "word": "crumbs",
+      "definition": "very small pieces that fall from food"
+    },
+    {
+      "word": "folded",
+      "definition": "bent closed, like a piece of paper"
+    },
+    {
+      "word": "surprise",
+      "definition": "something you do not expect"
+    },
+    {
+      "word": "reply",
+      "definition": "an answer to a message"
+    },
+    {
+      "word": "mystery",
+      "definition": "a strange event that needs explaining"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where did Ben find the folded note?",
+      "options": [
+        "Under the fruit bowl",
+        "In his football bag",
+        "On top of the clean plate",
+        "Outside the kitchen door"
+      ],
+      "correctAnswer": "Under the fruit bowl",
+      "explanation": "He lifted the fruit bowl and found the note underneath it.",
+      "supportingSentence": "Then he lifted the fruit bowl and found a folded note underneath.",
+      "skill": "detail"
+    },
+    {
+      "question": "Who had written the note?",
+      "options": [
+        "His little sister Aya",
+        "His football coach",
+        "A neighbour",
+        "The new student"
+      ],
+      "correctAnswer": "His little sister Aya",
+      "explanation": "The note was from his little sister, Aya.",
+      "supportingSentence": "The note was from his little sister, Aya.",
+      "skill": "detail"
+    },
+    {
+      "question": "Who would get the next slice, according to Ben?",
+      "options": [
+        "Aya",
+        "A visitor",
+        "His coach",
+        "Nobody"
+      ],
+      "correctAnswer": "Aya",
+      "explanation": "He said the next slice would be hers, and hers means Aya.",
+      "supportingSentence": "In the reply he thanked Aya and said the next slice would be hers.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does surprise mean?",
+      "options": [
+        "Something you do not expect",
+        "A clean empty plate",
+        "A game of football",
+        "A second piece of cake"
+      ],
+      "correctAnswer": "Something you do not expect",
+      "explanation": "She hid the note so the news would be a surprise Ben did not expect.",
+      "supportingSentence": "She had washed the plate and hidden the note so it would be a surprise.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Ben stop feeling cross?",
+      "options": [
+        "Aya had shared the cake kindly",
+        "The cake was still on the plate",
+        "The family had eaten it as a joke",
+        "Crumbs covered the kitchen floor"
+      ],
+      "correctAnswer": "Aya had shared the cake kindly",
+      "explanation": "The note said Aya had shared the slice with a new student, so his anger passed.",
+      "supportingSentence": "She had taken the slice to school to share with a new student.",
+      "skill": "inference"
+    }
+  ]
+}

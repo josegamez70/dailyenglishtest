@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "technology",
+  "target": 140,
+  "title": "Copies before the Storm",
+  "story": "A radio warning said a storm might cut the power that night. The family wanted to protect their holiday photos. Dad copied the pictures from the computer onto a spare drive. Mum checked that the files opened before they continued. They copied the school projects as well. Then they shut down the computer and unplugged it from the wall. They also unplugged the router and the printer. The youngest child, Leila, charged a small lamp while the power was still on. She put the lamp and the spare drive on a high shelf. When the lights went out, the house was dark but the files were safe. They played a quiet card game by the lamp. In the morning the power returned. Dad plugged the computer in and opened the beach album. Every photo was there, including the one of Leila with the red kite.",
+  "vocabulary": [
+    {
+      "word": "warning",
+      "definition": "a message that tells you about danger"
+    },
+    {
+      "word": "spare",
+      "definition": "extra and ready if needed"
+    },
+    {
+      "word": "unplugged",
+      "definition": "pulled the plug out of the socket"
+    },
+    {
+      "word": "router",
+      "definition": "a device that sends internet to computers"
+    },
+    {
+      "word": "album",
+      "definition": "a collection of photographs"
+    },
+    {
+      "word": "power",
+      "definition": "electricity that runs lights and machines"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where did Dad copy the holiday pictures?",
+      "options": [
+        "Onto a spare drive",
+        "Only into a paper book",
+        "Onto the router",
+        "Into the small lamp"
+      ],
+      "correctAnswer": "Onto a spare drive",
+      "explanation": "Dad copied the pictures from the computer onto a spare drive.",
+      "supportingSentence": "Dad copied the pictures from the computer onto a spare drive.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Leila charge before the lights failed?",
+      "options": [
+        "A small lamp",
+        "The red kite",
+        "A pack of cards",
+        "The printer"
+      ],
+      "correctAnswer": "A small lamp",
+      "explanation": "Leila charged a small lamp while the power was still on.",
+      "supportingSentence": "The youngest child, Leila, charged a small lamp while the power was still on.",
+      "skill": "detail"
+    },
+    {
+      "question": "Which photo does the story name at the end?",
+      "options": [
+        "Leila with the red kite",
+        "Dad standing in snow",
+        "Mum at a desk",
+        "A broken router"
+      ],
+      "correctAnswer": "Leila with the red kite",
+      "explanation": "Every photo was there, including the one of Leila with the red kite.",
+      "supportingSentence": "Every photo was there, including the one of Leila with the red kite.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does power mean?",
+      "options": [
+        "Electricity for lights and machines",
+        "A quiet card game",
+        "A holiday photograph",
+        "A shelf above the desk"
+      ],
+      "correctAnswer": "Electricity for lights and machines",
+      "explanation": "The storm might cut the power, and later the lights went out.",
+      "supportingSentence": "A radio warning said a storm might cut the power that night.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did the family unplug the computer?",
+      "options": [
+        "A storm might cut the electricity",
+        "The holiday photos were already lost",
+        "They needed the shelf for books",
+        "Leila had broken the album"
+      ],
+      "correctAnswer": "A storm might cut the electricity",
+      "explanation": "A storm might cut the power, so they shut the computer down and unplugged it.",
+      "supportingSentence": "Then they shut down the computer and unplugged it from the wall.",
+      "skill": "inference"
+    }
+  ]
+}

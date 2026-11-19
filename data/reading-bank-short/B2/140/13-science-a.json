@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "science",
+  "target": 140,
+  "title": "Taller Is Not the Same",
+  "story": "The class tested whether identical seedlings grew better in full sun or in light shade. They planted two trays of the same lettuce in the same compost and gave each tray the same water every morning. One tray sat on the open bench. The other sat under a cloth that let light through but softened the midday heat. Every Monday they measured the height and wrote it in a shared table. After three weeks the shaded plants were taller, but their stems were thin and they leaned. The sunny plants were shorter and sturdier, with deeper colour in the leaves. Amina said that taller did not always mean healthier. The class then counted how many plants stayed upright after a windy night, and more of the sunny ones did. Their conclusion stayed careful. Shade had changed the shape of the growth, and one measurement would have told only part of the story.",
+  "vocabulary": [
+    {
+      "word": "seedlings",
+      "definition": "Very young plants grown from seed."
+    },
+    {
+      "word": "compost",
+      "definition": "A rich soil mix used for growing plants."
+    },
+    {
+      "word": "sturdier",
+      "definition": "Stronger and less likely to bend or break."
+    },
+    {
+      "word": "upright",
+      "definition": "Standing straight, not leaning."
+    },
+    {
+      "word": "measurement",
+      "definition": "A result found by measuring."
+    },
+    {
+      "word": "shade",
+      "definition": "An area protected from full sun."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did the class keep the same for both trays?",
+      "options": [
+        "The lettuce, the soil mix, and the water each morning",
+        "The cloth, the shade, and the midday heat",
+        "The windy night and the leaf colour",
+        "The height of every stem after three weeks"
+      ],
+      "correctAnswer": "The lettuce, the soil mix, and the water each morning",
+      "explanation": "Both trays had the same lettuce, the same compost, and the same water every morning.",
+      "supportingSentence": "They planted two trays of the same lettuce in the same compost and gave each tray the same water every morning.",
+      "skill": "detail"
+    },
+    {
+      "question": "How did the shaded plants look after three weeks?",
+      "options": [
+        "They were taller, but thin and leaning",
+        "They were shorter and harder to bend",
+        "They had the same height and colour as day one",
+        "They had all fallen before any measuring"
+      ],
+      "correctAnswer": "They were taller, but thin and leaning",
+      "explanation": "After three weeks the shaded plants were taller, but their stems were thin and they leaned.",
+      "supportingSentence": "After three weeks the shaded plants were taller, but their stems were thin and they leaned.",
+      "skill": "detail"
+    },
+    {
+      "question": "What point was Amina making about the tall plants?",
+      "options": [
+        "Extra height did not by itself prove they were healthier",
+        "The sunny plants had failed because they were short",
+        "Height should be the only number in the table",
+        "Lettuce grows well only under a cloth"
+      ],
+      "correctAnswer": "Extra height did not by itself prove they were healthier",
+      "explanation": "Amina said that taller did not always mean healthier.",
+      "supportingSentence": "Amina said that taller did not always mean healthier.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why would one height check have been a weak conclusion?",
+      "options": [
+        "It would have shown only part of how the plants changed",
+        "It would have given one tray more water than the other",
+        "It would have proved that shade has no effect",
+        "It would have made both trays the same colour"
+      ],
+      "correctAnswer": "It would have shown only part of how the plants changed",
+      "explanation": "Shade changed the shape of the growth, and one measurement would have told only part of the story.",
+      "supportingSentence": "Shade had changed the shape of the growth, and one measurement would have told only part of the story.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does sturdier mean in this story?",
+      "options": [
+        "Stronger and less likely to bend",
+        "Taller, with a thin stem",
+        "Hidden under a garden cloth",
+        "Written as a number in a table"
+      ],
+      "correctAnswer": "Stronger and less likely to bend",
+      "explanation": "The sunny plants were shorter and sturdier, unlike the thin leaning ones, so they were stronger.",
+      "supportingSentence": "The sunny plants were shorter and sturdier, with deeper colour in the leaves.",
+      "skill": "vocabulary"
+    }
+  ]
+}

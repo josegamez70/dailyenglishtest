@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "adventure",
+  "target": 100,
+  "title": "A Stick in the Current",
+  "story": "The path crossed a stream by stepping stones, but overnight rain had covered them. Nadia and her cousin stood on the bank with a bus to catch in the next village. Crossing quickly was tempting, because the water looked only knee deep. Nadia tested a stick against the current and felt it pulled sideways. She remembered a ranger saying that moving water was stronger than it looked. They climbed to a higher track, which added an hour and a scratchy slope. The bus was gone when they arrived. A shopkeeper let them wait inside, and the next bus came before dark. Nadia was late, but both of them were dry.",
+  "vocabulary": [
+    {
+      "word": "overnight",
+      "definition": "During the night."
+    },
+    {
+      "word": "tempting",
+      "definition": "Attractive to try, even if it may be unwise."
+    },
+    {
+      "word": "current",
+      "definition": "The moving force of water in a stream."
+    },
+    {
+      "word": "ranger",
+      "definition": "A person who looks after a stretch of countryside."
+    },
+    {
+      "word": "slope",
+      "definition": "Ground that goes upward at an angle."
+    },
+    {
+      "word": "shopkeeper",
+      "definition": "A person who runs a shop."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What had happened to the stepping stones?",
+      "options": [
+        "Overnight rain had covered them",
+        "The shopkeeper had removed them",
+        "Nadia had carried them to the higher track",
+        "A ranger had painted them so they showed clearly"
+      ],
+      "correctAnswer": "Overnight rain had covered them",
+      "explanation": "The path used stepping stones, but overnight rain had covered them.",
+      "supportingSentence": "The path crossed a stream by stepping stones, but overnight rain had covered them.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did the stick test suggest about the stream?",
+      "options": [
+        "The water was still and safe to cross at once",
+        "The current was stronger than a quick look suggested",
+        "The stick floated across without being pulled",
+        "The stepping stones were easy to see again"
+      ],
+      "correctAnswer": "The current was stronger than a quick look suggested",
+      "explanation": "The stick is pulled sideways, which shows the current is forceful even if the stream looks shallow.",
+      "supportingSentence": "Nadia tested a stick against the current and felt it pulled sideways.",
+      "skill": "inference"
+    },
+    {
+      "question": "What did the higher track add to the journey?",
+      "options": [
+        "A shorter walk to the same bus",
+        "A bridge the ranger had just built",
+        "An hour and a scratchy slope",
+        "A dry crossing over the stepping stones"
+      ],
+      "correctAnswer": "An hour and a scratchy slope",
+      "explanation": "The higher track added an hour and a scratchy slope.",
+      "supportingSentence": "They climbed to a higher track, which added an hour and a scratchy slope.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the ending suggest about their decision?",
+      "options": [
+        "They stayed dry because they waded through quickly",
+        "The shopkeeper carried them across the stream",
+        "They caught the first bus they had hoped for",
+        "Missing that bus was safer than crossing the water"
+      ],
+      "correctAnswer": "Missing that bus was safer than crossing the water",
+      "explanation": "Nadia is late, but both of them are dry, so refusing the crossing kept them safe.",
+      "supportingSentence": "Nadia was late, but both of them were dry.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does tempting mean in this story?",
+      "options": [
+        "Impossible to attempt",
+        "Attractive to try, though it may be unsafe",
+        "Already finished before they arrived",
+        "Forbidden by the shopkeeper"
+      ],
+      "correctAnswer": "Attractive to try, though it may be unsafe",
+      "explanation": "Crossing quickly was tempting because the water looked shallow, even though that choice was risky.",
+      "supportingSentence": "Crossing quickly was tempting, because the water looked only knee deep.",
+      "skill": "vocabulary"
+    }
+  ]
+}

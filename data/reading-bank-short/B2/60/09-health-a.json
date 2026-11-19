@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "health_sports",
+  "target": 60,
+  "title": "The Ankle after Practice",
+  "story": "After practice, Noor’s ankle swelled, so the coach stopped her from joining the final drill. The team medic wrapped it and told her to rest, raise the foot, and cool it for short periods. Noor wanted to play on Saturday, but the medic said a proper check came first. She booked a morning appointment and sent the coach her updated availability.",
+  "vocabulary": [
+    {
+      "word": "swelled",
+      "definition": "Became larger, usually because of an injury."
+    },
+    {
+      "word": "drill",
+      "definition": "A repeated exercise used in training."
+    },
+    {
+      "word": "medic",
+      "definition": "A person who gives medical help, especially at a sports session."
+    },
+    {
+      "word": "wrapped",
+      "definition": "Covered and fastened with a bandage."
+    },
+    {
+      "word": "appointment",
+      "definition": "A time booked to see someone."
+    },
+    {
+      "word": "availability",
+      "definition": "The times when a person is able to take part."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did the coach keep Noor out of?",
+      "options": [
+        "The final drill",
+        "The morning appointment",
+        "Wrapping her own ankle",
+        "Sending a message"
+      ],
+      "correctAnswer": "The final drill",
+      "explanation": "The coach stopped her from joining the final drill after her ankle swelled.",
+      "supportingSentence": "After practice, Noor’s ankle swelled, so the coach stopped her from joining the final drill.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why was Noor taken out of the last part of practice?",
+      "options": [
+        "Her ankle had swollen and was not ready for more work",
+        "She had already booked the morning visit",
+        "The medic wanted her to coach the others",
+        "Saturday’s match had been cancelled"
+      ],
+      "correctAnswer": "Her ankle had swollen and was not ready for more work",
+      "explanation": "Her ankle swelled, and that is why the coach stopped her from joining the final drill.",
+      "supportingSentence": "After practice, Noor’s ankle swelled, so the coach stopped her from joining the final drill.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does the updated availability suggest?",
+      "options": [
+        "She may not play at the time first expected",
+        "She has been made captain of the team",
+        "The medic will play in her place",
+        "The swelling had gone before she left"
+      ],
+      "correctAnswer": "She may not play at the time first expected",
+      "explanation": "Sending an updated availability means her ability to play is no longer certain.",
+      "supportingSentence": "She booked a morning appointment and sent the coach her updated availability.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does swelled mean in this story?",
+      "options": [
+        "Became larger after an injury",
+        "Was covered with a bandage",
+        "Was checked by a doctor",
+        "Was cooled for a short time"
+      ],
+      "correctAnswer": "Became larger after an injury",
+      "explanation": "Noor’s ankle swelled after practice, meaning it grew larger from the injury.",
+      "supportingSentence": "After practice, Noor’s ankle swelled, so the coach stopped her from joining the final drill.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did the medic say a check had to come first?",
+      "options": [
+        "Saturday’s game should wait until the ankle is assessed",
+        "Noor should cancel the appointment",
+        "The coach should stop the whole team",
+        "Rest was no longer needed"
+      ],
+      "correctAnswer": "Saturday’s game should wait until the ankle is assessed",
+      "explanation": "Noor wanted to play on Saturday, but the medic said a proper check came first.",
+      "supportingSentence": "Noor wanted to play on Saturday, but the medic said a proper check came first.",
+      "skill": "intent"
+    }
+  ]
+}

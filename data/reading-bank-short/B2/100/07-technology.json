@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "technology",
+  "target": 100,
+  "title": "Two Plans for One Car",
+  "story": "The family shared one car and one online calendar, but the calendar had not been updated after Dad's late meeting. On Saturday morning both parents arrived in the hall with keys and different plans. Mum needed the market, and Dad needed the clinic. Their son, Elias, opened the app and saw that the meeting change was still only in Dad's email. He added the new time, then suggested a simple order. Mum could take the car first, and Dad could go after the market run. They agreed, slightly annoyed with themselves. Elias also turned on a reminder so a change in one inbox would not surprise the whole household again.",
+  "vocabulary": [
+    {
+      "word": "calendar",
+      "definition": "A shared record of times and plans."
+    },
+    {
+      "word": "updated",
+      "definition": "Changed so that the information is current."
+    },
+    {
+      "word": "clinic",
+      "definition": "A place people visit for medical care."
+    },
+    {
+      "word": "inbox",
+      "definition": "The place where new email messages arrive."
+    },
+    {
+      "word": "reminder",
+      "definition": "An alert that helps someone remember."
+    },
+    {
+      "word": "household",
+      "definition": "All the people who live in one home."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What were the two different plans that morning?",
+      "options": [
+        "Mum needed the market, and Dad needed the clinic",
+        "Both parents were going to the same clinic",
+        "Elias needed the car for a driving test",
+        "Dad was driving Mum to the market first"
+      ],
+      "correctAnswer": "Mum needed the market, and Dad needed the clinic",
+      "explanation": "Mum needed the market, and Dad needed the clinic, so their plans were not the same.",
+      "supportingSentence": "Mum needed the market, and Dad needed the clinic.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does arriving with two sets of keys suggest?",
+      "options": [
+        "The family kept a spare car in the hall",
+        "Each parent thought the one car was free for a different errand",
+        "Elias had already booked a taxi for both of them",
+        "The clinic was in the same building as the market"
+      ],
+      "correctAnswer": "Each parent thought the one car was free for a different errand",
+      "explanation": "Both parents bring keys for different plans, which shows each expected to drive the shared car.",
+      "supportingSentence": "On Saturday morning both parents arrived in the hall with keys and different plans.",
+      "skill": "inference"
+    },
+    {
+      "question": "Where was the meeting change before Elias edited the calendar?",
+      "options": [
+        "On a paper note in the hall",
+        "In Mum's shopping list",
+        "Only in Dad's email",
+        "On a sign at the clinic"
+      ],
+      "correctAnswer": "Only in Dad's email",
+      "explanation": "Elias saw that the meeting change was still only in Dad's email.",
+      "supportingSentence": "Their son, Elias, opened the app and saw that the meeting change was still only in Dad's email.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does being annoyed with themselves suggest?",
+      "options": [
+        "They were cross that Elias had found a solution",
+        "They decided the household should sell the car",
+        "They blamed the clinic for moving the meeting",
+        "They saw the mix-up as their own failure to share the news"
+      ],
+      "correctAnswer": "They saw the mix-up as their own failure to share the news",
+      "explanation": "They agree to the plan but are annoyed with themselves, which points to their own missed update.",
+      "supportingSentence": "They agreed, slightly annoyed with themselves.",
+      "skill": "inference"
+    },
+    {
+      "question": "What is an inbox in this story?",
+      "options": [
+        "The place where an email message arrives",
+        "A drawer in the hall where the keys are kept",
+        "A paper calendar stuck to the fridge",
+        "The market stall the family visits"
+      ],
+      "correctAnswer": "The place where an email message arrives",
+      "explanation": "Elias turns on a reminder so a change sitting in one inbox, meaning one email folder, will not surprise everyone.",
+      "supportingSentence": "Elias also turned on a reminder so a change in one inbox would not surprise the whole household again.",
+      "skill": "vocabulary"
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "adventure",
+  "target": 100,
+  "title": "The Rope across the Stream",
+  "story": "Nia and her uncle followed red markers up the valley. The path ended at a fast stream. A rope was tied between two trees for walkers to hold. Nia tested the first stone with her boot. It felt firm. She crossed slowly, one hand on the rope, and kept her eyes on the far bank. Her uncle came next with the packs. Halfway across he slipped, but the rope held him. They reached a dry rock and laughed with relief. On the other side the markers led into pine trees. Nia checked the map and saw the hut was close. They walked on before the light faded.",
+  "vocabulary": [
+    {
+      "word": "markers",
+      "definition": "signs that show the way"
+    },
+    {
+      "word": "stream",
+      "definition": "a small fast river"
+    },
+    {
+      "word": "rope",
+      "definition": "a strong thick cord"
+    },
+    {
+      "word": "slipped",
+      "definition": "lost footing and started to fall"
+    },
+    {
+      "word": "relief",
+      "definition": "a glad feeling after a worry ends"
+    },
+    {
+      "word": "hut",
+      "definition": "a small simple shelter"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Why was a rope tied between the trees?",
+      "options": [
+        "For walkers to hold",
+        "To keep the packs shut",
+        "To mark the pine trees",
+        "To pull the hut door"
+      ],
+      "correctAnswer": "For walkers to hold",
+      "explanation": "The rope was tied there for walkers to hold.",
+      "supportingSentence": "A rope was tied between two trees for walkers to hold.",
+      "skill": "detail"
+    },
+    {
+      "question": "What happened to Nia's uncle halfway across?",
+      "options": [
+        "He slipped",
+        "He lost the map",
+        "He turned back",
+        "He cut the rope"
+      ],
+      "correctAnswer": "He slipped",
+      "explanation": "Halfway across he slipped, but the rope held him.",
+      "supportingSentence": "Halfway across he slipped, but the rope held him.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did the map show about the hut?",
+      "options": [
+        "It was close",
+        "It was across the sea",
+        "It was closed",
+        "It was behind them"
+      ],
+      "correctAnswer": "It was close",
+      "explanation": "Nia saw that the hut was close.",
+      "supportingSentence": "Nia checked the map and saw the hut was close.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does relief mean?",
+      "options": [
+        "A glad feeling after a worry",
+        "A place on a map",
+        "A fast stream",
+        "A heavy pack"
+      ],
+      "correctAnswer": "A glad feeling after a worry",
+      "explanation": "They laughed with relief after the dangerous crossing was over.",
+      "supportingSentence": "They reached a dry rock and laughed with relief.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Nia test the first stone with her boot?",
+      "options": [
+        "To see if it was firm enough to step on",
+        "To mark the tree",
+        "To wash mud off the boot",
+        "To call her uncle back"
+      ],
+      "correctAnswer": "To see if it was firm enough to step on",
+      "explanation": "She tested the stone, and it felt firm, before she crossed.",
+      "supportingSentence": "It felt firm.",
+      "skill": "inference"
+    }
+  ]
+}

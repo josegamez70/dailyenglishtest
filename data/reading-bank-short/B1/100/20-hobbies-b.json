@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "hobbies",
+  "target": 100,
+  "title": "Clay after School",
+  "story": "Mina stayed after school for the clay club on Wednesdays. She wanted to make a cup for her father. The first cup leaned to one side and she had to start again. The leader, Paul, showed her how to keep her hands wet and steady. Mina pressed the walls until they were even. She scratched her name under the base. Paul said the cup would dry on a shelf until Friday. Then they would bake it in the kiln. Mina washed the grey clay off her fingers and smiled. A crooked cup had taught her to slow down. She could not wait to see the finished colour.",
+  "vocabulary": [
+    {
+      "word": "clay",
+      "definition": "a soft earth used for making pots"
+    },
+    {
+      "word": "leaned",
+      "definition": "tipped to one side"
+    },
+    {
+      "word": "steady",
+      "definition": "not shaking or moving about"
+    },
+    {
+      "word": "base",
+      "definition": "the bottom of an object"
+    },
+    {
+      "word": "kiln",
+      "definition": "a very hot oven for baking clay"
+    },
+    {
+      "word": "crooked",
+      "definition": "not straight"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did Mina want to make?",
+      "options": [
+        "A cup for her father",
+        "A bowl for the teacher",
+        "A plate for Paul",
+        "A tile for the hall"
+      ],
+      "correctAnswer": "A cup for her father",
+      "explanation": "She wanted to make a cup for her father.",
+      "supportingSentence": "She wanted to make a cup for her father.",
+      "skill": "detail"
+    },
+    {
+      "question": "What was wrong with the first cup?",
+      "options": [
+        "It leaned to one side",
+        "It was already baked",
+        "The clay was grey",
+        "The shelf was full"
+      ],
+      "correctAnswer": "It leaned to one side",
+      "explanation": "The first cup leaned to one side and she had to start again.",
+      "supportingSentence": "The first cup leaned to one side and she had to start again.",
+      "skill": "detail"
+    },
+    {
+      "question": "Where would the cup dry?",
+      "options": [
+        "On a shelf until Friday",
+        "In the kiln that day",
+        "At her father's office",
+        "Under the school gate"
+      ],
+      "correctAnswer": "On a shelf until Friday",
+      "explanation": "Paul said the cup would dry on a shelf until Friday.",
+      "supportingSentence": "Paul said the cup would dry on a shelf until Friday.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what is a kiln?",
+      "options": [
+        "A very hot oven for clay",
+        "A wet cloth for hands",
+        "A shelf in the club",
+        "A name scratched in clay"
+      ],
+      "correctAnswer": "A very hot oven for clay",
+      "explanation": "They would bake the cup in the kiln, so it is the hot oven.",
+      "supportingSentence": "Then they would bake it in the kiln.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Mina have to start the cup again?",
+      "options": [
+        "The first one was not straight",
+        "Paul had lost the clay",
+        "Friday had already passed",
+        "Her name would not fit"
+      ],
+      "correctAnswer": "The first one was not straight",
+      "explanation": "The first cup leaned to one side, so she began again and made the walls even.",
+      "supportingSentence": "The first cup leaned to one side and she had to start again.",
+      "skill": "inference"
+    }
+  ]
+}

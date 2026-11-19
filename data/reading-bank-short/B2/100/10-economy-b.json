@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "economy_finance",
+  "target": 100,
+  "title": "The Short Cash Tin",
+  "story": "Before the market opened, Ruth counted the float in the cash tin and found it short by several notes. She almost accused her assistant, then remembered that she had paid the baker from the same tin the night before and had forgotten to replace the money. The assistant, Sam, had arrived early and had already arranged the fruit. Ruth apologised at once and put the missing amount back from her purse. She also started a small notebook for money that left the tin outside market hours. Sam said he was glad she had checked the memory before the blame. By midmorning the notebook already had its first line.",
+  "vocabulary": [
+    {
+      "word": "float",
+      "definition": "A small amount of cash kept so a seller can give change."
+    },
+    {
+      "word": "accused",
+      "definition": "Said that someone had done something wrong."
+    },
+    {
+      "word": "assistant",
+      "definition": "A person who helps with the work."
+    },
+    {
+      "word": "purse",
+      "definition": "A small bag for carrying money."
+    },
+    {
+      "word": "notebook",
+      "definition": "A book used to write records in."
+    },
+    {
+      "word": "blame",
+      "definition": "Responsibility placed on someone for a fault."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did Ruth remember about the short tin?",
+      "options": [
+        "She had paid the baker from it and forgotten to replace the money",
+        "Sam had taken the notes home the night before",
+        "The baker had refused to sell any bread",
+        "The notebook already showed a perfect total"
+      ],
+      "correctAnswer": "She had paid the baker from it and forgotten to replace the money",
+      "explanation": "She remembered paying the baker from the tin and forgetting to put the money back.",
+      "supportingSentence": "She almost accused her assistant, then remembered that she had paid the baker from the same tin the night before and had forgotten to replace the money.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does almost accusing Sam suggest?",
+      "options": [
+        "Sam had already confessed to taking the notes",
+        "She nearly blamed him for a shortage she herself had caused",
+        "The baker had accused Ruth before the market opened",
+        "She remembered that the tin had never held any cash"
+      ],
+      "correctAnswer": "She nearly blamed him for a shortage she herself had caused",
+      "explanation": "She almost accuses her assistant and only then remembers her own forgotten repayment.",
+      "supportingSentence": "She almost accused her assistant, then remembered that she had paid the baker from the same tin the night before and had forgotten to replace the money.",
+      "skill": "inference"
+    },
+    {
+      "question": "What new record did Ruth start?",
+      "options": [
+        "A list of customers who preferred apples",
+        "A notebook for money leaving the tin outside market hours",
+        "A letter of apology to the baker",
+        "A second cash tin for Sam alone"
+      ],
+      "correctAnswer": "A notebook for money leaving the tin outside market hours",
+      "explanation": "She started a small notebook for money that left the tin outside market hours.",
+      "supportingSentence": "She also started a small notebook for money that left the tin outside market hours.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does Sam's reply suggest mattered to him?",
+      "options": [
+        "He wanted the baker blamed in front of customers",
+        "He was glad the fruit had been left in the van",
+        "He hoped Ruth would close the stall at once",
+        "He would rather be judged on the facts than suspected immediately"
+      ],
+      "correctAnswer": "He would rather be judged on the facts than suspected immediately",
+      "explanation": "He is glad she checked her memory before the blame, so a fair check matters more to him than a quick accusation.",
+      "supportingSentence": "Sam said he was glad she had checked the memory before the blame.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does float mean in this story?",
+      "options": [
+        "Cash kept in the tin for giving change",
+        "A boat used to carry fruit to market",
+        "The fruit Sam arranged before opening",
+        "A notebook of unpaid bills"
+      ],
+      "correctAnswer": "Cash kept in the tin for giving change",
+      "explanation": "Ruth counts the float in the cash tin and finds notes missing, so the float is the stall's change money.",
+      "supportingSentence": "Before the market opened, Ruth counted the float in the cash tin and found it short by several notes.",
+      "skill": "vocabulary"
+    }
+  ]
+}

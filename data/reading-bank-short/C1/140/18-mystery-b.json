@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "mystery",
+  "target": 140,
+  "title": "A Loop in the Hostel Log",
+  "story": "The hostel log said the guest in bed four had signed out at ten, yet his grey coat still hung beneath the stairs. Amina remembered a quiet man who had asked about the early bus and carried no bag. His signature matched the line above it, including a strange loop the earlier guest, a courier, used on every parcel slip. Someone had copied that signature into the next space, so the book looked complete while a person remained unaccounted for. Amina did not raise an alarm in the corridor. She locked the front door, woke the manager, and checked the room. The bed was empty, the window latch was open, and a timetable on the blanket had the dawn departure circled. A forgotten coat could be explained. A copied signature could not be dismissed as a mistake. The tidy line had turned a departure into a record somebody wanted to look finished.",
+  "vocabulary": [
+    {
+      "word": "signature",
+      "definition": "A person's name written in their own hand."
+    },
+    {
+      "word": "courier",
+      "definition": "A person whose work is delivering parcels."
+    },
+    {
+      "word": "unaccounted",
+      "definition": "Not explained by the existing record."
+    },
+    {
+      "word": "latch",
+      "definition": "A fastening that keeps a window or door shut."
+    },
+    {
+      "word": "circled",
+      "definition": "Marked by drawing a circle around it."
+    },
+    {
+      "word": "record",
+      "definition": "An official written account of what happened."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What belonging was still beneath the stairs?",
+      "options": [
+        "His grey coat",
+        "A parcel slip",
+        "The key to the front door",
+        "The marked bus timetable"
+      ],
+      "correctAnswer": "His grey coat",
+      "explanation": "His grey coat still hung beneath the stairs even though the log said he had signed out.",
+      "supportingSentence": "The hostel log said the guest in bed four had signed out at ten, yet his grey coat still hung beneath the stairs.",
+      "skill": "detail"
+    },
+    {
+      "question": "What time was circled on the timetable in the room?",
+      "options": [
+        "The dawn departure",
+        "The clerk's midday break",
+        "A train at noon",
+        "The courier's delivery hour"
+      ],
+      "correctAnswer": "The dawn departure",
+      "explanation": "The timetable on the blanket had the dawn departure circled.",
+      "supportingSentence": "The bed was empty, the window latch was open, and a timetable on the blanket had the dawn departure circled.",
+      "skill": "detail"
+    },
+    {
+      "question": "What was wrong with the log even though it looked finished?",
+      "options": [
+        "A person was still left unexplained",
+        "The courier had bought the whole hostel",
+        "Amina had written every line that morning",
+        "Bed four had been unused for a month"
+      ],
+      "correctAnswer": "A person was still left unexplained",
+      "explanation": "The copied signature made the book look complete while a person remained unaccounted for.",
+      "supportingSentence": "Someone had copied that signature into the next space, so the book looked complete while a person remained unaccounted for.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does courier mean in this passage?",
+      "options": [
+        "A person who delivers parcels",
+        "The manager on duty at night",
+        "The guest who left a grey coat",
+        "A bus that leaves at dawn"
+      ],
+      "correctAnswer": "A person who delivers parcels",
+      "explanation": "The earlier guest is a courier who used that strange loop on every parcel slip.",
+      "supportingSentence": "His signature matched the line above it, including a strange loop the earlier guest, a courier, used on every parcel slip.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer say Amina did not raise an alarm in the corridor?",
+      "options": [
+        "To show she began with a quiet, controlled check",
+        "To prove the hostel had no guests that night",
+        "To show the manager was already out in the street",
+        "To explain why the grey coat had been sold"
+      ],
+      "correctAnswer": "To show she began with a quiet, controlled check",
+      "explanation": "She does not raise an alarm, and instead locks the door, wakes the manager, and checks the room.",
+      "supportingSentence": "Amina did not raise an alarm in the corridor.",
+      "skill": "intent"
+    }
+  ]
+}

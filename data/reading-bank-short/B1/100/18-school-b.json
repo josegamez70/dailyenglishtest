@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "school_college",
+  "target": 100,
+  "title": "Office Hours before the Test",
+  "story": "The biology test was on Wednesday. Amir did not understand the chapter on cells. He wrote three questions in his notebook and went to office hours on Monday. Teacher Rahman sat with him at a side table. She asked Amir to explain the chapter in his own words. He stopped at the part about plant cells. The teacher drew a simple picture and labelled the wall, the centre, and the green parts. Amir copied it and answered his own questions aloud. Teacher Rahman told him to teach the picture to a friend that night. Amir met Noor in the common room and explained it. Amir left feeling ready.",
+  "vocabulary": [
+    {
+      "word": "biology",
+      "definition": "the school subject about living things"
+    },
+    {
+      "word": "chapter",
+      "definition": "one section of a book"
+    },
+    {
+      "word": "cells",
+      "definition": "tiny parts that living things are made of"
+    },
+    {
+      "word": "aloud",
+      "definition": "in a voice that other people can hear"
+    },
+    {
+      "word": "labelled",
+      "definition": "marked with names"
+    },
+    {
+      "word": "common",
+      "definition": "shared by the people who use it"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "When was Amir's biology test?",
+      "options": [
+        "On Wednesday",
+        "On Monday",
+        "On Friday",
+        "The following month"
+      ],
+      "correctAnswer": "On Wednesday",
+      "explanation": "The biology test was on Wednesday.",
+      "supportingSentence": "The biology test was on Wednesday.",
+      "skill": "detail"
+    },
+    {
+      "question": "Where did Amir go for help on Monday?",
+      "options": [
+        "To office hours",
+        "To the gym",
+        "Onto the bus",
+        "To Noor's house"
+      ],
+      "correctAnswer": "To office hours",
+      "explanation": "He went to office hours on Monday.",
+      "supportingSentence": "He wrote three questions in his notebook and went to office hours on Monday.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Teacher Rahman want Amir to do that night?",
+      "options": [
+        "Teach the picture to a friend",
+        "Skip the test",
+        "Copy the whole book",
+        "Close the common room"
+      ],
+      "correctAnswer": "Teach the picture to a friend",
+      "explanation": "She told him to teach the picture to a friend that night.",
+      "supportingSentence": "Teacher Rahman told him to teach the picture to a friend that night.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what are cells?",
+      "options": [
+        "Tiny parts of living things",
+        "Rooms in the school",
+        "Questions in a notebook",
+        "Friends in a class"
+      ],
+      "correctAnswer": "Tiny parts of living things",
+      "explanation": "The biology chapter is about cells, and the picture shows parts of a plant cell.",
+      "supportingSentence": "Amir did not understand the chapter on cells.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Amir leave feeling ready?",
+      "options": [
+        "He had explained the picture to a friend",
+        "The test had been cancelled",
+        "Noor was going to take the test for him",
+        "The classroom had closed for the week"
+      ],
+      "correctAnswer": "He had explained the picture to a friend",
+      "explanation": "He explained the picture to Noor, as his teacher had asked him to do.",
+      "supportingSentence": "Amir met Noor in the common room and explained it.",
+      "skill": "inference"
+    }
+  ]
+}

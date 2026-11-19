@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "school_college",
+  "target": 100,
+  "title": "Silence with a Purpose on the Form",
+  "story": "Final-year students could remain after the library doors closed, but only in the downstairs carrels, and only after signing for the sources they still needed. Harun signed, then spent the hour sorting notes instead of opening the archive boxes he had named. The librarian did not scold the mismatch. The next week she checked the after-hours list against materials requested from the desk. The privilege existed to finish research the daytime crowd made hard, not to supply a quiet room for work that could happen anywhere. Harun stayed, and he ordered the boxes first. The library would protect that silence only when the form was telling the truth.",
+  "vocabulary": [
+    {
+      "word": "carrels",
+      "definition": "Small individual study desks"
+    },
+    {
+      "word": "archive",
+      "definition": "The stored collection he was meant to open"
+    },
+    {
+      "word": "mismatch",
+      "definition": "A gap between what he signed for and what he did"
+    },
+    {
+      "word": "privilege",
+      "definition": "Special permission to stay after closing"
+    },
+    {
+      "word": "requested",
+      "definition": "Asked for from the desk"
+    },
+    {
+      "word": "silence",
+      "definition": "The quiet of the closed library"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Which part of the library stayed available after the doors shut?",
+      "options": [
+        "The downstairs carrels",
+        "The whole building, including the roof store",
+        "Only the front steps",
+        "A classroom across the street"
+      ],
+      "correctAnswer": "The downstairs carrels",
+      "explanation": "Students could remain only in the downstairs carrels.",
+      "supportingSentence": "Final-year students could remain after the library doors closed, but only in the downstairs carrels, and only after signing for the sources they still needed.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did staff begin to compare with the after-hours list?",
+      "options": [
+        "Materials requested from the desk",
+        "How many notes each student typed",
+        "How long the daytime crowd stayed",
+        "Novels read only for pleasure"
+      ],
+      "correctAnswer": "Materials requested from the desk",
+      "explanation": "She checked the list against materials requested from the desk.",
+      "supportingSentence": "The next week she checked the after-hours list against materials requested from the desk.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did sorting notes miss the point of staying late?",
+      "options": [
+        "That work did not need a closed library the way the archive did",
+        "Notes were forbidden at every desk",
+        "The librarian wanted the building empty by noon",
+        "The boxes contained no paper at all"
+      ],
+      "correctAnswer": "That work did not need a closed library the way the archive did",
+      "explanation": "The late permission is for research the daytime crowd makes hard, not for work possible anywhere.",
+      "supportingSentence": "The privilege existed to finish research the daytime crowd made hard, not to supply a quiet room for work that could happen anywhere.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does privilege refer to here?",
+      "options": [
+        "Permission to remain after closing",
+        "A fine for a false signature",
+        "The crowd that fills the daytime rooms",
+        "A box stored in the archive"
+      ],
+      "correctAnswer": "Permission to remain after closing",
+      "explanation": "The privilege is the special permission to stay after the doors closed.",
+      "supportingSentence": "The privilege existed to finish research the daytime crowd made hard, not to supply a quiet room for work that could happen anywhere.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why show Harun ordering the boxes before he did anything else?",
+      "options": [
+        "He lined the visit up with the use the library would defend",
+        "Late access had just been cancelled",
+        "His notes had been stolen from the desk",
+        "Every title on the first sheet was false"
+      ],
+      "correctAnswer": "He lined the visit up with the use the library would defend",
+      "explanation": "Ordering the boxes first shows he accepted the purpose for which the quiet would be protected.",
+      "supportingSentence": "Harun stayed, and he ordered the boxes first.",
+      "skill": "intent"
+    }
+  ]
+}

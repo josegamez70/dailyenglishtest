@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "fantasy",
+  "target": 140,
+  "title": "A Flame for a True Thing",
+  "story": "In the hill town of Bramble, a glass lantern woke at dusk only after someone had told it one true thing that day. Lila's lantern stayed dark on the evening of the harvest fair, even though she had talked for hours. She sat on the step and tried again, with an admission that she had pretended to like a song she actually disliked. The lantern flickered and then held a steady flame. Her cousin, waiting in the lane, heard her and laughed instead of taking offence. They took the lantern to the fair. At a stall, a man said his lantern had refused him all week. Lila offered no trick. She said the glass answered honesty, including the uncomfortable kind, and that a boast had never worked for her. He spoke about a mistake at work, and his lantern woke. The fair went on under many flames, each one tied to a truth.",
+  "vocabulary": [
+    {
+      "word": "dusk",
+      "definition": "The time when daylight is fading."
+    },
+    {
+      "word": "admission",
+      "definition": "A statement in which you admit the truth."
+    },
+    {
+      "word": "flickered",
+      "definition": "Shone in an unsteady way."
+    },
+    {
+      "word": "offence",
+      "definition": "Hurt feelings caused by what someone said or did."
+    },
+    {
+      "word": "honesty",
+      "definition": "The practice of telling the truth."
+    },
+    {
+      "word": "boast",
+      "definition": "Proud talk about yourself."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "When does a lantern in this town light?",
+      "options": [
+        "At the fading of day, after one true statement",
+        "At dawn, after a proud speech",
+        "Only at the harvest fair, and only for cousins",
+        "Whenever a person has talked for several hours"
+      ],
+      "correctAnswer": "At the fading of day, after one true statement",
+      "explanation": "A lantern woke at dusk only after someone had told it one true thing that day.",
+      "supportingSentence": "In the hill town of Bramble, a glass lantern woke at dusk only after someone had told it one true thing that day.",
+      "skill": "detail"
+    },
+    {
+      "question": "What truth did Lila tell on the step?",
+      "options": [
+        "She had pretended to enjoy a song she did not like",
+        "She had refused to attend the harvest fair",
+        "She had broken her cousin's lantern",
+        "She had not spoken to anyone all day"
+      ],
+      "correctAnswer": "She had pretended to enjoy a song she did not like",
+      "explanation": "Her admission was that she had pretended to like a song she actually disliked.",
+      "supportingSentence": "She sat on the step and tried again, with an admission that she had pretended to like a song she actually disliked.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does Lila's dark lantern show at the start of the evening?",
+      "options": [
+        "A long conversation was not enough to light it",
+        "The fair had banned every lantern in town",
+        "Her cousin had already taken the flame",
+        "Proud talk was the only thing the glass accepted"
+      ],
+      "correctAnswer": "A long conversation was not enough to light it",
+      "explanation": "The lantern stayed dark even though she had talked for hours, so plenty of talk was not enough.",
+      "supportingSentence": "Lila's lantern stayed dark on the evening of the harvest fair, even though she had talked for hours.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does the cousin's reaction show about their relationship?",
+      "options": [
+        "The awkward truth did not cause a quarrel between them",
+        "He was angry and refused to go any further",
+        "He had not heard what she admitted",
+        "He wanted her to speak proudly about the song"
+      ],
+      "correctAnswer": "The awkward truth did not cause a quarrel between them",
+      "explanation": "He heard her and laughed instead of taking offence, so the truth did not start a quarrel.",
+      "supportingSentence": "Her cousin, waiting in the lane, heard her and laughed instead of taking offence.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does boast mean in this story?",
+      "options": [
+        "Proud talk, rather than a plain truth",
+        "A small steady flame in glass",
+        "A quiet statement about a mistake",
+        "The hour when daylight fades"
+      ],
+      "correctAnswer": "Proud talk, rather than a plain truth",
+      "explanation": "Lila says a boast had never worked, unlike honesty, so a boast is proud talk rather than a plain truth.",
+      "supportingSentence": "She said the glass answered honesty, including the uncomfortable kind, and that a boast had never worked for her.",
+      "skill": "vocabulary"
+    }
+  ]
+}

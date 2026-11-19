@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "mystery",
+  "target": 100,
+  "title": "A Name That Was Never Entered",
+  "story": "The inn ledger listed every guest except the woman in the blue coat, though the cook remembered her soup and the stable hand remembered her horse. That night's page was full, with no scraped erasure and no crowded extra line. Cora compared the ink. Every other name had been written with the house pen, which skipped on the downstroke. The woman's name had not been written and rubbed away. It had never been entered. Someone had taken cash and kept her off the page, while the staff who served her had no reason to invent her. The puzzle was not a vanished guest. It was a deliberate omission.",
+  "vocabulary": [
+    {
+      "word": "ledger",
+      "definition": "The book in which guests are listed"
+    },
+    {
+      "word": "erasure",
+      "definition": "A rubbed-out mark where writing was removed"
+    },
+    {
+      "word": "downstroke",
+      "definition": "The downward movement of the pen"
+    },
+    {
+      "word": "entered",
+      "definition": "Written into the record"
+    },
+    {
+      "word": "omission",
+      "definition": "Something left out on purpose"
+    },
+    {
+      "word": "deliberate",
+      "definition": "Done on purpose, not by accident"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Who recalled the animal she left at the inn?",
+      "options": [
+        "The stable hand",
+        "The cook who remembered soup",
+        "A guest already written on the page",
+        "The pen that skipped"
+      ],
+      "correctAnswer": "The stable hand",
+      "explanation": "The stable hand remembered her horse.",
+      "supportingSentence": "The inn ledger listed every guest except the woman in the blue coat, though the cook remembered her soup and the stable hand remembered her horse.",
+      "skill": "detail"
+    },
+    {
+      "question": "Which habit of the house pen did Cora use?",
+      "options": [
+        "It skipped on the downstroke",
+        "It wrote only in blue ink",
+        "It erased a line without a mark",
+        "It belonged to the woman in the coat"
+      ],
+      "correctAnswer": "It skipped on the downstroke",
+      "explanation": "The house pen skipped on the downstroke.",
+      "supportingSentence": "Every other name had been written with the house pen, which skipped on the downstroke.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does a full page with no scrape imply?",
+      "options": [
+        "Her name was left out from the start, not removed later",
+        "She never came to the inn at all",
+        "The cook invented the bowl of soup",
+        "The stable hand stole the ledger"
+      ],
+      "correctAnswer": "Her name was left out from the start, not removed later",
+      "explanation": "No erasure and ink that was never applied mean the name was never written.",
+      "supportingSentence": "That night's page was full, with no scraped erasure and no crowded extra line.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does omission name in the last line?",
+      "options": [
+        "A purposeful leaving-out from the record",
+        "A horse kept in the stable overnight",
+        "A line crowded with extra names",
+        "Ink that skips on a downstroke"
+      ],
+      "correctAnswer": "A purposeful leaving-out from the record",
+      "explanation": "An omission here is the deliberate act of leaving her name off the page.",
+      "supportingSentence": "It was a deliberate omission.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why point out the lack of a scraped erasure?",
+      "options": [
+        "To rule out a name that was written and later removed",
+        "To describe the colour of her coat",
+        "To prove the cook could not write",
+        "To show the inn had no guests that night"
+      ],
+      "correctAnswer": "To rule out a name that was written and later removed",
+      "explanation": "The missing scrape closes the explanation that someone rubbed a written name away.",
+      "supportingSentence": "That night's page was full, with no scraped erasure and no crowded extra line.",
+      "skill": "intent"
+    }
+  ]
+}

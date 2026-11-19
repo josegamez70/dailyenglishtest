@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "hobbies",
+  "target": 100,
+  "title": "A Daisy from the Park",
+  "story": "Chris pressed wildflowers on country walks, partly to give the walks a purpose. He carried a heavy book, tissue paper, and a pencil for names he could only guess. At home he checked a field guide before writing a label, because a wrong name had embarrassed him once. His niece asked if the dry flowers were sad. Chris said they were a record of where he had been, and he showed her a page from a windy cliff. She pressed a park daisy herself. The hobby stayed simple, but Chris grew patient, since the flowers needed weeks before they would not curl.",
+  "vocabulary": [
+    {
+      "word": "wildflowers",
+      "definition": "Flowers growing on their own, not planted in a garden."
+    },
+    {
+      "word": "tissue",
+      "definition": "Thin soft paper."
+    },
+    {
+      "word": "label",
+      "definition": "A name written so a specimen can be identified."
+    },
+    {
+      "word": "embarrassed",
+      "definition": "Made uncomfortable by a mistake."
+    },
+    {
+      "word": "patient",
+      "definition": "Able to wait without becoming cross."
+    },
+    {
+      "word": "curl",
+      "definition": "Bend out of a flat shape."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Why did Chris check a field guide before writing a name?",
+      "options": [
+        "A wrong name had embarrassed him once",
+        "His niece had hidden the pencil",
+        "The cliff page had no flowers on it",
+        "The guide told him not to press daisies"
+      ],
+      "correctAnswer": "A wrong name had embarrassed him once",
+      "explanation": "He checked the field guide before writing a label because a wrong name had embarrassed him once.",
+      "supportingSentence": "At home he checked a field guide before writing a label, because a wrong name had embarrassed him once.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the pencil for guessed names suggest?",
+      "options": [
+        "He could already name every flower without help",
+        "He noted uncertain names instead of trusting a first guess",
+        "He used the pencil only to draw the cliff",
+        "He refused to carry any paper on the walk"
+      ],
+      "correctAnswer": "He noted uncertain names instead of trusting a first guess",
+      "explanation": "He carries a pencil for names he can only guess, so those notes are provisional until he checks them.",
+      "supportingSentence": "He carried a heavy book, tissue paper, and a pencil for names he could only guess.",
+      "skill": "inference"
+    },
+    {
+      "question": "How long did the flowers need before they would stay flat?",
+      "options": [
+        "A single afternoon",
+        "Until the next country walk",
+        "Weeks, or they might curl",
+        "Only until his niece chose a daisy"
+      ],
+      "correctAnswer": "Weeks, or they might curl",
+      "explanation": "The flowers needed weeks before they could be trusted not to curl.",
+      "supportingSentence": "The hobby stayed simple, but Chris grew patient, since the flowers needed weeks before they would not curl.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the niece's daisy suggest?",
+      "options": [
+        "She threw the heavy book away",
+        "She thought the dry flowers were only rubbish",
+        "She already owned a complete field guide",
+        "She wanted to try the hobby after hearing what the flowers meant"
+      ],
+      "correctAnswer": "She wanted to try the hobby after hearing what the flowers meant",
+      "explanation": "After he shows her a page and calls the flowers a record of places, she presses a daisy herself.",
+      "supportingSentence": "She pressed a park daisy herself.",
+      "skill": "inference"
+    },
+    {
+      "question": "What is a label in this story?",
+      "options": [
+        "The name written for a flower after it has been checked",
+        "The heavy book used to press the flowers",
+        "A wrong turning on a country walk",
+        "A page torn from a newspaper"
+      ],
+      "correctAnswer": "The name written for a flower after it has been checked",
+      "explanation": "He checks a guide before writing a label, so the label is the name he gives the flower.",
+      "supportingSentence": "At home he checked a field guide before writing a label, because a wrong name had embarrassed him once.",
+      "skill": "vocabulary"
+    }
+  ]
+}

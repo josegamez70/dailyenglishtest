@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "science",
+  "target": 100,
+  "title": "Water in Two Soil Beds",
+  "story": "The science club wanted to know why tomatoes grew better beside the shed than near the path. Lila took a sample from each bed, labelled the pots, and left them to dry on a classroom shelf. She mixed each sample with water and tested how quickly it drained. The shed soil held water for longer, while the path soil let it run through at once. A simple chart made the difference obvious. Their teacher said sunlight might still matter, so the result was not the whole story. Even so, the club decided to add compost to the path bed before the next planting.",
+  "vocabulary": [
+    {
+      "word": "sample",
+      "definition": "A small amount taken so it can be tested."
+    },
+    {
+      "word": "labelled",
+      "definition": "Marked with a name so it will not be mixed up."
+    },
+    {
+      "word": "drained",
+      "definition": "Flowed through and away."
+    },
+    {
+      "word": "chart",
+      "definition": "A simple display that makes results easy to see."
+    },
+    {
+      "word": "compost",
+      "definition": "Rotted plant material added to improve soil."
+    },
+    {
+      "word": "planting",
+      "definition": "Putting plants or seeds into the ground."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where did the tomatoes grow better?",
+      "options": [
+        "Beside the shed, compared with the path",
+        "Near the path, compared with the shed",
+        "Only in the classroom pots",
+        "On the shelf where the samples dried"
+      ],
+      "correctAnswer": "Beside the shed, compared with the path",
+      "explanation": "The club wanted to know why tomatoes grew better beside the shed than near the path.",
+      "supportingSentence": "The science club wanted to know why tomatoes grew better beside the shed than near the path.",
+      "skill": "detail"
+    },
+    {
+      "question": "How might the water test help explain the plants?",
+      "options": [
+        "Soil by the path kept water for much longer",
+        "Soil by the shed held water longer than soil by the path",
+        "Both soils let the water run through at the same speed",
+        "Neither soil allowed any water to drain"
+      ],
+      "correctAnswer": "Soil by the shed held water longer than soil by the path",
+      "explanation": "The shed soil held water longer while the path soil let it run through, which may explain the healthier plants.",
+      "supportingSentence": "The shed soil held water for longer, while the path soil let it run through at once.",
+      "skill": "inference"
+    },
+    {
+      "question": "What warning did the teacher add?",
+      "options": [
+        "The chart had been drawn incorrectly",
+        "Compost would kill the tomatoes",
+        "Sunlight might still matter, so the test was not the whole story",
+        "The samples should never have been labelled"
+      ],
+      "correctAnswer": "Sunlight might still matter, so the test was not the whole story",
+      "explanation": "The teacher said sunlight might still matter, so the drainage result was not a complete explanation.",
+      "supportingSentence": "Their teacher said sunlight might still matter, so the result was not the whole story.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the decision to add compost suggest?",
+      "options": [
+        "They thought the path bed was worth improving even without every answer",
+        "They decided sunlight was the only cause",
+        "They stopped growing tomatoes after the test",
+        "They threw both soil samples away"
+      ],
+      "correctAnswer": "They thought the path bed was worth improving even without every answer",
+      "explanation": "Even after the teacher says the result is incomplete, they still add compost, so they think a change is worth trying.",
+      "supportingSentence": "Even so, the club decided to add compost to the path bed before the next planting.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does drained mean in this story?",
+      "options": [
+        "Water passed through the soil and ran out",
+        "The pots were left on a sunny shelf",
+        "The plants were moved into the shed",
+        "The chart was coloured in two shades"
+      ],
+      "correctAnswer": "Water passed through the soil and ran out",
+      "explanation": "Lila tested how quickly the water drained, meaning how fast it flowed through each sample.",
+      "supportingSentence": "She mixed each sample with water and tested how quickly it drained.",
+      "skill": "vocabulary"
+    }
+  ]
+}

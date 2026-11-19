@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "mystery",
+  "target": 100,
+  "title": "Blue Ink on the Roster",
+  "story": "The cafe roster on the fridge had been rewritten in unfamiliar handwriting, and Jo's early shift had become a closing one. Nobody had mentioned a change. She asked the manager, who said the printed copy was different. They compared the lists. Only the fridge copy moved Jo to the evening, on a day when she had a class. A smudge on the staff pen matched the new numbers. The pen belonged to a new staff member who wanted Jo's morning shift but had been too shy to ask. The manager restored the original hours and talked quietly about asking directly.",
+  "vocabulary": [
+    {
+      "word": "roster",
+      "definition": "A list showing who works, and when."
+    },
+    {
+      "word": "unfamiliar",
+      "definition": "Not recognised; strange to the reader."
+    },
+    {
+      "word": "smudge",
+      "definition": "A dirty mark left by ink."
+    },
+    {
+      "word": "restored",
+      "definition": "Put back the way it was before."
+    },
+    {
+      "word": "shy",
+      "definition": "Nervous about speaking up."
+    },
+    {
+      "word": "directly",
+      "definition": "In an open way, without hiding the point."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What had happened to Jo's early shift on the fridge?",
+      "options": [
+        "It had been changed into a closing shift",
+        "It had been rubbed out with no replacement",
+        "It matched the printed copy exactly",
+        "It had moved to a day when she had no class"
+      ],
+      "correctAnswer": "It had been changed into a closing shift",
+      "explanation": "The rewritten fridge roster had turned Jo's early shift into a closing one.",
+      "supportingSentence": "The cafe roster on the fridge had been rewritten in unfamiliar handwriting, and Jo's early shift had become a closing one.",
+      "skill": "detail"
+    },
+    {
+      "question": "Who most likely rewrote the fridge roster?",
+      "options": [
+        "The manager, who wanted Jo to miss class",
+        "The new staff member who wanted Jo's morning shift",
+        "Jo herself, so she could sleep in",
+        "A customer who had borrowed a pen"
+      ],
+      "correctAnswer": "The new staff member who wanted Jo's morning shift",
+      "explanation": "The pen that matches the new numbers belongs to a new staff member who wanted Jo's morning shift but was too shy to ask.",
+      "supportingSentence": "The pen belonged to a new staff member who wanted Jo's morning shift but had been too shy to ask.",
+      "skill": "inference"
+    },
+    {
+      "question": "What did the manager say about the printed copy?",
+      "options": [
+        "It had been thrown away",
+        "It used the same handwriting as the fridge",
+        "It was different from the fridge list",
+        "It gave Jo the evening shift as well"
+      ],
+      "correctAnswer": "It was different from the fridge list",
+      "explanation": "The manager said the printed copy was different, so the official list had not been changed in the same way.",
+      "supportingSentence": "She asked the manager, who said the printed copy was different.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the manager's quiet talk suggest?",
+      "options": [
+        "Jo should skip class whenever the fridge says so",
+        "The handwritten list should replace the printed hours",
+        "Blue pens should be banned from the cafe",
+        "Staff should ask for a change instead of secretly rewriting the list"
+      ],
+      "correctAnswer": "Staff should ask for a change instead of secretly rewriting the list",
+      "explanation": "After restoring the hours, the manager talks about asking directly, so the real lesson is to request a change openly.",
+      "supportingSentence": "The manager restored the original hours and talked quietly about asking directly.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does smudge mean in this story?",
+      "options": [
+        "A mark of ink on the staff pen",
+        "A clean printed page",
+        "A spoken request to the manager",
+        "A shift that starts in the evening"
+      ],
+      "correctAnswer": "A mark of ink on the staff pen",
+      "explanation": "A smudge on the staff pen matched the new numbers, so the word means an ink mark.",
+      "supportingSentence": "A smudge on the staff pen matched the new numbers.",
+      "skill": "vocabulary"
+    }
+  ]
+}

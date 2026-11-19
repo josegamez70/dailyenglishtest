@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "science",
+  "target": 60,
+  "title": "Attention in the Tally",
+  "story": "Beatriz counted bird visits while knowing which feeder held the new seed, and her tallies favoured it. A colleague called the preference obvious. Beatriz disagreed, because she might have watched that feeder longer. She repeated the count with the labels hidden. The gap shrank, so the first result had measured her attention as well as the birds. Bias had to be removed, not defended.",
+  "vocabulary": [
+    {
+      "word": "feeder",
+      "definition": "A container that offers seed to birds"
+    },
+    {
+      "word": "tallies",
+      "definition": "Counts she recorded"
+    },
+    {
+      "word": "preference",
+      "definition": "A result that seemed to favour one choice"
+    },
+    {
+      "word": "labels",
+      "definition": "Marks showing which feeder was which"
+    },
+    {
+      "word": "gap",
+      "definition": "The difference between the two counts"
+    },
+    {
+      "word": "bias",
+      "definition": "A slant in the method that pushes the result"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did Beatriz know during the first count?",
+      "options": [
+        "Which feeder held the new seed",
+        "How to hide every label in advance",
+        "That the gap would shrink",
+        "That her colleague would disagree"
+      ],
+      "correctAnswer": "Which feeder held the new seed",
+      "explanation": "She counted while knowing which feeder held the new seed.",
+      "supportingSentence": "Beatriz counted bird visits while knowing which feeder held the new seed, and her tallies favoured it.",
+      "skill": "detail"
+    },
+    {
+      "question": "How was the second count different?",
+      "options": [
+        "The labels were hidden",
+        "A different kind of seed was used",
+        "The colleague made the tally",
+        "The birds were removed from the garden"
+      ],
+      "correctAnswer": "The labels were hidden",
+      "explanation": "She repeated the count with the labels hidden.",
+      "supportingSentence": "She repeated the count with the labels hidden.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did the shrinking gap imply about the first result?",
+      "options": [
+        "Part of it came from her attention, not only from the birds",
+        "The new seed had lost every effect",
+        "Hidden labels attract more visits",
+        "The colleague had swapped the feeders"
+      ],
+      "correctAnswer": "Part of it came from her attention, not only from the birds",
+      "explanation": "Once she could not see the labels the gap shrank, so the first result had measured her attention as well as the birds.",
+      "supportingSentence": "The gap shrank, so the first result had measured her attention as well as the birds.",
+      "skill": "inference"
+    },
+    {
+      "question": "What is a tally in this passage?",
+      "options": [
+        "A count of the visits she recorded",
+        "A label stuck on the new seed",
+        "A feeder placed out of sight",
+        "A colleague’s spoken opinion"
+      ],
+      "correctAnswer": "A count of the visits she recorded",
+      "explanation": "Her tallies favoured the known feeder, so a tally is the count she kept.",
+      "supportingSentence": "Beatriz counted bird visits while knowing which feeder held the new seed, and her tallies favoured it.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer include the colleague calling the preference obvious?",
+      "options": [
+        "To show the easy explanation Beatriz refused to trust",
+        "To prove the second count was unnecessary",
+        "To suggest birds cannot be counted",
+        "To argue that labels should stay visible"
+      ],
+      "correctAnswer": "To show the easy explanation Beatriz refused to trust",
+      "explanation": "The colleague’s “obvious” preference is the reading she tests instead of accepting.",
+      "supportingSentence": "A colleague called the preference obvious.",
+      "skill": "intent"
+    }
+  ]
+}

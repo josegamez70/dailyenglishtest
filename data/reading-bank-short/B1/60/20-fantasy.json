@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "fantasy",
+  "target": 60,
+  "title": "The Lantern Fox",
+  "story": "In a misty wood, a small fox carried a lantern. The light never burned the fox, and it showed hidden stones across a black stream. Lila followed the stones to a tree with a silver door. The fox set the lantern down and the door opened. Inside, books whispered their titles. Lila read one page, thanked the fox, and promised to return the lantern at dawn.",
+  "vocabulary": [
+    {
+      "word": "misty",
+      "definition": "Full of thin cloud near the ground."
+    },
+    {
+      "word": "lantern",
+      "definition": "A light inside a protective case."
+    },
+    {
+      "word": "stream",
+      "definition": "A small flow of water."
+    },
+    {
+      "word": "silver",
+      "definition": "Having a shiny grey-white colour."
+    },
+    {
+      "word": "whispered",
+      "definition": "Spoke in a very quiet voice."
+    },
+    {
+      "word": "dawn",
+      "definition": "The time when the day begins."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did the fox carry through the wood?",
+      "options": [
+        "A lantern",
+        "A silver book",
+        "A black stone",
+        "A warm blanket"
+      ],
+      "correctAnswer": "A lantern",
+      "explanation": "A small fox carried a lantern in the misty wood.",
+      "supportingSentence": "In a misty wood, a small fox carried a lantern.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did the light show across the stream?",
+      "options": [
+        "Hidden stones",
+        "The titles of the books",
+        "A village road",
+        "A silver bridge"
+      ],
+      "correctAnswer": "Hidden stones",
+      "explanation": "The light showed hidden stones across a black stream.",
+      "supportingSentence": "The light never burned the fox, and it showed hidden stones across a black stream.",
+      "skill": "detail"
+    },
+    {
+      "question": "What happened when the fox set the lantern down?",
+      "options": [
+        "The door opened",
+        "The stream dried up",
+        "The books caught fire",
+        "The wood became dark"
+      ],
+      "correctAnswer": "The door opened",
+      "explanation": "The fox set the lantern down and the door opened.",
+      "supportingSentence": "The fox set the lantern down and the door opened.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does whispered mean in this story?",
+      "options": [
+        "Spoke in a very quiet voice",
+        "Burned with a bright flame",
+        "Closed a door slowly",
+        "Followed stones across water"
+      ],
+      "correctAnswer": "Spoke in a very quiet voice",
+      "explanation": "The books whispered their titles, so they spoke those names very quietly.",
+      "supportingSentence": "Inside, books whispered their titles.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "When did Lila promise to return the lantern?",
+      "options": [
+        "At dawn",
+        "At once",
+        "Next winter",
+        "Before she entered"
+      ],
+      "correctAnswer": "At dawn",
+      "explanation": "She promised to return the lantern at dawn.",
+      "supportingSentence": "Lila read one page, thanked the fox, and promised to return the lantern at dawn.",
+      "skill": "detail"
+    }
+  ]
+}

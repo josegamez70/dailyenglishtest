@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "fantasy",
+  "target": 60,
+  "title": "Streets the Map Forgot",
+  "story": "The tower map redrew itself each dawn and forgot any street nobody had walked the previous day. Lale saw her alley fading after a week indoors. She walked it at dusk, naming each door, and the ink returned by morning. The keeper said the map recorded use, not a promise that places would remain. Unwalked streets became rumours. She added them to a short evening loop.",
+  "vocabulary": [
+    {
+      "word": "redrew",
+      "definition": "Drew again in a changed form"
+    },
+    {
+      "word": "fading",
+      "definition": "Growing faint and close to disappearing"
+    },
+    {
+      "word": "ink",
+      "definition": "The dark lines that made the streets visible"
+    },
+    {
+      "word": "keeper",
+      "definition": "The person who looked after the map"
+    },
+    {
+      "word": "rumours",
+      "definition": "Uncertain stories, no longer solid facts"
+    },
+    {
+      "word": "loop",
+      "definition": "A short route that comes back to its start"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "When did the tower map redraw itself?",
+      "options": [
+        "Each dawn",
+        "Only at dusk",
+        "After a week indoors",
+        "Whenever a rumour began"
+      ],
+      "correctAnswer": "Each dawn",
+      "explanation": "The map redrew itself each dawn.",
+      "supportingSentence": "The tower map redrew itself each dawn and forgot any street nobody had walked the previous day.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Lale do before the ink returned?",
+      "options": [
+        "She walked the alley at dusk and named the doors",
+        "She asked the keeper to promise permanence",
+        "She stayed indoors for another week",
+        "She erased the rumours by hand"
+      ],
+      "correctAnswer": "She walked the alley at dusk and named the doors",
+      "explanation": "She walked the alley at dusk, naming each door, and the ink returned by morning.",
+      "supportingSentence": "She walked it at dusk, naming each door, and the ink returned by morning.",
+      "skill": "detail"
+    },
+    {
+      "question": "What follows from the map recording use rather than promising that places remain?",
+      "options": [
+        "A place unused could disappear from the record",
+        "Every street was guaranteed to survive the dawn",
+        "Naming doors made the ink fade faster",
+        "The keeper redrew the city by hand each night"
+      ],
+      "correctAnswer": "A place unused could disappear from the record",
+      "explanation": "If the map records use and does not promise that places remain, an unused street can vanish from it.",
+      "supportingSentence": "The keeper said the map recorded use, not a promise that places would remain.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does redrew mean in the opening?",
+      "options": [
+        "Drew the map again in a new version",
+        "Walked a street at dusk",
+        "Turned a road into a spoken story",
+        "Added a loop to an evening route"
+      ],
+      "correctAnswer": "Drew the map again in a new version",
+      "explanation": "The map redrew itself, meaning it drew its streets again, dropping those nobody had walked.",
+      "supportingSentence": "The tower map redrew itself each dawn and forgot any street nobody had walked the previous day.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer include Lale’s evening loop?",
+      "options": [
+        "To show she began protecting quiet streets by using them",
+        "To prove the map stopped changing at dusk",
+        "To suggest rumours are more accurate than ink",
+        "To argue that towers should close at dawn"
+      ],
+      "correctAnswer": "To show she began protecting quiet streets by using them",
+      "explanation": "Adding the unwalked streets to her loop shows she started using them so the map would keep them.",
+      "supportingSentence": "She added them to a short evening loop.",
+      "skill": "intent"
+    }
+  ]
+}

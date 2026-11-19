@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "health_sports",
+  "target": 100,
+  "title": "An Easy Pace on the Hill",
+  "story": "After a tight calf, Omar's coach cut his evening run in half and banned hills for two weeks. Omar was annoyed, because a charity race was a month away and he hated losing fitness. The coach said fitness could return, but a tear would cost him the race entirely. Omar followed the plan, added gentle stretches, and swam on the days when running was forbidden. By the second week the calf felt looser in the morning. He still wanted to sprint, yet he waited. When the coach finally allowed a short hill, Omar kept his pace easy and finished without pain.",
+  "vocabulary": [
+    {
+      "word": "calf",
+      "definition": "The muscle at the back of the lower leg."
+    },
+    {
+      "word": "banned",
+      "definition": "Officially stopped for a period of time."
+    },
+    {
+      "word": "tear",
+      "definition": "A rip in a muscle."
+    },
+    {
+      "word": "stretches",
+      "definition": "Gentle movements that lengthen a muscle."
+    },
+    {
+      "word": "forbidden",
+      "definition": "Not allowed."
+    },
+    {
+      "word": "sprint",
+      "definition": "Run at full speed for a short burst."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What limit did the coach set after the tight calf?",
+      "options": [
+        "He cut the evening run in half and banned hills for two weeks",
+        "He cancelled the charity race that month",
+        "He told Omar to sprint up hills every day",
+        "He banned swimming as well as running"
+      ],
+      "correctAnswer": "He cut the evening run in half and banned hills for two weeks",
+      "explanation": "After the tight calf, the coach halved the evening run and banned hills for two weeks.",
+      "supportingSentence": "After a tight calf, Omar's coach cut his evening run in half and banned hills for two weeks.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the swimming suggest about Omar?",
+      "options": [
+        "He ignored the plan and ran the hills anyway",
+        "He stayed active without breaking the ban on running",
+        "He gave up every kind of exercise",
+        "He swam only after the charity race was over"
+      ],
+      "correctAnswer": "He stayed active without breaking the ban on running",
+      "explanation": "He swam on days when running was forbidden, so he kept moving while obeying the limit.",
+      "supportingSentence": "Omar followed the plan, added gentle stretches, and swam on the days when running was forbidden.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why was Omar annoyed by the new plan?",
+      "options": [
+        "The coach had cancelled the charity race",
+        "The stretches made his calf worse each morning",
+        "A charity race was near and he hated losing fitness",
+        "Swimming was banned for the whole month"
+      ],
+      "correctAnswer": "A charity race was near and he hated losing fitness",
+      "explanation": "He was annoyed because the charity race was a month away and he hated losing fitness.",
+      "supportingSentence": "Omar was annoyed, because a charity race was a month away and he hated losing fitness.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the easy pace on the hill suggest?",
+      "options": [
+        "He sprinted as soon as the hill was allowed",
+        "The coach refused to let him finish",
+        "The pain returned before he reached the top",
+        "He held back even after a harder effort was allowed"
+      ],
+      "correctAnswer": "He held back even after a harder effort was allowed",
+      "explanation": "When a short hill was finally allowed, he kept the pace easy, so he did not use the permission to sprint.",
+      "supportingSentence": "When the coach finally allowed a short hill, Omar kept his pace easy and finished without pain.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does forbidden mean in this story?",
+      "options": [
+        "Not allowed under the coach's plan",
+        "Especially enjoyable for a runner",
+        "Done at full speed",
+        "Certain to heal a muscle overnight"
+      ],
+      "correctAnswer": "Not allowed under the coach's plan",
+      "explanation": "Running was forbidden on some days, which means the plan did not allow it then.",
+      "supportingSentence": "Omar followed the plan, added gentle stretches, and swam on the days when running was forbidden.",
+      "skill": "vocabulary"
+    }
+  ]
+}

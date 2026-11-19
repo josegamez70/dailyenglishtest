@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "travel",
+  "target": 60,
+  "title": "A Change of Platform",
+  "story": "Leila arrived at the station with ten minutes to spare. A screen said her train would leave from platform four, not platform two. She walked through the tunnel and found the right stairs. Her carriage was near the front. She showed her ticket, sat by the window, and sent a message to her uncle. The train left on time, and she watched the fields go by.",
+  "vocabulary": [
+    {
+      "word": "spare",
+      "definition": "Extra time before you must leave."
+    },
+    {
+      "word": "platform",
+      "definition": "The place beside the tracks where you board."
+    },
+    {
+      "word": "tunnel",
+      "definition": "A covered path that goes underground."
+    },
+    {
+      "word": "carriage",
+      "definition": "A section of a train where people sit."
+    },
+    {
+      "word": "ticket",
+      "definition": "A paper or pass that lets you travel."
+    },
+    {
+      "word": "fields",
+      "definition": "Open areas of land, often with crops."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How much time did Leila have when she arrived?",
+      "options": [
+        "Ten minutes",
+        "Two minutes",
+        "Four minutes",
+        "No time at all"
+      ],
+      "correctAnswer": "Ten minutes",
+      "explanation": "She arrived at the station with ten minutes to spare.",
+      "supportingSentence": "Leila arrived at the station with ten minutes to spare.",
+      "skill": "detail"
+    },
+    {
+      "question": "Which platform did the screen give for her train?",
+      "options": [
+        "Platform four",
+        "Platform two",
+        "The ticket office",
+        "The open fields"
+      ],
+      "correctAnswer": "Platform four",
+      "explanation": "The screen said the train would leave from platform four.",
+      "supportingSentence": "A screen said her train would leave from platform four, not platform two.",
+      "skill": "detail"
+    },
+    {
+      "question": "Where did Leila sit in the carriage?",
+      "options": [
+        "By the window",
+        "Beside her uncle",
+        "In the tunnel",
+        "At the back of the station"
+      ],
+      "correctAnswer": "By the window",
+      "explanation": "She sat by the window after showing her ticket.",
+      "supportingSentence": "She showed her ticket, sat by the window, and sent a message to her uncle.",
+      "skill": "detail"
+    },
+    {
+      "question": "What is a carriage in this story?",
+      "options": [
+        "A part of the train where people sit",
+        "A road under the station",
+        "A paper that lets you travel",
+        "A message sent to family"
+      ],
+      "correctAnswer": "A part of the train where people sit",
+      "explanation": "Her carriage was near the front of the train, where passengers sit.",
+      "supportingSentence": "Her carriage was near the front.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Leila walk through the tunnel?",
+      "options": [
+        "She needed to reach the right platform",
+        "She wanted to buy a new ticket",
+        "Her uncle was waiting there",
+        "The train had already left"
+      ],
+      "correctAnswer": "She needed to reach the right platform",
+      "explanation": "The platform had changed, and she walked through the tunnel to the right stairs.",
+      "supportingSentence": "She walked through the tunnel and found the right stairs.",
+      "skill": "inference"
+    }
+  ]
+}

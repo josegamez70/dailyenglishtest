@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "travel",
+  "target": 140,
+  "title": "As Far as the Barrier",
+  "story": "The airport bus left Elena at the edge of the old town, where the streets rose steeply towards her hotel. Her suitcase had a broken wheel, and each step on the cobbles made a dull knock. A taxi waited by the fountain, but the driver warned that the upper road was closed for a market and that cars had to stop at a barrier. She looked at the hill and asked for a ride as far as that barrier, plus a route that avoided the steps. The driver agreed, carried the suitcase to the barrier, and did not add a fee. A hotel porter had seen the taxi stop and came down with a small cart. Elena reached the desk out of breath but before check-in closed. She wrote the closed road in her notebook so she would leave extra time on the morning she departed.",
+  "vocabulary": [
+    {
+      "word": "steeply",
+      "definition": "At a sharp slope, rising or falling quickly."
+    },
+    {
+      "word": "cobbles",
+      "definition": "Rounded stones used to surface an old street."
+    },
+    {
+      "word": "barrier",
+      "definition": "Something placed to stop people or vehicles passing."
+    },
+    {
+      "word": "porter",
+      "definition": "A hotel worker who helps carry luggage."
+    },
+    {
+      "word": "suitcase",
+      "definition": "A travelling bag with a handle."
+    },
+    {
+      "word": "departed",
+      "definition": "Left at the start of a journey."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Why could cars not reach the hotel door?",
+      "options": [
+        "The upper road was closed and they had to stop at a barrier",
+        "The airport bus had blocked the fountain all day",
+        "The porter had locked every street in the town",
+        "Elena refused to ride with any driver"
+      ],
+      "correctAnswer": "The upper road was closed and they had to stop at a barrier",
+      "explanation": "The driver warned that the upper road was closed for a market and cars had to stop at a barrier.",
+      "supportingSentence": "A taxi waited by the fountain, but the driver warned that the upper road was closed for a market and that cars had to stop at a barrier.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did the driver do when they reached the stopping point?",
+      "options": [
+        "He carried the suitcase there and charged no extra fee",
+        "He sent Elena back to the airport",
+        "He added a market fee to the ride",
+        "He asked the desk to close early"
+      ],
+      "correctAnswer": "He carried the suitcase there and charged no extra fee",
+      "explanation": "He carried the suitcase to the barrier and did not add a fee.",
+      "supportingSentence": "The driver agreed, carried the suitcase to the barrier, and did not add a fee.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why would walking the whole way have been difficult?",
+      "options": [
+        "The bag's wheel was broken and the stone street was rough",
+        "The airport bus had already taken the suitcase",
+        "The hotel desk had closed before she landed",
+        "The market was giving away free wheels"
+      ],
+      "correctAnswer": "The bag's wheel was broken and the stone street was rough",
+      "explanation": "A broken wheel and a knock on every cobble show that dragging the bag up the hill would be hard.",
+      "supportingSentence": "Her suitcase had a broken wheel, and each step on the cobbles made a dull knock.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why did the porter come down the hill?",
+      "options": [
+        "He had seen the taxi stop and brought a cart for the bag",
+        "He was closing the road for the market",
+        "He wanted Elena to return to the airport",
+        "He had come to collect an extra fee"
+      ],
+      "correctAnswer": "He had seen the taxi stop and brought a cart for the bag",
+      "explanation": "He had seen the taxi stop and came down with a cart, so he was coming to help with the luggage.",
+      "supportingSentence": "A hotel porter had seen the taxi stop and came down with a small cart.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does departed mean in this story?",
+      "options": [
+        "Left on the next part of the journey",
+        "Closed the hotel desk for the night",
+        "Paid a fee at the market barrier",
+        "Broke the wheel of a travelling bag"
+      ],
+      "correctAnswer": "Left on the next part of the journey",
+      "explanation": "She noted the closed road so she would allow extra time on the morning she departed, meaning when she left.",
+      "supportingSentence": "She wrote the closed road in her notebook so she would leave extra time on the morning she departed.",
+      "skill": "vocabulary"
+    }
+  ]
+}

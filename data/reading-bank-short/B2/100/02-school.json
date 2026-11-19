@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "school_college",
+  "target": 100,
+  "title": "A Slot before the Shift",
+  "story": "Soraya arrived ten minutes after her tutorial had ended, still holding the essay she hoped to discuss. The office door was shut, and a note said the hour was over. She felt embarrassed, because a shift at the campus cafe had caused the delay. The next morning she emailed the tutor, explained the clash, and asked for another time. He replied that honesty was useful and offered a Thursday slot before her shift. Soraya accepted at once and set a phone reminder. At the new meeting she spoke more clearly, since she no longer had to apologise for being late.",
+  "vocabulary": [
+    {
+      "word": "tutorial",
+      "definition": "A meeting in which a tutor discusses your work."
+    },
+    {
+      "word": "embarrassed",
+      "definition": "Uncomfortable because you feel you have slipped up."
+    },
+    {
+      "word": "clash",
+      "definition": "A case where two events fall at the same time."
+    },
+    {
+      "word": "honesty",
+      "definition": "The practice of telling the truth."
+    },
+    {
+      "word": "reminder",
+      "definition": "Something that helps you remember a task."
+    },
+    {
+      "word": "apologise",
+      "definition": "To say that you are sorry."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Why was Soraya late for the tutorial?",
+      "options": [
+        "A shift at the campus cafe had delayed her",
+        "The tutor had cancelled the hour by email",
+        "She had left the essay on the bus",
+        "The office had moved to another building"
+      ],
+      "correctAnswer": "A shift at the campus cafe had delayed her",
+      "explanation": "She felt embarrassed because a shift at the campus cafe had caused the delay.",
+      "supportingSentence": "She felt embarrassed, because a shift at the campus cafe had caused the delay.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the tutor's reply suggest about him?",
+      "options": [
+        "He refused to teach any student with a job",
+        "He would adapt the time after an honest explanation",
+        "He wanted the essay thrown away unread",
+        "He moved the whole course into the cafe"
+      ],
+      "correctAnswer": "He would adapt the time after an honest explanation",
+      "explanation": "He calls her honesty useful and offers a slot before the shift, so he is willing to adapt.",
+      "supportingSentence": "He replied that honesty was useful and offered a Thursday slot before her shift.",
+      "skill": "inference"
+    },
+    {
+      "question": "What did Soraya do just after accepting the new slot?",
+      "options": [
+        "She asked the cafe to close for the day",
+        "She stopped attending tutorials",
+        "She set a reminder on her phone",
+        "She gave the essay to a classmate"
+      ],
+      "correctAnswer": "She set a reminder on her phone",
+      "explanation": "As soon as she accepted the Thursday slot, she set a phone reminder.",
+      "supportingSentence": "Soraya accepted at once and set a phone reminder.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the morning email suggest about Soraya?",
+      "options": [
+        "She wanted another chance rather than dropping the matter",
+        "She blamed the tutor for locking the door",
+        "She asked for the course to be cancelled",
+        "She refused to mention the cafe shift"
+      ],
+      "correctAnswer": "She wanted another chance rather than dropping the matter",
+      "explanation": "She writes to explain the clash and ask for another time, so she is trying to repair the missed meeting.",
+      "supportingSentence": "The next morning she emailed the tutor, explained the clash, and asked for another time.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does clash mean in this story?",
+      "options": [
+        "A low mark on the essay",
+        "A loud argument in the office",
+        "A broken lock on the tutorial door",
+        "Two commitments that fall at the same time"
+      ],
+      "correctAnswer": "Two commitments that fall at the same time",
+      "explanation": "The clash is her cafe shift overlapping the tutorial, which is why she asks for a new time.",
+      "supportingSentence": "The next morning she emailed the tutor, explained the clash, and asked for another time.",
+      "skill": "vocabulary"
+    }
+  ]
+}

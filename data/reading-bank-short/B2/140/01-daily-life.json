@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "daily life",
+  "target": 140,
+  "title": "The Morning Bathroom Timer",
+  "story": "Every weekday the flat was loud between seven and eight, because three people needed the bathroom before work. Lena showered first, her father shaved while the kettle boiled, and her younger brother complained that the mirror was always fogged. One Tuesday the brother missed his bus after waiting outside the door for twelve minutes. Lena suggested a simple limit. Each person would have ten minutes, and a kitchen timer would sit on the shelf where everyone could see it. Her father worried that a timer would make the morning feel like a race. Lena said the point was to stop guessing and to leave the room before the next person knocked. The brother still sang, but he came out when the bell rang, and he wiped the mirror with the towel on the hook. Nobody missed a bus. By Friday the timer felt ordinary, and the hallway was quiet enough for a goodbye.",
+  "vocabulary": [
+    {
+      "word": "fogged",
+      "definition": "Covered with steam and hard to see through."
+    },
+    {
+      "word": "complained",
+      "definition": "Said that you are unhappy about something."
+    },
+    {
+      "word": "timer",
+      "definition": "A tool that marks when a set time has ended."
+    },
+    {
+      "word": "guessing",
+      "definition": "Deciding something without a clear sign."
+    },
+    {
+      "word": "ordinary",
+      "definition": "Normal, and no longer unusual."
+    },
+    {
+      "word": "hallway",
+      "definition": "The passage inside a home between the rooms."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What happened to the brother on Tuesday morning?",
+      "options": [
+        "He missed the bus after waiting outside the door",
+        "He broke the shelf where the kettle was kept",
+        "He locked the bathroom and left the flat early",
+        "He wiped the mirror and caught the bus at once"
+      ],
+      "correctAnswer": "He missed the bus after waiting outside the door",
+      "explanation": "He waited outside the door for twelve minutes and missed his bus.",
+      "supportingSentence": "One Tuesday the brother missed his bus after waiting outside the door for twelve minutes.",
+      "skill": "detail"
+    },
+    {
+      "question": "What limit did Lena want for the bathroom?",
+      "options": [
+        "Ten minutes each, with the timer left in plain sight",
+        "One shared shower after everybody had caught the bus",
+        "As long as the father wanted, with no bell at all",
+        "Twenty minutes for the brother and none for Lena"
+      ],
+      "correctAnswer": "Ten minutes each, with the timer left in plain sight",
+      "explanation": "Each person would have ten minutes, and the timer would sit where everyone could see it.",
+      "supportingSentence": "Each person would have ten minutes, and a kitchen timer would sit on the shelf where everyone could see it.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why was the bathroom mirror a problem for the brother?",
+      "options": [
+        "Steam from the earlier shower was still covering the glass",
+        "He preferred to shave before the kettle had boiled",
+        "The towel on the hook had cracked the glass",
+        "The kitchen timer was stored in front of the mirror"
+      ],
+      "correctAnswer": "Steam from the earlier shower was still covering the glass",
+      "explanation": "Lena showered first, and her brother complained that the mirror was always fogged.",
+      "supportingSentence": "Lena showered first, her father shaved while the kettle boiled, and her younger brother complained that the mirror was always fogged.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does Friday morning show about the new limit?",
+      "options": [
+        "It had settled in, and the family could still say goodbye",
+        "It had forced everyone to stop speaking in the flat",
+        "It had made the brother miss the bus again",
+        "It had moved every shower to the evening after work"
+      ],
+      "correctAnswer": "It had settled in, and the family could still say goodbye",
+      "explanation": "The timer felt ordinary, and the hallway was quiet enough for a goodbye.",
+      "supportingSentence": "By Friday the timer felt ordinary, and the hallway was quiet enough for a goodbye.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does fogged mean in this story?",
+      "options": [
+        "Covered with steam so the glass was hard to see in",
+        "Marked with a list of morning jobs",
+        "Left open so the bus would not be missed",
+        "Wiped dry and hung back on the hook"
+      ],
+      "correctAnswer": "Covered with steam so the glass was hard to see in",
+      "explanation": "The brother complained that the mirror was fogged after the shower, so the glass was covered with steam.",
+      "supportingSentence": "Lena showered first, her father shaved while the kettle boiled, and her younger brother complained that the mirror was always fogged.",
+      "skill": "vocabulary"
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "adventure",
+  "target": 60,
+  "title": "A Torch on the Path",
+  "story": "The cliff path was narrow, and the sun was low. Petra and her cousin shared one torch. They marked each fork with stones so they could return. Near the top the wind grew strong and the torch flickered. They crouched behind a rock until the gust passed. Then they reached the viewpoint and saw the sea. They started down before the light was gone.",
+  "vocabulary": [
+    {
+      "word": "narrow",
+      "definition": "Not wide."
+    },
+    {
+      "word": "torch",
+      "definition": "A light you can carry."
+    },
+    {
+      "word": "fork",
+      "definition": "A place where a path splits into two."
+    },
+    {
+      "word": "flickered",
+      "definition": "Shone in an unsteady way."
+    },
+    {
+      "word": "crouched",
+      "definition": "Bent low with the body close to the ground."
+    },
+    {
+      "word": "gust",
+      "definition": "A sudden strong rush of wind."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What was the cliff path like?",
+      "options": [
+        "It was narrow",
+        "It was wide and flat",
+        "It was closed",
+        "It ran under the sea"
+      ],
+      "correctAnswer": "It was narrow",
+      "explanation": "The cliff path was narrow, and the sun was low.",
+      "supportingSentence": "The cliff path was narrow, and the sun was low.",
+      "skill": "detail"
+    },
+    {
+      "question": "How did they mark each fork?",
+      "options": [
+        "With stones",
+        "With paint",
+        "With the torch",
+        "With paper signs"
+      ],
+      "correctAnswer": "With stones",
+      "explanation": "They marked each fork with stones so they could return.",
+      "supportingSentence": "They marked each fork with stones so they could return.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did they do until the gust passed?",
+      "options": [
+        "Crouched behind a rock",
+        "Ran down to the sea",
+        "Switched the torch off",
+        "Climbed a tree"
+      ],
+      "correctAnswer": "Crouched behind a rock",
+      "explanation": "They crouched behind a rock until the gust passed.",
+      "supportingSentence": "They crouched behind a rock until the gust passed.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does fork mean in this story?",
+      "options": [
+        "A place where a path splits",
+        "A tool used for eating",
+        "A sudden blast of wind",
+        "A light you can carry"
+      ],
+      "correctAnswer": "A place where a path splits",
+      "explanation": "They marked each fork so they could choose the right path on the way back.",
+      "supportingSentence": "They marked each fork with stones so they could return.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "When did they start back down?",
+      "options": [
+        "Before the light was gone",
+        "At midday",
+        "After midnight",
+        "When the torch broke"
+      ],
+      "correctAnswer": "Before the light was gone",
+      "explanation": "They started down before the light was gone.",
+      "supportingSentence": "They started down before the light was gone.",
+      "skill": "detail"
+    }
+  ]
+}

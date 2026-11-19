@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "mystery",
+  "target": 140,
+  "title": "A Lamp on a Timer",
+  "story": "The town archive closed at five, yet the caretaker saw a light in the reading room well after that. He checked the outside first and found every window latch shut. The front door was locked, and the alarm had not sounded. Inside, the light came from a desk lamp, and a page of notes sat under a glass weight. Nobody was among the stacks. He nearly called the police. Then he saw that the plug ran to a small timer on the floor. A researcher had asked, in writing, for the lamp to come on so a damp page would not sit in the dark. The caretaker found that request in the book, signed and dated the same day. The timer had failed to end its cycle, so he switched the lamp off and noted that the device needed replacing. The room had been empty, and the surprising light had a written reason.",
+  "vocabulary": [
+    {
+      "word": "caretaker",
+      "definition": "A person who looks after a building."
+    },
+    {
+      "word": "latch",
+      "definition": "A fastening that keeps a window or door shut."
+    },
+    {
+      "word": "stacks",
+      "definition": "The shelves where records or books are kept."
+    },
+    {
+      "word": "timer",
+      "definition": "A device that switches something at a set time."
+    },
+    {
+      "word": "cycle",
+      "definition": "One complete run of a timed action."
+    },
+    {
+      "word": "damp",
+      "definition": "Slightly wet."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did the caretaker find on the outside of the archive?",
+      "options": [
+        "Every window fastening was shut",
+        "A researcher climbing through a window",
+        "The alarm sounding at the door",
+        "The desk lamp lying in the street"
+      ],
+      "correctAnswer": "Every window fastening was shut",
+      "explanation": "He checked outside and found every window latch shut.",
+      "supportingSentence": "He checked the outside first and found every window latch shut.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why had someone asked for the lamp to come on?",
+      "options": [
+        "A slightly wet page should not be left in the dark",
+        "The police needed light in the shelves",
+        "The caretaker wanted to read after closing",
+        "The device was meant to fail that night"
+      ],
+      "correctAnswer": "A slightly wet page should not be left in the dark",
+      "explanation": "A researcher asked for the lamp so a damp page would not sit in the dark.",
+      "supportingSentence": "A researcher had asked, in writing, for the lamp to come on so a damp page would not sit in the dark.",
+      "skill": "detail"
+    },
+    {
+      "question": "What do the locked door and the quiet alarm suggest?",
+      "options": [
+        "Nobody had forced a way into the building",
+        "The police were already among the shelves",
+        "The caretaker had left the front door open",
+        "A crowd had just set the alarm off"
+      ],
+      "correctAnswer": "Nobody had forced a way into the building",
+      "explanation": "The front door was locked and the alarm had not sounded, so there was no sign of a break-in.",
+      "supportingSentence": "The front door was locked, and the alarm had not sounded.",
+      "skill": "inference"
+    },
+    {
+      "question": "What explains the light after closing time?",
+      "options": [
+        "The room was empty and a written request accounted for the lamp",
+        "A stranger was still hiding among the shelves",
+        "The lamp had been on since the building opened",
+        "The caretaker had invented the request that night"
+      ],
+      "correctAnswer": "The room was empty and a written request accounted for the lamp",
+      "explanation": "The room had been empty, and the surprising light had a written reason.",
+      "supportingSentence": "The room had been empty, and the surprising light had a written reason.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does damp mean in this story?",
+      "options": [
+        "Slightly wet",
+        "Locked from the outside",
+        "Switched off by a device",
+        "Stored on a high shelf"
+      ],
+      "correctAnswer": "Slightly wet",
+      "explanation": "The lamp was requested for a damp page, meaning a page that was slightly wet.",
+      "supportingSentence": "A researcher had asked, in writing, for the lamp to come on so a damp page would not sit in the dark.",
+      "skill": "vocabulary"
+    }
+  ]
+}

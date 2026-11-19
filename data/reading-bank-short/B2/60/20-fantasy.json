@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "fantasy",
+  "target": 60,
+  "title": "The Unlit Lantern Gate",
+  "story": "The stone gate in the orchard opened only at dusk, and only when someone arrived with an unlit lantern. Mira carried hers carefully, because a flame would keep the gate shut. On the far side she found a garden where the fruit glowed faintly and a path repaired itself behind her. She picked one pear, left a ribbon, and stepped back before the stones closed.",
+  "vocabulary": [
+    {
+      "word": "orchard",
+      "definition": "A piece of land where fruit trees grow."
+    },
+    {
+      "word": "dusk",
+      "definition": "The time when daylight is fading."
+    },
+    {
+      "word": "unlit",
+      "definition": "Not burning, with no flame."
+    },
+    {
+      "word": "flame",
+      "definition": "The bright burning part of a fire."
+    },
+    {
+      "word": "faintly",
+      "definition": "In a way that is soft and weak."
+    },
+    {
+      "word": "repaired",
+      "definition": "Mended so that it was whole again."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "At what time of day could the stone gate open?",
+      "options": [
+        "Only at dusk",
+        "Only at dawn",
+        "Whenever a flame was near",
+        "After the stones had closed"
+      ],
+      "correctAnswer": "Only at dusk",
+      "explanation": "The gate opened only at dusk, and only for someone with an unlit lantern.",
+      "supportingSentence": "The stone gate in the orchard opened only at dusk, and only when someone arrived with an unlit lantern.",
+      "skill": "detail"
+    },
+    {
+      "question": "What was Mira avoiding by carrying the lantern so carefully?",
+      "options": [
+        "A flame that would stop the gate from opening",
+        "Fruit that would stop glowing if she hurried",
+        "A path that would push her back outside",
+        "A ribbon that would close the stones early"
+      ],
+      "correctAnswer": "A flame that would stop the gate from opening",
+      "explanation": "She carried the lantern carefully because a flame would keep the gate shut.",
+      "supportingSentence": "Mira carried hers carefully, because a flame would keep the gate shut.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why did Mira step back when she did?",
+      "options": [
+        "She needed to leave before the gate shut her in",
+        "She wanted to pick a second pear",
+        "She had forgotten to bring the ribbon",
+        "She wanted a flame to light the garden"
+      ],
+      "correctAnswer": "She needed to leave before the gate shut her in",
+      "explanation": "She stepped back before the stones closed, so she would not be shut on the far side.",
+      "supportingSentence": "She picked one pear, left a ribbon, and stepped back before the stones closed.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does unlit mean in this story?",
+      "options": [
+        "Not burning",
+        "Closed until morning",
+        "Shining with a strong light",
+        "Carried in both hands"
+      ],
+      "correctAnswer": "Not burning",
+      "explanation": "An unlit lantern has no flame, which is the condition the gate requires.",
+      "supportingSentence": "The stone gate in the orchard opened only at dusk, and only when someone arrived with an unlit lantern.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Mira arrive with an unlit lantern?",
+      "options": [
+        "She was meeting the condition that opens the gate",
+        "She was trying to set the orchard alight",
+        "She wanted the stones to close at once",
+        "She hoped to hide the glowing fruit"
+      ],
+      "correctAnswer": "She was meeting the condition that opens the gate",
+      "explanation": "The gate opens only for someone who arrives with an unlit lantern, and that is what she carries.",
+      "supportingSentence": "The stone gate in the orchard opened only at dusk, and only when someone arrived with an unlit lantern.",
+      "skill": "intent"
+    }
+  ]
+}

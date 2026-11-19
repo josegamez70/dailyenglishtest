@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "mystery",
+  "target": 60,
+  "title": "The Blue Glove",
+  "story": "Someone left a blue glove on the classroom radiator. It was not there before lunch. Nia asked, but nobody claimed it. She noticed green paint on the thumb. The art group had painted posters that morning, and only Jules wore green paint. Nia found him in the hall. He checked his bag and saw one glove was missing. He thanked her and pulled the pair on.",
+  "vocabulary": [
+    {
+      "word": "radiator",
+      "definition": "A heater fixed to a wall."
+    },
+    {
+      "word": "claimed",
+      "definition": "Said that something belongs to you."
+    },
+    {
+      "word": "thumb",
+      "definition": "The short thick finger on a hand."
+    },
+    {
+      "word": "posters",
+      "definition": "Large sheets with pictures or words."
+    },
+    {
+      "word": "missing",
+      "definition": "Not in the place where it should be."
+    },
+    {
+      "word": "pair",
+      "definition": "Two matching things used together."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where was the blue glove left?",
+      "options": [
+        "On the classroom radiator",
+        "In Jules's bag",
+        "On an art poster",
+        "In the lunch hall"
+      ],
+      "correctAnswer": "On the classroom radiator",
+      "explanation": "Someone left a blue glove on the classroom radiator.",
+      "supportingSentence": "Someone left a blue glove on the classroom radiator.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Nia notice on the thumb?",
+      "options": [
+        "Green paint",
+        "A written name",
+        "Red ink",
+        "Blue thread"
+      ],
+      "correctAnswer": "Green paint",
+      "explanation": "She noticed green paint on the thumb.",
+      "supportingSentence": "She noticed green paint on the thumb.",
+      "skill": "detail"
+    },
+    {
+      "question": "Who wore green paint that morning?",
+      "options": [
+        "Only Jules",
+        "Every art student",
+        "Nobody in the class",
+        "Only Nia"
+      ],
+      "correctAnswer": "Only Jules",
+      "explanation": "Only Jules wore green paint that morning.",
+      "supportingSentence": "The art group had painted posters that morning, and only Jules wore green paint.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does claimed mean in this story?",
+      "options": [
+        "Said that something was theirs",
+        "Painted a poster green",
+        "Lost one glove from a pair",
+        "Put an object on a heater"
+      ],
+      "correctAnswer": "Said that something was theirs",
+      "explanation": "Nobody claimed the glove, so nobody said it was theirs.",
+      "supportingSentence": "Nia asked, but nobody claimed it.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Nia look for Jules?",
+      "options": [
+        "The paint suggested the glove was his",
+        "He had asked her to check the hall",
+        "The radiator belonged to him",
+        "Lunch was still in his bag"
+      ],
+      "correctAnswer": "The paint suggested the glove was his",
+      "explanation": "Only Jules wore the same green paint that Nia found on the glove.",
+      "supportingSentence": "The art group had painted posters that morning, and only Jules wore green paint.",
+      "skill": "inference"
+    }
+  ]
+}

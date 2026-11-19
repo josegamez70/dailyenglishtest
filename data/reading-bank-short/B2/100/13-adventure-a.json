@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "adventure",
+  "target": 100,
+  "title": "Around the Fallen Tree",
+  "story": "The walking club meant to meet their minibus at the valley car park at four. A fallen tree blocked the direct lane, and the sky was dim. Their guide, Nia, chose a farm track above the blockage. It was longer, but the ground was firm. Two members wanted to climb the tree, because the car park looked close. Nia pointed at the wet branches and the slope beyond them. A slip would leave someone below the lane with no easy way back. The group took the farm track in single file. They arrived muddy and twenty minutes late. The driver had waited, and nobody had to be rescued.",
+  "vocabulary": [
+    {
+      "word": "minibus",
+      "definition": "A small bus used to carry a group."
+    },
+    {
+      "word": "dim",
+      "definition": "Not bright."
+    },
+    {
+      "word": "blockage",
+      "definition": "Something that stops people getting through."
+    },
+    {
+      "word": "slope",
+      "definition": "Ground that rises or falls at an angle."
+    },
+    {
+      "word": "guide",
+      "definition": "The person leading the group."
+    },
+    {
+      "word": "rescued",
+      "definition": "Saved from danger."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where had the club agreed to meet the minibus?",
+      "options": [
+        "At the valley car park at four",
+        "On the farm track above the tree",
+        "Below the lane, beside the slope",
+        "At the start of the walk at noon"
+      ],
+      "correctAnswer": "At the valley car park at four",
+      "explanation": "The walking club meant to meet their minibus at the valley car park at four.",
+      "supportingSentence": "The walking club meant to meet their minibus at the valley car park at four.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the warning about a slip suggest was most important to Nia?",
+      "options": [
+        "Arriving earlier than the minibus",
+        "Keeping people from a fall, ahead of saving time",
+        "Proving that the farm track was blocked too",
+        "Getting someone rescued from under the tree"
+      ],
+      "correctAnswer": "Keeping people from a fall, ahead of saving time",
+      "explanation": "She points out that a slip would leave someone below the lane, so safety outweighs the shorter climb.",
+      "supportingSentence": "A slip would leave someone below the lane with no easy way back.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why did two members want to climb the tree?",
+      "options": [
+        "The driver had told them to",
+        "The farm track was under water",
+        "The car park looked close",
+        "Nia had lost the map"
+      ],
+      "correctAnswer": "The car park looked close",
+      "explanation": "Two members wanted to climb the tree because the car park looked close.",
+      "supportingSentence": "Two members wanted to climb the tree, because the car park looked close.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the ending suggest about the longer route?",
+      "options": [
+        "The driver left before the group arrived",
+        "A walker had to be rescued from the tree",
+        "The farm track was shorter than the blocked lane",
+        "The extra time was worth it because nobody needed rescuing"
+      ],
+      "correctAnswer": "The extra time was worth it because nobody needed rescuing",
+      "explanation": "They arrive late, the driver has waited, and nobody has to be rescued, so the safer route did its job.",
+      "supportingSentence": "The driver had waited, and nobody had to be rescued.",
+      "skill": "inference"
+    },
+    {
+      "question": "What is the blockage in this story?",
+      "options": [
+        "The fallen tree that shut the direct lane",
+        "The minibus that arrived too early",
+        "A river across the farm track",
+        "Fog that hid the valley car park"
+      ],
+      "correctAnswer": "The fallen tree that shut the direct lane",
+      "explanation": "A fallen tree blocks the direct lane, and Nia chooses a track above that blockage.",
+      "supportingSentence": "Their guide, Nia, chose a farm track above the blockage.",
+      "skill": "vocabulary"
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "hobbies",
+  "target": 60,
+  "title": "Practice in the Hall",
+  "story": "Rafi joined a small choir that meets on Thursdays. He did not know the new song, so he listened first. The leader asked him to sing the low part softly. Rafi marked the hard lines with a pencil. They recorded one verse on a phone to hear their mistakes. Rafi walked home humming the tune. He promised to practise before the next meeting.",
+  "vocabulary": [
+    {
+      "word": "choir",
+      "definition": "A group of people who sing together."
+    },
+    {
+      "word": "softly",
+      "definition": "In a quiet and gentle way."
+    },
+    {
+      "word": "marked",
+      "definition": "Made a sign on something."
+    },
+    {
+      "word": "verse",
+      "definition": "One section of a song."
+    },
+    {
+      "word": "mistakes",
+      "definition": "Things that are not correct."
+    },
+    {
+      "word": "humming",
+      "definition": "Singing a tune with the mouth closed."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "When does the choir meet?",
+      "options": [
+        "On Thursdays",
+        "On Sunday mornings",
+        "Every day after lunch",
+        "Once a year"
+      ],
+      "correctAnswer": "On Thursdays",
+      "explanation": "Rafi joined a choir that meets on Thursdays.",
+      "supportingSentence": "Rafi joined a small choir that meets on Thursdays.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did Rafi listen before he sang?",
+      "options": [
+        "He did not know the new song",
+        "The leader was absent",
+        "His pencil was broken",
+        "The phone would not record"
+      ],
+      "correctAnswer": "He did not know the new song",
+      "explanation": "He did not know the new song, so he listened first.",
+      "supportingSentence": "He did not know the new song, so he listened first.",
+      "skill": "detail"
+    },
+    {
+      "question": "Which part did the leader ask Rafi to sing?",
+      "options": [
+        "The low part",
+        "The high part",
+        "The drum part",
+        "No part at all"
+      ],
+      "correctAnswer": "The low part",
+      "explanation": "The leader asked him to sing the low part softly.",
+      "supportingSentence": "The leader asked him to sing the low part softly.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does humming mean in this story?",
+      "options": [
+        "Singing a tune with a closed mouth",
+        "Writing notes on paper",
+        "Recording a song on a phone",
+        "Marking lines with a pencil"
+      ],
+      "correctAnswer": "Singing a tune with a closed mouth",
+      "explanation": "Rafi walked home humming the tune, making the song without open words.",
+      "supportingSentence": "Rafi walked home humming the tune.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did the choir record a verse?",
+      "options": [
+        "To hear their mistakes",
+        "To sell the song",
+        "To wake the neighbours",
+        "To teach the high part"
+      ],
+      "correctAnswer": "To hear their mistakes",
+      "explanation": "They recorded one verse to hear their mistakes.",
+      "supportingSentence": "They recorded one verse on a phone to hear their mistakes.",
+      "skill": "detail"
+    }
+  ]
+}

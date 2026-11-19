@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "science",
+  "target": 100,
+  "title": "The Jar of Rainwater",
+  "story": "Teacher Adeyemi asked the class to measure rain for one week. Priya put a clear jar in the school garden each morning. She marked the water level with a pen before lunch. On Monday the jar held only a thin line. On Wednesday a storm filled it much higher. Priya wrote the results in a notebook and drew a simple chart. She noticed the jar was lower on Thursday. A classmate named Ben said birds might have drunk from it. Priya covered the jar with a loose net that still let rain in. On Friday the level matched the puddles on the path.",
+  "vocabulary": [
+    {
+      "word": "measure",
+      "definition": "to find the size or amount of something"
+    },
+    {
+      "word": "jar",
+      "definition": "a glass or plastic container"
+    },
+    {
+      "word": "level",
+      "definition": "the height reached by a liquid"
+    },
+    {
+      "word": "storm",
+      "definition": "strong rain and wind"
+    },
+    {
+      "word": "chart",
+      "definition": "a simple drawing that shows results"
+    },
+    {
+      "word": "net",
+      "definition": "material with holes, used as a cover"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where did Priya place the jar each morning?",
+      "options": [
+        "In the school garden",
+        "On the classroom floor",
+        "In the kitchen sink",
+        "Under her bed"
+      ],
+      "correctAnswer": "In the school garden",
+      "explanation": "She put a clear jar in the school garden each morning.",
+      "supportingSentence": "Priya put a clear jar in the school garden each morning.",
+      "skill": "detail"
+    },
+    {
+      "question": "What happened to the jar on Wednesday?",
+      "options": [
+        "A storm filled it much higher",
+        "It stayed empty",
+        "Priya lost the pen",
+        "The class stopped the test"
+      ],
+      "correctAnswer": "A storm filled it much higher",
+      "explanation": "On Wednesday a storm filled the jar much higher.",
+      "supportingSentence": "On Wednesday a storm filled it much higher.",
+      "skill": "detail"
+    },
+    {
+      "question": "What idea did Ben give for the lower water?",
+      "options": [
+        "Birds might have drunk from the jar",
+        "The pen had leaked",
+        "Another storm was coming",
+        "The chart was wrong"
+      ],
+      "correctAnswer": "Birds might have drunk from the jar",
+      "explanation": "Ben said birds might have drunk from the jar.",
+      "supportingSentence": "A classmate named Ben said birds might have drunk from it.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does level mean?",
+      "options": [
+        "The height of the water",
+        "A floor in a building",
+        "A school test score",
+        "A kind of storm"
+      ],
+      "correctAnswer": "The height of the water",
+      "explanation": "Priya marked the water level, which means how high the water stood.",
+      "supportingSentence": "She marked the water level with a pen before lunch.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Priya cover the jar?",
+      "options": [
+        "To stop birds drinking the water",
+        "To move the jar indoors",
+        "To make the storm stronger",
+        "To hide the chart"
+      ],
+      "correctAnswer": "To stop birds drinking the water",
+      "explanation": "Ben thought birds had drunk from it, and Priya then covered the jar.",
+      "supportingSentence": "A classmate named Ben said birds might have drunk from it.",
+      "skill": "inference"
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "health_sports",
+  "target": 60,
+  "title": "Faster than Pride",
+  "story": "Salma left her inhaler in her bag, though the plan put it on the bench within a teammate’s reach. She insisted she would feel the tightness in time. Coach Berg pointed to a previous match where she had not. The inhaler moved to the bench, labelled with her name, and she used it at the interval. The tightness never arrived. The plan was faster than pride.",
+  "vocabulary": [
+    {
+      "word": "inhaler",
+      "definition": "A device that delivers medicine for breathing"
+    },
+    {
+      "word": "insisted",
+      "definition": "Said something firmly and would not drop it"
+    },
+    {
+      "word": "tightness",
+      "definition": "A feeling that the chest or breath is closing"
+    },
+    {
+      "word": "labelled",
+      "definition": "Marked with a name so the owner is clear"
+    },
+    {
+      "word": "interval",
+      "definition": "The break between parts of the match"
+    },
+    {
+      "word": "pride",
+      "definition": "A wish to cope without help"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where was the inhaler supposed to be kept?",
+      "options": [
+        "On the bench within a teammate’s reach",
+        "In Salma’s bag until she felt tightness",
+        "In the coach’s office after the match",
+        "At home, away from the pitch"
+      ],
+      "correctAnswer": "On the bench within a teammate’s reach",
+      "explanation": "The plan put the inhaler on the bench within a teammate’s reach.",
+      "supportingSentence": "Salma left her inhaler in her bag, though the plan put it on the bench within a teammate’s reach.",
+      "skill": "detail"
+    },
+    {
+      "question": "At what point did she use the inhaler?",
+      "options": [
+        "At the interval",
+        "After the tightness had already arrived",
+        "During the previous match",
+        "Before any plan had been written"
+      ],
+      "correctAnswer": "At the interval",
+      "explanation": "She used the inhaler at the interval after it was moved to the bench.",
+      "supportingSentence": "The inhaler moved to the bench, labelled with her name, and she used it at the interval.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did Berg mention the earlier match?",
+      "options": [
+        "She had failed to notice the problem in time before",
+        "The inhaler had been banned after that game",
+        "Teammates had hidden the bench that day",
+        "Pride had made the written plan unnecessary"
+      ],
+      "correctAnswer": "She had failed to notice the problem in time before",
+      "explanation": "He pointed to a match where she had not felt the tightness in time, which undercuts her confidence.",
+      "supportingSentence": "Coach Berg pointed to a previous match where she had not.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does interval mean in this passage?",
+      "options": [
+        "The break between parts of the match",
+        "The label stuck on the inhaler",
+        "A previous game she had played",
+        "The bag left beside the bench"
+      ],
+      "correctAnswer": "The break between parts of the match",
+      "explanation": "She used the inhaler at the interval, the planned break in the match.",
+      "supportingSentence": "The inhaler moved to the bench, labelled with her name, and she used it at the interval.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer say the plan was faster than pride?",
+      "options": [
+        "To show the written plan prevented trouble sooner than coping alone",
+        "To prove the coach cancelled the match",
+        "To suggest inhalers work only after pride fails",
+        "To argue that teammates should ignore written plans"
+      ],
+      "correctAnswer": "To show the written plan prevented trouble sooner than coping alone",
+      "explanation": "The closing comparison says the plan beat pride, after she used the inhaler and the tightness never came.",
+      "supportingSentence": "The plan was faster than pride.",
+      "skill": "intent"
+    }
+  ]
+}

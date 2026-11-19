@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "travel",
+  "target": 60,
+  "title": "The Timetable, Not the Phone",
+  "story": "When the station clock and her phone disagreed, Ruth trusted the printed timetable and stayed on the platform. The train arrived by the clock, and the guard confirmed that the timetable still governed departures. Her phone had kept the time zone of the city she had left. She corrected it before the next connection. An ignored mismatch would have sent her onward an hour early.",
+  "vocabulary": [
+    {
+      "word": "disagreed",
+      "definition": "Showed two different times"
+    },
+    {
+      "word": "timetable",
+      "definition": "The printed list of departure times"
+    },
+    {
+      "word": "governed",
+      "definition": "Controlled or decided"
+    },
+    {
+      "word": "departures",
+      "definition": "The moments when trains leave"
+    },
+    {
+      "word": "mismatch",
+      "definition": "A difference between two things that should agree"
+    },
+    {
+      "word": "connection",
+      "definition": "A later train she still needed to catch"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did Ruth trust when the clock and the phone disagreed?",
+      "options": [
+        "The printed timetable",
+        "The time showing on her phone",
+        "The city she had just left",
+        "A clock inside the arriving train"
+      ],
+      "correctAnswer": "The printed timetable",
+      "explanation": "She trusted the printed timetable and stayed on the platform.",
+      "supportingSentence": "When the station clock and her phone disagreed, Ruth trusted the printed timetable and stayed on the platform.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why was the phone showing the wrong time?",
+      "options": [
+        "It still used the time zone of the city she had left",
+        "The guard had reset it during the journey",
+        "The station clock was running an hour fast",
+        "The timetable had been printed in another country"
+      ],
+      "correctAnswer": "It still used the time zone of the city she had left",
+      "explanation": "The phone had kept the time zone of the city she had left.",
+      "supportingSentence": "Her phone had kept the time zone of the city she had left.",
+      "skill": "detail"
+    },
+    {
+      "question": "What would following the phone have done?",
+      "options": [
+        "It would have sent her on an hour too soon",
+        "It would have cancelled the next connection",
+        "It would have put her on a train going back",
+        "It would have hidden the printed timetable"
+      ],
+      "correctAnswer": "It would have sent her on an hour too soon",
+      "explanation": "Ignoring the mismatch would have sent her onward an hour early.",
+      "supportingSentence": "An ignored mismatch would have sent her onward an hour early.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does governed mean about the timetable?",
+      "options": [
+        "It decided which departure times were official",
+        "It was painted on the station wall",
+        "It had been cancelled after the disagreement",
+        "It was folded into the margin of a ticket"
+      ],
+      "correctAnswer": "It decided which departure times were official",
+      "explanation": "The guard said the timetable still governed departures, so it set the official leaving times.",
+      "supportingSentence": "The train arrived by the clock, and the guard confirmed that the timetable still governed departures.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer end with the mismatch that was avoided?",
+      "options": [
+        "To show what trusting the wrong time would have cost",
+        "To prove the guard rewrote the timetable",
+        "To suggest Ruth preferred travelling after dark",
+        "To argue that phones should replace station clocks"
+      ],
+      "correctAnswer": "To show what trusting the wrong time would have cost",
+      "explanation": "The last sentence states the early departure she would have made if she had ignored the difference.",
+      "supportingSentence": "An ignored mismatch would have sent her onward an hour early.",
+      "skill": "intent"
+    }
+  ]
+}

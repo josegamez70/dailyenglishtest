@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "travel",
+  "target": 100,
+  "title": "The Later Coastal Ferry",
+  "story": "When the coastal coach broke down, passengers were asked to wait beside a petrol station with almost no shade. Andres had packed water, so he shared it with a child whose bottle was empty. The driver explained that a replacement coach would arrive within the hour, though the delay would make some people miss a ferry. Andres checked his ticket and saw that his own ferry was the later one. He offered his seat on the first replacement to a couple who were rushing. They thanked him twice. He reached the port after sunset, tired but calm, and still caught the boat he had booked.",
+  "vocabulary": [
+    {
+      "word": "coastal",
+      "definition": "Along or near the coast."
+    },
+    {
+      "word": "shade",
+      "definition": "A cooler place out of direct sun."
+    },
+    {
+      "word": "replacement",
+      "definition": "Something sent to take the place of another."
+    },
+    {
+      "word": "ferry",
+      "definition": "A boat that carries passengers on a set route."
+    },
+    {
+      "word": "rushing",
+      "definition": "Hurrying because time is short."
+    },
+    {
+      "word": "sunset",
+      "definition": "The time in the evening when the sun goes down."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where were the passengers asked to wait?",
+      "options": [
+        "Beside a petrol station with almost no shade",
+        "On the ferry they had already boarded",
+        "Inside a replacement coach that was already there",
+        "At the port before the coach had left"
+      ],
+      "correctAnswer": "Beside a petrol station with almost no shade",
+      "explanation": "When the coach broke down, they were asked to wait beside a petrol station with almost no shade.",
+      "supportingSentence": "When the coastal coach broke down, passengers were asked to wait beside a petrol station with almost no shade.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does sharing his water suggest about Andres?",
+      "options": [
+        "He drank the child's bottle and kept his own",
+        "He put a child's thirst ahead of keeping all the water",
+        "He had forgotten to pack anything to drink",
+        "The driver had banned drinks during the wait"
+      ],
+      "correctAnswer": "He put a child's thirst ahead of keeping all the water",
+      "explanation": "He had packed water and shared it with a child whose bottle was empty, so he gave up some of his supply.",
+      "supportingSentence": "Andres had packed water, so he shared it with a child whose bottle was empty.",
+      "skill": "inference"
+    },
+    {
+      "question": "What problem could the delay cause for some passengers?",
+      "options": [
+        "They would have to push the broken coach",
+        "They would lose their seats at the petrol station",
+        "They might miss a ferry",
+        "They would have to walk back to the port at once"
+      ],
+      "correctAnswer": "They might miss a ferry",
+      "explanation": "The driver said the delay would make some people miss a ferry.",
+      "supportingSentence": "The driver explained that a replacement coach would arrive within the hour, though the delay would make some people miss a ferry.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the ending suggest about the seat Andres gave away?",
+      "options": [
+        "Helping the couple still left him on the boat he had booked",
+        "He missed every boat and stayed at the petrol station",
+        "The child had taken his ticket during the wait",
+        "He arrived angry because the couple refused to move"
+      ],
+      "correctAnswer": "Helping the couple still left him on the boat he had booked",
+      "explanation": "He reaches the port tired but calm and still catches the boat he booked, so the favour did not cost him the journey.",
+      "supportingSentence": "He reached the port after sunset, tired but calm, and still caught the boat he had booked.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does replacement mean in this story?",
+      "options": [
+        "A ticket for a journey in another country",
+        "A seat that passengers are forbidden to use",
+        "A driver who will not explain the delay",
+        "A coach sent to take the place of the broken one"
+      ],
+      "correctAnswer": "A coach sent to take the place of the broken one",
+      "explanation": "The replacement is the later coach that will stand in for the one that broke down.",
+      "supportingSentence": "The driver explained that a replacement coach would arrive within the hour, though the delay would make some people miss a ferry.",
+      "skill": "vocabulary"
+    }
+  ]
+}

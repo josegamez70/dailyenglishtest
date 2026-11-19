@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "science",
+  "target": 60,
+  "title": "Colder beside the Hedge",
+  "story": "Each dawn, Sofia read the thermometer in the school garden and entered the number in a shared sheet. For three mornings the reading was lower beside the hedge than in the open bed. She realised the hedge was blocking early sun, so those plants stayed colder. The group moved the tender seedlings to the brighter spot and kept recording for another week.",
+  "vocabulary": [
+    {
+      "word": "dawn",
+      "definition": "The early morning, when the first light appears."
+    },
+    {
+      "word": "thermometer",
+      "definition": "A tool that measures temperature."
+    },
+    {
+      "word": "hedge",
+      "definition": "A line of bushes that forms a barrier."
+    },
+    {
+      "word": "blocking",
+      "definition": "Stopping something from passing."
+    },
+    {
+      "word": "tender",
+      "definition": "Easily hurt, especially by cold."
+    },
+    {
+      "word": "seedlings",
+      "definition": "Very young plants."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where was the morning reading lower?",
+      "options": [
+        "Beside the hedge",
+        "In the open bed",
+        "Only on the shared sheet",
+        "At the brighter spot after the move"
+      ],
+      "correctAnswer": "Beside the hedge",
+      "explanation": "For three mornings the reading was lower beside the hedge than in the open bed.",
+      "supportingSentence": "For three mornings the reading was lower beside the hedge than in the open bed.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why were the plants by the hedge colder?",
+      "options": [
+        "The hedge was keeping the early sun off them",
+        "The thermometer was broken every morning",
+        "The open bed was in deeper shade",
+        "The seedlings had already been moved"
+      ],
+      "correctAnswer": "The hedge was keeping the early sun off them",
+      "explanation": "Sofia realised the hedge was blocking the early sun, so those plants stayed colder.",
+      "supportingSentence": "She realised the hedge was blocking early sun, so those plants stayed colder.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does moving the seedlings show about the group?",
+      "options": [
+        "They acted on Sofia’s explanation of the cold spot",
+        "They decided to stop recording temperatures",
+        "They wanted the young plants to stay cold",
+        "They thought the open bed was too bright to use"
+      ],
+      "correctAnswer": "They acted on Sofia’s explanation of the cold spot",
+      "explanation": "After she explained the cold hedge, the group moved the seedlings to the brighter spot.",
+      "supportingSentence": "The group moved the tender seedlings to the brighter spot and kept recording for another week.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does tender mean in this story?",
+      "options": [
+        "Easily hurt by cold",
+        "Brighter than a hedge",
+        "Written on a shared sheet",
+        "Measured only at noon"
+      ],
+      "correctAnswer": "Easily hurt by cold",
+      "explanation": "The tender seedlings are the young plants they move away from the colder spot.",
+      "supportingSentence": "The group moved the tender seedlings to the brighter spot and kept recording for another week.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did the group keep recording for another week?",
+      "options": [
+        "They wanted to see the temperatures after the move",
+        "They wanted the hedge to block more sun",
+        "They wanted to stop using the thermometer",
+        "They wanted the dawn numbers kept secret"
+      ],
+      "correctAnswer": "They wanted to see the temperatures after the move",
+      "explanation": "They kept recording after moving the seedlings, so they could follow what happened next.",
+      "supportingSentence": "The group moved the tender seedlings to the brighter spot and kept recording for another week.",
+      "skill": "intent"
+    }
+  ]
+}

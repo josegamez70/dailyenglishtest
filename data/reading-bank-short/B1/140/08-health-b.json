@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "health_sports",
+  "target": 140,
+  "title": "Rest for a Sore Knee",
+  "story": "During football practice, Amina felt a sharp pain in her left knee. She stopped running and told the coach at once. The coach moved her to a bench and brought a cold pack. Amina held the pack on her knee and kept her leg straight. She did not finish the match. Her teammate Jules brought her water and sat with her. After practice, the coach wrote a note for Amina's parents. The note said to rest and to use the cold pack at home. It also said to skip training for a week. Amina felt disappointed, but she followed the plan. She watched the next session from the side and cheered. Each evening she stretched gently, as the coach had shown her. By Friday the pain was mild, and she could walk without a limp. She asked to return, but the coach said one more rest day was wise.",
+  "vocabulary": [
+    {
+      "word": "pain",
+      "definition": "a feeling of hurt in the body"
+    },
+    {
+      "word": "coach",
+      "definition": "the person who leads sports practice"
+    },
+    {
+      "word": "pack",
+      "definition": "a cold bag placed on an injury"
+    },
+    {
+      "word": "disappointed",
+      "definition": "sad because a hope did not happen"
+    },
+    {
+      "word": "stretched",
+      "definition": "moved the body gently to loosen it"
+    },
+    {
+      "word": "limp",
+      "definition": "an uneven walk when a leg hurts"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where did Amina feel the sharp pain?",
+      "options": [
+        "In her left knee",
+        "In her right hand",
+        "In her lower back",
+        "In her shoulder"
+      ],
+      "correctAnswer": "In her left knee",
+      "explanation": "She felt a sharp pain in her left knee during practice.",
+      "supportingSentence": "During football practice, Amina felt a sharp pain in her left knee.",
+      "skill": "detail"
+    },
+    {
+      "question": "Which teammate brought Amina water?",
+      "options": [
+        "Jules",
+        "The coach",
+        "Her father",
+        "A player from another school"
+      ],
+      "correctAnswer": "Jules",
+      "explanation": "Her teammate Jules brought her water and sat with her.",
+      "supportingSentence": "Her teammate Jules brought her water and sat with her.",
+      "skill": "detail"
+    },
+    {
+      "question": "How long did the note say to skip training?",
+      "options": [
+        "For a week",
+        "For one hour",
+        "For the whole season",
+        "Until the same afternoon"
+      ],
+      "correctAnswer": "For a week",
+      "explanation": "The note said to skip training for a week.",
+      "supportingSentence": "It also said to skip training for a week.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does limp mean?",
+      "options": [
+        "An uneven walk when a leg hurts",
+        "A loud cheer from the side",
+        "A note written for parents",
+        "A win at the end of a match"
+      ],
+      "correctAnswer": "An uneven walk when a leg hurts",
+      "explanation": "She could walk without a limp, so her sore knee no longer made her walk unevenly.",
+      "supportingSentence": "By Friday the pain was mild, and she could walk without a limp.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Amina watch the next session from the side?",
+      "options": [
+        "She was following the rest plan",
+        "She had lost the way to the field",
+        "Jules asked her only to keep score",
+        "The coach sent her away for the year"
+      ],
+      "correctAnswer": "She was following the rest plan",
+      "explanation": "She followed the plan to skip training, so she watched and cheered instead.",
+      "supportingSentence": "Amina felt disappointed, but she followed the plan.",
+      "skill": "inference"
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "adventure",
+  "target": 100,
+  "title": "Turning the Party below the Ridge",
+  "story": "The party reached the last scree below the ridge as the wind began to throw ice. The map promised an hour to the hut, and the stronger walkers wanted to push on before darkness caught them on the slope. Noor watched the person at the rear rather than the skyline. His steps had shortened and his hands were slow on the poles. The hour assumed a pace the group no longer had. She turned them while they could still place their feet with care, and they regained the trees before the squall. The hut could wait until morning. A tired mistake on that slope would not have been forgiven.",
+  "vocabulary": [
+    {
+      "word": "scree",
+      "definition": "A slope of loose stones"
+    },
+    {
+      "word": "ridge",
+      "definition": "The high crest they had not yet reached"
+    },
+    {
+      "word": "poles",
+      "definition": "Sticks used to steady a walker"
+    },
+    {
+      "word": "pace",
+      "definition": "The speed at which the group was moving"
+    },
+    {
+      "word": "squall",
+      "definition": "A sudden violent burst of wind and weather"
+    },
+    {
+      "word": "slope",
+      "definition": "The inclined ground under their feet"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Whose movement told Noor more than the skyline?",
+      "options": [
+        "The person at the rear",
+        "A guide waiting among the trees",
+        "Only the strongest walker",
+        "The hut keeper on the ridge"
+      ],
+      "correctAnswer": "The person at the rear",
+      "explanation": "Noor watched the person at the rear rather than the skyline.",
+      "supportingSentence": "Noor watched the person at the rear rather than the skyline.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did the stronger walkers want to do?",
+      "options": [
+        "Push on before darkness caught them on the slope",
+        "Camp on the stones until dawn",
+        "Send Noor down the ridge alone",
+        "Leave the map with the last walker"
+      ],
+      "correctAnswer": "Push on before darkness caught them on the slope",
+      "explanation": "They wanted to push on before darkness caught them on the slope.",
+      "supportingSentence": "The map promised an hour to the hut, and the stronger walkers wanted to push on before darkness caught them on the slope.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why does the map's hour stop being a safe guide?",
+      "options": [
+        "It assumes a speed the tired group has already lost",
+        "It shows a hut that was never built",
+        "It forbids anyone to turn around",
+        "It was drawn for travel by boat"
+      ],
+      "correctAnswer": "It assumes a speed the tired group has already lost",
+      "explanation": "The hour assumed a pace the group no longer had, so the map's timing no longer fits.",
+      "supportingSentence": "The hour assumed a pace the group no longer had.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does squall mean as they turn downhill?",
+      "options": [
+        "A sudden violent burst of weather",
+        "The hut marked on the map",
+        "A stick used on loose stone",
+        "The band of trees below"
+      ],
+      "correctAnswer": "A sudden violent burst of weather",
+      "explanation": "A squall is a sudden violent burst of weather, and they reach the trees before it arrives.",
+      "supportingSentence": "She turned them while they could still place their feet with care, and they regained the trees before the squall.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why mention the wish to beat the darkness?",
+      "options": [
+        "To set up the hurry she rejects once the rear walker slows",
+        "To prove the hut had already collapsed",
+        "To blame the rear walker for carrying no map",
+        "To argue that the party should divide"
+      ],
+      "correctAnswer": "To set up the hurry she rejects once the rear walker slows",
+      "explanation": "The wish establishes the pressure that the slowed rear walker then makes unsafe.",
+      "supportingSentence": "The map promised an hour to the hut, and the stronger walkers wanted to push on before darkness caught them on the slope.",
+      "skill": "intent"
+    }
+  ]
+}

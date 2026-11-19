@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "culture_food",
+  "target": 60,
+  "title": "Bread at the Night Market",
+  "story": "The night market opened at dusk, and Amira’s stall sold warm flatbread with a herb sauce her aunt had taught her. She reduced the salt after regular customers said last week’s batch was too sharp. A tray of samples let people taste the milder version before they ordered. By the time the square filled, the first batch was already gone.",
+  "vocabulary": [
+    {
+      "word": "dusk",
+      "definition": "The time in the evening when daylight fades."
+    },
+    {
+      "word": "flatbread",
+      "definition": "A thin, flat kind of bread."
+    },
+    {
+      "word": "reduced",
+      "definition": "Made smaller in amount."
+    },
+    {
+      "word": "sharp",
+      "definition": "Strong and slightly harsh in taste."
+    },
+    {
+      "word": "samples",
+      "definition": "Small amounts offered so people can try something."
+    },
+    {
+      "word": "batch",
+      "definition": "A quantity made at the same time."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Who had taught Amira to make the sauce?",
+      "options": [
+        "Her aunt",
+        "A regular customer",
+        "A cook in the square",
+        "The owner of the next stall"
+      ],
+      "correctAnswer": "Her aunt",
+      "explanation": "The herb sauce was one her aunt had taught her.",
+      "supportingSentence": "The night market opened at dusk, and Amira’s stall sold warm flatbread with a herb sauce her aunt had taught her.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did Amira change the amount of salt?",
+      "options": [
+        "Customers had found the earlier bread too strong",
+        "The market was opening after dusk",
+        "Her aunt had asked her to close",
+        "The square stayed empty all evening"
+      ],
+      "correctAnswer": "Customers had found the earlier bread too strong",
+      "explanation": "Regular customers said the last batch was too sharp, so she reduced the salt.",
+      "supportingSentence": "She reduced the salt after regular customers said last week’s batch was too sharp.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does the missing first batch suggest?",
+      "options": [
+        "People bought the new bread quickly",
+        "Nobody stopped to taste a sample",
+        "She added more salt during the evening",
+        "The market failed to open"
+      ],
+      "correctAnswer": "People bought the new bread quickly",
+      "explanation": "The first batch was already gone by the time the square filled, which shows it sold fast.",
+      "supportingSentence": "By the time the square filled, the first batch was already gone.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does batch mean in this story?",
+      "options": [
+        "A quantity made at one time",
+        "A person who buys food often",
+        "The square where a market is held",
+        "A tray used only for tasting"
+      ],
+      "correctAnswer": "A quantity made at one time",
+      "explanation": "Last week’s batch is one lot of bread she had made, and the first batch is another lot.",
+      "supportingSentence": "She reduced the salt after regular customers said last week’s batch was too sharp.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Amira put samples on a tray?",
+      "options": [
+        "So people could taste the milder bread before buying",
+        "So she could increase the salt again",
+        "So her aunt could cook in the square",
+        "So the first batch would remain unsold"
+      ],
+      "correctAnswer": "So people could taste the milder bread before buying",
+      "explanation": "The samples let people taste the milder version before they ordered.",
+      "supportingSentence": "A tray of samples let people taste the milder version before they ordered.",
+      "skill": "intent"
+    }
+  ]
+}

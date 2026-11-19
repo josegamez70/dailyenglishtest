@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "economy_finance",
+  "target": 140,
+  "title": "The Loaf and the Roll",
+  "story": "The corner bakery had kept the same price for a plain loaf for two years. In March, Samir pinned a notice on the board saying that flour and energy cost more, so the loaf would cost a little more from Monday. A few regulars grumbled, and one said she might buy bread less often. Samir did not argue in the queue. The notice also promised that the smaller roll would stay the same price, so a tight budget still had an option. During the week he watched what people chose. Most still bought the loaf, and a few switched to the roll. On Friday the customer who had grumbled said the bread was worth the new price and bought her usual two loaves. Samir left the notice up for a month so the change could not be called a secret. He wrote both prices in his accounts in case costs fell later.",
+  "vocabulary": [
+    {
+      "word": "notice",
+      "definition": "A short public message put up to be read."
+    },
+    {
+      "word": "energy",
+      "definition": "Power, such as electricity or gas, used to run something."
+    },
+    {
+      "word": "grumbled",
+      "definition": "Complained in a low, unhappy way."
+    },
+    {
+      "word": "budget",
+      "definition": "The amount of money a person can afford to spend."
+    },
+    {
+      "word": "switched",
+      "definition": "Changed from one choice to another."
+    },
+    {
+      "word": "accounts",
+      "definition": "Written records of money coming in and going out."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What reason did the bakery give for the new loaf price?",
+      "options": [
+        "Flour and the cost of running the ovens had risen",
+        "Customers had asked for a smaller roll only",
+        "The shop was closing on Monday",
+        "The old price had been kept secret for a month"
+      ],
+      "correctAnswer": "Flour and the cost of running the ovens had risen",
+      "explanation": "The notice said flour and energy cost more, so the loaf would cost a little more.",
+      "supportingSentence": "In March, Samir pinned a notice on the board saying that flour and energy cost more, so the loaf would cost a little more from Monday.",
+      "skill": "detail"
+    },
+    {
+      "question": "Which price stayed the same?",
+      "options": [
+        "The price of the smaller roll",
+        "The price of every loaf",
+        "The price of the flour delivery",
+        "The price written in last year's book"
+      ],
+      "correctAnswer": "The price of the smaller roll",
+      "explanation": "The notice promised that the smaller roll would stay the same price.",
+      "supportingSentence": "The notice also promised that the smaller roll would stay the same price, so a tight budget still had an option.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why was the cheaper item left unchanged?",
+      "options": [
+        "Someone with little money would still have a choice",
+        "The loaf could then be removed from sale",
+        "Regulars would stop buying bread altogether",
+        "The record book could hide the change"
+      ],
+      "correctAnswer": "Someone with little money would still have a choice",
+      "explanation": "The roll stayed the same price so a tight budget still had an option.",
+      "supportingSentence": "The notice also promised that the smaller roll would stay the same price, so a tight budget still had an option.",
+      "skill": "inference"
+    },
+    {
+      "question": "What did the unhappy customer do on Friday?",
+      "options": [
+        "She bought her usual loaves and accepted the new price",
+        "She stopped buying bread after reading the board",
+        "She took rolls only and left the loaves",
+        "She asked Samir to hide the new price"
+      ],
+      "correctAnswer": "She bought her usual loaves and accepted the new price",
+      "explanation": "The customer who had grumbled said the bread was worth the new price and bought her usual two loaves.",
+      "supportingSentence": "On Friday the customer who had grumbled said the bread was worth the new price and bought her usual two loaves.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does grumbled mean in this story?",
+      "options": [
+        "Complained in an unhappy way",
+        "Paid a higher price gladly",
+        "Wrote a figure in the money records",
+        "Changed from one bread to another"
+      ],
+      "correctAnswer": "Complained in an unhappy way",
+      "explanation": "Regulars grumbled, and one said she might buy less often, so they were complaining.",
+      "supportingSentence": "A few regulars grumbled, and one said she might buy bread less often.",
+      "skill": "vocabulary"
+    }
+  ]
+}

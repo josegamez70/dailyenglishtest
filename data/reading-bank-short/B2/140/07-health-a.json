@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "health_sports",
+  "target": 140,
+  "title": "Turning at the Second Bridge",
+  "story": "After a month away from running, Yusuf wanted his old route along the canal, which took about forty minutes at an easy pace. His physiotherapist had cleared him to jog, but only if he stopped at the first sharp pain and kept the distance short. He told his friend Farid they would turn at the second bridge, not at the lock where they used to finish. Farid agreed to match that slower plan instead of going ahead. They set off in the cool evening, and Yusuf noticed his calf felt tight but not painful. At the bridge he was tempted to continue, because his breathing felt easy. He remembered the instruction and turned around. The walk back counted as part of the session. At home he wrote the time and the fact that the tight feeling faded after he stretched. He would add a little more next week only if the calf stayed calm.",
+  "vocabulary": [
+    {
+      "word": "pace",
+      "definition": "The speed of a run or a walk."
+    },
+    {
+      "word": "physiotherapist",
+      "definition": "A specialist who treats joints and muscles with exercise."
+    },
+    {
+      "word": "calf",
+      "definition": "The fleshy back of the lower leg."
+    },
+    {
+      "word": "tempted",
+      "definition": "Strongly drawn towards a choice that may be unwise."
+    },
+    {
+      "word": "stretched",
+      "definition": "Gently lengthened a muscle after exercise."
+    },
+    {
+      "word": "session",
+      "definition": "One period of training."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where did the two friends agree to turn?",
+      "options": [
+        "At the second bridge, not at their old finish",
+        "At the lock, as they had always done",
+        "At home, before they started running",
+        "Wherever Yusuf's breathing felt easiest"
+      ],
+      "correctAnswer": "At the second bridge, not at their old finish",
+      "explanation": "Yusuf said they would turn at the second bridge, not at the lock where they used to finish.",
+      "supportingSentence": "He told his friend Farid they would turn at the second bridge, not at the lock where they used to finish.",
+      "skill": "detail"
+    },
+    {
+      "question": "What conditions did the physiotherapist set?",
+      "options": [
+        "He could jog, but had to stop for sharp pain and stay short",
+        "He had to repeat the full old route that evening",
+        "He could run only if Farid went ahead",
+        "He was told not to stretch after the run"
+      ],
+      "correctAnswer": "He could jog, but had to stop for sharp pain and stay short",
+      "explanation": "He was cleared to jog only if he stopped at the first sharp pain and kept the distance short.",
+      "supportingSentence": "His physiotherapist had cleared him to jog, but only if he stopped at the first sharp pain and kept the distance short.",
+      "skill": "detail"
+    },
+    {
+      "question": "What nearly made Yusuf pass the agreed turning point?",
+      "options": [
+        "His breathing felt easy, so continuing seemed possible",
+        "A sharp pain forced him to sprint",
+        "Farid refused to turn with him",
+        "The specialist was waiting further along the canal"
+      ],
+      "correctAnswer": "His breathing felt easy, so continuing seemed possible",
+      "explanation": "He was tempted to continue because his breathing felt easy.",
+      "supportingSentence": "At the bridge he was tempted to continue, because his breathing felt easy.",
+      "skill": "inference"
+    },
+    {
+      "question": "How should the walk back be understood?",
+      "options": [
+        "As part of the training rather than a failed run",
+        "As proof that the evening had been wasted",
+        "As a race against Farid to the lock",
+        "As a reason to skip the notes at home"
+      ],
+      "correctAnswer": "As part of the training rather than a failed run",
+      "explanation": "The walk back counted as part of the session, so turning early was still training.",
+      "supportingSentence": "The walk back counted as part of the session.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does tempted mean in this story?",
+      "options": [
+        "Drawn towards an unwise choice",
+        "Ordered by a specialist to stop",
+        "Told to write the time at home",
+        "Matched to a slower friend's plan"
+      ],
+      "correctAnswer": "Drawn towards an unwise choice",
+      "explanation": "He was tempted to continue past the plan, so he was drawn towards a choice he should not make.",
+      "supportingSentence": "At the bridge he was tempted to continue, because his breathing felt easy.",
+      "skill": "vocabulary"
+    }
+  ]
+}

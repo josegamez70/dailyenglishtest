@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "mystery",
+  "target": 100,
+  "title": "Sketches in the Boathouse",
+  "story": "The rowing club kept the boathouse locked, yet the caretaker saw a light there on two rainy nights. Nothing was missing, and the boats were where the list said they should be. On the third night he waited by the path. A teenager slipped inside with a small lamp and a notebook, then started drawing the stored boats. It was the caretaker's grandson, who did not have a quiet place at home. He had copied the spare key weeks earlier. The caretaker did not shout. He switched on the main light, looked at the careful sketches, and said the boy could draw there if he signed the visitor book first.",
+  "vocabulary": [
+    {
+      "word": "boathouse",
+      "definition": "A building where boats are stored."
+    },
+    {
+      "word": "caretaker",
+      "definition": "A person who looks after a building."
+    },
+    {
+      "word": "slipped",
+      "definition": "Went in quietly, hoping not to be noticed."
+    },
+    {
+      "word": "sketches",
+      "definition": "Drawings made quickly."
+    },
+    {
+      "word": "copied",
+      "definition": "Made a copy of something."
+    },
+    {
+      "word": "visitor",
+      "definition": "Someone who comes to a place but is not on the staff."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How had the boy been getting into the boathouse?",
+      "options": [
+        "He had copied the spare key weeks earlier",
+        "The caretaker had left the door open",
+        "He climbed through a broken window",
+        "A club member invited him each night"
+      ],
+      "correctAnswer": "He had copied the spare key weeks earlier",
+      "explanation": "The boy had copied the spare key weeks earlier, which is how he got in.",
+      "supportingSentence": "He had copied the spare key weeks earlier.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did the state of the boats suggest?",
+      "options": [
+        "The boats had all been sold that day",
+        "The night visitor had probably not come to steal",
+        "The list said every boat was missing",
+        "The light was only a reflection on the water"
+      ],
+      "correctAnswer": "The night visitor had probably not come to steal",
+      "explanation": "Nothing was missing and the boats were where the list said, so theft is an unlikely reason for the light.",
+      "supportingSentence": "Nothing was missing, and the boats were where the list said they should be.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why did the grandson need a place like the boathouse?",
+      "options": [
+        "He wanted to take a boat out in the rain",
+        "The caretaker had asked him to guard the door",
+        "He did not have a quiet place at home",
+        "He was repairing the stored boats"
+      ],
+      "correctAnswer": "He did not have a quiet place at home",
+      "explanation": "The boy was the caretaker's grandson, who did not have a quiet place at home.",
+      "supportingSentence": "It was the caretaker's grandson, who did not have a quiet place at home.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the caretaker's decision suggest?",
+      "options": [
+        "He would allow the drawing if the boy followed a rule",
+        "He wanted the boy to take a boat home",
+        "He shouted and banned every future visit",
+        "He signed the visitor book and then locked the boy out"
+      ],
+      "correctAnswer": "He would allow the drawing if the boy followed a rule",
+      "explanation": "He looks at the sketches and says the boy may draw there if he signs the visitor book first.",
+      "supportingSentence": "He switched on the main light, looked at the careful sketches, and said the boy could draw there if he signed the visitor book first.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does slipped mean in this story?",
+      "options": [
+        "Fell over on the wet path",
+        "Shouted for the caretaker to come",
+        "Went inside quietly, without wanting to be seen",
+        "Locked the door and walked away"
+      ],
+      "correctAnswer": "Went inside quietly, without wanting to be seen",
+      "explanation": "The teenager slipped inside at night with a small lamp, which means he entered quietly.",
+      "supportingSentence": "A teenager slipped inside with a small lamp and a notebook, then started drawing the stored boats.",
+      "skill": "vocabulary"
+    }
+  ]
+}

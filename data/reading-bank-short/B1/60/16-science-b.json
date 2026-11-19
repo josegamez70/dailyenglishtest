@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "science",
+  "target": 60,
+  "title": "Seeds in Two Pots",
+  "story": "Aisha planted bean seeds in two pots for science club. She put both pots by the same window. She watered the first pot every day and left the second dry. After a week, green shoots appeared only in the wet pot. The dry seeds did not change. Aisha wrote that plants need water to grow. She showed the pots to the club and labelled them clearly.",
+  "vocabulary": [
+    {
+      "word": "planted",
+      "definition": "Put seeds in soil so they can grow."
+    },
+    {
+      "word": "shoots",
+      "definition": "Young growth from a plant."
+    },
+    {
+      "word": "appeared",
+      "definition": "Became able to be seen."
+    },
+    {
+      "word": "dry",
+      "definition": "Without water."
+    },
+    {
+      "word": "labelled",
+      "definition": "Marked with a name or note."
+    },
+    {
+      "word": "clearly",
+      "definition": "In a way that is easy to understand."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How many pots did Aisha use?",
+      "options": [
+        "Two pots",
+        "One pot",
+        "Four pots",
+        "Ten pots"
+      ],
+      "correctAnswer": "Two pots",
+      "explanation": "Aisha planted bean seeds in two pots.",
+      "supportingSentence": "Aisha planted bean seeds in two pots for science club.",
+      "skill": "detail"
+    },
+    {
+      "question": "Where did she put both pots?",
+      "options": [
+        "By the same window",
+        "In a dark cupboard",
+        "Outside in the rain",
+        "Under the club table"
+      ],
+      "correctAnswer": "By the same window",
+      "explanation": "She put both pots by the same window.",
+      "supportingSentence": "She put both pots by the same window.",
+      "skill": "detail"
+    },
+    {
+      "question": "Where did the green shoots appear?",
+      "options": [
+        "Only in the wet pot",
+        "Only in the dry pot",
+        "In both pots",
+        "On the labels"
+      ],
+      "correctAnswer": "Only in the wet pot",
+      "explanation": "Green shoots appeared only in the wet pot.",
+      "supportingSentence": "After a week, green shoots appeared only in the wet pot.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does shoots mean in this story?",
+      "options": [
+        "Young parts of a growing plant",
+        "Notes written for a club",
+        "Dry seeds that stay the same",
+        "Labels stuck on pots"
+      ],
+      "correctAnswer": "Young parts of a growing plant",
+      "explanation": "The green shoots were the new growth that appeared in the wet pot.",
+      "supportingSentence": "After a week, green shoots appeared only in the wet pot.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What conclusion did Aisha write?",
+      "options": [
+        "Plants need water to grow",
+        "Plants need dry soil to grow",
+        "Seeds change without water",
+        "Windows stop seeds from growing"
+      ],
+      "correctAnswer": "Plants need water to grow",
+      "explanation": "Aisha wrote that plants need water to grow.",
+      "supportingSentence": "Aisha wrote that plants need water to grow.",
+      "skill": "detail"
+    }
+  ]
+}

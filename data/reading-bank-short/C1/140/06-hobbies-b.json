@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "hobbies",
+  "target": 140,
+  "title": "A Note on the Early Entry",
+  "story": "The piano recorder caught Sunday's trio, including the bar where Lewis entered early and pulled the others off the beat. Priya wanted the recording on the club website because visitors rarely heard the group. Lewis asked for a cut. A public file, he said, would present an inadvertent slip as if it were their standard. Priya replied that cutting the bar would damage the integrity of a live evening. Their compromise was precise. The journal would publish the recording with a note calling the bar an early entry, not a feature of the piece. Lewis would approve the wording first. In return, he would not demand a second take weeks later, when the room and the audience could not be reassembled. The recording stayed whole. The note stopped a mistake from being mistaken for an intention.",
+  "vocabulary": [
+    {
+      "word": "trio",
+      "definition": "A group of three musicians."
+    },
+    {
+      "word": "inadvertent",
+      "definition": "Done by accident, not on purpose."
+    },
+    {
+      "word": "integrity",
+      "definition": "The quality of staying whole and honest."
+    },
+    {
+      "word": "compromise",
+      "definition": "A middle agreement between two proposals."
+    },
+    {
+      "word": "wording",
+      "definition": "The exact words chosen for a note."
+    },
+    {
+      "word": "reassembled",
+      "definition": "Brought back together again."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How would the journal's note describe the early bar?",
+      "options": [
+        "As an early entry, not a feature of the piece",
+        "As a new solo written for the website",
+        "As a reason to shut the journal",
+        "As a studio take made the next week"
+      ],
+      "correctAnswer": "As an early entry, not a feature of the piece",
+      "explanation": "The note would call the bar an early entry, not a feature of the piece.",
+      "supportingSentence": "The journal would publish the recording with a note calling the bar an early entry, not a feature of the piece.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Lewis agree not to demand?",
+      "options": [
+        "A second take weeks later",
+        "A written apology from Priya",
+        "Removal of the whole slow movement",
+        "A replacement piano for the club"
+      ],
+      "correctAnswer": "A second take weeks later",
+      "explanation": "In return he would not demand a second take weeks later, when the room could not be reassembled.",
+      "supportingSentence": "In return, he would not demand a second take weeks later, when the room and the audience could not be reassembled.",
+      "skill": "detail"
+    },
+    {
+      "question": "What might listeners assume if that note were left off?",
+      "options": [
+        "That Lewis had meant to enter at that point",
+        "That the Sunday concert had never happened",
+        "That Priya had composed a different piece",
+        "That the website would play a single bar"
+      ],
+      "correctAnswer": "That Lewis had meant to enter at that point",
+      "explanation": "The note exists so a mistake is not mistaken for an intention.",
+      "supportingSentence": "The note stopped a mistake from being mistaken for an intention.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does integrity mean in Priya's reply?",
+      "options": [
+        "An honest and complete account of the live evening",
+        "A faster speed for every movement",
+        "A signed contract with the website",
+        "The count of people who press play"
+      ],
+      "correctAnswer": "An honest and complete account of the live evening",
+      "explanation": "Cutting the bar would damage the integrity of a live evening by hiding what happened.",
+      "supportingSentence": "Priya replied that cutting the bar would damage the integrity of a live evening.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer say visitors rarely heard the group?",
+      "options": [
+        "To explain why Priya wanted the recording made public",
+        "To show the hall had banned every listener",
+        "To prove Lewis refused to perform for people",
+        "To argue that club journals should avoid music"
+      ],
+      "correctAnswer": "To explain why Priya wanted the recording made public",
+      "explanation": "Priya wanted the recording online because visitors rarely heard the group.",
+      "supportingSentence": "Priya wanted the recording on the club website because visitors rarely heard the group.",
+      "skill": "intent"
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "travel",
+  "target": 100,
+  "title": "Shoes by the Homestay Door",
+  "story": "Elena's homestay note asked guests to leave shoes by the door and to join breakfast, even for tea. On the first morning she forgot and stepped into the kitchen. The host, Farid, pointed to the mat without raising his voice. Elena apologised and noticed the other guests had lined their shoes up neatly. At the table people passed plates before serving themselves. She had planned to eat quickly and leave for a museum. Instead she stayed, asked about the bread, and got directions clearer than her app. The rule had felt strict. By evening she saw it as a way to share the house.",
+  "vocabulary": [
+    {
+      "word": "homestay",
+      "definition": "A stay in the home of a local host."
+    },
+    {
+      "word": "host",
+      "definition": "The person who welcomes a guest into a home."
+    },
+    {
+      "word": "apologised",
+      "definition": "Said that she was sorry."
+    },
+    {
+      "word": "neatly",
+      "definition": "In a tidy order."
+    },
+    {
+      "word": "directions",
+      "definition": "Instructions that explain how to get somewhere."
+    },
+    {
+      "word": "strict",
+      "definition": "Firm about a rule being followed."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did the homestay note ask guests to do?",
+      "options": [
+        "Leave shoes by the door and join breakfast",
+        "Eat in their rooms and avoid the kitchen",
+        "Wear shoes at the table",
+        "Skip breakfast if they only wanted tea"
+      ],
+      "correctAnswer": "Leave shoes by the door and join breakfast",
+      "explanation": "The note asked guests to leave shoes by the door and to join breakfast, even for tea.",
+      "supportingSentence": "Elena's homestay note asked guests to leave shoes by the door and to join breakfast, even for tea.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does Farid's quiet gesture suggest?",
+      "options": [
+        "He ordered her to leave the house at once",
+        "He corrected the mistake without trying to shame her",
+        "He wanted shoes worn inside the kitchen",
+        "He could not speak because of an injury"
+      ],
+      "correctAnswer": "He corrected the mistake without trying to shame her",
+      "explanation": "He points to the mat without raising his voice, so the correction is calm rather than humiliating.",
+      "supportingSentence": "The host, Farid, pointed to the mat without raising his voice.",
+      "skill": "inference"
+    },
+    {
+      "question": "What had Elena planned to do at breakfast?",
+      "options": [
+        "Cook for the other guests",
+        "Ask Farid to cancel the shoe rule",
+        "Eat quickly and leave for a museum",
+        "Stay all morning and skip the museum"
+      ],
+      "correctAnswer": "Eat quickly and leave for a museum",
+      "explanation": "She had planned to eat quickly and leave for a museum.",
+      "supportingSentence": "She had planned to eat quickly and leave for a museum.",
+      "skill": "detail"
+    },
+    {
+      "question": "What can we infer from the directions she received?",
+      "options": [
+        "Her app was clearer than anything the household told her",
+        "She left for the museum without eating",
+        "The bread was served only to the host",
+        "Joining breakfast gave her help that rushing away would not"
+      ],
+      "correctAnswer": "Joining breakfast gave her help that rushing away would not",
+      "explanation": "She stays, talks about the bread, and gets directions clearer than her app, so taking part helps her.",
+      "supportingSentence": "Instead she stayed, asked about the bread, and got directions clearer than her app.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does strict mean in this story?",
+      "options": [
+        "Firm about a rule being obeyed",
+        "Happy to ignore every house custom",
+        "Unsure where the shoes should go",
+        "Ready to cancel breakfast"
+      ],
+      "correctAnswer": "Firm about a rule being obeyed",
+      "explanation": "The rule felt strict at first, meaning it seemed firm and demanding.",
+      "supportingSentence": "The rule had felt strict.",
+      "skill": "vocabulary"
+    }
+  ]
+}

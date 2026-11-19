@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "technology",
+  "target": 100,
+  "title": "An Alert the Night Learned to Ignore",
+  "story": "The building sensor sent an alert whenever the cleaners ran hot water, so the night manager learned to swipe the message away. The system was not broken. Its threshold had been set for an empty pipe, and ordinary use now crossed that line. When a real drip started behind a cupboard, the same alert appeared and was dismissed with the others. By morning the plaster had softened. A technician raised the threshold, added a second warning if the alert lasted, and required a named person to close it. An alarm that cannot separate routine from harm trains people to ignore both.",
+  "vocabulary": [
+    {
+      "word": "alert",
+      "definition": "A warning message from the sensor"
+    },
+    {
+      "word": "threshold",
+      "definition": "The level at which the sensor decides to warn"
+    },
+    {
+      "word": "dismissed",
+      "definition": "Closed and set aside without action"
+    },
+    {
+      "word": "technician",
+      "definition": "A specialist who adjusts the system"
+    },
+    {
+      "word": "routine",
+      "definition": "Ordinary activity that happens regularly"
+    },
+    {
+      "word": "plaster",
+      "definition": "The wall surface that softened in the leak"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What everyday event was enough to trigger a warning?",
+      "options": [
+        "Cleaners running hot water",
+        "A power cut across the building",
+        "The night manager leaving early",
+        "Plaster falling before dawn"
+      ],
+      "correctAnswer": "Cleaners running hot water",
+      "explanation": "The sensor sent an alert whenever the cleaners ran hot water.",
+      "supportingSentence": "The building sensor sent an alert whenever the cleaners ran hot water, so the night manager learned to swipe the message away.",
+      "skill": "detail"
+    },
+    {
+      "question": "Who had to close an alert under the revised rule?",
+      "options": [
+        "A named person",
+        "Any cleaner on the night shift",
+        "The sensor, after one beep",
+        "A visitor standing in the lobby"
+      ],
+      "correctAnswer": "A named person",
+      "explanation": "The technician required a named person to close an alert.",
+      "supportingSentence": "A technician raised the threshold, added a second warning if the alert lasted, and required a named person to close it.",
+      "skill": "detail"
+    },
+    {
+      "question": "What habit let the real drip go unanswered?",
+      "options": [
+        "Treating that alert as something to swipe away",
+        "Asking the technician to unplug the sensor",
+        "Banning hot water after midnight",
+        "Moving the cupboard away from the wall"
+      ],
+      "correctAnswer": "Treating that alert as something to swipe away",
+      "explanation": "The manager had learned to swipe the same alert, so the real drip was dismissed with the rest.",
+      "supportingSentence": "When a real drip started behind a cupboard, the same alert appeared and was dismissed with the others.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does threshold name in this sensor?",
+      "options": [
+        "The set level that makes it send a warning",
+        "The night manager's job title",
+        "A cloth kept beside the cupboard",
+        "The morning note about the wall"
+      ],
+      "correctAnswer": "The set level that makes it send a warning",
+      "explanation": "The threshold is the level set for an empty pipe, and crossing it sends the alert.",
+      "supportingSentence": "Its threshold had been set for an empty pipe, and ordinary use now crossed that line.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What is the closing generalisation doing?",
+      "options": [
+        "Casting the episode as a design that taught people to ignore warnings",
+        "Telling readers to swipe away every future message",
+        "Blaming the cleaners for starting the drip",
+        "Advertising one make of wall sensor"
+      ],
+      "correctAnswer": "Casting the episode as a design that taught people to ignore warnings",
+      "explanation": "The last sentence turns the incident into a lesson about alarms that mix routine with harm.",
+      "supportingSentence": "An alarm that cannot separate routine from harm trains people to ignore both.",
+      "skill": "intent"
+    }
+  ]
+}

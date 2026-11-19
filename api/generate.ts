@@ -1280,16 +1280,21 @@ async function createReadingLesson(
     topic: params.listTopic || params.topic,
     format: params.format,
   });
-  if (!level || !choice.bank) {
+  if (!level || !choice.bank || params.questionCount !== 5) {
     console.log(JSON.stringify({
       stage: 'reading_live',
       level: params.level,
       format: params.format,
-      reason: choice.bank ? 'level' : choice.reason,
+      reason: !choice.bank ? choice.reason : params.questionCount !== 5 ? 'questions' : 'level',
     }));
     return null;
   }
-  const claimed = await claimReadingFromBank(admin, userId, { level, topic: choice.topic });
+  const claimed = await claimReadingFromBank(admin, userId, {
+    level,
+    topic: choice.topic,
+    minWords: params.wordCount * 0.8,
+    maxWords: params.wordCount * 1.2,
+  });
   if (!claimed) {
     console.log(JSON.stringify({ stage: 'reading_live', level, reason: 'bank_empty' }));
     return null;

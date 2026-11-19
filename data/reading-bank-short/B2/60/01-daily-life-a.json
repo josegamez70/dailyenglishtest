@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "daily life",
+  "target": 60,
+  "title": "The Empty Key Envelope",
+  "story": "Lena kept a spare key in an envelope behind the hall clock, but the envelope was empty when she came home. Her brother admitted he had borrowed it, then left it in his coat. She asked him to return it that evening and to send a message whenever he used it. He agreed, because the missing key had already made her late.",
+  "vocabulary": [
+    {
+      "word": "spare",
+      "definition": "Kept for use if the usual one is not available."
+    },
+    {
+      "word": "envelope",
+      "definition": "A paper cover used to hold a letter or a small object."
+    },
+    {
+      "word": "admitted",
+      "definition": "Said that something was true, often unwillingly."
+    },
+    {
+      "word": "borrowed",
+      "definition": "Took something for a time, planning to give it back."
+    },
+    {
+      "word": "whenever",
+      "definition": "At any time that something happens."
+    },
+    {
+      "word": "missing",
+      "definition": "Not in the place where it should be."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where did Lena normally keep the extra key?",
+      "options": [
+        "In an envelope behind the hall clock",
+        "In her brother’s coat pocket",
+        "At work, beside her desk",
+        "With the neighbour who was waiting"
+      ],
+      "correctAnswer": "In an envelope behind the hall clock",
+      "explanation": "The story says she kept the spare key in an envelope behind the hall clock.",
+      "supportingSentence": "Lena kept a spare key in an envelope behind the hall clock, but the envelope was empty when she came home.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the empty envelope show about her arrival?",
+      "options": [
+        "The spare key was not in its usual place",
+        "The hall clock had stopped that morning",
+        "Her brother was still locked outside",
+        "A new envelope had just been delivered"
+      ],
+      "correctAnswer": "The spare key was not in its usual place",
+      "explanation": "She came home to an empty envelope, so the key was no longer where she kept it.",
+      "supportingSentence": "Lena kept a spare key in an envelope behind the hall clock, but the envelope was empty when she came home.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why did her brother accept the request for a message?",
+      "options": [
+        "He could see that taking the key had already caused trouble",
+        "He wanted to keep the key in his coat",
+        "A neighbour had told him to text every night",
+        "He hoped to move the clock the next day"
+      ],
+      "correctAnswer": "He could see that taking the key had already caused trouble",
+      "explanation": "He agreed because the missing key had already made Lena late.",
+      "supportingSentence": "He agreed, because the missing key had already made her late.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does admitted mean in this story?",
+      "options": [
+        "Said that something was true",
+        "Locked a door from outside",
+        "Wrote a short message",
+        "Put an object back at once"
+      ],
+      "correctAnswer": "Said that something was true",
+      "explanation": "Her brother admitted he had borrowed the key, meaning he said that this had happened.",
+      "supportingSentence": "Her brother admitted he had borrowed it, then left it in his coat.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does Lena want a message when the key is used?",
+      "options": [
+        "She wants to know that the spare key is away from its place",
+        "She wants her brother to buy a new clock",
+        "She wants the coat to stay at work",
+        "She wants to throw the envelope away"
+      ],
+      "correctAnswer": "She wants to know that the spare key is away from its place",
+      "explanation": "A message whenever he uses the key would tell her that it has been taken.",
+      "supportingSentence": "She asked him to return it that evening and to send a message whenever he used it.",
+      "skill": "intent"
+    }
+  ]
+}

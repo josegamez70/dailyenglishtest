@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "economy_finance",
+  "target": 60,
+  "title": "Coins in a Jar",
+  "story": "Every Friday Selim puts spare coins into a glass jar. He wants a winter coat that costs forty pounds. This week he added three pounds from washing a car. His mother matched that amount, so the jar grew faster. Selim wrote the new total on a card. He is still short, but the goal is closer. He will not spend the money on snacks.",
+  "vocabulary": [
+    {
+      "word": "spare",
+      "definition": "Extra and not needed for something else."
+    },
+    {
+      "word": "coins",
+      "definition": "Small round pieces of money."
+    },
+    {
+      "word": "amount",
+      "definition": "How much money there is."
+    },
+    {
+      "word": "matched",
+      "definition": "Added the same amount."
+    },
+    {
+      "word": "total",
+      "definition": "The full amount after adding."
+    },
+    {
+      "word": "snacks",
+      "definition": "Small things eaten between meals."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What does Selim want to buy?",
+      "options": [
+        "A winter coat",
+        "A glass jar",
+        "A new car",
+        "A box of snacks"
+      ],
+      "correctAnswer": "A winter coat",
+      "explanation": "He wants a winter coat that costs forty pounds.",
+      "supportingSentence": "He wants a winter coat that costs forty pounds.",
+      "skill": "detail"
+    },
+    {
+      "question": "How much did the car wash add this week?",
+      "options": [
+        "Three pounds",
+        "Forty pounds",
+        "One coin",
+        "No money"
+      ],
+      "correctAnswer": "Three pounds",
+      "explanation": "This week he added three pounds from washing a car.",
+      "supportingSentence": "This week he added three pounds from washing a car.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Selim's mother do with that amount?",
+      "options": [
+        "She added the same amount",
+        "She bought the coat",
+        "She spent it on snacks",
+        "She hid the card"
+      ],
+      "correctAnswer": "She added the same amount",
+      "explanation": "His mother matched that amount, so she added the same sum.",
+      "supportingSentence": "His mother matched that amount, so the jar grew faster.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does matched mean in this story?",
+      "options": [
+        "Added the same amount of money",
+        "Wrote a number on a card",
+        "Spent money on food",
+        "Closed the jar tightly"
+      ],
+      "correctAnswer": "Added the same amount of money",
+      "explanation": "His mother matched the amount, which means she put in the same money.",
+      "supportingSentence": "His mother matched that amount, so the jar grew faster.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What will Selim refuse to buy with this money?",
+      "options": [
+        "Snacks",
+        "The winter coat",
+        "A new jar",
+        "A blank card"
+      ],
+      "correctAnswer": "Snacks",
+      "explanation": "He will not spend the money on snacks.",
+      "supportingSentence": "He will not spend the money on snacks.",
+      "skill": "detail"
+    }
+  ]
+}

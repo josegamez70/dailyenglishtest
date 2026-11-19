@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "adventure",
+  "target": 140,
+  "title": "The Ledge behind the Waterfall",
+  "story": "On a school hike, the guide led the group to a small waterfall. A safe path went behind the water to a dry ledge. Everyone put on a jacket and held the guide rope. They stepped on wet stones one person at a time. Behind the falling water, the air was cool and loud. They could see the trees outside as a soft green blur. The guide said they must leave before the light faded. They returned the same way and moved slowly. At the bottom the guide counted every person. All twelve were present, and nobody had slipped. The group ate sandwiches on a warm rock in the sun. The guide marked the waterfall on the hike card as a careful place. Students wrote one sentence about what they had seen. They agreed the ledge was wonderful, but only with a guide.",
+  "vocabulary": [
+    {
+      "word": "waterfall",
+      "definition": "water falling from a high place"
+    },
+    {
+      "word": "ledge",
+      "definition": "a narrow flat place like a rock shelf"
+    },
+    {
+      "word": "rope",
+      "definition": "a thick strong cord"
+    },
+    {
+      "word": "blur",
+      "definition": "a shape that is not clear"
+    },
+    {
+      "word": "faded",
+      "definition": "became weaker, as evening light does"
+    },
+    {
+      "word": "counted",
+      "definition": "found how many there were"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where did the safe path lead?",
+      "options": [
+        "To a dry ledge behind the water",
+        "Across a busy road",
+        "Down into a dark cave",
+        "Over the tops of the trees"
+      ],
+      "correctAnswer": "To a dry ledge behind the water",
+      "explanation": "A safe path went behind the water to a dry ledge.",
+      "supportingSentence": "A safe path went behind the water to a dry ledge.",
+      "skill": "detail"
+    },
+    {
+      "question": "How many people were there when the guide counted?",
+      "options": [
+        "All twelve",
+        "Only the guide",
+        "Ten people",
+        "Nobody"
+      ],
+      "correctAnswer": "All twelve",
+      "explanation": "All twelve were present, and nobody had slipped.",
+      "supportingSentence": "All twelve were present, and nobody had slipped.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did the group eat after leaving the waterfall?",
+      "options": [
+        "Sandwiches",
+        "Hot soup",
+        "Cake from home",
+        "Nothing at all"
+      ],
+      "correctAnswer": "Sandwiches",
+      "explanation": "The group ate sandwiches on a warm rock in the sun.",
+      "supportingSentence": "The group ate sandwiches on a warm rock in the sun.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does blur mean?",
+      "options": [
+        "A shape that is not clear",
+        "A dry shelf of rock",
+        "A thick guide rope",
+        "A warm seat in the sun"
+      ],
+      "correctAnswer": "A shape that is not clear",
+      "explanation": "The trees looked like a soft green blur, so their shapes were not clear.",
+      "supportingSentence": "They could see the trees outside as a soft green blur.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did the group move slowly on the way back?",
+      "options": [
+        "The wet stones needed careful steps",
+        "The sandwiches were too heavy",
+        "The guide had lost the rope",
+        "The sun had made the path too hot"
+      ],
+      "correctAnswer": "The wet stones needed careful steps",
+      "explanation": "They had to step on wet stones one at a time, so the return was slow as well.",
+      "supportingSentence": "They stepped on wet stones one person at a time.",
+      "skill": "inference"
+    }
+  ]
+}

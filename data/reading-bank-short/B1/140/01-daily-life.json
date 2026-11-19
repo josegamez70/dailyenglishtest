@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "daily life",
+  "target": 140,
+  "title": "The Mixed Laundry Loads",
+  "story": "Lina carried a full laundry basket down to the shared machines on Sunday morning. She put her white shirts in one machine and her dark trousers in another. Her neighbour Rosa arrived with a red basket and asked which machine was free. Lina pointed to the small machine by the window. When the machines stopped, Lina opened a door. She pulled out a green sweater she had never owned. Rosa laughed and held up Lina's blue towel. They had swapped the wet loads by mistake. They spread everything on a big table and sorted each item by colour. Lina found her socks inside Rosa's basket. Rosa found a school shirt with Lina's name inside the collar. They folded the clean piles and thanked each other. Lina wrote her name on a piece of tape and stuck it to her basket. Next Sunday she checked the tape before she pressed start.",
+  "vocabulary": [
+    {
+      "word": "basket",
+      "definition": "a container used for carrying things"
+    },
+    {
+      "word": "neighbour",
+      "definition": "a person who lives near you"
+    },
+    {
+      "word": "swapped",
+      "definition": "exchanged one thing for another"
+    },
+    {
+      "word": "sorted",
+      "definition": "put into groups"
+    },
+    {
+      "word": "collar",
+      "definition": "the part of a shirt around the neck"
+    },
+    {
+      "word": "tape",
+      "definition": "a sticky strip used for labels"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "When did Lina take the laundry to the machines?",
+      "options": [
+        "On Sunday morning",
+        "On Friday night",
+        "On Monday afternoon",
+        "During school lunch"
+      ],
+      "correctAnswer": "On Sunday morning",
+      "explanation": "She carried the basket down on Sunday morning.",
+      "supportingSentence": "Lina carried a full laundry basket down to the shared machines on Sunday morning.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Lina pull out that she had never owned?",
+      "options": [
+        "A green sweater",
+        "A blue towel",
+        "A red basket",
+        "Her own school shirt"
+      ],
+      "correctAnswer": "A green sweater",
+      "explanation": "She pulled out a green sweater she had never owned.",
+      "supportingSentence": "She pulled out a green sweater she had never owned.",
+      "skill": "detail"
+    },
+    {
+      "question": "Where was Lina's name written on the school shirt?",
+      "options": [
+        "Inside the collar",
+        "On a piece of tape",
+        "Under the big table",
+        "On the green sweater"
+      ],
+      "correctAnswer": "Inside the collar",
+      "explanation": "Rosa found the shirt with Lina's name inside the collar.",
+      "supportingSentence": "Rosa found a school shirt with Lina's name inside the collar.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does swapped mean?",
+      "options": [
+        "Exchanged one thing for another",
+        "Washed something a second time",
+        "Folded clothes into neat piles",
+        "Lost something in a pocket"
+      ],
+      "correctAnswer": "Exchanged one thing for another",
+      "explanation": "They had swapped the loads, so each woman had the other's clothes.",
+      "supportingSentence": "They had swapped the wet loads by mistake.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Lina put her name on the basket?",
+      "options": [
+        "So she could tell her basket from Rosa's",
+        "So the machine would start faster",
+        "So the sweater would stay green",
+        "So Rosa could keep the shirts"
+      ],
+      "correctAnswer": "So she could tell her basket from Rosa's",
+      "explanation": "After mixing up the loads, a name would make her basket easy to recognise.",
+      "supportingSentence": "Lina wrote her name on a piece of tape and stuck it to her basket.",
+      "skill": "inference"
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "mystery",
+  "target": 100,
+  "title": "The Key on the Library Steps",
+  "story": "After closing, the librarian found a brass key on the front steps. It did not fit the main door or the office. She placed it in a labelled box and wrote the time. The next morning Caleb asked about a key with a green tag. The tag was missing, but the shape matched his drawing. Caleb said he had used it for the music room cupboard. The librarian walked with him to check. The key opened the cupboard at once. Inside, his flute case was safe. Caleb thanked her and tied a new tag on the ring. The librarian added a line to the lost-property book.",
+  "vocabulary": [
+    {
+      "word": "librarian",
+      "definition": "a person who looks after a library"
+    },
+    {
+      "word": "brass",
+      "definition": "a yellow-brown metal"
+    },
+    {
+      "word": "labelled",
+      "definition": "marked with a note that says what something is"
+    },
+    {
+      "word": "cupboard",
+      "definition": "a cabinet with a door for storing things"
+    },
+    {
+      "word": "flute",
+      "definition": "a musical instrument you play by blowing"
+    },
+    {
+      "word": "tag",
+      "definition": "a small label tied to an object"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where did the librarian find the key?",
+      "options": [
+        "On the front steps",
+        "In the music room",
+        "On the office desk",
+        "Inside the flute case"
+      ],
+      "correctAnswer": "On the front steps",
+      "explanation": "She found a brass key on the front steps.",
+      "supportingSentence": "After closing, the librarian found a brass key on the front steps.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did the key open when they checked?",
+      "options": [
+        "The cupboard",
+        "The main door",
+        "The office door",
+        "The labelled box"
+      ],
+      "correctAnswer": "The cupboard",
+      "explanation": "The key opened the cupboard at once.",
+      "supportingSentence": "The key opened the cupboard at once.",
+      "skill": "detail"
+    },
+    {
+      "question": "What was safe inside the cupboard?",
+      "options": [
+        "His flute case",
+        "A green tag",
+        "The office money",
+        "A lost library book"
+      ],
+      "correctAnswer": "His flute case",
+      "explanation": "Inside, his flute case was safe.",
+      "supportingSentence": "Inside, his flute case was safe.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does brass mean?",
+      "options": [
+        "A yellow-brown metal",
+        "A kind of music",
+        "A library job",
+        "A green paper label"
+      ],
+      "correctAnswer": "A yellow-brown metal",
+      "explanation": "The key is described as brass, which is the metal it is made of.",
+      "supportingSentence": "After closing, the librarian found a brass key on the front steps.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did they go to check the cupboard?",
+      "options": [
+        "The key shape matched Caleb's drawing",
+        "Caleb worked in the office",
+        "The green tag was still on it",
+        "The key fit the main door"
+      ],
+      "correctAnswer": "The key shape matched Caleb's drawing",
+      "explanation": "The shape matched his drawing of the key he used for that cupboard.",
+      "supportingSentence": "The tag was missing, but the shape matched his drawing.",
+      "skill": "inference"
+    }
+  ]
+}

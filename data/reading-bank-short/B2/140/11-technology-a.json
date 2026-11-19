@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "technology",
+  "target": 140,
+  "title": "A Second Home for Photos",
+  "story": "The community centre offered a free class on keeping photos safe, and the chairs filled with people who had never made a backup. Nora asked everyone to bring a phone and, if possible, a charger. Halfway through the demonstration, the plug board failed, and three phones were close to switching off. She did not cancel the hour. She borrowed a power bank from the desk and let those learners take turns, while the others drew the steps on paper. The steps were to choose an album, copy it, and check that the picture still opened. When the plug board was replaced, the waiting phones had enough charge to finish. One man found that his only pictures of a wedding lived on a cracked screen. He completed that copy before any optional extra. Nora said a backup was a second home for a picture, and it was useless if it was never made.",
+  "vocabulary": [
+    {
+      "word": "backup",
+      "definition": "A second copy kept in case the first is lost."
+    },
+    {
+      "word": "charger",
+      "definition": "A device that puts power back into a phone."
+    },
+    {
+      "word": "demonstration",
+      "definition": "A live showing of how to do something."
+    },
+    {
+      "word": "album",
+      "definition": "A set of photographs kept together."
+    },
+    {
+      "word": "cracked",
+      "definition": "Split or broken across the surface."
+    },
+    {
+      "word": "optional",
+      "definition": "Possible to do, but not required."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What failed during the photo class?",
+      "options": [
+        "The plug board, when three phones were nearly out of power",
+        "The paper notes, which nobody could read",
+        "The wedding album, which was deleted on purpose",
+        "The reception desk, which closed the building"
+      ],
+      "correctAnswer": "The plug board, when three phones were nearly out of power",
+      "explanation": "Halfway through the demonstration, the plug board failed and three phones were close to switching off.",
+      "supportingSentence": "Halfway through the demonstration, the plug board failed, and three phones were close to switching off.",
+      "skill": "detail"
+    },
+    {
+      "question": "Which actions made up the copying steps?",
+      "options": [
+        "Choose a set of photos, copy it, and check that a picture opens",
+        "Buy a phone, a charger, and a power bank",
+        "Crack the screen and then skip the copy",
+        "Cancel the hour and throw the paper away"
+      ],
+      "correctAnswer": "Choose a set of photos, copy it, and check that a picture opens",
+      "explanation": "The steps were to choose an album, copy it, and check that the picture still opened.",
+      "supportingSentence": "The steps were to choose an album, copy it, and check that the picture still opened.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why was one learner's copy more urgent than the extras?",
+      "options": [
+        "His only wedding pictures were on a damaged screen",
+        "He had already stored the pictures in three places",
+        "Nora told him to skip the copy",
+        "His phone was the only one still fully charged"
+      ],
+      "correctAnswer": "His only wedding pictures were on a damaged screen",
+      "explanation": "His only pictures of a wedding lived on a cracked screen, so losing that screen would lose the pictures.",
+      "supportingSentence": "One man found that his only pictures of a wedding lived on a cracked screen.",
+      "skill": "inference"
+    },
+    {
+      "question": "How did Nora deal with the power problem?",
+      "options": [
+        "She kept the class going with a shared battery and paper notes",
+        "She sent the three learners home at once",
+        "She refused to let anyone draw the steps",
+        "She deleted the albums to save power"
+      ],
+      "correctAnswer": "She kept the class going with a shared battery and paper notes",
+      "explanation": "She borrowed a power bank and let others draw the steps, so the class continued without the plug board.",
+      "supportingSentence": "She borrowed a power bank from the desk and let those learners take turns, while the others drew the steps on paper.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does optional mean in this story?",
+      "options": [
+        "Not required, so it can wait",
+        "Broken across the screen",
+        "The only copy of a picture",
+        "A second place where a photo lives"
+      ],
+      "correctAnswer": "Not required, so it can wait",
+      "explanation": "He finished the important copy before any optional extra, so the extra was not required.",
+      "supportingSentence": "He completed that copy before any optional extra.",
+      "skill": "vocabulary"
+    }
+  ]
+}

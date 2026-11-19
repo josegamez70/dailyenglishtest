@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "fantasy",
+  "target": 100,
+  "title": "The Cloak on the Errand",
+  "story": "The market witch lent cloaks that changed with the wearer's mood, though she avoided the word magic near officials. Bram borrowed one for a mountain errand. While he told himself the journey was only for glory, the cloak grew heavy and hot. When he admitted he was carrying medicine for a sick neighbour, the cloth cooled and the wind helped him. He reached the cottage before the snow thickened. On the way down he boasted in the square, and the cloak became damp at once. Bram stopped. The witch said the garment listened badly to lies and well to plain reasons.",
+  "vocabulary": [
+    {
+      "word": "errand",
+      "definition": "A journey made in order to carry out a task."
+    },
+    {
+      "word": "glory",
+      "definition": "Praise and fame for yourself."
+    },
+    {
+      "word": "admitted",
+      "definition": "Said openly something you had not fully owned."
+    },
+    {
+      "word": "thickened",
+      "definition": "Became denser or heavier."
+    },
+    {
+      "word": "boasted",
+      "definition": "Talked with too much pride about yourself."
+    },
+    {
+      "word": "garment",
+      "definition": "A piece of clothing."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What was Bram carrying for someone else?",
+      "options": [
+        "Medicine for a sick neighbour",
+        "A letter from the market officials",
+        "A second cloak for the witch",
+        "Snow from the cottage roof"
+      ],
+      "correctAnswer": "Medicine for a sick neighbour",
+      "explanation": "He admitted he was carrying medicine for a sick neighbour.",
+      "supportingSentence": "When he admitted he was carrying medicine for a sick neighbour, the cloth cooled and the wind helped him.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the heavy, hot cloak suggest?",
+      "options": [
+        "The snow had already soaked it before he started",
+        "A reason that was only about glory was one the cloak resisted",
+        "Thinking of glory made the cloth light and cool",
+        "Officials had filled the pockets with stones"
+      ],
+      "correctAnswer": "A reason that was only about glory was one the cloak resisted",
+      "explanation": "While he tells himself the journey is only for glory, the cloak grows heavy and hot, so that reason does not suit it.",
+      "supportingSentence": "While he told himself the journey was only for glory, the cloak grew heavy and hot.",
+      "skill": "inference"
+    },
+    {
+      "question": "Who lent Bram the cloak?",
+      "options": [
+        "His sick neighbour",
+        "An official in the square",
+        "The market witch",
+        "The owner of the high cottage"
+      ],
+      "correctAnswer": "The market witch",
+      "explanation": "The market witch lent cloaks that changed with the wearer's mood.",
+      "supportingSentence": "The market witch lent cloaks that changed with the wearer's mood, though she avoided the word magic near officials.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the damp cloak in the square suggest?",
+      "options": [
+        "The cottage roof had fallen on him",
+        "He had dropped the medicine in the square",
+        "The witch had already taken the cloak away",
+        "Boasting was another reason the cloak would not accept"
+      ],
+      "correctAnswer": "Boasting was another reason the cloak would not accept",
+      "explanation": "As soon as he boasts, the cloak becomes damp, which fits its dislike of showy, untrue reasons.",
+      "supportingSentence": "On the way down he boasted in the square, and the cloak became damp at once.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does garment mean in this story?",
+      "options": [
+        "The cloak Bram had borrowed",
+        "The mountain path to the cottage",
+        "The bottle of medicine",
+        "The official who heard the word magic"
+      ],
+      "correctAnswer": "The cloak Bram had borrowed",
+      "explanation": "The witch is talking about the cloak when she calls it a garment that listens badly to lies.",
+      "supportingSentence": "The witch said the garment listened badly to lies and well to plain reasons.",
+      "skill": "vocabulary"
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "hobbies",
+  "target": 140,
+  "title": "Ink on Thick Paper",
+  "story": "On Saturday mornings the community workshop opened its letterpress room to anyone who had booked a slot. Helen had come to print invitations for her sister's spring lunch, using metal type rather than a home printer. The tutor showed her how to lock the letters into a chase so they would not shift under the roller. Her first sheet came out faint because the ink was too thin. The second was blotched because the ink was too heavy. On the third try the tutor told her to listen for an even sound as the roller passed, which meant the pressure was steady. Helen printed twenty cards and spoiled only two. She liked the slight dent the letters left in the thick paper. Before she left, she cleaned the type with solvent and returned every letter to its tray. The tutor said that care with the tools mattered as much as the cards themselves.",
+  "vocabulary": [
+    {
+      "word": "letterpress",
+      "definition": "Printing made by pressing metal letters into paper."
+    },
+    {
+      "word": "invitations",
+      "definition": "Cards asking people to come to an event."
+    },
+    {
+      "word": "chase",
+      "definition": "A frame that holds metal printing letters steady."
+    },
+    {
+      "word": "blotched",
+      "definition": "Marked with uneven spots of ink."
+    },
+    {
+      "word": "solvent",
+      "definition": "A liquid used to wash ink away."
+    },
+    {
+      "word": "dent",
+      "definition": "A small hollow pressed into a surface."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How many cards did Helen spoil?",
+      "options": [
+        "Two cards out of the twenty she printed",
+        "Every sheet from the first try",
+        "The whole tray of metal letters",
+        "None, because the first sheet was perfect"
+      ],
+      "correctAnswer": "Two cards out of the twenty she printed",
+      "explanation": "She printed twenty cards and spoiled only two.",
+      "supportingSentence": "Helen printed twenty cards and spoiled only two.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did the second sheet look bad?",
+      "options": [
+        "There was too much ink on it",
+        "The paper was too thick to hold any mark",
+        "The tutor had already washed it clean",
+        "The letters were still in the tray"
+      ],
+      "correctAnswer": "There was too much ink on it",
+      "explanation": "The second sheet was blotched because the ink was too heavy.",
+      "supportingSentence": "The second was blotched because the ink was too heavy.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Helen like about the finished cards?",
+      "options": [
+        "The pressed mark the metal letters left in the paper",
+        "A faint look with heavy spots of ink",
+        "The speed of an ordinary home printer",
+        "The smell of the cleaning liquid"
+      ],
+      "correctAnswer": "The pressed mark the metal letters left in the paper",
+      "explanation": "She liked the slight dent the letters left in the thick paper, so the pressed mark mattered to her.",
+      "supportingSentence": "She liked the slight dent the letters left in the thick paper.",
+      "skill": "inference"
+    },
+    {
+      "question": "What point does the tutor make at the end?",
+      "options": [
+        "Looking after the tools matters as much as the cards",
+        "Spoiled sheets are better than clean ones",
+        "A home printer is always the better choice",
+        "Twenty cards are too many for one morning"
+      ],
+      "correctAnswer": "Looking after the tools matters as much as the cards",
+      "explanation": "The tutor said that care with the tools mattered as much as the cards themselves.",
+      "supportingSentence": "The tutor said that care with the tools mattered as much as the cards themselves.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does blotched mean in this story?",
+      "options": [
+        "Marked with uneven patches of heavy ink",
+        "Locked safely inside a printing frame",
+        "Printed too lightly to read",
+        "Folded and sent to the guests"
+      ],
+      "correctAnswer": "Marked with uneven patches of heavy ink",
+      "explanation": "The sheet was blotched because the ink was too heavy, so the word describes uneven ink marks.",
+      "supportingSentence": "The second was blotched because the ink was too heavy.",
+      "skill": "vocabulary"
+    }
+  ]
+}

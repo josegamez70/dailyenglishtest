@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "health_sports",
+  "target": 60,
+  "title": "No Baseline for the Stumble",
+  "story": "The club skipped baseline balance tests because the equipment arrived late. When Salma stumbled in training, Coach Berg had no earlier score to compare. They paused contact and sent her for the test that afternoon. The number looked ordinary, yet without a baseline it could not show a personal drop. Berg kept her out of contact until a second test matched the first.",
+  "vocabulary": [
+    {
+      "word": "baseline",
+      "definition": "An earlier measurement used for comparison"
+    },
+    {
+      "word": "stumbled",
+      "definition": "Lost her footing or balance for a moment"
+    },
+    {
+      "word": "contact",
+      "definition": "Training in which players may hit or tackle"
+    },
+    {
+      "word": "ordinary",
+      "definition": "Looking normal, with nothing unusual"
+    },
+    {
+      "word": "score",
+      "definition": "The number produced by the test"
+    },
+    {
+      "word": "matched",
+      "definition": "Was the same as another result"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Why did the club skip the baseline tests?",
+      "options": [
+        "The equipment arrived late",
+        "Salma refused to be tested",
+        "Contact had already been paused",
+        "The second test had already matched the first"
+      ],
+      "correctAnswer": "The equipment arrived late",
+      "explanation": "The tests were skipped because the equipment arrived late.",
+      "supportingSentence": "The club skipped baseline balance tests because the equipment arrived late.",
+      "skill": "detail"
+    },
+    {
+      "question": "What restriction stayed until the two tests agreed?",
+      "options": [
+        "She stayed out of contact work",
+        "She skipped every training session",
+        "She repeated the stumble on purpose",
+        "She compared scores for the whole club"
+      ],
+      "correctAnswer": "She stayed out of contact work",
+      "explanation": "Berg kept her out of contact until a second test matched the first.",
+      "supportingSentence": "Berg kept her out of contact until a second test matched the first.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did a normal-looking result fail to clear her?",
+      "options": [
+        "There was no earlier score to show whether it was a drop for her",
+        "The equipment was delivered again that afternoon",
+        "Contact sport does not use numbers at all",
+        "The second test was taken by the coach himself"
+      ],
+      "correctAnswer": "There was no earlier score to show whether it was a drop for her",
+      "explanation": "Without a baseline, an ordinary number could not show a personal drop.",
+      "supportingSentence": "The number looked ordinary, yet without a baseline it could not show a personal drop.",
+      "skill": "inference"
+    },
+    {
+      "question": "What is a baseline in this passage?",
+      "options": [
+        "An earlier measurement used for comparison",
+        "A stumble during a training session",
+        "A ban on contact sport",
+        "A piece of equipment that arrived late"
+      ],
+      "correctAnswer": "An earlier measurement used for comparison",
+      "explanation": "A baseline is the earlier score they lacked, so they could not tell whether the new number was a drop.",
+      "supportingSentence": "The number looked ordinary, yet without a baseline it could not show a personal drop.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer mention the late equipment?",
+      "options": [
+        "To explain why no earlier score existed",
+        "To prove Salma had broken the testing kit",
+        "To suggest contact should replace balance tests",
+        "To argue that afternoon tests are always invalid"
+      ],
+      "correctAnswer": "To explain why no earlier score existed",
+      "explanation": "The late equipment is the reason the baseline tests were skipped.",
+      "supportingSentence": "The club skipped baseline balance tests because the equipment arrived late.",
+      "skill": "intent"
+    }
+  ]
+}

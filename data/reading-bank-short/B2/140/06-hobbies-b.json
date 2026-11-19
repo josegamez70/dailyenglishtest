@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "hobbies",
+  "target": 140,
+  "title": "A Heron in the Margin",
+  "story": "Marc took his sketchbook to the river path when the light was soft. He was drawing the footbridge when rain began in heavy drops. The paper wrinkled at one corner, and a nearly finished drawing of the arches started to blur. A woman under the bridge offered him a plastic sleeve from her shopping bag. Marc slid the book inside and admitted he usually forgot any cover. They waited while the shower passed. He explained that he preferred pencil outdoors, because a drawing in pencil can stop and start without waiting for colour to dry. The woman said she walked that path to watch birds, and she pointed to a heron that had stayed still in the rain. When the sky cleared, Marc added the bird in a few lines and wrote the date beneath it. He went home with one damaged page and a drawing the shower had interrupted but not ruined.",
+  "vocabulary": [
+    {
+      "word": "sketchbook",
+      "definition": "A book of blank pages used for drawing."
+    },
+    {
+      "word": "wrinkled",
+      "definition": "Creased, so a surface is no longer smooth."
+    },
+    {
+      "word": "blur",
+      "definition": "To become unclear around the edges."
+    },
+    {
+      "word": "sleeve",
+      "definition": "A cover that protects whatever is put inside it."
+    },
+    {
+      "word": "heron",
+      "definition": "A tall bird that often stands in shallow water."
+    },
+    {
+      "word": "interrupted",
+      "definition": "Stopped for a time before the end."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did the woman offer Marc in the rain?",
+      "options": [
+        "A plastic sleeve from her shopping bag",
+        "A finished painting of the footbridge",
+        "A dry set of coloured paints",
+        "A ride home before the shower"
+      ],
+      "correctAnswer": "A plastic sleeve from her shopping bag",
+      "explanation": "She offered him a plastic sleeve from her shopping bag.",
+      "supportingSentence": "A woman under the bridge offered him a plastic sleeve from her shopping bag.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Marc add after the sky cleared?",
+      "options": [
+        "A few lines for the bird, and the date",
+        "A second bridge drawn in colour",
+        "The woman's shopping list",
+        "A note that the book was ruined"
+      ],
+      "correctAnswer": "A few lines for the bird, and the date",
+      "explanation": "When the sky cleared, he added the bird in a few lines and wrote the date beneath it.",
+      "supportingSentence": "When the sky cleared, Marc added the bird in a few lines and wrote the date beneath it.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does Marc admit about his usual habit?",
+      "options": [
+        "He often goes drawing without anything to cover the book",
+        "He always carries a plastic sleeve in his coat",
+        "He prefers heavy rain to a dry path",
+        "He had borrowed the book from the woman"
+      ],
+      "correctAnswer": "He often goes drawing without anything to cover the book",
+      "explanation": "He admitted he usually forgot any cover, so the book was often unprotected.",
+      "supportingSentence": "Marc slid the book inside and admitted he usually forgot any cover.",
+      "skill": "inference"
+    },
+    {
+      "question": "What was the state of the work he took home?",
+      "options": [
+        "The rain had broken into it, but the drawing survived",
+        "The shower had washed every line away",
+        "He refused to keep the damaged page",
+        "He gave the finished book to the woman"
+      ],
+      "correctAnswer": "The rain had broken into it, but the drawing survived",
+      "explanation": "He went home with one damaged page and a drawing the shower had interrupted but not ruined.",
+      "supportingSentence": "He went home with one damaged page and a drawing the shower had interrupted but not ruined.",
+      "skill": "inference"
+    },
+    {
+      "question": "What is a heron in this story?",
+      "options": [
+        "A tall bird the woman pointed out in the rain",
+        "A plastic cover for a sketchbook",
+        "A stone arch of the footbridge",
+        "A date written under a drawing"
+      ],
+      "correctAnswer": "A tall bird the woman pointed out in the rain",
+      "explanation": "She pointed to a heron that had stayed still in the rain, and a heron is a tall waterside bird.",
+      "supportingSentence": "The woman said she walked that path to watch birds, and she pointed to a heron that had stayed still in the rain.",
+      "skill": "vocabulary"
+    }
+  ]
+}

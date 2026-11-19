@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "hobbies",
+  "target": 100,
+  "title": "A Game on the Kitchen Table",
+  "story": "Every Tuesday evening, Imani set a chessboard on the kitchen table. Her uncle Theo was teaching her the pieces. She already knew the pawns moved one square, but the knights still confused her. Theo showed the L shape with two coins and a bean. Imani tried the move and captured his bishop. She grinned, then saw that her queen was in danger. Theo did not let her take the move back. He said a real game had no second chances. They played until the soup was ready. Imani wrote the knight move on a card and taped it inside the box. Next week she wanted to remember it without help.",
+  "vocabulary": [
+    {
+      "word": "chessboard",
+      "definition": "the board used for the game of chess"
+    },
+    {
+      "word": "pawns",
+      "definition": "the smallest chess pieces, which move one square"
+    },
+    {
+      "word": "knights",
+      "definition": "chess pieces that jump in an L shape"
+    },
+    {
+      "word": "captured",
+      "definition": "took an opponent piece off the board"
+    },
+    {
+      "word": "bishop",
+      "definition": "a chess piece that moves on a diagonal"
+    },
+    {
+      "word": "queen",
+      "definition": "the strongest piece in chess"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "When does Imani usually set up the game?",
+      "options": [
+        "On Tuesday evening",
+        "On Sunday morning",
+        "After school on Friday",
+        "Only in the winter"
+      ],
+      "correctAnswer": "On Tuesday evening",
+      "explanation": "Every Tuesday evening she set a chessboard on the kitchen table.",
+      "supportingSentence": "Every Tuesday evening, Imani set a chessboard on the kitchen table.",
+      "skill": "detail"
+    },
+    {
+      "question": "Which pieces still confused Imani?",
+      "options": [
+        "The knights",
+        "The pawns",
+        "The soup bowls",
+        "The coins on the shelf"
+      ],
+      "correctAnswer": "The knights",
+      "explanation": "She knew the pawns, but the knights still confused her.",
+      "supportingSentence": "She already knew the pawns moved one square, but the knights still confused her.",
+      "skill": "detail"
+    },
+    {
+      "question": "Where did Imani put the note about the knight move?",
+      "options": [
+        "Inside the box",
+        "On the soup pot",
+        "In her uncle's coat",
+        "Under the table"
+      ],
+      "correctAnswer": "Inside the box",
+      "explanation": "She taped the card inside the box.",
+      "supportingSentence": "Imani wrote the knight move on a card and taped it inside the box.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does captured mean?",
+      "options": [
+        "Took a piece off the board",
+        "Lost the whole game",
+        "Wrote a note",
+        "Moved a pawn one square"
+      ],
+      "correctAnswer": "Took a piece off the board",
+      "explanation": "Imani captured his bishop, which means she took that piece.",
+      "supportingSentence": "Imani tried the move and captured his bishop.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why would Theo not let Imani take the move back?",
+      "options": [
+        "A real game had no second chances",
+        "The soup was burning",
+        "The queen was his favourite colour",
+        "The card was already taped"
+      ],
+      "correctAnswer": "A real game had no second chances",
+      "explanation": "He refused the second try and said a real game had no second chances.",
+      "supportingSentence": "He said a real game had no second chances.",
+      "skill": "inference"
+    }
+  ]
+}

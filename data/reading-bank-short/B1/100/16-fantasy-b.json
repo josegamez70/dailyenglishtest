@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "fantasy",
+  "target": 100,
+  "title": "The Clock That Called the Rain",
+  "story": "The village clock had been silent for years. When drought cracked the fields, a child named Pim climbed the tower. He found a blue gear that did not match the others. A note in the dust said to turn it once if the sky forgot. Pim turned the gear. The clock chimed, and clouds gathered over the hills. Rain fell before he reached the square. People set out buckets and laughed. The oldest farmer told Pim the clock was a bargain with the river spirit. It would ring only when someone asked kindly. Pim oiled the gear and closed the tower door. That night the streets shone.",
+  "vocabulary": [
+    {
+      "word": "drought",
+      "definition": "a long time with too little rain"
+    },
+    {
+      "word": "gear",
+      "definition": "a toothed wheel in a machine"
+    },
+    {
+      "word": "chimed",
+      "definition": "made a ringing sound"
+    },
+    {
+      "word": "buckets",
+      "definition": "open containers for holding water"
+    },
+    {
+      "word": "bargain",
+      "definition": "an agreement between two sides"
+    },
+    {
+      "word": "spirit",
+      "definition": "a being that is not an ordinary person"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What problem in the fields sent Pim up the tower?",
+      "options": [
+        "Drought had cracked them",
+        "The square was flooded",
+        "The farmer locked the gate",
+        "People had too many buckets"
+      ],
+      "correctAnswer": "Drought had cracked them",
+      "explanation": "He climbed the tower when drought cracked the fields.",
+      "supportingSentence": "When drought cracked the fields, a child named Pim climbed the tower.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did the dusty note tell Pim to do?",
+      "options": [
+        "Turn the gear once",
+        "Break the clock",
+        "Close the tower and leave",
+        "Empty the buckets"
+      ],
+      "correctAnswer": "Turn the gear once",
+      "explanation": "The note said to turn it once if the sky forgot.",
+      "supportingSentence": "A note in the dust said to turn it once if the sky forgot.",
+      "skill": "detail"
+    },
+    {
+      "question": "When did the farmer say the clock would ring?",
+      "options": [
+        "Only when someone asked kindly",
+        "Every morning at dawn",
+        "Whenever the buckets were full",
+        "Only during a silent year"
+      ],
+      "correctAnswer": "Only when someone asked kindly",
+      "explanation": "It would ring only when someone asked kindly.",
+      "supportingSentence": "It would ring only when someone asked kindly.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what is a drought?",
+      "options": [
+        "A long time with too little rain",
+        "A loud clock sound",
+        "A river animal",
+        "A blue machine part"
+      ],
+      "correctAnswer": "A long time with too little rain",
+      "explanation": "The drought had left the fields cracked because rain had not come.",
+      "supportingSentence": "When drought cracked the fields, a child named Pim climbed the tower.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did clouds gather over the hills?",
+      "options": [
+        "The clock had chimed",
+        "People were laughing in the square",
+        "The farmer had closed the door",
+        "The streets were already wet"
+      ],
+      "correctAnswer": "The clock had chimed",
+      "explanation": "The clock chimed, and clouds gathered over the hills.",
+      "supportingSentence": "The clock chimed, and clouds gathered over the hills.",
+      "skill": "inference"
+    }
+  ]
+}

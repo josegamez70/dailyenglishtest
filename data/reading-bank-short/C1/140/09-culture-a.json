@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "culture_food",
+  "target": 140,
+  "title": "The Card That Named the Nut",
+  "story": "The food fair required every stall to list allergens on a card. Nia had printed one for her pepper stew, then forgotten the walnut she had ground into the base. Her cousin tasted the sauce on Saturday and named the nut. Walnut had been omitted from the card. Dropping the pot would leave the stall bare, but serving the old card would break the rule and put a visitor at risk. Nia rewrote the card in large letters and moved the pot forward so the nut line was obvious. The steward noted the change and brought a printed symbol to fix beside the handwriting. Two customers thanked her and chose the rice dish instead. She kept the new card in place. A missed ingredient was a kitchen error, while hiding it would have been a breach of trust.",
+  "vocabulary": [
+    {
+      "word": "allergens",
+      "definition": "Substances that can cause a harmful reaction."
+    },
+    {
+      "word": "omitted",
+      "definition": "Left out of something written."
+    },
+    {
+      "word": "steward",
+      "definition": "A person who helps run an event."
+    },
+    {
+      "word": "symbol",
+      "definition": "A simple sign that stands for a warning."
+    },
+    {
+      "word": "ingredient",
+      "definition": "One item that goes into a dish."
+    },
+    {
+      "word": "breach",
+      "definition": "A breaking of a rule or of trust."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Which ingredient had been left off the printed card?",
+      "options": [
+        "Walnut",
+        "Rice",
+        "Milk",
+        "Honey"
+      ],
+      "correctAnswer": "Walnut",
+      "explanation": "Walnut had been omitted from the card after Nia forgot it was in the base.",
+      "supportingSentence": "Walnut had been omitted from the card.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did the steward fix beside the new handwriting?",
+      "options": [
+        "A printed symbol",
+        "A refund for every bowl",
+        "A second pot with no nuts",
+        "A ban on the rice dish"
+      ],
+      "correctAnswer": "A printed symbol",
+      "explanation": "The steward brought a printed symbol to fix beside the handwriting.",
+      "supportingSentence": "The steward noted the change and brought a printed symbol to fix beside the handwriting.",
+      "skill": "detail"
+    },
+    {
+      "question": "When would Nia's mistake become a breach of trust?",
+      "options": [
+        "If she served the stew while hiding the walnut",
+        "If the allergen card was very small",
+        "If a cousin tasted the sauce before noon",
+        "If two customers chose the rice instead"
+      ],
+      "correctAnswer": "If she served the stew while hiding the walnut",
+      "explanation": "A missed ingredient is called a kitchen error, while hiding it would be a breach of trust.",
+      "supportingSentence": "A missed ingredient was a kitchen error, while hiding it would have been a breach of trust.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does omitted mean in this passage?",
+      "options": [
+        "Left out of the written list",
+        "Heated for a second time",
+        "Given away free to the steward",
+        "Written again in larger letters"
+      ],
+      "correctAnswer": "Left out of the written list",
+      "explanation": "Walnut had been omitted from the card, meaning it was missing from the written list.",
+      "supportingSentence": "Walnut had been omitted from the card.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer begin with the fair's card rule?",
+      "options": [
+        "To show that listing allergens was already required",
+        "To suggest the fair sold blank cards as food",
+        "To prove Nia had never cooked a stew",
+        "To explain why her cousin was in charge"
+      ],
+      "correctAnswer": "To show that listing allergens was already required",
+      "explanation": "The opening rule shows every stall already had to list allergens, which is the standard Nia then meets.",
+      "supportingSentence": "The food fair required every stall to list allergens on a card.",
+      "skill": "intent"
+    }
+  ]
+}

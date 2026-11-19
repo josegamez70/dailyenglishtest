@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "fantasy",
+  "target": 140,
+  "title": "The Cup That Stayed Warm",
+  "story": "In the village of Brindle, an old cup sat on the inn table. It stayed warm only when a drink was shared. If someone drank alone, the tea turned cold at once. A girl named Nia poured a full cup on a cold evening. A traveller came in with wet boots and no drink. Nia pushed the cup toward him and asked him to take half. The tea grew hot again, and a soft gold light rose from the cup. The owner smiled and explained the rule. The cup was not a trick for guests to fear. It reminded the village that comfort should be shared. Nia and the traveller talked until their boots were dry. Before he left, he poured a fresh cup and offered it back to her. The light returned, and the inn felt kind. Nia washed the cup each week so the glow was easy to see.",
+  "vocabulary": [
+    {
+      "word": "village",
+      "definition": "a small group of homes in the country"
+    },
+    {
+      "word": "shared",
+      "definition": "used or given by more than one person"
+    },
+    {
+      "word": "traveller",
+      "definition": "a person who is on a journey"
+    },
+    {
+      "word": "glow",
+      "definition": "a soft light"
+    },
+    {
+      "word": "comfort",
+      "definition": "a warm and safe feeling"
+    },
+    {
+      "word": "inn",
+      "definition": "a small place where travellers can rest and eat"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "When did the old cup stay warm?",
+      "options": [
+        "When a drink was shared",
+        "When someone drank alone",
+        "Only at noon",
+        "When the cup was empty"
+      ],
+      "correctAnswer": "When a drink was shared",
+      "explanation": "It stayed warm only when a drink was shared.",
+      "supportingSentence": "It stayed warm only when a drink was shared.",
+      "skill": "detail"
+    },
+    {
+      "question": "Who came into the inn needing a drink?",
+      "options": [
+        "A traveller with wet boots",
+        "The village mayor",
+        "Nia's teacher",
+        "A child from the school"
+      ],
+      "correctAnswer": "A traveller with wet boots",
+      "explanation": "A traveller came in with wet boots and no drink.",
+      "supportingSentence": "A traveller came in with wet boots and no drink.",
+      "skill": "detail"
+    },
+    {
+      "question": "What rose from the cup when the tea grew hot again?",
+      "options": [
+        "A soft gold light",
+        "A cloud of smoke",
+        "A loud bell",
+        "A stream of cold water"
+      ],
+      "correctAnswer": "A soft gold light",
+      "explanation": "A soft gold light rose from the cup when the tea grew hot again.",
+      "supportingSentence": "The tea grew hot again, and a soft gold light rose from the cup.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does glow mean?",
+      "options": [
+        "A soft light",
+        "A cold drink",
+        "A wet boot",
+        "A long journey"
+      ],
+      "correctAnswer": "A soft light",
+      "explanation": "Nia washed the cup so the glow, its soft light, was easy to see.",
+      "supportingSentence": "Nia washed the cup each week so the glow was easy to see.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did the light come back before the traveller left?",
+      "options": [
+        "He shared a fresh cup with Nia",
+        "Nia finished a full cup alone",
+        "The owner hid the cup away",
+        "The tea stayed cold on the table"
+      ],
+      "correctAnswer": "He shared a fresh cup with Nia",
+      "explanation": "He offered Nia a fresh cup, and the light returns when a drink is shared.",
+      "supportingSentence": "Before he left, he poured a fresh cup and offered it back to her.",
+      "skill": "inference"
+    }
+  ]
+}

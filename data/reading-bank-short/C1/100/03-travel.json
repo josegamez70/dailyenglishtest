@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "travel",
+  "target": 100,
+  "title": "Choosing the Later Mountain Coach",
+  "story": "The agent offered Mara a seat on the early coach through the mountains, with a tight connection at the river station. She read the board, saw how little room a delay would leave, and asked for the later coach that reached the same town after dark. That ticket cost more, and the early seat was easier to sell, so the agent hesitated. Mara was not chasing comfort. She was buying time between the two legs, enough to recover if the first road closed. A missed link would have meant a night in a town where she knew nobody. Arriving late, with the plan intact, seemed the smaller risk.",
+  "vocabulary": [
+    {
+      "word": "connection",
+      "definition": "A later vehicle that must be caught in time"
+    },
+    {
+      "word": "delay",
+      "definition": "A hold-up that makes something late"
+    },
+    {
+      "word": "hesitated",
+      "definition": "Paused before agreeing"
+    },
+    {
+      "word": "comfort",
+      "definition": "Physical ease during a journey"
+    },
+    {
+      "word": "intact",
+      "definition": "Still whole and undamaged"
+    },
+    {
+      "word": "agent",
+      "definition": "A person who sells and arranges tickets"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Which coach did Mara request after reading the board?",
+      "options": [
+        "The later one, reaching town after dark",
+        "The early one, with a rush at the river",
+        "A boat that replaced both coaches",
+        "A seat another traveller had already bought"
+      ],
+      "correctAnswer": "The later one, reaching town after dark",
+      "explanation": "She asked for the later coach that reached the same town after dark.",
+      "supportingSentence": "She read the board, saw how little room a delay would leave, and asked for the later coach that reached the same town after dark.",
+      "skill": "detail"
+    },
+    {
+      "question": "What made the agent pause over her request?",
+      "options": [
+        "A higher fare and an early seat that sold easily",
+        "A mountain road that was already closed",
+        "News that she had missed the station",
+        "A board that showed no coach after dark"
+      ],
+      "correctAnswer": "A higher fare and an early seat that sold easily",
+      "explanation": "The later ticket cost more, and the early seat was easier to sell.",
+      "supportingSentence": "That ticket cost more, and the early seat was easier to sell, so the agent hesitated.",
+      "skill": "detail"
+    },
+    {
+      "question": "What danger is the extra cost meant to shrink?",
+      "options": [
+        "A night stranded if the first road closes",
+        "A noisier seat than the early coach",
+        "A fine charged at the river station",
+        "A return to the agent's office"
+      ],
+      "correctAnswer": "A night stranded if the first road closes",
+      "explanation": "She buys time so a closed road does not leave her overnight in an unknown town.",
+      "supportingSentence": "She was buying time between the two legs, enough to recover if the first road closed.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does connection mean on this journey?",
+      "options": [
+        "The onward coach she has to reach in time",
+        "A discount offered beside the river",
+        "A friend waiting in the destination",
+        "The fee for changing a ticket"
+      ],
+      "correctAnswer": "The onward coach she has to reach in time",
+      "explanation": "A connection here is the onward coach waiting at the river station.",
+      "supportingSentence": "The agent offered Mara a seat on the early coach through the mountains, with a tight connection at the river station.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why state that Mara was not chasing comfort?",
+      "options": [
+        "To frame the later coach as a choice about risk",
+        "To complain that night roads are colder",
+        "To hint that the agent refused her",
+        "To describe the meals on the early coach"
+      ],
+      "correctAnswer": "To frame the later coach as a choice about risk",
+      "explanation": "The remark stops the reader from taking the later coach as a wish for ease.",
+      "supportingSentence": "Mara was not chasing comfort.",
+      "skill": "intent"
+    }
+  ]
+}
