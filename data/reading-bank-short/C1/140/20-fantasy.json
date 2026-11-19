@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "fantasy",
+  "target": 140,
+  "title": "The Name That Held at Dusk",
+  "story": "In Velin a borrowed name stayed on a doorplate only while its promise was kept. At dusk the letters loosened, and by full dark an unmet name fell off and returned to the drawer as loose type. Mara had borrowed a river pilot's name for one crossing and had agreed to bring the ferry log back before sunset. The tide made her late, and three letters were already gone from the pilot's door. Clerk Osian would not hammer them back. A name restored after dark, he said, stuck crooked and brought the wrong memories into the house. Mara set the log on the counter before the last letter fell. Osian pressed the type into the plate while the day's ink was still receptive. The name held. A minute later it would have spent the night in the drawer, and the river would have had nobody to answer to it.",
+  "vocabulary": [
+    {
+      "word": "doorplate",
+      "definition": "A small nameplate fixed to a door."
+    },
+    {
+      "word": "loosened",
+      "definition": "Became loose and ready to fall away."
+    },
+    {
+      "word": "type",
+      "definition": "A metal letter used to print a word."
+    },
+    {
+      "word": "restored",
+      "definition": "Put back into its earlier place."
+    },
+    {
+      "word": "crooked",
+      "definition": "Bent or sitting unevenly, not straight."
+    },
+    {
+      "word": "receptive",
+      "definition": "Ready to take something in."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What had Mara agreed to bring back with the borrowed name?",
+      "options": [
+        "The ferry log before sunset",
+        "A new door for the clerk's house",
+        "Three loose letters from another town",
+        "A tide chart after full dark"
+      ],
+      "correctAnswer": "The ferry log before sunset",
+      "explanation": "She had agreed to bring the ferry log back before sunset.",
+      "supportingSentence": "Mara had borrowed a river pilot's name for one crossing and had agreed to bring the ferry log back before sunset.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Osian do to the plate once the log arrived in time?",
+      "options": [
+        "He pressed the type back into the plate",
+        "He sent Mara across the river again",
+        "He locked the drawer until winter",
+        "He gave the pilot's door a different name"
+      ],
+      "correctAnswer": "He pressed the type back into the plate",
+      "explanation": "Osian pressed the type into the plate while the day's ink was still receptive.",
+      "supportingSentence": "Osian pressed the type into the plate while the day's ink was still receptive.",
+      "skill": "detail"
+    },
+    {
+      "question": "What would a delay of one more minute have meant?",
+      "options": [
+        "The pilot's name would have spent the night in the drawer",
+        "The ferry itself would have turned into loose type",
+        "Osian would have kept the pilot's name for himself",
+        "The tide would have given the town a new name"
+      ],
+      "correctAnswer": "The pilot's name would have spent the night in the drawer",
+      "explanation": "A minute later the name would have spent the night in the drawer, with nobody to answer to it.",
+      "supportingSentence": "A minute later it would have spent the night in the drawer, and the river would have had nobody to answer to it.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does crooked mean for a name put back after dark?",
+      "options": [
+        "Fixed unevenly, not sitting straight",
+        "Spoken aloud by the river pilot",
+        "Paid for with a second ferry log",
+        "Brighter than it had been at noon"
+      ],
+      "correctAnswer": "Fixed unevenly, not sitting straight",
+      "explanation": "Osian says a name restored after dark stuck crooked, meaning it would sit unevenly.",
+      "supportingSentence": "A name restored after dark, he said, stuck crooked and brought the wrong memories into the house.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer mention wrong memories in the house?",
+      "options": [
+        "To explain the harm of forcing a name back after dark",
+        "To show that Mara had forgotten the way to the river",
+        "To prove the clerk sold other people's memories",
+        "To explain why the ferry log had no writing"
+      ],
+      "correctAnswer": "To explain the harm of forcing a name back after dark",
+      "explanation": "A name restored after dark would stick crooked and bring the wrong memories into the house, which is why Osian will not force it.",
+      "supportingSentence": "A name restored after dark, he said, stuck crooked and brought the wrong memories into the house.",
+      "skill": "intent"
+    }
+  ]
+}

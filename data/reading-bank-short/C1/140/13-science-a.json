@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "science",
+  "target": 140,
+  "title": "The Sample That Spoiled the Graph",
+  "story": "For a month the allotment trial gave steady nitrogen readings, until Thursday's sample from bed four came back far higher. Ivo wanted to drop it as contamination from a dirty tool. Sen told him not to discard a result merely because it spoiled a tidy graph. The bed stood by the compost gate, so a spill was possible, but possibility was not proof. The sampling notes said bed four had been taken last, with the same washed tool used on the earlier beds. They also recorded a manure pile against the fence that morning. The high reading could therefore be real. Ivo took a second sample and logged the pile. If the two results matched, the trial would treat bed four as genuinely richer, not as an error. Science, Sen said, begins by trying to disprove the convenient explanation.",
+  "vocabulary": [
+    {
+      "word": "nitrogen",
+      "definition": "A nutrient in soil that this trial measured."
+    },
+    {
+      "word": "contamination",
+      "definition": "Unwanted material that spoils a result."
+    },
+    {
+      "word": "discard",
+      "definition": "Throw out and ignore."
+    },
+    {
+      "word": "sampling",
+      "definition": "Collecting material so it can be tested."
+    },
+    {
+      "word": "genuinely",
+      "definition": "Truly, and not only in appearance."
+    },
+    {
+      "word": "disprove",
+      "definition": "Show that an explanation is wrong."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did the sampling notes say about the tool used on bed four?",
+      "options": [
+        "The same washed tool had been used on the earlier beds",
+        "The tool had been left overnight in the compost",
+        "The tool belonged to a different laboratory",
+        "The tool was used for the first time on Friday"
+      ],
+      "correctAnswer": "The same washed tool had been used on the earlier beds",
+      "explanation": "The notes said bed four was taken last with the same washed tool used on the earlier beds.",
+      "supportingSentence": "The sampling notes said bed four had been taken last, with the same washed tool used on the earlier beds.",
+      "skill": "detail"
+    },
+    {
+      "question": "What must the trial do if the second result matches the first?",
+      "options": [
+        "Treat bed four as truly richer soil",
+        "Close the allotment for the rest of the season",
+        "Blame the other beds for readings that are too low",
+        "Remove Thursday from the project entirely"
+      ],
+      "correctAnswer": "Treat bed four as truly richer soil",
+      "explanation": "A match would mean the trial must treat bed four as genuinely richer, not as an error.",
+      "supportingSentence": "If the two results matched, the trial would treat bed four as genuinely richer, not as an error.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why does a possible spill fail to settle the high reading by itself?",
+      "options": [
+        "A possible cause is not the same thing as proof",
+        "Sen had already published the Thursday figure",
+        "Manure is unable to change any soil test",
+        "Bed four had been removed before Thursday"
+      ],
+      "correctAnswer": "A possible cause is not the same thing as proof",
+      "explanation": "A spill beside the compost gate was possible, but the story says possibility was not proof.",
+      "supportingSentence": "The bed stood by the compost gate, so a spill was possible, but possibility was not proof.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does discard mean when Sen talks about the odd result?",
+      "options": [
+        "Throw it out and pay it no further attention",
+        "Copy it onto a second page of the log",
+        "Water the bed before taking the next test",
+        "Set it beside a chart of rainfall"
+      ],
+      "correctAnswer": "Throw it out and pay it no further attention",
+      "explanation": "Sen tells Ivo not to discard the result, meaning not to throw it out, just because it spoils the graph.",
+      "supportingSentence": "Sen told him not to discard a result merely because it spoiled a tidy graph.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer mention the manure pile?",
+      "options": [
+        "To show a real event that could explain the high reading",
+        "To prove Ivo spilled manure on the lab bench",
+        "To explain why an artist drew the graph",
+        "To show that bed four no longer held any soil"
+      ],
+      "correctAnswer": "To show a real event that could explain the high reading",
+      "explanation": "The notes record manure against the fence that morning, which could make the high reading real.",
+      "supportingSentence": "They also recorded a manure pile against the fence that morning.",
+      "skill": "intent"
+    }
+  ]
+}

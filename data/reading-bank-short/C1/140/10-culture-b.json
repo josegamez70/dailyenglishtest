@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "culture_food",
+  "target": 140,
+  "title": "A Glossary on the Seats",
+  "story": "Three local poets were reading at the harbour hall, and Imani's longest poem was in the dialect of the fishing families. Tomas, the organiser, feared inland visitors would find the evening difficult rather than welcoming. He asked her to drop that poem and read two shorter pieces in standard speech. Imani refused to treat the dialect as a barrier to be removed. She offered a glossary, a single sheet with each unusual word and a plain gloss beside it. Tomas feared the rustle of paper, but Imani said a confused silence would break the mood more surely. They placed the glossary on the seats beforehand, and she would pause only once, at the first unfamiliar word, to show how the sheet worked. The poem stayed. The sheet did not replace her speech with safer language. It gave listeners a way in without asking her to leave her own voice at the door.",
+  "vocabulary": [
+    {
+      "word": "dialect",
+      "definition": "A form of a language used by a particular community."
+    },
+    {
+      "word": "barrier",
+      "definition": "Something that blocks understanding or entry."
+    },
+    {
+      "word": "glossary",
+      "definition": "A list of difficult words with short explanations."
+    },
+    {
+      "word": "gloss",
+      "definition": "A brief explanation written beside a word."
+    },
+    {
+      "word": "rustle",
+      "definition": "A light dry sound, such as paper moving."
+    },
+    {
+      "word": "unfamiliar",
+      "definition": "Not known or not recognised."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What change did Tomas first ask Imani to make?",
+      "options": [
+        "Drop the dialect poem for two shorter standard pieces",
+        "Cancel the reading at the harbour hall",
+        "Allow only fishing families into the room",
+        "Give out the poem and not perform it"
+      ],
+      "correctAnswer": "Drop the dialect poem for two shorter standard pieces",
+      "explanation": "He asked her to drop that poem and read two shorter pieces in standard speech.",
+      "supportingSentence": "He asked her to drop that poem and read two shorter pieces in standard speech.",
+      "skill": "detail"
+    },
+    {
+      "question": "Where was the glossary put for the audience?",
+      "options": [
+        "On the seats before the reading",
+        "Read aloud instead of the poem",
+        "Sold at the door after the event",
+        "Sent to inland towns the next day"
+      ],
+      "correctAnswer": "On the seats before the reading",
+      "explanation": "They placed the glossary on the seats beforehand.",
+      "supportingSentence": "They placed the glossary on the seats beforehand, and she would pause only once, at the first unfamiliar word, to show how the sheet worked.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why is Imani less worried about rustling paper than Tomas is?",
+      "options": [
+        "Confused listeners would disturb the mood even more",
+        "Tomas had never stayed for a live poem",
+        "The hall had forbidden every printed page",
+        "The inland visitors had already gone home"
+      ],
+      "correctAnswer": "Confused listeners would disturb the mood even more",
+      "explanation": "Imani says a confused silence would break the mood more surely than the rustle of paper.",
+      "supportingSentence": "Tomas feared the rustle of paper, but Imani said a confused silence would break the mood more surely.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does barrier mean when Imani speaks about the dialect?",
+      "options": [
+        "Something that would block people from the poem",
+        "The price charged at the harbour door",
+        "A solid wall set between the seats",
+        "A prize given for the shortest poem"
+      ],
+      "correctAnswer": "Something that would block people from the poem",
+      "explanation": "She refuses to treat the dialect as a barrier, meaning something that would keep listeners out.",
+      "supportingSentence": "Imani refused to treat the dialect as a barrier to be removed.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What is the purpose of the final sentence?",
+      "options": [
+        "To show help was offered without silencing her voice",
+        "To announce that the reading had moved inland",
+        "To admit that the glossary replaced the poem",
+        "To complain that the seats faced away from her"
+      ],
+      "correctAnswer": "To show help was offered without silencing her voice",
+      "explanation": "The ending says listeners get a way in without the poet having to leave her own voice at the door.",
+      "supportingSentence": "It gave listeners a way in without asking her to leave her own voice at the door.",
+      "skill": "intent"
+    }
+  ]
+}

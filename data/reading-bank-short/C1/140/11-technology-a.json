@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "technology",
+  "target": 140,
+  "title": "Priority and the Wet Gutter",
+  "story": "On Saturday the tool-library app confirmed the same ladder for two different homes. Amira had booked it on Monday for a gutter before evening rain. Owen's morning booking, for a stairwell, was created by a glitch that ignored the earlier hold. Leila could see both records and the overlap. She rang Owen, explained the clash, and offered a step platform that suited his job. Amira kept the ladder, because priority belonged to the first hold. Owen accepted once he heard the platform was free and already in the store. Leila then rectified the rule so a confirmed hold could not be offered twice. She posted the corrected rule in the app that afternoon. A convenient error for Owen would have left Amira on a wet gutter. The principle was easy to state and costly to ignore.",
+  "vocabulary": [
+    {
+      "word": "glitch",
+      "definition": "A fault in a system that produces a wrong result."
+    },
+    {
+      "word": "overlap",
+      "definition": "Two claims covering the same thing at once."
+    },
+    {
+      "word": "clash",
+      "definition": "A conflict between two plans."
+    },
+    {
+      "word": "priority",
+      "definition": "The right to come before someone else."
+    },
+    {
+      "word": "rectified",
+      "definition": "Corrected so that it works properly."
+    },
+    {
+      "word": "principle",
+      "definition": "A basic rule about what is fair."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Who was allowed to keep the ladder?",
+      "options": [
+        "Amira",
+        "Owen",
+        "Leila",
+        "The weather service"
+      ],
+      "correctAnswer": "Amira",
+      "explanation": "Amira kept the ladder because priority belonged to the first hold.",
+      "supportingSentence": "Amira kept the ladder, because priority belonged to the first hold.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Leila offer Owen for the stairwell?",
+      "options": [
+        "A step platform",
+        "The tall ladder",
+        "A payment in cash",
+        "A lift to the gutter"
+      ],
+      "correctAnswer": "A step platform",
+      "explanation": "She offered him a step platform that suited his stairwell job.",
+      "supportingSentence": "She rang Owen, explained the clash, and offered a step platform that suited his job.",
+      "skill": "detail"
+    },
+    {
+      "question": "What harm would have followed if Owen had kept the ladder?",
+      "options": [
+        "Amira would have been left on a wet gutter",
+        "The app would have shut down in every town",
+        "Work in stairwells would have been banned",
+        "Leila would have had to build new ladders"
+      ],
+      "correctAnswer": "Amira would have been left on a wet gutter",
+      "explanation": "Giving Owen the ladder would have left Amira on a wet gutter before the evening rain.",
+      "supportingSentence": "A convenient error for Owen would have left Amira on a wet gutter.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does glitch mean in this account?",
+      "options": [
+        "A fault in the app that created a wrong booking",
+        "A paper form signed by both neighbours",
+        "A ladder with one broken rung",
+        "A report of rain later that day"
+      ],
+      "correctAnswer": "A fault in the app that created a wrong booking",
+      "explanation": "Owen's booking was created by a glitch that ignored Amira's earlier hold.",
+      "supportingSentence": "Owen's morning booking, for a stairwell, was created by a glitch that ignored the earlier hold.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer note that the platform was already in the store?",
+      "options": [
+        "To show Owen could take a workable substitute at once",
+        "To prove the store had lacked ladders for years",
+        "To explain why the forecast rain never fell",
+        "To show that Amira was employed in the store"
+      ],
+      "correctAnswer": "To show Owen could take a workable substitute at once",
+      "explanation": "He accepts when he hears the platform is free and already in the store, so the alternative is immediate.",
+      "supportingSentence": "Owen accepted once he heard the platform was free and already in the store.",
+      "skill": "intent"
+    }
+  ]
+}

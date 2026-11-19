@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "mystery",
+  "target": 140,
+  "title": "The Score inside the Bench",
+  "story": "The rehearsal score was on the piano at nine and missing when the quartet returned from tea. The log said the room had stayed locked, and the clerk said the spare key had not moved. Searches of folders, pockets, and the cabinet found nothing. Keisha stayed to shut the windows and heard paper shift when she moved the bench. The score was inside the locked bench. It was rolled rather than folded as she had left it. A locked room and a locked bench implied someone with a key, yet the clerk's account named nobody. Keisha did not accuse anyone. She photographed the roll, put the score back on the stand, and asked the clerk to sign a note of the time and of the locked seat. Everyone in the quartet needed the music, so need alone could not name a culprit.",
+  "vocabulary": [
+    {
+      "word": "rehearsal",
+      "definition": "A practice session before a performance."
+    },
+    {
+      "word": "quartet",
+      "definition": "A group of four musicians."
+    },
+    {
+      "word": "implied",
+      "definition": "Suggested a conclusion without stating it outright."
+    },
+    {
+      "word": "accuse",
+      "definition": "Say that a particular person did wrong."
+    },
+    {
+      "word": "photographed",
+      "definition": "Made a picture of something as a record."
+    },
+    {
+      "word": "culprit",
+      "definition": "The person who did the hidden act."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where did Keisha find the missing score?",
+      "options": [
+        "Inside the locked bench",
+        "In the clerk's coat",
+        "On the table where they had tea",
+        "In a folder on top of the cabinet"
+      ],
+      "correctAnswer": "Inside the locked bench",
+      "explanation": "The score was inside the locked bench.",
+      "supportingSentence": "The score was inside the locked bench.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Keisha ask the clerk to sign?",
+      "options": [
+        "A note of the time and of the locked seat",
+        "A statement that he had taken the spare key",
+        "A new score for the following concert",
+        "A receipt for the tea break"
+      ],
+      "correctAnswer": "A note of the time and of the locked seat",
+      "explanation": "She asked the clerk to sign a note of the time and of the locked seat.",
+      "supportingSentence": "She photographed the roll, put the score back on the stand, and asked the clerk to sign a note of the time and of the locked seat.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the change from folded to rolled suggest?",
+      "options": [
+        "Someone handled the score after Keisha left it",
+        "The paper had been bought earlier that morning",
+        "The quartet had never played from written music",
+        "A draught had unlocked the piano bench"
+      ],
+      "correctAnswer": "Someone handled the score after Keisha left it",
+      "explanation": "It was rolled rather than folded as she had left it, so the paper had been handled.",
+      "supportingSentence": "It was rolled rather than folded as she had left it.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does implied mean in the account of the locked bench?",
+      "options": [
+        "Pointed toward a conclusion without naming a person",
+        "Opened by itself once the tea was over",
+        "Belonged to the clerk who kept the office",
+        "Made a sound when the seat was moved"
+      ],
+      "correctAnswer": "Pointed toward a conclusion without naming a person",
+      "explanation": "The locks implied someone with a key, while the clerk's account named nobody.",
+      "supportingSentence": "A locked room and a locked bench implied someone with a key, yet the clerk's account named nobody.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer say that everyone in the quartet needed the music?",
+      "options": [
+        "To show that need alone cannot identify who hid it",
+        "To prove the clerk performed with the quartet",
+        "To show the score had no value as music",
+        "To explain why the tea break lasted all night"
+      ],
+      "correctAnswer": "To show that need alone cannot identify who hid it",
+      "explanation": "Everyone needed the music, so need alone could not name a culprit.",
+      "supportingSentence": "Everyone in the quartet needed the music, so need alone could not name a culprit.",
+      "skill": "intent"
+    }
+  ]
+}

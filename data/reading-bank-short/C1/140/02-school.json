@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "school_college",
+  "target": 140,
+  "title": "The Delayed Field Chapter",
+  "story": "Nadia brought her supervisor a chapter that lacked the March interviews. Professor Adeyemi refused to treat the missing voices as a small gap. Ethics approval had arrived late, and two participants had withdrawn after reading the consent form, leaving notes from only four of eight people. Nadia wanted to fill the space with published studies and keep the original date. Adeyemi said that substitution would change the chapter's claim, which had promised firsthand accounts of night-shift cleaners. A later deadline was possible if Nadia narrowed the group and stated the limit openly. They agreed the chapter would rest on the four completed interviews, plus a section explaining the absences. Nadia would send that section by Friday and the full chapter three weeks later. The extension was real, yet conditional on honesty about the reduced sample. A literature review could not disguise the absence of the people the project had set out to hear.",
+  "vocabulary": [
+    {
+      "word": "withdrawn",
+      "definition": "Taken back or pulled out of an agreement."
+    },
+    {
+      "word": "substitution",
+      "definition": "Putting one thing in place of another."
+    },
+    {
+      "word": "firsthand",
+      "definition": "Coming from direct experience, not from other books."
+    },
+    {
+      "word": "narrowed",
+      "definition": "Made smaller in scope."
+    },
+    {
+      "word": "conditional",
+      "definition": "Granted only if a stated condition is met."
+    },
+    {
+      "word": "disguise",
+      "definition": "Hide the true nature of something."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How many completed interviews would the chapter rest on?",
+      "options": [
+        "Four completed interviews",
+        "All eight people originally named",
+        "Only studies already published",
+        "Notes kept by the ethics board"
+      ],
+      "correctAnswer": "Four completed interviews",
+      "explanation": "They agreed the chapter would rest on the four completed interviews.",
+      "supportingSentence": "They agreed the chapter would rest on the four completed interviews, plus a section explaining the absences.",
+      "skill": "detail"
+    },
+    {
+      "question": "When was the section about the absences due?",
+      "options": [
+        "By Friday",
+        "Three weeks after the meeting",
+        "On the original March date",
+        "Before any ethics approval"
+      ],
+      "correctAnswer": "By Friday",
+      "explanation": "Nadia had to send the section explaining the absences by Friday, and the full chapter later.",
+      "supportingSentence": "Nadia would send that section by Friday and the full chapter three weeks later.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why were published studies a poor stand-in for the missing interviews?",
+      "options": [
+        "They would replace the direct accounts the chapter had promised",
+        "They had been written by the night-shift cleaners",
+        "They removed any need for ethics approval",
+        "They were already printed in the consent form"
+      ],
+      "correctAnswer": "They would replace the direct accounts the chapter had promised",
+      "explanation": "Adeyemi said substitution would change a claim that had promised firsthand accounts.",
+      "supportingSentence": "Adeyemi said that substitution would change the chapter's claim, which had promised firsthand accounts of night-shift cleaners.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does conditional mean for this extension?",
+      "options": [
+        "Granted only if a stated condition is met",
+        "Cancelled by the ethics board",
+        "Shorter than a single week",
+        "Issued with no supervisor involved"
+      ],
+      "correctAnswer": "Granted only if a stated condition is met",
+      "explanation": "The extension is real only if Nadia is honest about the smaller sample.",
+      "supportingSentence": "The extension was real, yet conditional on honesty about the reduced sample.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer mention the participants who withdrew?",
+      "options": [
+        "To explain how the planned set of voices shrank",
+        "To argue that night-shift work should be banned",
+        "To show that Adeyemi interviewed the cleaners herself",
+        "To prove the consent form was never opened"
+      ],
+      "correctAnswer": "To explain how the planned set of voices shrank",
+      "explanation": "Two withdrawals, after a late ethics approval, left Nadia with only four of eight people.",
+      "supportingSentence": "Ethics approval had arrived late, and two participants had withdrawn after reading the consent form, leaving notes from only four of eight people.",
+      "skill": "intent"
+    }
+  ]
+}
