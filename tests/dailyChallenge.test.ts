@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { bankChallengeIndex, readingChallengeIndex } from '../exerciseBank.ts';
-import { listeningLevelForChallenge, presentChallenge } from '../dailyChallenge.ts';
+import { firstChallengeItems, listeningLevelForChallenge, presentChallenge, readingChallengeSlice } from '../dailyChallenge.ts';
 import { presentBoard } from '../scoreboard.ts';
 
 test('the daily challenge uses the same unsigned index as the reading bank', () => {
@@ -42,4 +42,18 @@ test('the daily challenge uses the same unsigned index as the reading bank', () 
   assert.match(shell, /challenge: 'daily_challenge'/);
   const job = readFileSync(new URL('../scoreboardEmailJob.ts', import.meta.url), 'utf8');
   assert.match(job, /SCOREBOARD_EMAILS_ENABLED/);
+  const story = ['Alpha fact lives here.', 'Beta fact lives here.', 'Gamma fact lives here.', 'Delta fact lives here.'].join('\n\n');
+  const quiz = ['Alpha fact lives here.', 'Beta fact lives here.', 'Gamma fact lives here.', 'Alpha fact lives here.', 'Gamma fact lives here.', 'Delta fact lives here.']
+    .map((sentence, index) => ({ question: `Q${index}`, supportingSentence: sentence }));
+  const slice = readingChallengeSlice(story, quiz);
+  assert.ok(slice);
+  assert.equal(slice.quiz.length, 5);
+  assert.equal(slice.story.includes('Delta'), false);
+  assert.equal(slice.quiz.every((item) => slice.story.includes(item.supportingSentence)), true);
+  assert.equal(readingChallengeSlice(story, quiz.slice(0, 4).map((item, index) => ({ ...item, supportingSentence: ['Alpha', 'Beta', 'Gamma', 'Delta'][index] + ' fact lives here.' }))), null);
+  assert.equal(firstChallengeItems([1, 2, 3, 4])?.length ?? 0, 0);
+  assert.deepEqual(firstChallengeItems([1, 2, 3, 4, 5, 6]), [1, 2, 3, 4, 5]);
+  const answersSql = readFileSync(new URL('../supabase/migrations/20261201_daily_challenge_answers.sql', import.meta.url), 'utf8');
+  assert.match(answersSql, /answers jsonb/);
+  assert.equal(/update\s+public\.test_results/i.test(answersSql), false);
 });

@@ -362,3 +362,21 @@ html[data-theme="retro95"] .badge-popup button {
 .scoreboard-silver { background: #e5e7eb; color: #000; }
 .scoreboard-bronze { background: #e7c8a0; color: #000; }
 .scoreboard-you { box-shadow: inset 4px 0 0 #1d4ed8; }
+
+.challenge-flow {
+  max-width: 100%;
+  overflow-x: hidden;
+  overflow-wrap: anywhere;
+  font-size: 1.35rem;
+  line-height: 1.45;
+}
+.challenge-flow h1 { font-size: 2.15rem; line-height: 1.15; font-weight: 700; }
+.challenge-flow h2 { font-size: 1.75rem; line-height: 1.25; font-weight: 700; }
+.challenge-flow .text-sm,
+.challenge-flow .text-base,
+.challenge-flow .text-lg,
+.challenge-flow .text-xl { font-size: inherit; line-height: inherit; }
+.challenge-flow label,
+.challenge-flow legend,
+.challenge-flow button,
+.challenge-flow p { overflow-wrap: anywhere; }

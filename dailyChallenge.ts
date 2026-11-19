@@ -19,12 +19,127 @@ export type PresentedChallenge = ChallengeEntry & {
   percent: number | null;
 };
 
+export const CHALLENGE_PART_COUNT = 5;
+
 export type ChallengeQuestion = {
   question: string;
   options: string[];
   correctAnswer: string;
   explanation: string;
+  supportingSentence?: string;
+  why: string;
 };
+
+export type ChallengeReportItem = {
+  part: 'reading' | 'listening' | 'grammar';
+  question: string;
+  userAnswer: string;
+  correctAnswer: string;
+  correct: boolean;
+  why: string;
+};
+
+function flat(value: string): string {
+  return value.replace(/[“”]/g, '"').replace(/[‘’]/g, "'").replace(/\s+/g, ' ').trim().toLowerCase();
+}
+
+export function challengeWhy(item: { explanation?: string; supportingSentence?: string }): string {
+  const explanation = (item.explanation ?? '').replace(/\s+/g, ' ').trim();
+  if (explanation) return explanation;
+  return (item.supportingSentence ?? '').replace(/\s+/g, ' ').trim();
+}
+
+export function storyParagraphs(story: string): string[] {
+  return story.split(/\n\s*\n/).map((part) => part.trim()).filter((part) => part.length > 0);
+}
+
+/** Three paragraphs that contain five questions, or null when this piece cannot. */
+export function readingChallengeSlice<T extends { supportingSentence?: string }>(
+  story: string,
+  quiz: readonly T[],
+): { story: string; quiz: T[] } | null {
+  const paragraphs = storyParagraphs(story);
+  if (paragraphs.length < 3 || quiz.length < CHALLENGE_PART_COUNT) return null;
+  const located = quiz.flatMap((question, index) => {
+    const needle = flat(question.supportingSentence ?? '');
+    if (!needle) return [];
+    const paragraph = paragraphs.findIndex((part) => flat(part).includes(needle));
+    return paragraph < 0 ? [] : [{ question, index, paragraph }];
+  });
+  if (located.length < CHALLENGE_PART_COUNT) return null;
+  for (let first = 0; first < paragraphs.length; first += 1) {
+    for (let second = first + 1; second < paragraphs.length; second += 1) {
+      for (let third = second + 1; third < paragraphs.length; third += 1) {
+        const chosen = new Set([first, second, third]);
+        const covered = located.filter((item) => chosen.has(item.paragraph));
+        if (covered.length < CHALLENGE_PART_COUNT) continue;
+        return {
+          story: [paragraphs[first], paragraphs[second], paragraphs[third]].join('\n\n'),
+          quiz: covered.slice(0, CHALLENGE_PART_COUNT).map((item) => item.question),
+        };
+      }
+    }
+  }
+  return null;
+}
+
+/** The first five items, in the stored order. Fewer than five cannot be today's part. */
+export function firstChallengeItems<T>(items: readonly T[]): T[] | null {
+  if (items.length < CHALLENGE_PART_COUNT) return null;
+  return items.slice(0, CHALLENGE_PART_COUNT);
+}
+
+export function buildChallengeReport(input: {
+  reading: readonly { question: string; correctAnswer: string; why?: string; explanation?: string; supportingSentence?: string }[];
+  listening: readonly { question: string; correctAnswer: string; why?: string; explanation?: string; supportingSentence?: string }[];
+  grammar: readonly GrammarItem[];
+  readingAnswers: readonly string[];
+  listeningAnswers: readonly string[];
+  grammarAnswers: readonly (string | string[])[];
+}): ChallengeReportItem[] {
+  const rows: ChallengeReportItem[] = [];
+  input.reading.forEach((item, index) => {
+    const userAnswer = String(input.readingAnswers[index] ?? '').trim();
+    rows.push({
+      part: 'reading',
+      question: item.question,
+      userAnswer: userAnswer || '—',
+      correctAnswer: item.correctAnswer,
+      correct: userAnswer === item.correctAnswer,
+      why: item.why || challengeWhy(item),
+    });
+  });
+  input.listening.forEach((item, index) => {
+    const userAnswer = String(input.listeningAnswers[index] ?? '').trim();
+    rows.push({
+      part: 'listening',
+      question: item.question,
+      userAnswer: userAnswer || '—',
+      correctAnswer: item.correctAnswer,
+      correct: userAnswer === item.correctAnswer,
+      why: item.why || challengeWhy(item),
+    });
+  });
+  input.grammar.forEach((item, index) => {
+    const answer = input.grammarAnswers[index];
+    const userAnswer = item.kind === 'order'
+      ? (Array.isArray(answer) ? answer.map((part) => String(part)).join(' ') : '')
+      : (Array.isArray(answer) ? String(answer[0] ?? '') : String(answer ?? '')).trim();
+    const correctAnswer = item.kind === 'order' ? item.chunks.join(' ') : item.correctAnswer;
+    const correct = item.kind === 'order'
+      ? gradeOrder(item, Array.isArray(answer) ? answer.map((part) => String(part)) : []).correct
+      : gradeChoice(item, Array.isArray(answer) ? String(answer[0] ?? '') : String(answer ?? '')).correct;
+    rows.push({
+      part: 'grammar',
+      question: item.prompt,
+      userAnswer: userAnswer || '—',
+      correctAnswer,
+      correct,
+      why: challengeWhy(item),
+    });
+  });
+  return rows;
+}
 
 export function challengeLevel(value: string | null | undefined): ChallengeLevel {
   const key = (value ?? '').trim().toLowerCase();

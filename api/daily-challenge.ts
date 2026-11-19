@@ -2,13 +2,18 @@ import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import { bankChallengeIndex, bankUnavailable, grammarSetFromBankPayload, listeningLessonFromBankPayload, readingLessonFromBankPayload } from '../exerciseBank.ts';
 import { signListeningAudio } from '../exerciseBankServer.ts';
 import {
+  buildChallengeReport,
   challengeLevel,
+  challengeWhy,
   elapsedSeconds,
+  firstChallengeItems,
   gradeGrammarItems,
   gradeQuestions,
   listeningLevelForChallenge,
+  readingChallengeSlice,
   todayMadrid,
   type ChallengeLevel,
+  type ChallengeReportItem,
 } from '../dailyChallenge.ts';
 import type { GrammarExerciseType, GrammarLevel } from '../grammarSet.ts';
 import { readEnvValue, runtimeEnv } from '../taskMail.ts';
@@ -51,20 +56,20 @@ function readingOf(row: BankRow) {
   const dims = row.dimensions && typeof row.dimensions === 'object' ? row.dimensions as { topic?: unknown } : {};
   const lesson = readingLessonFromBankPayload(row.payload, String(dims.topic ?? ''));
   if (!lesson) return null;
-  return {
-    title: lesson.title,
-    topic: lesson.topicLabel,
-    story: lesson.story,
-    quiz: lesson.quiz.map((item) => ({
-      question: item.question,
-      options: item.options,
-      correctAnswer: item.correctAnswer,
-      explanation: item.explanation,
-    })),
-  };
+  const quiz = lesson.quiz.map((item) => ({
+    question: item.question,
+    options: item.options,
+    correctAnswer: item.correctAnswer,
+    explanation: item.explanation,
+    supportingSentence: item.supportingSentence,
+    why: challengeWhy(item),
+  }));
+  const slice = readingChallengeSlice(lesson.story, quiz);
+  if (!slice) return null;
+  return { title: lesson.title, topic: lesson.topicLabel, story: slice.story, quiz: slice.quiz };
 }
 
-function listeningOf(row: BankRow) {
+function listeningParsed(row: BankRow) {
   const dims = row.dimensions && typeof row.dimensions === 'object' ? row.dimensions as { wordCount?: unknown; questionCount?: unknown } : {};
   const body = row.payload && typeof row.payload === 'object' ? row.payload as { level?: unknown; format?: unknown } : {};
   const lesson = listeningLessonFromBankPayload(row.payload, row.dimensions, {
@@ -84,8 +89,18 @@ function listeningOf(row: BankRow) {
       options: item.options,
       correctAnswer: item.correctAnswer,
       explanation: item.explanation,
+      supportingSentence: item.supportingSentence,
+      why: challengeWhy(item),
     })),
   };
+}
+
+function listeningSlice(row: BankRow) {
+  const full = listeningParsed(row);
+  if (!full) return null;
+  const quiz = firstChallengeItems(full.quiz);
+  if (!quiz) return null;
+  return { ...full, quiz };
 }
 
 function grammarOf(row: BankRow) {
@@ -95,7 +110,17 @@ function grammarOf(row: BankRow) {
     topic: '',
   });
   if (!set) return null;
-  return { title: set.title, exercise: set.exercise, items: set.items };
+  const items = firstChallengeItems(set.items);
+  if (!items) return null;
+  return {
+    title: set.title,
+    exercise: set.exercise,
+    items: items.map((item) => (
+      item.kind === 'choice'
+        ? { ...item, options: [...item.options].sort((left, right) => left.localeCompare(right)) }
+        : item
+    )),
+  };
 }
 
 async function piecesFor(admin: SupabaseClient, day: string, level: ChallengeLevel) {
@@ -105,13 +130,19 @@ async function piecesFor(admin: SupabaseClient, day: string, level: ChallengeLev
     pool(admin, 'grammar', level),
   ]);
   if (!readingRows || !listeningRows || !grammarRows) return null;
-  const readingRow = readingRows[bankChallengeIndex(day, level, 'reading', readingRows.length)];
-  const listeningRow = listeningRows[bankChallengeIndex(day, level, 'listening', listeningRows.length)];
-  const grammarRow = grammarRows[bankChallengeIndex(day, level, 'grammar', grammarRows.length)];
-  const reading = readingRow ? readingOf(readingRow) : null;
-  const listening = listeningRow ? listeningOf(listeningRow) : null;
-  const grammar = grammarRow ? grammarOf(grammarRow) : null;
+  const reading = takeFirst(readingRows, bankChallengeIndex(day, level, 'reading', readingRows.length), readingOf);
+  const listening = takeFirst(listeningRows, bankChallengeIndex(day, level, 'listening', listeningRows.length), listeningSlice);
+  const grammar = takeFirst(grammarRows, bankChallengeIndex(day, level, 'grammar', grammarRows.length), grammarOf);
   return { reading, listening, grammar };
+}
+
+function takeFirst<T>(rows: BankRow[], start: number, parse: (row: BankRow) => T | null): T | null {
+  if (!rows.length) return null;
+  for (let step = 0; step < rows.length; step += 1) {
+    const parsed = parse(rows[(start + step) % rows.length]);
+    if (parsed) return parsed;
+  }
+  return null;
 }
 
 type AttemptRow = {
@@ -126,10 +157,66 @@ type AttemptRow = {
   reading_total: number | null;
   listening_total: number | null;
   grammar_total: number | null;
+  answers?: unknown;
 };
+
+const ATTEMPT_COLUMNS = 'level, started_at, submitted_at, correct, total, reading_correct, listening_correct, grammar_correct, reading_total, listening_total, grammar_total';
 
 function missingTable(error: { code?: string; message?: string } | null): boolean {
   return bankUnavailable(error);
+}
+
+function missingAnswersColumn(error: { code?: string; message?: string } | null): boolean {
+  const message = `${error?.code ?? ''} ${error?.message ?? ''}`.toLowerCase();
+  return message.includes('42703') || (message.includes('answers') && (message.includes('does not exist') || message.includes('schema cache') || message.includes('pgrst204')));
+}
+
+function storedReport(value: unknown): ChallengeReportItem[] | null {
+  const record = value && typeof value === 'object' ? value as { report?: unknown } : null;
+  if (!record || !Array.isArray(record.report)) return null;
+  const rows = record.report.flatMap((item) => {
+    const row = item && typeof item === 'object' ? item as ChallengeReportItem : null;
+    if (!row || (row.part !== 'reading' && row.part !== 'listening' && row.part !== 'grammar')) return [];
+    return [{
+      part: row.part,
+      question: String(row.question ?? ''),
+      userAnswer: String(row.userAnswer ?? '—'),
+      correctAnswer: String(row.correctAnswer ?? ''),
+      correct: row.correct === true,
+      why: String(row.why ?? ''),
+    }];
+  });
+  return rows.length ? rows : null;
+}
+
+async function readAttempt(admin: SupabaseClient, userId: string, day: string): Promise<{
+  attempt: AttemptRow | null;
+  tableMissing: boolean;
+  answersMissing: boolean;
+}> {
+  const withAnswers = await admin
+    .from('daily_challenge_attempts')
+    .select(`${ATTEMPT_COLUMNS}, answers`)
+    .eq('user_id', userId)
+    .eq('madrid_day', day)
+    .maybeSingle();
+  if (!withAnswers.error) {
+    return { attempt: (withAnswers.data ?? null) as AttemptRow | null, tableMissing: false, answersMissing: false };
+  }
+  if (!missingAnswersColumn(withAnswers.error)) {
+    return { attempt: null, tableMissing: missingTable(withAnswers.error), answersMissing: false };
+  }
+  const plain = await admin
+    .from('daily_challenge_attempts')
+    .select(ATTEMPT_COLUMNS)
+    .eq('user_id', userId)
+    .eq('madrid_day', day)
+    .maybeSingle();
+  return {
+    attempt: (plain.data ?? null) as AttemptRow | null,
+    tableMissing: Boolean(plain.error && missingTable(plain.error)),
+    answersMissing: true,
+  };
 }
 
 export default async (req: Request) => {
@@ -156,14 +243,10 @@ export default async (req: Request) => {
   const profile = await admin.from('profiles').select('default_level').eq('id', userId).maybeSingle();
   const profileLevel = challengeLevel(profile.data?.default_level == null ? 'B1' : String(profile.data.default_level));
 
-  const existing = await admin
-    .from('daily_challenge_attempts')
-    .select('level, started_at, submitted_at, correct, total, reading_correct, listening_correct, grammar_correct, reading_total, listening_total, grammar_total')
-    .eq('user_id', userId)
-    .eq('madrid_day', day)
-    .maybeSingle();
-  const tableMissing = Boolean(existing.error && missingTable(existing.error));
-  let attempt = (existing.data ?? null) as AttemptRow | null;
+  const loaded = await readAttempt(admin, userId, day);
+  const tableMissing = loaded.tableMissing;
+  let answersMissing = loaded.answersMissing;
+  let attempt = loaded.attempt;
   let level = attempt ? challengeLevel(attempt.level) : profileLevel;
 
   if (!tableMissing && !attempt && body.action !== 'submit') {
@@ -171,15 +254,11 @@ export default async (req: Request) => {
       user_id: userId,
       madrid_day: day,
       level,
-    }).select('level, started_at, submitted_at, correct, total, reading_correct, listening_correct, grammar_correct, reading_total, listening_total, grammar_total').maybeSingle();
+    }).select(ATTEMPT_COLUMNS).maybeSingle();
     if (inserted.error && !missingTable(inserted.error)) {
-      const again = await admin
-        .from('daily_challenge_attempts')
-        .select('level, started_at, submitted_at, correct, total, reading_correct, listening_correct, grammar_correct, reading_total, listening_total, grammar_total')
-        .eq('user_id', userId)
-        .eq('madrid_day', day)
-        .maybeSingle();
-      attempt = (again.data ?? null) as AttemptRow | null;
+      const again = await readAttempt(admin, userId, day);
+      attempt = again.attempt;
+      answersMissing = again.answersMissing;
     } else {
       attempt = (inserted.data ?? null) as AttemptRow | null;
     }
@@ -207,6 +286,14 @@ export default async (req: Request) => {
     const readingCorrect = gradeQuestions(built.reading.quiz, readingAnswers);
     const listeningCorrect = gradeQuestions(built.listening.quiz, listeningAnswers);
     const grammarCorrect = gradeGrammarItems(built.grammar.items, grammarAnswers);
+    const report = buildChallengeReport({
+      reading: built.reading.quiz,
+      listening: built.listening.quiz,
+      grammar: built.grammar.items,
+      readingAnswers,
+      listeningAnswers,
+      grammarAnswers,
+    });
     const readingTotal = built.reading.quiz.length;
     const listeningTotal = built.listening.quiz.length;
     const grammarTotal = built.grammar.items.length;
@@ -227,6 +314,8 @@ export default async (req: Request) => {
         listeningTotal: attempt.listening_total ?? listeningTotal,
         grammarTotal: attempt.grammar_total ?? grammarTotal,
         position: null,
+        report: storedReport(attempt.answers),
+        answersStored: storedReport(attempt.answers) != null,
       });
     }
     if (tableMissing || !attempt) {
@@ -244,10 +333,12 @@ export default async (req: Request) => {
         listeningTotal,
         grammarTotal,
         position: null,
+        report,
+        answersStored: false,
       });
     }
     const submittedAt = new Date().toISOString();
-    const saved = await admin.from('daily_challenge_attempts').update({
+    const scorePatch = {
       submitted_at: submittedAt,
       correct,
       total,
@@ -257,7 +348,19 @@ export default async (req: Request) => {
       reading_total: readingTotal,
       listening_total: listeningTotal,
       grammar_total: grammarTotal,
-    }).eq('user_id', userId).eq('madrid_day', day).is('submitted_at', null).select('started_at, submitted_at').maybeSingle();
+    };
+    let saved = answersMissing
+      ? { data: null as { started_at?: string; submitted_at?: string } | null, error: null as { code?: string; message?: string } | null }
+      : await admin.from('daily_challenge_attempts').update({ ...scorePatch, answers: { report } }).eq('user_id', userId).eq('madrid_day', day).is('submitted_at', null).select('started_at, submitted_at').maybeSingle();
+    let answersStored = Boolean(saved.data?.submitted_at) && !answersMissing;
+    if (saved.error && missingAnswersColumn(saved.error)) {
+      answersMissing = true;
+      answersStored = false;
+      saved = await admin.from('daily_challenge_attempts').update(scorePatch).eq('user_id', userId).eq('madrid_day', day).is('submitted_at', null).select('started_at, submitted_at').maybeSingle();
+    }
+    if (answersMissing && !saved.data && !saved.error) {
+      saved = await admin.from('daily_challenge_attempts').update(scorePatch).eq('user_id', userId).eq('madrid_day', day).is('submitted_at', null).select('started_at, submitted_at').maybeSingle();
+    }
     const recorded = Boolean(saved.data?.submitted_at);
     const startedAt = saved.data?.started_at ?? attempt.started_at;
     const finishedAt = saved.data?.submitted_at ?? submittedAt;
@@ -275,6 +378,8 @@ export default async (req: Request) => {
       listeningTotal,
       grammarTotal,
       position: null,
+      report,
+      answersStored,
     });
   }
 
@@ -295,6 +400,8 @@ export default async (req: Request) => {
       listeningTotal: attempt.listening_total ?? 0,
       grammarTotal: attempt.grammar_total ?? 0,
       position: null,
+      report: storedReport(attempt.answers),
+      answersStored: storedReport(attempt.answers) != null,
     } : null,
     ...pack,
   });
