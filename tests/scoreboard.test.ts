@@ -139,7 +139,10 @@ test('the scoreboard page and the unapplied migration stay read-only', () => {
   assert.match(page, /Fictitious demo/);
   assert.match(page, /All time/);
   assert.match(page, /aria-selected=\{view === id\}[\s\S]*border-2 border-slate-900/);
-  assert.match(page, /\['challenge', 'Challenge'\],\s*\['daily', 'Today'\],\s*\['yesterday', 'Yesterday'\],\s*\['all', 'All time'\]/);
+  assert.match(page, /Daily challenge/);
+  assert.match(page, /scoreboard-tab-challenge/);
+  assert.match(page, /scoreboard-tab-row/);
+  assert.match(page, /\['daily', 'Today'\],\s*\['yesterday', 'Yesterday'\],\s*\['all', 'All time'\]/);
   assert.match(page, /scoreboard-tabs/);
   assert.match(page, /daily_challenge\.png/);
   assert.match(page, /Today in Spain/);

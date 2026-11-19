@@ -360,34 +360,50 @@ html[data-theme="retro95"] .badge-popup button {
 
 .scoreboard-tabs {
   display: flex;
-  flex-wrap: nowrap;
-  gap: 4px;
+  flex-direction: column;
+  gap: 8px;
 }
-.scoreboard-tabs > button {
+.scoreboard-tabs button {
   display: inline-flex;
-  flex: 1 1 0;
   align-items: center;
   justify-content: center;
-  gap: 2px;
-  min-width: 0;
-  padding: 8px 2px;
+  box-sizing: border-box;
   border: 2px solid #0f172a;
   background: #fff;
   color: #0f172a;
-  font-size: 13px;
   font-weight: 700;
-  line-height: 1.1;
   letter-spacing: 0;
   white-space: nowrap;
 }
-.scoreboard-tabs > button.is-selected {
+.scoreboard-tab-challenge {
+  width: 100%;
+  min-height: 3rem;
+  gap: 8px;
+  padding: 10px 12px;
+  font-size: 1.15rem;
+  line-height: 1.15;
+}
+.scoreboard-tab-row {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 6px;
+}
+.scoreboard-tab-row > button {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 2.85rem;
+  padding: 10px 6px;
+  font-size: 1.05rem;
+  line-height: 1.15;
+}
+.scoreboard-tabs button.is-selected {
   background: #0f172a;
   color: #fff;
 }
-html.dark .scoreboard-tabs > button {
+html.dark .scoreboard-tabs button {
   border-color: #e2e8f0;
 }
-html.dark .scoreboard-tabs > button.is-selected {
+html.dark .scoreboard-tabs button.is-selected {
   background: #1d4ed8 !important;
   color: #fff !important;
   border-color: #bfdbfe !important;
