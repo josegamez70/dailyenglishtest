@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "technology",
+  "target": 140,
+  "title": "One Job for Each Drawer",
+  "story": "The repair bench at the youth club had become a jumble of cables, screws, and unnamed chargers. Jamal offered to sort it before the Saturday clinic, when neighbours brought radios and lamps. He grouped items that did the same job, then printed plain labels, because handwriting had smeared there before. Each drawer received one job, from power leads to fuses and tools that had to stay in the room. He tied a tag to every charger naming the device it fit. During the clinic a helper found a fuse in seconds instead of tipping the box onto the bench. A visitor started to pocket a spare lead, and the words on the drawer gave Jamal a polite reason to stop her. Afterwards he photographed the drawers so a later volunteer could restore the same order. The system was plain, yet the hour went to repairs rather than to searching.",
+  "vocabulary": [
+    {
+      "word": "jumble",
+      "definition": "An untidy mixture of things."
+    },
+    {
+      "word": "clinic",
+      "definition": "A session where people bring items to be repaired."
+    },
+    {
+      "word": "fuses",
+      "definition": "Small parts that protect an electrical circuit."
+    },
+    {
+      "word": "photographed",
+      "definition": "Made a picture of something with a camera."
+    },
+    {
+      "word": "volunteer",
+      "definition": "A person who helps without being paid."
+    },
+    {
+      "word": "chargers",
+      "definition": "Devices that supply power to equipment."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How were the drawers organised?",
+      "options": [
+        "Each drawer was given a single kind of job",
+        "Every drawer held a mix of unnamed items",
+        "Radios and lamps filled the fuse drawer",
+        "Handwritten notes replaced every label"
+      ],
+      "correctAnswer": "Each drawer was given a single kind of job",
+      "explanation": "Each drawer received one job, from power leads to fuses and tools that had to stay in the room.",
+      "supportingSentence": "Each drawer received one job, from power leads to fuses and tools that had to stay in the room.",
+      "skill": "detail"
+    },
+    {
+      "question": "How did Jamal stop a visitor taking a spare lead?",
+      "options": [
+        "The written label gave him a polite reason to refuse",
+        "He tipped the whole box onto the bench",
+        "He closed the clinic before she arrived",
+        "He let her keep it because the tag was blank"
+      ],
+      "correctAnswer": "The written label gave him a polite reason to refuse",
+      "explanation": "The words on the drawer gave him a polite reason to stop her pocketing a spare lead.",
+      "supportingSentence": "A visitor started to pocket a spare lead, and the words on the drawer gave Jamal a polite reason to stop her.",
+      "skill": "detail"
+    },
+    {
+      "question": "What difference did the sorting make during the repair session?",
+      "options": [
+        "A small part could be found at once without emptying the box",
+        "Fuses became harder to find than before",
+        "Helpers had to search every unnamed charger",
+        "Tools were repaired by spilling them on the floor"
+      ],
+      "correctAnswer": "A small part could be found at once without emptying the box",
+      "explanation": "A helper found a fuse in seconds instead of tipping the box out, so the sort made parts easy to find.",
+      "supportingSentence": "During the clinic a helper found a fuse in seconds instead of tipping the box onto the bench.",
+      "skill": "inference"
+    },
+    {
+      "question": "What was the practical result of the simple system?",
+      "options": [
+        "The session was spent fixing things rather than hunting for them",
+        "Neighbours stopped bringing radios and lamps",
+        "Handwriting replaced the printed labels",
+        "The bench was mixed up again before the hour ended"
+      ],
+      "correctAnswer": "The session was spent fixing things rather than hunting for them",
+      "explanation": "The hour went to repairs rather than to searching.",
+      "supportingSentence": "The system was plain, yet the hour went to repairs rather than to searching.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does jumble mean in this story?",
+      "options": [
+        "An untidy mix of objects",
+        "A printed label on a drawer",
+        "A Saturday repair for neighbours",
+        "A picture used to restore order"
+      ],
+      "correctAnswer": "An untidy mix of objects",
+      "explanation": "The bench had become a jumble of cables, screws, and chargers, meaning an untidy mix.",
+      "supportingSentence": "The repair bench at the youth club had become a jumble of cables, screws, and unnamed chargers.",
+      "skill": "vocabulary"
+    }
+  ]
+}

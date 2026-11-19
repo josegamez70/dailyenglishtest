@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "hobbies",
+  "target": 100,
+  "title": "The Glaze That Crawled",
+  "story": "Nils drew the bowl from the kiln and saw the glaze had crawled, leaving a ring of bare clay. Classmates told him to stop, because the flaw looked planned to anyone who had not seen the sketch. He mixed a second coat and fired again, knowing extra heat might slump the foot. Stopping at an attractive accident would teach his hands to prize luck over the form he intended. The second firing held. The ring vanished and the foot stayed true. He kept a photograph of the flaw as a record of when he nearly let a mistake set the standard.",
+  "vocabulary": [
+    {
+      "word": "kiln",
+      "definition": "The oven used to fire pottery"
+    },
+    {
+      "word": "glaze",
+      "definition": "The glassy coating on the bowl"
+    },
+    {
+      "word": "crawled",
+      "definition": "Drew back, leaving clay uncovered"
+    },
+    {
+      "word": "slump",
+      "definition": "Lose its shape under too much heat"
+    },
+    {
+      "word": "firing",
+      "definition": "A spell of baking in the kiln"
+    },
+    {
+      "word": "photograph",
+      "definition": "A picture kept of the flawed bowl"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did Nils see on the bowl fresh from the kiln?",
+      "options": [
+        "A ring of bare clay where the glaze had crawled",
+        "A foot that had already slumped",
+        "A photograph stuck to the rim",
+        "A crack that split the bowl in two"
+      ],
+      "correctAnswer": "A ring of bare clay where the glaze had crawled",
+      "explanation": "The glaze had crawled, leaving a ring of bare clay.",
+      "supportingSentence": "Nils drew the bowl from the kiln and saw the glaze had crawled, leaving a ring of bare clay.",
+      "skill": "detail"
+    },
+    {
+      "question": "What danger did the extra heat carry?",
+      "options": [
+        "It might slump the foot",
+        "It might erase the clay itself",
+        "It might cool the kiln at once",
+        "It might decorate the other pots"
+      ],
+      "correctAnswer": "It might slump the foot",
+      "explanation": "He knew the extra heat might slump the foot.",
+      "supportingSentence": "He mixed a second coat and fired again, knowing extra heat might slump the foot.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why does the class treat the bowl as possibly finished?",
+      "options": [
+        "Someone who missed the sketch could take the flaw as intentional",
+        "The kiln had no power left for another try",
+        "The foot had already collapsed",
+        "He had promised the class he would stop"
+      ],
+      "correctAnswer": "Someone who missed the sketch could take the flaw as intentional",
+      "explanation": "They say the flaw looked planned to anyone who had not seen the sketch.",
+      "supportingSentence": "Classmates told him to stop, because the flaw looked planned to anyone who had not seen the sketch.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does crawled describe in the kiln?",
+      "options": [
+        "The coating drew back and left clay showing",
+        "The bowl walked across the floor",
+        "The surface matched the sketch exactly",
+        "The oven cooled before it was lit"
+      ],
+      "correctAnswer": "The coating drew back and left clay showing",
+      "explanation": "Crawled describes the glaze pulling back and leaving bare clay.",
+      "supportingSentence": "Nils drew the bowl from the kiln and saw the glaze had crawled, leaving a ring of bare clay.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why save a picture of the flaw and still not treat it as the piece?",
+      "options": [
+        "To remember the temptation without letting it become the goal",
+        "To sell the picture in place of the bowl",
+        "To prove the second firing failed",
+        "To teach the class to copy the bare ring"
+      ],
+      "correctAnswer": "To remember the temptation without letting it become the goal",
+      "explanation": "The photograph records the moment he nearly let a mistake set the standard, without becoming the work itself.",
+      "supportingSentence": "He kept a photograph of the flaw as a record of when he nearly let a mistake set the standard.",
+      "skill": "intent"
+    }
+  ]
+}

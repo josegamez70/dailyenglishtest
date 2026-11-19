@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "adventure",
+  "target": 140,
+  "title": "Daylight on the Longer Ridge",
+  "story": "A rockfall had closed the marked canyon path, and the group reached the barrier tape while dust still hung in the air. The ranger post was two hours back, and the radio had no signal between the walls. Cloud was filling the upper cleft, and a night on the canyon floor would mean cold rock and no water beyond what they carried. Sera proposed the old ridge, longer and exposed, but still in daylight if they left at once. It rejoined the marked route above the fall. She had last used that cairn the previous spring. Two people wanted to wait for a ranger. Sera pointed out that nobody knew they had chosen the canyon, so no rescue was already coming. They took the ridge and reached the cairn while the slope below was still visible. The choice added wind and distance. It also kept them out of a darkening canyon.",
+  "vocabulary": [
+    {
+      "word": "rockfall",
+      "definition": "A collapse of rock onto a path."
+    },
+    {
+      "word": "barrier",
+      "definition": "Something placed so people cannot pass."
+    },
+    {
+      "word": "cleft",
+      "definition": "A narrow opening or crack in the rock."
+    },
+    {
+      "word": "exposed",
+      "definition": "Open to wind and weather, with little shelter."
+    },
+    {
+      "word": "rejoined",
+      "definition": "Met up with a route again."
+    },
+    {
+      "word": "cairn",
+      "definition": "A small pile of stones used as a marker."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where did the old ridge meet the marked route again?",
+      "options": [
+        "Above the fall",
+        "At the ranger post",
+        "On the canyon floor after dark",
+        "Back at the barrier tape"
+      ],
+      "correctAnswer": "Above the fall",
+      "explanation": "The ridge rejoined the marked route above the fall.",
+      "supportingSentence": "It rejoined the marked route above the fall.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why was a rescue not already coming to meet them?",
+      "options": [
+        "No rescuer had been told they chose the canyon",
+        "The ranger post was closed for the whole year",
+        "The radio was already speaking with a rescue team",
+        "The falling rock had burned their only map"
+      ],
+      "correctAnswer": "No rescuer had been told they chose the canyon",
+      "explanation": "Sera says nobody knew they had chosen the canyon, so no rescue was already coming.",
+      "supportingSentence": "Sera pointed out that nobody knew they had chosen the canyon, so no rescue was already coming.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why does waiting for a ranger carry a danger of its own?",
+      "options": [
+        "Night in the canyon would be cold and short of water",
+        "The ridge path was shorter than the canyon route",
+        "Sera had never walked during daylight",
+        "The barrier tape led directly up to the cairn"
+      ],
+      "correctAnswer": "Night in the canyon would be cold and short of water",
+      "explanation": "A night on the canyon floor would mean cold rock and no water beyond what they carried.",
+      "supportingSentence": "Cloud was filling the upper cleft, and a night on the canyon floor would mean cold rock and no water beyond what they carried.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does exposed mean in the description of the ridge?",
+      "options": [
+        "Open to the weather, with little shelter",
+        "Closed by rocks that had just fallen",
+        "Hidden under the floor of the canyon",
+        "Kept only for rangers who carry radios"
+      ],
+      "correctAnswer": "Open to the weather, with little shelter",
+      "explanation": "Sera calls the ridge longer and exposed, meaning open to the weather.",
+      "supportingSentence": "Sera proposed the old ridge, longer and exposed, but still in daylight if they left at once.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer mention the previous spring?",
+      "options": [
+        "To show Sera had already used that cairn",
+        "To explain why the canyon was shut the year before",
+        "To prove the group had camped there all winter",
+        "To show a ranger shifted the tape in spring"
+      ],
+      "correctAnswer": "To show Sera had already used that cairn",
+      "explanation": "She had last used that cairn the previous spring, so the meeting point is known to her.",
+      "supportingSentence": "She had last used that cairn the previous spring.",
+      "skill": "intent"
+    }
+  ]
+}

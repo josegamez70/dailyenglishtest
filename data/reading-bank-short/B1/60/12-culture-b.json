@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "culture_food",
+  "target": 60,
+  "title": "Soup after the Dance",
+  "story": "After the harvest dance, people gathered in the hall for soup. Mina carried bowls from the kitchen while her cousin cut bread. An older neighbour told a story about the first dance there. Everyone listened, then clapped. Mina tried the soup and added a little pepper. She sat with her cousin and learned the steps she had missed. They agreed to practise before the next dance.",
+  "vocabulary": [
+    {
+      "word": "harvest",
+      "definition": "The time when crops are gathered."
+    },
+    {
+      "word": "gathered",
+      "definition": "Came together in one place."
+    },
+    {
+      "word": "bowls",
+      "definition": "Deep round dishes for soup."
+    },
+    {
+      "word": "clapped",
+      "definition": "Hit their hands together to show pleasure."
+    },
+    {
+      "word": "pepper",
+      "definition": "A spice with a sharp taste."
+    },
+    {
+      "word": "steps",
+      "definition": "The movements of a dance."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where did people go after the harvest dance?",
+      "options": [
+        "Into the hall for soup",
+        "Back to the fields",
+        "To a shop in town",
+        "Onto the stage again"
+      ],
+      "correctAnswer": "Into the hall for soup",
+      "explanation": "After the dance, people gathered in the hall for soup.",
+      "supportingSentence": "After the harvest dance, people gathered in the hall for soup.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Mina carry from the kitchen?",
+      "options": [
+        "Bowls",
+        "Loaves of bread",
+        "A pepper pot",
+        "The neighbour's story"
+      ],
+      "correctAnswer": "Bowls",
+      "explanation": "Mina carried bowls from the kitchen.",
+      "supportingSentence": "Mina carried bowls from the kitchen while her cousin cut bread.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did the older neighbour share?",
+      "options": [
+        "A story about the first dance",
+        "A bowl of pepper soup",
+        "The steps Mina missed",
+        "Bread from the kitchen"
+      ],
+      "correctAnswer": "A story about the first dance",
+      "explanation": "The neighbour told a story about the first dance there.",
+      "supportingSentence": "An older neighbour told a story about the first dance there.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does clapped mean in this story?",
+      "options": [
+        "Hit their hands together happily",
+        "Cut bread into pieces",
+        "Walked through dance steps",
+        "Added spice to the soup"
+      ],
+      "correctAnswer": "Hit their hands together happily",
+      "explanation": "Everyone clapped after listening, which means they hit their hands together.",
+      "supportingSentence": "Everyone listened, then clapped.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What did Mina and her cousin agree to do?",
+      "options": [
+        "Practise before the next dance",
+        "Cook soup every morning",
+        "Leave the hall early",
+        "Tell the story at school"
+      ],
+      "correctAnswer": "Practise before the next dance",
+      "explanation": "They agreed to practise before the next dance.",
+      "supportingSentence": "They agreed to practise before the next dance.",
+      "skill": "detail"
+    }
+  ]
+}

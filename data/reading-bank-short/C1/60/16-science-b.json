@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "science",
+  "target": 60,
+  "title": "Less than the Label Claimed",
+  "story": "Before counting spores, Omar checked his hand lens against a slide whose marks he already knew. The lens magnified slightly less than the label claimed, so his first tally would have been low. He adjusted the count by the difference and stuck a note on the case. A newer lens arrived weeks later, already calibrated, and he still tested it. Corrected trust did not become automatic.",
+  "vocabulary": [
+    {
+      "word": "spores",
+      "definition": "Tiny reproductive cells he was counting"
+    },
+    {
+      "word": "magnified",
+      "definition": "Made something look larger"
+    },
+    {
+      "word": "tally",
+      "definition": "The count of what he saw"
+    },
+    {
+      "word": "adjusted",
+      "definition": "Changed the number to allow for the error"
+    },
+    {
+      "word": "calibrated",
+      "definition": "Checked and set so the measurement is accurate"
+    },
+    {
+      "word": "automatic",
+      "definition": "Done without thinking or checking"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What known object did Omar check the lens against?",
+      "options": [
+        "A slide whose marks he already knew",
+        "A newer lens that arrived weeks later",
+        "The note he stuck on the case",
+        "A tally written by a colleague"
+      ],
+      "correctAnswer": "A slide whose marks he already knew",
+      "explanation": "He checked the hand lens against a slide whose marks he already knew.",
+      "supportingSentence": "Before counting spores, Omar checked his hand lens against a slide whose marks he already knew.",
+      "skill": "detail"
+    },
+    {
+      "question": "What was wrong with the magnification?",
+      "options": [
+        "It was slightly less than the label claimed",
+        "It made the first tally too high",
+        "It had already been calibrated that morning",
+        "It hid every mark on the slide"
+      ],
+      "correctAnswer": "It was slightly less than the label claimed",
+      "explanation": "The lens magnified slightly less than the label claimed, so the first tally would have been low.",
+      "supportingSentence": "The lens magnified slightly less than the label claimed, so his first tally would have been low.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did Omar still test the newer lens?",
+      "options": [
+        "An earlier correction had not made him trust labels on their own",
+        "The new lens arrived without any case",
+        "His note had fallen off the old lens",
+        "Spores cannot be counted without two lenses"
+      ],
+      "correctAnswer": "An earlier correction had not made him trust labels on their own",
+      "explanation": "He tested the new lens because corrected trust had not become automatic.",
+      "supportingSentence": "Corrected trust did not become automatic.",
+      "skill": "inference"
+    },
+    {
+      "question": "What is a tally in this passage?",
+      "options": [
+        "The count of what he saw through the lens",
+        "The claim printed on the label",
+        "A slide with marks he knew",
+        "A note stuck to the case"
+      ],
+      "correctAnswer": "The count of what he saw through the lens",
+      "explanation": "His first tally would have been low, meaning the count of spores he would have recorded.",
+      "supportingSentence": "The lens magnified slightly less than the label claimed, so his first tally would have been low.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer include the note on the case?",
+      "options": [
+        "To show he left a record of the difference he had found",
+        "To prove the newer lens was already broken",
+        "To suggest spores should be counted without a lens",
+        "To argue that labels are always exact"
+      ],
+      "correctAnswer": "To show he left a record of the difference he had found",
+      "explanation": "The note sits beside the adjusted count, so the difference is recorded and not only remembered.",
+      "supportingSentence": "He adjusted the count by the difference and stuck a note on the case.",
+      "skill": "intent"
+    }
+  ]
+}

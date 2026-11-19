@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "technology",
+  "target": 60,
+  "title": "A Reason Left on the Deletion",
+  "story": "The studio inbox let anyone delete a client message. After a booking vanished during a tidy, Sen required every deletion to keep the sender, the time, and a reason. Staff called the extra fields slow and unnecessary. The next missing note was rebuilt from those fields in minutes. Speed had been erasing the only history a client could ask them to prove.",
+  "vocabulary": [
+    {
+      "word": "inbox",
+      "definition": "The shared place where messages arrive"
+    },
+    {
+      "word": "vanished",
+      "definition": "Disappeared"
+    },
+    {
+      "word": "deletion",
+      "definition": "The act of removing a message"
+    },
+    {
+      "word": "fields",
+      "definition": "The separate boxes of information that were saved"
+    },
+    {
+      "word": "rebuilt",
+      "definition": "Put back together from the saved details"
+    },
+    {
+      "word": "erasing",
+      "definition": "Removing something so it cannot be recovered"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What could any staff member do to a client message at first?",
+      "options": [
+        "Delete it",
+        "Rebuild it from a written reason",
+        "Keep it for the client forever by rule",
+        "Send it only to the studio owner"
+      ],
+      "correctAnswer": "Delete it",
+      "explanation": "The inbox let anyone delete a client message.",
+      "supportingSentence": "The studio inbox let anyone delete a client message.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Sen require a deletion to keep?",
+      "options": [
+        "The sender, the time, and a reason",
+        "Only the client’s telephone number",
+        "A paper copy of every booking",
+        "The fields staff had already refused"
+      ],
+      "correctAnswer": "The sender, the time, and a reason",
+      "explanation": "Every deletion had to keep the sender, the time, and a reason.",
+      "supportingSentence": "After a booking vanished during a tidy, Sen required every deletion to keep the sender, the time, and a reason.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why could the next missing note be rebuilt so quickly?",
+      "options": [
+        "The saved fields still held enough detail to reconstruct it",
+        "Staff had stopped deleting messages entirely",
+        "The client brought a paper copy within minutes",
+        "Speed had created a second inbox"
+      ],
+      "correctAnswer": "The saved fields still held enough detail to reconstruct it",
+      "explanation": "The note was rebuilt from those fields, so the required details made the recovery possible.",
+      "supportingSentence": "The next missing note was rebuilt from those fields in minutes.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does vanished mean in this passage?",
+      "options": [
+        "Disappeared from the inbox",
+        "Grew slower to type",
+        "Was proved by the client in court",
+        "Was rebuilt the same afternoon"
+      ],
+      "correctAnswer": "Disappeared from the inbox",
+      "explanation": "The booking vanished during a tidy, meaning it disappeared from the messages.",
+      "supportingSentence": "After a booking vanished during a tidy, Sen required every deletion to keep the sender, the time, and a reason.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer end by saying speed had been erasing history?",
+      "options": [
+        "To show the cost of deleting without a record",
+        "To prove clients never asked for proof",
+        "To suggest a tidy inbox is always safer",
+        "To argue that reasons should stay blank"
+      ],
+      "correctAnswer": "To show the cost of deleting without a record",
+      "explanation": "The last line names what the old speed had destroyed: the history a client might need proved.",
+      "supportingSentence": "Speed had been erasing the only history a client could ask them to prove.",
+      "skill": "intent"
+    }
+  ]
+}

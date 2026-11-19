@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "economy_finance",
+  "target": 140,
+  "title": "The Weekly Bus Pass",
+  "story": "Farah paid for a single bus ride every school day. By Friday her purse was almost empty. Her father sat with her and listed the five fares on paper. Then he wrote the price of a weekly pass beside them. The pass cost less than the five rides together. Farah was surprised, because she had never compared the choices. She checked her jar of saved coins and found she had enough. On Monday she bought the pass at the station window. The clerk printed her name and the dates on it. Farah kept the pass in a hard pocket of her bag. Each morning she showed it to the driver instead of searching for coins. On Friday she still had money left for lunch. She recorded the saving in a notebook so she could see it. Next month she planned to buy the pass again on Sunday.",
+  "vocabulary": [
+    {
+      "word": "purse",
+      "definition": "a small bag used for money"
+    },
+    {
+      "word": "fares",
+      "definition": "money paid for journeys"
+    },
+    {
+      "word": "pass",
+      "definition": "a ticket you can use for several rides"
+    },
+    {
+      "word": "compared",
+      "definition": "looked at choices to see the difference"
+    },
+    {
+      "word": "clerk",
+      "definition": "a worker who serves people at a counter"
+    },
+    {
+      "word": "saving",
+      "definition": "money kept because you spent less"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Which choice cost less?",
+      "options": [
+        "The weekly pass",
+        "The five single rides",
+        "A taxi every morning",
+        "Lunch in a cafe"
+      ],
+      "correctAnswer": "The weekly pass",
+      "explanation": "The pass cost less than the five single rides together.",
+      "supportingSentence": "The pass cost less than the five rides together.",
+      "skill": "detail"
+    },
+    {
+      "question": "When did Farah buy the pass?",
+      "options": [
+        "On Monday",
+        "On Friday",
+        "On Sunday night",
+        "At midnight"
+      ],
+      "correctAnswer": "On Monday",
+      "explanation": "On Monday she bought the pass at the station window.",
+      "supportingSentence": "On Monday she bought the pass at the station window.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Farah still have money for at the end of the week?",
+      "options": [
+        "Lunch",
+        "A second pass",
+        "A new purse",
+        "A taxi home"
+      ],
+      "correctAnswer": "Lunch",
+      "explanation": "On Friday she still had money left for lunch.",
+      "supportingSentence": "On Friday she still had money left for lunch.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does compared mean?",
+      "options": [
+        "Looked at choices to see the difference",
+        "Paid twice for the same ride",
+        "Lost coins from a purse",
+        "Printed a name on a ticket"
+      ],
+      "correctAnswer": "Looked at choices to see the difference",
+      "explanation": "She had never compared the choices, so she had not looked at them side by side.",
+      "supportingSentence": "Farah was surprised, because she had never compared the choices.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Farah plan to buy the pass again?",
+      "options": [
+        "It cost less than paying for every ride",
+        "The clerk told her to stop riding",
+        "Her father lost the paper list",
+        "Single rides had become free"
+      ],
+      "correctAnswer": "It cost less than paying for every ride",
+      "explanation": "The pass cost less than five rides, so she planned to buy another one.",
+      "supportingSentence": "Next month she planned to buy the pass again on Sunday.",
+      "skill": "inference"
+    }
+  ]
+}

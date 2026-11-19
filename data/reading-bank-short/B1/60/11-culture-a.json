@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "culture_food",
+  "target": 60,
+  "title": "Bread for the Festival",
+  "story": "On festival morning, the square smelled of fresh bread. Luca helped his aunt at a table. They sold round loaves and a sweet rice dish from her region. A tourist asked about the red spice, and Luca said it was mild. His aunt wrapped a roll for a child with no money. When the music started, a few loaves were left. Luca saved one for dinner.",
+  "vocabulary": [
+    {
+      "word": "square",
+      "definition": "An open public space in a town."
+    },
+    {
+      "word": "loaves",
+      "definition": "Whole pieces of baked bread."
+    },
+    {
+      "word": "region",
+      "definition": "A particular area of a country."
+    },
+    {
+      "word": "spice",
+      "definition": "A plant substance used to flavour food."
+    },
+    {
+      "word": "mild",
+      "definition": "Not strong or hot in taste."
+    },
+    {
+      "word": "wrapped",
+      "definition": "Covered something before giving it."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What smell filled the square that morning?",
+      "options": [
+        "Fresh bread",
+        "Red spice only",
+        "Wood smoke",
+        "Sweet music"
+      ],
+      "correctAnswer": "Fresh bread",
+      "explanation": "The square smelled of fresh bread on festival morning.",
+      "supportingSentence": "On festival morning, the square smelled of fresh bread.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Luca and his aunt sell?",
+      "options": [
+        "Round loaves and a sweet rice dish",
+        "Only free rolls for children",
+        "Soup and grilled fish",
+        "Cakes from another town"
+      ],
+      "correctAnswer": "Round loaves and a sweet rice dish",
+      "explanation": "They sold round loaves and a sweet rice dish from her region.",
+      "supportingSentence": "They sold round loaves and a sweet rice dish from her region.",
+      "skill": "detail"
+    },
+    {
+      "question": "How did Luca describe the red spice?",
+      "options": [
+        "It was mild",
+        "It was painfully hot",
+        "It was too salty",
+        "It came from the tourist"
+      ],
+      "correctAnswer": "It was mild",
+      "explanation": "Luca said the red spice was mild.",
+      "supportingSentence": "A tourist asked about the red spice, and Luca said it was mild.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does mild mean in this story?",
+      "options": [
+        "Not strong or hot in taste",
+        "Costing no money",
+        "Still warm from the oven",
+        "Covered in paper"
+      ],
+      "correctAnswer": "Not strong or hot in taste",
+      "explanation": "Luca said the spice was mild, meaning its taste was not hot.",
+      "supportingSentence": "A tourist asked about the red spice, and Luca said it was mild.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Who received a roll without paying?",
+      "options": [
+        "A child with no money",
+        "The tourist",
+        "The musicians",
+        "Luca's teacher"
+      ],
+      "correctAnswer": "A child with no money",
+      "explanation": "His aunt wrapped a roll for a child with no money.",
+      "supportingSentence": "His aunt wrapped a roll for a child with no money.",
+      "skill": "detail"
+    }
+  ]
+}

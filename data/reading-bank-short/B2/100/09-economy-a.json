@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "economy_finance",
+  "target": 100,
+  "title": "Sharing a Workshop Deposit",
+  "story": "Three friends booked a weekend photography workshop and split the deposit evenly. A week later Callum lost his weekend job and asked to drop out. The studio rules said the deposit could not be returned, so the cost had to be shared again. Mina checked the receipt and worked out the new amount for each remaining person. She showed the figures before anyone argued. Callum offered to pay his original share anyway, because the booking had been his idea. Mina refused that and suggested he pay only a smaller part. They wrote the agreement in a message so nobody would remember it differently.",
+  "vocabulary": [
+    {
+      "word": "deposit",
+      "definition": "Money paid in advance to hold a booking."
+    },
+    {
+      "word": "receipt",
+      "definition": "A written record of what was paid."
+    },
+    {
+      "word": "figures",
+      "definition": "Numbers used to work out an amount."
+    },
+    {
+      "word": "original",
+      "definition": "The first version, before a later change."
+    },
+    {
+      "word": "agreement",
+      "definition": "A decision that the people involved accept."
+    },
+    {
+      "word": "studio",
+      "definition": "The business that organised the workshop."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Why did Callum ask to leave the workshop?",
+      "options": [
+        "He lost his weekend job",
+        "He disliked the photography teacher",
+        "Mina told him his share was too small",
+        "The studio moved the course to another city"
+      ],
+      "correctAnswer": "He lost his weekend job",
+      "explanation": "A week later Callum lost his weekend job and asked to drop out.",
+      "supportingSentence": "A week later Callum lost his weekend job and asked to drop out.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does showing the figures first suggest about Mina?",
+      "options": [
+        "She wanted the new split based on numbers before anyone quarrelled",
+        "She hid the receipt from her friends",
+        "She told Callum to pay for the whole weekend",
+        "She refused to calculate anyone's share"
+      ],
+      "correctAnswer": "She wanted the new split based on numbers before anyone quarrelled",
+      "explanation": "She shows the figures before anyone argues, so she wants the facts to lead the talk.",
+      "supportingSentence": "She showed the figures before anyone argued.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why could the friends not get the deposit back?",
+      "options": [
+        "Callum had already spent it on a camera",
+        "The studio rules said it could not be returned",
+        "Mina had lost the receipt",
+        "The workshop had been cancelled by the friends"
+      ],
+      "correctAnswer": "The studio rules said it could not be returned",
+      "explanation": "The studio rules said the deposit could not be returned, so the cost had to be shared again.",
+      "supportingSentence": "The studio rules said the deposit could not be returned, so the cost had to be shared again.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does Mina's refusal suggest?",
+      "options": [
+        "She wanted Callum to pay more than the others",
+        "She believed the studio had sent the money back",
+        "She cancelled the photography workshop",
+        "She thought his full original share was too heavy after the job loss"
+      ],
+      "correctAnswer": "She thought his full original share was too heavy after the job loss",
+      "explanation": "She refuses his offer to pay the original share and suggests a smaller part, which fits the fact that he has lost his job.",
+      "supportingSentence": "Mina refused that and suggested he pay only a smaller part.",
+      "skill": "inference"
+    },
+    {
+      "question": "What is the deposit in this story?",
+      "options": [
+        "Money paid ahead of time to book the workshop",
+        "The camera each friend had to bring",
+        "A fine for missing a weekend class",
+        "The message that recorded their agreement"
+      ],
+      "correctAnswer": "Money paid ahead of time to book the workshop",
+      "explanation": "The friends split the deposit when they booked, so it is the advance payment for the place.",
+      "supportingSentence": "Three friends booked a weekend photography workshop and split the deposit evenly.",
+      "skill": "vocabulary"
+    }
+  ]
+}

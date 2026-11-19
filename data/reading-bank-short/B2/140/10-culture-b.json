@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "culture_food",
+  "target": 140,
+  "title": "Chilli in a Side Bowl",
+  "story": "The junior club ended its season with a potluck supper in the sports hall. Each household was asked to bring one dish and a card listing what was in it, because two players had food allergies. Tomas arrived with a bean stew his grandmother had taught him, mild enough for children, with pickled chilli served in a separate bowl. He wrote that choice clearly on the card so nobody would be surprised by the heat. During the meal a parent thanked him, because her son could eat the stew without avoiding the whole pot. The coach then asked him to help write a guide so strong flavour could be offered beside a dish instead of being stirred through it. Tomas agreed. He went home with an empty pot and a recipe for oat biscuits from another family. The supper was simple, but people could eat together without guessing what was safe.",
+  "vocabulary": [
+    {
+      "word": "potluck",
+      "definition": "A shared meal where each person brings some food."
+    },
+    {
+      "word": "allergies",
+      "definition": "Conditions in which particular foods make someone ill."
+    },
+    {
+      "word": "pickled",
+      "definition": "Preserved in vinegar or brine for a sharp taste."
+    },
+    {
+      "word": "flavour",
+      "definition": "The taste of a food."
+    },
+    {
+      "word": "stirred",
+      "definition": "Mixed through a dish."
+    },
+    {
+      "word": "biscuits",
+      "definition": "Small baked cakes, often sweet and crisp."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Why did each household have to list the contents of its dish?",
+      "options": [
+        "Two players had foods that could make them ill",
+        "The coach allowed only sweet biscuits",
+        "The hall had banned bean stew",
+        "Tomas could not read a recipe"
+      ],
+      "correctAnswer": "Two players had foods that could make them ill",
+      "explanation": "Each household brought a card listing the contents because two players had food allergies.",
+      "supportingSentence": "Each household was asked to bring one dish and a card listing what was in it, because two players had food allergies.",
+      "skill": "detail"
+    },
+    {
+      "question": "How was the sharp topping kept apart from the stew?",
+      "options": [
+        "It was served in its own bowl",
+        "It was mixed through every serving",
+        "It was spread on the oat biscuits",
+        "It was left off the information card"
+      ],
+      "correctAnswer": "It was served in its own bowl",
+      "explanation": "The pickled chilli was served in a separate bowl, while the stew itself was mild.",
+      "supportingSentence": "Tomas arrived with a bean stew his grandmother had taught him, mild enough for children, with pickled chilli served in a separate bowl.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did one parent thank Tomas?",
+      "options": [
+        "Her son could eat the stew without having to skip the pot",
+        "She wanted the sharp topping mixed into every bowl",
+        "The coach had cancelled the supper",
+        "Tomas had forgotten the information card"
+      ],
+      "correctAnswer": "Her son could eat the stew without having to skip the pot",
+      "explanation": "She thanked him because her son could eat the stew without avoiding the whole pot.",
+      "supportingSentence": "During the meal a parent thanked him, because her son could eat the stew without avoiding the whole pot.",
+      "skill": "inference"
+    },
+    {
+      "question": "What was the result of the careful food information?",
+      "options": [
+        "People could eat together without guessing what was safe",
+        "The club stopped serving food the next year",
+        "Every dish had to be the same stew",
+        "Guests left before any food was opened"
+      ],
+      "correctAnswer": "People could eat together without guessing what was safe",
+      "explanation": "The supper let people eat together without guessing what was safe.",
+      "supportingSentence": "The supper was simple, but people could eat together without guessing what was safe.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does allergies mean in this story?",
+      "options": [
+        "Harmful reactions that some foods can cause",
+        "Cards placed beside a supper dish",
+        "A mild stew taught by a relative",
+        "Sweet oat cakes from another family"
+      ],
+      "correctAnswer": "Harmful reactions that some foods can cause",
+      "explanation": "The cards were required because two players had food allergies, meaning some foods could make them ill.",
+      "supportingSentence": "Each household was asked to bring one dish and a card listing what was in it, because two players had food allergies.",
+      "skill": "vocabulary"
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "travel",
+  "target": 140,
+  "title": "The Annex beyond the Courtyard",
+  "story": "The clerk apologised before Soraya gave her name. A wedding party had stayed on, and the booked room was still occupied, although her confirmation said otherwise. The only bed in the main house was a narrow cot beside the kitchen passage. The clerk offered instead a quiet annex beyond the courtyard, usually kept for staff, with its own lock. Breakfast there was later, and she would have to cross the courtyard. The annex was free that night as a remedy for the error, but the wedding would continue until eleven. Soraya asked if the annex key opened the side gate, because she meant to leave before the kitchen did. The key opened the gate. She accepted, with the stipulation that her own room be released the next afternoon and that the promise be written on the confirmation. A free plain room was acceptable. Losing the second night without a record was not acceptable.",
+  "vocabulary": [
+    {
+      "word": "occupied",
+      "definition": "Already being used by someone else."
+    },
+    {
+      "word": "confirmation",
+      "definition": "A written message saying a booking is held."
+    },
+    {
+      "word": "annex",
+      "definition": "A smaller building attached to a main one."
+    },
+    {
+      "word": "courtyard",
+      "definition": "An open space enclosed by buildings."
+    },
+    {
+      "word": "remedy",
+      "definition": "Something done to correct a mistake."
+    },
+    {
+      "word": "stipulation",
+      "definition": "A condition that must be part of an agreement."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Why was the room Soraya had booked unavailable?",
+      "options": [
+        "A wedding party had not yet left it",
+        "She had come a full day early",
+        "The annex had been sold to the kitchen",
+        "The side-gate key was lost on the way"
+      ],
+      "correctAnswer": "A wedding party had not yet left it",
+      "explanation": "A wedding party had stayed on, so the booked room was still occupied.",
+      "supportingSentence": "A wedding party had stayed on, and the booked room was still occupied, although her confirmation said otherwise.",
+      "skill": "detail"
+    },
+    {
+      "question": "Until what time would the wedding continue?",
+      "options": [
+        "Until eleven",
+        "Until breakfast",
+        "Until the next afternoon",
+        "Until the clerk went home"
+      ],
+      "correctAnswer": "Until eleven",
+      "explanation": "The clerk said the wedding would continue until eleven.",
+      "supportingSentence": "The annex was free that night as a remedy for the error, but the wedding would continue until eleven.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does Soraya treat as more important than a free night?",
+      "options": [
+        "A written promise that her own room returns the next day",
+        "Breakfast served later beside the kitchen",
+        "A lock normally kept for the staff",
+        "An apology delivered before she gives her name"
+      ],
+      "correctAnswer": "A written promise that her own room returns the next day",
+      "explanation": "She accepts the free annex only with a written promise that her own room is released the next afternoon.",
+      "supportingSentence": "She accepted, with the stipulation that her own room be released the next afternoon and that the promise be written on the confirmation.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does remedy mean when the annex is offered free?",
+      "options": [
+        "A way of making up for the booking mistake",
+        "A narrow bed beside the kitchen passage",
+        "An extra bill for the second night",
+        "A bus ticket back to the station"
+      ],
+      "correctAnswer": "A way of making up for the booking mistake",
+      "explanation": "The free night is offered as a remedy for the error over her room.",
+      "supportingSentence": "The annex was free that night as a remedy for the error, but the wedding would continue until eleven.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer mention the narrow cot?",
+      "options": [
+        "To show the only main-house bed was a poor option",
+        "To prove Soraya preferred to sleep by the kitchen",
+        "To explain how the wedding meal was cooked",
+        "To show that staff were banned from every annex"
+      ],
+      "correctAnswer": "To show the only main-house bed was a poor option",
+      "explanation": "The remaining bed in the main house is only a narrow cot beside the kitchen, which makes the annex the real offer.",
+      "supportingSentence": "The only bed in the main house was a narrow cot beside the kitchen passage.",
+      "skill": "intent"
+    }
+  ]
+}

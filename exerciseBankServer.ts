@@ -143,14 +143,30 @@ export async function claimGrammarFromBank(
 export async function claimReadingFromBank(
   admin: SupabaseClient,
   userId: string,
-  request: { level: string; topic: string | null },
+  request: { level: string; topic: string | null; minWords?: number; maxWords?: number },
 ): Promise<{ id: string; lesson: ReadingBankLesson } | null> {
   for (let attempt = 0; attempt < CLAIM_ATTEMPTS; attempt += 1) {
-    const result = await admin.rpc('claim_reading_bank_item', {
-      uid: userId,
-      reading_level: request.level,
-      reading_topic: request.topic ?? '',
-    });
+    const ranged = request.minWords != null && request.maxWords != null
+      ? await admin.rpc('claim_reading_bank_for_length', {
+        uid: userId,
+        reading_level: request.level,
+        reading_topic: request.topic ?? '',
+        min_words: Math.floor(request.minWords),
+        max_words: Math.ceil(request.maxWords),
+      })
+      : null;
+    const result = ranged && !ranged.error
+      ? ranged
+      : ranged && !bankUnavailable(ranged.error)
+        ? ranged
+        : await admin.rpc('claim_reading_bank_item', {
+          uid: userId,
+          reading_level: request.level,
+          reading_topic: request.topic ?? '',
+        });
+    if (ranged && !ranged.error && result.data && typeof result.data === 'object' && (result.data as { status?: string }).status === 'empty') {
+      return null;
+    }
     if (result.error) {
       if (!bankUnavailable(result.error)) {
         console.error(JSON.stringify({ exerciseBank: 'reading_claim_failed', code: result.error.code ?? '' }));

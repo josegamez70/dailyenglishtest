@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "science",
+  "target": 100,
+  "title": "A Bottle Marked as Void",
+  "story": "The field team reached the mudflat as the tide returned, though the protocol required water that had rested on the sediment through the low. Priya filled a bottle anyway and labelled it with the minute plus a note that the condition had not been met. A colleague wanted the note removed so the folder would look complete. Priya refused. A tidy file would let a later paper treat a late sample as a true match. They entered the bottle as void and planned a return at the next suitable low. Missing data, she said, was more honest than a tidy lie.",
+  "vocabulary": [
+    {
+      "word": "protocol",
+      "definition": "The rules for how the sample must be taken"
+    },
+    {
+      "word": "sediment",
+      "definition": "Matter settled on the bottom of the flat"
+    },
+    {
+      "word": "labelled",
+      "definition": "Marked with information about the sample"
+    },
+    {
+      "word": "colleague",
+      "definition": "A person working on the same team"
+    },
+    {
+      "word": "void",
+      "definition": "Recorded as not usable"
+    },
+    {
+      "word": "honest",
+      "definition": "Truthful, even when the record looks incomplete"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What extra remark went on the bottle's label?",
+      "options": [
+        "A note that the required condition had not been met",
+        "A claim that the tide stayed out all day",
+        "A signature approving the sample",
+        "A statement that the bottle matched the others"
+      ],
+      "correctAnswer": "A note that the required condition had not been met",
+      "explanation": "She labelled the bottle with a note that the condition had not been met.",
+      "supportingSentence": "Priya filled a bottle anyway and labelled it with the minute plus a note that the condition had not been met.",
+      "skill": "detail"
+    },
+    {
+      "question": "How did the team record that bottle?",
+      "options": [
+        "As void, with a return planned for a proper low",
+        "As the best sample of the week",
+        "As a copy of an older bottle",
+        "As a figure ready for the paper"
+      ],
+      "correctAnswer": "As void, with a return planned for a proper low",
+      "explanation": "They entered the bottle as void and planned a return at the next suitable low.",
+      "supportingSentence": "They entered the bottle as void and planned a return at the next suitable low.",
+      "skill": "detail"
+    },
+    {
+      "question": "What future mistake is Priya trying to prevent?",
+      "options": [
+        "A paper treating a late sample as if it matched the rules",
+        "The closure of the mudflat to every team",
+        "The folder deleting the whole study",
+        "The tide failing to return the next week"
+      ],
+      "correctAnswer": "A paper treating a late sample as if it matched the rules",
+      "explanation": "She fears a later paper would lean on a late sample as though it were a true match.",
+      "supportingSentence": "A tidy file would let a later paper treat a late sample as a true match.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does protocol refer to in this fieldwork?",
+      "options": [
+        "The rules for how a sample must be taken",
+        "The name of the shared folder",
+        "A boat used to cross the flat",
+        "The minute written on the label"
+      ],
+      "correctAnswer": "The rules for how a sample must be taken",
+      "explanation": "The protocol is the required way of taking the sample, which this bottle missed.",
+      "supportingSentence": "The field team reached the mudflat as the tide returned, though the protocol required water that had rested on the sediment through the low.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why bring in a colleague who wants the note deleted?",
+      "options": [
+        "To show the pressure to make the set look complete",
+        "To reveal that the colleague took the sample alone",
+        "To prove the tide never reached the flat",
+        "To explain how glass bottles are made"
+      ],
+      "correctAnswer": "To show the pressure to make the set look complete",
+      "explanation": "The colleague supplies the temptation to hide the failed condition for the sake of a complete-looking folder.",
+      "supportingSentence": "A colleague wanted the note removed so the folder would look complete.",
+      "skill": "intent"
+    }
+  ]
+}

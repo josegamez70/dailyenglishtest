@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "daily life",
+  "target": 140,
+  "title": "The Spare Laundry Key",
+  "story": "The building rota stipulated a two-hour laundry window for each flat. When Lena's Thursday turn began, the drum was still turning and residual water had reached the corridor. She deferred calling the caretaker and pushed a measured note upstairs. Mateo, whose cycle had overrun, brought the spare key down the next evening and apologised for his late shift. He had started after midnight on the tacit assumption that the room would be empty until morning. Lena needed the machine before work, because the launderette shut too early for her. They rewrote the rota on the damp sheet. Mateo would keep Thursday but finish by nine, and Lena would take the Friday hour he rarely used. She insisted the spare key stay with the caretaker, so the next overrun could be stopped without formal recourse. The concession was tighter than either wanted, yet the floor stayed dry and the machine stayed shared.",
+  "vocabulary": [
+    {
+      "word": "stipulated",
+      "definition": "Set down as a requirement."
+    },
+    {
+      "word": "residual",
+      "definition": "Left behind after the main thing has gone."
+    },
+    {
+      "word": "deferred",
+      "definition": "Put off until later."
+    },
+    {
+      "word": "tacit",
+      "definition": "Understood without being said aloud."
+    },
+    {
+      "word": "recourse",
+      "definition": "A formal step you can take to get help."
+    },
+    {
+      "word": "concession",
+      "definition": "Something given up so an agreement can be reached."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "When must Mateo finish his Thursday wash under the new rota?",
+      "options": [
+        "By nine",
+        "At midnight",
+        "On Sunday afternoon",
+        "Before dawn on Monday"
+      ],
+      "correctAnswer": "By nine",
+      "explanation": "The rewritten rota lets him keep Thursday only if he finishes by nine.",
+      "supportingSentence": "Mateo would keep Thursday but finish by nine, and Lena would take the Friday hour he rarely used.",
+      "skill": "detail"
+    },
+    {
+      "question": "Where did Lena insist the spare key should stay?",
+      "options": [
+        "With the caretaker",
+        "In Mateo's coat",
+        "Inside the washing drum",
+        "At the launderette"
+      ],
+      "correctAnswer": "With the caretaker",
+      "explanation": "She wanted the caretaker to hold the key so the next overrun could be stopped.",
+      "supportingSentence": "She insisted the spare key stay with the caretaker, so the next overrun could be stopped without formal recourse.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the final arrangement show about Lena and Mateo?",
+      "options": [
+        "Both gave ground so the shared machine could keep working",
+        "Lena agreed to use only the launderette from then on",
+        "Mateo was banned from the laundry for a month",
+        "The caretaker replaced the machine that night"
+      ],
+      "correctAnswer": "Both gave ground so the shared machine could keep working",
+      "explanation": "The concession was tighter than either wanted, but the machine stayed shared and the floor stayed dry.",
+      "supportingSentence": "The concession was tighter than either wanted, yet the floor stayed dry and the machine stayed shared.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does recourse mean in this passage?",
+      "options": [
+        "A formal step taken to get a problem put right",
+        "A spare key cut for one neighbour",
+        "A two-hour turn on the washing machine",
+        "A note written on a damp sheet"
+      ],
+      "correctAnswer": "A formal step taken to get a problem put right",
+      "explanation": "Lena wants the key held by the caretaker so they need not turn to formal recourse.",
+      "supportingSentence": "She insisted the spare key stay with the caretaker, so the next overrun could be stopped without formal recourse.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer mention the launderette?",
+      "options": [
+        "To show Lena had no practical place to wash before work",
+        "To advertise a cheaper laundry across the square",
+        "To prove that Mateo worked at that shop",
+        "To explain why the caretaker owned the building"
+      ],
+      "correctAnswer": "To show Lena had no practical place to wash before work",
+      "explanation": "The launderette shut too early, which is why Lena needed the building machine before work.",
+      "supportingSentence": "Lena needed the machine before work, because the launderette shut too early for her.",
+      "skill": "intent"
+    }
+  ]
+}

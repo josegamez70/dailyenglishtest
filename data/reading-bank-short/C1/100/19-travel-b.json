@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "travel",
+  "target": 100,
+  "title": "The Room beside the Kitchen",
+  "story": "The booking confirmed a room for Thursday, but a rail strike moved Lena to Friday, and her message never reached the pension. On arrival the owner had let the room to a couple in the hall, which was allowed once the night had started without the guest. He did not disguise that. He offered the small room beside the kitchen, usually kept for staff, at the same price, with breakfast as an apology. Lena accepted. Searching a strange town after dark, with the roads in disorder, was worse. A perfect match would have been better. An honest smaller room was better than a polite story that sent her outside.",
+  "vocabulary": [
+    {
+      "word": "booking",
+      "definition": "The reservation of the room"
+    },
+    {
+      "word": "strike",
+      "definition": "A stoppage that kept the trains from running"
+    },
+    {
+      "word": "pension",
+      "definition": "A small lodging house"
+    },
+    {
+      "word": "disguise",
+      "definition": "To hide the real situation"
+    },
+    {
+      "word": "apology",
+      "definition": "A gesture meant to express regret"
+    },
+    {
+      "word": "disorder",
+      "definition": "A confused, disrupted state"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "For which night had the room first been confirmed?",
+      "options": [
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday"
+      ],
+      "correctAnswer": "Thursday",
+      "explanation": "The booking confirmed a room for Thursday.",
+      "supportingSentence": "The booking confirmed a room for Thursday, but a rail strike moved Lena to Friday, and her message never reached the pension.",
+      "skill": "detail"
+    },
+    {
+      "question": "What charge did the owner set for the room by the kitchen?",
+      "options": [
+        "The price already agreed for the booking",
+        "Twice the usual nightly rate",
+        "Nothing, because the trains had stopped",
+        "A sum paid directly to the couple"
+      ],
+      "correctAnswer": "The price already agreed for the booking",
+      "explanation": "He offered the small room at the same price.",
+      "supportingSentence": "He offered the small room beside the kitchen, usually kept for staff, at the same price, with breakfast as an apology.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why does she take the room beside the kitchen?",
+      "options": [
+        "Searching an unfamiliar town after dark was the worse risk",
+        "The couple invited her to share the room they had taken",
+        "The strike ended while she stood in the hall",
+        "Breakfast was the only meal served all week"
+      ],
+      "correctAnswer": "Searching an unfamiliar town after dark was the worse risk",
+      "explanation": "She accepts because searching a strange town after dark, with the roads in disorder, was worse.",
+      "supportingSentence": "Searching a strange town after dark, with the roads in disorder, was worse.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does pension mean in this stopover?",
+      "options": [
+        "The small lodging house where she had booked",
+        "A retirement payment from the railway",
+        "The couple's home in another city",
+        "A meal served only to the staff"
+      ],
+      "correctAnswer": "The small lodging house where she had booked",
+      "explanation": "The pension is the lodging house that held her booking and later offered another room.",
+      "supportingSentence": "The booking confirmed a room for Thursday, but a rail strike moved Lena to Friday, and her message never reached the pension.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What judgment does the final contrast ask for?",
+      "options": [
+        "An honest lesser room beats a story that would send her out",
+        "Lena should be blamed for arriving on Thursday",
+        "The owner secretly hid the couple",
+        "The full rail timetable should be copied out"
+      ],
+      "correctAnswer": "An honest lesser room beats a story that would send her out",
+      "explanation": "The close ranks a truthful smaller room above a polite fiction that would put her back outside.",
+      "supportingSentence": "An honest smaller room was better than a polite story that sent her outside.",
+      "skill": "intent"
+    }
+  ]
+}

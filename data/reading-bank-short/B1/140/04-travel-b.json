@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "travel",
+  "target": 140,
+  "title": "Sharing the Taxi Fare",
+  "story": "Three students reached the city station after dark with heavy backpacks. A taxi stood by the exit, but one ride looked expensive. Mina suggested they share the car and divide the fare. Hugo and Ade agreed, and Ade had the address on his phone. The driver nodded and put the bags in the back. On the way, Mina watched the street names to check the route. The hostel was a green building beside a quiet square. The square was empty, and the windows of the hostel were bright. The driver stopped at the door and told them the price. Hugo paid the full amount, and the others gave him their share in cash. They checked the receipt before the taxi left. Inside, the owner gave them keys and pointed to the stairs. Mina kept the receipt in her notebook. She wanted a clear record of what each person had paid.",
+  "vocabulary": [
+    {
+      "word": "backpacks",
+      "definition": "bags worn on the back"
+    },
+    {
+      "word": "fare",
+      "definition": "the price of a ride"
+    },
+    {
+      "word": "hostel",
+      "definition": "a cheap place where travellers sleep"
+    },
+    {
+      "word": "receipt",
+      "definition": "paper that shows what you paid"
+    },
+    {
+      "word": "expensive",
+      "definition": "costing a lot of money"
+    },
+    {
+      "word": "square",
+      "definition": "an open town space with buildings around it"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Who suggested sharing the car?",
+      "options": [
+        "Mina",
+        "Hugo",
+        "The driver",
+        "The hostel owner"
+      ],
+      "correctAnswer": "Mina",
+      "explanation": "Mina suggested they share the car and divide the fare.",
+      "supportingSentence": "Mina suggested they share the car and divide the fare.",
+      "skill": "detail"
+    },
+    {
+      "question": "Where was the green hostel?",
+      "options": [
+        "Beside a quiet square",
+        "Inside the railway station",
+        "Next to a loud market",
+        "On a river boat"
+      ],
+      "correctAnswer": "Beside a quiet square",
+      "explanation": "The hostel was a green building beside a quiet square.",
+      "supportingSentence": "The hostel was a green building beside a quiet square.",
+      "skill": "detail"
+    },
+    {
+      "question": "Who paid the driver the full price?",
+      "options": [
+        "Hugo",
+        "Ade",
+        "Mina",
+        "The hostel owner"
+      ],
+      "correctAnswer": "Hugo",
+      "explanation": "Hugo paid the full amount, and the others gave him their parts.",
+      "supportingSentence": "Hugo paid the full amount, and the others gave him their share in cash.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does receipt mean?",
+      "options": [
+        "Paper that shows what you paid",
+        "A key to a bedroom",
+        "A list of street names",
+        "A bag for the back seat"
+      ],
+      "correctAnswer": "Paper that shows what you paid",
+      "explanation": "They checked the receipt, the paper that showed the price.",
+      "supportingSentence": "They checked the receipt before the taxi left.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Mina suggest dividing the cost?",
+      "options": [
+        "One ride by itself looked expensive",
+        "The station had already closed",
+        "The hostel was free for one guest",
+        "Ade did not know the address"
+      ],
+      "correctAnswer": "One ride by itself looked expensive",
+      "explanation": "She saw that one ride looked expensive, so the group could split it.",
+      "supportingSentence": "A taxi stood by the exit, but one ride looked expensive.",
+      "skill": "inference"
+    }
+  ]
+}

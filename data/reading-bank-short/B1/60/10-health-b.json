@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "health_sports",
+  "target": 60,
+  "title": "Back in the Pool",
+  "story": "After a cold, Yasmin's doctor said she could swim again, but gently. She went to the pool on Saturday. For ten minutes she kicked slowly at the shallow end. Then she swam one easy length and rested. Her arms felt tired, so she did not race her friend. She left before the busy hour and wrote the time in a notebook.",
+  "vocabulary": [
+    {
+      "word": "gently",
+      "definition": "In a careful and soft way."
+    },
+    {
+      "word": "shallow",
+      "definition": "Not deep."
+    },
+    {
+      "word": "length",
+      "definition": "One swim from one end of a pool to the other."
+    },
+    {
+      "word": "rested",
+      "definition": "Stopped activity in order to recover."
+    },
+    {
+      "word": "race",
+      "definition": "To compete to finish first."
+    },
+    {
+      "word": "notebook",
+      "definition": "A small book for writing notes."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did the doctor say Yasmin could do?",
+      "options": [
+        "Swim again, but gently",
+        "Race at the deep end",
+        "Stay home all month",
+        "Skip every Saturday"
+      ],
+      "correctAnswer": "Swim again, but gently",
+      "explanation": "The doctor said she could swim again, but gently.",
+      "supportingSentence": "After a cold, Yasmin's doctor said she could swim again, but gently.",
+      "skill": "detail"
+    },
+    {
+      "question": "Where did Yasmin kick at the start?",
+      "options": [
+        "At the shallow end",
+        "At the deep end",
+        "In the busy lane",
+        "Outside by the notebook"
+      ],
+      "correctAnswer": "At the shallow end",
+      "explanation": "She kicked slowly at the shallow end for ten minutes.",
+      "supportingSentence": "For ten minutes she kicked slowly at the shallow end.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did Yasmin decide not to race?",
+      "options": [
+        "Her arms felt tired",
+        "The pool was closed",
+        "Her friend had a cold",
+        "The doctor was watching"
+      ],
+      "correctAnswer": "Her arms felt tired",
+      "explanation": "Her arms felt tired, so she did not race her friend.",
+      "supportingSentence": "Her arms felt tired, so she did not race her friend.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does shallow mean in this story?",
+      "options": [
+        "Not deep",
+        "Very fast",
+        "Already crowded",
+        "Too cold for swimming"
+      ],
+      "correctAnswer": "Not deep",
+      "explanation": "The shallow end is the part of the pool that is not deep.",
+      "supportingSentence": "For ten minutes she kicked slowly at the shallow end.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What did Yasmin write in the notebook?",
+      "options": [
+        "The time",
+        "Her friend's score",
+        "The doctor's address",
+        "A list of races"
+      ],
+      "correctAnswer": "The time",
+      "explanation": "She wrote the time in a notebook before she left.",
+      "supportingSentence": "She left before the busy hour and wrote the time in a notebook.",
+      "skill": "detail"
+    }
+  ]
+}

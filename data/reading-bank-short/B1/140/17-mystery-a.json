@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "mystery",
+  "target": 140,
+  "title": "The Open Kitchen Window",
+  "story": "Sara came home and found the kitchen window open. A chair was pulled out, and a cup lay on its side. She felt afraid and called her brother, Idris. Together they checked the rooms, and nothing valuable was missing. Then they heard a soft sound from the bedroom. Their cat, Pip, walked out with a leaf caught on his tail. The window had a wide sill, and the tree outside stood close to it. Pip must have climbed in and knocked the cup over. Sara laughed with relief and closed the window. Idris wiped the table and set the chair back. They looked at the latch and saw that it was loose. Sara wrote a note asking everyone to test the latch before leaving. She fixed it that evening with a small screwdriver. The next morning the window stayed shut, and Pip waited by the door.",
+  "vocabulary": [
+    {
+      "word": "afraid",
+      "definition": "feeling that something bad may happen"
+    },
+    {
+      "word": "valuable",
+      "definition": "important and worth a lot"
+    },
+    {
+      "word": "sill",
+      "definition": "the flat shelf at the bottom of a window"
+    },
+    {
+      "word": "relief",
+      "definition": "a calm feeling after fear goes away"
+    },
+    {
+      "word": "latch",
+      "definition": "the fastening that keeps a window shut"
+    },
+    {
+      "word": "screwdriver",
+      "definition": "a tool used to turn screws"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How did Sara find the cup?",
+      "options": [
+        "Lying on its side",
+        "Full of hot tea",
+        "Broken into many pieces",
+        "Outside under the tree"
+      ],
+      "correctAnswer": "Lying on its side",
+      "explanation": "A cup lay on its side when she came into the kitchen.",
+      "supportingSentence": "A chair was pulled out, and a cup lay on its side.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did they learn about the valuable things?",
+      "options": [
+        "Nothing valuable was missing",
+        "The television was gone",
+        "Money was missing from a drawer",
+        "A bedroom window was smashed"
+      ],
+      "correctAnswer": "Nothing valuable was missing",
+      "explanation": "They checked the rooms, and nothing valuable was missing.",
+      "supportingSentence": "Together they checked the rooms, and nothing valuable was missing.",
+      "skill": "detail"
+    },
+    {
+      "question": "What came out of the bedroom?",
+      "options": [
+        "Their cat Pip",
+        "A stranger in a coat",
+        "A neighbour with a key",
+        "Idris from the street"
+      ],
+      "correctAnswer": "Their cat Pip",
+      "explanation": "Their cat, Pip, walked out of the bedroom.",
+      "supportingSentence": "Their cat, Pip, walked out with a leaf caught on his tail.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does latch mean?",
+      "options": [
+        "The fastening that keeps a window shut",
+        "A cup lying on a table",
+        "A leaf caught on fur",
+        "A chair pulled from a desk"
+      ],
+      "correctAnswer": "The fastening that keeps a window shut",
+      "explanation": "The latch was loose, and Sara fixed that window fastening later.",
+      "supportingSentence": "They looked at the latch and saw that it was loose.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Sara stop feeling afraid?",
+      "options": [
+        "The cat had knocked the cup over",
+        "A neighbour said he took the cup",
+        "The flat was full of visitors",
+        "Idris had opened the window for air"
+      ],
+      "correctAnswer": "The cat had knocked the cup over",
+      "explanation": "Pip must have climbed in and knocked the cup over, so nobody had broken in.",
+      "supportingSentence": "Pip must have climbed in and knocked the cup over.",
+      "skill": "inference"
+    }
+  ]
+}

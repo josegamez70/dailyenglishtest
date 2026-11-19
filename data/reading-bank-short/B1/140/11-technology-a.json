@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "technology",
+  "target": 140,
+  "title": "The Page Stuck in the Printer",
+  "story": "Hana needed to print her story before the class bell. The school printer made a loud click and then stopped. A message on the screen showed a picture of a stuck page. Hana read the steps and opened the front panel. She pulled out a folded sheet and closed the panel gently. The printer started again, and her story came out on clean paper. She checked that every paragraph was there. The teacher had asked the class to keep a backup as well. Hana saved a copy on a memory stick and put the stick in her pencil case. She wrote her name on the printed page and placed it in the tray. A classmate named Rafi had the same problem a minute later. Hana showed him the picture and waited while he removed his page. Both stories printed, and they reached the classroom on time.",
+  "vocabulary": [
+    {
+      "word": "printer",
+      "definition": "a machine that puts words on paper"
+    },
+    {
+      "word": "panel",
+      "definition": "a cover on a machine that opens"
+    },
+    {
+      "word": "folded",
+      "definition": "bent so one part lies on another"
+    },
+    {
+      "word": "backup",
+      "definition": "an extra copy kept to be safe"
+    },
+    {
+      "word": "memory",
+      "definition": "the part that stores information"
+    },
+    {
+      "word": "tray",
+      "definition": "a shallow place where papers are set"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did Hana pull out of the printer?",
+      "options": [
+        "A folded sheet",
+        "A pencil case",
+        "A memory stick",
+        "The class bell"
+      ],
+      "correctAnswer": "A folded sheet",
+      "explanation": "She pulled out a folded sheet and then closed the panel.",
+      "supportingSentence": "She pulled out a folded sheet and closed the panel gently.",
+      "skill": "detail"
+    },
+    {
+      "question": "Where did Hana put the memory stick?",
+      "options": [
+        "In her pencil case",
+        "In the paper tray",
+        "On the teacher's desk",
+        "Behind the front panel"
+      ],
+      "correctAnswer": "In her pencil case",
+      "explanation": "She saved a copy on a memory stick and put the stick in her pencil case.",
+      "supportingSentence": "Hana saved a copy on a memory stick and put the stick in her pencil case.",
+      "skill": "detail"
+    },
+    {
+      "question": "Which classmate had the same problem?",
+      "options": [
+        "Rafi",
+        "The teacher",
+        "Hana's sister",
+        "The office clerk"
+      ],
+      "correctAnswer": "Rafi",
+      "explanation": "A classmate named Rafi had the same problem a minute later.",
+      "supportingSentence": "A classmate named Rafi had the same problem a minute later.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does backup mean?",
+      "options": [
+        "An extra copy kept to be safe",
+        "A loud click from a machine",
+        "A picture of a stuck page",
+        "A bell at the end of class"
+      ],
+      "correctAnswer": "An extra copy kept to be safe",
+      "explanation": "The teacher asked for a backup, an extra copy kept in case.",
+      "supportingSentence": "The teacher had asked the class to keep a backup as well.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Hana open the front of the printer?",
+      "options": [
+        "The screen showed a page stuck inside",
+        "She wanted the machine off forever",
+        "Rafi told her to hide the paper",
+        "The class bell had already rung"
+      ],
+      "correctAnswer": "The screen showed a page stuck inside",
+      "explanation": "The screen showed a stuck page, so she opened the panel and cleared it.",
+      "supportingSentence": "A message on the screen showed a picture of a stuck page.",
+      "skill": "inference"
+    }
+  ]
+}

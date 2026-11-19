@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "economy_finance",
+  "target": 140,
+  "title": "The Weight Promised on the Board",
+  "story": "A spring notice said each bowl of stew would contain the stated weight, and that the price would be printed on the board. When the supplier raised the cost of lamb, Hannah wanted to keep the price and shrink the portion. Malik, the treasurer, said a lighter bowl at the old price would breach the notice. A higher price would be unpopular, but it would keep the promise. A cheaper cut would also need a new line, because the notice named lamb and not a substitute. Hannah said regulars cared about a full bowl, not wording. Malik answered that regulars were exactly the people who would compare this week with last week. The committee raised the price, left the weight unchanged, and rewrote the board before service. The notice had looked like a small formality. It was the rule that stopped a quiet change in the bowl.",
+  "vocabulary": [
+    {
+      "word": "supplier",
+      "definition": "A business that sells goods to the stall."
+    },
+    {
+      "word": "portion",
+      "definition": "The amount of food served to one person."
+    },
+    {
+      "word": "breach",
+      "definition": "Break a rule or a posted promise."
+    },
+    {
+      "word": "substitute",
+      "definition": "Something used in place of another thing."
+    },
+    {
+      "word": "unchanged",
+      "definition": "Left the same, not altered."
+    },
+    {
+      "word": "formality",
+      "definition": "A rule that looks like mere paperwork."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did the committee change before service?",
+      "options": [
+        "The price, while the weight stayed the same",
+        "The meat, from lamb to a cheaper cut",
+        "The notice, so a lighter bowl became allowed",
+        "The treasurer, who was replaced that morning"
+      ],
+      "correctAnswer": "The price, while the weight stayed the same",
+      "explanation": "The committee raised the price, left the weight unchanged, and rewrote the board.",
+      "supportingSentence": "The committee raised the price, left the weight unchanged, and rewrote the board before service.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did the spring notice promise about each bowl?",
+      "options": [
+        "A stated weight and a printed price",
+        "A free second helping for regular customers",
+        "Stew served only to members of the committee",
+        "A lower price whenever the supplier charged more"
+      ],
+      "correctAnswer": "A stated weight and a printed price",
+      "explanation": "The notice said each bowl would contain the stated weight and that the price would be printed on the board.",
+      "supportingSentence": "A spring notice said each bowl of stew would contain the stated weight, and that the price would be printed on the board.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why does Malik expect regular customers to notice a lighter bowl?",
+      "options": [
+        "They compare one week with the week before",
+        "A busy crowd makes every notice optional",
+        "A cheaper cut tastes the same as lamb",
+        "A treasurer can cancel a notice by speaking"
+      ],
+      "correctAnswer": "They compare one week with the week before",
+      "explanation": "Malik says regulars are exactly the people who would compare this week with last week.",
+      "supportingSentence": "Malik answered that regulars were exactly the people who would compare this week with last week.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does breach mean when Malik talks about the notice?",
+      "options": [
+        "Break the promise that was posted",
+        "Paint a fresh board for the stall",
+        "Push the supplier's bill higher on purpose",
+        "Serve stew only to the committee"
+      ],
+      "correctAnswer": "Break the promise that was posted",
+      "explanation": "A lighter bowl at the old price would breach the notice, meaning it would break that posted promise.",
+      "supportingSentence": "Malik, the treasurer, said a lighter bowl at the old price would breach the notice.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What is the purpose of the final sentence?",
+      "options": [
+        "To show the notice stopped a quiet change in the bowl",
+        "To announce that the stall closed before service",
+        "To admit the committee ignored the stated weight",
+        "To claim that lamb had become the cheapest meat"
+      ],
+      "correctAnswer": "To show the notice stopped a quiet change in the bowl",
+      "explanation": "The final sentence says the notice was the rule that stopped a quiet change in the bowl.",
+      "supportingSentence": "It was the rule that stopped a quiet change in the bowl.",
+      "skill": "intent"
+    }
+  ]
+}

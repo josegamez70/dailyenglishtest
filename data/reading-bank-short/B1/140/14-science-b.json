@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "science",
+  "target": 140,
+  "title": "Nests along the Hedge",
+  "story": "The science club counted bird nests in the school grounds on a dry morning. They stayed on the path and used binoculars. The rule was clear to everyone. They could look and record, but they could not touch. In the oak they found two nests high above the path. In the long hedge they found four more. A student named Ruth marked each nest on a simple map. She used a circle for the oak and a square for the hedge. Nobody climbed, and nobody used a stick. The teacher praised the group for leaving the birds in peace. They stored the map in a folder in the lab. The plan was to return in spring and see which nests were busy. Ruth copied the map into her notebook that evening. She added the date and the weather at the top. The club hoped the same birds would come back.",
+  "vocabulary": [
+    {
+      "word": "grounds",
+      "definition": "the land around a school"
+    },
+    {
+      "word": "binoculars",
+      "definition": "a tool that makes far things look closer"
+    },
+    {
+      "word": "hedge",
+      "definition": "a line of bushes"
+    },
+    {
+      "word": "praised",
+      "definition": "said that someone had done well"
+    },
+    {
+      "word": "peace",
+      "definition": "a calm state without harm"
+    },
+    {
+      "word": "folder",
+      "definition": "a cover that keeps papers together"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How many nests did they find in the oak?",
+      "options": [
+        "Two",
+        "Four",
+        "Six",
+        "Ten"
+      ],
+      "correctAnswer": "Two",
+      "explanation": "In the oak they found two nests high above the path.",
+      "supportingSentence": "In the oak they found two nests high above the path.",
+      "skill": "detail"
+    },
+    {
+      "question": "How many nests did they find in the long hedge?",
+      "options": [
+        "Four",
+        "Two",
+        "One",
+        "Eight"
+      ],
+      "correctAnswer": "Four",
+      "explanation": "In the long hedge they found four more nests.",
+      "supportingSentence": "In the long hedge they found four more.",
+      "skill": "detail"
+    },
+    {
+      "question": "What mark did Ruth use for the hedge?",
+      "options": [
+        "A square",
+        "A circle",
+        "A star",
+        "A triangle"
+      ],
+      "correctAnswer": "A square",
+      "explanation": "She used a square for the hedge and a circle for the oak.",
+      "supportingSentence": "She used a circle for the oak and a square for the hedge.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does binoculars mean?",
+      "options": [
+        "A tool that makes far things look closer",
+        "A map of the school grounds",
+        "A stick for climbing trees",
+        "A notebook for the weather"
+      ],
+      "correctAnswer": "A tool that makes far things look closer",
+      "explanation": "They stayed on the path and used binoculars to see the nests from far away.",
+      "supportingSentence": "They stayed on the path and used binoculars.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why were the students told not to touch the nests?",
+      "options": [
+        "So the birds would be left in peace",
+        "So the map would stay blank",
+        "So they could carry the nests inside",
+        "So Ruth could climb the oak"
+      ],
+      "correctAnswer": "So the birds would be left in peace",
+      "explanation": "The teacher praised them for leaving the birds in peace, which the no-touch rule protected.",
+      "supportingSentence": "The teacher praised the group for leaving the birds in peace.",
+      "skill": "inference"
+    }
+  ]
+}

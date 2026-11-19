@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "hobbies",
+  "target": 100,
+  "title": "Leaving the Hard Bar Unplayed",
+  "story": "Elena practised the difficult passage until her hands knew the notes, then stopped midway and marked the page. The others wanted a full run before the visitor arrived. She argued that a clean performance would hide the bar where the rhythm still slipped. They would hear success and remember the wrong shape. Leaving the passage unfinished forced the next rehearsal to begin at the weak point, not at the opening where everyone felt safe. The visitor could wait a week. The group grumbled. A habit of skipping the hard bar, she said, would outlast any single performance.",
+  "vocabulary": [
+    {
+      "word": "passage",
+      "definition": "A section of a piece of music"
+    },
+    {
+      "word": "rhythm",
+      "definition": "The pattern of beats in the music"
+    },
+    {
+      "word": "slipped",
+      "definition": "Failed to stay steady"
+    },
+    {
+      "word": "rehearsal",
+      "definition": "A practice session before a performance"
+    },
+    {
+      "word": "unfinished",
+      "definition": "Stopped before the end"
+    },
+    {
+      "word": "performance",
+      "definition": "Playing the piece for listeners"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "At what point did Elena stop playing?",
+      "options": [
+        "Midway through the difficult passage",
+        "After the visitor had left the room",
+        "On the final bar of the whole piece",
+        "Before her hands knew any notes"
+      ],
+      "correctAnswer": "Midway through the difficult passage",
+      "explanation": "She stopped midway through the passage.",
+      "supportingSentence": "Elena practised the difficult passage until her hands knew the notes, then stopped midway and marked the page.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did the rest of the group hope to do that day?",
+      "options": [
+        "Play the whole piece before the visitor came",
+        "Cancel practice until the next month",
+        "Rewrite the hard bar in a new key",
+        "Ask the visitor to lead them"
+      ],
+      "correctAnswer": "Play the whole piece before the visitor came",
+      "explanation": "The others wanted a full run before the visitor arrived.",
+      "supportingSentence": "The others wanted a full run before the visitor arrived.",
+      "skill": "detail"
+    },
+    {
+      "question": "What false memory would a clean full run plant?",
+      "options": [
+        "That the weak bar was already secure",
+        "That the visitor had joined the group",
+        "That the pencil marks could not be read",
+        "That practice should move to another room"
+      ],
+      "correctAnswer": "That the weak bar was already secure",
+      "explanation": "They would hear success and remember the wrong shape of the weak bar.",
+      "supportingSentence": "They would hear success and remember the wrong shape.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does slipped say about the rhythm?",
+      "options": [
+        "It was not yet steady",
+        "The visitor had chosen it",
+        "It belonged to a different piece",
+        "It was louder than the other bars"
+      ],
+      "correctAnswer": "It was not yet steady",
+      "explanation": "Slipped means the rhythm was still failing to hold steady.",
+      "supportingSentence": "She argued that a clean performance would hide the bar where the rhythm still slipped.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why include the remark that a habit would outlast a performance?",
+      "options": [
+        "To show she is protecting later practice, not this visit",
+        "To prove the visitor cancelled the concert",
+        "To explain how the music was printed",
+        "To suggest the group should split up"
+      ],
+      "correctAnswer": "To show she is protecting later practice, not this visit",
+      "explanation": "The remark shifts the decision from one performance to a habit that would last.",
+      "supportingSentence": "A habit of skipping the hard bar, she said, would outlast any single performance.",
+      "skill": "intent"
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "technology",
+  "target": 140,
+  "title": "The Unread Appointment Text",
+  "story": "In May the clinic stopped printing appointment slips and sent text reminders instead. Most patients adapted without trouble. Okonkwo did not, because his handset stayed in a drawer and he still expected a card. He missed a blood-pressure review and learned of it only when a nurse rang to ask why the chair was empty. The system had marked the reminder delivered, which meant the network had received it, not that he had read it. Nurse Adewale recorded a contact problem rather than a failure to attend. She booked a fresh slot by telephone and had him write the time on a kitchen calendar. She added a file note: do not rely on text alone. A delivered message, for him, was not a message that had been seen. The file note stopped that difference from being mistaken for indifference.",
+  "vocabulary": [
+    {
+      "word": "adapted",
+      "definition": "Changed habits to fit a new system."
+    },
+    {
+      "word": "handset",
+      "definition": "A telephone you can hold."
+    },
+    {
+      "word": "delivered",
+      "definition": "Received by the network, whether or not it was read."
+    },
+    {
+      "word": "review",
+      "definition": "A planned check of a health condition."
+    },
+    {
+      "word": "rely",
+      "definition": "To depend on something."
+    },
+    {
+      "word": "indifference",
+      "definition": "A lack of concern."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How did Okonkwo find out that he had missed the review?",
+      "options": [
+        "A nurse rang to ask about the empty chair",
+        "A printed slip arrived the next morning",
+        "His handset lit up inside the drawer",
+        "A notice was pinned to his front door"
+      ],
+      "correctAnswer": "A nurse rang to ask about the empty chair",
+      "explanation": "He learned of the miss only when a nurse rang to ask why the chair was empty.",
+      "supportingSentence": "He missed a blood-pressure review and learned of it only when a nurse rang to ask why the chair was empty.",
+      "skill": "detail"
+    },
+    {
+      "question": "What instruction did Adewale add to his file?",
+      "options": [
+        "Do not rely on text alone",
+        "Cancel every future health check",
+        "Charge a fee for an empty chair",
+        "Stop all messages to every patient"
+      ],
+      "correctAnswer": "Do not rely on text alone",
+      "explanation": "She added a file note saying not to rely on text alone.",
+      "supportingSentence": "She added a file note: do not rely on text alone.",
+      "skill": "detail"
+    },
+    {
+      "question": "What wrong conclusion did the file note prevent?",
+      "options": [
+        "That he missed the visit because he did not care",
+        "That the clinic had closed its doors in May",
+        "That printed slips had been made illegal",
+        "That the nurse had removed his handset"
+      ],
+      "correctAnswer": "That he missed the visit because he did not care",
+      "explanation": "The note stops the gap between a sent text and a seen text from being mistaken for indifference.",
+      "supportingSentence": "The file note stopped that difference from being mistaken for indifference.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does delivered mean about the reminder in this passage?",
+      "options": [
+        "Accepted by the phone network",
+        "Read out loud by the patient",
+        "Printed on a card and posted",
+        "Copied by hand onto a calendar"
+      ],
+      "correctAnswer": "Accepted by the phone network",
+      "explanation": "Marked delivered meant the network had received the reminder, not that Okonkwo had read it.",
+      "supportingSentence": "The system had marked the reminder delivered, which meant the network had received it, not that he had read it.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer say that most patients adapted?",
+      "options": [
+        "To show the new messages worked for many people",
+        "To prove paper slips had never been used",
+        "To blame Okonkwo for building the system",
+        "To claim every patient stored a phone in a drawer"
+      ],
+      "correctAnswer": "To show the new messages worked for many people",
+      "explanation": "Most patients adapted without trouble, so the failure is particular to Okonkwo rather than universal.",
+      "supportingSentence": "Most patients adapted without trouble.",
+      "skill": "intent"
+    }
+  ]
+}

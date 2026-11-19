@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "daily life",
+  "target": 60,
+  "title": "Bins before Breakfast",
+  "story": "The bin lorry usually passed before Omar left for work, yet this week the street was still full when he opened the door. He dragged the containers to the pavement and warned his housemate that a late collection meant an earlier start. They agreed to set a shared alarm on collection day. By Friday the pavement was clear before either of them had finished breakfast.",
+  "vocabulary": [
+    {
+      "word": "usually",
+      "definition": "On most occasions, rather than every single time."
+    },
+    {
+      "word": "containers",
+      "definition": "Large bins used for holding rubbish."
+    },
+    {
+      "word": "pavement",
+      "definition": "The path for people along the side of a street."
+    },
+    {
+      "word": "housemate",
+      "definition": "A person who lives in the same home."
+    },
+    {
+      "word": "collection",
+      "definition": "The scheduled pickup of the bins."
+    },
+    {
+      "word": "clear",
+      "definition": "Empty of the things that were there before."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did Omar do with the containers?",
+      "options": [
+        "He dragged them out to the pavement",
+        "He left them inside the kitchen",
+        "He loaded them onto the lorry himself",
+        "He hid them behind the house"
+      ],
+      "correctAnswer": "He dragged them out to the pavement",
+      "explanation": "Omar dragged the containers to the pavement before warning his housemate.",
+      "supportingSentence": "He dragged the containers to the pavement and warned his housemate that a late collection meant an earlier start.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why was the street still full when Omar opened the door?",
+      "options": [
+        "The bins had not been collected at the usual time",
+        "His housemate had filled the road with boxes",
+        "Omar had forgotten to close the front door",
+        "The new alarm had woken the whole street"
+      ],
+      "correctAnswer": "The bins had not been collected at the usual time",
+      "explanation": "The lorry normally passed before he left, so a full street means the pickup had not happened yet.",
+      "supportingSentence": "The bin lorry usually passed before Omar left for work, yet this week the street was still full when he opened the door.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does the clear pavement on Friday suggest?",
+      "options": [
+        "The containers had gone out early enough to be collected",
+        "The lorry had stopped visiting their street",
+        "They had cancelled the shared alarm",
+        "Breakfast was being served outside"
+      ],
+      "correctAnswer": "The containers had gone out early enough to be collected",
+      "explanation": "The pavement was clear before breakfast, which shows the bins were no longer waiting in the street.",
+      "supportingSentence": "By Friday the pavement was clear before either of them had finished breakfast.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does collection mean in this story?",
+      "options": [
+        "The scheduled pickup of the bins",
+        "A meeting of every housemate",
+        "A box kept for breakfast",
+        "A day off from work"
+      ],
+      "correctAnswer": "The scheduled pickup of the bins",
+      "explanation": "A late collection is the reason they would need to start earlier with the bins.",
+      "supportingSentence": "He dragged the containers to the pavement and warned his housemate that a late collection meant an earlier start.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did they decide to set a shared alarm?",
+      "options": [
+        "So they would be up in time on collection day",
+        "So the lorry would arrive later in the week",
+        "So Omar could stay at home on Friday",
+        "So the containers could remain indoors"
+      ],
+      "correctAnswer": "So they would be up in time on collection day",
+      "explanation": "A late pickup meant an earlier start, so the alarm was meant to get them up for it.",
+      "supportingSentence": "He dragged the containers to the pavement and warned his housemate that a late collection meant an earlier start.",
+      "skill": "intent"
+    }
+  ]
+}

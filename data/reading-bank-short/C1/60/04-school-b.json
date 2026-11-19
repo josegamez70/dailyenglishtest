@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "school_college",
+  "target": 60,
+  "title": "Access ahead of Habit",
+  "story": "Anika arrived early to claim the window seat, then gave it up when she saw Luis used it to follow the board. From the back she missed two formulas and copied them from his notes. Their tutor noticed the swap and asked why. Anika said access mattered more than habit. The tutor left seating open, provided nobody treated a chair as property.",
+  "vocabulary": [
+    {
+      "word": "claim",
+      "definition": "To take something as if it were yours"
+    },
+    {
+      "word": "formulas",
+      "definition": "Mathematical statements written on the board"
+    },
+    {
+      "word": "swap",
+      "definition": "An exchange of one place or thing for another"
+    },
+    {
+      "word": "access",
+      "definition": "The chance to reach or see what is needed"
+    },
+    {
+      "word": "habit",
+      "definition": "Something a person usually does"
+    },
+    {
+      "word": "property",
+      "definition": "Something a person owns"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Why had Luis been using the window seat?",
+      "options": [
+        "He used it to follow the board",
+        "He wanted to copy Anika’s notes",
+        "He had bought the chair as property",
+        "He arrived later than the rest of the class"
+      ],
+      "correctAnswer": "He used it to follow the board",
+      "explanation": "Anika gave up the seat when she saw he used it to follow the board.",
+      "supportingSentence": "Anika arrived early to claim the window seat, then gave it up when she saw Luis used it to follow the board.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Anika miss while sitting at the back?",
+      "options": [
+        "Two formulas",
+        "The tutor’s question about the swap",
+        "Her claim on the window chair",
+        "Notes from a different class"
+      ],
+      "correctAnswer": "Two formulas",
+      "explanation": "From the back she missed two formulas and later copied them.",
+      "supportingSentence": "From the back she missed two formulas and copied them from his notes.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Anika’s reply reveal about her move?",
+      "options": [
+        "Luis seeing the board mattered more than her usual seat",
+        "The tutor had ordered her to the back before class",
+        "She hoped to hide the formulas she had missed",
+        "She believed each chair should be private property"
+      ],
+      "correctAnswer": "Luis seeing the board mattered more than her usual seat",
+      "explanation": "Saying that access mattered more than habit shows she gave up her usual seat so he could see.",
+      "supportingSentence": "Anika said access mattered more than habit.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does claim mean at the start of the passage?",
+      "options": [
+        "To take the seat as though it were hers",
+        "To complain about the writing on the board",
+        "To copy formulas from a classmate",
+        "To close the seminar before the end"
+      ],
+      "correctAnswer": "To take the seat as though it were hers",
+      "explanation": "She arrived early to claim the window seat, meaning to take it for herself.",
+      "supportingSentence": "Anika arrived early to claim the window seat, then gave it up when she saw Luis used it to follow the board.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer include the condition about property?",
+      "options": [
+        "To show the tutor allowed choice but not ownership of seats",
+        "To prove Luis had purchased the window chair",
+        "To explain why two formulas were hidden",
+        "To argue that notes can replace the board"
+      ],
+      "correctAnswer": "To show the tutor allowed choice but not ownership of seats",
+      "explanation": "Open seating with nobody treating a chair as property sets choice without ownership.",
+      "supportingSentence": "The tutor left seating open, provided nobody treated a chair as property.",
+      "skill": "intent"
+    }
+  ]
+}

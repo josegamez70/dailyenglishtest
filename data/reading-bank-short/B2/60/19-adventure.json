@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "adventure",
+  "target": 60,
+  "title": "The Ledge before Dark",
+  "story": "The path narrowed to a ledge just as the light began to fade, so Idris stopped the group and checked each harness. One walker was shaking, and Idris had her clip onto his own line before they continued. They moved slowly, facing the rock, until the ledge widened into a shelf. Only then did he allow a short rest and a count of every person.",
+  "vocabulary": [
+    {
+      "word": "ledge",
+      "definition": "A narrow flat strip along a steep side."
+    },
+    {
+      "word": "fade",
+      "definition": "Grow weaker until it nearly disappears."
+    },
+    {
+      "word": "harness",
+      "definition": "A set of straps that secures a person."
+    },
+    {
+      "word": "clip",
+      "definition": "Fasten something with a metal catch."
+    },
+    {
+      "word": "widened",
+      "definition": "Became wider."
+    },
+    {
+      "word": "allow",
+      "definition": "Permit something to happen."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did Idris check before the group moved on?",
+      "options": [
+        "Each harness",
+        "Only the width of the shelf",
+        "A map of the whole valley",
+        "The walker’s spare boots"
+      ],
+      "correctAnswer": "Each harness",
+      "explanation": "He stopped the group and checked each harness.",
+      "supportingSentence": "The path narrowed to a ledge just as the light began to fade, so Idris stopped the group and checked each harness.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why was this a dangerous moment to continue quickly?",
+      "options": [
+        "The path was narrower and the light was failing",
+        "The shelf was already wide enough for a rest",
+        "Every harness had broken",
+        "The group had finished the route"
+      ],
+      "correctAnswer": "The path was narrower and the light was failing",
+      "explanation": "The path had narrowed to a ledge just as the light began to fade, so he stopped them.",
+      "supportingSentence": "The path narrowed to a ledge just as the light began to fade, so Idris stopped the group and checked each harness.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why was the shaking walker joined to his line?",
+      "options": [
+        "She was unsteady and needed the extra link",
+        "She was leading the group onto the shelf",
+        "She wanted to rest before the ledge",
+        "She had been left out of the count"
+      ],
+      "correctAnswer": "She was unsteady and needed the extra link",
+      "explanation": "She was shaking, so Idris had her clip onto his line before they went on.",
+      "supportingSentence": "One walker was shaking, and Idris had her clip onto his own line before they continued.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does harness mean in this story?",
+      "options": [
+        "Straps that secure a person",
+        "A wide place in the path",
+        "A short rest after danger",
+        "The rock face beside a ledge"
+      ],
+      "correctAnswer": "Straps that secure a person",
+      "explanation": "Idris checks each harness before the group continues along the ledge.",
+      "supportingSentence": "The path narrowed to a ledge just as the light began to fade, so Idris stopped the group and checked each harness.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Idris count every person after the ledge?",
+      "options": [
+        "He wanted to be sure nobody had been left behind",
+        "He wanted to start the narrow section again",
+        "He wanted the group to face the rock",
+        "He wanted to remove every harness"
+      ],
+      "correctAnswer": "He wanted to be sure nobody had been left behind",
+      "explanation": "He allowed a count of every person once the ledge had widened, to check that all were there.",
+      "supportingSentence": "Only then did he allow a short rest and a count of every person.",
+      "skill": "intent"
+    }
+  ]
+}

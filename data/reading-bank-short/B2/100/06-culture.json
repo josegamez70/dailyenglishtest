@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "culture_food",
+  "target": 100,
+  "title": "A Napkin of New Recipes",
+  "story": "At the cultural evening, each family brought one dish and a short story about it. Noor carried a lentil stew that her aunt had taught her to season slowly. She had written the story on a card, but the room was noisy and she put the card in her pocket. People tried the stew and asked what gave it the warm smell. Noor forgot the formal story and simply named the spices and the aunt who never measured them. An older guest said that kind of memory was better than a speech. Noor left with an empty pot and three new recipes written on a napkin.",
+  "vocabulary": [
+    {
+      "word": "lentil",
+      "definition": "A small flat seed used in soups and stews."
+    },
+    {
+      "word": "season",
+      "definition": "To add salt, herbs, or spices for flavour."
+    },
+    {
+      "word": "formal",
+      "definition": "Prepared and official, rather than casual."
+    },
+    {
+      "word": "spices",
+      "definition": "Strong flavourings used in cooking."
+    },
+    {
+      "word": "recipes",
+      "definition": "Sets of instructions for making dishes."
+    },
+    {
+      "word": "napkin",
+      "definition": "A piece of paper or cloth used at a meal."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What was each family asked to bring?",
+      "options": [
+        "One dish and a short story about it",
+        "Only a written card, with no food",
+        "Three recipes on a napkin",
+        "A speech and nothing to eat"
+      ],
+      "correctAnswer": "One dish and a short story about it",
+      "explanation": "At the cultural evening, each family brought one dish and a short story about it.",
+      "supportingSentence": "At the cultural evening, each family brought one dish and a short story about it.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did Noor's written story stay in her pocket?",
+      "options": [
+        "The card described someone else's dish",
+        "A noisy room was a poor place for a formal reading",
+        "Her aunt had told her not to speak",
+        "She had forgotten to bring the stew"
+      ],
+      "correctAnswer": "A noisy room was a poor place for a formal reading",
+      "explanation": "The room was noisy, and she put the written card away before speaking in a simpler way.",
+      "supportingSentence": "She had written the story on a card, but the room was noisy and she put the card in her pocket.",
+      "skill": "inference"
+    },
+    {
+      "question": "What did Noor say when people asked about the smell?",
+      "options": [
+        "She read the whole card aloud",
+        "She refused to name any ingredient",
+        "She named the spices and the aunt who never measured them",
+        "She said the stew came from the older guest"
+      ],
+      "correctAnswer": "She named the spices and the aunt who never measured them",
+      "explanation": "She forgot the formal story and named the spices and the aunt who never measured them.",
+      "supportingSentence": "Noor forgot the formal story and simply named the spices and the aunt who never measured them.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the ending suggest about the evening?",
+      "options": [
+        "Noor shared her stew and came away with recipes from other people",
+        "Nobody tasted the dish she had brought",
+        "She left before the event started",
+        "The napkin she carried home was blank"
+      ],
+      "correctAnswer": "Noor shared her stew and came away with recipes from other people",
+      "explanation": "She leaves with an empty pot and three new recipes, so food and ideas were exchanged.",
+      "supportingSentence": "Noor left with an empty pot and three new recipes written on a napkin.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does season mean in this story?",
+      "options": [
+        "To cook a dish only in one part of the year",
+        "To flavour food, as her aunt had taught her",
+        "To write a story on a small card",
+        "To measure every spice with a spoon"
+      ],
+      "correctAnswer": "To flavour food, as her aunt had taught her",
+      "explanation": "Her aunt taught her to season the stew slowly, meaning to build its flavour.",
+      "supportingSentence": "Noor carried a lentil stew that her aunt had taught her to season slowly.",
+      "skill": "vocabulary"
+    }
+  ]
+}

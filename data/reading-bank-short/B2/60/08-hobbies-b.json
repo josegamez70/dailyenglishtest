@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "hobbies",
+  "target": 60,
+  "title": "A Sketchbook on the Train",
+  "story": "Leo used the evening train to fill a page of his sketchbook, drawing the station roof before the carriage moved. A passenger beside him asked whether the picture was for a class. Leo said it was only practice, though he hoped to enter a small exhibition in spring. He added the date and closed the book when his stop was announced.",
+  "vocabulary": [
+    {
+      "word": "sketchbook",
+      "definition": "A book of plain pages used for drawing."
+    },
+    {
+      "word": "carriage",
+      "definition": "One of the connected sections of a train."
+    },
+    {
+      "word": "passenger",
+      "definition": "A person travelling in a vehicle who is not driving it."
+    },
+    {
+      "word": "practice",
+      "definition": "Repeated work done in order to improve."
+    },
+    {
+      "word": "exhibition",
+      "definition": "A public show of art."
+    },
+    {
+      "word": "announced",
+      "definition": "Said publicly so that people will hear."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did Leo draw before the train moved?",
+      "options": [
+        "The station roof",
+        "The passenger beside him",
+        "A poster for the spring show",
+        "A map of the stops"
+      ],
+      "correctAnswer": "The station roof",
+      "explanation": "He drew the station roof before the carriage moved.",
+      "supportingSentence": "Leo used the evening train to fill a page of his sketchbook, drawing the station roof before the carriage moved.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does Leo’s hope suggest about these drawings?",
+      "options": [
+        "He may one day show work like this in public",
+        "He plans to stop drawing after this journey",
+        "He is teaching the passenger to draw",
+        "He needs the date for a ticket refund"
+      ],
+      "correctAnswer": "He may one day show work like this in public",
+      "explanation": "Hoping to enter an exhibition means he may show drawings publicly in spring.",
+      "supportingSentence": "Leo said it was only practice, though he hoped to enter a small exhibition in spring.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why did Leo close the sketchbook when he did?",
+      "options": [
+        "His stop had been called, so he needed to get ready",
+        "The passenger told him to stop drawing",
+        "The exhibition had already closed",
+        "The station roof was too dark to see"
+      ],
+      "correctAnswer": "His stop had been called, so he needed to get ready",
+      "explanation": "He closed the book when his stop was announced, which is the moment to prepare to get off.",
+      "supportingSentence": "He added the date and closed the book when his stop was announced.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does exhibition mean in this story?",
+      "options": [
+        "A public show of art",
+        "A daily train journey",
+        "A page in a sketchbook",
+        "A spoken station message"
+      ],
+      "correctAnswer": "A public show of art",
+      "explanation": "Leo hopes to enter an exhibition, meaning a show where art is displayed.",
+      "supportingSentence": "Leo said it was only practice, though he hoped to enter a small exhibition in spring.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Leo use the evening train in this way?",
+      "options": [
+        "He wanted the journey time for drawing",
+        "He wanted to change his stop",
+        "He wanted to sell the sketchbook",
+        "He wanted a lesson from the passenger"
+      ],
+      "correctAnswer": "He wanted the journey time for drawing",
+      "explanation": "He used the evening train to fill a page of his sketchbook.",
+      "supportingSentence": "Leo used the evening train to fill a page of his sketchbook, drawing the station roof before the carriage moved.",
+      "skill": "intent"
+    }
+  ]
+}

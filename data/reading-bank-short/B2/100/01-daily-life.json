@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "daily life",
+  "target": 100,
+  "title": "The Spare Key Drawer",
+  "story": "Hana kept a spare key in the kitchen drawer so her sister could water the plants when Hana worked late. On Thursday the key was gone, and the plants were dry. She almost called a locksmith before she checked the fruit bowl. Under a banana she found a note from her sister, saying the key had bent in the lock and was at the hardware shop. Hana felt foolish, then relieved. The note also asked her to buy milk, which made her laugh. She texted back that the plants mattered more than the milk, and that next time the note should sit where a tired person would see it.",
+  "vocabulary": [
+    {
+      "word": "spare",
+      "definition": "Kept ready in case the usual one is unavailable."
+    },
+    {
+      "word": "locksmith",
+      "definition": "A person who fits and repairs locks and keys."
+    },
+    {
+      "word": "bent",
+      "definition": "Pushed into a curve so it was no longer straight."
+    },
+    {
+      "word": "hardware",
+      "definition": "Tools and household fixings sold in a shop."
+    },
+    {
+      "word": "relieved",
+      "definition": "Glad because a worry has gone."
+    },
+    {
+      "word": "texted",
+      "definition": "Sent a short written message from a phone."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where did Hana normally keep the spare key?",
+      "options": [
+        "In the kitchen drawer",
+        "Under a banana in the fruit bowl",
+        "At the hardware shop from the start",
+        "In the locksmith's van"
+      ],
+      "correctAnswer": "In the kitchen drawer",
+      "explanation": "She kept the spare key in the kitchen drawer so her sister could water the plants.",
+      "supportingSentence": "Hana kept a spare key in the kitchen drawer so her sister could water the plants when Hana worked late.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does nearly calling a locksmith suggest?",
+      "options": [
+        "Her sister had told her to change every lock",
+        "She reached for a drastic fix before looking carefully",
+        "The fruit bowl was locked and could not be opened",
+        "The plants had already died and could not be saved"
+      ],
+      "correctAnswer": "She reached for a drastic fix before looking carefully",
+      "explanation": "She almost called a locksmith before the simple check that led her to the note.",
+      "supportingSentence": "She almost called a locksmith before she checked the fruit bowl.",
+      "skill": "inference"
+    },
+    {
+      "question": "What had happened to the key, according to the note?",
+      "options": [
+        "It was still hidden in Hana's coat",
+        "It had been thrown away with the milk",
+        "It had bent in the lock and was at the hardware shop",
+        "It was lying beside the banana"
+      ],
+      "correctAnswer": "It had bent in the lock and was at the hardware shop",
+      "explanation": "The note said the key had bent in the lock and was at the hardware shop.",
+      "supportingSentence": "Under a banana she found a note from her sister, saying the key had bent in the lock and was at the hardware shop.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does Hana's message suggest about where the note was left?",
+      "options": [
+        "She wanted the next note to ask only for milk",
+        "A tired person could easily miss it in that place",
+        "She never found a note from her sister",
+        "The plants mattered less to her than the milk"
+      ],
+      "correctAnswer": "A tired person could easily miss it in that place",
+      "explanation": "She wants the next note where a tired person would see it, so this hiding place was too easy to miss.",
+      "supportingSentence": "She texted back that the plants mattered more than the milk, and that next time the note should sit where a tired person would see it.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does relieved mean in this story?",
+      "options": [
+        "Angry about a request for milk",
+        "Unable to find the fruit bowl",
+        "Ready to phone a locksmith at once",
+        "Glad because a worry has passed"
+      ],
+      "correctAnswer": "Glad because a worry has passed",
+      "explanation": "Once the note explains the key, Hana is relieved, so the worry has gone.",
+      "supportingSentence": "Hana felt foolish, then relieved.",
+      "skill": "vocabulary"
+    }
+  ]
+}

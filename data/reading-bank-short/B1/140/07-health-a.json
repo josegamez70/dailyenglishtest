@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "health_sports",
+  "target": 140,
+  "title": "A Short Walk after a Cold",
+  "story": "Marco had stayed in bed for three days with a bad cold. The doctor said a short walk was fine if he went slowly. He put on a coat and soft shoes and stepped outside with his sister. They walked only as far as the park gate. Marco felt warm, so they stopped and drank water. He did not run, and he did not take the long path. On the way back he breathed easily and talked a little. At home he rested on the sofa and ate soup. His sister wrote the time and the distance in a notebook. The next day he walked to the gate and then around the small pond. He still stopped for water and came home before he felt tired. Marco told the doctor that the plan was working. He agreed to wait another week before he joined his team.",
+  "vocabulary": [
+    {
+      "word": "cold",
+      "definition": "an illness that makes you feel unwell"
+    },
+    {
+      "word": "slowly",
+      "definition": "at a low speed"
+    },
+    {
+      "word": "gate",
+      "definition": "a door in a fence or outside wall"
+    },
+    {
+      "word": "rested",
+      "definition": "stopped activity in order to recover"
+    },
+    {
+      "word": "distance",
+      "definition": "how far someone goes"
+    },
+    {
+      "word": "team",
+      "definition": "a group that plays sport together"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How long had Marco stayed in bed?",
+      "options": [
+        "For three days",
+        "For one hour",
+        "For two weeks",
+        "For a whole month"
+      ],
+      "correctAnswer": "For three days",
+      "explanation": "He had stayed in bed for three days with a bad cold.",
+      "supportingSentence": "Marco had stayed in bed for three days with a bad cold.",
+      "skill": "detail"
+    },
+    {
+      "question": "How far did Marco walk on the first outing?",
+      "options": [
+        "Only as far as the park gate",
+        "Around the small pond",
+        "Along the long path",
+        "All the way to team practice"
+      ],
+      "correctAnswer": "Only as far as the park gate",
+      "explanation": "On the first walk they went only as far as the park gate.",
+      "supportingSentence": "They walked only as far as the park gate.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Marco do at home after the first walk?",
+      "options": [
+        "He rested and ate soup",
+        "He joined his team",
+        "He ran up a hill",
+        "He went straight back out"
+      ],
+      "correctAnswer": "He rested and ate soup",
+      "explanation": "At home he rested on the sofa and ate soup.",
+      "supportingSentence": "At home he rested on the sofa and ate soup.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does slowly mean?",
+      "options": [
+        "At a low speed",
+        "Without any food",
+        "Only after dark",
+        "With a large group"
+      ],
+      "correctAnswer": "At a low speed",
+      "explanation": "The doctor said the walk was fine if he went slowly, not fast.",
+      "supportingSentence": "The doctor said a short walk was fine if he went slowly.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Marco agree to miss his team for another week?",
+      "options": [
+        "His careful return was not finished",
+        "The team had left the town",
+        "His sister hid his shoes",
+        "The park gate was locked"
+      ],
+      "correctAnswer": "His careful return was not finished",
+      "explanation": "He was still following the slow plan, so he waited before joining the team.",
+      "supportingSentence": "He agreed to wait another week before he joined his team.",
+      "skill": "inference"
+    }
+  ]
+}

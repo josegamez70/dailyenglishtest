@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "culture_food",
+  "target": 60,
+  "title": "One Stew for the Festival",
+  "story": "For the street festival, three families agreed to cook one large stew instead of separate dishes. Rosa wrote down the recipe so the quantities would stay consistent, and she marked which spices were optional. On the morning of the event they tasted the pot and added lemon, not more salt. Visitors returned for a second bowl, which told the cooks the balance was right.",
+  "vocabulary": [
+    {
+      "word": "stew",
+      "definition": "A dish cooked slowly in liquid."
+    },
+    {
+      "word": "quantities",
+      "definition": "The amounts of each ingredient."
+    },
+    {
+      "word": "consistent",
+      "definition": "Staying the same each time."
+    },
+    {
+      "word": "spices",
+      "definition": "Strong seeds or powders used to flavour food."
+    },
+    {
+      "word": "optional",
+      "definition": "Able to be left out."
+    },
+    {
+      "word": "balance",
+      "definition": "A pleasing mix in which no flavour is too strong."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did the three families agree to cook?",
+      "options": [
+        "One large stew together",
+        "Three dishes, one from each family",
+        "Lemon sweets for the visitors",
+        "A second festival on another street"
+      ],
+      "correctAnswer": "One large stew together",
+      "explanation": "They agreed to cook one large stew instead of separate dishes.",
+      "supportingSentence": "For the street festival, three families agreed to cook one large stew instead of separate dishes.",
+      "skill": "detail"
+    },
+    {
+      "question": "What choice does the written recipe leave open?",
+      "options": [
+        "Some spices can be left out",
+        "Every spice must be used in the same amount",
+        "The quantities can be ignored",
+        "Each family must cook a separate dish"
+      ],
+      "correctAnswer": "Some spices can be left out",
+      "explanation": "Rosa marked which spices were optional, so those ones do not have to be included.",
+      "supportingSentence": "Rosa wrote down the recipe so the quantities would stay consistent, and she marked which spices were optional.",
+      "skill": "inference"
+    },
+    {
+      "question": "What were the cooks adjusting that morning?",
+      "options": [
+        "The flavour, by adding lemon rather than salt",
+        "The size of the festival crowd",
+        "The list of families who would cook",
+        "The day on which the event would happen"
+      ],
+      "correctAnswer": "The flavour, by adding lemon rather than salt",
+      "explanation": "They tasted the pot and added lemon, not more salt, so they were correcting the taste.",
+      "supportingSentence": "On the morning of the event they tasted the pot and added lemon, not more salt.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does optional mean in this story?",
+      "options": [
+        "Able to be left out",
+        "Required in every pot",
+        "Tasting strongly of lemon",
+        "Written after the festival"
+      ],
+      "correctAnswer": "Able to be left out",
+      "explanation": "Optional spices are the ones the cooks are allowed to skip.",
+      "supportingSentence": "Rosa wrote down the recipe so the quantities would stay consistent, and she marked which spices were optional.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did they taste the pot on the morning of the event?",
+      "options": [
+        "They wanted to adjust the flavour before people ate",
+        "They wanted to cancel the festival",
+        "They wanted to hide the recipe",
+        "They wanted to add salt and nothing else"
+      ],
+      "correctAnswer": "They wanted to adjust the flavour before people ate",
+      "explanation": "They tasted the stew that morning and then added lemon, which changed the flavour before serving.",
+      "supportingSentence": "On the morning of the event they tasted the pot and added lemon, not more salt.",
+      "skill": "intent"
+    }
+  ]
+}

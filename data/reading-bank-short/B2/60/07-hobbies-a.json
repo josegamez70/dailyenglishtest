@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "hobbies",
+  "target": 60,
+  "title": "Glazing a Small Bowl",
+  "story": "Hana had shaped the bowl on Tuesday, but she waited until it was fully dry before glazing it. The pale coat looked thin, so she brushed a second layer around the rim and left the base clear. Her instructor said the clear base would stop the bowl from sticking in the kiln. She wrote the firing date on a card and set it on the shelf.",
+  "vocabulary": [
+    {
+      "word": "glazing",
+      "definition": "Putting a glassy coat on clay before it is fired."
+    },
+    {
+      "word": "pale",
+      "definition": "Light in colour, not deep or strong."
+    },
+    {
+      "word": "rim",
+      "definition": "The edge around the top of a bowl."
+    },
+    {
+      "word": "instructor",
+      "definition": "A teacher who guides a practical skill."
+    },
+    {
+      "word": "kiln",
+      "definition": "A very hot oven used to harden clay."
+    },
+    {
+      "word": "firing",
+      "definition": "Baking clay at a very high temperature."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "On which day had Hana shaped the bowl?",
+      "options": [
+        "On Tuesday",
+        "On the day of the firing",
+        "After the second layer dried",
+        "While the kiln was heating"
+      ],
+      "correctAnswer": "On Tuesday",
+      "explanation": "The story says Hana had shaped the bowl on Tuesday.",
+      "supportingSentence": "Hana had shaped the bowl on Tuesday, but she waited until it was fully dry before glazing it.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did Hana brush on a second layer?",
+      "options": [
+        "The first coat looked too thin",
+        "The instructor told her to soak the bowl",
+        "The card had marked the rim",
+        "The kiln had already been switched on"
+      ],
+      "correctAnswer": "The first coat looked too thin",
+      "explanation": "The pale coat looked thin, so she added another layer around the rim.",
+      "supportingSentence": "The pale coat looked thin, so she brushed a second layer around the rim and left the base clear.",
+      "skill": "inference"
+    },
+    {
+      "question": "What risk would a glazed base create?",
+      "options": [
+        "The bowl might stick inside the kiln",
+        "The rim would stay pale forever",
+        "The date card would fall off",
+        "The clay would never dry"
+      ],
+      "correctAnswer": "The bowl might stick inside the kiln",
+      "explanation": "A clear base is what stops the bowl from sticking, so glaze on the base would risk that problem.",
+      "supportingSentence": "Her instructor said the clear base would stop the bowl from sticking in the kiln.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does kiln mean in this story?",
+      "options": [
+        "A very hot oven for clay",
+        "A thin coat of colour",
+        "The top edge of a bowl",
+        "A card used for dates"
+      ],
+      "correctAnswer": "A very hot oven for clay",
+      "explanation": "The bowl goes into the kiln, which is where clay is fired.",
+      "supportingSentence": "Her instructor said the clear base would stop the bowl from sticking in the kiln.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did the instructor want the base left clear?",
+      "options": [
+        "To stop the bowl sticking while it was fired",
+        "To make the rim look thinner",
+        "To hide the firing date",
+        "To keep Hana from shaping clay"
+      ],
+      "correctAnswer": "To stop the bowl sticking while it was fired",
+      "explanation": "The instructor said a clear base would stop the bowl from sticking in the kiln.",
+      "supportingSentence": "Her instructor said the clear base would stop the bowl from sticking in the kiln.",
+      "skill": "intent"
+    }
+  ]
+}

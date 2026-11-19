@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "economy_finance",
+  "target": 140,
+  "title": "A Waiver with a Date",
+  "story": "Lila's invoice for the menu drawings had sat unpaid for six weeks. The contract allowed a late fee after thirty days, as a small share of the balance, and it allowed her to pause new work. Farid wrote that a kitchen refit had emptied the week's takings and asked for time. Lila still wanted the autumn menu, so she did not add the fee. She set the balance due within ten days, warned that the fee would follow if that date slipped, and refused to start the autumn drawings until the invoice was cleared. The waiver was limited and written down. His letter explained the gap, but it did not erase the debt. Farid paid on the ninth day. Lila kept the exchange, because a friendly concession without a date would have been difficult to rely on later.",
+  "vocabulary": [
+    {
+      "word": "invoice",
+      "definition": "A bill that asks to be paid for work done."
+    },
+    {
+      "word": "balance",
+      "definition": "The amount of money still owed."
+    },
+    {
+      "word": "takings",
+      "definition": "Money received from customers."
+    },
+    {
+      "word": "cleared",
+      "definition": "Fully paid, so nothing remains owed."
+    },
+    {
+      "word": "waiver",
+      "definition": "A choice not to use a right the contract allows."
+    },
+    {
+      "word": "concession",
+      "definition": "Something you give up to help reach an agreement."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How soon did Lila require the unpaid balance to be paid?",
+      "options": [
+        "Within ten days",
+        "After another six weeks",
+        "When the autumn menu was printed",
+        "When the kitchen refit ended"
+      ],
+      "correctAnswer": "Within ten days",
+      "explanation": "She set the balance due within ten days.",
+      "supportingSentence": "She set the balance due within ten days, warned that the fee would follow if that date slipped, and refused to start the autumn drawings until the invoice was cleared.",
+      "skill": "detail"
+    },
+    {
+      "question": "When did Farid actually pay the invoice?",
+      "options": [
+        "On the ninth day",
+        "On the day the bill was first written",
+        "Six weeks after the new deadline",
+        "After the autumn drawings were delivered"
+      ],
+      "correctAnswer": "On the ninth day",
+      "explanation": "Farid paid on the ninth day.",
+      "supportingSentence": "Farid paid on the ninth day.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why does Lila keep the written exchange?",
+      "options": [
+        "An undated kindness would be hard to depend on later",
+        "Farid had asked her to draw a second cafe",
+        "The late fee could be settled only in coins",
+        "The kitchen refit had ended the contract"
+      ],
+      "correctAnswer": "An undated kindness would be hard to depend on later",
+      "explanation": "She keeps the exchange because a friendly concession without a date would be difficult to rely on later.",
+      "supportingSentence": "Lila kept the exchange, because a friendly concession without a date would have been difficult to rely on later.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does waiver mean in this passage?",
+      "options": [
+        "A choice not to apply a fee the contract allowed",
+        "A new kitchen finished before autumn",
+        "A drawing of the dishes on the menu",
+        "Money that arrived on the ninth day"
+      ],
+      "correctAnswer": "A choice not to apply a fee the contract allowed",
+      "explanation": "The contract allowed a late fee, and her decision not to add it is the limited waiver she wrote down.",
+      "supportingSentence": "The waiver was limited and written down.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer mention the kitchen refit?",
+      "options": [
+        "To give Farid's reason for needing more time",
+        "To show that Lila designed the new kitchen",
+        "To prove the menu drawings were never delivered",
+        "To argue that cafes should stop serving food"
+      ],
+      "correctAnswer": "To give Farid's reason for needing more time",
+      "explanation": "Farid writes that the refit emptied the week's takings, which is why he asks for time.",
+      "supportingSentence": "Farid wrote that a kitchen refit had emptied the week's takings and asked for time.",
+      "skill": "intent"
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "hobbies",
+  "target": 100,
+  "title": "The Bowl That Stayed Whole",
+  "story": "Imani had joined the evening pottery class to slow herself down after long days at a desk. For three weeks every bowl collapsed when she tried to lift it from the wheel. The instructor, Helen, told her to press less and to keep her elbows steady. Imani practised at home with a cheap clay set, though her kitchen table wobbled. On the fourth week a small bowl held its shape. Helen marked it for the kiln and warned that drying too fast would crack it. Imani waited, impatient but careful. When the shelf was opened, her bowl was whole, slightly uneven, and good enough to hold fruit.",
+  "vocabulary": [
+    {
+      "word": "pottery",
+      "definition": "The craft of making objects from clay."
+    },
+    {
+      "word": "collapsed",
+      "definition": "Fell in and lost its shape."
+    },
+    {
+      "word": "wobbled",
+      "definition": "Rocked unsteadily from side to side."
+    },
+    {
+      "word": "kiln",
+      "definition": "A very hot oven used to harden clay."
+    },
+    {
+      "word": "impatient",
+      "definition": "Wanting a result soon and finding the wait hard."
+    },
+    {
+      "word": "uneven",
+      "definition": "Not smooth or not the same all the way round."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Why had Imani joined the pottery class?",
+      "options": [
+        "She wanted to slow down after long days at a desk",
+        "She already earned her living by selling bowls",
+        "Helen had asked her to repair the kiln",
+        "Her kitchen table needed a new clay top"
+      ],
+      "correctAnswer": "She wanted to slow down after long days at a desk",
+      "explanation": "She joined the evening class to slow herself down after long days at a desk.",
+      "supportingSentence": "Imani had joined the evening pottery class to slow herself down after long days at a desk.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does practice on a wobbly table suggest?",
+      "options": [
+        "The kiln was kept under her kitchen table",
+        "She kept trying even though home was an awkward place",
+        "Helen had told her not to touch clay at home",
+        "She gave up after the first evening"
+      ],
+      "correctAnswer": "She kept trying even though home was an awkward place",
+      "explanation": "She practised at home even though the table wobbled, so the poor setup did not stop her.",
+      "supportingSentence": "Imani practised at home with a cheap clay set, though her kitchen table wobbled.",
+      "skill": "inference"
+    },
+    {
+      "question": "What did Helen tell Imani to change?",
+      "options": [
+        "Lift every bowl as fast as possible",
+        "Dry the clay in the sun that same night",
+        "Press less and keep her elbows steady",
+        "Skip the class for the next three weeks"
+      ],
+      "correctAnswer": "Press less and keep her elbows steady",
+      "explanation": "Helen told her to press less and to keep her elbows steady.",
+      "supportingSentence": "The instructor, Helen, told her to press less and to keep her elbows steady.",
+      "skill": "detail"
+    },
+    {
+      "question": "What do impatient and careful suggest about the wait?",
+      "options": [
+        "She wanted the bowl soon but still refused to rush the drying",
+        "She opened the kiln while it was still hot",
+        "She broke the bowl on purpose",
+        "She left the class before the fourth week"
+      ],
+      "correctAnswer": "She wanted the bowl soon but still refused to rush the drying",
+      "explanation": "She is impatient but careful after a warning that fast drying would crack the bowl, so she waits.",
+      "supportingSentence": "Imani waited, impatient but careful.",
+      "skill": "inference"
+    },
+    {
+      "question": "What is a kiln in this story?",
+      "options": [
+        "The wheel used to shape the clay",
+        "The hot oven that would harden the bowl",
+        "The shop where she bought the clay set",
+        "The shelf where the fruit was kept"
+      ],
+      "correctAnswer": "The hot oven that would harden the bowl",
+      "explanation": "Helen marks the bowl for the kiln, the oven that fires clay so it becomes hard.",
+      "supportingSentence": "Helen marked it for the kiln and warned that drying too fast would crack it.",
+      "skill": "vocabulary"
+    }
+  ]
+}

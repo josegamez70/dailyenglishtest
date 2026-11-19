@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "health_sports",
+  "target": 60,
+  "title": "Water before the Match",
+  "story": "Before the match, Coach Elena told the team to drink water. Omar had forgotten his bottle, so a teammate shared hers. They stretched and jogged around the court twice. During the game Omar felt hot but kept going. At the break he sat in the shade and ate a banana. The team won by two points. Omar filled his bottle for next time.",
+  "vocabulary": [
+    {
+      "word": "match",
+      "definition": "A game between two sides."
+    },
+    {
+      "word": "forgotten",
+      "definition": "Failed to remember something."
+    },
+    {
+      "word": "stretched",
+      "definition": "Moved the body to loosen the muscles."
+    },
+    {
+      "word": "court",
+      "definition": "The marked area where a game is played."
+    },
+    {
+      "word": "shade",
+      "definition": "A cooler place out of the sun."
+    },
+    {
+      "word": "points",
+      "definition": "The units used to keep a game score."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did Coach Elena tell the team to drink?",
+      "options": [
+        "Water",
+        "Juice",
+        "Cold tea",
+        "Nothing until the end"
+      ],
+      "correctAnswer": "Water",
+      "explanation": "Coach Elena told the team to drink water.",
+      "supportingSentence": "Before the match, Coach Elena told the team to drink water.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did a teammate share her bottle?",
+      "options": [
+        "Omar had forgotten his own",
+        "The coach banned every bottle",
+        "The court had no tap",
+        "The banana was too dry"
+      ],
+      "correctAnswer": "Omar had forgotten his own",
+      "explanation": "Omar had forgotten his bottle, so a teammate shared hers.",
+      "supportingSentence": "Omar had forgotten his bottle, so a teammate shared hers.",
+      "skill": "detail"
+    },
+    {
+      "question": "Where did Omar sit at the break?",
+      "options": [
+        "In the shade",
+        "In the middle of the court",
+        "On the team bus",
+        "Beside the score table"
+      ],
+      "correctAnswer": "In the shade",
+      "explanation": "At the break he sat in the shade and ate a banana.",
+      "supportingSentence": "At the break he sat in the shade and ate a banana.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does stretched mean in this story?",
+      "options": [
+        "Moved the body to loosen it",
+        "Drank water very slowly",
+        "Won a game by a small score",
+        "Sat down because of heat"
+      ],
+      "correctAnswer": "Moved the body to loosen it",
+      "explanation": "They stretched before jogging, which means they loosened their bodies.",
+      "supportingSentence": "They stretched and jogged around the court twice.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "By how many points did the team win?",
+      "options": [
+        "Two points",
+        "One point",
+        "Ten points",
+        "They lost the match"
+      ],
+      "correctAnswer": "Two points",
+      "explanation": "The team won by two points.",
+      "supportingSentence": "The team won by two points.",
+      "skill": "detail"
+    }
+  ]
+}

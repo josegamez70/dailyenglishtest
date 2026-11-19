@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "fantasy",
+  "target": 100,
+  "title": "What the Orchard Gate Kept",
+  "story": "The gate in the orchard wall opened only for a memory the traveller did not want to keep. Sera offered her name, then the name of her city, and the stones stayed shut. A warden explained that the gate was not testing identity. It asked whether she could leave a recollection behind, because anything carried through would take root on the far side, where strangers might walk into it. She gave up the memory of a kitchen on a winter morning, small and wholly hers. The gate opened. Beyond it the grass was ordinary, and the kitchen was gone even from thought. Passage, she understood, was a trade.",
+  "vocabulary": [
+    {
+      "word": "identity",
+      "definition": "Who a person is, such as a name or city"
+    },
+    {
+      "word": "recollection",
+      "definition": "A memory that can be left behind"
+    },
+    {
+      "word": "strangers",
+      "definition": "People who do not know her"
+    },
+    {
+      "word": "warden",
+      "definition": "The keeper who explains the gate"
+    },
+    {
+      "word": "ordinary",
+      "definition": "Plain and everyday, without magic in it"
+    },
+    {
+      "word": "passage",
+      "definition": "The act of going through"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did Sera try before naming her city?",
+      "options": [
+        "Her own name",
+        "A winter kitchen",
+        "The warden's childhood",
+        "A loose stone from the wall"
+      ],
+      "correctAnswer": "Her own name",
+      "explanation": "She offered her name, then the name of her city.",
+      "supportingSentence": "Sera offered her name, then the name of her city, and the stones stayed shut.",
+      "skill": "detail"
+    },
+    {
+      "question": "Which memory finally opened the gate?",
+      "options": [
+        "A kitchen on a winter morning",
+        "The name of her city",
+        "The warden's warning",
+        "The path back through the trees"
+      ],
+      "correctAnswer": "A kitchen on a winter morning",
+      "explanation": "She gave up the memory of a kitchen on a winter morning, and the gate opened.",
+      "supportingSentence": "She gave up the memory of a kitchen on a winter morning, small and wholly hers.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why do a name and a city fail at this gate?",
+      "options": [
+        "It wants a memory she will lose, not proof of who she is",
+        "The stones open only after midnight",
+        "The warden must walk through first",
+        "The orchard has no far side"
+      ],
+      "correctAnswer": "It wants a memory she will lose, not proof of who she is",
+      "explanation": "The warden says the gate is not testing identity, but whether she can leave a memory behind.",
+      "supportingSentence": "A warden explained that the gate was not testing identity.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does recollection mean in the warden's explanation?",
+      "options": [
+        "A memory she is able to leave behind",
+        "A stone loose in the wall",
+        "A stranger walking in the grass",
+        "The public name of a city"
+      ],
+      "correctAnswer": "A memory she is able to leave behind",
+      "explanation": "A recollection is the memory the gate asks her to leave behind.",
+      "supportingSentence": "It asked whether she could leave a recollection behind, because anything carried through would take root on the far side, where strangers might walk into it.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why show that the kitchen is gone even from thought?",
+      "options": [
+        "To make the cost of crossing concrete",
+        "To suggest the kitchen was never real",
+        "To show the warden followed her",
+        "To describe the grass as loud and bright"
+      ],
+      "correctAnswer": "To make the cost of crossing concrete",
+      "explanation": "Losing the kitchen even in thought shows that passage takes something she cannot keep.",
+      "supportingSentence": "Beyond it the grass was ordinary, and the kitchen was gone even from thought.",
+      "skill": "intent"
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "school_college",
+  "target": 60,
+  "title": "A Note on the Essay",
+  "story": "Andre expected a marked essay on his desk, but he found only a short note from his tutor. She wanted him to clarify two claims and resubmit the work by Monday. The note also said his examples were relevant, so the delay was about precision rather than the topic. He booked a brief meeting and started a list of the sentences he would rewrite.",
+  "vocabulary": [
+    {
+      "word": "marked",
+      "definition": "Read by a teacher and given a result or comments."
+    },
+    {
+      "word": "clarify",
+      "definition": "Make an idea clearer and easier to understand."
+    },
+    {
+      "word": "resubmit",
+      "definition": "Hand a piece of work in again."
+    },
+    {
+      "word": "relevant",
+      "definition": "Connected in a useful way to the subject."
+    },
+    {
+      "word": "precision",
+      "definition": "The quality of being exact."
+    },
+    {
+      "word": "rewrite",
+      "definition": "Write something again in order to improve it."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "When did the tutor want the work handed in again?",
+      "options": [
+        "By Monday",
+        "The same afternoon",
+        "After the long holiday",
+        "Only if the meeting was cancelled"
+      ],
+      "correctAnswer": "By Monday",
+      "explanation": "She asked him to resubmit the work by Monday.",
+      "supportingSentence": "She wanted him to clarify two claims and resubmit the work by Monday.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does a note, instead of a marked essay, suggest?",
+      "options": [
+        "The essay was not ready for a final mark",
+        "The tutor had lost the essay",
+        "Andre had already rewritten every line",
+        "The desk belonged to another student"
+      ],
+      "correctAnswer": "The essay was not ready for a final mark",
+      "explanation": "He expected a marked essay and found only a note, so the work had not been finally graded.",
+      "supportingSentence": "Andre expected a marked essay on his desk, but he found only a short note from his tutor.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does Andre’s list suggest about his plan?",
+      "options": [
+        "He will change parts of this essay rather than start a new one",
+        "He will skip the meeting with his tutor",
+        "He will throw the note away unread",
+        "He will give the essay a mark himself"
+      ],
+      "correctAnswer": "He will change parts of this essay rather than start a new one",
+      "explanation": "A list of sentences to rewrite shows he is revising this essay, not abandoning it.",
+      "supportingSentence": "He booked a brief meeting and started a list of the sentences he would rewrite.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does clarify mean in this story?",
+      "options": [
+        "Make something clearer",
+        "Hand work in for the first time",
+        "Book a long meeting",
+        "Give a piece of work a mark"
+      ],
+      "correctAnswer": "Make something clearer",
+      "explanation": "The tutor asked him to clarify two claims, meaning those points needed to be clearer.",
+      "supportingSentence": "She wanted him to clarify two claims and resubmit the work by Monday.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What is the tutor’s aim in asking for the work again?",
+      "options": [
+        "She wants the two claims to be clearer",
+        "She wants him to choose a new topic",
+        "She wants the examples removed",
+        "She wants the meeting to replace the essay"
+      ],
+      "correctAnswer": "She wants the two claims to be clearer",
+      "explanation": "She asked him to clarify two claims and then resubmit the essay.",
+      "supportingSentence": "She wanted him to clarify two claims and resubmit the work by Monday.",
+      "skill": "intent"
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "hobbies",
+  "target": 140,
+  "title": "The Thursday Chess Corner",
+  "story": "Priya joined a chess corner in the community hall on Thursday. She had only played at home, so she felt nervous. Her first game ended quickly, and she lost. An older player named Helen sat beside her and smiled. Helen showed her how to protect the king before she attacked. Priya played a second game and thought before each move. The game lasted much longer, and the hall grew quiet. She still did not win, but Helen clapped once. Helen said Priya had improved because she was patient. Priya borrowed a small book of simple first moves. She promised to read one page each evening. On the way home she repeated the advice about the king. The next Thursday she arrived early and set up the board herself. Helen nodded when she saw the book on the table. Priya felt ready to learn, even if she lost again.",
+  "vocabulary": [
+    {
+      "word": "nervous",
+      "definition": "a little worried or afraid"
+    },
+    {
+      "word": "protect",
+      "definition": "to keep someone or something safe"
+    },
+    {
+      "word": "patient",
+      "definition": "able to wait and not rush"
+    },
+    {
+      "word": "borrowed",
+      "definition": "took something for a while with permission"
+    },
+    {
+      "word": "board",
+      "definition": "the flat surface used for a chess game"
+    },
+    {
+      "word": "clapped",
+      "definition": "hit your hands together to show pleasure"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "On which day did the chess corner meet?",
+      "options": [
+        "On Thursday",
+        "On Monday",
+        "On Saturday night",
+        "Every morning"
+      ],
+      "correctAnswer": "On Thursday",
+      "explanation": "Priya joined the chess corner in the hall on Thursday.",
+      "supportingSentence": "Priya joined a chess corner in the community hall on Thursday.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Helen show Priya to do before an attack?",
+      "options": [
+        "Protect the king",
+        "Leave the hall at once",
+        "Close her eyes",
+        "Hide the pieces"
+      ],
+      "correctAnswer": "Protect the king",
+      "explanation": "Helen showed her how to protect the king before she attacked.",
+      "supportingSentence": "Helen showed her how to protect the king before she attacked.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Priya borrow from the chess corner?",
+      "options": [
+        "A small book of simple first moves",
+        "Helen's chair",
+        "The keys to the hall",
+        "A brand-new chess set"
+      ],
+      "correctAnswer": "A small book of simple first moves",
+      "explanation": "She borrowed a small book of simple first moves.",
+      "supportingSentence": "Priya borrowed a small book of simple first moves.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does patient mean?",
+      "options": [
+        "Able to wait and not rush",
+        "Angry about losing a game",
+        "Too tired to sit still",
+        "Ready to go home early"
+      ],
+      "correctAnswer": "Able to wait and not rush",
+      "explanation": "Helen said Priya had improved because she was patient and did not rush.",
+      "supportingSentence": "Helen said Priya had improved because she was patient.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What does the ending show about Priya?",
+      "options": [
+        "She wants to keep learning",
+        "She plans to stop playing",
+        "She is angry with Helen",
+        "She wants to sell the book"
+      ],
+      "correctAnswer": "She wants to keep learning",
+      "explanation": "She felt ready to learn even if she lost again, so she means to continue.",
+      "supportingSentence": "Priya felt ready to learn, even if she lost again.",
+      "skill": "inference"
+    }
+  ]
+}

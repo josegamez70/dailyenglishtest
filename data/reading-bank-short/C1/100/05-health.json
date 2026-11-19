@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "health_sports",
+  "target": 100,
+  "title": "Ending the Session for Form",
+  "story": "The coach stopped the track session when Tomas's stride shortened, though the watch still showed time left on the plan. Teammates wanted the last repeats, because a public chart recorded only work that was finished. Tomas said he could complete the set. The coach pointed to his changing form, not to the clock. Repeats run with a collapsing stride would train him to accept a poor pattern, and the chart would call that success. They logged the session as cut short for form, and the repeats moved to the next morning, when he was fresh. A finished list, the coach said, was a poor guide to recovery.",
+  "vocabulary": [
+    {
+      "word": "stride",
+      "definition": "The length and shape of a running step"
+    },
+    {
+      "word": "repeats",
+      "definition": "Set pieces of the session done again"
+    },
+    {
+      "word": "chart",
+      "definition": "A public record of completed work"
+    },
+    {
+      "word": "pattern",
+      "definition": "A way of moving that can become a habit"
+    },
+    {
+      "word": "logged",
+      "definition": "Written down in the record"
+    },
+    {
+      "word": "recovery",
+      "definition": "Getting back to a state ready for good work"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What change brought the session to a stop?",
+      "options": [
+        "Tomas's running stride grew shorter",
+        "The watch battery went dead",
+        "The public chart was switched off",
+        "A teammate walked off the track"
+      ],
+      "correctAnswer": "Tomas's running stride grew shorter",
+      "explanation": "The coach stopped the session when Tomas's stride shortened.",
+      "supportingSentence": "The coach stopped the track session when Tomas's stride shortened, though the watch still showed time left on the plan.",
+      "skill": "detail"
+    },
+    {
+      "question": "When were the unfinished repeats given a new slot?",
+      "options": [
+        "The next morning, once he was fresh",
+        "That same evening, after a team vote",
+        "A weekend race in another town",
+        "The opening minute of the same session"
+      ],
+      "correctAnswer": "The next morning, once he was fresh",
+      "explanation": "The repeats moved to the next morning, when he was fresh.",
+      "supportingSentence": "They logged the session as cut short for form, and the repeats moved to the next morning, when he was fresh.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why is a completed set still a poor result here?",
+      "options": [
+        "Bad form would be trained and then recorded as success",
+        "The watch was set up for a different sport",
+        "Another club had booked the track",
+        "Tomas had already raced that morning"
+      ],
+      "correctAnswer": "Bad form would be trained and then recorded as success",
+      "explanation": "Finishing with a collapsing stride would teach a poor pattern and still look complete on the chart.",
+      "supportingSentence": "Repeats run with a collapsing stride would train him to accept a poor pattern, and the chart would call that success.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does recovery mean in the coach's last remark?",
+      "options": [
+        "Becoming ready to train well again",
+        "A public list of finished repeats",
+        "The last lap saved on the watch",
+        "A vote taken by teammates"
+      ],
+      "correctAnswer": "Becoming ready to train well again",
+      "explanation": "Recovery means getting ready for sound training, which a finished list does not measure.",
+      "supportingSentence": "A finished list, the coach said, was a poor guide to recovery.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why mention a chart that counts only finished work?",
+      "options": [
+        "To show the pressure that makes an early stop look like failure",
+        "To announce that the chart was abolished",
+        "To name the maker of the watch",
+        "To prove Tomas was the fastest runner"
+      ],
+      "correctAnswer": "To show the pressure that makes an early stop look like failure",
+      "explanation": "The chart explains why teammates treat a stopped session as a failure.",
+      "supportingSentence": "Teammates wanted the last repeats, because a public chart recorded only work that was finished.",
+      "skill": "intent"
+    }
+  ]
+}

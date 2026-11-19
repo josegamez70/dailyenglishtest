@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "science",
+  "target": 60,
+  "title": "Two Pots on the Windowsill",
+  "story": "The class compared two pots of basil on the same windowsill, giving one extra water and leaving the other on the usual schedule. After ten days the wetter plant had yellow leaves, while the other stayed green. Their teacher said too much water can harm roots just as dryness can. The students recorded both results and agreed the next test should give both pots equal light.",
+  "vocabulary": [
+    {
+      "word": "compared",
+      "definition": "Looked at two things to see how they differed."
+    },
+    {
+      "word": "windowsill",
+      "definition": "The flat shelf along the bottom of a window."
+    },
+    {
+      "word": "schedule",
+      "definition": "A planned pattern for when something is done."
+    },
+    {
+      "word": "wetter",
+      "definition": "Containing more water."
+    },
+    {
+      "word": "harm",
+      "definition": "Cause damage."
+    },
+    {
+      "word": "roots",
+      "definition": "The parts of a plant that grow under the soil."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How many pots of basil did the class compare?",
+      "options": [
+        "Two",
+        "Ten",
+        "One",
+        "Four"
+      ],
+      "correctAnswer": "Two",
+      "explanation": "The class compared two pots of basil on the same windowsill.",
+      "supportingSentence": "The class compared two pots of basil on the same windowsill, giving one extra water and leaving the other on the usual schedule.",
+      "skill": "detail"
+    },
+    {
+      "question": "What do the yellow leaves suggest about the extra water?",
+      "options": [
+        "The extra water was bad for that plant",
+        "The wetter plant needed still more water",
+        "The green plant had been kept in the dark",
+        "The windowsill was too dry for both pots"
+      ],
+      "correctAnswer": "The extra water was bad for that plant",
+      "explanation": "The plant that got extra water turned yellow, while the other stayed green.",
+      "supportingSentence": "After ten days the wetter plant had yellow leaves, while the other stayed green.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why keep the light equal in the next test?",
+      "options": [
+        "So light will not be the reason for any difference",
+        "So one pot can sit in a dark cupboard",
+        "So the class can stop writing results",
+        "So both pots can be given extra water"
+      ],
+      "correctAnswer": "So light will not be the reason for any difference",
+      "explanation": "Equal light means a later difference cannot be blamed on one pot getting more light.",
+      "supportingSentence": "The students recorded both results and agreed the next test should give both pots equal light.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does harm mean in this story?",
+      "options": [
+        "Cause damage",
+        "Give an equal amount",
+        "Write a result down",
+        "Stay green and healthy"
+      ],
+      "correctAnswer": "Cause damage",
+      "explanation": "The teacher says too much water can harm roots, meaning it can damage them.",
+      "supportingSentence": "Their teacher said too much water can harm roots just as dryness can.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did the students write down both results?",
+      "options": [
+        "So they would have a record of what each pot did",
+        "So they could throw the green plant away",
+        "So the teacher would add more water",
+        "So the usual schedule would stay secret"
+      ],
+      "correctAnswer": "So they would have a record of what each pot did",
+      "explanation": "They recorded both results in order to keep what they had observed.",
+      "supportingSentence": "The students recorded both results and agreed the next test should give both pots equal light.",
+      "skill": "intent"
+    }
+  ]
+}

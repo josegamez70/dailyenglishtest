@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "school_college",
+  "target": 60,
+  "title": "The Postponed Seminar",
+  "story": "Priya arrived for the afternoon seminar and found a notice on the classroom door. The tutor had postponed the session until Thursday because the projector was being repaired. Students who needed the recording could collect a link from the office before closing time. Priya copied the new time into her planner and texted her project partner, who had already left campus.",
+  "vocabulary": [
+    {
+      "word": "seminar",
+      "definition": "A class in which a small group discusses a subject."
+    },
+    {
+      "word": "notice",
+      "definition": "A short written message put where people can read it."
+    },
+    {
+      "word": "postponed",
+      "definition": "Moved to a later time."
+    },
+    {
+      "word": "projector",
+      "definition": "A machine that throws an image onto a screen."
+    },
+    {
+      "word": "recording",
+      "definition": "A saved copy of a class that can be watched later."
+    },
+    {
+      "word": "planner",
+      "definition": "A book or tool used to keep track of dates and tasks."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Why was the afternoon session moved?",
+      "options": [
+        "The projector was being repaired",
+        "The classroom door had been removed",
+        "The office had closed for the month",
+        "Her partner had already left campus"
+      ],
+      "correctAnswer": "The projector was being repaired",
+      "explanation": "The tutor postponed the session because the projector was being repaired.",
+      "supportingSentence": "The tutor had postponed the session until Thursday because the projector was being repaired.",
+      "skill": "detail"
+    },
+    {
+      "question": "What problem did the door notice save Priya from?",
+      "options": [
+        "Waiting for a class that was not happening that day",
+        "Repairing the projector by herself",
+        "Teaching the seminar with no partner",
+        "Missing a recording that was due that morning"
+      ],
+      "correctAnswer": "Waiting for a class that was not happening that day",
+      "explanation": "The session had been moved to Thursday, so the afternoon class she came for was not on.",
+      "supportingSentence": "The tutor had postponed the session until Thursday because the projector was being repaired.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why was a text more useful than the door notice for her partner?",
+      "options": [
+        "The partner had already left and would not see the door",
+        "The partner was busy repairing the projector",
+        "The office had asked her to send the recording",
+        "The planner could not store a new time"
+      ],
+      "correctAnswer": "The partner had already left and would not see the door",
+      "explanation": "Her project partner had already left campus, so he would not read the notice on the door.",
+      "supportingSentence": "Priya copied the new time into her planner and texted her project partner, who had already left campus.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does postponed mean in this story?",
+      "options": [
+        "Moved to a later time",
+        "Cancelled and never repeated",
+        "Filmed for the office",
+        "Copied into a planner"
+      ],
+      "correctAnswer": "Moved to a later time",
+      "explanation": "The session was postponed until Thursday, so it was delayed rather than cancelled.",
+      "supportingSentence": "The tutor had postponed the session until Thursday because the projector was being repaired.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the notice tell students about a link?",
+      "options": [
+        "So anyone who needs the recording can still get it",
+        "So the tutor can sell the projector",
+        "So Priya will leave campus early",
+        "So the classroom door can stay shut"
+      ],
+      "correctAnswer": "So anyone who needs the recording can still get it",
+      "explanation": "The link from the office is for students who needed the recording of the session.",
+      "supportingSentence": "Students who needed the recording could collect a link from the office before closing time.",
+      "skill": "intent"
+    }
+  ]
+}

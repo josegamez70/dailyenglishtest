@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "travel",
+  "target": 60,
+  "title": "The Wrong Hostel Locker",
+  "story": "Rafael opened the hostel locker and found a camera that was not his. The tag showed a room number on the floor above, so he took the camera to reception instead of leaving a note. The clerk matched it to a guest who had used the wrong key the night before. Rafael collected his own bag and still caught the afternoon bus.",
+  "vocabulary": [
+    {
+      "word": "locker",
+      "definition": "A small cupboard that can be locked for personal things."
+    },
+    {
+      "word": "tag",
+      "definition": "A small label attached to an object."
+    },
+    {
+      "word": "reception",
+      "definition": "The desk where staff help guests."
+    },
+    {
+      "word": "clerk",
+      "definition": "A member of staff who deals with records and guests."
+    },
+    {
+      "word": "matched",
+      "definition": "Found the person or record that fitted."
+    },
+    {
+      "word": "collected",
+      "definition": "Went and picked something up."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did Rafael find in the locker?",
+      "options": [
+        "A camera that was not his",
+        "His own bag, ready for the bus",
+        "A note from the clerk",
+        "The key to the afternoon bus"
+      ],
+      "correctAnswer": "A camera that was not his",
+      "explanation": "When he opened the hostel locker, he found a camera that was not his.",
+      "supportingSentence": "Rafael opened the hostel locker and found a camera that was not his.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why was reception a better choice than a note?",
+      "options": [
+        "The tag gave a room number that staff could use",
+        "He wanted to keep the camera for the trip",
+        "The bus was leaving from the front desk",
+        "His own bag was already on the floor above"
+      ],
+      "correctAnswer": "The tag gave a room number that staff could use",
+      "explanation": "The tag showed a room number, so the desk could trace the owner instead of waiting for a note.",
+      "supportingSentence": "The tag showed a room number on the floor above, so he took the camera to reception instead of leaving a note.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does catching the afternoon bus show?",
+      "options": [
+        "The locker problem did not make him miss his departure",
+        "He left the camera inside the locker",
+        "The clerk drove the afternoon bus",
+        "His own bag was still on the floor above"
+      ],
+      "correctAnswer": "The locker problem did not make him miss his departure",
+      "explanation": "He still caught the afternoon bus after dealing with the camera and collecting his bag.",
+      "supportingSentence": "Rafael collected his own bag and still caught the afternoon bus.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does reception mean in this story?",
+      "options": [
+        "The desk where staff help guests",
+        "A key that opens every locker",
+        "A label tied to a camera",
+        "The stop where the bus departs"
+      ],
+      "correctAnswer": "The desk where staff help guests",
+      "explanation": "Rafael takes the camera to reception, where the clerk can match it to a guest.",
+      "supportingSentence": "The tag showed a room number on the floor above, so he took the camera to reception instead of leaving a note.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Rafael take the camera to the desk?",
+      "options": [
+        "He wanted the staff to get it back to the right guest",
+        "He wanted to catch an earlier bus",
+        "He wanted to hide it in his own bag",
+        "He wanted a room on the floor above"
+      ],
+      "correctAnswer": "He wanted the staff to get it back to the right guest",
+      "explanation": "He took the camera to reception so the staff could deal with it, rather than leaving a note.",
+      "supportingSentence": "The tag showed a room number on the floor above, so he took the camera to reception instead of leaving a note.",
+      "skill": "intent"
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "health_sports",
+  "target": 140,
+  "title": "Four Lengths and a Pause",
+  "story": "Greta had swum for years, yet a sore shoulder made her usual crawl stroke impossible. The pool coach watched two lengths and asked her to stop before she began to compensate with her neck. He suggested breaststroke for a fortnight, with a kickboard on days when even that pull hurt. Greta felt embarrassed, because the slow lane was full of beginners and she had once trained with the club squad. The coach said fitness could be protected in more than one way, and that pride was a poor reason to delay healing. By the second week her shoulder ached less in the morning, and she could dress without a careful shrug. She still avoided diving. At the end of the fortnight the coach let her swim four lengths of crawl, then return to the gentler stroke if the ache came back. Greta learned that pausing a habit was different from losing it.",
+  "vocabulary": [
+    {
+      "word": "compensate",
+      "definition": "To make up for a weak part by using another."
+    },
+    {
+      "word": "breaststroke",
+      "definition": "A swimming stroke with both arms moving together."
+    },
+    {
+      "word": "fortnight",
+      "definition": "A period of two weeks."
+    },
+    {
+      "word": "embarrassed",
+      "definition": "Feeling awkward or ashamed."
+    },
+    {
+      "word": "diving",
+      "definition": "Going into water head first."
+    },
+    {
+      "word": "ache",
+      "definition": "A dull pain that lasts."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What swimming plan did the coach give Greta?",
+      "options": [
+        "Breaststroke for two weeks, and a kickboard if the pull hurt",
+        "Crawl only, so the sore shoulder would toughen",
+        "Diving practice with the club squad",
+        "No swimming until she felt no awkwardness"
+      ],
+      "correctAnswer": "Breaststroke for two weeks, and a kickboard if the pull hurt",
+      "explanation": "He suggested breaststroke for a fortnight, and a kickboard on days when the pull hurt.",
+      "supportingSentence": "He suggested breaststroke for a fortnight, with a kickboard on days when even that pull hurt.",
+      "skill": "detail"
+    },
+    {
+      "question": "What was Greta allowed to try at the end of that period?",
+      "options": [
+        "Four lengths of crawl, then the gentler stroke if pain returned",
+        "A full squad session with dives",
+        "Two lengths using her neck to help the arm",
+        "Nothing further, even if the morning felt better"
+      ],
+      "correctAnswer": "Four lengths of crawl, then the gentler stroke if pain returned",
+      "explanation": "The coach let her swim four lengths of crawl, then return to the gentler stroke if the ache came back.",
+      "supportingSentence": "At the end of the fortnight the coach let her swim four lengths of crawl, then return to the gentler stroke if the ache came back.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did the slow lane embarrass Greta?",
+      "options": [
+        "She was swimming among beginners after once training with the squad",
+        "The coach told her she would never swim again",
+        "The kickboard was forbidden in that lane",
+        "Her neck pain had started among the beginners"
+      ],
+      "correctAnswer": "She was swimming among beginners after once training with the squad",
+      "explanation": "She felt embarrassed because the slow lane was full of beginners and she had trained with the squad.",
+      "supportingSentence": "Greta felt embarrassed, because the slow lane was full of beginners and she had once trained with the club squad.",
+      "skill": "inference"
+    },
+    {
+      "question": "What idea did Greta take from the two weeks?",
+      "options": [
+        "Stopping a habit for a while is not the same as losing it",
+        "A sore shoulder means a swimmer should quit",
+        "Pride is a good reason to swim through pain",
+        "Four lengths of crawl replace every other stroke"
+      ],
+      "correctAnswer": "Stopping a habit for a while is not the same as losing it",
+      "explanation": "She learned that pausing a habit was different from losing it.",
+      "supportingSentence": "Greta learned that pausing a habit was different from losing it.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does compensate mean here?",
+      "options": [
+        "Let another part of the body take over the work",
+        "Swim faster than the club squad",
+        "Rest for a period of two weeks",
+        "Feel awkward in front of beginners"
+      ],
+      "correctAnswer": "Let another part of the body take over the work",
+      "explanation": "The coach stopped her before she could compensate with her neck, meaning use her neck to do the shoulder's work.",
+      "supportingSentence": "The pool coach watched two lengths and asked her to stop before she began to compensate with her neck.",
+      "skill": "vocabulary"
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "mystery",
+  "target": 60,
+  "title": "The Tenth Coat Was Dry",
+  "story": "The theatre locked with nine coats and opened with ten. The extra coat was dry, though rain had fallen all evening, and its pocket held no ticket stub. Cameras watched the lobby but not the side aisle. A programme from the later act lay on a seat sold as empty. Rafi decided the visit had been chosen, not forced by the weather.",
+  "vocabulary": [
+    {
+      "word": "extra",
+      "definition": "One more than there should have been"
+    },
+    {
+      "word": "stub",
+      "definition": "The small torn remainder of a ticket"
+    },
+    {
+      "word": "lobby",
+      "definition": "The entrance hall of the theatre"
+    },
+    {
+      "word": "aisle",
+      "definition": "The side passage between the seats"
+    },
+    {
+      "word": "programme",
+      "definition": "The printed sheet describing the performance"
+    },
+    {
+      "word": "chosen",
+      "definition": "Decided on purpose rather than by chance"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How many coats were there when the theatre opened?",
+      "options": [
+        "Ten",
+        "Nine",
+        "One dry ticket stub",
+        "None in the side aisle"
+      ],
+      "correctAnswer": "Ten",
+      "explanation": "The theatre opened with ten coats.",
+      "supportingSentence": "The theatre locked with nine coats and opened with ten.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did the extra coat’s pocket not contain?",
+      "options": [
+        "A ticket stub",
+        "A dry lining",
+        "A seam along the edge",
+        "A button at the cuff"
+      ],
+      "correctAnswer": "A ticket stub",
+      "explanation": "Its pocket held no ticket stub.",
+      "supportingSentence": "The extra coat was dry, though rain had fallen all evening, and its pocket held no ticket stub.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did a soaked latecomer seem unlikely?",
+      "options": [
+        "The extra coat had stayed dry through an evening of rain",
+        "The lobby cameras showed a very wet ticket",
+        "The empty seat was outdoors in the storm",
+        "Rafi had dried the coat before the doors opened"
+      ],
+      "correctAnswer": "The extra coat had stayed dry through an evening of rain",
+      "explanation": "A person driven in by the rain would likely be wet, but the extra coat was dry.",
+      "supportingSentence": "The extra coat was dry, though rain had fallen all evening, and its pocket held no ticket stub.",
+      "skill": "inference"
+    },
+    {
+      "question": "What is a stub in this passage?",
+      "options": [
+        "The small remainder of a used ticket",
+        "A dry coat left in the lobby",
+        "A seat that had been sold as empty",
+        "A camera above the side aisle"
+      ],
+      "correctAnswer": "The small remainder of a used ticket",
+      "explanation": "A ticket stub would be the leftover part of a ticket, and the pocket held none.",
+      "supportingSentence": "The extra coat was dry, though rain had fallen all evening, and its pocket held no ticket stub.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer mention that the cameras missed the side aisle?",
+      "options": [
+        "To show one way in was not being watched",
+        "To prove the lobby stayed closed all evening",
+        "To suggest the programme was being filmed",
+        "To argue that coats should be banned"
+      ],
+      "correctAnswer": "To show one way in was not being watched",
+      "explanation": "Cameras on the lobby but not the side aisle leave an unwatched route into the theatre.",
+      "supportingSentence": "Cameras watched the lobby but not the side aisle.",
+      "skill": "intent"
+    }
+  ]
+}

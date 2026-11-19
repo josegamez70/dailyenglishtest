@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "school_college",
+  "target": 140,
+  "title": "A Voice Lost before Friday",
+  "story": "The history group was due to present on Friday, and each student had prepared one section. On Thursday night Amir sent a message saying he had lost his voice and could not speak in class. Sofia offered to read his section as well as her own, but she asked the group to shorten the ending so the talk would still fit the time allowed. Denis moved the map earlier, because the notes explained the route of an old canal and the class needed that picture before the dates. They left the jokes out, since a written joke can fall flat when another person reads it aloud. In the morning Amir sat at the side and nodded when Sofia reached his title card. The teacher allowed the change once she heard why Amir could not speak. She later said the talk was clear and asked to see the notes he had prepared at home.",
+  "vocabulary": [
+    {
+      "word": "section",
+      "definition": "One part of a longer piece of work."
+    },
+    {
+      "word": "shorten",
+      "definition": "To make something shorter."
+    },
+    {
+      "word": "canal",
+      "definition": "A channel of water made by people."
+    },
+    {
+      "word": "aloud",
+      "definition": "In a voice that other people can hear."
+    },
+    {
+      "word": "nodded",
+      "definition": "Moved the head to show agreement or readiness."
+    },
+    {
+      "word": "allowed",
+      "definition": "Said that something was acceptable."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How did Sofia keep the group talk inside the time allowed?",
+      "options": [
+        "She read his section too and asked for a shorter ending",
+        "She cancelled the talk and sent the teacher home",
+        "She moved the jokes to the start of the lesson",
+        "She asked Amir to shout his notes from the corridor"
+      ],
+      "correctAnswer": "She read his section too and asked for a shorter ending",
+      "explanation": "Sofia offered to read his section as well as her own, and she asked the group to shorten the ending.",
+      "supportingSentence": "Sofia offered to read his section as well as her own, but she asked the group to shorten the ending so the talk would still fit the time allowed.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did Denis move the map to an earlier point?",
+      "options": [
+        "The class needed the canal picture before the dates",
+        "The teacher had banned every map from the room",
+        "Amir wanted the jokes to come before any picture",
+        "The title card was too large for the final slide"
+      ],
+      "correctAnswer": "The class needed the canal picture before the dates",
+      "explanation": "The notes explained an old canal route, and the class needed that picture before the dates.",
+      "supportingSentence": "Denis moved the map earlier, because the notes explained the route of an old canal and the class needed that picture before the dates.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does Amir do during the talk itself?",
+      "options": [
+        "He stays involved by signalling when his part begins",
+        "He recovers his voice and reads the whole talk",
+        "He leaves the room before Sofia starts",
+        "He refuses to look at the title card"
+      ],
+      "correctAnswer": "He stays involved by signalling when his part begins",
+      "explanation": "He sat at the side and nodded when Sofia reached his title card, so he was still taking part.",
+      "supportingSentence": "In the morning Amir sat at the side and nodded when Sofia reached his title card.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why were Amir's jokes removed from the talk?",
+      "options": [
+        "A joke can fail when a different person reads it out",
+        "The canal map left no space for any words",
+        "The teacher had already told those jokes",
+        "Sofia wanted the talk to fill the whole day"
+      ],
+      "correctAnswer": "A joke can fail when a different person reads it out",
+      "explanation": "They left the jokes out because a written joke can fall flat when another person reads it aloud.",
+      "supportingSentence": "They left the jokes out, since a written joke can fall flat when another person reads it aloud.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does canal mean in this story?",
+      "options": [
+        "A water channel made by people",
+        "A list of dates in a history talk",
+        "A joke told out loud to a class",
+        "A card held up beside the speaker"
+      ],
+      "correctAnswer": "A water channel made by people",
+      "explanation": "The notes explained the route of an old canal, which is a water channel people made.",
+      "supportingSentence": "Denis moved the map earlier, because the notes explained the route of an old canal and the class needed that picture before the dates.",
+      "skill": "vocabulary"
+    }
+  ]
+}

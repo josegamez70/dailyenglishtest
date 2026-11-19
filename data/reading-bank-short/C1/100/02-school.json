@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "school_college",
+  "target": 100,
+  "title": "The Source That Could Not Be Cited",
+  "story": "The seminar required a footnote for every claim, yet Samir's best source sat in a private archive that forbade quotation. He could paraphrase the argument in his own words, but he could not point a reader to the page. His partner wanted the claim removed, because an uncheckable sentence looked like ornament. Samir wanted it kept, because removal would make the essay neater and less true. The tutor allowed the sentence only beside a note that the source could not be consulted. She marked the paper on whether that limit was shown honestly. A hidden advantage, she said, was worse than a visible gap.",
+  "vocabulary": [
+    {
+      "word": "footnote",
+      "definition": "A note telling a reader where a claim comes from"
+    },
+    {
+      "word": "archive",
+      "definition": "A store of records that is not open to everyone"
+    },
+    {
+      "word": "paraphrase",
+      "definition": "To retell an idea in your own words"
+    },
+    {
+      "word": "ornament",
+      "definition": "Decoration that adds little real substance"
+    },
+    {
+      "word": "consulted",
+      "definition": "Looked at in order to check something"
+    },
+    {
+      "word": "advantage",
+      "definition": "A benefit that puts someone in a stronger position"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "On what condition could Samir's sentence stay?",
+      "options": [
+        "Beside a note that the source could not be consulted",
+        "Only if his partner signed every footnote",
+        "Only after the archive lifted its ban",
+        "Only once the claim had been deleted"
+      ],
+      "correctAnswer": "Beside a note that the source could not be consulted",
+      "explanation": "The tutor allowed the sentence only beside a note that the source could not be consulted.",
+      "supportingSentence": "The tutor allowed the sentence only beside a note that the source could not be consulted.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did the partner want done with the uncheckable claim?",
+      "options": [
+        "Removed from the essay",
+        "Printed as a long quotation",
+        "Moved into another seminar",
+        "Checked against a public copy"
+      ],
+      "correctAnswer": "Removed from the essay",
+      "explanation": "The partner wanted the claim removed.",
+      "supportingSentence": "His partner wanted the claim removed, because an uncheckable sentence looked like ornament.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Samir think a neater essay would lose?",
+      "options": [
+        "Part of what was true",
+        "His partner's name on the cover",
+        "Entry to the private archive",
+        "Every footnote in the seminar"
+      ],
+      "correctAnswer": "Part of what was true",
+      "explanation": "He believed removal would make the essay neater and less true.",
+      "supportingSentence": "Samir wanted it kept, because removal would make the essay neater and less true.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does paraphrase mean in Samir's case?",
+      "options": [
+        "Saying the idea in his own words",
+        "Copying an archive page in full",
+        "Deleting the sentence before marking",
+        "Asking the tutor to invent a source"
+      ],
+      "correctAnswer": "Saying the idea in his own words",
+      "explanation": "Paraphrase is paired with retelling the argument in his own words.",
+      "supportingSentence": "He could paraphrase the argument in his own words, but he could not point a reader to the page.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the passage end by ranking a hidden advantage against a visible gap?",
+      "options": [
+        "To state the standard she would mark by",
+        "To admit the archive ban had been lifted",
+        "To show the partner changed his mind",
+        "To list claims that needed no footnote"
+      ],
+      "correctAnswer": "To state the standard she would mark by",
+      "explanation": "The closing comparison is the standard behind marking the paper for honesty.",
+      "supportingSentence": "A hidden advantage, she said, was worse than a visible gap.",
+      "skill": "intent"
+    }
+  ]
+}

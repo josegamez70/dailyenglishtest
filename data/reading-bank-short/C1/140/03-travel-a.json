@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "travel",
+  "target": 140,
+  "title": "A Seat above the Quay",
+  "story": "The noon bus passed Idris without stopping, because roadworks had removed any safe place for a request stop at Maren Quay. His ticket named a guesthouse that would hold his room only until dusk. The later driver's sheet already listed every seat as taken. A supervisor radioed ahead and learned that a passenger had relinquished one seat in the town before the headland. The seat was his only if he accepted a drop at the crossroads above the quay, not at the harbour gate, and then walked for twenty minutes. Idris accepted, because a refusal meant a night in the hut and a forfeited first night at the guesthouse. The driver validated the old ticket and annotated the new drop in the margin. He kept that ticket in case the guesthouse asked why he had arrived on foot and after dark. The compromise cost him a downhill walk, yet it preserved the booking.",
+  "vocabulary": [
+    {
+      "word": "relinquished",
+      "definition": "Given up so someone else could have it."
+    },
+    {
+      "word": "forfeited",
+      "definition": "Lost because a condition was not met."
+    },
+    {
+      "word": "validated",
+      "definition": "Officially accepted as still usable."
+    },
+    {
+      "word": "annotated",
+      "definition": "Added a short written note to a document."
+    },
+    {
+      "word": "margin",
+      "definition": "The blank edge of a page."
+    },
+    {
+      "word": "compromise",
+      "definition": "An agreement in which each side gives something up."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where did Idris agree to leave the later bus?",
+      "options": [
+        "At the crossroads above the quay",
+        "At the harbour gate",
+        "Inside the supervisor's hut",
+        "In the town before the headland"
+      ],
+      "correctAnswer": "At the crossroads above the quay",
+      "explanation": "The only free seat required him to get off at the crossroads above the quay.",
+      "supportingSentence": "The seat was his only if he accepted a drop at the crossroads above the quay, not at the harbour gate, and then walked for twenty minutes.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did the driver write in the margin of the old ticket?",
+      "options": [
+        "The new drop",
+        "A full cash refund",
+        "The guesthouse telephone number",
+        "A complaint about the roadworks"
+      ],
+      "correctAnswer": "The new drop",
+      "explanation": "The driver annotated the new drop in the margin after validating the ticket.",
+      "supportingSentence": "The driver validated the old ticket and annotated the new drop in the margin.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why could a late arrival put the room booking at risk?",
+      "options": [
+        "The guesthouse had to hold the room only until dusk",
+        "Walking on the quay was banned after sunset",
+        "Paper tickets were wiped clean at noon",
+        "The hut refused every guest who carried a case"
+      ],
+      "correctAnswer": "The guesthouse had to hold the room only until dusk",
+      "explanation": "The ticket said the room would be held only until dusk, so a later arrival was unprotected.",
+      "supportingSentence": "His ticket named a guesthouse that would hold his room only until dusk.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does forfeited mean in this passage?",
+      "options": [
+        "Lost because a required condition was missed",
+        "Moved into a room beside the harbour",
+        "Paid for a second time by the driver",
+        "Locked inside the hut until morning"
+      ],
+      "correctAnswer": "Lost because a required condition was missed",
+      "explanation": "Refusing the seat would have meant losing the first night at the guesthouse.",
+      "supportingSentence": "Idris accepted, because a refusal meant a night in the hut and a forfeited first night at the guesthouse.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer mention the roadworks?",
+      "options": [
+        "To explain why the noon bus could not stop for him",
+        "To recommend a different coast for a holiday",
+        "To show that Idris was repairing the road",
+        "To prove the guesthouse had moved inland"
+      ],
+      "correctAnswer": "To explain why the noon bus could not stop for him",
+      "explanation": "The roadworks had removed any safe place for the noon bus to stop.",
+      "supportingSentence": "The noon bus passed Idris without stopping, because roadworks had removed any safe place for a request stop at Maren Quay.",
+      "skill": "intent"
+    }
+  ]
+}

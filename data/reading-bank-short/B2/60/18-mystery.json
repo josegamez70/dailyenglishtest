@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "mystery",
+  "target": 60,
+  "title": "A Lamp Still Lit",
+  "story": "After closing, the librarian saw a lamp still lit in the stacks, though every reader had signed out. A damp coat hung on a chair, and a book about local tunnels lay open at a map. She called the caretaker instead of searching alone. Together they found a student who had fallen asleep behind the last shelf and missed the bell.",
+  "vocabulary": [
+    {
+      "word": "librarian",
+      "definition": "A person who works in a library."
+    },
+    {
+      "word": "stacks",
+      "definition": "The shelves where a library keeps its books."
+    },
+    {
+      "word": "damp",
+      "definition": "Slightly wet."
+    },
+    {
+      "word": "tunnels",
+      "definition": "Underground passages."
+    },
+    {
+      "word": "caretaker",
+      "definition": "A person who looks after a building."
+    },
+    {
+      "word": "shelf",
+      "definition": "A flat board used for storing books."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Who did the librarian ask to come with her?",
+      "options": [
+        "The caretaker",
+        "A reader who had already signed out",
+        "The person who drew the map",
+        "Nobody, because she searched alone"
+      ],
+      "correctAnswer": "The caretaker",
+      "explanation": "She called the caretaker instead of searching alone.",
+      "supportingSentence": "She called the caretaker instead of searching alone.",
+      "skill": "detail"
+    },
+    {
+      "question": "What do the lit lamp and the signed-out list suggest?",
+      "options": [
+        "Someone may still be inside despite the list",
+        "Every reader took a lamp home",
+        "The stacks were being painted that night",
+        "The map showed an open exit"
+      ],
+      "correctAnswer": "Someone may still be inside despite the list",
+      "explanation": "A lamp was still lit even though every reader had signed out, which suggests someone remained.",
+      "supportingSentence": "After closing, the librarian saw a lamp still lit in the stacks, though every reader had signed out.",
+      "skill": "inference"
+    },
+    {
+      "question": "What was the student most likely doing before falling asleep?",
+      "options": [
+        "Reading the open book about local tunnels",
+        "Signing other readers out at the desk",
+        "Calling the caretaker for help",
+        "Hanging new lamps in the stacks"
+      ],
+      "correctAnswer": "Reading the open book about local tunnels",
+      "explanation": "A book about tunnels lay open at a map, and the student was later found asleep nearby.",
+      "supportingSentence": "A damp coat hung on a chair, and a book about local tunnels lay open at a map.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does stacks mean in this story?",
+      "options": [
+        "The shelves where books are kept",
+        "A coat left on a chair",
+        "A bell that marks closing time",
+        "A person who looks after a building"
+      ],
+      "correctAnswer": "The shelves where books are kept",
+      "explanation": "The lamp is lit in the stacks, the part of the library where the books stand.",
+      "supportingSentence": "After closing, the librarian saw a lamp still lit in the stacks, though every reader had signed out.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did she call the caretaker instead of going alone?",
+      "options": [
+        "She did not want to search the stacks by herself",
+        "She wanted him to sign the readers out",
+        "She wanted the lamp switched off from home",
+        "She thought the map was enough"
+      ],
+      "correctAnswer": "She did not want to search the stacks by herself",
+      "explanation": "She called the caretaker instead of searching alone.",
+      "supportingSentence": "She called the caretaker instead of searching alone.",
+      "skill": "intent"
+    }
+  ]
+}

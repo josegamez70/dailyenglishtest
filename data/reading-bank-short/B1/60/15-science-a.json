@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "science",
+  "target": 60,
+  "title": "Cups on the Windowsill",
+  "story": "For a class test, Ben put three cups of water on the windowsill. One sat in the sun, one in the shade, and one under foil. He checked them every hour and wrote the results. The sun cup lost the most water. The foil cup lost the least. Ben learned that heat makes water evaporate faster. He drew a simple chart.",
+  "vocabulary": [
+    {
+      "word": "windowsill",
+      "definition": "The flat shelf at the bottom of a window."
+    },
+    {
+      "word": "foil",
+      "definition": "A thin metal sheet used as a cover."
+    },
+    {
+      "word": "results",
+      "definition": "What you find at the end of a test."
+    },
+    {
+      "word": "least",
+      "definition": "The smallest amount."
+    },
+    {
+      "word": "evaporate",
+      "definition": "To change from water into vapour."
+    },
+    {
+      "word": "chart",
+      "definition": "A simple drawing that shows information."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How many cups did Ben put on the windowsill?",
+      "options": [
+        "Three cups",
+        "One cup",
+        "Two cups",
+        "Four cups"
+      ],
+      "correctAnswer": "Three cups",
+      "explanation": "Ben put three cups of water on the windowsill.",
+      "supportingSentence": "For a class test, Ben put three cups of water on the windowsill.",
+      "skill": "detail"
+    },
+    {
+      "question": "Which cup lost the most water?",
+      "options": [
+        "The cup in the sun",
+        "The cup in the shade",
+        "The cup under foil",
+        "All three cups equally"
+      ],
+      "correctAnswer": "The cup in the sun",
+      "explanation": "The sun cup lost the most water.",
+      "supportingSentence": "The sun cup lost the most water.",
+      "skill": "detail"
+    },
+    {
+      "question": "Which cup lost the least water?",
+      "options": [
+        "The cup under foil",
+        "The cup in the sun",
+        "The cup in the shade",
+        "The cup he did not record"
+      ],
+      "correctAnswer": "The cup under foil",
+      "explanation": "The foil cup lost the least water.",
+      "supportingSentence": "The foil cup lost the least.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does evaporate mean in this story?",
+      "options": [
+        "To turn from water into vapour",
+        "To cover a cup with foil",
+        "To write numbers on a chart",
+        "To sit a cup in the shade"
+      ],
+      "correctAnswer": "To turn from water into vapour",
+      "explanation": "Ben learned that heat makes water evaporate, or turn into vapour, faster.",
+      "supportingSentence": "Ben learned that heat makes water evaporate faster.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "How often did Ben check the cups?",
+      "options": [
+        "Every hour",
+        "Every minute",
+        "Only once at night",
+        "He never checked them"
+      ],
+      "correctAnswer": "Every hour",
+      "explanation": "He checked them every hour and wrote the results.",
+      "supportingSentence": "He checked them every hour and wrote the results.",
+      "skill": "detail"
+    }
+  ]
+}

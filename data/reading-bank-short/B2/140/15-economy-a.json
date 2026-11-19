@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "economy_finance",
+  "target": 140,
+  "title": "Counting the Tin at Noon",
+  "story": "Before the craft market, Leila counted the cash float for her stall and wrote the sum in a notebook. She kept coins for change in a tin and larger notes in a pouch, so a busy moment would not mix them. Her first customer paid with a large note, and she nearly gave too much change while talking. After that she used a written price list and a calculator, and she checked the result before she handed the coins over. At lunch she counted the tin. It matched the sales she had ticked, so the morning had been accurate. A friend said she could ignore the count until evening. Leila refused, because a shortage found late was harder to explain than one found at noon. When the market closed, the pouch, the tin, and the ticks agreed. She deposited the takings on Monday and left the same float ready for the next stall.",
+  "vocabulary": [
+    {
+      "word": "float",
+      "definition": "A sum of cash kept so a seller can give change."
+    },
+    {
+      "word": "pouch",
+      "definition": "A small soft case that closes."
+    },
+    {
+      "word": "calculator",
+      "definition": "A device used for working out sums."
+    },
+    {
+      "word": "shortage",
+      "definition": "An amount that is less than it should be."
+    },
+    {
+      "word": "deposited",
+      "definition": "Put money into a bank or another safe place."
+    },
+    {
+      "word": "takings",
+      "definition": "Money received from sales."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How did Leila separate the stall's cash?",
+      "options": [
+        "Change coins went in a tin and larger notes in a pouch",
+        "All the cash stayed in one coat pocket",
+        "The starting sum stayed at home",
+        "Prices were kept in the tin with the coins"
+      ],
+      "correctAnswer": "Change coins went in a tin and larger notes in a pouch",
+      "explanation": "She kept coins for change in a tin and larger notes in a pouch.",
+      "supportingSentence": "She kept coins for change in a tin and larger notes in a pouch, so a busy moment would not mix them.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did Leila refuse to leave the count until evening?",
+      "options": [
+        "A gap found late would be harder to explain",
+        "Her friend had already taken the sales to the bank",
+        "The calculator worked only at night",
+        "The first customer had taken the notebook"
+      ],
+      "correctAnswer": "A gap found late would be harder to explain",
+      "explanation": "She refused because a shortage found late was harder to explain than one found at noon.",
+      "supportingSentence": "Leila refused, because a shortage found late was harder to explain than one found at noon.",
+      "skill": "detail"
+    },
+    {
+      "question": "What risk showed up with the first customer?",
+      "options": [
+        "Chatting while she made change nearly caused a mistake",
+        "The customer refused to pay with a note",
+        "The pouch was stolen during the conversation",
+        "She charged twice the listed price"
+      ],
+      "correctAnswer": "Chatting while she made change nearly caused a mistake",
+      "explanation": "She nearly gave too much change while talking, so doing the sum during a conversation was risky.",
+      "supportingSentence": "Her first customer paid with a large note, and she nearly gave too much change while talking.",
+      "skill": "inference"
+    },
+    {
+      "question": "What did the midday count tell Leila about the morning?",
+      "options": [
+        "The money agreed with the sales she had marked",
+        "The tin was short and the marks were useless",
+        "She should ignore cash until the market closed",
+        "The starting sum had already gone to the bank"
+      ],
+      "correctAnswer": "The money agreed with the sales she had marked",
+      "explanation": "The tin matched the sales she had ticked, so the morning count was accurate.",
+      "supportingSentence": "It matched the sales she had ticked, so the morning had been accurate.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does shortage mean in this story?",
+      "options": [
+        "Less money than the records say there should be",
+        "A written list of prices",
+        "Coins kept ready for change",
+        "A long talk with a customer"
+      ],
+      "correctAnswer": "Less money than the records say there should be",
+      "explanation": "A shortage in the tin would mean the cash was less than the sales record, and a late one would be hard to explain.",
+      "supportingSentence": "Leila refused, because a shortage found late was harder to explain than one found at noon.",
+      "skill": "vocabulary"
+    }
+  ]
+}

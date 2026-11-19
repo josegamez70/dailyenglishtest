@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "culture_food",
+  "target": 140,
+  "title": "Three Trays, One Oven",
+  "story": "For the street festival, three families agreed to bake in one kitchen, because the hall oven was already booked. Aunt Rosa brought savoury pastries from her coastal hometown, and the Nguyen family brought a rice cake that needed a low, gentle heat. The pastries wanted a short burst of a hotter oven. Mina wrote the order on a strip of paper and taped it to the cupboard. The cake would go first, then the pastries, then jam buns a neighbour had dropped off. They set a phone alarm for each change so nobody would trust memory alone. When the hall opened, every dish was labelled with its name and its main ingredients. A child asked why the rice cake was only faintly sweet. Mina said it was meant to follow the salty pastries, not to compete with the buns. People took a little of each, which was the sharing the families had wanted.",
+  "vocabulary": [
+    {
+      "word": "festival",
+      "definition": "A public celebration with shared events."
+    },
+    {
+      "word": "savoury",
+      "definition": "Tasting salty or spiced rather than sweet."
+    },
+    {
+      "word": "ingredients",
+      "definition": "The foods that are used to make a dish."
+    },
+    {
+      "word": "faintly",
+      "definition": "Only slightly, not strongly."
+    },
+    {
+      "word": "compete",
+      "definition": "To try to stand out more than something else."
+    },
+    {
+      "word": "labelled",
+      "definition": "Marked with a name or a short description."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "In what order were the foods baked?",
+      "options": [
+        "The cake first, then the pastries, then the jam buns",
+        "The jam buns first and the cake not at all",
+        "Only the pastries, for the whole afternoon",
+        "The cake and the pastries at the same moment"
+      ],
+      "correctAnswer": "The cake first, then the pastries, then the jam buns",
+      "explanation": "The cake would go first, then the pastries, then the jam buns.",
+      "supportingSentence": "The cake would go first, then the pastries, then jam buns a neighbour had dropped off.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did they set an alarm for each change of food?",
+      "options": [
+        "They did not want to rely on memory alone",
+        "The hall oven had to be booked again",
+        "A child had asked them to hide the cake",
+        "The pastries needed to stay hot all day"
+      ],
+      "correctAnswer": "They did not want to rely on memory alone",
+      "explanation": "They set a phone alarm for each change so nobody would trust memory alone.",
+      "supportingSentence": "They set a phone alarm for each change so nobody would trust memory alone.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why was the rice cake only slightly sweet?",
+      "options": [
+        "It was meant to follow salty food, not to outdo the buns",
+        "The families had no sweet ingredients left",
+        "Mina had left it in a cold oven",
+        "A child had asked for it to taste like jam"
+      ],
+      "correctAnswer": "It was meant to follow salty food, not to outdo the buns",
+      "explanation": "Mina said the cake was meant to follow the salty pastries and not compete with the buns.",
+      "supportingSentence": "Mina said it was meant to follow the salty pastries, not to compete with the buns.",
+      "skill": "inference"
+    },
+    {
+      "question": "How can you tell the families got the sharing they wanted?",
+      "options": [
+        "People took a little food from each dish",
+        "One child ate only the jam buns",
+        "The hall oven booking was cancelled",
+        "The name cards were taken off the table"
+      ],
+      "correctAnswer": "People took a little food from each dish",
+      "explanation": "People took a little of each, which was the sharing the families had wanted.",
+      "supportingSentence": "People took a little of each, which was the sharing the families had wanted.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does savoury mean in this story?",
+      "options": [
+        "Salty or spiced rather than sweet",
+        "Baked for a very long time",
+        "Written on a paper label",
+        "Shared among three families"
+      ],
+      "correctAnswer": "Salty or spiced rather than sweet",
+      "explanation": "The savoury pastries are the salty ones the cake was meant to follow, so they are not a sweet food.",
+      "supportingSentence": "Aunt Rosa brought savoury pastries from her coastal hometown, and the Nguyen family brought a rice cake that needed a low, gentle heat.",
+      "skill": "vocabulary"
+    }
+  ]
+}

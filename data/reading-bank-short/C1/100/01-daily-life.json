@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "daily life",
+  "target": 100,
+  "title": "A Code Instead of a Spare Key",
+  "story": "When the committee retired the old lockbox, Nia refused to leave a spare key with the porter. She trusted him, yet a key several people could reach was no longer private. Her sister, who watered the plants on trips, needed entry without a copy she might lose. Nia chose a timed code for the new lock, changed it after each absence, and wrote the digits in a notebook her sister kept at home. The porter could accept a parcel, but he could not open the door. Neighbours called the arrangement fussy. Nia called it a way to help her family without letting more people enter while she slept.",
+  "vocabulary": [
+    {
+      "word": "lockbox",
+      "definition": "A shared box that used to hold spare keys"
+    },
+    {
+      "word": "private",
+      "definition": "Limited to the people who are meant to have it"
+    },
+    {
+      "word": "absence",
+      "definition": "A time when someone is away"
+    },
+    {
+      "word": "parcel",
+      "definition": "A package delivered for someone"
+    },
+    {
+      "word": "fussy",
+      "definition": "Too particular about small details"
+    },
+    {
+      "word": "arrangement",
+      "definition": "A way of organising something"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did Nia refuse to leave with the porter?",
+      "options": [
+        "A spare key",
+        "Her sister's notebook",
+        "A parcel from upstairs",
+        "The retired lockbox"
+      ],
+      "correctAnswer": "A spare key",
+      "explanation": "She refused to leave a spare key with the porter.",
+      "supportingSentence": "When the committee retired the old lockbox, Nia refused to leave a spare key with the porter.",
+      "skill": "detail"
+    },
+    {
+      "question": "Where were the digits for the lock written down?",
+      "options": [
+        "In a notebook her sister kept at home",
+        "On a card inside the old lockbox",
+        "In a message sent to the porter",
+        "On the outside of a parcel"
+      ],
+      "correctAnswer": "In a notebook her sister kept at home",
+      "explanation": "Nia wrote the digits in a notebook her sister kept at home.",
+      "supportingSentence": "Nia chose a timed code for the new lock, changed it after each absence, and wrote the digits in a notebook her sister kept at home.",
+      "skill": "detail"
+    },
+    {
+      "question": "What is Nia limiting if she still trusts the porter?",
+      "options": [
+        "How many people can enter the flat",
+        "Whether her sister is willing to travel",
+        "How often the committee meets",
+        "Which plants need water on trips"
+      ],
+      "correctAnswer": "How many people can enter the flat",
+      "explanation": "She objects to a key that several people could reach, even though she trusts the porter.",
+      "supportingSentence": "She trusted him, yet a key several people could reach was no longer private.",
+      "skill": "inference"
+    },
+    {
+      "question": "What do the neighbours suggest by calling the arrangement fussy?",
+      "options": [
+        "That it is needlessly particular",
+        "That it breaks the fire rules",
+        "That it costs more than the old lock",
+        "That it leaves the plants dry"
+      ],
+      "correctAnswer": "That it is needlessly particular",
+      "explanation": "Fussy means they find the arrangement too particular.",
+      "supportingSentence": "Neighbours called the arrangement fussy.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the passage close with Nia's own description?",
+      "options": [
+        "To set her purpose against the neighbours' complaint",
+        "To announce that the porter chose the code",
+        "To admit that her sister lost the notebook",
+        "To explain how a parcel is weighed"
+      ],
+      "correctAnswer": "To set her purpose against the neighbours' complaint",
+      "explanation": "Her description answers the charge of fussiness with the reason she chose the code.",
+      "supportingSentence": "Nia called it a way to help her family without letting more people enter while she slept.",
+      "skill": "intent"
+    }
+  ]
+}

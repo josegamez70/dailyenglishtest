@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "hobbies",
+  "target": 60,
+  "title": "Pitch after Sunset",
+  "story": "Before the amateur ensemble recorded, Karim retuned the piano twice because the hall cooled after sunset and the pitch dropped. The conductor wanted one take, so the players sat in silence while Karim worked. He finished with three minutes spare and warned that a long pause would let the strings drift. They recorded without stopping. The recording was imperfect, but the drift he feared never arrived.",
+  "vocabulary": [
+    {
+      "word": "ensemble",
+      "definition": "A small group of musicians playing together"
+    },
+    {
+      "word": "retuned",
+      "definition": "Adjusted the notes again so they sounded right"
+    },
+    {
+      "word": "pitch",
+      "definition": "How high or low a note sounds"
+    },
+    {
+      "word": "take",
+      "definition": "One continuous attempt at a recording"
+    },
+    {
+      "word": "drift",
+      "definition": "A slow unwanted change in the notes"
+    },
+    {
+      "word": "imperfect",
+      "definition": "Not fully correct, with some faults"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Why did the piano need to be retuned?",
+      "options": [
+        "The hall cooled and the pitch dropped",
+        "The conductor disliked the ensemble",
+        "The players arrived after the recording",
+        "The recording was already imperfect"
+      ],
+      "correctAnswer": "The hall cooled and the pitch dropped",
+      "explanation": "Karim retuned the piano because the hall cooled after sunset and the pitch dropped.",
+      "supportingSentence": "Before the amateur ensemble recorded, Karim retuned the piano twice because the hall cooled after sunset and the pitch dropped.",
+      "skill": "detail"
+    },
+    {
+      "question": "How much spare time remained when the tuning finished?",
+      "options": [
+        "Three minutes",
+        "Until sunset",
+        "One full take",
+        "A long pause"
+      ],
+      "correctAnswer": "Three minutes",
+      "explanation": "He finished with three minutes spare.",
+      "supportingSentence": "He finished with three minutes spare and warned that a long pause would let the strings drift.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the ending show about Karim’s warning?",
+      "options": [
+        "The pitch problem he predicted did not happen",
+        "The recording failed because the strings drifted",
+        "The ensemble paused and tuned again midway",
+        "The piano was rebuilt during the take"
+      ],
+      "correctAnswer": "The pitch problem he predicted did not happen",
+      "explanation": "The drift he feared never arrived, even though the recording was imperfect.",
+      "supportingSentence": "The recording was imperfect, but the drift he feared never arrived.",
+      "skill": "inference"
+    },
+    {
+      "question": "What is a take in this passage?",
+      "options": [
+        "One continuous attempt at the recording",
+        "A spare minute between pieces",
+        "A tool for tightening strings",
+        "A seat reserved for the conductor"
+      ],
+      "correctAnswer": "One continuous attempt at the recording",
+      "explanation": "The conductor wanted one take, meaning a single uninterrupted recording.",
+      "supportingSentence": "The conductor wanted one take, so the players sat in silence while Karim worked.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer mention the cooling hall?",
+      "options": [
+        "To explain why the pitch had fallen",
+        "To show the concert was held outdoors",
+        "To prove the conductor arrived after dark",
+        "To argue that amateur groups should avoid pianos"
+      ],
+      "correctAnswer": "To explain why the pitch had fallen",
+      "explanation": "The cooling hall is given as the reason the pitch dropped and the piano needed retuning.",
+      "supportingSentence": "Before the amateur ensemble recorded, Karim retuned the piano twice because the hall cooled after sunset and the pitch dropped.",
+      "skill": "intent"
+    }
+  ]
+}

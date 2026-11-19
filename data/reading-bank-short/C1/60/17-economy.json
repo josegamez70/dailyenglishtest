@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "economy_finance",
+  "target": 60,
+  "title": "A Price for Hurry",
+  "story": "The workshop priced rush jobs at the ordinary rate, then wondered why the evenings vanished. Celia added a surcharge for work promised inside two days and showed it before anyone agreed. Two clients left. Those who stayed either waited or paid for the hurry. Income per hour rose, and the quiet weeks returned. A price that hides urgency teaches people that speed is free.",
+  "vocabulary": [
+    {
+      "word": "priced",
+      "definition": "Set the amount customers would pay"
+    },
+    {
+      "word": "surcharge",
+      "definition": "An extra charge added for a special demand"
+    },
+    {
+      "word": "vanished",
+      "definition": "Disappeared"
+    },
+    {
+      "word": "hurry",
+      "definition": "Work that has to be done very quickly"
+    },
+    {
+      "word": "income",
+      "definition": "Money coming in"
+    },
+    {
+      "word": "urgency",
+      "definition": "The need for something to be done at once"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Which jobs attracted the new surcharge?",
+      "options": [
+        "Work promised inside two days",
+        "Every ordinary job in the workshop",
+        "Only the clients who left",
+        "Quiet weeks with no hurry"
+      ],
+      "correctAnswer": "Work promised inside two days",
+      "explanation": "Celia added a surcharge for work promised inside two days.",
+      "supportingSentence": "Celia added a surcharge for work promised inside two days and showed it before anyone agreed.",
+      "skill": "detail"
+    },
+    {
+      "question": "What could the clients who stayed do?",
+      "options": [
+        "Wait, or pay for the hurry",
+        "Leave without paying the ordinary rate",
+        "Hide the urgency and keep the old price",
+        "Set the workshop’s income themselves"
+      ],
+      "correctAnswer": "Wait, or pay for the hurry",
+      "explanation": "Those who stayed either waited or paid for the hurry.",
+      "supportingSentence": "Those who stayed either waited or paid for the hurry.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the choice given to remaining clients suggest?",
+      "options": [
+        "Hurry was now optional and no longer bundled into the normal price",
+        "Everyone had to pay extra even if they waited",
+        "The ordinary rate had been abolished for all work",
+        "Quiet weeks were sold as a separate product"
+      ],
+      "correctAnswer": "Hurry was now optional and no longer bundled into the normal price",
+      "explanation": "They could wait or pay for speed, so hurry had become a priced choice rather than part of the ordinary rate.",
+      "supportingSentence": "Those who stayed either waited or paid for the hurry.",
+      "skill": "inference"
+    },
+    {
+      "question": "What is a surcharge in this passage?",
+      "options": [
+        "An extra charge added for a special demand",
+        "A client who leaves the workshop",
+        "A quiet week with no orders",
+        "The ordinary rate for a normal job"
+      ],
+      "correctAnswer": "An extra charge added for a special demand",
+      "explanation": "The surcharge is the extra amount for work promised inside two days.",
+      "supportingSentence": "Celia added a surcharge for work promised inside two days and showed it before anyone agreed.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer say Celia showed the surcharge before anyone agreed?",
+      "options": [
+        "To show clients could accept or refuse the cost in advance",
+        "To prove the price was hidden until the work ended",
+        "To suggest two days was too long to wait",
+        "To argue that income per hour should fall"
+      ],
+      "correctAnswer": "To show clients could accept or refuse the cost in advance",
+      "explanation": "Showing the charge before agreement means the cost was known before anyone said yes.",
+      "supportingSentence": "Celia added a surcharge for work promised inside two days and showed it before anyone agreed.",
+      "skill": "intent"
+    }
+  ]
+}

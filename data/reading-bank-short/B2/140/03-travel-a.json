@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "travel",
+  "target": 140,
+  "title": "Soup on the Later Platform",
+  "story": "Rafi reached the harbour station with his ticket in his coat and a few minutes to spare. The board then showed that his train had been cancelled because of a fault on the line. A clerk said the next direct service would leave from another platform in nearly two hours. He stayed inside in case the board changed, bought a cheap bowl of soup, and kept his paper map ready. While he waited, he checked that the guesthouse would still hold his room if he arrived after dark. The owner replied that a coded box by the door would hold the key, and that the street was quiet but well lit. Rafi sent his sister the new time so she would not worry. When the later train came, he boarded with an empty cup and the map folded the right way up. The delay had cost him daylight, but he was still going.",
+  "vocabulary": [
+    {
+      "word": "cancelled",
+      "definition": "Stopped from happening as planned."
+    },
+    {
+      "word": "fault",
+      "definition": "A problem that stops something working."
+    },
+    {
+      "word": "platform",
+      "definition": "The area in a station where people board a train."
+    },
+    {
+      "word": "guesthouse",
+      "definition": "A small place where travellers pay to sleep."
+    },
+    {
+      "word": "delay",
+      "definition": "Time lost when something happens later than planned."
+    },
+    {
+      "word": "boarded",
+      "definition": "Got onto a train or other vehicle."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Why did Rafi's first train not leave?",
+      "options": [
+        "It was cancelled because of a problem on the line",
+        "The guesthouse had closed before dark",
+        "He had left his ticket at home",
+        "The soup stall was blocking the doors"
+      ],
+      "correctAnswer": "It was cancelled because of a problem on the line",
+      "explanation": "The board showed that his train had been cancelled because of a fault on the line.",
+      "supportingSentence": "The board then showed that his train had been cancelled because of a fault on the line.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did the clerk tell him about the next direct train?",
+      "options": [
+        "It would leave from another platform in nearly two hours",
+        "It had already gone with his map on board",
+        "It would stop at the guesthouse door",
+        "It was cancelled until the next morning"
+      ],
+      "correctAnswer": "It would leave from another platform in nearly two hours",
+      "explanation": "The clerk said the next direct service would leave from another platform in nearly two hours.",
+      "supportingSentence": "A clerk said the next direct service would leave from another platform in nearly two hours.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did Rafi stay inside the station?",
+      "options": [
+        "He did not want to miss a further change on the board",
+        "He had already boarded the cancelled train",
+        "The coded box was kept in the station cafe",
+        "His sister was bringing him a second ticket"
+      ],
+      "correctAnswer": "He did not want to miss a further change on the board",
+      "explanation": "He stayed inside in case the board changed, so he would see any new information.",
+      "supportingSentence": "He stayed inside in case the board changed, bought a cheap bowl of soup, and kept his paper map ready.",
+      "skill": "inference"
+    },
+    {
+      "question": "What was the result of the wait for his trip?",
+      "options": [
+        "He lost some daylight, but he continued the journey",
+        "He gave up and went home for the week",
+        "The guesthouse cancelled the room at once",
+        "He had to walk the whole way along the tracks"
+      ],
+      "correctAnswer": "He lost some daylight, but he continued the journey",
+      "explanation": "The delay cost him daylight, but he was still going, so the trip continued.",
+      "supportingSentence": "The delay had cost him daylight, but he was still going.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does fault mean in this story?",
+      "options": [
+        "A problem that stopped the line from working",
+        "The price of a bowl of soup",
+        "A box with a code for a room key",
+        "A paper map folded for a walk"
+      ],
+      "correctAnswer": "A problem that stopped the line from working",
+      "explanation": "The train was cancelled because of a fault on the line, meaning something was wrong with the line.",
+      "supportingSentence": "The board then showed that his train had been cancelled because of a fault on the line.",
+      "skill": "vocabulary"
+    }
+  ]
+}

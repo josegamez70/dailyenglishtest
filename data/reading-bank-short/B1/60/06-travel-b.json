@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "travel",
+  "target": 60,
+  "title": "A Bed by the Window",
+  "story": "Jonah reached the guesthouse after dark. The owner gave him a key and pointed upstairs. His bed was the lower bunk beside the window. He put his backpack under the bed and filled a bottle in the hall. Another guest was asleep, so Jonah kept his voice low. In the morning he asked about the bus to town. The owner wrote the times on a card.",
+  "vocabulary": [
+    {
+      "word": "guesthouse",
+      "definition": "A small place where travellers can stay."
+    },
+    {
+      "word": "bunk",
+      "definition": "A bed that is part of a stacked pair."
+    },
+    {
+      "word": "backpack",
+      "definition": "A bag worn on the back."
+    },
+    {
+      "word": "guest",
+      "definition": "A person staying at a place."
+    },
+    {
+      "word": "voice",
+      "definition": "The sound a person makes when speaking."
+    },
+    {
+      "word": "times",
+      "definition": "The hours when something happens."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "When did Jonah reach the guesthouse?",
+      "options": [
+        "After dark",
+        "At noon",
+        "Before sunrise",
+        "During lunch"
+      ],
+      "correctAnswer": "After dark",
+      "explanation": "Jonah reached the guesthouse after dark.",
+      "supportingSentence": "Jonah reached the guesthouse after dark.",
+      "skill": "detail"
+    },
+    {
+      "question": "Which bed was Jonah's?",
+      "options": [
+        "The lower bunk beside the window",
+        "A top bunk by the door",
+        "A sofa in the hall",
+        "A seat on the bus"
+      ],
+      "correctAnswer": "The lower bunk beside the window",
+      "explanation": "His bed was the lower bunk beside the window.",
+      "supportingSentence": "His bed was the lower bunk beside the window.",
+      "skill": "detail"
+    },
+    {
+      "question": "Where did Jonah put his backpack?",
+      "options": [
+        "Under the bed",
+        "On the window ledge",
+        "In the owner's office",
+        "Beside the sleeping guest"
+      ],
+      "correctAnswer": "Under the bed",
+      "explanation": "He put his backpack under the bed.",
+      "supportingSentence": "He put his backpack under the bed and filled a bottle in the hall.",
+      "skill": "detail"
+    },
+    {
+      "question": "What is a bunk in this story?",
+      "options": [
+        "A bed in a stacked pair",
+        "A key for a room",
+        "A bus into town",
+        "A card with written hours"
+      ],
+      "correctAnswer": "A bed in a stacked pair",
+      "explanation": "The lower bunk is the bottom bed of a stacked pair.",
+      "supportingSentence": "His bed was the lower bunk beside the window.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What did Jonah ask about in the morning?",
+      "options": [
+        "The bus to town",
+        "A second room key",
+        "The other guest's name",
+        "A new backpack"
+      ],
+      "correctAnswer": "The bus to town",
+      "explanation": "In the morning he asked about the bus to town.",
+      "supportingSentence": "In the morning he asked about the bus to town.",
+      "skill": "detail"
+    }
+  ]
+}

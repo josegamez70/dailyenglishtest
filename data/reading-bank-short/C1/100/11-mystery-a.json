@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "mystery",
+  "target": 100,
+  "title": "Prints That Stopped at the Cupboard",
+  "story": "The reading room closed clean, yet by dawn mud marked the service stairs and a folio was gone from its shelf. The night guard insisted the main door had stayed shut. Leah believed that, then studied the prints rather than the lock. They were small, dry at the edges, and they ended at the cupboard where cloths were kept. One cloth was missing, and the folio lay under a trolley, wrapped as if someone had started to wipe the shelf and been startled. Nothing had left the building. Hurry, not a plan to steal, had arranged the scene, so the guard's account and the gap could both be true.",
+  "vocabulary": [
+    {
+      "word": "folio",
+      "definition": "A volume that had stood on the shelf"
+    },
+    {
+      "word": "prints",
+      "definition": "Marks left by shoes"
+    },
+    {
+      "word": "cupboard",
+      "definition": "A cabinet where cleaning cloths were stored"
+    },
+    {
+      "word": "trolley",
+      "definition": "A wheeled cart in the reading room"
+    },
+    {
+      "word": "startled",
+      "definition": "Suddenly frightened into stopping"
+    },
+    {
+      "word": "guard",
+      "definition": "The person on duty at the door overnight"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where did the muddy prints come to an end?",
+      "options": [
+        "At the cupboard where cloths were kept",
+        "At the main door the guard watched",
+        "On the shelf the folio had left",
+        "In the street beyond the hall"
+      ],
+      "correctAnswer": "At the cupboard where cloths were kept",
+      "explanation": "The prints ended at the cupboard where cloths were kept.",
+      "supportingSentence": "They were small, dry at the edges, and they ended at the cupboard where cloths were kept.",
+      "skill": "detail"
+    },
+    {
+      "question": "Where did the missing volume turn up?",
+      "options": [
+        "Under a trolley, wrapped as if for wiping",
+        "In the guard's coat pocket",
+        "On the steps outside the main door",
+        "Inside a case that was still locked"
+      ],
+      "correctAnswer": "Under a trolley, wrapped as if for wiping",
+      "explanation": "The folio lay under a trolley, wrapped as if someone had started to wipe the shelf.",
+      "supportingSentence": "One cloth was missing, and the folio lay under a trolley, wrapped as if someone had started to wipe the shelf and been startled.",
+      "skill": "detail"
+    },
+    {
+      "question": "How can the guard be right while the shelf was empty at dawn?",
+      "options": [
+        "The book never left, so the main door need not have opened",
+        "The prints had been painted on the stairs",
+        "The guard carried the volume home",
+        "The building has no service stairs"
+      ],
+      "correctAnswer": "The book never left, so the main door need not have opened",
+      "explanation": "Nothing left the building, so a shut main door can sit beside an empty shelf.",
+      "supportingSentence": "Nothing had left the building.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does folio refer to in this room?",
+      "options": [
+        "The volume that had stood on the shelf",
+        "The guard's written night report",
+        "A cloth used on the stairs",
+        "The lock on the main door"
+      ],
+      "correctAnswer": "The volume that had stood on the shelf",
+      "explanation": "The folio is the volume that was gone from its shelf and later found under the trolley.",
+      "supportingSentence": "The reading room closed clean, yet by dawn mud marked the service stairs and a folio was gone from its shelf.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why emphasise that the prints stopped at the cupboard?",
+      "options": [
+        "To point toward interrupted cleaning rather than a theft",
+        "To prove the guard left the main door open",
+        "To show the mud came from the volume itself",
+        "To suggest the stairs had just been painted"
+      ],
+      "correctAnswer": "To point toward interrupted cleaning rather than a theft",
+      "explanation": "Ending the prints at the cloth cupboard steers the reader away from a thief heading out.",
+      "supportingSentence": "They were small, dry at the edges, and they ended at the cupboard where cloths were kept.",
+      "skill": "intent"
+    }
+  ]
+}

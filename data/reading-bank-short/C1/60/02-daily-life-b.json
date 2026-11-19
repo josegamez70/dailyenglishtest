@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "daily life",
+  "target": 60,
+  "title": "Cold Rooms and a Late Boost",
+  "story": "The shared boiler ran until midnight because nobody wanted to be the person who cut it. After the quarterly bill, Denis proposed an earlier cutoff and a manual boost for late shifts. Two nurses objected until he showed the boost would cover their return. The timer changed, and the next bill fell. Their objection had been about coming home to cold rooms, not about defending waste.",
+  "vocabulary": [
+    {
+      "word": "boiler",
+      "definition": "The heater that supplied the building with hot water or heat"
+    },
+    {
+      "word": "quarterly",
+      "definition": "Happening every three months"
+    },
+    {
+      "word": "cutoff",
+      "definition": "The time when a system is switched off"
+    },
+    {
+      "word": "boost",
+      "definition": "An extra period of heat turned on by hand"
+    },
+    {
+      "word": "objected",
+      "definition": "Said they were against the plan"
+    },
+    {
+      "word": "waste",
+      "definition": "Using something carelessly when it is not needed"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What extra heat did Denis offer to people on late shifts?",
+      "options": [
+        "A manual boost to cover their return",
+        "A boiler that ran without any timer",
+        "A lower bill and no heat at all",
+        "Cold rooms as a lesson in saving"
+      ],
+      "correctAnswer": "A manual boost to cover their return",
+      "explanation": "He proposed a manual boost for late shifts and showed it would cover their return.",
+      "supportingSentence": "After the quarterly bill, Denis proposed an earlier cutoff and a manual boost for late shifts.",
+      "skill": "detail"
+    },
+    {
+      "question": "What happened to the bill after the timer changed?",
+      "options": [
+        "The next bill fell",
+        "The next bill doubled",
+        "The bill was cancelled outright",
+        "The bill stayed high until midnight"
+      ],
+      "correctAnswer": "The next bill fell",
+      "explanation": "Once the timer changed, the following bill fell.",
+      "supportingSentence": "The timer changed, and the next bill fell.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the ending reveal about the nurses?",
+      "options": [
+        "They wanted heat on return, not waste for its own sake",
+        "They hoped the quarterly bill would rise",
+        "They refused every kind of manual control",
+        "They preferred midnight cold to any boost"
+      ],
+      "correctAnswer": "They wanted heat on return, not waste for its own sake",
+      "explanation": "Their objection was about coming home to cold rooms, so they were not trying to protect waste.",
+      "supportingSentence": "Their objection had been about coming home to cold rooms, not about defending waste.",
+      "skill": "inference"
+    },
+    {
+      "question": "What is a boost in this passage?",
+      "options": [
+        "Extra heat that can be turned on by hand",
+        "A cut that leaves the boiler off all night",
+        "A bill that arrives every three months",
+        "A complaint about a cold flat"
+      ],
+      "correctAnswer": "Extra heat that can be turned on by hand",
+      "explanation": "The manual boost is the extra heat Denis offered for people finishing late.",
+      "supportingSentence": "After the quarterly bill, Denis proposed an earlier cutoff and a manual boost for late shifts.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer mention the quarterly bill?",
+      "options": [
+        "To show what pushed Denis to change the timer",
+        "To prove the nurses owned the boiler",
+        "To suggest midnight was the cheapest hour",
+        "To argue that late shifts should be abolished"
+      ],
+      "correctAnswer": "To show what pushed Denis to change the timer",
+      "explanation": "The proposal comes immediately after the quarterly bill, so the bill is the prompt.",
+      "supportingSentence": "After the quarterly bill, Denis proposed an earlier cutoff and a manual boost for late shifts.",
+      "skill": "intent"
+    }
+  ]
+}

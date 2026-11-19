@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "science",
+  "target": 140,
+  "title": "Nets Down before the Squall",
+  "story": "The ringing team opened the nets at dawn, and the catch stayed steady until the wind turned. Hale felt the ropes thrum as a dark cloud crossed the marsh. Protocol said nets come down when wind could harm a bird or tangle a wing beyond a quick release. Esme wanted ten more minutes so the total would not sit below the figure she hoped to log. Hale refused. An impressive total was not a reason to stretch a rule written for the birds' sake. They closed the nets and released every bird already caught before the hard drops began. Esme then asked to estimate the birds the lost minutes might have brought. Hale said an estimate presented as a count would invent data. The log would record the closing time and the reason, and the morning would stand at the number actually handled. Incomplete, he told her, was an honest result.",
+  "vocabulary": [
+    {
+      "word": "thrum",
+      "definition": "Vibrate with a low continuous sound."
+    },
+    {
+      "word": "protocol",
+      "definition": "An agreed set of rules for a procedure."
+    },
+    {
+      "word": "tangle",
+      "definition": "Twist together so that freeing something is hard."
+    },
+    {
+      "word": "estimate",
+      "definition": "A figure based on guesswork rather than a full count."
+    },
+    {
+      "word": "invent",
+      "definition": "Make up something that was not observed."
+    },
+    {
+      "word": "incomplete",
+      "definition": "Not whole, because something is missing."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "When did the ringing team open the nets?",
+      "options": [
+        "At dawn",
+        "At noon",
+        "After the hard rain",
+        "On a night with no wind"
+      ],
+      "correctAnswer": "At dawn",
+      "explanation": "The team opened the nets at dawn along the reed bed.",
+      "supportingSentence": "The ringing team opened the nets at dawn, and the catch stayed steady until the wind turned.",
+      "skill": "detail"
+    },
+    {
+      "question": "What two facts would the log record about stopping early?",
+      "options": [
+        "The closing time and the reason",
+        "A guessed total for the lost minutes",
+        "The name of every cloud over the marsh",
+        "The figure Esme had hoped to reach"
+      ],
+      "correctAnswer": "The closing time and the reason",
+      "explanation": "The log would record the closing time and the reason, and keep the number actually handled.",
+      "supportingSentence": "The log would record the closing time and the reason, and the morning would stand at the number actually handled.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does Hale treat as more important than a larger morning total?",
+      "options": [
+        "The welfare of the birds the rule was written to protect",
+        "Ringing extra birds once the heavy rain starts",
+        "Beating a team working on the next marsh",
+        "Letting Esme replace the written rules herself"
+      ],
+      "correctAnswer": "The welfare of the birds the rule was written to protect",
+      "explanation": "An impressive total is not a reason to stretch a rule written for the birds' sake.",
+      "supportingSentence": "An impressive total was not a reason to stretch a rule written for the birds' sake.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does estimate mean when Esme talks about the lost minutes?",
+      "options": [
+        "A guessed number for birds they never handled",
+        "A metal ring placed on a bird's leg",
+        "A rope that holds a net against the wind",
+        "A dark cloud crossing the reed bed"
+      ],
+      "correctAnswer": "A guessed number for birds they never handled",
+      "explanation": "She wants to estimate birds the lost minutes might have brought, which would be a guess rather than a count.",
+      "supportingSentence": "Esme then asked to estimate the birds the lost minutes might have brought.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer mention the ropes beginning to thrum?",
+      "options": [
+        "To show the wind was rising enough to take seriously",
+        "To prove the nets were built entirely of metal",
+        "To show that Esme had cut the ropes",
+        "To explain why the dawn catch had been empty"
+      ],
+      "correctAnswer": "To show the wind was rising enough to take seriously",
+      "explanation": "Hale feels the ropes thrum as cloud crosses the marsh, which signals the wind the protocol is about.",
+      "supportingSentence": "Hale felt the ropes thrum as a dark cloud crossed the marsh.",
+      "skill": "intent"
+    }
+  ]
+}

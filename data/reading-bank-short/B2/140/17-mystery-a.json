@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "mystery",
+  "target": 140,
+  "title": "A Card in the Strap",
+  "story": "The cafe by the station kept a box of forgotten belongings under the counter. One wet Monday a navy umbrella was still there after closing, with a library card tucked into the strap. The name on the card was worn, but the member number could still be read. Rina could have dropped the umbrella into the box and gone home. Instead she rang the library before it shut. A librarian said the number belonged to a reader who had reported a missing umbrella that afternoon. Rina carried it over on her way to the bus, because the rain was still heavy. At the desk she asked for the number to be checked again before anyone gave the umbrella away. The reader arrived as the lights dimmed, recognised a small tear in the fabric, and thanked them. The card had made a quick return possible while the rain was still falling.",
+  "vocabulary": [
+    {
+      "word": "forgotten",
+      "definition": "Left behind by mistake."
+    },
+    {
+      "word": "strap",
+      "definition": "A band that fastens or holds something."
+    },
+    {
+      "word": "librarian",
+      "definition": "A person who works in a library."
+    },
+    {
+      "word": "dimmed",
+      "definition": "Grew less bright."
+    },
+    {
+      "word": "fabric",
+      "definition": "Cloth."
+    },
+    {
+      "word": "recognised",
+      "definition": "Knew something from a sign you had seen before."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What was found with the umbrella after closing?",
+      "options": [
+        "A library card tucked into the strap",
+        "A bus ticket from the morning train",
+        "The cafe key under the counter",
+        "A torn page from the lost box"
+      ],
+      "correctAnswer": "A library card tucked into the strap",
+      "explanation": "A library card was tucked into the strap of the navy umbrella.",
+      "supportingSentence": "One wet Monday a navy umbrella was still there after closing, with a library card tucked into the strap.",
+      "skill": "detail"
+    },
+    {
+      "question": "Which part of the card could still be read?",
+      "options": [
+        "The member number",
+        "The owner's full name",
+        "The cafe address",
+        "The colour of the cloth"
+      ],
+      "correctAnswer": "The member number",
+      "explanation": "The name was worn, but the member number could still be read.",
+      "supportingSentence": "The name on the card was worn, but the member number could still be read.",
+      "skill": "detail"
+    },
+    {
+      "question": "What easier choice did Rina turn down?",
+      "options": [
+        "Putting the umbrella in the lost box and going home",
+        "Walking through the rain to the library",
+        "Asking a reader to point out a tear",
+        "Closing the cafe before the card was seen"
+      ],
+      "correctAnswer": "Putting the umbrella in the lost box and going home",
+      "explanation": "She could have dropped the umbrella into the box and gone home, but she chose not to.",
+      "supportingSentence": "Rina could have dropped the umbrella into the box and gone home.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does the ending show about the library card?",
+      "options": [
+        "It helped get the umbrella back quickly while it was still raining",
+        "It proved that the umbrella belonged to the cafe",
+        "It was too worn for any number to be used",
+        "It stopped the reader from saying thank you"
+      ],
+      "correctAnswer": "It helped get the umbrella back quickly while it was still raining",
+      "explanation": "The card made a quick return possible while the rain was still falling.",
+      "supportingSentence": "The card had made a quick return possible while the rain was still falling.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does recognised mean in this story?",
+      "options": [
+        "Knew the object from a mark seen before",
+        "Read a number that had worn away",
+        "Turned the library lights down",
+        "Carried a box of lost belongings"
+      ],
+      "correctAnswer": "Knew the object from a mark seen before",
+      "explanation": "The reader recognised a small tear in the fabric, meaning she knew the umbrella by that mark.",
+      "supportingSentence": "The reader arrived as the lights dimmed, recognised a small tear in the fabric, and thanked them.",
+      "skill": "vocabulary"
+    }
+  ]
+}

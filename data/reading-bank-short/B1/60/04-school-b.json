@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "school_college",
+  "target": 60,
+  "title": "Finishing the Class Poster",
+  "story": "The class had to finish a poster before the bell. Amir drew the map, and Noor wrote the labels. Their glue was dry, so the corners would not stay down. Noor borrowed a new stick from the art room. They pressed each corner and checked the spelling. The teacher smiled and hung the poster by the door. They sat down just as the bell rang.",
+  "vocabulary": [
+    {
+      "word": "poster",
+      "definition": "A large sheet with words or pictures."
+    },
+    {
+      "word": "labels",
+      "definition": "Short words that name parts of a picture."
+    },
+    {
+      "word": "glue",
+      "definition": "A sticky substance used to join things."
+    },
+    {
+      "word": "borrowed",
+      "definition": "Took something for a short time."
+    },
+    {
+      "word": "spelling",
+      "definition": "The correct letters in a word."
+    },
+    {
+      "word": "bell",
+      "definition": "A signal that a school lesson is over."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did the class have to finish before the bell?",
+      "options": [
+        "A poster",
+        "A long test",
+        "A music show",
+        "A sports game"
+      ],
+      "correctAnswer": "A poster",
+      "explanation": "The class had to finish a poster before the bell.",
+      "supportingSentence": "The class had to finish a poster before the bell.",
+      "skill": "detail"
+    },
+    {
+      "question": "What was wrong with their glue?",
+      "options": [
+        "It was dry",
+        "It was too runny",
+        "The teacher had taken it",
+        "It was the wrong colour"
+      ],
+      "correctAnswer": "It was dry",
+      "explanation": "Their glue was dry, so the corners would not stay down.",
+      "supportingSentence": "Their glue was dry, so the corners would not stay down.",
+      "skill": "detail"
+    },
+    {
+      "question": "Where did the teacher hang the poster?",
+      "options": [
+        "By the door",
+        "In the art room",
+        "Under the bell",
+        "On Amir's desk"
+      ],
+      "correctAnswer": "By the door",
+      "explanation": "The teacher hung the poster by the door.",
+      "supportingSentence": "The teacher smiled and hung the poster by the door.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does borrowed mean in this story?",
+      "options": [
+        "Took something to use and give back",
+        "Drew a map on paper",
+        "Checked the letters in a word",
+        "Sat down before the bell"
+      ],
+      "correctAnswer": "Took something to use and give back",
+      "explanation": "Noor borrowed a new stick, which means she took it to use for a short time.",
+      "supportingSentence": "Noor borrowed a new stick from the art room.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What did they check after pressing the corners?",
+      "options": [
+        "The spelling",
+        "The art room clock",
+        "The teacher's coat",
+        "The dry glue stick"
+      ],
+      "correctAnswer": "The spelling",
+      "explanation": "They pressed each corner and checked the spelling.",
+      "supportingSentence": "They pressed each corner and checked the spelling.",
+      "skill": "detail"
+    }
+  ]
+}

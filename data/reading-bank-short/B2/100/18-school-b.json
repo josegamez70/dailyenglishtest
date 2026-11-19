@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "school_college",
+  "target": 100,
+  "title": "Closing the Notebook",
+  "story": "Every Thursday the college ran a language exchange in the canteen. Denis wanted to practise speaking, but he kept preparing speeches and then reading them. His partner, Hana, asked him to close the notebook and describe his morning instead. The first attempt was full of pauses. Hana waited without filling every gap, which felt strange and then useful. Denis started again and managed a short story about missing the bus. Hana corrected only one verb, then told her own story and asked him to retell it. By the end of the hour he had spoken more than he had written. He left the notebook in his bag the following week.",
+  "vocabulary": [
+    {
+      "word": "exchange",
+      "definition": "A session where people practise a language together."
+    },
+    {
+      "word": "speeches",
+      "definition": "Prepared talks, often written out to be read."
+    },
+    {
+      "word": "pauses",
+      "definition": "Short stops while someone is speaking."
+    },
+    {
+      "word": "retell",
+      "definition": "To tell a story again in your own words."
+    },
+    {
+      "word": "verb",
+      "definition": "A word that names an action."
+    },
+    {
+      "word": "canteen",
+      "definition": "The college place where people eat."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What was Denis doing instead of speaking freely?",
+      "options": [
+        "Preparing speeches and then reading them",
+        "Correcting Hana's verbs for the whole hour",
+        "Leaving his notebook in the canteen",
+        "Retelling Hana's story before she spoke"
+      ],
+      "correctAnswer": "Preparing speeches and then reading them",
+      "explanation": "He wanted to practise speaking, but he kept preparing speeches and then reading them.",
+      "supportingSentence": "Denis wanted to practise speaking, but he kept preparing speeches and then reading them.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does Hana's silence during the pauses suggest?",
+      "options": [
+        "She had forgotten the language they were practising",
+        "She wanted Denis to find the words himself",
+        "She hoped he would open the notebook again",
+        "She refused to listen to his morning"
+      ],
+      "correctAnswer": "She wanted Denis to find the words himself",
+      "explanation": "She waits instead of filling every gap, and that wait becomes useful, so she is giving him room to speak.",
+      "supportingSentence": "Hana waited without filling every gap, which felt strange and then useful.",
+      "skill": "inference"
+    },
+    {
+      "question": "How much of his language did Hana correct?",
+      "options": [
+        "Every verb in both stories",
+        "Nothing at all",
+        "Only one verb",
+        "The whole notebook of speeches"
+      ],
+      "correctAnswer": "Only one verb",
+      "explanation": "Hana corrected only one verb before she told her own story.",
+      "supportingSentence": "Hana corrected only one verb, then told her own story and asked him to retell it.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does leaving the notebook in his bag suggest?",
+      "options": [
+        "He had dropped out of the Thursday exchange",
+        "He wanted Hana to write his speeches",
+        "He planned to read a longer speech next time",
+        "He intended to speak without reading a prepared text"
+      ],
+      "correctAnswer": "He intended to speak without reading a prepared text",
+      "explanation": "After speaking more than he wrote, he leaves the notebook in his bag, so he is choosing speech over a script.",
+      "supportingSentence": "He left the notebook in his bag the following week.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does pauses mean in this story?",
+      "options": [
+        "Short silences while someone is trying to speak",
+        "Prepared speeches kept in a notebook",
+        "Corrections of every verb",
+        "Stories about missing a bus"
+      ],
+      "correctAnswer": "Short silences while someone is trying to speak",
+      "explanation": "The first attempt was full of pauses, meaning short stops while Denis searched for words.",
+      "supportingSentence": "The first attempt was full of pauses.",
+      "skill": "vocabulary"
+    }
+  ]
+}

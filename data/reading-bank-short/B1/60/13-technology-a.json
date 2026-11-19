@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "technology",
+  "target": 60,
+  "title": "A Password on Paper",
+  "story": "Dad's tablet would not open because he forgot the password. A paper copy was in the kitchen drawer. Nina found it, but the last two letters were missing. They tried an old code and then a newer one. The second try worked. Dad changed the password and stored the new code in a locked note on his phone. He thanked Nina and threw the paper away.",
+  "vocabulary": [
+    {
+      "word": "tablet",
+      "definition": "A flat computer you can hold."
+    },
+    {
+      "word": "password",
+      "definition": "A secret word that opens a device."
+    },
+    {
+      "word": "drawer",
+      "definition": "A box that slides out of a piece of furniture."
+    },
+    {
+      "word": "letters",
+      "definition": "The written signs that make words."
+    },
+    {
+      "word": "stored",
+      "definition": "Kept something in a chosen place."
+    },
+    {
+      "word": "locked",
+      "definition": "Closed so that only some people can open it."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Why would the tablet not open?",
+      "options": [
+        "Dad forgot the password",
+        "The drawer was empty",
+        "Nina changed the code",
+        "The phone had no power"
+      ],
+      "correctAnswer": "Dad forgot the password",
+      "explanation": "The tablet would not open because Dad forgot the password.",
+      "supportingSentence": "Dad's tablet would not open because he forgot the password.",
+      "skill": "detail"
+    },
+    {
+      "question": "Where was the paper copy kept?",
+      "options": [
+        "In the kitchen drawer",
+        "On the phone screen",
+        "Inside the tablet case",
+        "Under the missing letters"
+      ],
+      "correctAnswer": "In the kitchen drawer",
+      "explanation": "A paper copy was in the kitchen drawer.",
+      "supportingSentence": "A paper copy was in the kitchen drawer.",
+      "skill": "detail"
+    },
+    {
+      "question": "Which attempt opened the tablet?",
+      "options": [
+        "The second try",
+        "The first try",
+        "Neither try",
+        "A try made at a shop"
+      ],
+      "correctAnswer": "The second try",
+      "explanation": "The second try worked.",
+      "supportingSentence": "The second try worked.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does stored mean in this story?",
+      "options": [
+        "Kept in a chosen place",
+        "Threw into the bin",
+        "Forgot a secret word",
+        "Tore a piece of paper"
+      ],
+      "correctAnswer": "Kept in a chosen place",
+      "explanation": "Dad stored the new code in a locked note, so he kept it there.",
+      "supportingSentence": "Dad changed the password and stored the new code in a locked note on his phone.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Where did Dad keep the new code?",
+      "options": [
+        "In a locked note on his phone",
+        "On the kitchen paper",
+        "In the tablet box",
+        "In Nina's school bag"
+      ],
+      "correctAnswer": "In a locked note on his phone",
+      "explanation": "He stored the new code in a locked note on his phone.",
+      "supportingSentence": "Dad changed the password and stored the new code in a locked note on his phone.",
+      "skill": "detail"
+    }
+  ]
+}

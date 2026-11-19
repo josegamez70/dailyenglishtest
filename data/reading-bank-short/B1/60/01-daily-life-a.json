@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "daily life",
+  "target": 60,
+  "title": "Keys on the Hook",
+  "story": "Every evening Nora hangs her keys on the hook by the door. Last night she left them in her coat pocket. In the morning she searched the table, the sofa, and her bag. Her sister found the keys and held them up. Nora thanked her and put the keys on the hook. She set a note on the door so she would remember tomorrow.",
+  "vocabulary": [
+    {
+      "word": "hook",
+      "definition": "A curved holder for hanging keys."
+    },
+    {
+      "word": "pocket",
+      "definition": "A small bag sewn into clothing."
+    },
+    {
+      "word": "searched",
+      "definition": "Looked carefully in several places."
+    },
+    {
+      "word": "sofa",
+      "definition": "A long soft seat for two or more people."
+    },
+    {
+      "word": "thanked",
+      "definition": "Told someone you are grateful."
+    },
+    {
+      "word": "remember",
+      "definition": "To keep something in your mind."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where does Nora usually hang her keys?",
+      "options": [
+        "On the hook by the door",
+        "In her coat pocket",
+        "On the kitchen sofa",
+        "Inside her sister's bag"
+      ],
+      "correctAnswer": "On the hook by the door",
+      "explanation": "She hangs them on the hook by the door every evening.",
+      "supportingSentence": "Every evening Nora hangs her keys on the hook by the door.",
+      "skill": "detail"
+    },
+    {
+      "question": "Where had the keys been during the night?",
+      "options": [
+        "In her coat pocket",
+        "On the hook by the door",
+        "Under the note",
+        "In her sister's hand"
+      ],
+      "correctAnswer": "In her coat pocket",
+      "explanation": "Last night she left the keys in her coat pocket.",
+      "supportingSentence": "Last night she left them in her coat pocket.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Nora do after she thanked her sister?",
+      "options": [
+        "She put the keys on the hook",
+        "She left the keys in the coat",
+        "She gave the keys away",
+        "She hid the keys in her bag"
+      ],
+      "correctAnswer": "She put the keys on the hook",
+      "explanation": "After thanking her sister, Nora put the keys on the hook.",
+      "supportingSentence": "Nora thanked her and put the keys on the hook.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does searched mean in this story?",
+      "options": [
+        "Looked carefully for something",
+        "Hung an object on a wall",
+        "Wrote a short reminder",
+        "Made a hot drink"
+      ],
+      "correctAnswer": "Looked carefully for something",
+      "explanation": "Nora searched the table, the sofa, and her bag because she was looking for the keys.",
+      "supportingSentence": "In the morning she searched the table, the sofa, and her bag.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Nora set a note on the door?",
+      "options": [
+        "She wanted a reminder for the next day",
+        "Her sister could not reach the hook",
+        "The sofa was blocking the door",
+        "The keys were still missing"
+      ],
+      "correctAnswer": "She wanted a reminder for the next day",
+      "explanation": "She set the note so she would remember tomorrow.",
+      "supportingSentence": "She set a note on the door so she would remember tomorrow.",
+      "skill": "inference"
+    }
+  ]
+}

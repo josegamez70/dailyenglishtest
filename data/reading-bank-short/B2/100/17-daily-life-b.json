@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "daily life",
+  "target": 100,
+  "title": "A Pact above the Kettle",
+  "story": "The flatmates argued about the kettle, the shower, and a phone alarm that rang three times. Finally they made a simple pact. Rafi would shower first, and Leah would use the kitchen first, so neither would wait in the hall. Alarms would live in bedrooms, not in the shared room. For four days it worked. On Friday Rafi forgot and set the loud alarm beside the sofa. Leah left it there and went to make tea, which made him more ashamed than a complaint would have. He moved the phone and wrote the pact above the kettle. The next week was not perfect, but the mornings were calmer.",
+  "vocabulary": [
+    {
+      "word": "flatmates",
+      "definition": "People who share a flat."
+    },
+    {
+      "word": "pact",
+      "definition": "An agreement about how people will act."
+    },
+    {
+      "word": "alarm",
+      "definition": "A phone signal meant to wake someone."
+    },
+    {
+      "word": "ashamed",
+      "definition": "Sorry and uncomfortable about something you did."
+    },
+    {
+      "word": "complaint",
+      "definition": "A criticism spoken when something displeases you."
+    },
+    {
+      "word": "calmer",
+      "definition": "More peaceful, with less tension."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What morning order did the pact set?",
+      "options": [
+        "Rafi would shower first, and Leah would use the kitchen first",
+        "Leah would shower first, and Rafi would cook first",
+        "Both of them would use the kitchen at the same moment",
+        "The alarms would stay in the shared room"
+      ],
+      "correctAnswer": "Rafi would shower first, and Leah would use the kitchen first",
+      "explanation": "The pact said Rafi would shower first and Leah would use the kitchen first.",
+      "supportingSentence": "Rafi would shower first, and Leah would use the kitchen first, so neither would wait in the hall.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does writing the pact above the kettle suggest?",
+      "options": [
+        "Rafi wanted the agreement in a place they would see every morning",
+        "He had decided to throw the kettle away",
+        "He was moving out of the flat that night",
+        "He wanted Leah to stop using the kitchen"
+      ],
+      "correctAnswer": "Rafi wanted the agreement in a place they would see every morning",
+      "explanation": "He writes the pact above the kettle, a spot used in the morning routine, so it will stay visible.",
+      "supportingSentence": "He moved the phone and wrote the pact above the kettle.",
+      "skill": "inference"
+    },
+    {
+      "question": "Where were the alarms supposed to stay?",
+      "options": [
+        "Beside the sofa in the shared room",
+        "In the bedrooms, not in the shared room",
+        "Above the kettle with the pact",
+        "In the bathroom during every shower"
+      ],
+      "correctAnswer": "In the bedrooms, not in the shared room",
+      "explanation": "They agreed that alarms would live in bedrooms, not in the shared room.",
+      "supportingSentence": "Alarms would live in bedrooms, not in the shared room.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the following week suggest about the pact?",
+      "options": [
+        "The flatmates went back to the same daily quarrel",
+        "The mornings became perfect on the first day",
+        "They took the written pact down at once",
+        "It made mornings easier without ending every slip"
+      ],
+      "correctAnswer": "It made mornings easier without ending every slip",
+      "explanation": "The next week was not perfect, but the mornings were calmer, so the pact helped without removing every mistake.",
+      "supportingSentence": "The next week was not perfect, but the mornings were calmer.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does pact mean in this story?",
+      "options": [
+        "A shared agreement about how the mornings will work",
+        "A broken phone alarm",
+        "A complaint about the tea",
+        "A lock on the bathroom door"
+      ],
+      "correctAnswer": "A shared agreement about how the mornings will work",
+      "explanation": "The flatmates make a pact that sets who uses the shower and the kitchen first.",
+      "supportingSentence": "Finally they made a simple pact.",
+      "skill": "vocabulary"
+    }
+  ]
+}

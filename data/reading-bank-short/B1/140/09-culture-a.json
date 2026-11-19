@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "culture_food",
+  "target": 140,
+  "title": "Honey Cake for the Guests",
+  "story": "On Sunday the family expected guests from their grandmother's village. Noor wanted to bake the honey cake that the village served at visits. Her uncle read the old card while Noor set out flour, eggs, and honey. They warmed the honey so it would mix more easily. Noor stirred slowly, and her uncle checked the oven. The cake rose, and the kitchen smelled sweet. Noor made tea and put small plates on the table. When the guests arrived, she offered the first slice to her grandmother's friend. The friend smiled and said the taste was familiar. People asked about the honey, and Noor explained each step. She did not rush, because the story of the cake mattered too. Later she copied the card in clear writing and stored it in a tin. She hoped to bake the same cake again next spring.",
+  "vocabulary": [
+    {
+      "word": "guests",
+      "definition": "people invited to visit"
+    },
+    {
+      "word": "honey",
+      "definition": "a sweet food made by bees"
+    },
+    {
+      "word": "stirred",
+      "definition": "mixed by moving a spoon around"
+    },
+    {
+      "word": "rose",
+      "definition": "went upwards as it cooked"
+    },
+    {
+      "word": "familiar",
+      "definition": "known from before"
+    },
+    {
+      "word": "copied",
+      "definition": "wrote the same words again"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where were the visitors coming from?",
+      "options": [
+        "Their grandmother's village",
+        "A hotel in the city",
+        "The school kitchen",
+        "A market by the sea"
+      ],
+      "correctAnswer": "Their grandmother's village",
+      "explanation": "The family expected guests from their grandmother's village.",
+      "supportingSentence": "On Sunday the family expected guests from their grandmother's village.",
+      "skill": "detail"
+    },
+    {
+      "question": "Who was offered the first slice of cake?",
+      "options": [
+        "Her grandmother's friend",
+        "Noor's uncle",
+        "A child from the school",
+        "The person who delivered post"
+      ],
+      "correctAnswer": "Her grandmother's friend",
+      "explanation": "She offered the first slice to her grandmother's friend.",
+      "supportingSentence": "When the guests arrived, she offered the first slice to her grandmother's friend.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Noor do while her uncle checked the oven?",
+      "options": [
+        "She stirred the mixture slowly",
+        "She left the house",
+        "She hid the honey",
+        "She painted the plates"
+      ],
+      "correctAnswer": "She stirred the mixture slowly",
+      "explanation": "Noor stirred slowly while her uncle checked the oven.",
+      "supportingSentence": "Noor stirred slowly, and her uncle checked the oven.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does familiar mean?",
+      "options": [
+        "Known from before",
+        "Too hot to taste",
+        "Burned at the edge",
+        "Written in tiny letters"
+      ],
+      "correctAnswer": "Known from before",
+      "explanation": "The friend said the taste was familiar, so she knew it from an earlier time.",
+      "supportingSentence": "The friend smiled and said the taste was familiar.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Noor keep a clear copy of the card?",
+      "options": [
+        "She hoped to bake the cake again",
+        "She wanted to sell the tin",
+        "The guests asked her to stop",
+        "Her uncle had lost the oven"
+      ],
+      "correctAnswer": "She hoped to bake the cake again",
+      "explanation": "She hoped to bake the same cake again, so she kept a copy of the card.",
+      "supportingSentence": "She hoped to bake the same cake again next spring.",
+      "skill": "inference"
+    }
+  ]
+}

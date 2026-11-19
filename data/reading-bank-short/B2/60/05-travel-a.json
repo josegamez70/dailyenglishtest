@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "travel",
+  "target": 60,
+  "title": "Six Minutes to Platform Nine",
+  "story": "The departure board changed while Nadia was buying water, and her train moved from platform four to platform nine. She had six minutes and a heavy suitcase, so she asked a member of staff which stairs were closest. He pointed to a lift at the far end and said it would be quicker than the crowded steps. She reached the doors just as they opened.",
+  "vocabulary": [
+    {
+      "word": "departure",
+      "definition": "The moment when a train leaves."
+    },
+    {
+      "word": "platform",
+      "definition": "The area in a station where people get on a train."
+    },
+    {
+      "word": "suitcase",
+      "definition": "A large bag with a handle, used for travel."
+    },
+    {
+      "word": "crowded",
+      "definition": "Full of people, with little room to move."
+    },
+    {
+      "word": "lift",
+      "definition": "A machine that carries people from one floor to another."
+    },
+    {
+      "word": "reached",
+      "definition": "Arrived at a place."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Which platform did Nadia’s train move to?",
+      "options": [
+        "Platform nine",
+        "Platform four",
+        "The station shop",
+        "The crowded steps"
+      ],
+      "correctAnswer": "Platform nine",
+      "explanation": "The board showed that her train had moved from platform four to platform nine.",
+      "supportingSentence": "The departure board changed while Nadia was buying water, and her train moved from platform four to platform nine.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did the nearest route matter so much to Nadia?",
+      "options": [
+        "She had very little time and a heavy bag",
+        "She had already missed the train",
+        "She wanted to buy a second bottle",
+        "She worked for the station"
+      ],
+      "correctAnswer": "She had very little time and a heavy bag",
+      "explanation": "With six minutes and a heavy suitcase, she needed the closest way to the train.",
+      "supportingSentence": "She had six minutes and a heavy suitcase, so she asked a member of staff which stairs were closest.",
+      "skill": "inference"
+    },
+    {
+      "question": "How much time did Nadia have when she reached the train?",
+      "options": [
+        "Almost none, because the doors were just opening",
+        "A full hour on the old platform",
+        "None, because the train had already left",
+        "Enough to go back and buy more water"
+      ],
+      "correctAnswer": "Almost none, because the doors were just opening",
+      "explanation": "She reached the doors just as they opened, so she had almost no time to spare.",
+      "supportingSentence": "She reached the doors just as they opened.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does crowded mean in this story?",
+      "options": [
+        "Full of people",
+        "Quicker than a lift",
+        "Closed for repairs",
+        "Far from the train"
+      ],
+      "correctAnswer": "Full of people",
+      "explanation": "The steps are called crowded, and the lift is offered as a quicker choice.",
+      "supportingSentence": "He pointed to a lift at the far end and said it would be quicker than the crowded steps.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Nadia ask which stairs were closest?",
+      "options": [
+        "She needed the fastest way to the new platform",
+        "She wanted someone to carry her water",
+        "She hoped to move the train back",
+        "She was looking for a place to sit"
+      ],
+      "correctAnswer": "She needed the fastest way to the new platform",
+      "explanation": "She asked which stairs were closest because she had only six minutes to reach the train.",
+      "supportingSentence": "She had six minutes and a heavy suitcase, so she asked a member of staff which stairs were closest.",
+      "skill": "intent"
+    }
+  ]
+}

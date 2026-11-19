@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "technology",
+  "target": 60,
+  "title": "The Password under the Keyboard",
+  "story": "The office printer rejected Jonah’s password, and he found the old one written on a sticky note under the keyboard. He signed in once, then deleted the note and stored a new password in the password manager. A colleague warned that shared machines were the reason the account had been locked before. Jonah also turned on a logout reminder for the shared machine.",
+  "vocabulary": [
+    {
+      "word": "rejected",
+      "definition": "Refused to accept."
+    },
+    {
+      "word": "deleted",
+      "definition": "Removed something so that it was gone."
+    },
+    {
+      "word": "colleague",
+      "definition": "A person you work with."
+    },
+    {
+      "word": "shared",
+      "definition": "Used by more than one person."
+    },
+    {
+      "word": "locked",
+      "definition": "Closed so that the usual person cannot get in."
+    },
+    {
+      "word": "reminder",
+      "definition": "A message that tells you to do something."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where did Jonah find the old password?",
+      "options": [
+        "On a sticky note under the keyboard",
+        "Inside the password manager from the start",
+        "On the screen of the printer",
+        "In a warning from his colleague"
+      ],
+      "correctAnswer": "On a sticky note under the keyboard",
+      "explanation": "He found the old password written on a sticky note under the keyboard.",
+      "supportingSentence": "The office printer rejected Jonah’s password, and he found the old one written on a sticky note under the keyboard.",
+      "skill": "detail"
+    },
+    {
+      "question": "What risk did the sticky note create?",
+      "options": [
+        "Someone could find and read the password",
+        "The printer could store the note more safely",
+        "His colleague would be unable to warn him",
+        "A reminder cannot work without a keyboard"
+      ],
+      "correctAnswer": "Someone could find and read the password",
+      "explanation": "The old password was written on a note under the keyboard, where another person could see it.",
+      "supportingSentence": "The office printer rejected Jonah’s password, and he found the old one written on a sticky note under the keyboard.",
+      "skill": "inference"
+    },
+    {
+      "question": "What is the logout reminder meant to stop?",
+      "options": [
+        "A later user staying inside Jonah’s session",
+        "The printer asking for a new keyboard",
+        "His colleague buying a private machine",
+        "The password manager deleting the account"
+      ],
+      "correctAnswer": "A later user staying inside Jonah’s session",
+      "explanation": "A logout reminder on a shared machine is there so the next person does not continue in his session.",
+      "supportingSentence": "Jonah also turned on a logout reminder for the shared machine.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does rejected mean in this story?",
+      "options": [
+        "Refused to accept",
+        "Wrote down on paper",
+        "Stored in a safe list",
+        "Warned a colleague"
+      ],
+      "correctAnswer": "Refused to accept",
+      "explanation": "The printer rejected the password, meaning it would not accept it.",
+      "supportingSentence": "The office printer rejected Jonah’s password, and he found the old one written on a sticky note under the keyboard.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Jonah store the new password in a manager?",
+      "options": [
+        "So it would be kept without being left in sight",
+        "So the printer would remain locked",
+        "So the sticky note could be shared",
+        "So the account would be locked again"
+      ],
+      "correctAnswer": "So it would be kept without being left in sight",
+      "explanation": "He deleted the note and stored the new password in the manager instead of leaving it written down.",
+      "supportingSentence": "He signed in once, then deleted the note and stored a new password in the password manager.",
+      "skill": "intent"
+    }
+  ]
+}

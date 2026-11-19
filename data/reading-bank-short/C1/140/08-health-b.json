@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "health_sports",
+  "target": 140,
+  "title": "Heat Rules for the Road Club",
+  "story": "Heavy heat made Ibarra rewrite the road club's Sunday loop rather than cancel it. The full circuit would have kept riders on the exposed ridge at the hottest hour, with one water stop and no shade. Her revision cut the ridge, started an hour earlier, and added a second stop under the trees by the canal. Riders who needed a shorter day could turn back there without being marked absent. Anyone who felt dizzy, stopped sweating, or developed a headache had to tell a marshal and get off the bike. Jonah, training for a personal best, called the shorter route pointless. Ibarra replied that a personal best in those conditions would measure recklessness, not fitness. Times could wait for a cooler weekend. The amended ride still put people on the road, and it refused to treat heat as a minor detail.",
+  "vocabulary": [
+    {
+      "word": "exposed",
+      "definition": "Open to the weather, with little shelter."
+    },
+    {
+      "word": "revision",
+      "definition": "A changed version of an earlier plan."
+    },
+    {
+      "word": "dizzy",
+      "definition": "Feeling unsteady, as if about to fall."
+    },
+    {
+      "word": "marshal",
+      "definition": "A person who watches safety during an event."
+    },
+    {
+      "word": "recklessness",
+      "definition": "Lack of care about an obvious danger."
+    },
+    {
+      "word": "amended",
+      "definition": "Changed in order to make it safer or better."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where did the revised ride add its second stop?",
+      "options": [
+        "Under the trees by the canal",
+        "On the exposed ridge at the hottest hour",
+        "Inside the clubhouse after the ride",
+        "At the office that issued the forecast"
+      ],
+      "correctAnswer": "Under the trees by the canal",
+      "explanation": "The revision added a second stop under the trees by the canal.",
+      "supportingSentence": "Her revision cut the ridge, started an hour earlier, and added a second stop under the trees by the canal.",
+      "skill": "detail"
+    },
+    {
+      "question": "What must a rider do after developing a headache?",
+      "options": [
+        "Tell a marshal and get off the bike",
+        "Ride faster until the feeling passes",
+        "Finish the ridge before taking a drink",
+        "Stay silent so the group will not stop"
+      ],
+      "correctAnswer": "Tell a marshal and get off the bike",
+      "explanation": "A headache meant the rider had to tell a marshal and get off the bike.",
+      "supportingSentence": "Anyone who felt dizzy, stopped sweating, or developed a headache had to tell a marshal and get off the bike.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why does a personal best that day fail to count as fitness for Ibarra?",
+      "options": [
+        "It would show dangerous risk-taking rather than fitness",
+        "Jonah was using a bike that was far too small",
+        "The canal stop had removed every uphill section",
+        "Fast times were written down only in winter"
+      ],
+      "correctAnswer": "It would show dangerous risk-taking rather than fitness",
+      "explanation": "Ibarra says a personal best in that heat would measure recklessness, not fitness.",
+      "supportingSentence": "Ibarra replied that a personal best in those conditions would measure recklessness, not fitness.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does recklessness mean in Ibarra's reply?",
+      "options": [
+        "Ignoring a clear danger in order to continue",
+        "Careful practice spread across many months",
+        "A written report filed by a marshal",
+        "The shaded part of the path by the canal"
+      ],
+      "correctAnswer": "Ignoring a clear danger in order to continue",
+      "explanation": "She uses recklessness for the choice to chase a fast time in dangerous heat.",
+      "supportingSentence": "Ibarra replied that a personal best in those conditions would measure recklessness, not fitness.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer describe the original full circuit?",
+      "options": [
+        "To show why that plan was unsafe in heavy heat",
+        "To praise the ridge as the club's favourite view",
+        "To prove that the canal path had dried up",
+        "To explain why every Sunday ride was cancelled"
+      ],
+      "correctAnswer": "To show why that plan was unsafe in heavy heat",
+      "explanation": "The original circuit kept riders on an exposed ridge at the hottest hour, with little water and no shade.",
+      "supportingSentence": "The full circuit would have kept riders on the exposed ridge at the hottest hour, with one water stop and no shade.",
+      "skill": "intent"
+    }
+  ]
+}

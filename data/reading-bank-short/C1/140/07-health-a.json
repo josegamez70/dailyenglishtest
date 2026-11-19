@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "health_sports",
+  "target": 140,
+  "title": "No Start from the Block",
+  "story": "Coach Rahman kept Leah in the slow lane after the six weeks the clinic had set. Her shoulder no longer woke her, and the catch that had ended her season was gone. She asked to rejoin the pace group on Thursday. Rahman refused, not because pain was obvious, but because the clinic note allowed endurance work and still prohibited racing starts. A start from the block would load the joint as the injury had. Leah said she felt ready and that the final was in a fortnight. Feeling ready, Rahman answered, was not the same as being cleared. He would add one length each session and review the note after two weeks. If the shoulder stayed quiet, he would ask the clinic to reconsider starts. Leah could still train, but she could not chase a place in the final. The limit frustrated her, and it kept a return from becoming a second injury.",
+  "vocabulary": [
+    {
+      "word": "endurance",
+      "definition": "The ability to keep working for a long time."
+    },
+    {
+      "word": "prohibited",
+      "definition": "Officially not allowed."
+    },
+    {
+      "word": "joint",
+      "definition": "The place where bones meet and move."
+    },
+    {
+      "word": "cleared",
+      "definition": "Officially allowed to return to an activity."
+    },
+    {
+      "word": "reconsider",
+      "definition": "To think about a decision again."
+    },
+    {
+      "word": "frustrated",
+      "definition": "Upset because you are being held back."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did the clinic note still prohibit?",
+      "options": [
+        "Racing starts",
+        "Every minute spent in the pool",
+        "Any movement of the shoulder",
+        "Speaking with the coach"
+      ],
+      "correctAnswer": "Racing starts",
+      "explanation": "The note allowed endurance work and still prohibited racing starts.",
+      "supportingSentence": "Rahman refused, not because pain was obvious, but because the clinic note allowed endurance work and still prohibited racing starts.",
+      "skill": "detail"
+    },
+    {
+      "question": "When would Rahman look at the clinic note again?",
+      "options": [
+        "After two weeks",
+        "On the night of the final",
+        "After another six months",
+        "Only if Leah left the club"
+      ],
+      "correctAnswer": "After two weeks",
+      "explanation": "He would add one length each session and review the note after two weeks.",
+      "supportingSentence": "He would add one length each session and review the note after two weeks.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why does Rahman refuse to treat Leah's confidence as enough?",
+      "options": [
+        "Personal confidence is not the same as medical clearance",
+        "The slow lane was closed for the whole month",
+        "Leah had refused to describe the original injury",
+        "The club final had been moved to another city"
+      ],
+      "correctAnswer": "Personal confidence is not the same as medical clearance",
+      "explanation": "Rahman says feeling ready is not the same as being cleared.",
+      "supportingSentence": "Feeling ready, Rahman answered, was not the same as being cleared.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does prohibited mean in the clinic note?",
+      "options": [
+        "Officially not allowed",
+        "Strongly advised for a quick recovery",
+        "Likely to happen by pure chance",
+        "Written only in the club accounts"
+      ],
+      "correctAnswer": "Officially not allowed",
+      "explanation": "The note still prohibited racing starts, so those starts remained forbidden.",
+      "supportingSentence": "Rahman refused, not because pain was obvious, but because the clinic note allowed endurance work and still prohibited racing starts.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer say the shoulder no longer woke Leah?",
+      "options": [
+        "To show that continuing pain was not the reason for the refusal",
+        "To prove that training at night caused the injury",
+        "To explain why the clinic cancelled the six-week plan",
+        "To show that Rahman examined her while she slept"
+      ],
+      "correctAnswer": "To show that continuing pain was not the reason for the refusal",
+      "explanation": "The shoulder no longer wakes her, and Rahman refuses for a different reason than obvious pain.",
+      "supportingSentence": "Her shoulder no longer woke her, and the catch that had ended her season was gone.",
+      "skill": "intent"
+    }
+  ]
+}

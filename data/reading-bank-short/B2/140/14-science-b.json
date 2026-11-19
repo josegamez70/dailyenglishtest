@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "science",
+  "target": 140,
+  "title": "Thermometers on the Steps",
+  "story": "The science club asked why the library steps stayed icy after the playground had thawed. They guessed that the steps, set against a north wall, simply got less sun. To test that, they placed two cheap thermometers, one on the third step and one on the open path, and read them at the same hours for five days. They also noted cloud, wind, and whether salt had been spread. The step was colder each morning. By noon the path was often above freezing while the step was not. Hana saw that a handrail shadow covered the step until late, which the wall by itself did not explain. They added a sketch of that shadow to the report. The librarian used the chart to decide where to put a mat and when to spread salt. A written record had answered a question people usually met with a shrug.",
+  "vocabulary": [
+    {
+      "word": "thawed",
+      "definition": "Warmed enough for ice to melt."
+    },
+    {
+      "word": "thermometers",
+      "definition": "Tools that measure temperature."
+    },
+    {
+      "word": "freezing",
+      "definition": "Cold enough for water to turn to ice."
+    },
+    {
+      "word": "shadow",
+      "definition": "A dark patch where light is blocked."
+    },
+    {
+      "word": "chart",
+      "definition": "A written record of results."
+    },
+    {
+      "word": "shrug",
+      "definition": "A movement of the shoulders showing you have no answer."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How did the club collect the temperature readings?",
+      "options": [
+        "They read two thermometers at the same hours for five days",
+        "They checked one step once, at noon",
+        "They measured only after the playground melted",
+        "They left both tools indoors all week"
+      ],
+      "correctAnswer": "They read two thermometers at the same hours for five days",
+      "explanation": "They placed two thermometers and read them at the same hours for five days.",
+      "supportingSentence": "To test that, they placed two cheap thermometers, one on the third step and one on the open path, and read them at the same hours for five days.",
+      "skill": "detail"
+    },
+    {
+      "question": "What was often true of the two places by noon?",
+      "options": [
+        "The path was warmer than freezing and the step was not",
+        "Both places were equally warm at sunrise",
+        "The step was warmer because of the salt",
+        "The tools had been taken inside"
+      ],
+      "correctAnswer": "The path was warmer than freezing and the step was not",
+      "explanation": "By noon the path was often above freezing while the step was not.",
+      "supportingSentence": "By noon the path was often above freezing while the step was not.",
+      "skill": "detail"
+    },
+    {
+      "question": "What extra cause did Hana notice for the cold step?",
+      "options": [
+        "A handrail blocked the sun from the step until late",
+        "The north wall was giving the step extra sunshine",
+        "Salt on the path was creating the ice",
+        "The playground melted because of the tools"
+      ],
+      "correctAnswer": "A handrail blocked the sun from the step until late",
+      "explanation": "A handrail shadow covered the step until late, which the wall by itself did not explain.",
+      "supportingSentence": "Hana saw that a handrail shadow covered the step until late, which the wall by itself did not explain.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does the ending say about the club's written results?",
+      "options": [
+        "The notes answered something people usually dismissed",
+        "The club decided the question had no answer",
+        "A shrug was more accurate than the readings",
+        "The librarian refused to look at the chart"
+      ],
+      "correctAnswer": "The notes answered something people usually dismissed",
+      "explanation": "A written record answered a question that people usually met with a shrug.",
+      "supportingSentence": "A written record had answered a question people usually met with a shrug.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does thawed mean in this story?",
+      "options": [
+        "Warmed so that ice had melted",
+        "Measured with two tools",
+        "Covered by a rail's dark patch",
+        "Left salty until the next noon"
+      ],
+      "correctAnswer": "Warmed so that ice had melted",
+      "explanation": "The playground had thawed while the steps stayed icy, so the ice in the playground had melted.",
+      "supportingSentence": "The science club asked why the library steps stayed icy after the playground had thawed.",
+      "skill": "vocabulary"
+    }
+  ]
+}

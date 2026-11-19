@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "hobbies",
+  "target": 60,
+  "title": "Pages in a Sketchbook",
+  "story": "Hana draws in a sketchbook every Sunday. This week she sat in the park and drew the stone bridge. A child asked if he could watch, and Hana nodded. She showed him how to hold the pencil lightly. The child drew a duck and grinned. Hana gave him a spare page to take home. She stayed until the light faded and then closed the book.",
+  "vocabulary": [
+    {
+      "word": "sketchbook",
+      "definition": "A book of blank pages for drawing."
+    },
+    {
+      "word": "bridge",
+      "definition": "A structure that lets people cross water."
+    },
+    {
+      "word": "nodded",
+      "definition": "Moved the head up and down to say yes."
+    },
+    {
+      "word": "pencil",
+      "definition": "A tool used for writing or drawing."
+    },
+    {
+      "word": "grinned",
+      "definition": "Smiled widely."
+    },
+    {
+      "word": "faded",
+      "definition": "Became weaker or less bright."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What does Hana do every Sunday?",
+      "options": [
+        "She draws in a sketchbook",
+        "She feeds the ducks",
+        "She teaches a park class",
+        "She sells stone bridges"
+      ],
+      "correctAnswer": "She draws in a sketchbook",
+      "explanation": "Hana draws in a sketchbook every Sunday.",
+      "supportingSentence": "Hana draws in a sketchbook every Sunday.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Hana draw in the park?",
+      "options": [
+        "The stone bridge",
+        "A duck",
+        "A spare page",
+        "The closed book"
+      ],
+      "correctAnswer": "The stone bridge",
+      "explanation": "She sat in the park and drew the stone bridge.",
+      "supportingSentence": "This week she sat in the park and drew the stone bridge.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did the child draw?",
+      "options": [
+        "A duck",
+        "The stone bridge",
+        "A pencil",
+        "The park gate"
+      ],
+      "correctAnswer": "A duck",
+      "explanation": "The child drew a duck and grinned.",
+      "supportingSentence": "The child drew a duck and grinned.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does nodded mean in this story?",
+      "options": [
+        "Moved her head to say yes",
+        "Closed a book slowly",
+        "Drew a very light line",
+        "Gave a page away"
+      ],
+      "correctAnswer": "Moved her head to say yes",
+      "explanation": "When the child asked to watch, Hana nodded to show that he could.",
+      "supportingSentence": "A child asked if he could watch, and Hana nodded.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What did Hana give the child to take home?",
+      "options": [
+        "A spare page",
+        "Her whole sketchbook",
+        "The bridge drawing",
+        "A new pencil"
+      ],
+      "correctAnswer": "A spare page",
+      "explanation": "Hana gave him a spare page to take home.",
+      "supportingSentence": "Hana gave him a spare page to take home.",
+      "skill": "detail"
+    }
+  ]
+}

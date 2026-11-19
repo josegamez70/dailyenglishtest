@@ -63,6 +63,9 @@ test('reading bank serves only when the stored length is within 20 percent', () 
   assert.match(generate, /readingBankLengthFits/);
   assert.match(generate, /releaseGrammarBankItem/);
   assert.match(generate, /producePractice/);
+  assert.match(generate, /claim_reading_bank_for_length|minWords/);
+  const challenge = readFileSync(new URL('../api/daily-challenge.ts', import.meta.url), 'utf8');
+  assert.match(challenge, /readingWordCount\(row\) >= 200/);
 });
 
 test('the challenge index matches the claim function and skips today and tomorrow', () => {

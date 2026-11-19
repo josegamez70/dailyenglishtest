@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "hobbies",
+  "target": 60,
+  "title": "Pressed on Paper She Owned",
+  "story": "Clara stopped pressing flowers in heavy books after a rare daisy stained a library dictionary. She switched to blotting paper and a board kept at home, labelling each specimen with place and date. The method took longer and held less colour, but the books survived. Asked later about the mark, she could point to a change already made. The hobby continued on paper she owned.",
+  "vocabulary": [
+    {
+      "word": "pressing",
+      "definition": "Flattening and drying flowers under weight"
+    },
+    {
+      "word": "stained",
+      "definition": "Left a mark that was hard to remove"
+    },
+    {
+      "word": "blotting",
+      "definition": "Paper that absorbs moisture"
+    },
+    {
+      "word": "specimen",
+      "definition": "One collected example kept for study or display"
+    },
+    {
+      "word": "survived",
+      "definition": "Stayed undamaged"
+    },
+    {
+      "word": "mark",
+      "definition": "The stain left on the page"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did the rare daisy do to the library dictionary?",
+      "options": [
+        "It stained the dictionary",
+        "It made the colours brighter",
+        "It removed the blotting paper",
+        "It became a labelled specimen"
+      ],
+      "correctAnswer": "It stained the dictionary",
+      "explanation": "She stopped the old method after a rare daisy stained a library dictionary.",
+      "supportingSentence": "Clara stopped pressing flowers in heavy books after a rare daisy stained a library dictionary.",
+      "skill": "detail"
+    },
+    {
+      "question": "How did the new method compare with pressing in books?",
+      "options": [
+        "It took longer and kept less colour",
+        "It dried the flowers inside library books",
+        "It made every specimen brighter than before",
+        "It needed no place and no date"
+      ],
+      "correctAnswer": "It took longer and kept less colour",
+      "explanation": "The new method took longer and held less colour, while the books survived.",
+      "supportingSentence": "The method took longer and held less colour, but the books survived.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why could Clara answer calmly when asked about the mark?",
+      "options": [
+        "She had already changed the method that caused it",
+        "The stain had faded before anyone asked",
+        "The library had given her the damaged book",
+        "Blotting paper had been banned in the building"
+      ],
+      "correctAnswer": "She had already changed the method that caused it",
+      "explanation": "She could point to a change already made, so the cause had been dealt with before the question.",
+      "supportingSentence": "Asked later about the mark, she could point to a change already made.",
+      "skill": "inference"
+    },
+    {
+      "question": "What is a specimen in this hobby?",
+      "options": [
+        "A flower kept as a collected example",
+        "A heavy book borrowed from the library",
+        "A stain left on a page",
+        "A wooden board used for painting"
+      ],
+      "correctAnswer": "A flower kept as a collected example",
+      "explanation": "She labelled each specimen with a place and a date, so a specimen is one of the flowers she kept.",
+      "supportingSentence": "She switched to blotting paper and a board kept at home, labelling each specimen with place and date.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer end with paper she owned?",
+      "options": [
+        "To show the hobby continued without harming borrowed books",
+        "To prove the library told her to stop collecting",
+        "To suggest daisies cannot be dried at home",
+        "To argue that colour matters more than dates"
+      ],
+      "correctAnswer": "To show the hobby continued without harming borrowed books",
+      "explanation": "Ending on paper she owned shows she kept the hobby while leaving library books alone.",
+      "supportingSentence": "The hobby continued on paper she owned.",
+      "skill": "intent"
+    }
+  ]
+}

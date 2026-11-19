@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "health_sports",
+  "target": 60,
+  "title": "A Slower Training Week",
+  "story": "Malik’s plan said he should run five kilometres, yet his knee felt stiff after the first lap. He cut the session short and walked the rest of the route rather than pushing through the pain. That evening he replaced speed work with gentle cycling and noted the change in his log. His coach agreed that a careful week was better than a long injury.",
+  "vocabulary": [
+    {
+      "word": "kilometres",
+      "definition": "Units used to measure a long distance."
+    },
+    {
+      "word": "stiff",
+      "definition": "Hard to bend and a little painful."
+    },
+    {
+      "word": "session",
+      "definition": "One period of exercise."
+    },
+    {
+      "word": "pushing",
+      "definition": "Forcing yourself to continue."
+    },
+    {
+      "word": "gentle",
+      "definition": "Soft and not forceful."
+    },
+    {
+      "word": "injury",
+      "definition": "Physical harm to the body."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How did Malik finish the rest of the route?",
+      "options": [
+        "He walked it",
+        "He ran it faster than planned",
+        "He cycled it immediately",
+        "He skipped it without telling anyone"
+      ],
+      "correctAnswer": "He walked it",
+      "explanation": "After cutting the run short, he walked the rest of the route.",
+      "supportingSentence": "He cut the session short and walked the rest of the route rather than pushing through the pain.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did Malik stop running so early?",
+      "options": [
+        "His knee hurt and he refused to force it",
+        "He had already finished five kilometres",
+        "The coach had ordered a morning cycle",
+        "The log said the route was closed"
+      ],
+      "correctAnswer": "His knee hurt and he refused to force it",
+      "explanation": "His knee felt stiff, and he chose not to push through the pain.",
+      "supportingSentence": "He cut the session short and walked the rest of the route rather than pushing through the pain.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does the coach’s remark suggest about this week?",
+      "options": [
+        "Doing less now is wiser than risking a long injury",
+        "Malik should ignore stiffness next time",
+        "Speed work must happen every evening",
+        "A long injury has already happened"
+      ],
+      "correctAnswer": "Doing less now is wiser than risking a long injury",
+      "explanation": "The coach agreed that a careful week was better than a long injury.",
+      "supportingSentence": "His coach agreed that a careful week was better than a long injury.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does stiff mean in this story?",
+      "options": [
+        "Hard to move comfortably",
+        "Very fast for a short distance",
+        "Written down in a book",
+        "Easy and gentle on the body"
+      ],
+      "correctAnswer": "Hard to move comfortably",
+      "explanation": "Malik’s knee felt stiff after one lap, meaning it was uncomfortable to keep running on.",
+      "supportingSentence": "Malik’s plan said he should run five kilometres, yet his knee felt stiff after the first lap.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Malik note the change in his log?",
+      "options": [
+        "So there was a record of the altered session",
+        "So the coach would add more speed work",
+        "So he could forget the pain",
+        "So the route would grow longer"
+      ],
+      "correctAnswer": "So there was a record of the altered session",
+      "explanation": "He noted the change after replacing speed work with gentle cycling.",
+      "supportingSentence": "That evening he replaced speed work with gentle cycling and noted the change in his log.",
+      "skill": "intent"
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "fantasy",
+  "target": 100,
+  "title": "The Well at Pell",
+  "story": "In the village of Pell, a round well kept coins that were offered for someone else and returned coins that were offered for oneself. Tessa dropped in a coin and wished for a new coat. The coin landed back on the moss beside her shoe. She tried again, wishing for her brother's exam to go calmly, and that coin stayed in the dark water. Tessa sat on the wall and laughed at her own first attempt. She told her brother only that the well was particular. On the exam morning she left another coin for his steady hands. The well made no sound, which, in Pell, counted as a yes.",
+  "vocabulary": [
+    {
+      "word": "offered",
+      "definition": "Given for a purpose, here with a wish."
+    },
+    {
+      "word": "returned",
+      "definition": "Sent back to the giver."
+    },
+    {
+      "word": "moss",
+      "definition": "A soft green plant that grows in damp places."
+    },
+    {
+      "word": "particular",
+      "definition": "Hard to please, and accepting only certain things."
+    },
+    {
+      "word": "calmly",
+      "definition": "In a quiet, untroubled way."
+    },
+    {
+      "word": "attempt",
+      "definition": "One try at doing something."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What happened to the coin Tessa wished on for a coat?",
+      "options": [
+        "It landed back on the moss beside her shoe",
+        "It stayed deep in the water",
+        "Her brother caught it before it fell",
+        "It turned into a second coin"
+      ],
+      "correctAnswer": "It landed back on the moss beside her shoe",
+      "explanation": "After she wished for a new coat, the coin landed back on the moss beside her shoe.",
+      "supportingSentence": "The coin landed back on the moss beside her shoe.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why does Tessa laugh at her first attempt?",
+      "options": [
+        "The exam had already been cancelled",
+        "She sees that a wish for herself was the wrong kind",
+        "Every coin in the village came back at the same moment",
+        "Her brother had bought the coat already"
+      ],
+      "correctAnswer": "She sees that a wish for herself was the wrong kind",
+      "explanation": "The well returns wishes made for oneself, and she laughs at that first attempt once she has understood.",
+      "supportingSentence": "Tessa sat on the wall and laughed at her own first attempt.",
+      "skill": "inference"
+    },
+    {
+      "question": "What happened to the coin for her brother's exam?",
+      "options": [
+        "It bounced back onto the wall",
+        "It paid for a new coat",
+        "It stayed in the dark water",
+        "It was returned the same afternoon"
+      ],
+      "correctAnswer": "It stayed in the dark water",
+      "explanation": "When she wished for her brother's exam to go calmly, that coin stayed in the dark water.",
+      "supportingSentence": "She tried again, wishing for her brother's exam to go calmly, and that coin stayed in the dark water.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the limited thing she told her brother suggest?",
+      "options": [
+        "She refused to speak to him at all",
+        "She described every returned coin in detail",
+        "She said the well had cracked and dried",
+        "She kept the well's full rule to herself"
+      ],
+      "correctAnswer": "She kept the well's full rule to herself",
+      "explanation": "She tells him only that the well is particular, so she withholds the rest of what she has learned.",
+      "supportingSentence": "She told her brother only that the well was particular.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does particular mean in this story?",
+      "options": [
+        "Broken, and unable to hold water",
+        "Accepting only certain kinds of wishes",
+        "Loud enough for the whole village to hear",
+        "Willing to grant any wish at all"
+      ],
+      "correctAnswer": "Accepting only certain kinds of wishes",
+      "explanation": "Tessa calls the well particular because it keeps some offerings and sends others back.",
+      "supportingSentence": "She told her brother only that the well was particular.",
+      "skill": "vocabulary"
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "technology",
+  "target": 60,
+  "title": "The Blinking Router",
+  "story": "The home internet stopped during a film. The router lights were blinking red, so Kenan turned it off. He waited one minute and turned it on again. The lights became green, but the film would not play. His sister checked the cables and pushed one plug in firmly. The film started at once. Kenan wrote the steps on a card and stuck it beside the router.",
+  "vocabulary": [
+    {
+      "word": "internet",
+      "definition": "The network that connects computers."
+    },
+    {
+      "word": "router",
+      "definition": "A device that sends the internet around a home."
+    },
+    {
+      "word": "blinking",
+      "definition": "Flashing on and off."
+    },
+    {
+      "word": "cables",
+      "definition": "Thick wires that connect machines."
+    },
+    {
+      "word": "plug",
+      "definition": "The part that fits into a socket."
+    },
+    {
+      "word": "firmly",
+      "definition": "In a strong and secure way."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "When did the home internet stop?",
+      "options": [
+        "During a film",
+        "During breakfast",
+        "After the card was written",
+        "While the lights were green"
+      ],
+      "correctAnswer": "During a film",
+      "explanation": "The home internet stopped during a film.",
+      "supportingSentence": "The home internet stopped during a film.",
+      "skill": "detail"
+    },
+    {
+      "question": "What were the router lights doing at first?",
+      "options": [
+        "Blinking red",
+        "Staying green",
+        "Staying dark",
+        "Shining blue"
+      ],
+      "correctAnswer": "Blinking red",
+      "explanation": "The router lights were blinking red at first.",
+      "supportingSentence": "The router lights were blinking red, so Kenan turned it off.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Kenan's sister push in?",
+      "options": [
+        "One plug",
+        "The paper card",
+        "A red bulb",
+        "The film disc"
+      ],
+      "correctAnswer": "One plug",
+      "explanation": "She checked the cables and pushed one plug in firmly.",
+      "supportingSentence": "His sister checked the cables and pushed one plug in firmly.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does firmly mean in this story?",
+      "options": [
+        "In a strong and secure way",
+        "Very slowly",
+        "For one minute only",
+        "Without any light"
+      ],
+      "correctAnswer": "In a strong and secure way",
+      "explanation": "She pushed the plug in firmly, so it was held strongly in place.",
+      "supportingSentence": "His sister checked the cables and pushed one plug in firmly.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Kenan stick the card beside the router?",
+      "options": [
+        "So the steps would be easy to find later",
+        "So he could sell the router",
+        "So the film would start again",
+        "So the cables could be hidden"
+      ],
+      "correctAnswer": "So the steps would be easy to find later",
+      "explanation": "He wrote the steps and stuck the card beside the router, where he would see it next time.",
+      "supportingSentence": "Kenan wrote the steps on a card and stuck it beside the router.",
+      "skill": "inference"
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "level": "B2",
+  "topic": "economy_finance",
+  "target": 60,
+  "title": "The Float That Looked Short",
+  "story": "Before the craft market opened, Elise counted the float and compared it with the notebook. The cash was lower than the written total by the price of two mugs. She found a Friday sale that had been entered twice, which made the book too high. She corrected the entry and wrote the true starting amount on a fresh page for Saturday.",
+  "vocabulary": [
+    {
+      "word": "float",
+      "definition": "The starting cash a seller keeps in order to give change."
+    },
+    {
+      "word": "total",
+      "definition": "The full amount when numbers are added together."
+    },
+    {
+      "word": "entered",
+      "definition": "Written into a record."
+    },
+    {
+      "word": "twice",
+      "definition": "Two times."
+    },
+    {
+      "word": "corrected",
+      "definition": "Made right after a mistake."
+    },
+    {
+      "word": "amount",
+      "definition": "A quantity of money."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "By how much did the cash seem lower than the book?",
+      "options": [
+        "By the price of two mugs",
+        "By the price of the notebook",
+        "By the whole of Friday’s market",
+        "By the cost of a fresh page"
+      ],
+      "correctAnswer": "By the price of two mugs",
+      "explanation": "The cash was lower than the written total by the price of two mugs.",
+      "supportingSentence": "The cash was lower than the written total by the price of two mugs.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the double entry explain?",
+      "options": [
+        "The book was too high, while the cash was really there",
+        "Two mugs had been stolen before opening",
+        "Friday’s market had never taken place",
+        "The float had been spent on a new notebook"
+      ],
+      "correctAnswer": "The book was too high, while the cash was really there",
+      "explanation": "A sale entered twice made the book too high, so the gap came from the record.",
+      "supportingSentence": "She found a Friday sale that had been entered twice, which made the book too high.",
+      "skill": "inference"
+    },
+    {
+      "question": "Why is the fresh page useful for Saturday?",
+      "options": [
+        "It starts the day from the corrected figure",
+        "It hides every Friday sale",
+        "It raises the price of the mugs",
+        "It takes the cash out of the tin"
+      ],
+      "correctAnswer": "It starts the day from the corrected figure",
+      "explanation": "She wrote the true starting amount on a fresh page after correcting the mistake.",
+      "supportingSentence": "She corrected the entry and wrote the true starting amount on a fresh page for Saturday.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does float mean in this story?",
+      "options": [
+        "Starting cash kept for giving change",
+        "A book of old sales",
+        "A mug sold on Friday",
+        "A page that has never been used"
+      ],
+      "correctAnswer": "Starting cash kept for giving change",
+      "explanation": "Elise counts the float before opening, which is the cash the stall starts with.",
+      "supportingSentence": "Before the craft market opened, Elise counted the float and compared it with the notebook.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Elise correct the notebook entry?",
+      "options": [
+        "So the written total would match the real cash",
+        "So Friday would disappear from the records",
+        "So the float would shrink by two more mugs",
+        "So Saturday could begin with no figure"
+      ],
+      "correctAnswer": "So the written total would match the real cash",
+      "explanation": "She corrected the entry that had made the book too high, then wrote the true amount.",
+      "supportingSentence": "She corrected the entry and wrote the true starting amount on a fresh page for Saturday.",
+      "skill": "intent"
+    }
+  ]
+}

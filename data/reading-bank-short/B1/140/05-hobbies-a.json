@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "hobbies",
+  "target": 140,
+  "title": "Painting the Garden Bench",
+  "story": "Mateo and his aunt decided to paint the old garden bench. They carried sandpaper, brushes, and a tin of green paint outside. First they rubbed the wood until it felt smooth. Mateo covered the grass with newspaper so drops would not fall there. His aunt showed him how to move the brush in one direction. They painted the legs and then the seat. A sudden breeze blew a leaf onto the wet paint. They lifted it off and smoothed the mark. Before lunch they finished the top and left the bench to dry. After lunch they painted the back and the arms. The colour looked bright against the grey wall. They washed the brushes in a bucket and closed the tin. Mateo wrote the date on a label and stuck it under the seat. The next day the bench was dry, and they sat there with tea.",
+  "vocabulary": [
+    {
+      "word": "sandpaper",
+      "definition": "rough paper used to rub wood smooth"
+    },
+    {
+      "word": "breeze",
+      "definition": "a light wind"
+    },
+    {
+      "word": "smoothed",
+      "definition": "made a surface even"
+    },
+    {
+      "word": "label",
+      "definition": "a small note that gives information"
+    },
+    {
+      "word": "brushes",
+      "definition": "tools used to spread paint"
+    },
+    {
+      "word": "dry",
+      "definition": "not wet"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What colour was the paint in the tin?",
+      "options": [
+        "Green",
+        "Blue",
+        "Red",
+        "White"
+      ],
+      "correctAnswer": "Green",
+      "explanation": "They carried a tin of green paint outside.",
+      "supportingSentence": "They carried sandpaper, brushes, and a tin of green paint outside.",
+      "skill": "detail"
+    },
+    {
+      "question": "Which parts of the bench did they paint first?",
+      "options": [
+        "The legs and then the seat",
+        "The back and the arms",
+        "Only the grey wall",
+        "The kitchen door"
+      ],
+      "correctAnswer": "The legs and then the seat",
+      "explanation": "They painted the legs and then the seat before the other parts.",
+      "supportingSentence": "They painted the legs and then the seat.",
+      "skill": "detail"
+    },
+    {
+      "question": "Where did Mateo stick the label?",
+      "options": [
+        "Under the seat",
+        "On the grey wall",
+        "Inside the paint tin",
+        "On the newspaper"
+      ],
+      "correctAnswer": "Under the seat",
+      "explanation": "He wrote the date on a label and stuck it under the seat.",
+      "supportingSentence": "Mateo wrote the date on a label and stuck it under the seat.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does breeze mean?",
+      "options": [
+        "A light wind",
+        "A wet brush",
+        "A wooden leg",
+        "A bright colour"
+      ],
+      "correctAnswer": "A light wind",
+      "explanation": "A breeze, a light wind, blew a leaf onto the wet paint.",
+      "supportingSentence": "A sudden breeze blew a leaf onto the wet paint.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did they wait until the next day to sit down?",
+      "options": [
+        "The paint needed time to dry",
+        "The aunt had sold the bench",
+        "The newspaper stayed on the seat",
+        "The wall still needed paint"
+      ],
+      "correctAnswer": "The paint needed time to dry",
+      "explanation": "They sat only the next day, when the bench was dry.",
+      "supportingSentence": "The next day the bench was dry, and they sat there with tea.",
+      "skill": "inference"
+    }
+  ]
+}
