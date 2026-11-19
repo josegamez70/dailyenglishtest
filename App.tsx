@@ -33,6 +33,8 @@ import { RetroWindow } from './components/RetroWindow';
 import { PixelArt } from './components/PixelArt';
 import { LegendsUnlockDialog } from './components/RetroLegends';
 import { LegendsShot } from './components/LegendsShot';
+import { ChallengeShot } from './components/ChallengeShot';
+import { DailyChallengePage } from './components/DailyChallengePage';
 import { recordScoredLesson } from './legendsRecord';
 import { setRetroActive, useRetroTheme } from './retroTheme';
 import { playEffect, primeAudio } from './effects';
@@ -288,7 +290,7 @@ const App: React.FC = () => {
   const darkOn = isDarkTheme(themeChoice, window.matchMedia('(prefers-color-scheme: dark)').matches);
 
   useEffect(() => {
-    if (import.meta.env.DEV && path.startsWith('/legends-preview')) return;
+    if (import.meta.env.DEV && (path.startsWith('/legends-preview') || path.startsWith('/challenge-preview'))) return;
     const dark = isDarkTheme(themeChoice, window.matchMedia('(prefers-color-scheme: dark)').matches);
     document.documentElement.classList.toggle('dark', dark);
     document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
@@ -2000,6 +2002,9 @@ const App: React.FC = () => {
   if (import.meta.env.DEV && path.startsWith('/legends-preview')) {
     return <LegendsShot />;
   }
+  if (import.meta.env.DEV && path.startsWith('/challenge-preview')) {
+    return <ChallengeShot />;
+  }
   if (import.meta.env.DEV && path.startsWith('/tasks-preview')) {
     const scene = path.endsWith('/saved') ? 'saved' : path.endsWith('/email') ? 'email' : path.endsWith('/complete') ? 'complete' : path.endsWith('/packs') ? 'packs' : 'tasks';
     return <TasksPreview scene={scene} />;
@@ -2215,7 +2220,7 @@ const App: React.FC = () => {
     </div>
   );
 
-  const shellItem: ShellItem = path === '/progress' ? 'progress' : path === '/scoreboard' ? 'scoreboard' : path === '/saved' ? 'saved' : path === '/vocabulary' ? 'vocabulary' : path === '/tasks' ? 'tasks' : isTaskPacksPath(path) ? 'packs' : path === '/profile' ? 'profile' : path === '/academy' ? 'academy' : path === '/join' ? 'join' : path === '/grammar' ? 'grammar' : 'lesson';
+  const shellItem: ShellItem = path === '/progress' ? 'progress' : path === '/scoreboard' ? 'scoreboard' : path === '/saved' ? 'saved' : path === '/vocabulary' ? 'vocabulary' : path === '/daily-challenge' ? 'challenge' : path === '/tasks' ? 'tasks' : isTaskPacksPath(path) ? 'packs' : path === '/profile' ? 'profile' : path === '/academy' ? 'academy' : path === '/join' ? 'join' : path === '/grammar' ? 'grammar' : 'lesson';
   const openPack = (id: string) => {
     const next = `/task-packs/${id}`;
     window.history.pushState({ taskPack: id }, '', next);
@@ -2471,12 +2476,17 @@ const App: React.FC = () => {
       )}
       {shellItem === 'scoreboard' && (
         <RetroWindow title="Scoreboard" sober>
-        <ScoreboardPage displayName={account.displayName} onBack={() => go('/')} />
+        <ScoreboardPage displayName={account.displayName} profileLevel={account.defaultLevel} onBack={() => go('/')} />
         </RetroWindow>
       )}
       {shellItem === 'saved' && (
         <RetroWindow title="Saved lessons">
         <SavedLessonsPage onOpen={openSaved} onCreate={() => go('/')} onPracticeGrammar={() => go('/grammar')} onBack={() => go('/')} />
+        </RetroWindow>
+      )}
+      {shellItem === 'challenge' && (
+        <RetroWindow title="Daily challenge">
+          <DailyChallengePage onBack={() => go('/')} />
         </RetroWindow>
       )}
       {shellItem === 'vocabulary' && (

@@ -4,12 +4,13 @@ import { AcademyBadge } from './AcademyBadge';
 import { PixelIcon } from './PixelIcon';
 import { PixelArt } from './PixelArt';
 
-export type ShellItem = 'lesson' | 'grammar' | 'tasks' | 'packs' | 'progress' | 'scoreboard' | 'saved' | 'vocabulary' | 'academy' | 'profile' | 'join';
+export type ShellItem = 'lesson' | 'grammar' | 'tasks' | 'packs' | 'progress' | 'scoreboard' | 'saved' | 'vocabulary' | 'challenge' | 'academy' | 'profile' | 'join';
 
 const baseItems: { id: ShellItem; label: string; path: string }[] = [
   { id: 'lesson', label: 'Reading / Listening', path: '/' },
   { id: 'grammar', label: 'Grammar', path: '/grammar' },
   { id: 'vocabulary', label: 'Vocabulary builder', path: '/vocabulary' },
+  { id: 'challenge', label: 'Daily challenge', path: '/daily-challenge' },
   { id: 'tasks', label: 'Tasks', path: '/tasks' },
   { id: 'packs', label: 'Task packs', path: '/task-packs' },
   { id: 'progress', label: 'My progress', path: '/progress' },
@@ -22,6 +23,7 @@ const MENU_ICON: Record<string, string> = {
   lesson: 'reading_listening',
   grammar: 'grammar',
   vocabulary: 'vocabulary_builder',
+  challenge: 'daily_challenge',
   tasks: 'tasks',
   packs: 'task_packs',
   progress: 'my_progress',

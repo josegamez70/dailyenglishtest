@@ -54,12 +54,15 @@ test('only the top 5 qualified learners are mailed, without another person addre
     person('Accurate', 4, 8, 10),
   ], '2026-11-17', () => 'https://dailyenglishtest.es/api/scoreboard-email-opt-out?token=preview', 3);
   const busy = both.recipients.find((item) => item.alias === 'Busy');
-  assert.match(busy?.text ?? '', /Most exercises/);
-  assert.match(busy?.text ?? '', /Best %/);
+  const accurate = both.recipients.find((item) => item.alias === 'Accurate');
+  assert.equal(accurate?.position, 1);
+  assert.equal(busy?.position, 2);
+  assert.equal((busy?.text ?? '').includes('Most exercises'), false);
+  assert.equal((busy?.text ?? '').includes('Best %'), false);
+  assert.match(busy?.text ?? '', /2nd/);
   assert.equal(both.recipients.filter((item) => item.alias === 'Busy').length, 1);
   const message = scoreboardAchievementMessage({
-    exercisePlace: 1,
-    percentPlace: 1,
+    place: 1,
     alias: 'Learner A3BF',
     day: '2026-11-17',
     reading: { done: 4, correct: 8, answered: 20 },
@@ -71,8 +74,9 @@ test('only the top 5 qualified learners are mailed, without another person addre
     optOutUrl: 'https://dailyenglishtest.es/api/scoreboard-email-opt-out?token=preview',
   });
   assert.match(message.html, /Learner A3BF/);
-  assert.match(message.html, /1st for Most exercises/);
-  assert.match(message.html, /1st for Best %/);
+  assert.match(message.html, /1st/);
+  assert.equal(message.html.includes('Most exercises'), false);
+  assert.equal(message.html.includes('Best %'), false);
   assert.match(message.html, /Stop these emails/);
   assert.match(message.html, /not a certificate/);
   assert.equal(message.html.includes('@'), false);

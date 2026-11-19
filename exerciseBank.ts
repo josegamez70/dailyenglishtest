@@ -172,10 +172,15 @@ export function readingBankQuery(input: { customTopic: string; topic: string; fo
  * Practice skips today and tomorrow so those pieces are still unseen when the challenge starts.
  * The same md5 prefix is used in claim_reading_bank_item, as an unsigned 32-bit number.
  */
-export function readingChallengeIndex(day: string, level: string, count: number): number {
+/** Unsigned 32-bit prefix of md5(day|level|kind), the same read Postgres uses. */
+export function bankChallengeIndex(day: string, level: string, kind: 'reading' | 'listening' | 'grammar', count: number): number {
   if (count <= 0) return 0;
-  const hex = createHash('md5').update(`${day}|${level}|reading`).digest('hex').slice(0, 8);
+  const hex = createHash('md5').update(`${day}|${level}|${kind}`).digest('hex').slice(0, 8);
   return Buffer.from(hex, 'hex').readUInt32BE(0) % count;
+}
+
+export function readingChallengeIndex(day: string, level: string, count: number): number {
+  return bankChallengeIndex(day, level, 'reading', count);
 }
 
 export type ReadingBankLesson = {

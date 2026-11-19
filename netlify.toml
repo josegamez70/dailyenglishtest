@@ -72,6 +72,16 @@
   status = 200
 
 [[redirects]]
+  from = "/daily-challenge"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/daily-challenge/"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
   from = "/vocabulary"
   to = "/index.html"
   status = 200
