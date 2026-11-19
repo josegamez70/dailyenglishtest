@@ -222,4 +222,13 @@ test('a saved word keeps popup Spanish and translates only the missing lines onc
   const css = readFileSync(new URL('../phase2.css', import.meta.url), 'utf8');
   assert.match(css, /\.vocab-lang button \{[^}]*min-height:\s*2\.75rem/);
   assert.match(css, /button\.vocab-more \{[^}]*min-height:\s*2\.75rem/);
+  const practiceStart = page.indexOf('className="vocab-practice');
+  const hintAt = page.indexOf('id="vocab-quiz-hint"');
+  const practice = page.slice(practiceStart, hintAt);
+  assert.match(practice, /Flashcards/);
+  assert.match(practice, />\s*Quiz\s*</);
+  assert.match(practice, /<\/div>\s*\{!quizReady && <p\s*$/);
+  assert.ok(practiceStart < hintAt);
+  assert.match(css, /html\[data-theme="retro95"\] \.vocab-practice > button\.quiz-advance \{[^}]*margin-top:\s*0 !important/);
+  assert.match(css, /html\[data-theme="retro95"\] \.vocab-card,\s*html\[data-theme="retro95"\] \.phase2-lift \{[^}]*background-color:\s*#fff !important;[^}]*color:\s*#000 !important/);
 });

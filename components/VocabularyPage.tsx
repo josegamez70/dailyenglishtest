@@ -677,8 +677,8 @@ export function VocabularyPage({
               </button>
             ))}
           </div>
-          <div className="mt-4 grid grid-cols-2 gap-2">
-            <button type="button" onClick={() => setMode('cards')} className="choice-pill quiz-advance rounded-lg bg-blue-700 py-3 text-base font-bold text-white hover:bg-blue-800">
+          <div className="vocab-practice mt-4 grid grid-cols-2 items-stretch gap-2">
+            <button type="button" onClick={() => setMode('cards')} className="choice-pill quiz-advance h-full rounded-lg bg-blue-700 py-3 text-base font-bold text-white hover:bg-blue-800">
               Flashcards
             </button>
             <button
@@ -687,8 +687,8 @@ export function VocabularyPage({
               disabled={!quizReady}
               aria-describedby={quizReady ? undefined : 'vocab-quiz-hint'}
               className={quizReady
-                ? 'choice-pill quiz-advance rounded-lg border-2 border-slate-900 py-3 text-base font-bold dark:border-slate-100'
-                : 'choice-pill rounded-lg border-2 border-slate-400 py-3 text-base font-bold text-slate-500'}
+                ? 'choice-pill quiz-advance h-full rounded-lg border-2 border-slate-900 py-3 text-base font-bold dark:border-slate-100'
+                : 'choice-pill h-full rounded-lg border-2 border-slate-400 py-3 text-base font-bold text-slate-500'}
             >
               Quiz
             </button>

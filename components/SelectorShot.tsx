@@ -6,6 +6,24 @@ import { previewWords } from './VocabularyPreview';
 import Configurator from './Configurator';
 import { setRetroActive } from '../retroTheme';
 import type { ConfigOptions } from '../types';
+import type { GrammarLaunch } from '../savedLessonMeta';
+
+const grammarQuestion: GrammarLaunch = {
+  id: '',
+  token: 1,
+  level: 'C1',
+  exercise: 'blanks',
+  topic: 'Travel',
+  title: 'Grammar: Fill in the blanks',
+  grades: null,
+  items: [{
+    kind: 'choice',
+    prompt: 'It is nearly midnight, so it is high time we _____ home.',
+    options: ['go', 'went', 'have gone', 'are going'],
+    correctAnswer: 'went',
+    explanation: 'After high time, the verb is in the past simple.',
+  }],
+};
 
 /** Local screenshot page for the setup buttons. Vite drops this route from production. */
 export function SelectorShot() {
@@ -38,13 +56,14 @@ export function SelectorShot() {
       {scene === 'reading' && (
         <Configurator config={config} setConfig={setConfig} onGenerate={() => undefined} isLoading={false} practiceType="reading" />
       )}
-      {scene === 'grammar' && (
+      {(scene === 'grammar' || scene === 'question') && (
         <GrammarPage
           fontClass="text-lg"
-          initialLevel="B1"
+          initialLevel="C1"
           resetNonce={0}
           onActiveChange={() => undefined}
           onLessonsChanged={() => undefined}
+          launch={scene === 'question' ? grammarQuestion : null}
         />
       )}
     </AppShell>
