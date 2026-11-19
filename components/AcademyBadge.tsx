@@ -81,7 +81,7 @@ export function AcademyBadge({
     : academyPillName(role === 'student' ? null : displayName, academy);
   const retro = useRetroTheme();
   const copyRef = useRef<HTMLSpanElement>(null);
-  const fit = Boolean(fitWidth && retro && compact);
+  const fit = Boolean(fitWidth && compact);
   const headerStudent = fit && role === 'student';
   const topLine = headerStudent ? (academy || 'Academy') : label;
   const bottomLine = headerStudent

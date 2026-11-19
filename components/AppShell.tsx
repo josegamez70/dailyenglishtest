@@ -38,13 +38,20 @@ const MENU_ICON: Record<string, string> = {
 function Wordmark({ variant, iconSize }: { variant: 'header' | 'side'; iconSize?: number }) {
   return (
     <p className={variant === 'header'
-      ? 'retro-wordmark inline-flex min-w-0 flex-1 items-center gap-1 font-fun text-base leading-none md:hidden'
+      ? 'retro-wordmark header-brand inline-flex shrink-0 items-center gap-1 font-fun leading-tight md:hidden'
       : 'retro-side-mark menu-title inline-flex min-w-0 items-center gap-2 font-fun leading-tight'}>
-      <PixelArt src="/icons/practice_reading.png" size={iconSize ?? (variant === 'header' ? 20 : 24)} />
-      <span>
-        <span className="text-blue-800 dark:text-blue-300">Daily </span>
-        <span className="text-red-700 dark:text-red-400">English Test</span>
-      </span>
+      <PixelArt src="/icons/practice_reading.png" size={iconSize ?? (variant === 'header' ? 26 : 24)} />
+      {variant === 'header' ? (
+        <span className="header-brand-lines">
+          <span className="block text-blue-800 dark:text-blue-300">Daily</span>
+          <span className="block text-red-700 dark:text-red-400">English Test</span>
+        </span>
+      ) : (
+        <span>
+          <span className="text-blue-800 dark:text-blue-300">Daily </span>
+          <span className="text-red-700 dark:text-red-400">English Test</span>
+        </span>
+      )}
     </p>
   );
 }
@@ -235,7 +242,7 @@ export function AppShell({
               <MenuMark />
             </button>
             <Wordmark variant="header" />
-            {retro && headerBadge}
+            {headerBadge && <div className="header-badge">{headerBadge}</div>}
             {onHome && (
               <button
                 type="button"
@@ -248,7 +255,6 @@ export function AppShell({
               </button>
             )}
           </div>
-          {!retro && headerBadge}
         </div>
         <div className="flex flex-1 flex-col px-3 py-4 sm:px-5">{children}</div>
       </div>

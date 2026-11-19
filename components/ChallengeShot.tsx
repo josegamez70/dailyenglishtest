@@ -70,14 +70,14 @@ export function ChallengeShot() {
       active={active}
       onNavigate={() => undefined}
       onSignOut={() => undefined}
-      onHome={() => undefined}
       email={params.get('email') || 'demo.learner@example.com'}
       status="Free lessons left: 7 of 12"
       showAcademy={role !== 'individual'}
-      academyName={role === 'individual' ? null : 'Demo Academy'}
+      academyName={role === 'individual' ? null : (params.get('academy') || 'Demo Academy')}
       academyRole={role === 'student' ? 'student' : role === 'owner' ? 'owner' : null}
-      displayName="Demo Alba"
+      displayName={params.has('name') ? params.get('name') : 'Demo Alba'}
       menuOpen={menu}
+      onHome={params.get('home') === '0' ? undefined : () => undefined}
     >
       {view === 'ranking' || view === 'challenge' ? (
         <div id="shot-scoreboard">
