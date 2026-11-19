@@ -436,6 +436,57 @@ html.dark .scoreboard-tabs button.is-selected {
 .challenge-rank th:nth-child(5),
 .challenge-rank td:nth-child(5) { width: 3.4rem; white-space: nowrap; text-align: right; }
 
+.header-brand {
+  font-size: 0.92rem;
+}
+.header-brand-lines {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.05;
+}
+.header-row .header-badge svg {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 auto;
+}
+.header-row .header-badge {
+  display: flex;
+  flex: 1 1 auto;
+  min-width: 0;
+  justify-content: flex-end;
+}
+.header-row .header-badge > p {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+  max-width: 100% !important;
+  box-sizing: border-box;
+}
+@media (min-width: 768px) {
+  .header-row .header-badge {
+    flex: 0 1 auto;
+    margin-right: auto;
+  }
+  .header-row .header-badge > p {
+    flex: 0 1 auto;
+    width: auto;
+    max-width: 18rem !important;
+  }
+}
+.header-row .header-badge .retro-pill-copy {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+}
+.header-row .header-badge .retro-pill-name,
+.header-row .header-badge .retro-pill-copy > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .menu-drawer {
   width: min(20rem, 80vw);
   max-width: 100%;

@@ -176,8 +176,11 @@ html[data-theme="retro95"] .retro-wordmark span {
   color: #fff !important;
   font-family: "VT323", ui-monospace, monospace !important;
   font-size: 1.2rem;
-  line-height: 1;
+  line-height: 1.05;
   white-space: nowrap;
+}
+html[data-theme="retro95"] .header-brand-lines {
+  line-height: 1.05;
 }
 
 html[data-theme="retro95"] .retro-wordmark span + span {
