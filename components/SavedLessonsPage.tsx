@@ -102,8 +102,8 @@ export function SavedLessonsPage({
                 }}
                 className={
                   selected
-                    ? 'min-h-11 whitespace-nowrap rounded-lg bg-blue-700 px-2 py-2 text-sm font-bold text-white'
-                    : 'min-h-11 whitespace-nowrap rounded-lg px-2 py-2 text-sm font-semibold text-slate-800 hover:bg-slate-100 dark:text-slate-100 dark:hover:bg-slate-800'
+                    ? 'choice-pill min-h-11 whitespace-nowrap rounded-lg bg-blue-700 px-2 py-2 text-sm font-bold text-white'
+                    : 'choice-pill min-h-11 whitespace-nowrap rounded-lg px-2 py-2 text-sm font-semibold text-slate-800 hover:bg-slate-100 dark:text-slate-100 dark:hover:bg-slate-800'
                 }
               >
                 {item.label}

@@ -556,15 +556,15 @@ export function VocabularyPage({
                 aria-pressed={source === id}
                 onClick={() => setSource(id)}
                 className={source === id
-                  ? 'rounded-lg border-2 border-blue-800 bg-blue-700 px-2 py-2 text-sm font-bold text-white'
-                  : 'rounded-lg border-2 border-slate-500 bg-white px-2 py-2 text-sm font-semibold dark:border-slate-300 dark:bg-slate-800'}
+                  ? 'choice-pill rounded-lg border-2 border-blue-800 bg-blue-700 px-2 py-2 text-sm font-bold text-white'
+                  : 'choice-pill rounded-lg border-2 border-slate-500 bg-white px-2 py-2 text-sm font-semibold dark:border-slate-300 dark:bg-slate-800'}
               >
                 {label}
               </button>
             ))}
           </div>
           <div className="mt-4 grid grid-cols-2 gap-2">
-            <button type="button" onClick={() => setMode('cards')} className="quiz-advance rounded-lg bg-blue-700 py-3 text-base font-bold text-white hover:bg-blue-800">
+            <button type="button" onClick={() => setMode('cards')} className="choice-pill quiz-advance rounded-lg bg-blue-700 py-3 text-base font-bold text-white hover:bg-blue-800">
               Flashcards
             </button>
             <button
@@ -573,8 +573,8 @@ export function VocabularyPage({
               disabled={!quizReady}
               aria-describedby={quizReady ? undefined : 'vocab-quiz-hint'}
               className={quizReady
-                ? 'quiz-advance rounded-lg border-2 border-slate-900 py-3 text-base font-bold dark:border-slate-100'
-                : 'rounded-lg border-2 border-slate-400 py-3 text-base font-bold text-slate-500'}
+                ? 'choice-pill quiz-advance rounded-lg border-2 border-slate-900 py-3 text-base font-bold dark:border-slate-100'
+                : 'choice-pill rounded-lg border-2 border-slate-400 py-3 text-base font-bold text-slate-500'}
             >
               Quiz
             </button>
@@ -590,7 +590,7 @@ export function VocabularyPage({
               <button
                 type="button"
                 onClick={() => { setQuery(''); setSource('all'); }}
-                className="mt-3 rounded-lg border-2 border-slate-900 px-4 py-2 text-base font-bold dark:border-slate-100"
+                className="choice-pill mt-3 rounded-lg border-2 border-slate-900 px-4 py-2 text-base font-bold dark:border-slate-100"
               >
                 Clear search and filters
               </button>
@@ -604,7 +604,7 @@ export function VocabularyPage({
                     <h2 className="text-xl font-bold capitalize">{row.term}</h2>
                     <PronounceButton term={row.term} accent={voice} />
                   </div>
-                  <button type="button" onClick={() => remove(row.term)} className="shrink-0 rounded-lg border-2 border-slate-900 px-3 py-1 text-sm font-bold dark:border-slate-100">
+                  <button type="button" onClick={() => remove(row.term)} className="choice-pill shrink-0 rounded-lg border-2 border-slate-900 px-3 py-1 text-sm font-bold dark:border-slate-100">
                     Delete
                   </button>
                 </div>

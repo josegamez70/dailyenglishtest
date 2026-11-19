@@ -436,6 +436,12 @@ html.dark .scoreboard-tabs button.is-selected {
 .challenge-rank th:nth-child(5),
 .challenge-rank td:nth-child(5) { width: 3.4rem; white-space: nowrap; text-align: right; }
 
+button.choice-pill {
+  font-size: 1.25em !important;
+  line-height: 1.2 !important;
+  white-space: nowrap;
+}
+
 .header-brand {
   font-size: 0.92rem;
 }

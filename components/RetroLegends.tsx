@@ -105,7 +105,7 @@ export function RetroLegendsPanel({ fixture }: { fixture?: Board }) {
             ['grammar', 'Grammar'],
             ['vocabulary', 'Vocabulary'],
           ] as const).map(([id, label]) => (
-            <button key={id} type="button" role="tab" aria-selected={tab === id} onClick={() => setTab(id)} className={`border-2 border-slate-900 px-3 py-1 text-sm font-bold ${tab === id ? 'bg-slate-900 text-white' : 'bg-white text-slate-900'}`}>
+            <button key={id} type="button" role="tab" aria-selected={tab === id} onClick={() => setTab(id)} className={`choice-pill border-2 border-slate-900 px-3 py-1 text-sm font-bold ${tab === id ? 'bg-slate-900 text-white' : 'bg-white text-slate-900'}`}>
               {label}
             </button>
           ))}
