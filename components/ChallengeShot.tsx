@@ -21,7 +21,7 @@ const PREVIEW = {
   reading: {
     title: 'The Saturday Market',
     topic: 'Daily life',
-    story: 'Marta arrived before the bread stall opened. She counted the coins in her pocket and chose a small loaf.',
+    story: 'Marta arrived before the bread stall opened. She counted the coins in her pocket and chose a small loaf.\n\nThe stall holder wrapped the loaf in paper and said the next batch would be later.\n\nShe walked home along the canal, where the Saturday market was already loud.',
     quiz: [{ question: 'When did Marta arrive?', options: ['After lunch', 'Before the bread stall opened', 'At night', 'On Monday'], correctAnswer: 'Before the bread stall opened', explanation: 'The first sentence says she arrived before it opened.' }],
   },
   listening: {
@@ -36,11 +36,16 @@ const PREVIEW = {
     items: [{ kind: 'choice' as const, prompt: 'She ___ to the market every Saturday.', options: ['go', 'goes', 'going', 'gone'], correctAnswer: 'goes', explanation: 'She takes -s.' }],
   },
   result: {
-    correct: 15,
-    total: 20,
+    correct: 12,
+    total: 15,
     seconds: 812,
     position: 3,
     missing: false,
+    report: [
+      { part: 'reading' as const, question: 'When did Marta arrive?', userAnswer: 'After lunch', correctAnswer: 'Before the bread stall opened', correct: false, why: 'The first sentence says she arrived before it opened.' },
+      { part: 'listening' as const, question: 'What is late?', userAnswer: 'The train', correctAnswer: 'The train', correct: true, why: 'The recording says the train is late.' },
+      { part: 'grammar' as const, question: 'She ___ to the market every Saturday.', userAnswer: 'go', correctAnswer: 'goes', correct: false, why: 'She takes -s.' },
+    ],
   },
 };
 
@@ -83,7 +88,13 @@ export function ChallengeShot() {
         </div>
       ) : (
         <div id="shot-challenge">
-          <DailyChallengePage preview={view === 'result' ? PREVIEW : { ...PREVIEW, result: undefined }} />
+          <DailyChallengePage
+            preview={{
+              ...PREVIEW,
+              result: view === 'result' || view === 'report' ? PREVIEW.result : undefined,
+            }}
+            startPart={view === 'reading' || view === 'question' ? 'reading' : null}
+          />
         </div>
       )}
     </AppShell>

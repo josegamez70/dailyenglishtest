@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { loadChallengeBoard, loadChallengePack, submitChallenge, type ChallengePack, type ChallengeQuiz } from '../dailyChallengeClient';
-import { formatDuration, presentChallenge, type ChallengeLevel } from '../dailyChallenge';
+import { formatDuration, presentChallenge, type ChallengeLevel, type ChallengeReportItem } from '../dailyChallenge';
 import { weightedPercent } from '../scoreboard';
 import { recordScoredLesson } from '../legendsRecord';
 import type { GrammarItem } from '../grammarSet';
@@ -21,6 +21,7 @@ type PreviewPack = {
     seconds: number;
     position: number | null;
     missing: boolean;
+    report?: ChallengeReportItem[] | null;
   };
 };
 
@@ -71,9 +72,11 @@ function ChoiceList({
 export function DailyChallengePage({
   onBack,
   preview,
+  startPart = null,
 }: {
   onBack?: () => void;
   preview?: PreviewPack;
+  startPart?: PartId | null;
 }) {
   const [pack, setPack] = useState<ChallengePack | null>(preview ? {
     ok: true,
@@ -92,13 +95,15 @@ export function DailyChallengePage({
       listeningTotal: preview.listening.quiz.length,
       grammarTotal: preview.grammar.items.length,
       position: preview.result.position,
+      report: preview.result.report ?? null,
+      answersStored: Boolean(preview.result.report?.length),
     } : null,
     reading: preview.reading,
     listening: preview.listening,
     grammar: preview.grammar,
   } : null);
   const [message, setMessage] = useState<string | null>(null);
-  const [open, setOpen] = useState<PartId | null>(null);
+  const [open, setOpen] = useState<PartId | null>(startPart);
   const [readingAnswers, setReadingAnswers] = useState<string[]>([]);
   const [listeningAnswers, setListeningAnswers] = useState<string[]>([]);
   const [grammarAnswers, setGrammarAnswers] = useState<(string | string[])[]>([]);
@@ -123,8 +128,9 @@ export function DailyChallengePage({
           correct: next.submitted.correct,
           total: next.submitted.total,
           seconds: next.submitted.seconds,
-          position: next.submitted.position,
+          position: next.submitted.          position,
           missing: next.missing,
+          report: next.submitted.report,
         });
       }
     }).catch(() => {
@@ -151,10 +157,10 @@ export function DailyChallengePage({
 
   if (!pack) {
     return (
-      <div>
+      <div className="challenge-flow">
         {onBack && <BackButton onClick={onBack} />}
-        <h1 className="text-2xl font-bold">Daily challenge</h1>
-        <p className="mt-3 text-base">{message ?? 'Loading today’s challenge...'}</p>
+        <h1>Daily challenge</h1>
+        <p className="mt-3">{message ?? 'Loading today’s challenge...'}</p>
       </div>
     );
   }
@@ -164,10 +170,10 @@ export function DailyChallengePage({
   const grammar = pack.grammar;
   if (!reading || !listening || !grammar) {
     return (
-      <div>
+      <div className="challenge-flow">
         {onBack && <BackButton onClick={onBack} />}
-        <h1 className="text-2xl font-bold">Daily challenge</h1>
-        <p className="mt-3 text-base">{message ?? "Today's challenge is not ready yet."}</p>
+        <h1>Daily challenge</h1>
+        <p className="mt-3">{message ?? "Today's challenge is not ready yet."}</p>
       </div>
     );
   }
@@ -230,6 +236,7 @@ export function DailyChallengePage({
       seconds: saved.missing ? liveSeconds : saved.seconds,
       position,
       missing: saved.missing,
+      report: saved.report ?? null,
     });
     if (saved.recorded) {
       void recordScoredLesson('reading', reading.quiz.map((item) => `${item.question}\n${item.correctAnswer}`), saved.readingCorrect, saved.readingTotal);
@@ -243,26 +250,42 @@ export function DailyChallengePage({
   if (result) {
     const percent = weightedPercent(result.correct, result.total);
     return (
-      <div>
+      <div className="challenge-flow">
         {onBack && <BackButton onClick={onBack} />}
-        <h1 className="text-2xl font-bold">Daily challenge</h1>
-        <p className="mt-2 text-base">{pack.level} · {pack.day}</p>
+        <h1>Daily challenge</h1>
+        <p className="mt-2">{pack.level} · {pack.day}</p>
         <section className="mt-4 border-2 border-slate-900 bg-white p-4 text-slate-900" aria-label="Challenge result">
-          <p className="text-2xl font-bold">You scored {result.correct} out of {result.total}{percent == null ? '' : ` (${percent}%)`}.</p>
-          <p className="mt-2 text-base">Time {formatDuration(result.seconds)}.</p>
+          <p className="text-3xl font-bold">You scored {result.correct} out of {result.total}{percent == null ? '' : ` (${percent}%)`}.</p>
+          <p className="mt-2">Time {formatDuration(result.seconds)}.</p>
           {result.position != null ? (
-            <p className="mt-2 text-base">You are {placeLabel(result.position)} at {pack.level} today.</p>
+            <p className="mt-2">You are {placeLabel(result.position)} at {pack.level} today.</p>
           ) : (
-            <p className="mt-2 text-base">Your place on the board will show after the database update.</p>
+            <p className="mt-2">Your place on the board will show after the database update.</p>
           )}
-          <p className="mt-3 text-base">This is practice. It is not a certificate.</p>
+          <p className="mt-3">This is practice. It is not a certificate.</p>
+          {result.report?.length ? (
+            <ol className="mt-4 flex list-none flex-col gap-4 p-0">
+              {result.report.map((item, index) => (
+                <li key={`${item.part}-${index}`} className={`border-2 p-3 ${item.correct ? 'border-green-700' : 'border-red-700'}`}>
+                  <p className="font-bold">{index + 1}. {item.part[0].toUpperCase()}{item.part.slice(1)}</p>
+                  <p className="mt-1">{item.question}</p>
+                  <p className="mt-2">Your answer: {item.userAnswer}</p>
+                  <p>Correct answer: {item.correctAnswer}</p>
+                  <p className="font-bold">{item.correct ? 'Correct' : 'Incorrect'}</p>
+                  {item.why && <p className="mt-2">Why: {item.why}</p>}
+                </li>
+              ))}
+            </ol>
+          ) : (
+            <p className="mt-3">The question-by-question report will be kept after the database update.</p>
+          )}
         </section>
       </div>
     );
   }
 
   return (
-    <div>
+    <div className="challenge-flow">
       {onBack && open == null && <BackButton onClick={onBack} />}
       {open != null && <BackButton onClick={() => setOpen(null)} />}
       <h1 className="text-2xl font-bold">Daily challenge</h1>

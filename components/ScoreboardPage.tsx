@@ -164,7 +164,7 @@ export function ScoreboardPage({
       )}
       {view === 'challenge' && (
         <>
-          <p className="mt-2 text-sm">Today's daily challenge at this level, in Spain time. A shorter time breaks a tie.</p>
+          <p className="mt-2 text-sm">Today's daily challenge at this level, in Spain time. Ranked by percent, so an earlier attempt with a different number of questions still compares fairly. A shorter time breaks a tie.</p>
           <div className="mt-3 flex flex-wrap gap-2" role="group" aria-label="Challenge level">
             {(['B1', 'B2', 'C1'] as const).map((id) => (
               <button key={id} type="button" aria-pressed={level === id} onClick={() => setLevel(id)} className={`border-2 border-slate-900 px-4 py-2 text-base font-bold ${level === id ? 'bg-slate-900 text-white' : 'bg-white text-slate-900'}`}>

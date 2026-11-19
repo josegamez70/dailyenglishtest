@@ -1,5 +1,5 @@
 import { accessToken, getSupabase } from './auth';
-import type { ChallengeEntry, ChallengeLevel } from './dailyChallenge';
+import type { ChallengeEntry, ChallengeLevel, ChallengeReportItem } from './dailyChallenge';
 import type { GrammarItem } from './grammarSet';
 
 export type ChallengeQuiz = {
@@ -7,6 +7,8 @@ export type ChallengeQuiz = {
   options: string[];
   correctAnswer: string;
   explanation: string;
+  supportingSentence?: string;
+  why?: string;
 };
 
 export type ChallengePack = {
@@ -26,6 +28,8 @@ export type ChallengePack = {
     listeningTotal: number;
     grammarTotal: number;
     position: number | null;
+    report: ChallengeReportItem[] | null;
+    answersStored: boolean;
   } | null;
   reading: { title: string; topic: string; story: string; quiz: ChallengeQuiz[] } | null;
   listening: { title: string; topic: string; audioUrl: string | null; quiz: ChallengeQuiz[] } | null;
@@ -46,6 +50,8 @@ export type ChallengeSubmit = {
   listeningTotal: number;
   grammarTotal: number;
   position: number | null;
+  report?: ChallengeReportItem[] | null;
+  answersStored?: boolean;
   message?: string;
 };
 
@@ -94,6 +100,8 @@ export async function submitChallenge(answers: {
         listeningTotal: 0,
         grammarTotal: 0,
         position: null,
+        report: null,
+        answersStored: false,
         message: 'The result could not be saved.',
       };
     }
@@ -113,6 +121,8 @@ export async function submitChallenge(answers: {
       listeningTotal: 0,
       grammarTotal: 0,
       position: null,
+      report: null,
+      answersStored: false,
       message: 'The result could not be saved.',
     };
   }
