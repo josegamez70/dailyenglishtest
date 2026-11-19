@@ -54,6 +54,8 @@ export function ChallengeShot() {
   const params = new URLSearchParams(window.location.search);
   const theme = params.get('theme') || 'light';
   const view = params.get('view') || 'play';
+  const menu = params.get('menu') === '1';
+  const role = params.get('role') || 'individual';
   useEffect(() => {
     const dark = theme === 'dark';
     document.documentElement.classList.toggle('dark', dark);
@@ -69,9 +71,13 @@ export function ChallengeShot() {
       onNavigate={() => undefined}
       onSignOut={() => undefined}
       onHome={() => undefined}
-      email="josegamez70+detest@gmail.com"
+      email="demo.learner@example.com"
       status="Free lessons left: 7 of 12"
-      showAcademy={false}
+      showAcademy={role !== 'individual'}
+      academyName={role === 'individual' ? null : 'Demo Academy'}
+      academyRole={role === 'student' ? 'student' : role === 'owner' ? 'owner' : null}
+      displayName="Demo Alba"
+      menuOpen={menu}
     >
       {view === 'ranking' || view === 'challenge' ? (
         <div id="shot-scoreboard">

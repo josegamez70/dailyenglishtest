@@ -420,6 +420,99 @@ html.dark .scoreboard-tabs > button.is-selected {
 .challenge-rank th:nth-child(5),
 .challenge-rank td:nth-child(5) { width: 3.4rem; white-space: nowrap; text-align: right; }
 
+.menu-drawer {
+  width: min(24rem, calc(100vw - 1.25rem));
+  max-width: 100%;
+  box-sizing: border-box;
+}
+.menu-drawer .menu-head {
+  padding: 1rem 0.85rem 0.35rem;
+}
+.menu-drawer .menu-title {
+  font-size: 1.45rem;
+  line-height: 1.15;
+}
+.menu-drawer .menu-email,
+.menu-drawer .menu-status {
+  font-size: 1.05rem;
+  line-height: 1.3;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.menu-drawer .menu-badge .retro-pill,
+.menu-drawer .menu-badge > p {
+  display: flex;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+.menu-drawer .menu-badge svg {
+  width: 28px;
+  height: 28px;
+}
+.menu-drawer .menu-badge .text-\[10px\] {
+  font-size: 0.95rem;
+}
+.menu-drawer .menu-badge .text-xs,
+.menu-drawer .menu-badge .retro-pill-name {
+  font-size: 1.15rem;
+}
+.menu-drawer .menu-nav,
+.menu-drawer .menu-foot {
+  padding: 0;
+}
+.menu-drawer .menu-foot-title {
+  margin: 0;
+  padding: 0.85rem 0.85rem 0.2rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+.menu-drawer .menu-item,
+.menu-drawer .menu-link {
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+  align-items: center;
+  gap: 0.65rem;
+  min-height: 3.25rem;
+  margin: 0;
+  padding: 0.7rem 0.85rem;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: left;
+  text-decoration: none;
+  white-space: normal;
+}
+.menu-drawer .menu-label {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.menu-drawer .menu-item-on {
+  background: #1d4ed8;
+  color: #fff;
+}
+.menu-drawer .menu-signout {
+  border-top: 1px solid #cbd5e1;
+  font-weight: 700;
+}
+.dark .menu-drawer .menu-item,
+.dark .menu-drawer .menu-link {
+  color: #f8fafc;
+}
+.dark .menu-drawer .menu-item-on {
+  background: #1d4ed8;
+  color: #fff;
+}
+.dark .menu-drawer .menu-signout {
+  border-top-color: #475569;
+}
+
 .scoreboard-gold { background: #fff3b0; color: #000; }
 .scoreboard-silver { background: #e5e7eb; color: #000; }
 .scoreboard-bronze { background: #e7c8a0; color: #000; }
