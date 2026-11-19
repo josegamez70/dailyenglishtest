@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
+import { drawerCloseReason } from '../menuDrawer.ts';
 
 test('the mobile menu scrolls inside the drawer and does not lock the page', () => {
   const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
@@ -19,10 +20,19 @@ test('the mobile menu scrolls inside the drawer and does not lock the page', () 
   assert.match(shell, /layout="drawer"/);
   assert.match(shell, /menu-item/);
   const css = readFileSync(new URL('../phase2.css', import.meta.url), 'utf8');
-  assert.match(css, /\.menu-drawer \{[^}]*width:\s*min\(24rem/);
-  assert.match(css, /\.menu-drawer \.menu-item[\s\S]*font-size:\s*0\.96rem/);
+  assert.match(css, /\.menu-drawer \{[^}]*width:\s*min\(20rem,\s*80vw\)/);
+  assert.match(css, /\.menu-drawer \.menu-item[\s\S]*font-size:\s*1\.2rem/);
   const retro = readFileSync(new URL('../retro95.css', import.meta.url), 'utf8');
-  assert.match(retro, /\.menu-drawer \.menu-item[\s\S]*font-size:\s*1\.36rem/);
+  assert.match(retro, /\.menu-drawer \.menu-item[\s\S]*font-size:\s*1\.7rem/);
+  assert.match(shell, /aria-label="Close menu"/);
+  assert.match(shell, /menu-backdrop absolute inset-0/);
+  assert.match(css, /\.menu-backdrop \{[^}]*rgb\(15 23 42 \/ 0\.45\)/);
+  assert.match(shell, /drawerCloseReason\(\{ outside: true \}\)/);
+  assert.match(shell, /key: event\.key/);
+  assert.equal(drawerCloseReason({ outside: true }), 'backdrop');
+  assert.equal(drawerCloseReason({ key: 'Escape', outside: false }), 'escape');
+  assert.equal(drawerCloseReason({ key: 'Enter', outside: false }), null);
+  assert.equal(drawerCloseReason({ outside: false }), null);
   assert.equal(shell.includes('document.body.style.overflow'), false);
   assert.equal(shell.includes("touch-action: none"), false);
 });
