@@ -493,6 +493,15 @@ html[data-theme="retro95"] .scoreboard-head {
   color: #fff;
 }
 
+html[data-theme="retro95"] .scoreboard-tabs > button {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 4px 1px !important;
+  font-size: 15px !important;
+  line-height: 1 !important;
+  letter-spacing: 0 !important;
+  white-space: nowrap;
+}
 html[data-theme="retro95"] .scoreboard-gold { background: #ffff80 !important; color: #000 !important; }
 html[data-theme="retro95"] .scoreboard-silver { background: #d4d0c8 !important; color: #000 !important; }
 html[data-theme="retro95"] .scoreboard-bronze { background: #d4a574 !important; color: #000 !important; }

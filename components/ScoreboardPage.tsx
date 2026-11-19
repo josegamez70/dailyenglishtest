@@ -9,13 +9,13 @@ import {
   type ScoreRow,
 } from '../scoreboard';
 import {
-  formatDuration,
-  presentChallenge,
   type ChallengeEntry,
   type ChallengeLevel,
 } from '../dailyChallenge';
 import { loadChallengeBoard } from '../dailyChallengeClient';
 import { BackButton } from './BackButton';
+import { ChallengeRankTable } from './ChallengeRankTable';
+import { PixelArt } from './PixelArt';
 
 const RANKING_LINE = 'Ranked by % correct among learners with at least 3 exercises; ties go to whoever did more.';
 
@@ -73,7 +73,7 @@ export function ScoreboardPage({
   fixture?: ScoreboardFixture;
 }) {
   const initialLevel: ChallengeLevel = profileLevel === 'B2' || profileLevel === 'C1' ? profileLevel : 'B1';
-  const [view, setView] = useState<ScorePeriod | 'challenge'>(fixture?.initialView ?? 'all');
+  const [view, setView] = useState<ScorePeriod | 'challenge'>(fixture?.initialView ?? 'challenge');
   const [level, setLevel] = useState<ChallengeLevel>(initialLevel);
   const [load, setLoad] = useState<ScoreboardLoad | null>(null);
   const [ready, setReady] = useState(Boolean(fixture));
@@ -117,7 +117,6 @@ export function ScoreboardPage({
 
   const rows = fixture ? fixture.rows : load ? boardRows(load, period) : [];
   const board = presentBoard(rows, SCOREBOARD_MIN);
-  const challenge = presentChallenge(challengeRows);
   const demo = fixture ? fixture.source !== 'live' : load?.source === 'demo';
 
   return (
@@ -144,14 +143,15 @@ export function ScoreboardPage({
           Yesterday for the whole board needs the database update. This tab shows only your own yesterday until then.
         </p>
       )}
-      <div className="mt-4 flex flex-wrap gap-2" role="tablist" aria-label="Scoreboard period">
+      <div className="scoreboard-tabs mt-4" role="tablist" aria-label="Scoreboard period">
         {([
-          ['all', 'All time'],
+          ['challenge', 'Challenge'],
           ['daily', 'Today'],
           ['yesterday', 'Yesterday'],
-          ['challenge', 'Challenge'],
+          ['all', 'All time'],
         ] as const).map(([id, label]) => (
-          <button key={id} type="button" role="tab" aria-selected={view === id} onClick={() => setView(id)} className={`border-2 border-slate-900 px-4 py-2 text-base font-bold ${view === id ? 'bg-slate-900 text-white' : 'bg-white text-slate-900'}`}>
+          <button key={id} type="button" role="tab" aria-selected={view === id} onClick={() => setView(id)} className={view === id ? 'is-selected' : undefined}>
+            {id === 'challenge' && <PixelArt src="/icons/daily_challenge.png" size={16} />}
             {label}
           </button>
         ))}
@@ -172,51 +172,7 @@ export function ScoreboardPage({
               </button>
             ))}
           </div>
-          {challengeMissing && (
-            <p className="mt-3 border-2 border-slate-900 bg-amber-100 px-3 py-2 text-base text-slate-900" role="note">
-              Today's challenge ranking will appear after the database update.
-            </p>
-          )}
-          {challengeReady && (
-            <div className="scoreboard-scroll mt-4 overflow-x-auto">
-              <table className="w-full min-w-[28rem] border-collapse text-left text-base">
-                <caption className="sr-only">Today's challenge at {level}, ranked by combined percent, then by shorter time.</caption>
-                <thead className="scoreboard-head">
-                  <tr>
-                    <th className="px-2 py-2">#</th>
-                    <th className="px-2 py-2">Student</th>
-                    <th className="px-2 py-2 text-right">Correct</th>
-                    <th className="px-2 py-2 text-right">%</th>
-                    <th className="px-2 py-2 text-right">Time</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {challenge.top.map((row) => (
-                    <tr key={row.alias} className={`${medal(row.rank)} ${row.isSelf ? 'scoreboard-you' : ''} ${row.demo ? 'scoreboard-demo' : ''}`}>
-                      <td className="px-2 py-2 font-bold">{row.rank}</td>
-                      <td className="px-2 py-2">
-                        <span className="block font-semibold">{row.alias}</span>
-                        {row.demo && <span className="block text-xs">Fictitious</span>}
-                        {row.isSelf && <span className="block text-xs">Your row</span>}
-                      </td>
-                      <td className="px-2 py-2 text-right">{row.correct}/{row.total}</td>
-                      <td className="px-2 py-2 text-right">{formatPercent(row.correct, row.total, true)}</td>
-                      <td className="px-2 py-2 text-right">{formatDuration(row.seconds)}</td>
-                    </tr>
-                  ))}
-                  {challenge.self && (
-                    <tr className={`scoreboard-you ${challenge.self.demo ? 'scoreboard-demo' : ''}`}>
-                      <td className="px-2 py-2 font-bold">{challenge.self.rank}</td>
-                      <td className="px-2 py-2 font-semibold">{challenge.self.alias}</td>
-                      <td className="px-2 py-2 text-right">{challenge.self.correct}/{challenge.self.total}</td>
-                      <td className="px-2 py-2 text-right">{formatPercent(challenge.self.correct, challenge.self.total, true)}</td>
-                      <td className="px-2 py-2 text-right">{formatDuration(challenge.self.seconds)}</td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
-          )}
+          {challengeReady && <ChallengeRankTable rows={challengeRows} level={level} missing={challengeMissing} heading={false} />}
         </>
       )}
       {view !== 'challenge' && !ready && <p className="mt-4 text-base">Loading...</p>}

@@ -92,6 +92,7 @@ export function ChallengeShot() {
             preview={{
               ...PREVIEW,
               result: view === 'result' || view === 'report' ? PREVIEW.result : undefined,
+              ranking: CHALLENGE_ROWS,
             }}
             startPart={view === 'reading' || view === 'question' ? 'reading' : null}
           />
