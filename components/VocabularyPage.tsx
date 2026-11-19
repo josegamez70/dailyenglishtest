@@ -8,26 +8,31 @@ import { loadBadgeStats } from '../badgeStats';
 import { publishBadgeProgress } from '../badgeToast';
 import { recordScoredLesson } from '../legendsRecord';
 import { useRetroTheme } from '../retroTheme';
+import { translateToSpanish } from '../contextDefine';
 import { defineSearchText, meaningToSave, searchLookupTerm, type DictEntry } from '../dictionary';
 import { PronounceButton, stopPronunciation } from './PronounceButton';
 import { SavedMeaning, SenseText } from './SenseText';
 import type { PronunciationAccent } from '../pronounce';
 import {
   buildVocabQuiz,
+  fillVocabSpanish,
   filterVocabulary,
   shuffleItems,
   sourceLabel,
   termKey,
+  vocabSpanishGaps,
   VOCAB_QUIZ_MIN,
   type SavedWord,
   type VocabQuizQuestion,
   type VocabSource,
+  type VocabSpanishText,
 } from '../vocabulary';
 import {
   getVocabularyState,
   loadVocabulary,
   recordVocabAnswer,
   removeVocabularyWord,
+  saveVocabularySpanish,
   saveVocabularyWord,
   subscribeVocabulary,
 } from '../vocabularyStore';
@@ -418,6 +423,108 @@ function Quiz({
   );
 }
 
+function VocabCard({
+  row,
+  accent,
+  initialLang = 'en',
+  initialMore = false,
+  onRemove,
+  onSpanish,
+}: {
+  row: SavedWord;
+  accent: PronunciationAccent;
+  initialLang?: 'en' | 'es';
+  initialMore?: boolean;
+  onRemove: () => void;
+  onSpanish: (term: string, spanish: VocabSpanishText) => void;
+}) {
+  const [lang, setLang] = useState<'en' | 'es'>(initialLang);
+  const [spanish, setSpanish] = useState<VocabSpanishText>({
+    term: row.spanishTerm,
+    meaning: row.spanishMeaning,
+    example: row.spanishExample,
+  });
+  const [busy, setBusy] = useState(false);
+  const [failed, setFailed] = useState(false);
+  const request = useRef(0);
+
+  useEffect(() => {
+    setSpanish({
+      term: row.spanishTerm,
+      meaning: row.spanishMeaning,
+      example: row.spanishExample,
+    });
+  }, [row.spanishTerm, row.spanishMeaning, row.spanishExample]);
+
+  const showSpanish = async () => {
+    setLang('es');
+    const current = {
+      term: row.term,
+      meaning: row.meaning,
+      example: row.example,
+      spanishTerm: spanish.term || row.spanishTerm,
+      spanishMeaning: spanish.meaning || row.spanishMeaning,
+      spanishExample: spanish.example || row.spanishExample,
+    };
+    if (vocabSpanishGaps(current).length === 0) {
+      setFailed(false);
+      return;
+    }
+    const ticket = request.current + 1;
+    request.current = ticket;
+    setBusy(true);
+    setFailed(false);
+    const filled = await fillVocabSpanish(current, translateToSpanish);
+    if (request.current !== ticket) return;
+    setSpanish(filled);
+    setBusy(false);
+    if (
+      filled.term !== current.spanishTerm
+      || filled.meaning !== current.spanishMeaning
+      || filled.example !== current.spanishExample
+    ) onSpanish(row.term, filled);
+    setFailed(!filled.complete);
+  };
+
+  const meaning = lang === 'es' ? spanish.meaning : row.meaning;
+  const example = lang === 'es' ? spanish.example : row.example;
+  return (
+    <li className="vocab-card rounded-xl border border-slate-300 bg-white p-4 dark:border-slate-600 dark:bg-slate-800">
+      <div className="flex items-start justify-between gap-3">
+        <div className="flex min-w-0 flex-1 items-center gap-2">
+          <h2 className="text-xl font-bold capitalize">{row.term}</h2>
+          <PronounceButton term={row.term} accent={accent} />
+        </div>
+        <button type="button" onClick={onRemove} className="choice-pill shrink-0 rounded-lg border-2 border-slate-900 px-3 py-1 text-sm font-bold dark:border-slate-100">
+          Delete
+        </button>
+      </div>
+      <div className="vocab-lang" role="group" aria-label="Language">
+        <button type="button" aria-pressed={lang === 'en'} onClick={() => setLang('en')}>English</button>
+        <button type="button" aria-pressed={lang === 'es'} onClick={() => { void showSpanish(); }}>Español</button>
+      </div>
+      {lang === 'es' && spanish.term && <p className="mt-3 text-xl font-bold">{spanish.term}</p>}
+      {lang === 'es' && busy && <p className="mt-2 text-base">Translating...</p>}
+      {lang === 'es' && failed && !busy && (
+        <button type="button" className="vocab-more" onClick={() => { void showSpanish(); }}>Try again</button>
+      )}
+      {(lang === 'en' || Boolean(meaning)) && (
+        <SavedMeaning key={lang} text={meaning} initialOpen={initialMore && lang === 'en'} roomy />
+      )}
+      {example && (
+        <p className="mt-2 text-base text-slate-800 dark:text-slate-100">{lang === 'es' ? 'Ejemplo' : 'Example'}: {example}</p>
+      )}
+      <p className="mt-2 text-sm text-slate-700 dark:text-slate-200">
+        {sourceLabel(row.sourceType)}
+        {row.lessonTitle ? ` · ${row.lessonTitle}` : ''}
+        {row.topic && row.topic !== row.lessonTitle ? ` · ${row.topic}` : ''}
+        {row.level ? ` · ${row.level}` : ''}
+        {row.createdAt ? ` · ${formatSavedDate(row.createdAt)}` : ''}
+      </p>
+    </li>
+  );
+}
+
 export function VocabularyPage({
   userId,
   fixture,
@@ -427,6 +534,7 @@ export function VocabularyPage({
   onFinished,
   onGoLessons,
   voice = 'british',
+  shot = null,
 }: {
   userId: string | null;
   /** Sample rows for a local preview. Skips the database. */
@@ -439,6 +547,8 @@ export function VocabularyPage({
   onGoLessons?: () => void;
   /** Profile accent. British uses en-GB speech when the dictionary has no recording. */
   voice?: PronunciationAccent;
+  /** Local screenshot: open the first card in English, Spanish, or with More expanded. */
+  shot?: 'english' | 'spanish' | 'more' | null;
 }) {
   useEffect(() => () => stopPronunciation(), []);
   const live = useSyncExternalStore(subscribeVocabulary, getVocabularyState, getVocabularyState);
@@ -522,6 +632,9 @@ export function VocabularyPage({
                   term,
                   meaning,
                   example,
+                  spanishTerm: entry.spanish || '',
+                  spanishMeaning: '',
+                  spanishExample: '',
                   sourceType: 'lookup',
                   lessonTitle: '',
                   topic: '',
@@ -536,6 +649,7 @@ export function VocabularyPage({
                 term,
                 meaning,
                 example,
+                spanishTerm: entry.spanish || '',
                 sourceType: 'lookup',
                 lessonTitle: '',
                 topic: '',
@@ -597,27 +711,26 @@ export function VocabularyPage({
             </div>
           )}
           <ul className="mt-4 space-y-3">
-            {visible.map((row) => (
-              <li key={row.id || row.term} className="rounded-xl border border-slate-300 bg-white p-4 dark:border-slate-600 dark:bg-slate-800">
-                <div className="flex items-start justify-between gap-3">
-                  <div className="flex min-w-0 flex-1 items-center gap-2">
-                    <h2 className="text-xl font-bold capitalize">{row.term}</h2>
-                    <PronounceButton term={row.term} accent={voice} />
-                  </div>
-                  <button type="button" onClick={() => remove(row.term)} className="choice-pill shrink-0 rounded-lg border-2 border-slate-900 px-3 py-1 text-sm font-bold dark:border-slate-100">
-                    Delete
-                  </button>
-                </div>
-                <SavedMeaning text={row.meaning} />
-                {row.example && <p className="mt-2 text-base text-slate-800 dark:text-slate-100">Example: {row.example}</p>}
-                <p className="mt-2 text-sm text-slate-700 dark:text-slate-200">
-                  {sourceLabel(row.sourceType)}
-                  {row.lessonTitle ? ` · ${row.lessonTitle}` : ''}
-                  {row.topic && row.topic !== row.lessonTitle ? ` · ${row.topic}` : ''}
-                  {row.level ? ` · ${row.level}` : ''}
-                  {row.createdAt ? ` · ${formatSavedDate(row.createdAt)}` : ''}
-                </p>
-              </li>
+            {visible.map((row, index) => (
+              <VocabCard
+                key={row.id || row.term}
+                row={row}
+                accent={voice}
+                initialLang={index === 0 && shot === 'spanish' ? 'es' : 'en'}
+                initialMore={index === 0 && shot === 'more'}
+                onRemove={() => remove(row.term)}
+                onSpanish={(term, spanish) => {
+                  if (fixture) {
+                    setLocalRows((current) => current.map((item) => (
+                      termKey(item.term) === termKey(term)
+                        ? { ...item, spanishTerm: spanish.term, spanishMeaning: spanish.meaning, spanishExample: spanish.example }
+                        : item
+                    )));
+                    return;
+                  }
+                  void saveVocabularySpanish(term, spanish);
+                }}
+              />
             ))}
           </ul>
         </>

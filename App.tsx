@@ -292,7 +292,7 @@ const App: React.FC = () => {
   const darkOn = isDarkTheme(themeChoice, window.matchMedia('(prefers-color-scheme: dark)').matches);
 
   useEffect(() => {
-    if (import.meta.env.DEV && (path.startsWith('/legends-preview') || path.startsWith('/challenge-preview'))) return;
+    if (import.meta.env.DEV && (path.startsWith('/legends-preview') || path.startsWith('/challenge-preview') || path.startsWith('/vocabulary-preview'))) return;
     const dark = isDarkTheme(themeChoice, window.matchMedia('(prefers-color-scheme: dark)').matches);
     document.documentElement.classList.toggle('dark', dark);
     document.documentElement.style.colorScheme = dark ? 'dark' : 'light';

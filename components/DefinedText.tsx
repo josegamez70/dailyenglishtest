@@ -184,6 +184,7 @@ export function DictionaryPopup() {
         term: headword,
         meaning,
         example,
+        spanishTerm: entry?.spanish || '',
         sourceType: lesson.sourceType,
         lessonTitle: lesson.lessonTitle,
         topic: lesson.topic,

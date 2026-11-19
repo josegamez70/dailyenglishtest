@@ -1,23 +1,31 @@
 import { getSupabase } from './auth';
-import { isMissingTable } from './studyStore';
+import { isMissingColumn, isMissingTable } from './studyStore';
 import {
+  clipVocabSpanish,
   normalizeTerm,
   rowsWithSaved,
   termKey,
   vocabMatchKeys,
   type SavedWord,
   type VocabSource,
+  type VocabSpanishText,
 } from './vocabulary';
 
 export type VocabDraft = {
   term: string;
   meaning: string;
   example: string;
+  spanishTerm?: string;
+  spanishMeaning?: string;
+  spanishExample?: string;
   sourceType: VocabSource;
   lessonTitle: string;
   topic: string;
   level: string;
 };
+
+const CORE_SELECT = 'id, term, meaning, example, source_type, lesson_title, topic, level, created_at, correct_count, wrong_count';
+const FULL_SELECT = `${CORE_SELECT}, spanish_term, spanish_meaning, spanish_example`;
 
 type VocabState = { rows: SavedWord[]; missing: boolean; notice: string | null };
 
@@ -64,6 +72,9 @@ function rowFrom(row: Record<string, unknown>): SavedWord | null {
     term,
     meaning: String(row.meaning ?? '').replace(/\s+/g, ' ').trim().slice(0, 400),
     example: String(row.example ?? '').replace(/\s+/g, ' ').trim().slice(0, 240),
+    spanishTerm: clipVocabSpanish(String(row.spanish_term ?? ''), 80),
+    spanishMeaning: clipVocabSpanish(String(row.spanish_meaning ?? ''), 400),
+    spanishExample: clipVocabSpanish(String(row.spanish_example ?? ''), 400),
     sourceType: asSource(row.source_type),
     lessonTitle: String(row.lesson_title ?? '').slice(0, 120),
     topic: String(row.topic ?? '').slice(0, 80),
@@ -88,11 +99,18 @@ export async function loadVocabulary(): Promise<VocabState> {
     publish({ rows: [], missing: false });
     return state;
   }
-  const result = await supabase
+  let result = await supabase
     .from('saved_vocabulary')
-    .select('id, term, meaning, example, source_type, lesson_title, topic, level, created_at, correct_count, wrong_count')
+    .select(FULL_SELECT)
     .eq('user_id', uid)
     .order('created_at', { ascending: false });
+  if (result.error && isMissingColumn(result.error, 'spanish_term')) {
+    result = await supabase
+      .from('saved_vocabulary')
+      .select(CORE_SELECT)
+      .eq('user_id', uid)
+      .order('created_at', { ascending: false });
+  }
   if (result.error) {
     publish({ rows: [], missing: isMissingTable(result.error) });
     return state;
@@ -131,23 +149,38 @@ async function persistSave(draft: VocabDraft): Promise<{ ok: boolean; missing?: 
     term: existing?.term || term,
     meaning: draft.meaning.replace(/\s+/g, ' ').trim().slice(0, 400),
     example: draft.example.replace(/\s+/g, ' ').trim().slice(0, 240),
+    spanish_term: clipVocabSpanish(draft.spanishTerm || existing?.spanishTerm || '', 80),
+    spanish_meaning: clipVocabSpanish(draft.spanishMeaning || existing?.spanishMeaning || '', 400),
+    spanish_example: clipVocabSpanish(draft.spanishExample || existing?.spanishExample || '', 400),
     source_type: draft.sourceType,
     lesson_title: draft.lessonTitle.slice(0, 120),
     topic: draft.topic.slice(0, 80),
     level: draft.level.slice(0, 40),
   };
-  const saved = existing
-    ? await supabase.from('saved_vocabulary').update(payload).eq('id', existing.id).eq('user_id', uid).select('id, term, meaning, example, source_type, lesson_title, topic, level, created_at, correct_count, wrong_count').maybeSingle()
-    : await supabase.from('saved_vocabulary').insert(payload).select('id, term, meaning, example, source_type, lesson_title, topic, level, created_at, correct_count, wrong_count').maybeSingle();
+  const write = (body: Record<string, unknown>, columns: string) => (
+    existing
+      ? supabase.from('saved_vocabulary').update(body).eq('id', existing.id).eq('user_id', uid).select(columns).maybeSingle()
+      : supabase.from('saved_vocabulary').insert(body).select(columns).maybeSingle()
+  );
+  let saved = await write(payload, FULL_SELECT);
+  if (saved.error && isMissingColumn(saved.error, 'spanish_term')) {
+    const core = { ...payload };
+    delete core.spanish_term;
+    delete core.spanish_meaning;
+    delete core.spanish_example;
+    saved = await write(core, CORE_SELECT);
+  }
   if (saved.error) {
     if (isMissingTable(saved.error)) return { ok: false, missing: true };
     return { ok: false };
   }
   const parsed = saved.data ? rowFrom(saved.data as Record<string, unknown>) : null;
-  if (parsed) priorRows.set(key, [parsed]);
+  const previous = state.rows.find((row) => termKey(row.term) === key);
+  const kept = parsed ? keepSpanish(parsed, previous) : null;
+  if (kept) priorRows.set(key, [kept]);
   if (intent.get(key)?.saved === false) return { ok: true };
-  if (parsed) {
-    publish({ rows: [parsed, ...state.rows.filter((row) => termKey(row.term) !== key)], missing: false });
+  if (kept) {
+    publish({ rows: [kept, ...state.rows.filter((row) => termKey(row.term) !== key)], missing: false });
   }
   return { ok: true };
 }
@@ -204,6 +237,45 @@ async function commitVocabulary(draft: VocabDraft, saved: boolean): Promise<{ ok
 
 export async function saveVocabularyWord(draft: VocabDraft): Promise<{ ok: boolean; missing?: boolean }> {
   return commitVocabulary(draft, true);
+}
+
+function keepSpanish(parsed: SavedWord, previous: SavedWord | undefined): SavedWord {
+  if (!previous) return parsed;
+  return {
+    ...parsed,
+    spanishTerm: parsed.spanishTerm || previous.spanishTerm,
+    spanishMeaning: parsed.spanishMeaning || previous.spanishMeaning,
+    spanishExample: parsed.spanishExample || previous.spanishExample,
+  };
+}
+
+/** Remember a translation on the word so the next visit does not ask again. */
+export async function saveVocabularySpanish(term: string, spanish: VocabSpanishText): Promise<{ stored: boolean }> {
+  const key = termKey(term);
+  if (!key) return { stored: false };
+  const next = {
+    spanishTerm: clipVocabSpanish(spanish.term, 80),
+    spanishMeaning: clipVocabSpanish(spanish.meaning, 400),
+    spanishExample: clipVocabSpanish(spanish.example, 400),
+  };
+  const current = state.rows.find((row) => termKey(row.term) === key);
+  publish({
+    rows: state.rows.map((row) => (termKey(row.term) === key ? { ...row, ...next } : row)),
+  });
+  const supabase = getSupabase();
+  const uid = await userId();
+  if (!supabase || !uid || !current?.id) return { stored: false };
+  const saved = await supabase
+    .from('saved_vocabulary')
+    .update({
+      spanish_term: next.spanishTerm,
+      spanish_meaning: next.spanishMeaning,
+      spanish_example: next.spanishExample,
+    })
+    .eq('id', current.id)
+    .eq('user_id', uid);
+  if (saved.error) return { stored: false };
+  return { stored: true };
 }
 
 export async function removeVocabularyWord(term: string): Promise<{ ok: boolean; missing?: boolean }> {

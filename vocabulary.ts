@@ -7,6 +7,12 @@ export type SavedWord = {
   term: string;
   meaning: string;
   example: string;
+  /** Spanish for the word itself. Empty until the popup or a translation supplies it. */
+  spanishTerm: string;
+  /** Spanish for the saved meaning, including extra senses when they were translated together. */
+  spanishMeaning: string;
+  /** Spanish for the example sentence. Empty when the word has no example. */
+  spanishExample: string;
   sourceType: VocabSource;
   lessonTitle: string;
   topic: string;
@@ -14,6 +20,12 @@ export type SavedWord = {
   createdAt: string;
   correctCount: number;
   wrongCount: number;
+};
+
+export type VocabSpanishText = {
+  term: string;
+  meaning: string;
+  example: string;
 };
 
 export type VocabLessonContext = {
@@ -142,6 +154,71 @@ export function sentenceWith(text: string, term: string): string {
   return (found ?? '').slice(0, 240);
 }
 
+export function clipVocabSpanish(value: string, max: number): string {
+  return value.replace(/\s+/g, ' ').trim().slice(0, max);
+}
+
+/** Fields that still need a translation. A blank English field is not a gap. */
+export function vocabSpanishGaps(word: {
+  term: string;
+  meaning: string;
+  example: string;
+  spanishTerm: string;
+  spanishMeaning: string;
+  spanishExample: string;
+}): Array<'term' | 'meaning' | 'example'> {
+  const gaps: Array<'term' | 'meaning' | 'example'> = [];
+  if (word.term.trim() && !word.spanishTerm.trim()) gaps.push('term');
+  if (word.meaning.trim() && !word.spanishMeaning.trim()) gaps.push('meaning');
+  if (word.example.trim() && !word.spanishExample.trim()) gaps.push('example');
+  return gaps;
+}
+
+/**
+ * Fill only the missing Spanish lines.
+ * `translate` is the existing one-text Spanish path. A line already stored is not sent again.
+ */
+export async function fillVocabSpanish(
+  word: {
+    term: string;
+    meaning: string;
+    example: string;
+    spanishTerm: string;
+    spanishMeaning: string;
+    spanishExample: string;
+  },
+  translate: (text: string) => Promise<string | null>,
+): Promise<VocabSpanishText & { complete: boolean }> {
+  const next: VocabSpanishText = {
+    term: clipVocabSpanish(word.spanishTerm, 80),
+    meaning: clipVocabSpanish(word.spanishMeaning, 400),
+    example: clipVocabSpanish(word.spanishExample, 400),
+  };
+  const sources = { term: word.term, meaning: word.meaning, example: word.example } as const;
+  const gaps = vocabSpanishGaps({
+    term: word.term,
+    meaning: word.meaning,
+    example: word.example,
+    spanishTerm: next.term,
+    spanishMeaning: next.meaning,
+    spanishExample: next.example,
+  });
+  await Promise.all(gaps.map(async (gap) => {
+    const line = await translate(sources[gap]);
+    if (!line) return;
+    next[gap] = clipVocabSpanish(line, gap === 'term' ? 80 : 400);
+  }));
+  const complete = vocabSpanishGaps({
+    term: word.term,
+    meaning: word.meaning,
+    example: word.example,
+    spanishTerm: next.term,
+    spanishMeaning: next.meaning,
+    spanishExample: next.example,
+  }).length === 0;
+  return { ...next, complete };
+}
+
 /** The rows to show the moment a word is ticked or unticked, before the network answers. */
 export function rowsWithSaved(
   rows: readonly SavedWord[],
@@ -149,6 +226,9 @@ export function rowsWithSaved(
     term: string;
     meaning: string;
     example: string;
+    spanishTerm?: string;
+    spanishMeaning?: string;
+    spanishExample?: string;
     sourceType: VocabSource;
     lessonTitle: string;
     topic: string;
@@ -166,6 +246,9 @@ export function rowsWithSaved(
     term,
     meaning: draft.meaning.replace(/\s+/g, ' ').trim().slice(0, 400),
     example: draft.example.replace(/\s+/g, ' ').trim().slice(0, 240),
+    spanishTerm: clipVocabSpanish(draft.spanishTerm || existing?.spanishTerm || '', 80),
+    spanishMeaning: clipVocabSpanish(draft.spanishMeaning || existing?.spanishMeaning || '', 400),
+    spanishExample: clipVocabSpanish(draft.spanishExample || existing?.spanishExample || '', 400),
     sourceType: draft.sourceType || existing?.sourceType || '',
     lessonTitle: draft.lessonTitle.slice(0, 120),
     topic: draft.topic.slice(0, 80),
