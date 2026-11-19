@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "daily life",
+  "target": 100,
+  "title": "The Spare Key in the Plant Pot",
+  "story": "Jonah locked the flat and then saw his keys on the kitchen table, inside. His phone was in there too. He checked the plant pot by the door, where his sister kept a spare key. The pot was empty. A neighbour called Helen waved from the stairs. She was holding the spare key. Helen had watered the plant and taken the key indoors by mistake. She looked sorry and handed it over. Jonah thanked her and opened the door. He put the spare key on a hook inside a cupboard. Then he sent his sister a message about the new place. Helen laughed and said the plant was still thirsty.",
+  "vocabulary": [
+    {
+      "word": "spare",
+      "definition": "kept extra for when you need it"
+    },
+    {
+      "word": "pot",
+      "definition": "a container for a plant"
+    },
+    {
+      "word": "neighbour",
+      "definition": "a person who lives nearby"
+    },
+    {
+      "word": "indoors",
+      "definition": "inside a building"
+    },
+    {
+      "word": "cupboard",
+      "definition": "a cabinet used for storing things"
+    },
+    {
+      "word": "thirsty",
+      "definition": "needing water"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where did Jonah's sister usually keep the extra key?",
+      "options": [
+        "In the plant pot by the door",
+        "On the kitchen table",
+        "In Helen's bag",
+        "Under the stairs"
+      ],
+      "correctAnswer": "In the plant pot by the door",
+      "explanation": "His sister kept a spare key in the plant pot by the door.",
+      "supportingSentence": "He checked the plant pot by the door, where his sister kept a spare key.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why was that key with Helen?",
+      "options": [
+        "She had taken it indoors by mistake",
+        "Jonah had given it to her",
+        "She had found it at a shop",
+        "The sister had posted it"
+      ],
+      "correctAnswer": "She had taken it indoors by mistake",
+      "explanation": "Helen had watered the plant and taken the key indoors by mistake.",
+      "supportingSentence": "Helen had watered the plant and taken the key indoors by mistake.",
+      "skill": "detail"
+    },
+    {
+      "question": "Where did Jonah put the extra key after he got in?",
+      "options": [
+        "On a hook inside a cupboard",
+        "Back in the plant pot",
+        "On the kitchen table",
+        "In the neighbour's flat"
+      ],
+      "correctAnswer": "On a hook inside a cupboard",
+      "explanation": "He put the spare key on a hook inside a cupboard.",
+      "supportingSentence": "He put the spare key on a hook inside a cupboard.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does thirsty mean?",
+      "options": [
+        "Needing water",
+        "Needing a key",
+        "Feeling sorry",
+        "Speaking very loudly"
+      ],
+      "correctAnswer": "Needing water",
+      "explanation": "Helen said the plant was still thirsty after it had been watered.",
+      "supportingSentence": "Helen laughed and said the plant was still thirsty.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Jonah message his sister?",
+      "options": [
+        "To tell her the key had a new place",
+        "To ask her to buy a plant",
+        "To say the flat was still locked",
+        "To invite Helen for lunch"
+      ],
+      "correctAnswer": "To tell her the key had a new place",
+      "explanation": "He sent a message about the new place after moving the key to the cupboard.",
+      "supportingSentence": "Then he sent his sister a message about the new place.",
+      "skill": "inference"
+    }
+  ]
+}

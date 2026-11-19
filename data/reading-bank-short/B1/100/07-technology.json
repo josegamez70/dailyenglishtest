@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "technology",
+  "target": 100,
+  "title": "The Tablet That Would Not Start",
+  "story": "Jules needed the tablet for a video call with his cousin. He pressed the button, but the screen stayed black. A small light showed the battery was empty. He plugged in the cable and waited. Nothing changed. Jules checked the wall socket and tried a different cable from the drawer. The screen lit up at once. He smiled and turned the brightness down to save power. Before the call he closed extra apps. His cousin Maya appeared and waved. They talked about school and a film they both liked. Near the end the battery warning returned. Jules told Maya he would call again after a full charge.",
+  "vocabulary": [
+    {
+      "word": "tablet",
+      "definition": "a flat computer you can hold"
+    },
+    {
+      "word": "battery",
+      "definition": "the part that stores power"
+    },
+    {
+      "word": "cable",
+      "definition": "a wire that connects a device"
+    },
+    {
+      "word": "socket",
+      "definition": "a place in the wall for a plug"
+    },
+    {
+      "word": "brightness",
+      "definition": "how strong the light of a screen is"
+    },
+    {
+      "word": "apps",
+      "definition": "small programs on a device"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Why did the screen stay black at first?",
+      "options": [
+        "The battery was empty",
+        "Maya ended the call",
+        "The film would not play",
+        "The drawer was locked"
+      ],
+      "correctAnswer": "The battery was empty",
+      "explanation": "A small light showed the battery was empty.",
+      "supportingSentence": "A small light showed the battery was empty.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Jules try from the drawer?",
+      "options": [
+        "A different cable",
+        "A paper map",
+        "A second tablet",
+        "A glass of water"
+      ],
+      "correctAnswer": "A different cable",
+      "explanation": "He tried a different cable from the drawer.",
+      "supportingSentence": "Jules checked the wall socket and tried a different cable from the drawer.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did Jules lower the brightness?",
+      "options": [
+        "To save power",
+        "To hide the screen",
+        "To end the call",
+        "To open more apps"
+      ],
+      "correctAnswer": "To save power",
+      "explanation": "He turned the brightness down to save power.",
+      "supportingSentence": "He smiled and turned the brightness down to save power.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what is a socket?",
+      "options": [
+        "A place in the wall for a plug",
+        "A pocket in a coat",
+        "A kind of video",
+        "A warning sound"
+      ],
+      "correctAnswer": "A place in the wall for a plug",
+      "explanation": "Jules checked the wall socket when the first cable did nothing.",
+      "supportingSentence": "Jules checked the wall socket and tried a different cable from the drawer.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Jules plan to call Maya again later?",
+      "options": [
+        "The tablet needed a full charge",
+        "Maya asked him to visit",
+        "The screen was still black",
+        "He wanted a different film"
+      ],
+      "correctAnswer": "The tablet needed a full charge",
+      "explanation": "He said he would call again after a full charge.",
+      "supportingSentence": "Jules told Maya he would call again after a full charge.",
+      "skill": "inference"
+    }
+  ]
+}

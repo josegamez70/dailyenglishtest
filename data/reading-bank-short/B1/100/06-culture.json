@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "culture_food",
+  "target": 100,
+  "title": "Noodles before the New Year",
+  "story": "On the night before the new year, Kenji and his grandmother made long noodles. She said the long strands stood for a long life. Kenji boiled water and watched the pot so it would not spill. His grandmother added greens, ginger, and a little soy. They set two bowls on a red cloth. Kenji tried to slurp the way she did and laughed when a strand hit his chin. She told him to slow down and taste the ginger. Neighbours knocked later and shared oranges. Kenji packed a small box of noodles for his teacher. The meal was simple, but the story in it was old.",
+  "vocabulary": [
+    {
+      "word": "noodles",
+      "definition": "long thin strips of cooked dough"
+    },
+    {
+      "word": "strands",
+      "definition": "single long pieces"
+    },
+    {
+      "word": "ginger",
+      "definition": "a sharp hot root used in cooking"
+    },
+    {
+      "word": "slurp",
+      "definition": "to eat or drink with a loud sucking sound"
+    },
+    {
+      "word": "cloth",
+      "definition": "a piece of material used as a cover"
+    },
+    {
+      "word": "oranges",
+      "definition": "round sweet fruit with a thick skin"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did the long noodles stand for?",
+      "options": [
+        "A long life",
+        "A short school day",
+        "A new pair of shoes",
+        "A closed shop"
+      ],
+      "correctAnswer": "A long life",
+      "explanation": "His grandmother said the long strands stood for a long life.",
+      "supportingSentence": "She said the long strands stood for a long life.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Kenji do so the pot would not spill?",
+      "options": [
+        "He watched it",
+        "He hid it",
+        "He gave it to the neighbours",
+        "He put it outside"
+      ],
+      "correctAnswer": "He watched it",
+      "explanation": "He watched the pot so it would not spill.",
+      "supportingSentence": "Kenji boiled water and watched the pot so it would not spill.",
+      "skill": "detail"
+    },
+    {
+      "question": "Who received a small box of noodles?",
+      "options": [
+        "His teacher",
+        "The neighbours only",
+        "A stranger on the bus",
+        "The shop keeper"
+      ],
+      "correctAnswer": "His teacher",
+      "explanation": "Kenji packed a small box of noodles for his teacher.",
+      "supportingSentence": "Kenji packed a small box of noodles for his teacher.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does slurp mean?",
+      "options": [
+        "To eat with a loud sucking sound",
+        "To cook very slowly",
+        "To share fruit",
+        "To fold a red cloth"
+      ],
+      "correctAnswer": "To eat with a loud sucking sound",
+      "explanation": "Kenji tried to slurp the noodles the way his grandmother did.",
+      "supportingSentence": "Kenji tried to slurp the way she did and laughed when a strand hit his chin.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did his grandmother tell him to slow down?",
+      "options": [
+        "So he could taste the ginger",
+        "So the neighbours would leave",
+        "So the noodles would break",
+        "So the pot would spill"
+      ],
+      "correctAnswer": "So he could taste the ginger",
+      "explanation": "She told him to slow down and taste the ginger.",
+      "supportingSentence": "She told him to slow down and taste the ginger.",
+      "skill": "inference"
+    }
+  ]
+}

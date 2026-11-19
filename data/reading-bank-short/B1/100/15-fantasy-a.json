@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "fantasy",
+  "target": 100,
+  "title": "The Gate behind the Ivy",
+  "story": "In the town of Pell, ivy covered a stone gate that nobody opened. One evening Tamsin saw a silver moth land on the lock. The gate swung in without a sound. Beyond it was a garden under a sky full of stars. Flowers glowed when Tamsin stepped near them. A hare with a bell on its neck led her to a pool. The water showed her street, but the moon there was green. Tamsin filled a cup and the picture faded. The hare nodded toward the gate. She understood she could visit, not stay. She stepped back through the ivy. In the morning a garden petal was in her pocket.",
+  "vocabulary": [
+    {
+      "word": "ivy",
+      "definition": "a climbing plant that covers walls"
+    },
+    {
+      "word": "moth",
+      "definition": "a flying insect that is active at night"
+    },
+    {
+      "word": "glowed",
+      "definition": "gave off a soft light"
+    },
+    {
+      "word": "hare",
+      "definition": "a fast wild animal with long ears"
+    },
+    {
+      "word": "faded",
+      "definition": "grew weak until it disappeared"
+    },
+    {
+      "word": "petal",
+      "definition": "one coloured part of a flower"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What landed on the lock in the evening?",
+      "options": [
+        "A silver moth",
+        "A green moon",
+        "A white bird",
+        "A stone cup"
+      ],
+      "correctAnswer": "A silver moth",
+      "explanation": "Tamsin saw a silver moth land on the lock.",
+      "supportingSentence": "One evening Tamsin saw a silver moth land on the lock.",
+      "skill": "detail"
+    },
+    {
+      "question": "What led Tamsin to the pool?",
+      "options": [
+        "A hare with a bell",
+        "The silver moth",
+        "A neighbour from town",
+        "The wind in the leaves"
+      ],
+      "correctAnswer": "A hare with a bell",
+      "explanation": "A hare with a bell on its neck led her to a pool.",
+      "supportingSentence": "A hare with a bell on its neck led her to a pool.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Tamsin understand about staying in the garden?",
+      "options": [
+        "She could visit but not stay",
+        "She had to live there",
+        "The gate would never open again",
+        "The hare could not leave"
+      ],
+      "correctAnswer": "She could visit but not stay",
+      "explanation": "She understood she could visit, not stay.",
+      "supportingSentence": "She understood she could visit, not stay.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does faded mean?",
+      "options": [
+        "Grew weak and disappeared",
+        "Became louder",
+        "Turned into an animal",
+        "Locked the gate"
+      ],
+      "correctAnswer": "Grew weak and disappeared",
+      "explanation": "The picture in the water faded after she filled a cup.",
+      "supportingSentence": "Tamsin filled a cup and the picture faded.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What does the petal in her pocket suggest?",
+      "options": [
+        "The garden visit had been real",
+        "She had never left her street",
+        "The gate was still open",
+        "The hare lived in her house"
+      ],
+      "correctAnswer": "The garden visit had been real",
+      "explanation": "A garden petal was in her pocket the next morning, after she had stepped back.",
+      "supportingSentence": "In the morning a garden petal was in her pocket.",
+      "skill": "inference"
+    }
+  ]
+}

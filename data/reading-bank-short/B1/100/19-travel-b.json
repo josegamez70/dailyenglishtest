@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "travel",
+  "target": 100,
+  "title": "A Delay at the Ferry Gate",
+  "story": "The ferry to the island was already late when Dina reached the gate. A board said the new time was two hours later. Dina had a paper ticket and a small backpack. She asked a staff member named Colin what to do. He stamped her ticket and pointed to a waiting room with seats and a kettle. Dina sent a message to the guesthouse so they would not worry. She ate an apple and read a map of the island paths. When the ferry arrived, Colin called her group first. The water was calm, and the ride took forty minutes. Dina stood on deck and watched the harbour.",
+  "vocabulary": [
+    {
+      "word": "ferry",
+      "definition": "a boat that carries people on a set route"
+    },
+    {
+      "word": "ticket",
+      "definition": "a paper that lets you travel"
+    },
+    {
+      "word": "stamped",
+      "definition": "marked with an ink stamp"
+    },
+    {
+      "word": "guesthouse",
+      "definition": "a small place where travellers sleep"
+    },
+    {
+      "word": "deck",
+      "definition": "the floor of a boat where people can stand"
+    },
+    {
+      "word": "harbour",
+      "definition": "a place where boats come in"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did the board say about the new time?",
+      "options": [
+        "It was two hours later",
+        "It was ten minutes later",
+        "It was a full day later",
+        "The ferry had already left"
+      ],
+      "correctAnswer": "It was two hours later",
+      "explanation": "The board said the new time was two hours later.",
+      "supportingSentence": "A board said the new time was two hours later.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Colin do to Dina's ticket?",
+      "options": [
+        "Stamped it",
+        "Threw it away",
+        "Sold it to someone else",
+        "Put it in the kettle"
+      ],
+      "correctAnswer": "Stamped it",
+      "explanation": "He stamped her ticket.",
+      "supportingSentence": "He stamped her ticket and pointed to a waiting room with seats and a kettle.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did Dina message the guesthouse?",
+      "options": [
+        "So they would not worry",
+        "To cancel the island trip",
+        "To ask for another apple",
+        "To buy a new ticket"
+      ],
+      "correctAnswer": "So they would not worry",
+      "explanation": "She sent the message so they would not worry.",
+      "supportingSentence": "Dina sent a message to the guesthouse so they would not worry.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what is a ferry?",
+      "options": [
+        "A boat that carries people on a set route",
+        "A paper ticket",
+        "A room with a kettle",
+        "A map of island paths"
+      ],
+      "correctAnswer": "A boat that carries people on a set route",
+      "explanation": "Dina is waiting for the ferry that will carry her to the island.",
+      "supportingSentence": "The ferry to the island was already late when Dina reached the gate.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What did Dina do with the island map while she waited?",
+      "options": [
+        "She read it",
+        "She gave it to Colin",
+        "She dropped it in the water",
+        "She used it as a ticket"
+      ],
+      "correctAnswer": "She read it",
+      "explanation": "She read a map of the island paths while she waited.",
+      "supportingSentence": "She ate an apple and read a map of the island paths.",
+      "skill": "detail"
+    }
+  ]
+}

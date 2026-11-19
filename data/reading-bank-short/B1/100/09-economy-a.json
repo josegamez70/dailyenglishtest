@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "economy_finance",
+  "target": 100,
+  "title": "The Receipt in the Pocket",
+  "story": "Lila bought a blue jumper at the Saturday market. At home she saw a hole near the sleeve. She still had the receipt and the paper tag. On Monday she took the jumper back to the same stall. The seller, Owen, checked the receipt and the hole. He said he could not mend it that day. He offered a refund or a different colour. Lila chose the refund because she needed the money for the bus that week. Owen counted the notes into her hand. Lila checked the amount against the receipt before she walked away. She kept the receipt until the money was safe at home.",
+  "vocabulary": [
+    {
+      "word": "jumper",
+      "definition": "a warm knitted top"
+    },
+    {
+      "word": "receipt",
+      "definition": "paper that shows what you paid"
+    },
+    {
+      "word": "stall",
+      "definition": "a small shop table at a market"
+    },
+    {
+      "word": "mend",
+      "definition": "to repair something that is damaged"
+    },
+    {
+      "word": "refund",
+      "definition": "money given back after a return"
+    },
+    {
+      "word": "notes",
+      "definition": "paper money"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What was wrong with the jumper?",
+      "options": [
+        "A hole near the sleeve",
+        "The wrong colour",
+        "A missing receipt",
+        "A broken zip"
+      ],
+      "correctAnswer": "A hole near the sleeve",
+      "explanation": "At home she saw a hole near the sleeve.",
+      "supportingSentence": "At home she saw a hole near the sleeve.",
+      "skill": "detail"
+    },
+    {
+      "question": "What two choices did Owen offer?",
+      "options": [
+        "A refund or a different colour",
+        "A free bus ticket or a hat",
+        "A new stall or a loan",
+        "Soup or a paper tag"
+      ],
+      "correctAnswer": "A refund or a different colour",
+      "explanation": "He offered a refund or a different colour.",
+      "supportingSentence": "He offered a refund or a different colour.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did Lila choose the money back?",
+      "options": [
+        "She needed it for the bus that week",
+        "She disliked every other colour",
+        "Owen asked her to leave",
+        "The receipt was blank"
+      ],
+      "correctAnswer": "She needed it for the bus that week",
+      "explanation": "She chose the refund because she needed the money for the bus that week.",
+      "supportingSentence": "Lila chose the refund because she needed the money for the bus that week.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what is a refund?",
+      "options": [
+        "Money given back after a return",
+        "A hole in a sleeve",
+        "A market table",
+        "A blue paper tag"
+      ],
+      "correctAnswer": "Money given back after a return",
+      "explanation": "Owen offered a refund, and then he counted the notes into her hand.",
+      "supportingSentence": "He offered a refund or a different colour.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Lila check the amount before she left?",
+      "options": [
+        "To be sure the notes matched the receipt",
+        "To choose a new colour",
+        "To mend the sleeve herself",
+        "To pay Owen again"
+      ],
+      "correctAnswer": "To be sure the notes matched the receipt",
+      "explanation": "She checked the amount against the receipt, which showed what she had paid.",
+      "supportingSentence": "Lila checked the amount against the receipt before she walked away.",
+      "skill": "inference"
+    }
+  ]
+}

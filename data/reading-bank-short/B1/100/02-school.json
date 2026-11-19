@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "school_college",
+  "target": 100,
+  "title": "The Calculator before Maths",
+  "story": "The maths test started after break. Farah had left her calculator in her locker. She put her hand up and told the teacher. The teacher could not stop the test, but a spare calculator was in the cupboard. Farah had to sign a card before she took it. She checked the buttons and then began. One question needed a long sum, and the spare machine showed the same result twice. Farah wrote the answer and showed her working too. When the test ended she returned the calculator and the card. The teacher thanked her for asking early. Farah put a spare of her own on the desk at home.",
+  "vocabulary": [
+    {
+      "word": "calculator",
+      "definition": "a small machine that does sums"
+    },
+    {
+      "word": "locker",
+      "definition": "a small locked cupboard for personal things"
+    },
+    {
+      "word": "cupboard",
+      "definition": "a cabinet with a door for storing things"
+    },
+    {
+      "word": "sign",
+      "definition": "to write your name on a form"
+    },
+    {
+      "word": "sum",
+      "definition": "a maths problem that adds numbers"
+    },
+    {
+      "word": "result",
+      "definition": "the answer a sum gives"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where had Farah left her own calculator?",
+      "options": [
+        "In her locker",
+        "On the teacher desk",
+        "At home on the bus",
+        "Inside the test paper"
+      ],
+      "correctAnswer": "In her locker",
+      "explanation": "She had left her calculator in her locker.",
+      "supportingSentence": "Farah had left her calculator in her locker.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Farah have to do before she took the spare?",
+      "options": [
+        "Sign a card",
+        "Finish the test first",
+        "Buy a new machine",
+        "Leave the room"
+      ],
+      "correctAnswer": "Sign a card",
+      "explanation": "She had to sign a card before she took it.",
+      "supportingSentence": "Farah had to sign a card before she took it.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Farah return at the end of the test?",
+      "options": [
+        "The calculator and the card",
+        "Only her pencil",
+        "The locker key",
+        "A blank answer sheet"
+      ],
+      "correctAnswer": "The calculator and the card",
+      "explanation": "She returned the calculator and the card when the test ended.",
+      "supportingSentence": "When the test ended she returned the calculator and the card.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does sum mean?",
+      "options": [
+        "A maths problem with numbers",
+        "A kind of cupboard",
+        "A spare card",
+        "The end of break"
+      ],
+      "correctAnswer": "A maths problem with numbers",
+      "explanation": "One question needed a long sum, so sum means that maths problem.",
+      "supportingSentence": "One question needed a long sum, and the spare machine showed the same result twice.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Farah check the buttons before she began?",
+      "options": [
+        "To see that the spare machine worked",
+        "To open her locker",
+        "To ask for a second test",
+        "To hide the card"
+      ],
+      "correctAnswer": "To see that the spare machine worked",
+      "explanation": "She checked the buttons first, and the machine later gave the same result twice.",
+      "supportingSentence": "She checked the buttons and then began.",
+      "skill": "inference"
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "travel",
+  "target": 100,
+  "title": "The Empty Seat by the Aisle",
+  "story": "Sami checked his ticket at the station gate. His coach left at noon for the coast. He climbed on early and chose a seat by the aisle. A woman with a red suitcase stopped beside him. Her ticket showed the same number. Sami looked again and saw he was in the wrong row. He apologised and moved two seats back. The woman smiled and lifted her bag. During the ride Sami watched fields and small towns. He bought water at the rest stop. When the coach reached the coast, he thanked the driver. The mix-up had been easy to fix. He walked to the harbour feeling calm.",
+  "vocabulary": [
+    {
+      "word": "ticket",
+      "definition": "a paper or pass that lets you travel"
+    },
+    {
+      "word": "aisle",
+      "definition": "the walkway between seats"
+    },
+    {
+      "word": "suitcase",
+      "definition": "a bag used for carrying clothes on a trip"
+    },
+    {
+      "word": "apologised",
+      "definition": "said sorry"
+    },
+    {
+      "word": "coast",
+      "definition": "the land next to the sea"
+    },
+    {
+      "word": "harbour",
+      "definition": "a safe place where boats stop"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Where was Sami's coach going?",
+      "options": [
+        "To the coast",
+        "To the mountains",
+        "To an airport",
+        "Back to his street"
+      ],
+      "correctAnswer": "To the coast",
+      "explanation": "The coach left at noon for the coast.",
+      "supportingSentence": "His coach left at noon for the coast.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did Sami move to another seat?",
+      "options": [
+        "He was in the wrong row",
+        "The driver told him to stand",
+        "His ticket was lost",
+        "He wanted a window"
+      ],
+      "correctAnswer": "He was in the wrong row",
+      "explanation": "He looked again and saw that he was in the wrong row.",
+      "supportingSentence": "Sami looked again and saw he was in the wrong row.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Sami buy at the rest stop?",
+      "options": [
+        "Some water",
+        "A new ticket",
+        "A red suitcase",
+        "A map of the towns"
+      ],
+      "correctAnswer": "Some water",
+      "explanation": "He bought water at the rest stop.",
+      "supportingSentence": "He bought water at the rest stop.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does apologised mean?",
+      "options": [
+        "Said sorry",
+        "Asked for a free ride",
+        "Closed a suitcase",
+        "Changed the ticket time"
+      ],
+      "correctAnswer": "Said sorry",
+      "explanation": "He apologised because he had taken the wrong seat.",
+      "supportingSentence": "He apologised and moved two seats back.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did the woman stop beside Sami?",
+      "options": [
+        "Her ticket had the same seat number",
+        "She wanted to sell him water",
+        "She was the driver",
+        "She knew his family"
+      ],
+      "correctAnswer": "Her ticket had the same seat number",
+      "explanation": "Her ticket showed the same number as the seat he had taken.",
+      "supportingSentence": "Her ticket showed the same number.",
+      "skill": "inference"
+    }
+  ]
+}

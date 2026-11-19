@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "adventure",
+  "target": 100,
+  "title": "Camp before the Ridge",
+  "story": "The group left the road at dawn and climbed toward a high ridge. Malik carried the tent, and Sofia carried the food bag. Clouds sat on the ridge, so they stopped early in a flat hollow. They put the tent up between two rocks that blocked the wind. Sofia boiled water for soup and shared bread. A ranger had told them not to cross the ridge in fog. Malik wanted to push on, but the cloud was too thick. They agreed to wait until morning. During the night the wind pulled at the tent, yet the ropes held. At sunrise the ridge was clear. They started the last climb.",
+  "vocabulary": [
+    {
+      "word": "ridge",
+      "definition": "the long high top of a hill"
+    },
+    {
+      "word": "tent",
+      "definition": "a cloth shelter you can put up and take down"
+    },
+    {
+      "word": "hollow",
+      "definition": "a lower flat place in the land"
+    },
+    {
+      "word": "ranger",
+      "definition": "a person who looks after a wild area"
+    },
+    {
+      "word": "fog",
+      "definition": "thick cloud near the ground that is hard to see through"
+    },
+    {
+      "word": "sunrise",
+      "definition": "the time when the sun first appears"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Why did the group stop before they reached the top?",
+      "options": [
+        "Clouds sat on the ridge",
+        "The tent was torn",
+        "Sofia lost the food",
+        "The road was closed"
+      ],
+      "correctAnswer": "Clouds sat on the ridge",
+      "explanation": "Clouds sat on the ridge, so they stopped early.",
+      "supportingSentence": "Clouds sat on the ridge, so they stopped early in a flat hollow.",
+      "skill": "detail"
+    },
+    {
+      "question": "What warning had the ranger given?",
+      "options": [
+        "Not to cross the ridge in fog",
+        "To climb all night",
+        "To leave the tent behind",
+        "To stay on the road"
+      ],
+      "correctAnswer": "Not to cross the ridge in fog",
+      "explanation": "A ranger had told them not to cross the ridge in fog.",
+      "supportingSentence": "A ranger had told them not to cross the ridge in fog.",
+      "skill": "detail"
+    },
+    {
+      "question": "What was the ridge like at sunrise?",
+      "options": [
+        "It was clear",
+        "It was still covered in fog",
+        "It was blocked by rocks",
+        "It was too dark to see"
+      ],
+      "correctAnswer": "It was clear",
+      "explanation": "At sunrise the ridge was clear.",
+      "supportingSentence": "At sunrise the ridge was clear.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what is a hollow?",
+      "options": [
+        "A lower flat place in the land",
+        "An empty water bottle",
+        "A hole in the tent",
+        "A kind of thick cloud"
+      ],
+      "correctAnswer": "A lower flat place in the land",
+      "explanation": "They stopped in a flat hollow, a lower place under the ridge.",
+      "supportingSentence": "Clouds sat on the ridge, so they stopped early in a flat hollow.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Malik not keep climbing that evening?",
+      "options": [
+        "The cloud was too thick",
+        "The ropes had already snapped",
+        "Sofia needed a shop",
+        "Sunrise had not been clear all week"
+      ],
+      "correctAnswer": "The cloud was too thick",
+      "explanation": "He wanted to push on, but the cloud was too thick.",
+      "supportingSentence": "Malik wanted to push on, but the cloud was too thick.",
+      "skill": "inference"
+    }
+  ]
+}

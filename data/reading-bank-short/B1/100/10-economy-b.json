@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "economy_finance",
+  "target": 100,
+  "title": "Two Prices for One Loaf",
+  "story": "The bakery on Mill Street raised the price of a loaf on Monday. Tomas usually bought bread there after work. He compared the new price with the supermarket down the hill. The supermarket loaf cost less, but it was a longer walk. Tomas checked his weekly budget in a notes app. He could still buy the bakery loaf if he skipped a magazine. He liked supporting the small shop, so he chose that. He paid with cash and put the coins from his change into a jar at home. His sister Ines said the supermarket was smarter. Tomas explained that the bakery used local flour and stayed open late.",
+  "vocabulary": [
+    {
+      "word": "bakery",
+      "definition": "a shop that makes and sells bread"
+    },
+    {
+      "word": "loaf",
+      "definition": "bread baked in one piece"
+    },
+    {
+      "word": "supermarket",
+      "definition": "a large shop that sells many kinds of food"
+    },
+    {
+      "word": "budget",
+      "definition": "a plan for how to spend money"
+    },
+    {
+      "word": "cash",
+      "definition": "money in notes or coins"
+    },
+    {
+      "word": "flour",
+      "definition": "powder made from grain and used to make bread"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did the bakery do to the loaf price on Monday?",
+      "options": [
+        "Raised it",
+        "Dropped it to nothing",
+        "Hid it from Tomas",
+        "Made it the same as a magazine"
+      ],
+      "correctAnswer": "Raised it",
+      "explanation": "The bakery raised the price of a loaf on Monday.",
+      "supportingSentence": "The bakery on Mill Street raised the price of a loaf on Monday.",
+      "skill": "detail"
+    },
+    {
+      "question": "Which loaf cost less?",
+      "options": [
+        "The supermarket loaf",
+        "The bakery loaf",
+        "The magazine",
+        "The jar of coins"
+      ],
+      "correctAnswer": "The supermarket loaf",
+      "explanation": "The supermarket loaf cost less.",
+      "supportingSentence": "The supermarket loaf cost less, but it was a longer walk.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Tomas say the bakery used?",
+      "options": [
+        "Local flour",
+        "Frozen fruit",
+        "Magazine paper",
+        "Supermarket boxes"
+      ],
+      "correctAnswer": "Local flour",
+      "explanation": "He explained that the bakery used local flour.",
+      "supportingSentence": "Tomas explained that the bakery used local flour and stayed open late.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what is a budget?",
+      "options": [
+        "A plan for spending money",
+        "A type of bread",
+        "A long walk downhill",
+        "A jar for coins"
+      ],
+      "correctAnswer": "A plan for spending money",
+      "explanation": "Tomas checked his weekly budget before he decided what he could buy.",
+      "supportingSentence": "Tomas checked his weekly budget in a notes app.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Tomas still choose the bakery?",
+      "options": [
+        "He wanted to support the small shop",
+        "Ines told him to go there",
+        "The supermarket cost more",
+        "He had no cash that day"
+      ],
+      "correctAnswer": "He wanted to support the small shop",
+      "explanation": "He liked supporting the small shop, so he chose the bakery.",
+      "supportingSentence": "He liked supporting the small shop, so he chose that.",
+      "skill": "inference"
+    }
+  ]
+}

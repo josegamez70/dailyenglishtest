@@ -1,0 +1,100 @@
+{
+  "level": "B1",
+  "topic": "health_sports",
+  "target": 100,
+  "title": "A Blister on the Class Walk",
+  "story": "The class walk was longer than Yusuf expected. By the second hill his heel began to sting. He sat on a wall and pulled off his boot. A pale blister had formed. Teacher Cole opened the first-aid kit and gave him a soft plaster. She told him not to pop the blister. Yusuf pressed the plaster on and laced the boot more loosely. He walked at the back with a friend who carried his water. At the finish he was sore but proud. That evening he soaked the foot and let the blister dry. He chose thicker socks for the next walk.",
+  "vocabulary": [
+    {
+      "word": "heel",
+      "definition": "the back part of the foot"
+    },
+    {
+      "word": "sting",
+      "definition": "to feel a sharp small pain"
+    },
+    {
+      "word": "blister",
+      "definition": "a raised pocket of skin caused by rubbing"
+    },
+    {
+      "word": "plaster",
+      "definition": "a soft cover that protects a sore spot"
+    },
+    {
+      "word": "soaked",
+      "definition": "left something sitting in water"
+    },
+    {
+      "word": "socks",
+      "definition": "soft coverings worn on the feet"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did Yusuf find when he took his boot off?",
+      "options": [
+        "A pale blister",
+        "A lost sock",
+        "A stone in the kit",
+        "A cut on his hand"
+      ],
+      "correctAnswer": "A pale blister",
+      "explanation": "A pale blister had formed on his foot.",
+      "supportingSentence": "A pale blister had formed.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Teacher Cole tell him not to do?",
+      "options": [
+        "Pop the blister",
+        "Wear the plaster",
+        "Walk to the finish",
+        "Soak the foot"
+      ],
+      "correctAnswer": "Pop the blister",
+      "explanation": "She told him not to pop the blister.",
+      "supportingSentence": "She told him not to pop the blister.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Yusuf choose for the next walk?",
+      "options": [
+        "Thicker socks",
+        "No boots at all",
+        "A shorter hill",
+        "A new water bottle"
+      ],
+      "correctAnswer": "Thicker socks",
+      "explanation": "He chose thicker socks for the next walk.",
+      "supportingSentence": "He chose thicker socks for the next walk.",
+      "skill": "detail"
+    },
+    {
+      "question": "In this story, what does heel mean?",
+      "options": [
+        "The back part of the foot",
+        "The top of a hill",
+        "A kind of plaster",
+        "The front of a boot"
+      ],
+      "correctAnswer": "The back part of the foot",
+      "explanation": "His heel began to sting, and that is the back of the foot.",
+      "supportingSentence": "By the second hill his heel began to sting.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why did Yusuf lace the boot more loosely?",
+      "options": [
+        "So the sore heel would not be pressed",
+        "So the friend could wear it",
+        "So the plaster would fall off",
+        "So he could run ahead"
+      ],
+      "correctAnswer": "So the sore heel would not be pressed",
+      "explanation": "He had a blister on his heel, so a looser boot would press it less.",
+      "supportingSentence": "Yusuf pressed the plaster on and laced the boot more loosely.",
+      "skill": "inference"
+    }
+  ]
+}
