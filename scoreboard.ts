@@ -5,8 +5,6 @@ export const SCOREBOARD_TOP = 10;
 
 export type ScoreMode = 'reading' | 'listening' | 'grammar';
 export type ScorePeriod = 'daily' | 'yesterday' | 'all';
-/** Most exercises ranks by volume. Best % ranks by weighted percent among learners who reached the minimum. */
-export type ScoreRank = 'exercises' | 'percent';
 
 export type ModeTotals = {
   done: number;
@@ -114,8 +112,8 @@ function byAlias(left: ScoreRow, right: ScoreRow): number {
   return left.alias.localeCompare(right.alias) || Number(right.isSelf) - Number(left.isSelf);
 }
 
-/** Most exercises: total exercises, then percent. Best %: weighted percent among qualified rows, then exercises. */
-export function presentBoard(rows: readonly ScoreRow[], rank: ScoreRank = 'percent', minimum = SCOREBOARD_MIN): {
+/** Weighted percent among learners who reached the minimum. A tie goes to whoever did more exercises. */
+export function presentBoard(rows: readonly ScoreRow[], minimum = SCOREBOARD_MIN): {
   top: PresentedRow[];
   self: PresentedRow | null;
   unqualified: PresentedRow[];
@@ -132,15 +130,13 @@ export function presentBoard(rows: readonly ScoreRow[], rank: ScoreRank = 'perce
       totalAnswered: total.answered,
     };
   });
-  const competing = rank === 'percent'
-    ? decorated.filter((row) => row.qualified)
-    : decorated.filter((row) => row.totalDone > 0);
-  const sittingOut = decorated.filter((row) => !competing.includes(row));
+  const competing = decorated.filter((row) => row.qualified);
+  const sittingOut = decorated.filter((row) => !row.qualified);
   const ratio = (row: PresentedRow) => (row.totalAnswered > 0 ? row.totalCorrect / row.totalAnswered : -1);
   competing.sort((left, right) => {
-    const primary = rank === 'percent' ? ratio(right) - ratio(left) : right.totalDone - left.totalDone;
+    const primary = ratio(right) - ratio(left);
     if (primary) return primary;
-    const secondary = rank === 'percent' ? right.totalDone - left.totalDone : ratio(right) - ratio(left);
+    const secondary = right.totalDone - left.totalDone;
     if (secondary) return secondary;
     return byAlias(left, right);
   });

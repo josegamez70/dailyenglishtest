@@ -33,7 +33,7 @@ function percentText(totals: ModeTotals, qualified: boolean): string {
   return value == null ? '—' : `${value}%`;
 }
 
-/** Top 5 of each ranking. A learner in both lists gets one email that names both places. */
+/** Top 5 by weighted percent. Sending stays behind SCOREBOARD_EMAILS_ENABLED. */
 export function planScoreboardMail(
   people: readonly ScoreboardMailPerson[],
   day: string,
@@ -41,18 +41,15 @@ export function planScoreboardMail(
   minimum = SCOREBOARD_MIN,
 ): { recipients: ScoreboardMailRecipient[]; skipped: { alias: string; reason: 'opt-out' | 'already-sent' }[] } {
   const rows = people.map((person) => person.row);
-  const byExercises = presentBoard(rows, 'exercises', minimum).top.slice(0, SCOREBOARD_EMAIL_TOP);
-  const byPercent = presentBoard(rows, 'percent', minimum).top.slice(0, SCOREBOARD_EMAIL_TOP);
+  const byPercent = presentBoard(rows, minimum).top.slice(0, SCOREBOARD_EMAIL_TOP);
   const skipped: { alias: string; reason: 'opt-out' | 'already-sent' }[] = [];
   const recipients: ScoreboardMailRecipient[] = [];
   const seen = new Set<string>();
-  const ordered = [...byExercises, ...byPercent];
-  for (const shown of ordered) {
+  for (const shown of byPercent) {
     const person = people.find((item) => item.row.alias === shown.alias && item.row.isSelf === shown.isSelf);
     if (!person || !person.userId || seen.has(person.userId)) continue;
     seen.add(person.userId);
-    const exercisePlace = byExercises.find((item) => item.alias === person.alias)?.rank ?? null;
-    const percentPlace = byPercent.find((item) => item.alias === person.alias)?.rank ?? null;
+    const place = shown.rank ?? 0;
     if (person.optOut) {
       skipped.push({ alias: person.alias, reason: 'opt-out' });
       continue;
@@ -62,8 +59,7 @@ export function planScoreboardMail(
       continue;
     }
     const message = scoreboardAchievementMessage({
-      exercisePlace,
-      percentPlace,
+      place,
       alias: person.alias,
       day,
       reading: person.row.reading,
@@ -76,7 +72,7 @@ export function planScoreboardMail(
     });
     recipients.push({
       userId: person.userId,
-      position: percentPlace ?? exercisePlace ?? shown.rank ?? 0,
+      position: place,
       alias: person.alias,
       readingDone: shown.reading.done,
       readingPercent: percentText(shown.reading, shown.qualified),
@@ -95,8 +91,7 @@ export function planScoreboardMail(
 }
 
 export function scoreboardAchievementMessage(input: {
-  exercisePlace: number | null;
-  percentPlace: number | null;
+  place: number;
   alias: string;
   day: string;
   reading: ModeTotals;
@@ -118,13 +113,10 @@ export function scoreboardAchievementMessage(input: {
     `Grammar: ${exerciseCount(input.grammar.done)}, ${percentText(input.grammar, input.grammar.answered > 0)}`,
     `Total: ${exerciseCount(input.totalDone)}, ${totalPercent}`,
   ];
-  const places = [
-    input.exercisePlace ? `${ordinal(input.exercisePlace)} for Most exercises` : '',
-    input.percentPlace ? `${ordinal(input.percentPlace)} for Best %` : '',
-  ].filter(Boolean).join(' and ');
+  const place = ordinal(input.place);
   const subject = 'Yesterday on the scoreboard';
   const text = [
-    `${input.alias}, yesterday (${input.day}, Spain time) you were ${places}.`,
+    `${input.alias}, yesterday (${input.day}, Spain time) you were ${place}.`,
     ...lines,
     'The percent is correct answers divided by questions.',
     'This is practice. It is not a certificate and it does not promise a higher exam score.',
@@ -138,7 +130,7 @@ export function scoreboardAchievementMessage(input: {
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;background:#c0c0c0;border:2px solid #fff;border-right-color:#404040;border-bottom-color:#404040;">
         <tr><td style="background:#000080;color:#fff;padding:8px 12px;font-family:monospace;font-size:20px;">Yesterday on the scoreboard</td></tr>
         <tr><td style="padding:16px;font-size:16px;line-height:1.5;">
-          <p style="margin:0 0 12px;">${escapeHtml(input.alias)}, yesterday (${escapeHtml(input.day)}, Spain time) you were <strong>${escapeHtml(places)}</strong>.</p>
+          <p style="margin:0 0 12px;">${escapeHtml(input.alias)}, yesterday (${escapeHtml(input.day)}, Spain time) you were <strong>${escapeHtml(place)}</strong>.</p>
           <p style="margin:0 0 4px;">${escapeHtml(lines[0])}</p>
           <p style="margin:0 0 4px;">${escapeHtml(lines[1])}</p>
           <p style="margin:0 0 4px;">${escapeHtml(lines[2])}</p>

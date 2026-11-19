@@ -24,7 +24,7 @@ test('the global percent is weighted by questions, not by exercise', () => {
     attempt('reading', 1, 2, '2026-06-01T10:00:00Z'),
     attempt('listening', 9, 10, '2026-06-01T11:00:00Z'),
   ], 'all', new Date('2026-06-02T12:00:00Z'));
-  const board = presentBoard([row], 'percent', 1);
+  const board = presentBoard([row], 1);
   assert.equal(board.top[0].totalCorrect, 10);
   assert.equal(board.top[0].totalAnswered, 12);
   assert.equal(weightedPercent(10, 12), 83);
@@ -92,7 +92,7 @@ test('percent ranking needs the minimum, then keeps the top 10 and a later own r
     listening: { done: 0, correct: 0, answered: 0 },
     grammar: { done: 0, correct: 0, answered: 0 },
   });
-  const board = presentBoard(rows, 'percent', SCOREBOARD_MIN);
+  const board = presentBoard(rows, SCOREBOARD_MIN);
   assert.equal(board.top.length, 10);
   assert.equal(board.top[0].rank, 1);
   assert.equal(board.top[2].rank, 3);
@@ -104,18 +104,12 @@ test('percent ranking needs the minimum, then keeps the top 10 and a later own r
   const tied = presentBoard([
     { alias: 'Fewer', isSelf: false, demo: false, reading: { done: 4, correct: 8, answered: 10 }, listening: emptyMode(), grammar: emptyMode() },
     { alias: 'More', isSelf: false, demo: false, reading: { done: 8, correct: 16, answered: 20 }, listening: emptyMode(), grammar: emptyMode() },
-  ], 'percent', 1);
+  ], 1);
   assert.equal(tied.top[0].alias, 'More');
-  const byVolume = presentBoard([
-    { alias: 'Accurate', isSelf: false, demo: false, reading: { done: 3, correct: 9, answered: 10 }, listening: emptyMode(), grammar: emptyMode() },
-    { alias: 'Busy', isSelf: false, demo: false, reading: { done: 8, correct: 4, answered: 10 }, listening: emptyMode(), grammar: emptyMode() },
-  ], 'exercises', 3);
-  assert.equal(byVolume.top[0].alias, 'Busy');
-  assert.equal(byVolume.top[1].alias, 'Accurate');
   const percentOnly = presentBoard([
     { alias: 'Short', isSelf: false, demo: false, reading: { done: 1, correct: 5, answered: 5 }, listening: emptyMode(), grammar: emptyMode() },
     { alias: 'Ready', isSelf: false, demo: false, reading: { done: 4, correct: 2, answered: 10 }, listening: emptyMode(), grammar: emptyMode() },
-  ], 'percent', 3);
+  ], 3);
   assert.equal(percentOnly.top.map((item) => item.alias).includes('Short'), false);
   assert.equal(percentOnly.top[0].alias, 'Ready');
 });
@@ -144,12 +138,15 @@ test('the scoreboard page and the unapplied migration stay read-only', () => {
   const app = readFileSync(new URL('../App.tsx', import.meta.url), 'utf8');
   assert.match(page, /Fictitious demo/);
   assert.match(page, /All time/);
-  assert.match(page, /aria-selected=\{period === id\}[\s\S]*border-2 border-slate-900/);
+  assert.match(page, /aria-selected=\{view === id\}[\s\S]*border-2 border-slate-900/);
   assert.match(page, /Today/);
   assert.match(page, /Yesterday/);
-  assert.match(page, /Most exercises/);
-  assert.match(page, /Best %/);
-  assert.match(page, /Minimum exercises/);
+  assert.equal(page.includes('Most exercises'), false);
+  assert.equal(page.includes('Best %'), false);
+  assert.equal(page.includes('Minimum exercises'), false);
+  assert.match(page, /Ranked by % correct among learners with at least 3 exercises/);
+  assert.match(page, /Not yet qualified/);
+  assert.match(page, /Challenge/);
   assert.equal(page.includes('scoreboard-sort'), false);
   assert.equal(page.includes('email'), false);
   const nextSql = readFileSync(new URL('../supabase/migrations/20261125_scoreboard_periods.sql', import.meta.url), 'utf8');
