@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { bankChallengeIndex, readingChallengeIndex } from '../exerciseBank.ts';
-import { firstChallengeItems, listeningLevelForChallenge, presentChallenge, readingChallengeSlice } from '../dailyChallenge.ts';
+import { challengeRank, firstChallengeItems, listeningLevelForChallenge, presentChallenge, readingChallengeSlice } from '../dailyChallenge.ts';
 import { presentBoard } from '../scoreboard.ts';
 
 test('the daily challenge uses the same unsigned index as the reading bank', () => {
@@ -23,6 +23,13 @@ test('the daily challenge uses the same unsigned index as the reading bank', () 
   assert.equal(board.top[0].alias, 'Fast');
   assert.equal(board.top[1].alias, 'Slow');
   assert.equal(board.top[2].alias, 'Lower');
+  assert.equal(challengeRank([
+    { alias: 'Learner A3BF', isSelf: true, demo: false, correct: 15, total: 19, seconds: 1056 },
+    { alias: 'Other', isSelf: false, demo: false, correct: 10, total: 19, seconds: 900 },
+  ]), 1);
+  assert.equal(challengeRank([
+    { alias: 'Other', isSelf: false, demo: false, correct: 10, total: 10, seconds: 100 },
+  ]), null);
   const tied = presentBoard([
     { alias: 'Fewer', isSelf: false, demo: false, reading: { done: 3, correct: 6, answered: 10 }, listening: { done: 0, correct: 0, answered: 0 }, grammar: { done: 0, correct: 0, answered: 0 } },
     { alias: 'More', isSelf: false, demo: false, reading: { done: 6, correct: 12, answered: 20 }, listening: { done: 0, correct: 0, answered: 0 }, grammar: { done: 0, correct: 0, answered: 0 } },

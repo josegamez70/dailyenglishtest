@@ -199,6 +199,12 @@ export function presentChallenge(rows: readonly ChallengeEntry[]): {
   };
 }
 
+/** The signed-in learner's place, including first through tenth. */
+export function challengeRank(rows: readonly ChallengeEntry[]): number | null {
+  const board = presentChallenge(rows);
+  return board.top.find((row) => row.isSelf)?.rank ?? board.self?.rank ?? null;
+}
+
 export function gradeQuestions(questions: readonly { correctAnswer: string }[], answers: readonly string[]): number {
   return questions.reduce((sum, question, index) => (
     sum + (String(answers[index] ?? '').trim() === question.correctAnswer ? 1 : 0)

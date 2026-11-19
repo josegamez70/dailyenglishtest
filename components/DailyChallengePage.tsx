@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { loadChallengeBoard, loadChallengePack, submitChallenge, type ChallengePack, type ChallengeQuiz } from '../dailyChallengeClient';
-import { formatDuration, presentChallenge, type ChallengeEntry, type ChallengeLevel, type ChallengeReportItem } from '../dailyChallenge';
+import { challengeRank, formatDuration, type ChallengeEntry, type ChallengeLevel, type ChallengeReportItem } from '../dailyChallenge';
 import { weightedPercent } from '../scoreboard';
 import { recordScoredLesson } from '../legendsRecord';
 import type { GrammarItem } from '../grammarSet';
@@ -162,6 +162,13 @@ export function DailyChallengePage({
   }, [preview, pack?.level, localResult]);
 
   useEffect(() => {
+    if (preview || rankingMissing || !localResult || localResult.position != null) return;
+    const place = challengeRank(ranking);
+    if (place == null) return;
+    setLocalResult((current) => (current && current.position == null ? { ...current, position: place } : current));
+  }, [preview, ranking, rankingMissing, localResult]);
+
+  useEffect(() => {
     const timer = window.setInterval(() => setNow(Date.now()), 1000);
     return () => window.clearInterval(timer);
   }, []);
@@ -249,8 +256,11 @@ export function DailyChallengePage({
     let position = saved.position;
     if (!saved.missing) {
       const board = await loadChallengeBoard(pack.level);
-      const ranked = presentChallenge(board.rows);
-      position = ranked.top.find((row) => row.isSelf)?.rank ?? ranked.self?.rank ?? position;
+      if (!board.missing) {
+        setRanking(board.rows);
+        setRankingMissing(false);
+        position = challengeRank(board.rows) ?? position;
+      }
     }
     setLocalResult({
       correct: saved.correct,
@@ -281,9 +291,9 @@ export function DailyChallengePage({
           <p className="mt-2">Time {formatDuration(result.seconds)}.</p>
           {result.position != null ? (
             <p className="mt-2">You are {placeLabel(result.position)} at {pack.level} today.</p>
-          ) : (
+          ) : result.missing || rankingMissing ? (
             <p className="mt-2">Your place on the board will show after the database update.</p>
-          )}
+          ) : null}
           <p className="mt-3">This is practice. It is not a certificate.</p>
           {result.report?.length ? (
             <ol className="mt-4 flex list-none flex-col gap-4 p-0">
@@ -298,9 +308,9 @@ export function DailyChallengePage({
                 </li>
               ))}
             </ol>
-          ) : (
+          ) : result.missing ? (
             <p className="mt-3">The question-by-question report will be kept after the database update.</p>
-          )}
+          ) : null}
         </section>
         <ChallengeRankTable rows={ranking} level={pack.level} missing={rankingMissing} />
       </div>

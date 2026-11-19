@@ -133,7 +133,7 @@ export function ScoreboardPage({
         <p className="mt-3 text-base">Your academy only. A chosen public name is shown.</p>
       )}
       {load?.source === 'live' && !load.inAcademy && (
-        <p className="mt-3 text-base">Individual learners share one scoreboard. Only a chosen alias is shown.</p>
+        <p className="mt-3 text-base">Individual learners share one scoreboard. Your display name from Profile is shown (never your email).</p>
       )}
       {load?.source === 'owner' && (
         <p className="mt-3 text-base">Your academy only. A chosen public name is shown.</p>

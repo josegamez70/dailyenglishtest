@@ -2410,7 +2410,7 @@ const App: React.FC = () => {
       showAcademy={account.plan === 'academy'}
       academyName={inAcademy ? (account.academyName ?? '') : null}
       academyRole={inAcademy ? account.academyRole : null}
-      displayName={inAcademy ? account.displayName : null}
+      displayName={account.displayName}
       onHome={
         shellItem === 'lesson' && (view === 'story' || view === 'quiz' || view === 'results')
           ? resetApp

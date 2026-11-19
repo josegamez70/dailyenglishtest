@@ -205,7 +205,9 @@ export function AppShell({
   const retro = useRetroTheme();
   const headerBadge = academyName != null
     ? <AcademyBadge name={academyName} displayName={displayName} email={email} compact fitWidth role={academyRole === 'student' ? 'student' : 'owner'} person={academyRole === 'student'} />
-    : null;
+    : email
+      ? <AcademyBadge name="" displayName={displayName} email={email} compact fitWidth individual onPress={() => onNavigate('/profile')} />
+      : null;
   const go = (path: string) => {
     setOpen(false);
     onNavigate(path);

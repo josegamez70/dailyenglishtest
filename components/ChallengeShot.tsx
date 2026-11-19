@@ -2,21 +2,30 @@ import { useEffect } from 'react';
 import { AppShell } from './AppShell';
 import { DailyChallengePage } from './DailyChallengePage';
 import { ScoreboardPage } from './ScoreboardPage';
-import { demoRows } from '../scoreboard';
+import { demoRows, type ScoreRow } from '../scoreboard';
 import type { ChallengeEntry } from '../dailyChallenge';
 import { setRetroActive } from '../retroTheme';
 
 const CHALLENGE_ROWS: ChallengeEntry[] = [
-  { alias: 'Demo Alba', isSelf: false, demo: true, correct: 18, total: 20, seconds: 754 },
-  { alias: 'Demo Bruno', isSelf: false, demo: true, correct: 16, total: 20, seconds: 690 },
-  { alias: 'You', isSelf: true, demo: false, correct: 15, total: 20, seconds: 812 },
+  { alias: 'MightyG', isSelf: true, demo: false, correct: 15, total: 19, seconds: 1056 },
+  { alias: 'Demo Alba', isSelf: false, demo: true, correct: 14, total: 19, seconds: 754 },
+  { alias: 'Demo Bruno', isSelf: false, demo: true, correct: 12, total: 19, seconds: 690 },
   { alias: 'Demo Celia', isSelf: false, demo: true, correct: 15, total: 20, seconds: 901 },
   { alias: 'Demo Diego', isSelf: false, demo: true, correct: 12, total: 20, seconds: 640 },
 ];
 
+const selfScore: ScoreRow = {
+  alias: 'MightyG',
+  isSelf: true,
+  demo: false,
+  reading: { done: 4, correct: 16, answered: 20 },
+  listening: { done: 3, correct: 12, answered: 15 },
+  grammar: { done: 3, correct: 12, answered: 15 },
+};
+
 const PREVIEW = {
   day: '2026-11-19',
-  level: 'B1' as const,
+  level: 'C1' as const,
   startedAt: '2026-11-19T08:00:00Z',
   reading: {
     title: 'The Saturday Market',
@@ -36,10 +45,10 @@ const PREVIEW = {
     items: [{ kind: 'choice' as const, prompt: 'She ___ to the market every Saturday.', options: ['go', 'goes', 'going', 'gone'], correctAnswer: 'goes', explanation: 'She takes -s.' }],
   },
   result: {
-    correct: 12,
-    total: 15,
-    seconds: 812,
-    position: 3,
+    correct: 15,
+    total: 19,
+    seconds: 1056,
+    position: 1,
     missing: false,
     report: [
       { part: 'reading' as const, question: 'When did Marta arrive?', userAnswer: 'After lunch', correctAnswer: 'Before the bread stall opened', correct: false, why: 'The first sentence says she arrived before it opened.' },
@@ -85,8 +94,8 @@ export function ChallengeShot() {
             displayName=""
             profileLevel="B1"
             fixture={{
-              rows: demoRows('all'),
-              source: 'demo',
+              rows: [selfScore, ...demoRows('all')],
+              source: 'live',
               challengeRows: CHALLENGE_ROWS,
               initialView: view === 'challenge' ? 'challenge' : 'all',
             }}

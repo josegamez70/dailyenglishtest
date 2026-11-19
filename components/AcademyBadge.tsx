@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useRef } from 'react';
-import { academyPillName, studentPillName } from '../academyStats';
+import { academyPillName, individualPillName, studentPillName } from '../academyStats';
 import { useRetroTheme } from '../retroTheme';
 import { PixelIcon } from './PixelIcon';
 
@@ -61,6 +61,8 @@ export function AcademyBadge({
   role = 'owner',
   person = false,
   fitWidth = false,
+  individual = false,
+  onPress,
 }: {
   name: string;
   /** Owner: their display name. Student menu: the student's own display name. */
@@ -72,6 +74,10 @@ export function AcademyBadge({
   person?: boolean;
   /** Header pill only. Retro 95 grows the two lines to the pill width. */
   fitWidth?: boolean;
+  /** Signed-in learner with no academy. */
+  individual?: boolean;
+  /** Header pill. Opens Profile. */
+  onPress?: () => void;
 }) {
   const academy = name.trim();
   const label = role === 'student' ? 'Student' : 'My academy';
@@ -82,11 +88,13 @@ export function AcademyBadge({
   const retro = useRetroTheme();
   const copyRef = useRef<HTMLSpanElement>(null);
   const fit = Boolean(fitWidth && compact);
-  const headerStudent = fit && role === 'student';
-  const topLine = headerStudent ? (academy || 'Academy') : label;
-  const bottomLine = headerStudent
-    ? (personName === 'Student' ? 'Student' : `Student · ${personName}`)
-    : shown;
+  const headerStudent = fit && role === 'student' && !individual;
+  const topLine = individual ? 'Individual' : headerStudent ? (academy || 'Academy') : label;
+  const bottomLine = individual
+    ? individualPillName(displayName)
+    : headerStudent
+      ? (personName === 'Student' ? 'Student' : `Student · ${personName}`)
+      : shown;
   useLayoutEffect(() => {
     if (!fit || !copyRef.current) return undefined;
     const copy = copyRef.current;
@@ -101,18 +109,29 @@ export function AcademyBadge({
     ? <PixelIcon name="house" size={fit ? 22 : compact ? 16 : 24} />
     : <SchoolIcon className={compact ? 'h-8 w-8 shrink-0' : 'h-12 w-12 shrink-0'} />;
   if (compact) {
-    return (
-      <p
-        className={retro
-          ? 'retro-pill'
-          : 'inline-flex max-w-[10.5rem] shrink-0 items-center gap-1.5 rounded-2xl border border-teal-600 bg-white py-1 pl-1 pr-2 dark:border-teal-400 dark:bg-slate-800'}
-        title={headerStudent ? `${topLine}: ${bottomLine}` : `${label}: ${shown}`}
-      >
+    const className = retro
+      ? 'retro-pill'
+      : 'inline-flex max-w-[10.5rem] shrink-0 items-center gap-1.5 rounded-2xl border border-teal-600 bg-white py-1 pl-1 pr-2 text-left dark:border-teal-400 dark:bg-slate-800';
+    const title = individual || headerStudent ? `${topLine}: ${bottomLine}` : `${label}: ${shown}`;
+    const inner = (
+      <>
         {mark}
         <span ref={copyRef} className="retro-pill-copy min-w-0 text-left leading-tight">
           <span className="block text-[10px] font-medium leading-none text-slate-600 dark:text-slate-300">{topLine}</span>
           <span className="retro-pill-name mt-0.5 block truncate text-xs font-bold leading-tight">{bottomLine}</span>
         </span>
+      </>
+    );
+    if (onPress) {
+      return (
+        <button type="button" onClick={onPress} className={className} title={title} aria-label={`Open profile, ${topLine} ${bottomLine}`}>
+          {inner}
+        </button>
+      );
+    }
+    return (
+      <p className={className} title={title}>
+        {inner}
       </p>
     );
   }

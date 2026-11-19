@@ -46,13 +46,11 @@ function adminClient(env: EnvMap): SupabaseClient | null {
   return createClient(url, key, { auth: { persistSession: false, autoRefreshToken: false } });
 }
 
-function chosenAlias(alias: string, displayName: string, userId: string, individual: boolean): string {
+function chosenAlias(alias: string, displayName: string, userId: string): string {
   const picked = alias.trim();
   if (picked && !picked.includes('@')) return picked.slice(0, 40);
-  if (!individual) {
-    const name = displayName.trim();
-    if (name && !name.includes('@')) return name.slice(0, 40);
-  }
+  const name = displayName.trim();
+  if (name && !name.includes('@')) return name.slice(0, 40);
   return `Learner ${userId.slice(0, 4).toUpperCase()}`;
 }
 
@@ -131,9 +129,9 @@ export async function planScoreboardEmailJob(env: EnvMap = runtimeEnv()): Promis
     });
     attemptsByUser.set(userId, list);
   }
-  const personFor = (userId: string, individual: boolean): ScoreboardMailPerson => {
+  const personFor = (userId: string): ScoreboardMailPerson => {
     const profile = profileById.get(userId);
-    const alias = chosenAlias(String(profile?.scoreboard_alias ?? ''), String(profile?.display_name ?? ''), userId, individual);
+    const alias = chosenAlias(String(profile?.scoreboard_alias ?? ''), String(profile?.display_name ?? ''), userId);
     const row = rowFromAttempts(alias, attemptsByUser.get(userId) ?? [], 'yesterday', new Date(), false);
     return {
       userId,
@@ -145,10 +143,10 @@ export async function planScoreboardEmailJob(env: EnvMap = runtimeEnv()): Promis
       unlocked: unlockedByUser.get(userId) ?? [],
     };
   };
-  const challengeFor = (userId: string, individual: boolean): ChallengeMailPerson | null => {
+  const challengeFor = (userId: string): ChallengeMailPerson | null => {
     const attempt = attemptByUser.get(userId);
     if (!attempt || attempt.total <= 0) return null;
-    const person = personFor(userId, individual);
+    const person = personFor(userId);
     return {
       userId,
       alias: person.alias,
@@ -165,10 +163,10 @@ export async function planScoreboardEmailJob(env: EnvMap = runtimeEnv()): Promis
   const boards: ScoreboardEmailBoard[] = [];
   const base = appBaseUrl(env) ?? 'https://dailyenglishtest.es';
   const link = () => `${base}/api/scoreboard-email-opt-out?token=preview`;
-  const mailFor = (people: ScoreboardMailPerson[], ids: string[], individual: boolean) => planScoreboardMail({
+  const mailFor = (people: ScoreboardMailPerson[], ids: string[]) => planScoreboardMail({
     people,
     challenges: ids.flatMap((id) => {
-      const row = challengeFor(id, individual);
+      const row = challengeFor(id);
       return row ? [row] : [];
     }),
     day: yesterday,
@@ -182,16 +180,16 @@ export async function planScoreboardEmailJob(env: EnvMap = runtimeEnv()): Promis
     const id = String(record.id ?? '');
     const people = (members.data ?? [])
       .filter((row) => String((row as { academy_id?: unknown }).academy_id) === id)
-      .map((row) => personFor(String((row as { user_id?: unknown }).user_id), false));
+      .map((row) => personFor(String((row as { user_id?: unknown }).user_id)));
     const ownerId = String(record.owner_id ?? '');
-    if (ownerId && !people.some((person) => person.userId === ownerId)) people.push(personFor(ownerId, false));
-    const plan = mailFor(people, people.map((person) => person.userId), false);
+    if (ownerId && !people.some((person) => person.userId === ownerId)) people.push(personFor(ownerId));
+    const plan = mailFor(people, people.map((person) => person.userId));
     boards.push({ kind: 'academy', name: String(record.name ?? 'Academy'), ...plan });
   }
   const individuals = [...profileById.keys()]
     .filter((id) => id && !memberIds.has(id) && !ownerIds.has(id))
-    .map((id) => personFor(id, true));
-  boards.push({ kind: 'individual', name: 'Individual learners', ...mailFor(individuals, individuals.map((person) => person.userId), true) });
+    .map((id) => personFor(id));
+  boards.push({ kind: 'individual', name: 'Individual learners', ...mailFor(individuals, individuals.map((person) => person.userId)) });
   const wouldSend = enabled && boards.some((board) => board.recipients.length > 0);
   return { enabled, wouldSend, yesterday, boards };
 }
