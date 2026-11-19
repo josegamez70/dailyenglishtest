@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "daily life",
+  "target": 100,
+  "title": "A Rota That Left the Weekend Free",
+  "story": "Four flats shared one washing line, and the old habit gave it to whoever arrived first. After two quarrels about sheets left wet overnight, Amina posted a rota that gave each flat one weekday and left the weekend blank. Neighbours called a laundry timetable absurd. Amina was not trying to police spare hours. She was ending a race that favoured anyone who worked at home and could hang clothes at noon. The weekend stayed open because guests and emergencies happen. A rule for every hour would have been resented, rightly. The narrower rule lasted because it corrected the unfair part and left the rest alone.",
+  "vocabulary": [
+    {
+      "word": "quarrels",
+      "definition": "Angry disagreements"
+    },
+    {
+      "word": "rota",
+      "definition": "A written turn-taking schedule"
+    },
+    {
+      "word": "favoured",
+      "definition": "Gave an advantage to"
+    },
+    {
+      "word": "emergencies",
+      "definition": "Urgent unexpected needs"
+    },
+    {
+      "word": "resented",
+      "definition": "Felt with bitterness"
+    },
+    {
+      "word": "narrower",
+      "definition": "Covering less, on purpose"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What share of the week did each flat receive?",
+      "options": [
+        "One weekday",
+        "The entire weekend",
+        "Every noon hour",
+        "Two nights for wet sheets"
+      ],
+      "correctAnswer": "One weekday",
+      "explanation": "The rota gave each flat one weekday.",
+      "supportingSentence": "After two quarrels about sheets left wet overnight, Amina posted a rota that gave each flat one weekday and left the weekend blank.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why was the weekend left blank?",
+      "options": [
+        "Guests and emergencies still happen",
+        "The line was removed every Friday",
+        "Amina worked only on Saturdays",
+        "Wet sheets were banned after noon"
+      ],
+      "correctAnswer": "Guests and emergencies still happen",
+      "explanation": "The weekend stayed open because guests and emergencies happen.",
+      "supportingSentence": "The weekend stayed open because guests and emergencies happen.",
+      "skill": "detail"
+    },
+    {
+      "question": "Who had the advantage before the rota?",
+      "options": [
+        "People at home by day, who could take the line at noon",
+        "Guests who arrived only on Mondays",
+        "Neighbours who never did laundry",
+        "A clerk who rented the line out"
+      ],
+      "correctAnswer": "People at home by day, who could take the line at noon",
+      "explanation": "The old race favoured anyone who worked at home and could hang clothes at noon.",
+      "supportingSentence": "She was ending a race that favoured anyone who worked at home and could hang clothes at noon.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does resented mean for a rule covering every hour?",
+      "options": [
+        "People would feel bitter about it",
+        "It would be printed in larger type",
+        "It would dry clothes faster",
+        "It would erase the weekend from the calendar"
+      ],
+      "correctAnswer": "People would feel bitter about it",
+      "explanation": "Resented means people would bitterly dislike a rule that covered every hour.",
+      "supportingSentence": "A rule for every hour would have been resented, rightly.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why add that resentment of a total rule would be proper?",
+      "options": [
+        "To justify stopping short of controlling every hour",
+        "To admit the rota was torn down at once",
+        "To blame the guests for both quarrels",
+        "To name one soap for every flat"
+      ],
+      "correctAnswer": "To justify stopping short of controlling every hour",
+      "explanation": "Calling that resentment rightful defends the choice to leave some time unregulated.",
+      "supportingSentence": "A rule for every hour would have been resented, rightly.",
+      "skill": "intent"
+    }
+  ]
+}

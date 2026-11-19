@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "fantasy",
+  "target": 100,
+  "title": "A Bridge Made of Owed Attention",
+  "story": "The bridge over the dry canal appeared only for a debt of attention. Pell had looked away when a neighbour's roof failed, and at dusk the planks were under his feet, gone again by morning. Each crossing asked for an hour on a task he had postponed: stacking tiles, reading to a child at the school gate, then facing minutes of a meeting he had skipped. The bridge did not shout. It existed only while the debt was being paid. When the tasks ended, the canal was ordinary dust. Pell could still cross elsewhere. He could no longer pretend he had not known where he was needed.",
+  "vocabulary": [
+    {
+      "word": "debt",
+      "definition": "Something owed, here a duty of attention"
+    },
+    {
+      "word": "attention",
+      "definition": "Notice and care given to other people"
+    },
+    {
+      "word": "postponed",
+      "definition": "Put off until a later time"
+    },
+    {
+      "word": "planks",
+      "definition": "The boards that formed the bridge"
+    },
+    {
+      "word": "dusk",
+      "definition": "The time of day when daylight is fading"
+    },
+    {
+      "word": "pretend",
+      "definition": "Act as if something were true when it is not"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "At which time of day did Pell find the planks?",
+      "options": [
+        "At dusk",
+        "At noon",
+        "Only in the morning",
+        "During a school parade"
+      ],
+      "correctAnswer": "At dusk",
+      "explanation": "At dusk the planks were under his feet.",
+      "supportingSentence": "Pell had looked away when a neighbour's roof failed, and at dusk the planks were under his feet, gone again by morning.",
+      "skill": "detail"
+    },
+    {
+      "question": "Which chore came first among the crossings?",
+      "options": [
+        "Stacking the neighbour's tiles",
+        "Painting the dry canal",
+        "Closing the school for the season",
+        "Building a second bridge of stone"
+      ],
+      "correctAnswer": "Stacking the neighbour's tiles",
+      "explanation": "The first task named is stacking tiles.",
+      "supportingSentence": "Each crossing asked for an hour on a task he had postponed: stacking tiles, reading to a child at the school gate, then facing minutes of a meeting he had skipped.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does ordinary dust after the tasks reveal?",
+      "options": [
+        "The oddity was the duty, not the landscape",
+        "The canal has filled with water at last",
+        "The neighbour's roof was never damaged",
+        "The child has left the town for good"
+      ],
+      "correctAnswer": "The oddity was the duty, not the landscape",
+      "explanation": "Once the debt is paid the canal is ordinary dust, so the strange part was the obligation.",
+      "supportingSentence": "When the tasks ended, the canal was ordinary dust.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does postponed say about those tasks?",
+      "options": [
+        "They had been put off until later",
+        "They were paid for in coins",
+        "They were carved into the canal",
+        "The whole town had forgotten them"
+      ],
+      "correctAnswer": "They had been put off until later",
+      "explanation": "Postponed means the tasks had been put off, which is why the bridge now demands them.",
+      "supportingSentence": "Each crossing asked for an hour on a task he had postponed: stacking tiles, reading to a child at the school gate, then facing minutes of a meeting he had skipped.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why say the bridge did not shout?",
+      "options": [
+        "To present the demand as quiet rather than as a loud penalty",
+        "To show the town beats drums on the planks",
+        "To argue that Pell stole money",
+        "To explain how the boards were nailed"
+      ],
+      "correctAnswer": "To present the demand as quiet rather than as a loud penalty",
+      "explanation": "Denying a shout frames the bridge as a quiet path that exists only while the debt is paid.",
+      "supportingSentence": "The bridge did not shout.",
+      "skill": "intent"
+    }
+  ]
+}

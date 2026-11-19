@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "economy_finance",
+  "target": 100,
+  "title": "Half a Deposit, Reserve Untouched",
+  "story": "The landlord wanted the full winter deposit before the heating contract could start. The cafe reserve could cover it, but that fund was for a broken oven or a quiet month, not for a cost the season would bring anyway. Jonah offered half now and half when the first cold orders arrived, and he showed weekly takings rather than a bare promise. The landlord agreed, provided a missed second payment restored the full demand at once. Jonah accepted because the reserve stayed ready for a shock. Spending emergency money on a predictable bill would have left the cafe confident on paper and fragile on the week something failed.",
+  "vocabulary": [
+    {
+      "word": "deposit",
+      "definition": "Money paid up front before a service starts"
+    },
+    {
+      "word": "reserve",
+      "definition": "Money kept back for an unexpected blow"
+    },
+    {
+      "word": "takings",
+      "definition": "Money received from customers"
+    },
+    {
+      "word": "shock",
+      "definition": "A sudden problem the cafe did not schedule"
+    },
+    {
+      "word": "predictable",
+      "definition": "Expected, because it belongs to the season"
+    },
+    {
+      "word": "fragile",
+      "definition": "Easy to damage when something goes wrong"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What payment pattern did Jonah suggest?",
+      "options": [
+        "Half at once and half when cold orders came",
+        "The entire deposit before any heating began",
+        "Nothing until the spring menu changed",
+        "The price of a replacement oven"
+      ],
+      "correctAnswer": "Half at once and half when cold orders came",
+      "explanation": "Jonah offered half now and half when the first cold orders arrived.",
+      "supportingSentence": "Jonah offered half now and half when the first cold orders arrived, and he showed weekly takings rather than a bare promise.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did a missed second payment trigger?",
+      "options": [
+        "An immediate return of the demand for the full sum",
+        "Closure of the cafe on that day",
+        "Purchase of a new oven from the reserve",
+        "Cancellation of every winter booking"
+      ],
+      "correctAnswer": "An immediate return of the demand for the full sum",
+      "explanation": "A missed second payment restored the full demand at once.",
+      "supportingSentence": "The landlord agreed, provided a missed second payment restored the full demand at once.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why leave the reserve out of this bill?",
+      "options": [
+        "A known seasonal cost would spend money saved for a shock",
+        "The landlord had already cancelled the deposit",
+        "The weekly takings were too large to show",
+        "The heating contract had already ended"
+      ],
+      "correctAnswer": "A known seasonal cost would spend money saved for a shock",
+      "explanation": "The reserve is for a broken oven or a quiet month, not for a bill the season was always going to bring.",
+      "supportingSentence": "The cafe reserve could cover it, but that fund was for a broken oven or a quiet month, not for a cost the season would bring anyway.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does reserve mean in these accounts?",
+      "options": [
+        "Money held back for an unexpected blow",
+        "The list of cold-weather dishes",
+        "The landlord's heating contract",
+        "A discount on the second half"
+      ],
+      "correctAnswer": "Money held back for an unexpected blow",
+      "explanation": "The reserve is the fund kept for a shock, not for an ordinary seasonal bill.",
+      "supportingSentence": "The cafe reserve could cover it, but that fund was for a broken oven or a quiet month, not for a cost the season would bring anyway.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What point does the final contrast make?",
+      "options": [
+        "The plan should be judged by what remains when something fails",
+        "The oven broke on the afternoon of the deal",
+        "The landlord deserves praise for charging more",
+        "The cafe's best drinks ought to be listed"
+      ],
+      "correctAnswer": "The plan should be judged by what remains when something fails",
+      "explanation": "The contrast weighs paper confidence against how fragile the cafe would be in a real failure.",
+      "supportingSentence": "Spending emergency money on a predictable bill would have left the cafe confident on paper and fragile on the week something failed.",
+      "skill": "intent"
+    }
+  ]
+}

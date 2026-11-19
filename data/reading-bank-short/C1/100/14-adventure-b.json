@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "adventure",
+  "target": 100,
+  "title": "The Chart Did Not Mention the Rope",
+  "story": "The boathouse chart showed clear water between the rock and the landing chain. When Idris rowed out, the gap was real, but the guiding rope fell short of his hand. His cousin offered to jump for the chain. Idris refused, because a leap from a moving boat into cold water would become a rescue. He beached the boat and walked the shore with a longer line. The chart had not lied about the gap. It said nothing about a rope that had frayed and been retied too short. Trusting a drawing for a fact it never claimed is how simple crossings turn risky.",
+  "vocabulary": [
+    {
+      "word": "chart",
+      "definition": "A drawing of the water and the landing"
+    },
+    {
+      "word": "gap",
+      "definition": "The stretch of clear water"
+    },
+    {
+      "word": "leap",
+      "definition": "A jump off the boat"
+    },
+    {
+      "word": "beached",
+      "definition": "Brought the boat onto the shore"
+    },
+    {
+      "word": "frayed",
+      "definition": "Worn until the fibres gave way"
+    },
+    {
+      "word": "retied",
+      "definition": "Tied again after it had worn"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What fell short of his hand in the gap?",
+      "options": [
+        "The guiding rope",
+        "The chart on the boathouse wall",
+        "A bridge across the whole bay",
+        "His cousin's spare oar"
+      ],
+      "correctAnswer": "The guiding rope",
+      "explanation": "The guiding rope fell short of his hand.",
+      "supportingSentence": "When Idris rowed out, the gap was real, but the guiding rope fell short of his hand.",
+      "skill": "detail"
+    },
+    {
+      "question": "What risky move did the cousin offer?",
+      "options": [
+        "To jump from the boat toward the chain",
+        "To redraw the chart that evening",
+        "To cut the rope and leave it",
+        "To swim back for a meal"
+      ],
+      "correctAnswer": "To jump from the boat toward the chain",
+      "explanation": "The cousin offered to jump for the chain.",
+      "supportingSentence": "His cousin offered to jump for the chain.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why is the chart incomplete rather than untrue?",
+      "options": [
+        "The water gap was real, but the rope length was never on it",
+        "The landing chain had been carried far inland",
+        "The sheet was only a child's sketch",
+        "The water was warmer than any drawing showed"
+      ],
+      "correctAnswer": "The water gap was real, but the rope length was never on it",
+      "explanation": "The gap matched the chart, and the chart never described the shortened rope.",
+      "supportingSentence": "The chart had not lied about the gap.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does frayed reveal about the rope?",
+      "options": [
+        "Its fibres had worn away",
+        "It was copied in ink on the chart",
+        "It reached across the whole bay",
+        "It belonged to the cousin"
+      ],
+      "correctAnswer": "Its fibres had worn away",
+      "explanation": "Frayed means the rope's fibres had worn, which is why it was retied too short.",
+      "supportingSentence": "It said nothing about a rope that had frayed and been retied too short.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "What is the point of saying the chart told the truth about the gap?",
+      "options": [
+        "To put the mistake on an assumption the drawing never made",
+        "To admit the gap had closed since morning",
+        "To praise the cousin for jumping",
+        "To explain how wooden boats are built"
+      ],
+      "correctAnswer": "To put the mistake on an assumption the drawing never made",
+      "explanation": "Saying the chart did not lie moves the fault onto trusting it for a fact it never claimed.",
+      "supportingSentence": "The chart had not lied about the gap.",
+      "skill": "intent"
+    }
+  ]
+}

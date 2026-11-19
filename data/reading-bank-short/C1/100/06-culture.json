@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "culture_food",
+  "target": 100,
+  "title": "Four Pots, Not One Boiler",
+  "story": "The parish hall asked Rosa to cook her grandmother's broth for a festival crowd. The recipe lived in proportions, not in a multiplied list: a clay pot, a low flame, and bones that barely simmered until the surface cleared. Rosa refused to tip those quantities into the hall's wide boiler. Heat would reach the edges before the centre, and the cloudy result would be a different dish that only shared the name. She cooked four small pots in sequence and held them over warm water. Guests waited longer. What they received was the broth the family actually recognised.",
+  "vocabulary": [
+    {
+      "word": "broth",
+      "definition": "A savoury liquid dish cooked slowly"
+    },
+    {
+      "word": "proportions",
+      "definition": "The relations between amounts in a recipe"
+    },
+    {
+      "word": "simmered",
+      "definition": "Cooked just below boiling"
+    },
+    {
+      "word": "boiler",
+      "definition": "A large pot used to heat a big quantity"
+    },
+    {
+      "word": "sequence",
+      "definition": "One after another, in order"
+    },
+    {
+      "word": "recognised",
+      "definition": "Known as the real familiar dish"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "How did Rosa produce enough broth for the hall?",
+      "options": [
+        "In four small pots, cooked one after another",
+        "In the hall's wide boiler on a high flame",
+        "By buying a finished soup from a shop",
+        "By doubling every measure in one huge pot"
+      ],
+      "correctAnswer": "In four small pots, cooked one after another",
+      "explanation": "She cooked four small pots in sequence.",
+      "supportingSentence": "She cooked four small pots in sequence and held them over warm water.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did the guests have to put up with?",
+      "options": [
+        "A longer wait before they were served",
+        "A new name for the family dish",
+        "A cold hall with nowhere to sit",
+        "A recipe written only as numbers"
+      ],
+      "correctAnswer": "A longer wait before they were served",
+      "explanation": "The guests waited longer.",
+      "supportingSentence": "Guests waited longer.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why would the wide boiler have spoiled the dish?",
+      "options": [
+        "Uneven heat would make something the family would not know as theirs",
+        "The hall had banned every clay pot",
+        "The crowd had asked only for pudding",
+        "The grandmother had never used bones"
+      ],
+      "correctAnswer": "Uneven heat would make something the family would not know as theirs",
+      "explanation": "Heat at the edges would turn the broth into a different dish that only shared the name.",
+      "supportingSentence": "Heat would reach the edges before the centre, and the cloudy result would be a different dish that only shared the name.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does proportions mean for this recipe?",
+      "options": [
+        "Relations between amounts, rather than one multiplied list",
+        "A ticket printed for each guest",
+        "The paint colour of the hall",
+        "A hotter flame at the rim"
+      ],
+      "correctAnswer": "Relations between amounts, rather than one multiplied list",
+      "explanation": "The recipe lives in proportions, which the sentence sets against a multiplied list.",
+      "supportingSentence": "The recipe lived in proportions, not in a multiplied list: a clay pot, a low flame, and bones that barely simmered until the surface cleared.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why mention that the guests waited longer?",
+      "options": [
+        "To show familiar taste was chosen over speed",
+        "To blame the guests for coming early",
+        "To hint that the four pots were stolen",
+        "To describe only the shape of the clay pot"
+      ],
+      "correctAnswer": "To show familiar taste was chosen over speed",
+      "explanation": "The wait shows she accepted delay so the broth would stay the one the family knew.",
+      "supportingSentence": "Guests waited longer.",
+      "skill": "intent"
+    }
+  ]
+}

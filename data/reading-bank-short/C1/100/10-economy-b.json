@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "economy_finance",
+  "target": 100,
+  "title": "Three Months Instead of an Average",
+  "story": "The draft budget used last year's average attendance to predict ticket income. Hana replaced that average with three figures: a poor month, a typical month, and a festival month. An average, she argued, hid the poor month inside the festival and made February look safer than the cash would be. The treasurer wanted one number, because a single line was easier to defend at the public meeting. Hana kept the three and added a rule that spending plans must survive the poor month without borrowing. The festival windfall could repair the roof afterwards. It could not be spent early as if the weak month were already saved.",
+  "vocabulary": [
+    {
+      "word": "attendance",
+      "definition": "The number of people who come"
+    },
+    {
+      "word": "predict",
+      "definition": "To say what income is likely to be"
+    },
+    {
+      "word": "average",
+      "definition": "A single figure that blends different months"
+    },
+    {
+      "word": "treasurer",
+      "definition": "The person who looks after the money"
+    },
+    {
+      "word": "borrowing",
+      "definition": "Taking money that must be paid back"
+    },
+    {
+      "word": "windfall",
+      "definition": "Extra income that arrives in a strong month"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Which figures replaced the single average?",
+      "options": [
+        "A poor month, a typical month, and a festival month",
+        "Last year's average copied out three times",
+        "Only the festival, counted as the whole year",
+        "A loan large enough to cover February"
+      ],
+      "correctAnswer": "A poor month, a typical month, and a festival month",
+      "explanation": "Hana replaced the average with a poor month, a typical month, and a festival month.",
+      "supportingSentence": "Hana replaced that average with three figures: a poor month, a typical month, and a festival month.",
+      "skill": "detail"
+    },
+    {
+      "question": "What test did new spending plans have to pass?",
+      "options": [
+        "They had to survive the poor month without borrowing",
+        "They had to be the treasurer's single favourite line",
+        "They had to spend the festival money in advance",
+        "They had to match last year's average exactly"
+      ],
+      "correctAnswer": "They had to survive the poor month without borrowing",
+      "explanation": "Spending plans had to survive the poor month without borrowing.",
+      "supportingSentence": "Hana kept the three and added a rule that spending plans must survive the poor month without borrowing.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why can one average mislead this hall?",
+      "options": [
+        "A busy festival can hide how little a poor month leaves",
+        "It forces the building to close in February",
+        "It doubles the ticket price of every event",
+        "It forbids any talk of the roof"
+      ],
+      "correctAnswer": "A busy festival can hide how little a poor month leaves",
+      "explanation": "The average hides the poor month inside the festival and makes February look safer than the cash.",
+      "supportingSentence": "An average, she argued, hid the poor month inside the festival and made February look safer than the cash would be.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does windfall mean beside the festival?",
+      "options": [
+        "Extra income that comes in a strong month",
+        "A tax the public meeting must pay",
+        "Tickets that go missing in February",
+        "A loan signed in the weak month"
+      ],
+      "correctAnswer": "Extra income that comes in a strong month",
+      "explanation": "The festival windfall is extra money from the strong month, available after that month rather than before it.",
+      "supportingSentence": "The festival windfall could repair the roof afterwards.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why note that a single line was easier in public?",
+      "options": [
+        "To show the pressure for a simpler figure at the meeting",
+        "To prove the public meeting was cancelled",
+        "To suggest Hana hid the three figures",
+        "To describe how the tickets are printed"
+      ],
+      "correctAnswer": "To show the pressure for a simpler figure at the meeting",
+      "explanation": "The treasurer's wish shows the social pressure Hana resists by keeping three figures.",
+      "supportingSentence": "The treasurer wanted one number, because a single line was easier to defend at the public meeting.",
+      "skill": "intent"
+    }
+  ]
+}
