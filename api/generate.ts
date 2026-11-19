@@ -54,6 +54,7 @@ import {
   isListeningQuestionCount,
   isListeningWordCount,
   listeningBankQuery,
+  readingBankLengthFits,
   readingBankLevel,
   readingBankQuery,
 } from '../exerciseBank.ts';
@@ -1263,8 +1264,9 @@ async function createListeningLesson(
 }
 
 /**
- * A list topic takes one unseen reading from the bank, except today's and tomorrow's
- * challenge pieces. A dialogue, a typed topic, or an empty bank continues into live generation.
+ * A list topic takes one unseen reading from the bank when its stored length is
+ * within ±20% of the chosen length. A short request, a dialogue, a typed topic,
+ * or an empty bank continues into the existing generator without a prompt change.
  */
 async function createReadingLesson(
   admin: SupabaseClient,
@@ -1290,6 +1292,17 @@ async function createReadingLesson(
   const claimed = await claimReadingFromBank(admin, userId, { level, topic: choice.topic });
   if (!claimed) {
     console.log(JSON.stringify({ stage: 'reading_live', level, reason: 'bank_empty' }));
+    return null;
+  }
+  if (!readingBankLengthFits(params.wordCount, claimed.lesson.wordCount)) {
+    await releaseGrammarBankItem(admin, userId, claimed.id);
+    console.log(JSON.stringify({
+      stage: 'reading_live',
+      level,
+      reason: 'length',
+      requested: params.wordCount,
+      bankWords: claimed.lesson.wordCount,
+    }));
     return null;
   }
   const charged = await consumeLessonResponse(admin, userId, headers);
