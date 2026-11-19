@@ -34,12 +34,12 @@ const MENU_ICON: Record<string, string> = {
   help: 'how_it_works',
 };
 
-function Wordmark({ variant }: { variant: 'header' | 'side' }) {
+function Wordmark({ variant, iconSize }: { variant: 'header' | 'side'; iconSize?: number }) {
   return (
     <p className={variant === 'header'
       ? 'retro-wordmark inline-flex min-w-0 flex-1 items-center gap-1 font-fun text-base leading-none md:hidden'
-      : 'retro-side-mark inline-flex items-center gap-1 text-lg font-fun leading-tight'}>
-      <PixelArt src="/icons/practice_reading.png" size={variant === 'header' ? 20 : 24} />
+      : 'retro-side-mark menu-title inline-flex min-w-0 items-center gap-2 font-fun leading-tight'}>
+      <PixelArt src="/icons/practice_reading.png" size={iconSize ?? (variant === 'header' ? 20 : 24)} />
       <span>
         <span className="text-blue-800 dark:text-blue-300">Daily </span>
         <span className="text-red-700 dark:text-red-400">English Test</span>
@@ -73,6 +73,7 @@ function NavLinks({
   academyName,
   academyRole,
   displayName,
+  layout = 'side',
 }: {
   active: ShellItem;
   onNavigate: (path: string) => void;
@@ -84,7 +85,10 @@ function NavLinks({
   academyName?: string | null;
   academyRole?: 'owner' | 'student' | null;
   displayName?: string | null;
+  layout?: 'side' | 'drawer';
 }) {
+  const drawer = layout === 'drawer';
+  const icon = drawer ? 34 : 24;
   const profile = baseItems[baseItems.length - 1];
   const items = showAcademy
     ? [
@@ -94,21 +98,23 @@ function NavLinks({
     ]
     : baseItems;
   return (
-    <div className="flex min-h-full flex-col">
-      <div className="px-4 pt-4">
-        <Wordmark variant="side" />
+    <div className={drawer ? 'menu-panel flex min-h-full flex-col' : 'flex min-h-full flex-col'}>
+      <div className={drawer ? 'menu-head' : 'px-4 pt-4'}>
+        <Wordmark variant="side" iconSize={icon} />
         {email && (
-          <p className="mt-3 truncate text-sm font-semibold text-slate-900 dark:text-slate-50">{email}</p>
+          <p className={drawer
+            ? 'menu-email mt-3 font-semibold text-slate-900 dark:text-slate-50'
+            : 'mt-3 truncate text-sm font-semibold text-slate-900 dark:text-slate-50'}>{email}</p>
         )}
         {academyName != null ? (
-          <div className="mt-3">
+          <div className={drawer ? 'menu-badge mt-3' : 'mt-3'}>
             <AcademyBadge name={academyName} displayName={displayName} email={email} compact role={academyRole === 'student' ? 'student' : 'owner'} person={academyRole === 'student'} />
           </div>
         ) : status ? (
-          <p className="mt-1 text-sm font-medium text-slate-700 dark:text-slate-200">{status}</p>
+          <p className={drawer ? 'menu-status mt-2 font-medium text-slate-700 dark:text-slate-200' : 'mt-1 text-sm font-medium text-slate-700 dark:text-slate-200'}>{status}</p>
         ) : null}
       </div>
-      <nav className="mt-4 flex flex-col gap-1 px-2" aria-label="App">
+      <nav className={drawer ? 'menu-nav mt-3 flex flex-col' : 'mt-4 flex flex-col gap-1 px-2'} aria-label="App">
         {items.map((item) => {
           const selected = item.id === active;
           return (
@@ -117,37 +123,37 @@ function NavLinks({
               type="button"
               aria-current={selected ? 'page' : undefined}
               onClick={() => onNavigate(item.path)}
-              className={
-                selected
+              className={drawer
+                ? `menu-item${selected ? ' menu-item-on' : ''}`
+                : selected
                   ? 'inline-flex min-h-11 w-full items-center gap-2 rounded-lg bg-blue-700 px-3 py-3 text-left text-base font-bold text-white'
-                  : 'inline-flex min-h-11 w-full items-center gap-2 rounded-lg px-3 py-3 text-left text-base font-semibold text-slate-900 hover:bg-slate-100 dark:text-slate-50 dark:hover:bg-slate-700'
-              }
+                  : 'inline-flex min-h-11 w-full items-center gap-2 rounded-lg px-3 py-3 text-left text-base font-semibold text-slate-900 hover:bg-slate-100 dark:text-slate-50 dark:hover:bg-slate-700'}
             >
-              <PixelArt src={`/icons/${MENU_ICON[item.id] ?? 'profile'}.png`} />
-              {item.label}
+              <PixelArt src={`/icons/${MENU_ICON[item.id] ?? 'profile'}.png`} size={icon} />
+              <span className="menu-label">{item.label}</span>
             </button>
           );
         })}
       </nav>
-      <div className="mt-auto border-t border-slate-300 px-4 py-4 dark:border-slate-600">
-        <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">Help / Legal</p>
-        <div className="mt-2 flex flex-col gap-1 text-sm">
-          <a href="/help" className="inline-flex min-h-11 items-center gap-2 underline"><PixelArt src="/icons/how_it_works.png" size={24} />How it works</a>
-          <a href="/legal" className="inline-flex min-h-11 items-center gap-2 underline"><PixelArt src="/icons/legal.png" size={24} />Legal Notice</a>
-          <a href="/privacy" className="inline-flex min-h-11 items-center gap-2 underline"><PixelArt src="/icons/privacy.png" size={24} />Privacy</a>
-          <a href="/terms" className="inline-flex min-h-11 items-center gap-2 underline"><PixelArt src="/icons/terms.png" size={24} />Terms</a>
+      <div className={drawer ? 'menu-foot mt-auto border-t border-slate-300 dark:border-slate-600' : 'mt-auto border-t border-slate-300 px-4 py-4 dark:border-slate-600'}>
+        <p className={drawer ? 'menu-foot-title' : 'text-sm font-semibold text-slate-700 dark:text-slate-200'}>Help / Legal</p>
+        <div className={drawer ? 'flex flex-col' : 'mt-2 flex flex-col gap-1 text-sm'}>
+          <a href="/help" className={drawer ? 'menu-link' : 'inline-flex min-h-11 items-center gap-2 underline'}><PixelArt src="/icons/how_it_works.png" size={icon} />How it works</a>
+          <a href="/legal" className={drawer ? 'menu-link' : 'inline-flex min-h-11 items-center gap-2 underline'}><PixelArt src="/icons/legal.png" size={icon} />Legal Notice</a>
+          <a href="/privacy" className={drawer ? 'menu-link' : 'inline-flex min-h-11 items-center gap-2 underline'}><PixelArt src="/icons/privacy.png" size={icon} />Privacy</a>
+          <a href="/terms" className={drawer ? 'menu-link' : 'inline-flex min-h-11 items-center gap-2 underline'}><PixelArt src="/icons/terms.png" size={icon} />Terms</a>
         </div>
         <button
           type="button"
           onClick={onSignOut}
           disabled={signingOut}
           aria-busy={signingOut}
-          className="mt-4 w-full rounded-lg border-2 border-slate-900 px-3 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-100 disabled:opacity-60 dark:border-slate-100 dark:text-white dark:hover:bg-slate-700"
+          className={drawer
+            ? 'menu-item menu-signout'
+            : 'mt-4 inline-flex w-full items-center justify-center gap-2 rounded-lg border-2 border-slate-900 px-3 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-100 disabled:opacity-60 dark:border-slate-100 dark:text-white dark:hover:bg-slate-700'}
         >
-          <span className="inline-flex items-center justify-center gap-2">
-            <PixelArt src="/icons/sign_out.png" size={24} />
-            {signingOut ? 'Signing out...' : 'Sign out'}
-          </span>
+          <PixelArt src="/icons/sign_out.png" size={icon} />
+          <span className="menu-label">{signingOut ? 'Signing out...' : 'Sign out'}</span>
         </button>
       </div>
     </div>
@@ -166,6 +172,7 @@ export function AppShell({
   academyRole,
   displayName,
   children,
+  menuOpen = false,
 }: {
   active: ShellItem;
   onNavigate: (path: string) => void;
@@ -179,8 +186,10 @@ export function AppShell({
   academyRole?: 'owner' | 'student' | null;
   displayName?: string | null;
   children: React.ReactNode;
+  /** Screenshot hook. The live menu still opens from the header button. */
+  menuOpen?: boolean;
 }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(Boolean(menuOpen));
   const [signingOut, setSigningOut] = useState(false);
   const retro = useRetroTheme();
   const headerBadge = academyName != null
@@ -240,8 +249,8 @@ export function AppShell({
             onClick={() => setOpen(false)}
           />
           {/* The page behind stays put. Touch scrolling stays on this panel, not on the body. */}
-          <aside className="menu-drawer absolute left-0 top-0 w-72 max-w-[85vw] bg-white shadow-xl dark:bg-slate-800">
-            <NavLinks active={active} onNavigate={go} onSignOut={leave} signingOut={signingOut} email={email} status={status} showAcademy={showAcademy} academyName={academyName} academyRole={academyRole} displayName={displayName} />
+          <aside className="menu-drawer absolute left-0 top-0 bg-white shadow-xl dark:bg-slate-800">
+            <NavLinks layout="drawer" active={active} onNavigate={go} onSignOut={leave} signingOut={signingOut} email={email} status={status} showAcademy={showAcademy} academyName={academyName} academyRole={academyRole} displayName={displayName} />
           </aside>
         </div>
       )}
