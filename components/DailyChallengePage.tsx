@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
 import { loadChallengeBoard, loadChallengePack, submitChallenge, type ChallengePack, type ChallengeQuiz } from '../dailyChallengeClient';
-import { formatDuration, presentChallenge, type ChallengeLevel, type ChallengeReportItem } from '../dailyChallenge';
+import { formatDuration, presentChallenge, type ChallengeEntry, type ChallengeLevel, type ChallengeReportItem } from '../dailyChallenge';
 import { weightedPercent } from '../scoreboard';
 import { recordScoredLesson } from '../legendsRecord';
 import type { GrammarItem } from '../grammarSet';
 import { BackButton } from './BackButton';
+import { ChallengeRankTable } from './ChallengeRankTable';
 
 type PartId = 'reading' | 'listening' | 'grammar';
 
@@ -23,6 +24,7 @@ type PreviewPack = {
     missing: boolean;
     report?: ChallengeReportItem[] | null;
   };
+  ranking?: ChallengeEntry[];
 };
 
 function placeLabel(position: number): string {
@@ -112,6 +114,8 @@ export function DailyChallengePage({
   const [now, setNow] = useState(() => Date.now());
   const [saving, setSaving] = useState(false);
   const [localResult, setLocalResult] = useState<PreviewPack['result'] | null>(preview?.result ?? null);
+  const [ranking, setRanking] = useState<ChallengeEntry[]>(preview?.ranking ?? []);
+  const [rankingMissing, setRankingMissing] = useState(false);
 
   useEffect(() => {
     if (preview) return undefined;
@@ -128,7 +132,7 @@ export function DailyChallengePage({
           correct: next.submitted.correct,
           total: next.submitted.total,
           seconds: next.submitted.seconds,
-          position: next.submitted.          position,
+          position: next.submitted.position,
           missing: next.missing,
           report: next.submitted.report,
         });
@@ -138,6 +142,24 @@ export function DailyChallengePage({
     });
     return () => { ignore = true; };
   }, [preview]);
+
+  useEffect(() => {
+    if (preview) {
+      setRanking(preview.ranking ?? []);
+      setRankingMissing(false);
+      return undefined;
+    }
+    if (!pack?.level) return undefined;
+    let ignore = false;
+    loadChallengeBoard(pack.level).then((next) => {
+      if (ignore) return;
+      setRanking(next.rows);
+      setRankingMissing(next.missing);
+    }).catch(() => {
+      if (!ignore) setRankingMissing(true);
+    });
+    return () => { ignore = true; };
+  }, [preview, pack?.level, localResult]);
 
   useEffect(() => {
     const timer = window.setInterval(() => setNow(Date.now()), 1000);
@@ -280,6 +302,7 @@ export function DailyChallengePage({
             <p className="mt-3">The question-by-question report will be kept after the database update.</p>
           )}
         </section>
+        <ChallengeRankTable rows={ranking} level={pack.level} missing={rankingMissing} />
       </div>
     );
   }
@@ -320,6 +343,7 @@ export function DailyChallengePage({
               {saving ? 'Saving...' : 'See result'}
             </button>
           )}
+          <ChallengeRankTable rows={ranking} level={pack.level} missing={rankingMissing} />
         </div>
       )}
       {open === 'reading' && (

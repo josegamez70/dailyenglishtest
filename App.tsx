@@ -34,6 +34,7 @@ import { PixelArt } from './components/PixelArt';
 import { LegendsUnlockDialog } from './components/RetroLegends';
 import { LegendsShot } from './components/LegendsShot';
 import { ChallengeShot } from './components/ChallengeShot';
+import { MailShot } from './components/MailShot';
 import { DailyChallengePage } from './components/DailyChallengePage';
 import { recordScoredLesson } from './legendsRecord';
 import { setRetroActive, useRetroTheme } from './retroTheme';
@@ -2004,6 +2005,9 @@ const App: React.FC = () => {
   }
   if (import.meta.env.DEV && path.startsWith('/challenge-preview')) {
     return <ChallengeShot />;
+  }
+  if (import.meta.env.DEV && path.startsWith('/mail-preview')) {
+    return <MailShot />;
   }
   if (import.meta.env.DEV && path.startsWith('/tasks-preview')) {
     const scene = path.endsWith('/saved') ? 'saved' : path.endsWith('/email') ? 'email' : path.endsWith('/complete') ? 'complete' : path.endsWith('/packs') ? 'packs' : 'tasks';

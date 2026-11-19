@@ -358,6 +358,68 @@ html[data-theme="retro95"] .badge-popup button {
   color: #f8fafc;
 }
 
+.scoreboard-tabs {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 4px;
+}
+.scoreboard-tabs > button {
+  display: inline-flex;
+  flex: 1 1 0;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-width: 0;
+  padding: 8px 2px;
+  border: 2px solid #0f172a;
+  background: #fff;
+  color: #0f172a;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+.scoreboard-tabs > button.is-selected {
+  background: #0f172a;
+  color: #fff;
+}
+html.dark .scoreboard-tabs > button {
+  border-color: #e2e8f0;
+}
+html.dark .scoreboard-tabs > button.is-selected {
+  background: #1d4ed8 !important;
+  color: #fff !important;
+  border-color: #bfdbfe !important;
+}
+
+.challenge-rank {
+  width: 100%;
+  table-layout: fixed;
+  font-size: 14px;
+  line-height: 1.25;
+}
+.challenge-flow .challenge-rank,
+.challenge-flow .challenge-rank th,
+.challenge-flow .challenge-rank td {
+  font-size: 14px;
+  line-height: 1.25;
+  overflow-wrap: normal;
+}
+.challenge-rank th,
+.challenge-rank td {
+  padding: 6px 4px;
+  vertical-align: top;
+}
+.challenge-rank th:nth-child(1),
+.challenge-rank td:nth-child(1) { width: 1.8rem; }
+.challenge-rank th:nth-child(3),
+.challenge-rank td:nth-child(3) { width: 4.4rem; white-space: nowrap; text-align: right; }
+.challenge-rank th:nth-child(4),
+.challenge-rank td:nth-child(4) { width: 2.8rem; white-space: nowrap; text-align: right; }
+.challenge-rank th:nth-child(5),
+.challenge-rank td:nth-child(5) { width: 3.4rem; white-space: nowrap; text-align: right; }
+
 .scoreboard-gold { background: #fff3b0; color: #000; }
 .scoreboard-silver { background: #e5e7eb; color: #000; }
 .scoreboard-bronze { background: #e7c8a0; color: #000; }
