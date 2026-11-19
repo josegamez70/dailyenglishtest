@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "school_college",
+  "target": 60,
+  "title": "A Warmer Slot for the Panel",
+  "story": "The department listed oral slots alphabetically, leaving Malik last after a wait that dulled his examples. He asked to join the students who shared his case, so the context stayed warm for the panel. Professor Shah agreed, provided Malik heard none of the earlier answers. He waited outside and entered with that cluster. Feedback noted sharper comparisons than his previous solo slot.",
+  "vocabulary": [
+    {
+      "word": "alphabetically",
+      "definition": "In the order of the letters of the names"
+    },
+    {
+      "word": "dulled",
+      "definition": "Made less sharp or lively"
+    },
+    {
+      "word": "context",
+      "definition": "The surrounding information needed to understand something"
+    },
+    {
+      "word": "panel",
+      "definition": "The group of examiners hearing the talks"
+    },
+    {
+      "word": "cluster",
+      "definition": "A small group treated together"
+    },
+    {
+      "word": "comparisons",
+      "definition": "Judgments about how things differ or match"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Why did Malik’s oral slot fall at the end?",
+      "options": [
+        "The slots were listed in alphabetical order",
+        "He had asked to hear every earlier answer",
+        "The panel wanted a colder context",
+        "His solo slot had already been judged sharper"
+      ],
+      "correctAnswer": "The slots were listed in alphabetical order",
+      "explanation": "The department listed the slots alphabetically, and that left him last.",
+      "supportingSentence": "The department listed oral slots alphabetically, leaving Malik last after a wait that dulled his examples.",
+      "skill": "detail"
+    },
+    {
+      "question": "What condition did Professor Shah attach to the move?",
+      "options": [
+        "Malik must not hear the answers given before his",
+        "He had to present without a case at all",
+        "The panel would mark only the wait outside",
+        "Comparisons had to be shorter than before"
+      ],
+      "correctAnswer": "Malik must not hear the answers given before his",
+      "explanation": "Shah agreed only if Malik heard none of the earlier answers.",
+      "supportingSentence": "Professor Shah agreed, provided Malik heard none of the earlier answers.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the sharper feedback suggest about the grouping?",
+      "options": [
+        "The panel could compare work while the shared case was still fresh",
+        "Alphabetical order always produces higher marks",
+        "Waiting outside removed the need for examples",
+        "Solo slots are marked more kindly than groups"
+      ],
+      "correctAnswer": "The panel could compare work while the shared case was still fresh",
+      "explanation": "Sharper comparisons than his solo slot fit the aim of keeping the shared case warm for the panel.",
+      "supportingSentence": "Feedback noted sharper comparisons than his previous solo slot.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does cluster mean in this passage?",
+      "options": [
+        "The group of students who shared his case",
+        "A long wait in alphabetical order",
+        "The corridor outside the exam room",
+        "A mark given for a solo slot"
+      ],
+      "correctAnswer": "The group of students who shared his case",
+      "explanation": "He entered with that cluster, the students he had asked to join.",
+      "supportingSentence": "He waited outside and entered with that cluster.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer mention the dulled examples?",
+      "options": [
+        "To show the harm of waiting until the very end",
+        "To prove the panel disliked his case",
+        "To suggest alphabetical lists are forbidden",
+        "To argue that corridors should be silent"
+      ],
+      "correctAnswer": "To show the harm of waiting until the very end",
+      "explanation": "The dull examples explain why being last was a problem worth fixing.",
+      "supportingSentence": "The department listed oral slots alphabetically, leaving Malik last after a wait that dulled his examples.",
+      "skill": "intent"
+    }
+  ]
+}

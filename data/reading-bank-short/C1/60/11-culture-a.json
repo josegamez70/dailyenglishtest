@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "culture_food",
+  "target": 60,
+  "title": "A Cue, Not a Scolding",
+  "story": "At the feast, Lucia reached for the shared platter before the eldest guest had tasted it, and conversation paused. Mateo did not scold her. He served the elder first and went on talking, giving Lucia a cue rather than a correction. She waited, then followed his order of dishes. He later called the pause courtesy, not punishment. Lucia could repeat the custom without having been shamed.",
+  "vocabulary": [
+    {
+      "word": "platter",
+      "definition": "A large plate shared by several people"
+    },
+    {
+      "word": "eldest",
+      "definition": "The oldest person in the group"
+    },
+    {
+      "word": "scold",
+      "definition": "To tell someone off angrily"
+    },
+    {
+      "word": "cue",
+      "definition": "A quiet signal showing when to act"
+    },
+    {
+      "word": "courtesy",
+      "definition": "Polite behaviour that shows respect"
+    },
+    {
+      "word": "custom",
+      "definition": "A usual way of doing something in a group"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Who had not yet tasted the platter when Lucia reached for it?",
+      "options": [
+        "The eldest guest",
+        "Mateo, the host",
+        "Every person at the table",
+        "The cook in the kitchen"
+      ],
+      "correctAnswer": "The eldest guest",
+      "explanation": "She reached for the platter before the eldest guest had tasted it.",
+      "supportingSentence": "At the feast, Lucia reached for the shared platter before the eldest guest had tasted it, and conversation paused.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Mateo do instead of scolding Lucia?",
+      "options": [
+        "He served the elder and kept the conversation going",
+        "He took the platter off the table",
+        "He asked Lucia to leave the feast",
+        "He announced a punishment to the guests"
+      ],
+      "correctAnswer": "He served the elder and kept the conversation going",
+      "explanation": "He served the elder first and went on talking, giving a cue rather than a correction.",
+      "supportingSentence": "He served the elder first and went on talking, giving Lucia a cue rather than a correction.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Mateo’s manner suggest he wanted?",
+      "options": [
+        "For Lucia to learn the order without being humiliated",
+        "For the eldest guest to leave the feast",
+        "For conversation to stop until she apologised aloud",
+        "For the platter to be removed from the room"
+      ],
+      "correctAnswer": "For Lucia to learn the order without being humiliated",
+      "explanation": "A cue rather than a correction, and no shaming, shows he wanted her to notice the order quietly.",
+      "supportingSentence": "He served the elder first and went on talking, giving Lucia a cue rather than a correction.",
+      "skill": "inference"
+    },
+    {
+      "question": "What is a cue in this scene?",
+      "options": [
+        "A quiet signal showing the right moment to act",
+        "A loud rebuke in front of the guests",
+        "A written list of every dish",
+        "A punishment for reaching too soon"
+      ],
+      "correctAnswer": "A quiet signal showing the right moment to act",
+      "explanation": "He gave her a cue by serving the elder and continuing to talk, instead of correcting her aloud.",
+      "supportingSentence": "He served the elder first and went on talking, giving Lucia a cue rather than a correction.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer report that the pause was courtesy, not punishment?",
+      "options": [
+        "To show the quiet moment was meant to teach rather than shame",
+        "To prove Lucia had broken a law",
+        "To suggest the elder refused every dish",
+        "To argue that feasts should have no customs"
+      ],
+      "correctAnswer": "To show the quiet moment was meant to teach rather than shame",
+      "explanation": "Calling the pause courtesy rather than punishment frames it as respectful teaching.",
+      "supportingSentence": "He later called the pause courtesy, not punishment.",
+      "skill": "intent"
+    }
+  ]
+}

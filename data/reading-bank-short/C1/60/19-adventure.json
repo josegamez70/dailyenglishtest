@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "adventure",
+  "target": 60,
+  "title": "The Cache Left Sealed",
+  "story": "The marked cache held the last water before the next well, and the cans were dented but sealed. Farid wanted to drink half and carry the rest. Soraya argued for leaving the cache intact and shortening the midday halt instead. They walked through the hot hours and reached the well with every can unopened. A later party would find the water where the map promised it.",
+  "vocabulary": [
+    {
+      "word": "cache",
+      "definition": "A hidden store left for travellers"
+    },
+    {
+      "word": "sealed",
+      "definition": "Closed so the contents stay inside"
+    },
+    {
+      "word": "intact",
+      "definition": "Complete and unused"
+    },
+    {
+      "word": "halt",
+      "definition": "A stop for rest"
+    },
+    {
+      "word": "unopened",
+      "definition": "Still closed, with nothing taken out"
+    },
+    {
+      "word": "promised",
+      "definition": "Shown or stated as something people could rely on"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What state were the cans in when they were found?",
+      "options": [
+        "Dented but sealed",
+        "Open and half empty",
+        "Missing from the marked place",
+        "Too hot to carry"
+      ],
+      "correctAnswer": "Dented but sealed",
+      "explanation": "The cans were dented but sealed.",
+      "supportingSentence": "The marked cache held the last water before the next well, and the cans were dented but sealed.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Soraya suggest shortening instead of opening the cans?",
+      "options": [
+        "The midday halt",
+        "The distance to the next well",
+        "The promise printed on the map",
+        "The hot hours after they arrived"
+      ],
+      "correctAnswer": "The midday halt",
+      "explanation": "She argued for shortening the midday halt and leaving the cache intact.",
+      "supportingSentence": "Soraya argued for leaving the cache intact and shortening the midday halt instead.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why keep the cache sealed all the way to the well?",
+      "options": [
+        "A later group could still find water where the map placed it",
+        "Farid wanted to drink it beside the well instead",
+        "The cans were too dented to survive the walk",
+        "Soraya hoped to sell the water that night"
+      ],
+      "correctAnswer": "A later group could still find water where the map placed it",
+      "explanation": "They left the cans unopened so a later party would find the water where the map promised it.",
+      "supportingSentence": "A later party would find the water where the map promised it.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does intact mean in this passage?",
+      "options": [
+        "Complete and unused",
+        "Dented beyond repair",
+        "Already half drunk",
+        "Missing from the map"
+      ],
+      "correctAnswer": "Complete and unused",
+      "explanation": "Leaving the cache intact means not opening it or using the water.",
+      "supportingSentence": "Soraya argued for leaving the cache intact and shortening the midday halt instead.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer say this cache held the last water before the next well?",
+      "options": [
+        "To show how serious it was to spend that supply early",
+        "To prove the well had already run dry",
+        "To suggest the map had been drawn wrong",
+        "To argue that hot hours are safer than dawn"
+      ],
+      "correctAnswer": "To show how serious it was to spend that supply early",
+      "explanation": "Calling it the last water before the next well shows what would be lost if they drank it.",
+      "supportingSentence": "The marked cache held the last water before the next well, and the cans were dented but sealed.",
+      "skill": "intent"
+    }
+  ]
+}

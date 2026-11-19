@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "culture_food",
+  "target": 60,
+  "title": "The Second Pouring",
+  "story": "At the tasting, guests refused the second pouring, thinking it meant the first had disappointed. Mateo explained that the smaller cooler cup was for conversation, not a correction. Lucia waited, then accepted, and the talk outlasted the meal. He later set a card by the pot so visitors would not mistake courtesy for criticism. A custom left unexplained looks like a judgment.",
+  "vocabulary": [
+    {
+      "word": "pouring",
+      "definition": "A serving of the drink put into the cup"
+    },
+    {
+      "word": "disappointed",
+      "definition": "Failed to please, or seemed not good enough"
+    },
+    {
+      "word": "correction",
+      "definition": "An act meant to put a mistake right"
+    },
+    {
+      "word": "outlasted",
+      "definition": "Went on longer than something else"
+    },
+    {
+      "word": "courtesy",
+      "definition": "A polite gesture of welcome"
+    },
+    {
+      "word": "unexplained",
+      "definition": "Not made clear to the people watching"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did the guests think the second pouring meant?",
+      "options": [
+        "That the first cup had disappointed the host",
+        "That cooler drinks were banned at the tasting",
+        "That they were expected to leave before the meal",
+        "That the card by the pot was a joke"
+      ],
+      "correctAnswer": "That the first cup had disappointed the host",
+      "explanation": "They refused the second pouring because they thought it meant the first had disappointed.",
+      "supportingSentence": "At the tasting, guests refused the second pouring, thinking it meant the first had disappointed.",
+      "skill": "detail"
+    },
+    {
+      "question": "What was the smaller cooler cup meant for?",
+      "options": [
+        "Conversation, not a correction",
+        "A penalty for poor manners",
+        "A written judgment of the guest",
+        "A replacement for the whole meal"
+      ],
+      "correctAnswer": "Conversation, not a correction",
+      "explanation": "Mateo said the smaller cooler cup was for conversation, not a correction.",
+      "supportingSentence": "Mateo explained that the smaller cooler cup was for conversation, not a correction.",
+      "skill": "detail"
+    },
+    {
+      "question": "What does the long conversation show about the second cup?",
+      "options": [
+        "It worked as a prompt for talk, as the host had claimed",
+        "It confirmed that the first pouring had failed",
+        "It forced the guests to leave before the meal ended",
+        "It removed any need for a custom that evening"
+      ],
+      "correctAnswer": "It worked as a prompt for talk, as the host had claimed",
+      "explanation": "The talk lasting longer than the meal shows the second cup did the conversational work Mateo had described.",
+      "supportingSentence": "Lucia waited, then accepted, and the talk outlasted the meal.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does outlasted mean here?",
+      "options": [
+        "Lasted longer than the meal",
+        "Was poured into a cooler cup",
+        "Was mistaken for criticism",
+        "Was refused by the guests"
+      ],
+      "correctAnswer": "Lasted longer than the meal",
+      "explanation": "The talk outlasted the meal, so the conversation continued after the food was finished.",
+      "supportingSentence": "Lucia waited, then accepted, and the talk outlasted the meal.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer say an unexplained custom looks like a judgment?",
+      "options": [
+        "To show why the custom needed to be made clear",
+        "To prove the first pouring had failed",
+        "To suggest cards should replace hosts",
+        "To argue that cooler cups are insults"
+      ],
+      "correctAnswer": "To show why the custom needed to be made clear",
+      "explanation": "The last line explains the risk that made the card and the explanation necessary.",
+      "supportingSentence": "A custom left unexplained looks like a judgment.",
+      "skill": "intent"
+    }
+  ]
+}

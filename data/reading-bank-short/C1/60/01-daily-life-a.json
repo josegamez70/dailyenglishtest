@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "daily life",
+  "target": 60,
+  "title": "A Setting, Not a Sacrifice",
+  "story": "When the new intercom stayed open after every delivery, Farah heard the stairwell all evening. She asked the installer to shorten the release rather than mute her handset, because muting would also hide a genuine call. He cut the open interval and tested it with her. Parcels arrived. The flat stayed quiet unless someone meant to speak. A setting, not a sacrifice, had settled the dispute.",
+  "vocabulary": [
+    {
+      "word": "intercom",
+      "definition": "A device for speaking to someone at the door"
+    },
+    {
+      "word": "release",
+      "definition": "The part that kept the line open after a buzz"
+    },
+    {
+      "word": "mute",
+      "definition": "To turn the sound off"
+    },
+    {
+      "word": "handset",
+      "definition": "The part of the phone she held or answered"
+    },
+    {
+      "word": "interval",
+      "definition": "The length of time something stays open"
+    },
+    {
+      "word": "sacrifice",
+      "definition": "Giving up something important"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What change did Farah request from the installer?",
+      "options": [
+        "A shorter time with the line left open",
+        "A handset that stayed silent all evening",
+        "An end to parcel deliveries",
+        "A louder stairwell for every call"
+      ],
+      "correctAnswer": "A shorter time with the line left open",
+      "explanation": "She asked him to shorten the release instead of muting the handset.",
+      "supportingSentence": "She asked the installer to shorten the release rather than mute her handset, because muting would also hide a genuine call.",
+      "skill": "detail"
+    },
+    {
+      "question": "What continued after the open interval was cut?",
+      "options": [
+        "Parcels still came",
+        "The stairwell noise lasted all evening",
+        "Genuine calls were hidden",
+        "The installer removed the handset"
+      ],
+      "correctAnswer": "Parcels still came",
+      "explanation": "The story says parcels arrived after he tested the shorter interval.",
+      "supportingSentence": "Parcels arrived.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why was muting the handset a poor fix?",
+      "options": [
+        "It would have hidden a real call as well as the noise",
+        "The installer could visit only after midnight",
+        "Parcels had to be carried up a silent stair",
+        "The building had banned genuine callers"
+      ],
+      "correctAnswer": "It would have hidden a real call as well as the noise",
+      "explanation": "Muting would have stopped the noise and also stopped a call she still needed to hear.",
+      "supportingSentence": "She asked the installer to shorten the release rather than mute her handset, because muting would also hide a genuine call.",
+      "skill": "inference"
+    },
+    {
+      "question": "What does interval mean in this passage?",
+      "options": [
+        "The stretch of time the line stayed open",
+        "A parcel left beside the door",
+        "A person who installs locks",
+        "A dispute between neighbours"
+      ],
+      "correctAnswer": "The stretch of time the line stayed open",
+      "explanation": "He cut the open interval, meaning he reduced how long the intercom stayed live.",
+      "supportingSentence": "He cut the open interval and tested it with her.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer contrast a setting with a sacrifice?",
+      "options": [
+        "To show the fix was an adjustment rather than a loss",
+        "To prove parcels should stop after dusk",
+        "To suggest the installer muted the whole building",
+        "To argue that stairwells ought to stay noisy"
+      ],
+      "correctAnswer": "To show the fix was an adjustment rather than a loss",
+      "explanation": "The closing line says a setting, rather than a sacrifice, settled the dispute.",
+      "supportingSentence": "A setting, not a sacrifice, had settled the dispute.",
+      "skill": "intent"
+    }
+  ]
+}

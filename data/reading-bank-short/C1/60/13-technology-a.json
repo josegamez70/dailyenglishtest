@@ -1,0 +1,100 @@
+{
+  "level": "C1",
+  "topic": "technology",
+  "target": 60,
+  "title": "Logs before Any Rollback",
+  "story": "When the update locked staff out of the roster, Nadia argued for an immediate rollback. The vendor wanted logs first, warning that reversing blindly could restore the fault. For forty minutes the clinic used a paper list, and two appointments were nearly doubled. Nadia collected the error text before she yielded. The rollback then took minutes, and the vendor’s caution spared them a second outage.",
+  "vocabulary": [
+    {
+      "word": "roster",
+      "definition": "The list of staff or appointments in the system"
+    },
+    {
+      "word": "rollback",
+      "definition": "Returning a system to the version used before an update"
+    },
+    {
+      "word": "vendor",
+      "definition": "The company that supplied the software"
+    },
+    {
+      "word": "logs",
+      "definition": "Records of what the system did"
+    },
+    {
+      "word": "yielded",
+      "definition": "Gave way and accepted the other plan"
+    },
+    {
+      "word": "outage",
+      "definition": "A period when the system cannot be used"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What did the clinic use while the roster was locked?",
+      "options": [
+        "A paper list",
+        "A second software update",
+        "The vendor’s private phone",
+        "An old roster kept at home"
+      ],
+      "correctAnswer": "A paper list",
+      "explanation": "For forty minutes the clinic used a paper list.",
+      "supportingSentence": "For forty minutes the clinic used a paper list, and two appointments were nearly doubled.",
+      "skill": "detail"
+    },
+    {
+      "question": "What did Nadia gather before she yielded?",
+      "options": [
+        "The error text",
+        "A list of staff home addresses",
+        "Proof of a second outage",
+        "The vendor’s complete logs"
+      ],
+      "correctAnswer": "The error text",
+      "explanation": "She collected the error text before she yielded.",
+      "supportingSentence": "Nadia collected the error text before she yielded.",
+      "skill": "detail"
+    },
+    {
+      "question": "Why did the vendor resist an immediate rollback?",
+      "options": [
+        "Undoing the update without information might bring the fault back",
+        "The paper list had already doubled every appointment",
+        "Nadia had refused to describe the roster",
+        "A second outage had already begun"
+      ],
+      "correctAnswer": "Undoing the update without information might bring the fault back",
+      "explanation": "The vendor warned that reversing blindly could restore the fault, so the logs had to come first.",
+      "supportingSentence": "The vendor wanted logs first, warning that reversing blindly could restore the fault.",
+      "skill": "inference"
+    },
+    {
+      "question": "What is an outage in this passage?",
+      "options": [
+        "A stretch of time when the system could not be used",
+        "A paper copy of the day’s appointments",
+        "A careful reading of the logs",
+        "A request for a faster update"
+      ],
+      "correctAnswer": "A stretch of time when the system could not be used",
+      "explanation": "A second outage would have been another period when the system failed, which the caution spared them.",
+      "supportingSentence": "The rollback then took minutes, and the vendor’s caution spared them a second outage.",
+      "skill": "vocabulary"
+    },
+    {
+      "question": "Why does the writer mention the nearly doubled appointments?",
+      "options": [
+        "To show the practical cost of the locked roster",
+        "To prove the vendor wanted the clinic to close",
+        "To suggest paper is more accurate than software",
+        "To explain why Nadia refused every rollback"
+      ],
+      "correctAnswer": "To show the practical cost of the locked roster",
+      "explanation": "The doubled appointments show what the lock did to real patients while staff waited.",
+      "supportingSentence": "For forty minutes the clinic used a paper list, and two appointments were nearly doubled.",
+      "skill": "intent"
+    }
+  ]
+}
