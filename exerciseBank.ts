@@ -168,6 +168,15 @@ export function readingBankQuery(input: { customTopic: string; topic: string; fo
 }
 
 /**
+ * A stored reading is close enough when its word count is within ±20% of the
+ * length the learner chose. 60 and 140 stay outside the bank bands; 220 reaches B1.
+ */
+export function readingBankLengthFits(requested: number, bankWords: number): boolean {
+  if (!Number.isFinite(requested) || !Number.isFinite(bankWords) || requested <= 0 || bankWords <= 0) return false;
+  return bankWords >= requested * 0.8 && bankWords <= requested * 1.2;
+}
+
+/**
  * Index of the reading piece a daily challenge would freeze for this level and Madrid date.
  * Practice skips today and tomorrow so those pieces are still unseen when the challenge starts.
  * The same md5 prefix is used in claim_reading_bank_item, as an unsigned 32-bit number.
@@ -236,7 +245,9 @@ export function readingLessonFromBankPayload(payload: unknown, topicValue: strin
     topicLabel: String(record.topic ?? '').trim() || title,
     topicValue,
     story,
-    wordCount: countWords(story),
+    wordCount: Number.isFinite(Number(record.wordCount)) && Number(record.wordCount) > 0
+      ? Math.round(Number(record.wordCount))
+      : countWords(story),
     vocabulary,
     quiz,
   };
