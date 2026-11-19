@@ -488,7 +488,8 @@ button.choice-pill {
   min-width: 0;
   justify-content: flex-end;
 }
-.header-row .header-badge > p {
+.header-row .header-badge > p,
+.header-row .header-badge > button {
   display: flex;
   flex: 1 1 auto;
   align-items: center;
@@ -502,7 +503,8 @@ button.choice-pill {
     flex: 0 1 auto;
     margin-right: auto;
   }
-  .header-row .header-badge > p {
+  .header-row .header-badge > p,
+  .header-row .header-badge > button {
     flex: 0 1 auto;
     width: auto;
     max-width: 18rem !important;

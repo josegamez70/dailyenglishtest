@@ -141,7 +141,7 @@ export async function loadChallengeBoard(level: ChallengeLevel): Promise<{ missi
     seconds?: unknown;
   }[]).map((row) => ({
     alias: String(row.alias ?? 'Learner'),
-    isSelf: row.is_self === true,
+    isSelf: row.is_self === true || row.is_self === 'true',
     demo: false,
     correct: Number(row.correct ?? 0),
     total: Number(row.total ?? 0),

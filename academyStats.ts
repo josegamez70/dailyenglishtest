@@ -94,6 +94,13 @@ export function studentRosterLabel(displayName: string | null | undefined, email
   return 'Student';
 }
 
+/** Bold line on an individual learner's header pill. Display name, never the email. */
+export function individualPillName(displayName: string | null | undefined): string {
+  const person = String(displayName ?? '').replace(/\s+/g, ' ').trim();
+  if (person && !person.includes('@')) return person.slice(0, 40);
+  return 'Student';
+}
+
 /** Bold line on a student's pill. Display name, then the part of the email before @, then "Student". */
 export function studentPillName(displayName: string | null | undefined, email: string | null | undefined): string {
   const person = String(displayName ?? '').replace(/\s+/g, ' ').trim();
