@@ -55,6 +55,18 @@ export const GRAMMAR_MIN_ITEMS = 4;
 /** Ask the model for more items than we keep, so filtering can still leave a full set. */
 export const GRAMMAR_GENERATION_COUNT = 9;
 
+/** The bottom button on a grammar question. Check first, then Next. */
+export function grammarAdvanceLabel(checked: boolean, last: boolean): string {
+  if (!checked) return 'Check';
+  return last ? 'Check answers' : 'Next';
+}
+
+/** Compact line above a grammar question. A blank topic stays Any topic. */
+export function grammarTopicLine(level: string, topic: string): string {
+  const name = topic.trim() || 'Any topic';
+  return `${level} · Topic: ${name}`;
+}
+
 export function exerciseLabel(exercise: GrammarExerciseType): string {
   if (exercise === 'phrasal') return 'Phrasal verbs';
   if (exercise === 'order') return 'Put in order';

@@ -2,6 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import {
+  grammarAdvanceLabel,
+  grammarTopicLine,
   B1_BLANK_TARGETS,
   B2_BLANK_TARGETS,
   B2_PHRASALS,
@@ -1233,6 +1235,20 @@ test('a gap after had uses the participle, and a fitting sentence is kept', () =
     explanation: 'Come about means to happen.',
   };
   assert.equal(grammarChoiceGapProblem(about, 'phrasal'), null);
+});
+
+test('a grammar question is checked before it can move on, and names its topic', () => {
+  assert.equal(grammarAdvanceLabel(false, false), 'Check');
+  assert.equal(grammarAdvanceLabel(false, true), 'Check');
+  assert.equal(grammarAdvanceLabel(true, false), 'Next');
+  assert.equal(grammarAdvanceLabel(true, true), 'Check answers');
+  assert.equal(grammarTopicLine('C1', 'Travel'), 'C1 · Topic: Travel');
+  assert.equal(grammarTopicLine('B2', '  '), 'B2 · Topic: Any topic');
+  const page = readFileSync(new URL('../components/GrammarPage.tsx', import.meta.url), 'utf8');
+  assert.match(page, /grammarAdvanceLabel\(checked, index >= items\.length - 1\)/);
+  assert.match(page, /disabled=\{!checked && !answered\}/);
+  assert.match(page, /grammarTopicLine\(level, savedTopic\)/);
+  assert.equal(page.includes("index < items.length - 1 ? 'Next'"), false);
 });
 
 test('choice pills keep their padding and use a larger font', () => {
