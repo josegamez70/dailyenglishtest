@@ -305,7 +305,16 @@ html[data-theme="retro95"] .menu-drawer .menu-signout {
 html[data-theme="retro95"] .menu-drawer .menu-title {
   font-size: 1.7rem;
 }
-html[data-theme="retro95"] .menu-drawer .menu-email,
+html[data-theme="retro95"] .menu-drawer .menu-email {
+  font-size: 1rem !important;
+  line-height: 1.2 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  overflow-wrap: normal !important;
+  word-break: keep-all !important;
+  color: #000 !important;
+}
 html[data-theme="retro95"] .menu-drawer .menu-status,
 html[data-theme="retro95"] .menu-drawer .menu-foot-title {
   font-size: 1.35rem !important;

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { drawerCloseReason } from '../menuDrawer';
 import { useRetroTheme } from '../retroTheme';
 import { AcademyBadge } from './AcademyBadge';
 import { PixelIcon } from './PixelIcon';
@@ -102,9 +103,12 @@ function NavLinks({
       <div className={drawer ? 'menu-head' : 'px-4 pt-4'}>
         <Wordmark variant="side" iconSize={icon} />
         {email && (
-          <p className={drawer
-            ? 'menu-email mt-3 font-semibold text-slate-900 dark:text-slate-50'
-            : 'mt-3 truncate text-sm font-semibold text-slate-900 dark:text-slate-50'}>{email}</p>
+          <p
+            className={drawer
+              ? 'menu-email mt-3 font-semibold text-slate-900 dark:text-slate-50'
+              : 'mt-3 truncate text-sm font-semibold text-slate-900 dark:text-slate-50'}
+            title={drawer ? email : undefined}
+          >{email}</p>
         )}
         {academyName != null ? (
           <div className={drawer ? 'menu-badge mt-3' : 'mt-3'}>
@@ -205,6 +209,15 @@ export function AppShell({
     void Promise.resolve(onSignOut()).finally(() => setSigningOut(false));
   };
 
+  useEffect(() => {
+    if (!open) return undefined;
+    const onKey = (event: KeyboardEvent) => {
+      if (drawerCloseReason({ key: event.key, outside: false })) setOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [open]);
+
   return (
     <div className="min-h-screen bg-slate-100 text-slate-900 dark:bg-slate-900 dark:text-slate-50 md:pl-64">
       <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col overflow-y-auto overscroll-contain border-r border-slate-300 bg-white dark:border-slate-600 dark:bg-slate-800 md:flex">
@@ -245,8 +258,10 @@ export function AppShell({
             type="button"
             aria-label="Close menu"
             data-press="off"
-            className="absolute inset-0 bg-slate-900/50"
-            onClick={() => setOpen(false)}
+            className="menu-backdrop absolute inset-0 bg-slate-900/50"
+            onClick={() => {
+              if (drawerCloseReason({ outside: true })) setOpen(false);
+            }}
           />
           {/* The page behind stays put. Touch scrolling stays on this panel, not on the body. */}
           <aside className="menu-drawer absolute left-0 top-0 bg-white shadow-xl dark:bg-slate-800">
