@@ -652,3 +652,57 @@ button.choice-pill {
 .challenge-flow legend,
 .challenge-flow button,
 .challenge-flow p { overflow-wrap: anywhere; }
+
+.vocab-practice > button {
+  height: 100%;
+  min-height: 3.25rem;
+  margin-top: 0 !important;
+}
+html[data-theme="retro95"] .vocab-practice > button.quiz-advance {
+  margin-top: 0 !important;
+}
+
+/* Retro 95 is a light theme. A leftover dark class must not paint these cards navy under black text. */
+html[data-theme="retro95"] .vocab-card,
+html[data-theme="retro95"] .phase2-lift {
+  background-color: #fff !important;
+  color: #000 !important;
+}
+
+.vocab-lang {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+.vocab-lang button {
+  min-height: 2.75rem;
+  padding: 0.3rem 0.4rem;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+button.vocab-more {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem;
+  margin-top: 0.5rem;
+  padding: 0.25rem 0.95rem;
+  border: 2px solid #1e3a8a;
+  background: #fff;
+  color: #1e3a8a;
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+.dark button.vocab-more {
+  border-color: #e2e8f0;
+  background: #1e293b;
+  color: #f8fafc;
+}
+html[data-theme="retro95"] .vocab-lang button,
+html[data-theme="retro95"] button.vocab-more {
+  font-size: 1.45rem;
+  line-height: 1;
+}

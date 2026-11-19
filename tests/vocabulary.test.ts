@@ -4,6 +4,7 @@ import { readFileSync } from 'node:fs';
 import {
   buildVocabQuiz,
   vocabQuizWhy,
+  fillVocabSpanish,
   filterVocabulary,
   normalizeTerm,
   sourceLabel,
@@ -14,6 +15,7 @@ import {
   matchedSavedTerm,
   shuffleItems,
   termKey,
+  vocabSpanishGaps,
   VOCAB_QUIZ_MIN,
   type SavedWord,
 } from '../vocabulary.ts';
@@ -24,6 +26,9 @@ function word(term: string, meaning: string, source: SavedWord['sourceType'] = '
     term,
     meaning,
     example: `${term} is in a sentence.`,
+    spanishTerm: '',
+    spanishMeaning: '',
+    spanishExample: '',
     sourceType: source,
     lessonTitle: 'Daily Life',
     topic: 'Daily Life',
@@ -133,6 +138,9 @@ test('the quiz is built only from saved words and needs four of them', () => {
     term: 'market',
     meaning: 'A place to buy food.',
     example: '',
+    spanishTerm: 'mercado',
+    spanishMeaning: '',
+    spanishExample: '',
     sourceType: 'reading',
     lessonTitle: '',
     topic: '',
@@ -158,4 +166,69 @@ test('shuffle keeps every word', () => {
   const items = ['market', 'train', 'fresh', 'leave'];
   const shuffled = shuffleItems(items, () => 0.99);
   assert.deepEqual([...shuffled].sort(), [...items].sort());
+});
+
+test('a saved word keeps popup Spanish and translates only the missing lines once', async () => {
+  const kept = rowsWithSaved([word('market', 'A place to buy food.')], {
+    term: 'market',
+    meaning: 'A place to buy food.',
+    example: 'Anna walks to the market.',
+    spanishTerm: 'mercado',
+    sourceType: 'reading',
+    lessonTitle: 'Daily Life',
+    topic: 'Daily Life',
+    level: 'Beginner',
+  }, true)[0];
+  assert.equal(kept.spanishTerm, 'mercado');
+  assert.deepEqual(vocabSpanishGaps(kept), ['meaning', 'example']);
+  const asked: string[] = [];
+  const filled = await fillVocabSpanish(kept, async (text) => {
+    asked.push(text);
+    if (text.startsWith('A place')) return 'Un lugar donde se compra comida.';
+    if (text.startsWith('Anna')) return 'Ana va al mercado.';
+    return 'mercado';
+  });
+  assert.deepEqual(asked, ['A place to buy food.', 'Anna walks to the market.']);
+  assert.equal(filled.term, 'mercado');
+  assert.equal(filled.meaning, 'Un lugar donde se compra comida.');
+  assert.equal(filled.example, 'Ana va al mercado.');
+  assert.equal(filled.complete, true);
+  const again = await fillVocabSpanish({
+    ...kept,
+    spanishMeaning: filled.meaning,
+    spanishExample: filled.example,
+  }, async () => {
+    throw new Error('already stored');
+  });
+  assert.equal(again.complete, true);
+  assert.equal(again.term, 'mercado');
+  const page = readFileSync(new URL('../components/VocabularyPage.tsx', import.meta.url), 'utf8');
+  assert.match(page, /English/);
+  assert.match(page, /Español/);
+  assert.match(page, /vocab-lang/);
+  assert.match(page, /vocab-more/);
+  assert.match(page, /translateToSpanish/);
+  assert.match(page, /saveVocabularySpanish/);
+  const popup = readFileSync(new URL('../components/DefinedText.tsx', import.meta.url), 'utf8');
+  assert.match(popup, /spanishTerm: entry\?\.spanish \|\| ''/);
+  const store = readFileSync(new URL('../vocabularyStore.ts', import.meta.url), 'utf8');
+  assert.match(store, /spanish_term/);
+  assert.match(store, /isMissingColumn\(result\.error, 'spanish_term'\)/);
+  assert.match(store, /isMissingColumn\(saved\.error, 'spanish_term'\)/);
+  const sql = readFileSync(new URL('../supabase/migrations/20261202_saved_vocabulary_spanish.sql', import.meta.url), 'utf8');
+  assert.match(sql, /add column if not exists spanish_term/);
+  assert.match(sql, /add column if not exists spanish_meaning/);
+  assert.match(sql, /add column if not exists spanish_example/);
+  const css = readFileSync(new URL('../phase2.css', import.meta.url), 'utf8');
+  assert.match(css, /\.vocab-lang button \{[^}]*min-height:\s*2\.75rem/);
+  assert.match(css, /button\.vocab-more \{[^}]*min-height:\s*2\.75rem/);
+  const practiceStart = page.indexOf('className="vocab-practice');
+  const hintAt = page.indexOf('id="vocab-quiz-hint"');
+  const practice = page.slice(practiceStart, hintAt);
+  assert.match(practice, /Flashcards/);
+  assert.match(practice, />\s*Quiz\s*</);
+  assert.match(practice, /<\/div>\s*\{!quizReady && <p\s*$/);
+  assert.ok(practiceStart < hintAt);
+  assert.match(css, /html\[data-theme="retro95"\] \.vocab-practice > button\.quiz-advance \{[^}]*margin-top:\s*0 !important/);
+  assert.match(css, /html\[data-theme="retro95"\] \.vocab-card,\s*html\[data-theme="retro95"\] \.phase2-lift \{[^}]*background-color:\s*#fff !important;[^}]*color:\s*#000 !important/);
 });

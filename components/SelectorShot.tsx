@@ -55,7 +55,8 @@ export function SelectorShot() {
   const exercise = (params.get('exercise') === 'phrasal' || params.get('exercise') === 'order' || params.get('exercise') === 'blanks')
     ? params.get('exercise') as GrammarExerciseType
     : 'blanks';
-  const launch = useMemo(() => (scene === 'play' ? previewLaunch(exercise) : null), [scene, exercise]);
+  const showQuestion = scene === 'play' || scene === 'question';
+  const launch = useMemo(() => (showQuestion ? previewLaunch(exercise) : null), [showQuestion, exercise]);
   const [config, setConfig] = useState<ConfigOptions>({
     level: 'beginner',
     topic: 'daily life',
@@ -82,7 +83,7 @@ export function SelectorShot() {
       {scene === 'reading' && (
         <Configurator config={config} setConfig={setConfig} onGenerate={() => undefined} isLoading={false} practiceType="reading" />
       )}
-      {(scene === 'grammar' || scene === 'play') && (
+      {(scene === 'grammar' || showQuestion) && (
         <GrammarPage
           fontClass="text-lg"
           initialLevel="C1"

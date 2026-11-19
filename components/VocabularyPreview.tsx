@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { AppShell } from './AppShell';
+import { setRetroActive } from '../retroTheme';
 import { DefinedText, DictionaryPopup } from './DefinedText';
 import { KeyVocabularyList } from './KeyVocabularyList';
 import { VocabularyPage } from './VocabularyPage';
@@ -17,8 +18,11 @@ export const previewWords: SavedWord[] = [
   {
     id: 'preview-market',
     term: 'market',
-    meaning: 'A place where people buy and sell food.',
+    meaning: 'A place where people buy and sell food. · The trade in a particular product.',
     example: 'Anna walks to the market every morning.',
+    spanishTerm: 'mercado',
+    spanishMeaning: 'Un lugar donde la gente compra y vende comida. · El comercio de un producto.',
+    spanishExample: 'Ana va al mercado cada mañana.',
     sourceType: 'reading',
     lessonTitle: 'Daily Life',
     topic: 'Daily Life',
@@ -32,6 +36,9 @@ export const previewWords: SavedWord[] = [
     term: 'train',
     meaning: 'A vehicle that runs on rails.',
     example: 'The train leaves at eight.',
+    spanishTerm: '',
+    spanishMeaning: '',
+    spanishExample: '',
     sourceType: 'listening',
     lessonTitle: 'Travel',
     topic: 'Travel',
@@ -45,6 +52,9 @@ export const previewWords: SavedWord[] = [
     term: 'fresh',
     meaning: 'Newly made or picked, not old.',
     example: 'She buys fresh bread.',
+    spanishTerm: '',
+    spanishMeaning: '',
+    spanishExample: '',
     sourceType: 'reading',
     lessonTitle: 'Daily Life',
     topic: 'Daily Life',
@@ -58,6 +68,9 @@ export const previewWords: SavedWord[] = [
     term: 'leave',
     meaning: 'To go away from a place.',
     example: 'The train leaves at eight.',
+    spanishTerm: '',
+    spanishMeaning: '',
+    spanishExample: '',
     sourceType: 'listening',
     lessonTitle: 'Travel',
     topic: 'Travel',
@@ -111,13 +124,27 @@ function LessonPreview() {
 }
 
 export function VocabularyPreview({ scene }: { scene: 'lesson' | 'list' }) {
+  const params = new URLSearchParams(window.location.search);
+  const theme = params.get('theme') || '';
+  const shot = params.get('shot') === 'spanish' || params.get('shot') === 'more' || params.get('shot') === 'english'
+    ? params.get('shot') as 'spanish' | 'more' | 'english'
+    : null;
+  useEffect(() => {
+    if (theme !== 'retro' && theme !== 'dark' && theme !== 'light') return;
+    document.documentElement.classList.toggle('dark', theme === 'dark');
+    document.documentElement.style.colorScheme = theme === 'dark' ? 'dark' : 'light';
+    if (theme === 'retro') document.documentElement.setAttribute('data-theme', 'retro95');
+    else document.documentElement.removeAttribute('data-theme');
+    setRetroActive(theme === 'retro');
+  }, [theme]);
+  const words = shot ? [previewWords[0]] : previewWords;
   return (
     <AppShell
       active={scene === 'lesson' ? 'lesson' : 'vocabulary'}
       onNavigate={() => undefined}
       onSignOut={() => undefined}
-      email="student@example.com"
-      status="Free lessons left: 2 of 3"
+      email={shot ? 'josegamez70+detest@gmail.com' : 'student@example.com'}
+      status="Free lessons left: 7 of 12"
       showAcademy={false}
       academyName={null}
       academyRole="student"
@@ -125,7 +152,7 @@ export function VocabularyPreview({ scene }: { scene: 'lesson' | 'list' }) {
     >
       {scene === 'lesson'
         ? <LessonPreview />
-        : <VocabularyPage userId="preview-user" fixture={previewWords} />}
+        : <VocabularyPage userId="preview-user" fixture={words} shot={shot} />}
     </AppShell>
   );
 }

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { DictSense } from '../dictionary';
 
-function MoreButton({ open, onClick }: { open: boolean; onClick: () => void }) {
+function MoreButton({ open, onClick, roomy = false }: { open: boolean; onClick: () => void; roomy?: boolean }) {
   return (
     <button
       type="button"
@@ -10,7 +10,9 @@ function MoreButton({ open, onClick }: { open: boolean; onClick: () => void }) {
         event.stopPropagation();
         onClick();
       }}
-      className="mt-1 text-sm font-bold text-blue-800 underline dark:text-blue-200"
+      className={roomy
+        ? 'vocab-more'
+        : 'mt-1 text-sm font-bold text-blue-800 underline dark:text-blue-200'}
     >
       {open ? 'Less' : 'More'}
     </button>
@@ -47,17 +49,27 @@ export function SenseText({
 }
 
 /** Saved text is the main sense, then extras joined with a middle dot. */
-export function SavedMeaning({ text, prominent = false }: { text: string; prominent?: boolean }) {
-  const [open, setOpen] = useState(false);
+export function SavedMeaning({
+  text,
+  prominent = false,
+  initialOpen = false,
+  roomy = false,
+}: {
+  text: string;
+  prominent?: boolean;
+  initialOpen?: boolean;
+  roomy?: boolean;
+}) {
+  const [open, setOpen] = useState(initialOpen);
   const parts = text.split(' · ').map((part) => part.trim()).filter(Boolean);
   if (!parts.length) return <p className={prominent ? 'text-xl font-bold' : 'mt-2 text-base'}>No meaning saved.</p>;
   return (
     <div className={prominent ? '' : 'mt-2'}>
       <p className={prominent ? 'text-xl font-bold' : 'text-base'}>{parts[0]}</p>
       {open && parts.slice(1).map((part) => (
-        <p key={part} className="mt-1 text-sm text-slate-800 dark:text-slate-100">{part}</p>
+        <p key={part} className={roomy ? 'mt-2 text-base' : 'mt-1 text-sm text-slate-800 dark:text-slate-100'}>{part}</p>
       ))}
-      {parts.length > 1 && <MoreButton open={open} onClick={() => setOpen((value) => !value)} />}
+      {parts.length > 1 && <MoreButton roomy={roomy} open={open} onClick={() => setOpen((value) => !value)} />}
     </div>
   );
 }
