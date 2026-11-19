@@ -11,10 +11,10 @@ const baseItems: { id: ShellItem; label: string; path: string }[] = [
   { id: 'grammar', label: 'Grammar', path: '/grammar' },
   { id: 'vocabulary', label: 'Vocabulary builder', path: '/vocabulary' },
   { id: 'challenge', label: 'Daily challenge', path: '/daily-challenge' },
+  { id: 'scoreboard', label: 'Scoreboard', path: '/scoreboard' },
   { id: 'tasks', label: 'Tasks', path: '/tasks' },
   { id: 'packs', label: 'Task packs', path: '/task-packs' },
   { id: 'progress', label: 'My progress', path: '/progress' },
-  { id: 'scoreboard', label: 'Scoreboard', path: '/scoreboard' },
   { id: 'saved', label: 'Saved lessons', path: '/saved' },
   { id: 'profile', label: 'Profile', path: '/profile' },
 ];

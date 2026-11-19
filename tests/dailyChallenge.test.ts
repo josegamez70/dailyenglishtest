@@ -37,8 +37,9 @@ test('the daily challenge uses the same unsigned index as the reading bank', () 
   const shell = readFileSync(new URL('../components/AppShell.tsx', import.meta.url), 'utf8');
   const vocab = shell.indexOf("label: 'Vocabulary builder'");
   const challenge = shell.indexOf("label: 'Daily challenge'");
+  const scoreboard = shell.indexOf("label: 'Scoreboard'");
   const tasks = shell.indexOf("label: 'Tasks'");
-  assert.ok(vocab > -1 && vocab < challenge && challenge < tasks);
+  assert.ok(vocab > -1 && vocab < challenge && challenge < scoreboard && scoreboard < tasks);
   assert.match(shell, /challenge: 'daily_challenge'/);
   const job = readFileSync(new URL('../scoreboardEmailJob.ts', import.meta.url), 'utf8');
   assert.match(job, /SCOREBOARD_EMAILS_ENABLED/);
