@@ -436,6 +436,33 @@ html.dark .scoreboard-tabs button.is-selected {
 .challenge-rank th:nth-child(5),
 .challenge-rank td:nth-child(5) { width: 3.4rem; white-space: nowrap; text-align: right; }
 
+.grammar-meta {
+  width: fit-content;
+  max-width: 100%;
+  margin: 0.75rem auto 0;
+  padding: 0.1rem 0.55rem;
+  border: 2px solid #0f172a;
+  background: #fff7cc;
+  color: #0f172a;
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.25;
+  text-align: center;
+}
+html[data-theme="retro95"] .grammar-meta {
+  border-color: #000;
+  background: #ffff80;
+  color: #000;
+  font-family: "VT323", ui-monospace, monospace;
+  font-size: 1.25rem;
+  line-height: 1.1;
+}
+.dark .grammar-meta {
+  border-color: #e2e8f0;
+  background: #1e293b;
+  color: #f8fafc;
+}
+
 button.choice-pill {
   font-size: 1.25em !important;
   line-height: 1.2 !important;

@@ -10,6 +10,8 @@ import { publishBadgeProgress } from '../badgeToast';
 import { recordScoredLesson } from '../legendsRecord';
 import {
   exerciseLabel,
+  grammarAdvanceLabel,
+  grammarTopicLine,
   GRAMMAR_ITEM_COUNT,
   gradeChoice,
   gradeOrder,
@@ -438,6 +440,7 @@ export function GrammarPage({
         <DictionaryPopup />
         <div className="phase2-lift mt-4 rounded-xl bg-white p-6 shadow-lg dark:bg-slate-800">
           <h1 className="text-center text-2xl font-bold">{title}</h1>
+          <p className="grammar-meta">{grammarTopicLine(level, savedTopic)}</p>
           <SavedSetNote fromSaved={fromSaved} saveNote={saveNote} />
           <p className="mt-4 text-base font-semibold">Question {index + 1} of {items.length}</p>
           <div className="mt-1 h-2.5 w-full rounded-full bg-slate-300 dark:bg-slate-600">
@@ -454,7 +457,11 @@ export function GrammarPage({
                       key={option}
                       type="button"
                       aria-pressed={selectedOption}
-                      onClick={() => setChoices((currentChoices) => currentChoices.map((value, choiceIndex) => choiceIndex === index ? option : value))}
+                      disabled={checked}
+                      onClick={() => {
+                        if (checked) return;
+                        setChoices((currentChoices) => currentChoices.map((value, choiceIndex) => choiceIndex === index ? option : value));
+                      }}
                       className={`quiz-option grammar-option w-full rounded-lg border-2 p-4 text-left ${fontClass} ${
                         selectedOption
                           ? 'border-blue-800 bg-blue-700 font-bold text-white dark:border-blue-200 dark:bg-blue-600'
@@ -485,11 +492,11 @@ export function GrammarPage({
                 <button
                   type="button"
                   onClick={() => {
-                    if (!orderState) return;
+                    if (checked || !orderState) return;
                     const next = undoChunk(orderState, current.shuffled);
                     setPlaced((currentPlaced) => currentPlaced.map((ids, placeIndex) => placeIndex === index ? next.placed : ids));
                   }}
-                  disabled={!orderState?.placed.length}
+                  disabled={checked || !orderState?.placed.length}
                   className="rounded-lg border-2 border-slate-700 px-4 py-2 text-base font-semibold disabled:opacity-50 dark:border-slate-200"
                 >
                   Undo
@@ -497,10 +504,11 @@ export function GrammarPage({
                 <button
                   type="button"
                   onClick={() => {
+                    if (checked) return;
                     const next = resetOrder(current.shuffled);
                     setPlaced((currentPlaced) => currentPlaced.map((ids, placeIndex) => placeIndex === index ? next.placed : ids));
                   }}
-                  disabled={!orderState?.placed.length}
+                  disabled={checked || !orderState?.placed.length}
                   className="rounded-lg border-2 border-slate-700 px-4 py-2 text-base font-semibold disabled:opacity-50 dark:border-slate-200"
                 >
                   Reset
@@ -511,8 +519,9 @@ export function GrammarPage({
                   <button
                     key={chunk.id}
                     type="button"
+                    disabled={checked}
                     onClick={() => {
-                      if (!orderState) return;
+                      if (checked || !orderState) return;
                       const next = placeChunk(orderState, chunk.id);
                       setPlaced((currentPlaced) => currentPlaced.map((ids, placeIndex) => placeIndex === index ? next.placed : ids));
                     }}
@@ -527,10 +536,10 @@ export function GrammarPage({
           <button
             type="button"
             onClick={goNext}
-            disabled={!answered}
+            disabled={!checked && !answered}
             className="quiz-advance mt-8 w-full rounded-lg bg-green-700 py-3 text-lg font-bold text-white hover:bg-green-800 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-700"
           >
-            {index < items.length - 1 ? 'Next' : checked ? 'Check answers' : 'Check'}
+            {grammarAdvanceLabel(checked, index >= items.length - 1)}
           </button>
           {checked && current.kind === 'choice' && (
             <div className="mt-4 rounded-lg border-2 border-slate-400 p-4 text-base" role="status">
