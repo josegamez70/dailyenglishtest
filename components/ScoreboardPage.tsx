@@ -16,6 +16,7 @@ import {
 } from '../dailyChallenge';
 import { loadChallengeBoard } from '../dailyChallengeClient';
 import { BackButton } from './BackButton';
+import { PixelArt } from './PixelArt';
 
 const RANKING_LINE = 'Ranked by % correct among learners with at least 3 exercises; ties go to whoever did more.';
 
@@ -73,7 +74,7 @@ export function ScoreboardPage({
   fixture?: ScoreboardFixture;
 }) {
   const initialLevel: ChallengeLevel = profileLevel === 'B2' || profileLevel === 'C1' ? profileLevel : 'B1';
-  const [view, setView] = useState<ScorePeriod | 'challenge'>(fixture?.initialView ?? 'all');
+  const [view, setView] = useState<ScorePeriod | 'challenge'>(fixture?.initialView ?? 'challenge');
   const [level, setLevel] = useState<ChallengeLevel>(initialLevel);
   const [load, setLoad] = useState<ScoreboardLoad | null>(null);
   const [ready, setReady] = useState(Boolean(fixture));
@@ -144,21 +145,21 @@ export function ScoreboardPage({
           Yesterday for the whole board needs the database update. This tab shows only your own yesterday until then.
         </p>
       )}
-      <div className="mt-4 flex flex-wrap gap-2" role="tablist" aria-label="Scoreboard period">
+      <div className="scoreboard-tabs mt-4" role="tablist" aria-label="Scoreboard period">
         {([
-          ['all', 'All time'],
-          ['daily', 'Today'],
-          ['yesterday', 'Yesterday'],
           ['challenge', 'Challenge'],
+          ['yesterday', 'Yesterday'],
+          ['all', 'All time'],
         ] as const).map(([id, label]) => (
-          <button key={id} type="button" role="tab" aria-selected={view === id} onClick={() => setView(id)} className={`border-2 border-slate-900 px-4 py-2 text-base font-bold ${view === id ? 'bg-slate-900 text-white' : 'bg-white text-slate-900'}`}>
+          <button key={id} type="button" role="tab" aria-selected={view === id} onClick={() => setView(id)} className={view === id ? 'is-selected' : undefined}>
+            {id === 'challenge' && <PixelArt src="/icons/daily_challenge.png" size={18} />}
             {label}
           </button>
         ))}
       </div>
       {view !== 'challenge' && (
         <p className="mt-2 text-sm">
-          {period === 'all' ? 'Every saved result.' : period === 'daily' ? 'Today in Spain.' : 'Yesterday in Spain.'}
+          {period === 'all' ? 'Every saved result.' : 'Yesterday in Spain.'}
           {' '}The date follows Europe/Madrid, including the clock change.
         </p>
       )}

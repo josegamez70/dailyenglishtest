@@ -138,8 +138,11 @@ test('the scoreboard page and the unapplied migration stay read-only', () => {
   const app = readFileSync(new URL('../App.tsx', import.meta.url), 'utf8');
   assert.match(page, /Fictitious demo/);
   assert.match(page, /All time/);
-  assert.match(page, /aria-selected=\{view === id\}[\s\S]*border-2 border-slate-900/);
-  assert.match(page, /Today/);
+  assert.match(page, /aria-selected=\{view === id\}/);
+  assert.match(page, /\['challenge', 'Challenge'\],\s*\['yesterday', 'Yesterday'\],\s*\['all', 'All time'\]/);
+  assert.equal(page.includes("['daily', 'Today']"), false);
+  assert.match(page, /scoreboard-tabs/);
+  assert.match(page, /daily_challenge\.png/);
   assert.match(page, /Yesterday/);
   assert.equal(page.includes('Most exercises'), false);
   assert.equal(page.includes('Best %'), false);

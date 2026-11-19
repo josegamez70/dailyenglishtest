@@ -9,8 +9,9 @@ import {
   type EnvMap,
 } from './taskMail.ts';
 import { madridDayKey, shiftMadridDay } from './tasks.ts';
-import { planScoreboardMail, type ScoreboardMailPerson, type ScoreboardMailRecipient } from './scoreboardEmail.ts';
-import { rowFromAttempts, type ScoreAttempt } from './scoreboard.ts';
+import { elapsedSeconds, type ChallengeLevel } from './dailyChallenge.ts';
+import { planScoreboardMail, type ChallengeMailPerson, type ScoreboardMailPerson, type ScoreboardMailRecipient } from './scoreboardEmail.ts';
+import { rowFromAttempts, SCOREBOARD_MIN, type ScoreAttempt } from './scoreboard.ts';
 
 export function scoreboardEmailsEnabled(env: EnvMap): boolean {
   return readEnvValue(env, 'SCOREBOARD_EMAILS_ENABLED') === 'true';
@@ -60,15 +61,32 @@ export async function planScoreboardEmailJob(env: EnvMap = runtimeEnv()): Promis
   const enabled = scoreboardEmailsEnabled(env);
   const admin = adminClient(env);
   if (!admin) return { enabled, wouldSend: false, yesterday, boards: [], missing: true };
-  const [academies, members, profiles, results, sends] = await Promise.all([
+  const [academies, members, profiles, results, sends, attempts] = await Promise.all([
     admin.from('academies').select('id, name, owner_id'),
     admin.from('academy_members').select('academy_id, user_id'),
     admin.from('profiles').select('id, display_name, scoreboard_alias, scoreboard_email_opt_out'),
     admin.from('test_results').select('user_id, mode, score, total, created_at'),
     admin.from('scoreboard_email_sends').select('user_id, madrid_day').eq('madrid_day', yesterday),
+    admin.from('daily_challenge_attempts').select('user_id, level, correct, total, started_at, submitted_at').eq('madrid_day', yesterday).not('submitted_at', 'is', null),
   ]);
   if (academies.error || members.error || profiles.error || results.error) {
     return { enabled, wouldSend: false, yesterday, boards: [], missing: true };
+  }
+  const challengeReady = !attempts.error;
+  const attemptByUser = new Map<string, { level: ChallengeLevel; correct: number; total: number; seconds: number }>();
+  if (challengeReady) {
+    for (const row of attempts.data ?? []) {
+      const record = row as { user_id?: unknown; level?: unknown; correct?: unknown; total?: unknown; started_at?: unknown; submitted_at?: unknown };
+      const userId = String(record.user_id ?? '');
+      const level = record.level === 'B1' || record.level === 'B2' || record.level === 'C1' ? record.level : null;
+      if (!userId || !level) continue;
+      attemptByUser.set(userId, {
+        level,
+        correct: Number(record.correct ?? 0),
+        total: Number(record.total ?? 0),
+        seconds: elapsedSeconds(String(record.started_at ?? ''), String(record.submitted_at ?? '')),
+      });
+    }
   }
   const sent = new Set((sends.data ?? []).map((row) => String((row as { user_id?: unknown }).user_id)));
   const profileById = new Map((profiles.data ?? []).map((row) => [String((row as ProfileRow).id), row as ProfileRow]));
@@ -91,18 +109,46 @@ export async function planScoreboardEmailJob(env: EnvMap = runtimeEnv()): Promis
   const personFor = (userId: string, individual: boolean): ScoreboardMailPerson => {
     const profile = profileById.get(userId);
     const alias = chosenAlias(String(profile?.scoreboard_alias ?? ''), String(profile?.display_name ?? ''), userId, individual);
-    const row = rowFromAttempts(alias, attemptsByUser.get(userId) ?? [], 'yesterday', new Date(), false);
+    const saved = attemptsByUser.get(userId) ?? [];
+    const row = rowFromAttempts(alias, saved, 'yesterday', new Date(), false);
+    const allTime = rowFromAttempts(alias, saved, 'all', new Date(), false);
     return {
       userId,
       alias,
       optOut: profile?.scoreboard_email_opt_out === true,
       alreadySent: sent.has(userId),
       row,
+      allTime,
+    };
+  };
+  const challengeFor = (person: ScoreboardMailPerson): ChallengeMailPerson | null => {
+    const attempt = attemptByUser.get(person.userId);
+    if (!attempt || attempt.total <= 0) return null;
+    return {
+      userId: person.userId,
+      alias: person.alias,
+      level: attempt.level,
+      correct: attempt.correct,
+      total: attempt.total,
+      seconds: attempt.seconds,
+      optOut: person.optOut,
+      alreadySent: person.alreadySent,
     };
   };
   const boards: ScoreboardEmailBoard[] = [];
   const base = appBaseUrl(env) ?? 'https://dailyenglishtest.es';
   const link = () => `${base}/api/scoreboard-email-opt-out?token=preview`;
+  const mailFor = (people: ScoreboardMailPerson[]) => planScoreboardMail(
+    people,
+    yesterday,
+    link,
+    SCOREBOARD_MIN,
+    people.flatMap((person) => {
+      const row = challengeFor(person);
+      return row ? [row] : [];
+    }),
+    challengeReady,
+  );
   for (const academy of academies.data ?? []) {
     const record = academy as { id?: unknown; name?: unknown; owner_id?: unknown };
     const id = String(record.id ?? '');
@@ -111,13 +157,12 @@ export async function planScoreboardEmailJob(env: EnvMap = runtimeEnv()): Promis
       .map((row) => personFor(String((row as { user_id?: unknown }).user_id), false));
     const ownerId = String(record.owner_id ?? '');
     if (ownerId && !people.some((person) => person.userId === ownerId)) people.push(personFor(ownerId, false));
-    const plan = planScoreboardMail(people, yesterday, link);
-    boards.push({ kind: 'academy', name: String(record.name ?? 'Academy'), ...plan });
+    boards.push({ kind: 'academy', name: String(record.name ?? 'Academy'), ...mailFor(people) });
   }
   const individuals = [...profileById.keys()]
     .filter((id) => id && !memberIds.has(id) && !ownerIds.has(id))
     .map((id) => personFor(id, true));
-  boards.push({ kind: 'individual', name: 'Individual learners', ...planScoreboardMail(individuals, yesterday, link) });
+  boards.push({ kind: 'individual', name: 'Individual learners', ...mailFor(individuals) });
   const wouldSend = enabled && boards.some((board) => board.recipients.length > 0);
   return { enabled, wouldSend, yesterday, boards };
 }

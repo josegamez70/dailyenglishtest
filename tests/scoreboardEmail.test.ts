@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { planScoreboardMail, scoreboardAchievementMessage } from '../scoreboardEmail.ts';
+import { planScoreboardMail, sampleScoreboardMail, type ChallengeMailPerson } from '../scoreboardEmail.ts';
 import { scoreboardEmailsEnabled } from '../scoreboardEmailJob.ts';
 import type { ScoreRow } from '../scoreboard.ts';
 
@@ -60,27 +60,34 @@ test('only the top 5 qualified learners are mailed, without another person addre
   assert.equal((busy?.text ?? '').includes('Most exercises'), false);
   assert.equal((busy?.text ?? '').includes('Best %'), false);
   assert.match(busy?.text ?? '', /2nd/);
+  assert.match(busy?.text ?? '', /Daily challenge/);
+  assert.match(busy?.text ?? '', /\nYesterday\n/);
+  assert.match(busy?.text ?? '', /All time/);
   assert.equal(both.recipients.filter((item) => item.alias === 'Busy').length, 1);
-  const message = scoreboardAchievementMessage({
-    place: 1,
-    alias: 'Learner A3BF',
-    day: '2026-11-17',
-    reading: { done: 4, correct: 8, answered: 20 },
-    listening: { done: 5, correct: 5, answered: 25 },
-    grammar: { done: 1, correct: 2, answered: 6 },
-    totalDone: 10,
-    totalCorrect: 15,
-    totalAnswered: 51,
-    optOutUrl: 'https://dailyenglishtest.es/api/scoreboard-email-opt-out?token=preview',
-  });
-  assert.match(message.html, /Learner A3BF/);
-  assert.match(message.html, /1st/);
-  assert.equal(message.html.includes('Most exercises'), false);
-  assert.equal(message.html.includes('Best %'), false);
-  assert.match(message.html, /Stop these emails/);
-  assert.match(message.html, /not a certificate/);
-  assert.equal(message.html.includes('@'), false);
-  assert.equal(message.text.includes('@'), false);
+  const challenges: ChallengeMailPerson[] = [
+    { userId: 'slow', alias: 'Slow High', level: 'B1', correct: 8, total: 10, seconds: 500, optOut: false, alreadySent: false },
+    { userId: 'fast', alias: 'Fast Tie', level: 'B1', correct: 8, total: 10, seconds: 200, optOut: false, alreadySent: false },
+    { userId: 'lower', alias: 'Lower', level: 'B1', correct: 5, total: 10, seconds: 100, optOut: false, alreadySent: false },
+  ];
+  const ordered = planScoreboardMail(both.recipients.length ? [
+    person('Busy', 8, 4, 10),
+    person('Accurate', 4, 8, 10),
+  ] : [], '2026-11-17', () => 'https://dailyenglishtest.es/api/scoreboard-email-opt-out?token=preview', 3, challenges);
+  const orderedText = ordered.recipients[0]?.text ?? '';
+  assert.ok(orderedText.indexOf('Fast Tie') < orderedText.indexOf('Slow High'));
+  assert.ok(orderedText.indexOf('Slow High') < orderedText.indexOf('Lower'));
+  const sample = sampleScoreboardMail();
+  assert.match(sample.html, /Daily challenge/);
+  assert.match(sample.html, /Yesterday/);
+  assert.match(sample.html, /All time/);
+  assert.match(sample.html, /Demo Alba/);
+  assert.match(sample.html, /Stop these emails/);
+  assert.match(sample.html, /not a certificate/);
+  assert.equal(sample.html.includes('@'), false);
+  assert.equal(sample.text.includes('@'), false);
+  assert.equal(sample.html.includes('josegamez70'), false);
+  const schedule = readFileSync(new URL('../api/scoreboard-email-schedule.ts', import.meta.url), 'utf8');
+  assert.match(schedule, /SCOREBOARD_EMAILS_ENABLED must be the exact word true/);
   const sql = readFileSync(new URL('../supabase/migrations/20261126_scoreboard_emails.sql', import.meta.url), 'utf8');
   assert.match(sql, /scoreboard_email_sends/);
   assert.match(sql, /scoreboard_email_opt_out/);

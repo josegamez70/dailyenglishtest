@@ -358,6 +358,40 @@ html[data-theme="retro95"] .badge-popup button {
   color: #f8fafc;
 }
 
+.scoreboard-tabs {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 4px;
+}
+.scoreboard-tabs > button {
+  display: inline-flex;
+  flex: 1 1 0;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-width: 0;
+  padding: 8px 4px;
+  border: 2px solid #0f172a;
+  background: #fff;
+  color: #0f172a;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+.scoreboard-tabs > button.is-selected {
+  background: #0f172a;
+  color: #fff;
+}
+html.dark .scoreboard-tabs > button {
+  border-color: #e2e8f0;
+}
+html.dark .scoreboard-tabs > button.is-selected {
+  background: #1d4ed8 !important;
+  color: #fff !important;
+  border-color: #bfdbfe !important;
+}
+
 .scoreboard-gold { background: #fff3b0; color: #000; }
 .scoreboard-silver { background: #e5e7eb; color: #000; }
 .scoreboard-bronze { background: #e7c8a0; color: #000; }
