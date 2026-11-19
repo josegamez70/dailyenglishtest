@@ -100,8 +100,8 @@ const Configurator: React.FC<ConfiguratorProps> = ({ config, setConfig, onGenera
         disabled={isLoading}
         aria-busy={isLoading}
         className={retro
-          ? 'retro-generate inline-flex w-full items-center justify-center bg-blue-700 py-3 px-4 text-lg font-bold text-white'
-          : 'w-full bg-blue-700 hover:bg-blue-800 disabled:bg-slate-300 disabled:text-slate-700 disabled:cursor-not-allowed text-white font-bold py-3 px-4 rounded-lg text-lg'}
+          ? 'choice-pill retro-generate inline-flex w-full items-center justify-center bg-blue-700 py-3 px-4 text-lg font-bold text-white'
+          : 'choice-pill w-full bg-blue-700 hover:bg-blue-800 disabled:bg-slate-300 disabled:text-slate-700 disabled:cursor-not-allowed text-white font-bold py-3 px-4 rounded-lg text-lg'}
       >
         {retro && !isLoading && <span className="retro-play" aria-hidden="true" />}
         {isLoading ? 'Generating...' : retro ? 'Generate Exercise' : 'Start Learning'}

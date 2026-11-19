@@ -34,6 +34,7 @@ import { PixelArt } from './components/PixelArt';
 import { LegendsUnlockDialog } from './components/RetroLegends';
 import { LegendsShot } from './components/LegendsShot';
 import { ChallengeShot } from './components/ChallengeShot';
+import { SelectorShot } from './components/SelectorShot';
 import { MailShot } from './components/MailShot';
 import { DailyChallengePage } from './components/DailyChallengePage';
 import { recordScoredLesson } from './legendsRecord';
@@ -2005,6 +2006,9 @@ const App: React.FC = () => {
   }
   if (import.meta.env.DEV && path.startsWith('/challenge-preview')) {
     return <ChallengeShot />;
+  }
+  if (import.meta.env.DEV && path.startsWith('/selector-preview')) {
+    return <SelectorShot />;
   }
   if (import.meta.env.DEV && path.startsWith('/mail-preview')) {
     return <MailShot />;

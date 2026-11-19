@@ -44,8 +44,8 @@ import { getVocabularyState, loadVocabulary, subscribeVocabulary } from '../voca
 
 const choiceClass = (active: boolean) => (
   active
-    ? 'rounded-lg border-2 border-blue-800 bg-blue-700 px-3 py-3 text-base font-bold text-white'
-    : 'rounded-lg border-2 border-slate-500 bg-white px-3 py-3 text-base font-semibold text-slate-900 hover:border-blue-700 dark:border-slate-300 dark:bg-slate-800 dark:text-slate-50'
+    ? 'choice-pill rounded-lg border-2 border-blue-800 bg-blue-700 px-3 py-3 text-base font-bold text-white'
+    : 'choice-pill rounded-lg border-2 border-slate-500 bg-white px-3 py-3 text-base font-semibold text-slate-900 hover:border-blue-700 dark:border-slate-300 dark:bg-slate-800 dark:text-slate-50'
 );
 
 function SelectField({

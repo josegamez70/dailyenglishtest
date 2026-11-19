@@ -67,8 +67,8 @@ function LookupText({ text }: { text: string }) {
 
 function choiceClass(active: boolean): string {
   return active
-    ? 'rounded-lg border-2 border-blue-800 bg-blue-700 px-3 py-3 text-base font-bold text-white ring-4 ring-blue-300'
-    : 'rounded-lg border-2 border-slate-500 bg-white px-3 py-3 text-base font-semibold text-slate-900 hover:border-blue-700 dark:border-slate-300 dark:bg-slate-800 dark:text-slate-50';
+    ? 'choice-pill rounded-lg border-2 border-blue-800 bg-blue-700 px-3 py-3 text-base font-bold text-white ring-4 ring-blue-300'
+    : 'choice-pill rounded-lg border-2 border-slate-500 bg-white px-3 py-3 text-base font-semibold text-slate-900 hover:border-blue-700 dark:border-slate-300 dark:bg-slate-800 dark:text-slate-50';
 }
 
 function SavedSetNote({ fromSaved, saveNote }: { fromSaved: boolean; saveNote: string | null }) {
@@ -592,7 +592,7 @@ export function GrammarPage({
         type="button"
         onClick={() => { void start(); }}
         disabled={busy}
-        className="mt-6 w-full rounded-lg bg-blue-700 py-3 text-lg font-bold text-white hover:bg-blue-800 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-700"
+        className="choice-pill mt-6 w-full rounded-lg bg-blue-700 py-3 text-lg font-bold text-white hover:bg-blue-800 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-700"
       >
         Start exercises
       </button>

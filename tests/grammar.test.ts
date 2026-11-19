@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import {
   B1_BLANK_TARGETS,
   B2_BLANK_TARGETS,
@@ -1232,4 +1233,12 @@ test('a gap after had uses the participle, and a fitting sentence is kept', () =
     explanation: 'Come about means to happen.',
   };
   assert.equal(grammarChoiceGapProblem(about, 'phrasal'), null);
+});
+
+test('choice pills keep their padding and use a larger font', () => {
+  const page = readFileSync(new URL('../components/GrammarPage.tsx', import.meta.url), 'utf8');
+  assert.match(page, /choice-pill rounded-lg border-2 border-blue-800 bg-blue-700 px-3 py-3 text-base/);
+  const css = readFileSync(new URL('../phase2.css', import.meta.url), 'utf8');
+  assert.match(css, /button\.choice-pill \{[^}]*font-size:\s*1\.25em !important/);
+  assert.match(css, /button\.choice-pill \{[^}]*line-height:\s*1\.2 !important/);
 });

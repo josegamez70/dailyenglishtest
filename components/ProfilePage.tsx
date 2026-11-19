@@ -164,8 +164,8 @@ export function ProfilePage({
                 onTheme(choice);
               }}
               className={theme === choice
-                ? 'rounded-lg bg-blue-700 px-2 py-2 text-sm font-bold text-white'
-                : 'rounded-lg border-2 border-slate-700 bg-white px-2 py-2 text-sm font-semibold text-slate-900 dark:border-slate-200 dark:bg-slate-900 dark:text-slate-50'}
+                ? 'choice-pill rounded-lg bg-blue-700 px-2 py-2 text-sm font-bold text-white'
+                : 'choice-pill rounded-lg border-2 border-slate-700 bg-white px-2 py-2 text-sm font-semibold text-slate-900 dark:border-slate-200 dark:bg-slate-900 dark:text-slate-50'}
             >
               <span className={`mx-auto mb-1 block h-8 w-full border border-slate-500 ${swatch}`} aria-hidden="true" />
               {label}
