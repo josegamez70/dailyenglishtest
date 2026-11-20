@@ -446,12 +446,27 @@ export function listeningBankPayload(lesson: ListeningLesson) {
   };
 }
 
+/** Dialogue mp3s at this revision do not speak "Name:" at the start of a turn. */
+export const LISTENING_SPEECH_REVISION = 2;
+
+export function listeningSpeechRevision(dimensions: unknown): number {
+  if (!dimensions || typeof dimensions !== 'object') return 0;
+  const value = Number((dimensions as { speechRevision?: unknown }).speechRevision);
+  return Number.isFinite(value) ? value : 0;
+}
+
+/** Stored conversation audio from before the label strip. Text lessons are left alone. */
+export function dialogueAudioNeedsRespeak(format: string, dimensions: unknown): boolean {
+  return format === 'dialogue' && listeningSpeechRevision(dimensions) < LISTENING_SPEECH_REVISION;
+}
+
 export function listeningDimensions(lesson: ListeningLesson, audioPath: string, audioSlowPath?: string) {
   return {
     topic: lesson.topicValue,
     wordCount: lesson.wordCount,
     questionCount: lesson.questionCount,
     audioPath,
+    ...(lesson.format === 'dialogue' ? { speechRevision: LISTENING_SPEECH_REVISION } : {}),
     ...(audioSlowPath ? { audioSlowPath } : {}),
   };
 }

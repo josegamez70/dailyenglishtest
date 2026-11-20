@@ -1,6 +1,6 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import { bankChallengeIndex, bankUnavailable, grammarSetFromBankPayload, listeningLessonFromBankPayload, readingLessonFromBankPayload } from '../exerciseBank.ts';
-import { signListeningAudio } from '../exerciseBankServer.ts';
+import { respeakStaleDialogue, signListeningAudio } from '../exerciseBankServer.ts';
 import {
   buildChallengeReport,
   challengeLevel,
@@ -141,9 +141,21 @@ async function piecesFor(admin: SupabaseClient, day: string, level: ChallengeLev
   // when every reading row was a long piece, so today and tomorrow do not move.
   const longReadings = readingRows.filter((row) => readingWordCount(row) >= 200);
   const reading = takeFirst(longReadings, bankChallengeIndex(day, level, 'reading', longReadings.length), readingOf);
-  const listening = takeFirst(listeningRows, bankChallengeIndex(day, level, 'listening', listeningRows.length), listeningSlice);
+  const listeningIndex = bankChallengeIndex(day, level, 'listening', listeningRows.length);
+  const listeningRow = matchingBankRow(listeningRows, listeningIndex, listeningSlice);
+  if (listeningRow) await respeakStaleDialogue(admin, listeningRow);
+  const listening = listeningRow ? listeningSlice(listeningRow) : null;
   const grammar = takeFirst(grammarRows, bankChallengeIndex(day, level, 'grammar', grammarRows.length), grammarOf);
   return { reading, listening, grammar };
+}
+
+function matchingBankRow(rows: BankRow[], start: number, parse: (row: BankRow) => unknown): BankRow | null {
+  if (!rows.length) return null;
+  for (let step = 0; step < rows.length; step += 1) {
+    const row = rows[(start + step) % rows.length];
+    if (parse(row)) return row;
+  }
+  return null;
 }
 
 function takeFirst<T>(rows: BankRow[], start: number, parse: (row: BankRow) => T | null): T | null {

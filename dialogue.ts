@@ -304,7 +304,7 @@ export function speechLines(turns: DialogueTurn[]): SpeechLine[] {
   return turns.map((turn, turnIndex) => ({
     speaker: turn.speaker,
     speakerIndex: Math.max(0, names.findIndex((name) => name.toLowerCase() === turn.speaker.toLowerCase())),
-    text: turn.line,
+    text: spokenTurnText(turn.speaker, turn.line),
     turnIndex,
   }));
 }
@@ -319,10 +319,25 @@ export function lineMentionsName(line: string, name: string): boolean {
   return namePattern(name).test(line);
 }
 
+/** Drop a leading "Julia:" or "Noah." so Azure does not read the speaker label. */
+export function spokenTurnText(speaker: string, line: string): string {
+  let text = line.replace(/\s+/g, ' ').trim();
+  if (!text) return '';
+  const names = new Set<string>();
+  const own = speaker.replace(/\s+/g, ' ').trim();
+  if (own) names.add(own);
+  for (const name of [...FEMALE_NAMES, ...MALE_NAMES]) names.add(name);
+  for (const name of names) {
+    const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const stripped = text.replace(new RegExp(`^${escaped}\\s*[:.\\-–—]\\s+`, 'i'), '').trim();
+    if (stripped && stripped !== text) return stripped;
+  }
+  return text;
+}
+
 /**
- * The first line addresses the other person by name. The reply uses the first
- * speaker's name. Later lines do not say either name. Labels such as "Sophie:"
- * belong in the transcript, not in the spoken line.
+ * Neither speaker's name belongs in a spoken line. Different voices show who is talking.
+ * A label such as "Julia:" stays in the transcript, not in the audio.
  */
 export function dialogueGreetingProblems(
   turns: { speaker: string; line: string }[],
@@ -330,21 +345,14 @@ export function dialogueGreetingProblems(
   secondName: string,
 ): string[] {
   const problems: string[] = [];
-  if (!firstName || !secondName || turns.length < 2) return problems;
-  if (!lineMentionsName(turns[0].line, secondName)) {
-    problems.push(`The first line must address ${secondName} by name inside the sentence. Example: "Hi ${secondName}, have you got a minute?"`);
-  }
-  if (!lineMentionsName(turns[1].line, firstName)) {
-    problems.push(`The second line must use ${firstName}'s name inside the sentence. Example: "Sure, ${firstName}, what's up?"`);
-  }
+  if (!firstName || !secondName) return problems;
   const label = new RegExp(`^\\s*(?:${firstName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}|${secondName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})\\s*:`, 'i');
   turns.forEach((turn, index) => {
     if (label.test(turn.line)) {
-      problems.push(`Line ${index + 1} must not start with a speaker label. Put the name only in the speaker field, except for the greetings in the first two lines.`);
+      problems.push(`Line ${index + 1} must not start with a speaker label. Put the name only in the speaker field. The audio must not say it.`);
     }
-    if (index < 2) return;
     if (lineMentionsName(turn.line, firstName) || lineMentionsName(turn.line, secondName)) {
-      problems.push(`Do not say ${firstName} or ${secondName} after the second line. Line ${index + 1} still uses a name. The voices show who is speaking.`);
+      problems.push(`Do not say ${firstName} or ${secondName} in the spoken line. Line ${index + 1} still uses a name. The voices show who is speaking.`);
     }
   });
   return problems;
