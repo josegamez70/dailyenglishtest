@@ -12,6 +12,8 @@ import {
   listeningAudioPath,
   listeningBankPayload,
   listeningContentHash,
+  dialogueAudioNeedsRespeak,
+  LISTENING_SPEECH_REVISION,
   listeningDimensions,
   listeningLessonFromBankPayload,
   readingLessonFromBankPayload,
@@ -25,6 +27,9 @@ import {
   type RefillInsertResult,
 } from './exerciseBank.ts';
 import { savedListeningCachePath, savedListeningSpeech } from './savedListeningAudio.ts';
+import { buildListeningSsml, synthesizeNeuralMp3 } from './azureSpeech.ts';
+import { readEnvValue, runtimeEnv } from './taskMail.ts';
+import type { DialogueTurn } from './dialogue.ts';
 import type { GrammarRequest, GrammarSet } from './grammarSet.ts';
 
 const LISTENING_BUCKET = 'listening-audio';
@@ -345,9 +350,67 @@ export async function claimListeningFromBank(
       await releaseGrammarBankItem(admin, userId, claim.row.id);
       continue;
     }
+    if (lesson.format === 'dialogue') {
+      await respeakStaleDialogue(admin, { id: claim.row.id, payload: claim.row.payload, dimensions });
+    }
     return { id: claim.row.id, lesson, audioPath, audioSlowPath: audioSlowPathFromDimensions(dimensions) };
   }
   return null;
+}
+
+function dialogueTurns(payload: unknown): DialogueTurn[] {
+  if (!payload || typeof payload !== 'object') return [];
+  const body = payload as { format?: unknown; dialogue?: unknown };
+  if (body.format !== 'dialogue' || !Array.isArray(body.dialogue)) return [];
+  return body.dialogue.flatMap((turn) => {
+    if (!turn || typeof turn !== 'object') return [];
+    const record = turn as { speaker?: unknown; line?: unknown; gender?: unknown };
+    const speaker = String(record.speaker ?? '').trim();
+    const line = String(record.line ?? '').trim();
+    if (!speaker || !line) return [];
+    return [{ speaker, line, gender: record.gender === 'male' ? 'male' as const : 'female' as const }];
+  });
+}
+
+/**
+ * Replace one stored conversation mp3 so it no longer speaks "Name:" at the start of a turn.
+ * Text lessons and audio already marked with the current revision are left alone.
+ * A missing Azure key skips the file. The lesson text is not sent to Gemini.
+ */
+export async function respeakStaleDialogue(
+  admin: SupabaseClient,
+  row: { id: string; payload: unknown; dimensions: unknown },
+): Promise<'current' | 'spoken' | 'skipped' | 'failed'> {
+  const turns = dialogueTurns(row.payload);
+  if (!turns.length || !dialogueAudioNeedsRespeak('dialogue', row.dimensions)) return turns.length ? 'current' : 'skipped';
+  const env = runtimeEnv();
+  const key = readEnvValue(env, 'AZURE_SPEECH_KEY');
+  const region = readEnvValue(env, 'AZURE_SPEECH_REGION');
+  if (!key || !region || !isBankId(row.id)) return 'skipped';
+  const speech = buildListeningSsml({ format: 'dialogue', story: '', dialogue: turns });
+  if (!speech.lines.length) return 'skipped';
+  console.log(JSON.stringify({ stage: 'dialogue_respeak', id: row.id, spokenLines: speech.lines }));
+  const audio = await synthesizeNeuralMp3({ key, region, ssml: speech.ssml, spokenCharacters: speech.spokenCharacters });
+  if (!audio.ok) return 'failed';
+  const dimensions = row.dimensions && typeof row.dimensions === 'object' ? { ...(row.dimensions as Record<string, unknown>) } : {};
+  const audioPath = audioPathFromDimensions(dimensions);
+  if (!audioPath) return 'skipped';
+  const replaced = await admin.storage.from(LISTENING_BUCKET).upload(audioPath, audio.audio, {
+    contentType: 'audio/mpeg',
+    upsert: true,
+  });
+  if (replaced.error) return 'failed';
+  const slowPath = audioSlowPathFromDimensions(dimensions);
+  if (slowPath) {
+    const slowSpeech = buildListeningSsml({ format: 'dialogue', story: '', dialogue: turns }, { slow: true, profileSpeed: 1 });
+    const slow = await synthesizeNeuralMp3({ key, region, ssml: slowSpeech.ssml, spokenCharacters: slowSpeech.spokenCharacters });
+    if (slow.ok) {
+      await admin.storage.from(LISTENING_BUCKET).upload(slowPath, slow.audio, { contentType: 'audio/mpeg', upsert: true });
+    }
+  }
+  dimensions.speechRevision = LISTENING_SPEECH_REVISION;
+  const saved = await admin.from('exercise_bank').update({ dimensions }).eq('id', row.id);
+  return saved.error ? 'failed' : 'spoken';
 }
 
 /** True when this person was given this bank row. Used before signing its audio. */

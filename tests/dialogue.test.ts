@@ -4,6 +4,7 @@ import {
   alignDialogueToCast,
   contentWordCount,
   dialogueGreetingProblems,
+  spokenTurnText,
   dialogueSpeakers,
   dialogueTurnPlan,
   parseDialogue,
@@ -257,27 +258,20 @@ test('dialogue names rotate and long dialogues lose extra turns', () => {
   assert.equal(trimmed.length, 6);
 });
 
-test('names are spoken only in the first two lines', () => {
-  const market = [
-    { speaker: 'Sophie', line: 'Hi Noah, have you got a minute?' },
-    { speaker: 'Noah', line: 'Sure, Sophie, what\'s up?' },
-    { speaker: 'Sophie', line: 'The market closes in ten minutes.' },
-    { speaker: 'Noah', line: 'Then we should go now.' },
+test('spoken dialogue lines do not say either speaker name', () => {
+  const quiet = [
+    { speaker: 'Julia', line: 'Have you got a minute?' },
+    { speaker: 'Noah', line: 'Yes. The market closes in ten minutes.' },
   ];
-  assert.deepEqual(dialogueGreetingProblems(market, 'Sophie', 'Noah'), []);
-  const train = [
-    { speaker: 'James', line: 'Anna, the train is late again.' },
-    { speaker: 'Anna', line: 'Thanks for waiting, James. Shall we get a coffee?' },
-    { speaker: 'James', line: 'Yes. Platform four is still empty.' },
-    { speaker: 'Anna', line: 'I will buy the tickets.' },
-  ];
-  assert.deepEqual(dialogueGreetingProblems(train, 'James', 'Anna'), []);
-  const lateName = dialogueGreetingProblems([
-    { speaker: 'Sophie', line: 'Hi Noah, have you got a minute?' },
-    { speaker: 'Noah', line: 'Sure, what\'s up?' },
-    { speaker: 'Sophie', line: 'Noah, the market closes soon.' },
-  ], 'Sophie', 'Noah');
-  assert.equal(lateName.length, 2);
+  assert.deepEqual(dialogueGreetingProblems(quiet, 'Julia', 'Noah'), []);
+  const labelled = dialogueGreetingProblems([
+    { speaker: 'Julia', line: 'Julia: Have you got a minute?' },
+    { speaker: 'Noah', line: 'Noah, the train is late.' },
+  ], 'Julia', 'Noah');
+  assert.equal(labelled.length, 3);
+  assert.equal(spokenTurnText('Julia', 'Julia: The market closes soon.'), 'The market closes soon.');
+  assert.equal(spokenTurnText('Noah', 'Noah. We should leave now.'), 'We should leave now.');
+  assert.equal(spokenTurnText('Julia', 'Have you got a minute?'), 'Have you got a minute?');
 });
 
 test('extra large text size becomes the largest remaining size', () => {
