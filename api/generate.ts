@@ -902,6 +902,36 @@ function stampLessons(body: string, lessonsUsed: number | null): string {
   }
 }
 
+async function reserveLiveLesson(
+  admin: SupabaseClient,
+  userId: string,
+  headers: Record<string, string>,
+): Promise<HandlerResponse | null> {
+  const gate = await admin.rpc('take_live_lesson', { uid: userId, day_limit: 5 });
+  if (gate.error) {
+    const message = `${gate.error.code ?? ''} ${gate.error.message ?? ''}`.toLowerCase();
+    if (message.includes('pgrst202') || message.includes('42883') || message.includes('does not exist') || message.includes('schema cache')) return null;
+    return {
+      statusCode: 502,
+      headers,
+      body: JSON.stringify({ ok: false, message: 'The live lesson limit could not be checked. Try again.' }),
+    };
+  }
+  const row = (Array.isArray(gate.data) ? gate.data[0] : gate.data) as { allowed?: boolean } | null;
+  if (row && row.allowed === false) {
+    return {
+      statusCode: 429,
+      headers,
+      body: JSON.stringify({
+        ok: false,
+        code: 'live_limit',
+        message: 'Live lessons are limited to 5 a day. A lesson from the bank does not count.',
+      }),
+    };
+  }
+  return null;
+}
+
 async function consumeLessonResponse(
   admin: SupabaseClient,
   userId: string,
@@ -1095,6 +1125,8 @@ async function createGrammarSet(
     console.log(JSON.stringify({ stage: 'grammar_live', level: request.level, exercise: request.exercise }));
   }
   if (!apiKey) return missingApiKey(headers);
+  const reserved = await reserveLiveLesson(admin, userId, headers);
+  if (reserved) return reserved;
   const produced = await produceGrammar(apiKey, request);
   if (!produced.ok) {
     return {
@@ -1208,6 +1240,8 @@ async function createListeningLesson(
   }
 
   if (!apiKey) return missingApiKey(headers);
+  const reserved = await reserveLiveLesson(admin, userId, headers);
+  if (reserved) return reserved;
   const produced = await producePractice(apiKey, params, Date.now() + 23000);
   if (!produced.ok) return practiceFailure(headers, 'story', produced.problems, produced.preview);
 
@@ -1528,6 +1562,10 @@ export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => 
     }
 
     const deadline = Date.now() + 23000;
+    if (params.stage === 'story') {
+      const reserved = await reserveLiveLesson(admin, userId, corsHeaders);
+      if (reserved) return reserved;
+    }
     const produced = await producePractice(apiKey, params, deadline);
     if (!produced.ok) {
       return {

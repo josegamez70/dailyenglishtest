@@ -166,8 +166,8 @@ export function PricingPanel({
       )}
       {(variant === 'paywall' || (showExample && example === 'paywall')) && (
         <p className="mt-3 rounded-xl border border-teal-700/40 bg-white px-4 py-3 text-base text-slate-800 dark:border-teal-300/40 dark:bg-[#22304a] dark:text-slate-100">
-          {showExample && example === 'paywall' ? 'Example state: the 12 free lessons are used up. ' : ''}
-          You have used your 12 free lessons. They do not reset. Premium is {formatEuro(premium.amountCents)} per month when billing is on.
+          {showExample && example === 'paywall' ? 'Example state: billing is not active. ' : ''}
+          Premium is {formatEuro(premium.amountCents)} per month when billing is on. Billing is not on.
         </p>
       )}
       {showExample && example === 'active' && (
@@ -176,7 +176,7 @@ export function PricingPanel({
         </p>
       )}
       <p className="mt-3 text-base text-slate-700 dark:text-slate-200">
-        12 free lessons stay on every account. They do not expire, and they are not a free trial. You do not enter a card to get them.
+        You do not enter a card. Live lessons are limited to 5 a day. A saved bank lesson does not count. Billing is not on.
       </p>
       {account?.cancelAtPeriodEnd && (
         <p className="mt-2 text-sm text-slate-700 dark:text-slate-200">Your subscription is set to end at the close of this period. Lessons stay available until then.</p>

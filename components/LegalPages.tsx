@@ -205,7 +205,7 @@ function TermsOfUse() {
       </Section>
       <Section heading="Free lessons">
         <p>
-          Each account can create 12 free lessons. These lessons do not expire. They are not a free trial, and you do not enter a card to get them. After 12 lessons, a free account cannot create more until a paid plan is active.
+          You do not enter a card to practise. Live lessons, the ones written when you ask, are limited to 5 a day. A lesson already saved in the bank does not count toward that day. This is not a paid plan.
         </p>
       </Section>
       <Section heading="Premium plan">
