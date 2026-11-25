@@ -140,7 +140,7 @@ export function ProgressPage({
     <div className="mx-auto w-full max-w-3xl">
       {onBack && <BackButton onClick={onBack} />}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-        <h1 className="text-2xl font-bold">My progress</h1>
+        <h1 className="text-2xl font-bold">Mi progreso</h1>
         <DownloadProgressButton
           studentName={studentName}
           profileLevel={profileLevel}
@@ -151,15 +151,15 @@ export function ProgressPage({
       {missing && <p className="mt-3 text-base">Progress will appear after the database update.</p>}
       <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-4">
         {[
-          ['Tests done', String(rows.length)],
-          ['Average score', `${averagePercent(rows)}%`],
-          ['Day streak', String(dayStreak(dates))],
-          ['Best score', `${bestPercent(rows)}%`],
+          ['Tests hechos', String(rows.length)],
+          ['Media', `${averagePercent(rows)}%`],
+          ['Días seguidos', String(dayStreak(dates))],
+          ['Mejor resultado', `${bestPercent(rows)}%`],
         ].map(([label, value]) => (
           <div key={label} className="phase2-lift rounded-xl border border-slate-300 bg-white p-3 dark:border-slate-600 dark:bg-slate-800">
             <p className="text-sm text-slate-600 dark:text-slate-300">{label}</p>
             <p className="mt-1 text-2xl font-bold">{value}</p>
-            {(label === 'Average score' || label === 'Best score') && (
+            {(label === 'Media' || label === 'Mejor resultado') && (
               <div className="phase2-meter" aria-hidden="true">
                 <span style={{ ['--phase2-to' as string]: value }} />
               </div>
@@ -167,6 +167,7 @@ export function ProgressPage({
           </div>
         ))}
       </div>
+      <p className="mt-3 text-base">La media es el promedio de estos ejercicios. No es una nota de un examen ni un certificado.</p>
       {scores.length > 0 && (
         <div className="phase2-lift mt-4 rounded-xl border border-slate-300 bg-white p-4 dark:border-slate-600 dark:bg-slate-800">
           <p className="text-sm font-semibold">Last 10 scores</p>

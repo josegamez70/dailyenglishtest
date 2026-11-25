@@ -29,14 +29,14 @@ test('word-count window is about plus or minus 15 percent', () => {
 });
 
 test('score feedback changes by tier', () => {
-  assert.match(scoreFeedback(0), /Keep practicing/);
-  assert.match(scoreFeedback(39), /Keep practicing/);
-  assert.match(scoreFeedback(40), /Good effort/);
-  assert.match(scoreFeedback(69), /Good effort/);
-  assert.match(scoreFeedback(70), /Well done/);
-  assert.match(scoreFeedback(89), /Well done/);
-  assert.match(scoreFeedback(90), /Excellent/);
-  assert.match(scoreFeedback(100), /Excellent/);
+  assert.match(scoreFeedback(0), /Sigue practicando/);
+  assert.match(scoreFeedback(39), /Sigue practicando/);
+  assert.match(scoreFeedback(40), /Buen intento/);
+  assert.match(scoreFeedback(69), /Buen intento/);
+  assert.match(scoreFeedback(70), /Bien hecho/);
+  assert.match(scoreFeedback(89), /Bien hecho/);
+  assert.match(scoreFeedback(90), /Excelente/);
+  assert.match(scoreFeedback(100), /Excelente/);
 });
 
 test('wildcard picks a real topic and never the wildcard itself', () => {
