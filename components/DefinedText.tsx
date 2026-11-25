@@ -134,10 +134,10 @@ export function DictionaryPopup() {
         if (cancelled) return;
         setEntry(result);
         setStatus(result ? 'ready' : 'missing');
-        if (result && !result.spanish) {
-          const gloss = await spanishGloss(open.surface);
+        if (!result || result.spanish) return;
+        spanishGloss(open.surface).then((gloss) => {
           if (!cancelled && gloss) setEntry({ ...result, spanish: gloss });
-        }
+        }).catch(() => undefined);
       })
       .catch(() => {
         if (!cancelled) setStatus('error');
