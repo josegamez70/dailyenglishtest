@@ -427,6 +427,41 @@ async function attachBase(entry: DictEntry, surface: string): Promise<DictEntry>
   return entry;
 }
 
+/** The term to store. A selected phrase keeps its spaces. */
+export function savedLookupTerm(surface: string, entryWord = ''): string {
+  const phrase = searchLookupTerm(surface);
+  if (phrase?.includes(' ')) return phrase;
+  const head = entryWord.replace(/\s+/g, ' ').trim();
+  if (head) return head;
+  return phrase || normalizeLookupWord(surface);
+}
+
+/** First Spanish gloss in the Wiktionary translations list. No invented translation. */
+export function spanishFromWikitext(wikitext: string): string | null {
+  const section = wikitext.split('====Translations====')[1] ?? '';
+  const line = section.split('\n').find((row) => /^\* Spanish:/.test(row));
+  if (!line) return null;
+  const match = line.match(/\{\{t[^|]*\|es\|([^|}]+)/i);
+  const word = match?.[1]?.replace(/_/g, ' ').trim() ?? '';
+  if (!word || word.length > 80 || /[{}=]/.test(word)) return null;
+  return word;
+}
+
+export async function spanishGloss(term: string): Promise<string | null> {
+  const title = searchLookupTerm(term);
+  if (!title) return null;
+  try {
+    const url = `https://en.wiktionary.org/w/api.php?action=parse&page=${encodeURIComponent(title)}&prop=wikitext&format=json&origin=*`;
+    const response = await fetch(url, { signal: AbortSignal.timeout(8000) });
+    if (!response.ok) return null;
+    const data = await response.json() as { parse?: { wikitext?: Record<string, string> } };
+    const text = data.parse?.wikitext?.['*'] ?? '';
+    return spanishFromWikitext(text);
+  } catch {
+    return null;
+  }
+}
+
 /** A single word or a short phrase worth sending to the dictionary. */
 export function searchLookupTerm(raw: string): string | null {
   const text = String(raw ?? '').replace(/\s+/g, ' ').trim();

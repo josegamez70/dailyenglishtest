@@ -53,13 +53,13 @@ export function storyParagraphs(story: string): string[] {
   return story.split(/\n\s*\n/).map((part) => part.trim()).filter((part) => part.length > 0);
 }
 
-/** Three paragraphs that contain five questions, or null when this piece cannot. */
+/** Two paragraphs that contain five questions, or null when this piece cannot. */
 export function readingChallengeSlice<T extends { supportingSentence?: string }>(
   story: string,
   quiz: readonly T[],
 ): { story: string; quiz: T[] } | null {
   const paragraphs = storyParagraphs(story);
-  if (paragraphs.length < 3 || quiz.length < CHALLENGE_PART_COUNT) return null;
+  if (paragraphs.length < 2 || quiz.length < CHALLENGE_PART_COUNT) return null;
   const located = quiz.flatMap((question, index) => {
     const needle = flat(question.supportingSentence ?? '');
     if (!needle) return [];
@@ -69,18 +69,64 @@ export function readingChallengeSlice<T extends { supportingSentence?: string }>
   if (located.length < CHALLENGE_PART_COUNT) return null;
   for (let first = 0; first < paragraphs.length; first += 1) {
     for (let second = first + 1; second < paragraphs.length; second += 1) {
-      for (let third = second + 1; third < paragraphs.length; third += 1) {
-        const chosen = new Set([first, second, third]);
-        const covered = located.filter((item) => chosen.has(item.paragraph));
-        if (covered.length < CHALLENGE_PART_COUNT) continue;
-        return {
-          story: [paragraphs[first], paragraphs[second], paragraphs[third]].join('\n\n'),
-          quiz: covered.slice(0, CHALLENGE_PART_COUNT).map((item) => item.question),
-        };
-      }
+      const chosen = new Set([first, second]);
+      const covered = located.filter((item) => chosen.has(item.paragraph));
+      if (covered.length < CHALLENGE_PART_COUNT) continue;
+      return {
+        story: [paragraphs[first], paragraphs[second]].join('\n\n'),
+        quiz: covered.slice(0, CHALLENGE_PART_COUNT).map((item) => item.question),
+      };
     }
   }
   return null;
+}
+
+export type ChallengeVocabWord = {
+  term: string;
+  meaning: string;
+  sourceType: 'reading' | 'listening';
+  example: string;
+};
+
+function wordAppears(text: string, word: string): boolean {
+  const needle = word.trim().toLowerCase();
+  if (needle.length < 2) return false;
+  const escaped = needle.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return new RegExp(`(^|[^a-z])${escaped}([^a-z]|$)`, 'i').test(text);
+}
+
+function sentenceWithWord(text: string, word: string): string {
+  const parts = text.replace(/\s+/g, ' ').split(/(?<=[.!?])\s+/);
+  const found = parts.find((part) => wordAppears(part, word));
+  return (found ?? '').trim().slice(0, 240);
+}
+
+/** Stored word list entries that actually occur in the text served today. */
+export function challengeVocabulary(input: {
+  readingStory: string;
+  readingVocabulary: readonly { word: string; definition: string }[];
+  listeningText: string;
+  listeningVocabulary: readonly { word: string; definition: string }[];
+}): ChallengeVocabWord[] {
+  const words: ChallengeVocabWord[] = [];
+  const seen = new Set<string>();
+  const add = (
+    items: readonly { word: string; definition: string }[],
+    text: string,
+    sourceType: 'reading' | 'listening',
+  ) => {
+    for (const item of items) {
+      const term = item.word.replace(/\s+/g, ' ').trim();
+      const meaning = item.definition.replace(/\s+/g, ' ').trim();
+      const key = term.toLowerCase();
+      if (!term || !meaning || seen.has(key) || !wordAppears(text, term)) continue;
+      seen.add(key);
+      words.push({ term, meaning, sourceType, example: sentenceWithWord(text, term) });
+    }
+  };
+  add(input.readingVocabulary, input.readingStory, 'reading');
+  add(input.listeningVocabulary, input.listeningText, 'listening');
+  return words;
 }
 
 /** The first five items, in the stored order. Fewer than five cannot be today's part. */

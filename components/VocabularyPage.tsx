@@ -37,7 +37,7 @@ import {
   subscribeVocabulary,
 } from '../vocabularyStore';
 
-type Mode = 'list' | 'cards' | 'quiz';
+type Mode = 'list' | 'cards' | 'quiz' | 'stats';
 type SourceFilter = 'all' | VocabSource;
 
 function SearchLookup({
@@ -595,6 +595,9 @@ export function VocabularyPage({
         <BackButton onClick={() => setMode('list')} label="Back to Vocabulary builder" />
       )}
       <h1 className="text-2xl font-bold">Vocabulary builder</h1>
+      {(userId || fixture) && (
+        <p className="mt-1 text-base font-semibold" role="status">{rows.length} saved</p>
+      )}
       {!userId && !fixture && (
         <div className="mt-3">
           <p className="text-base">Sign in to save words and practice them. Academy students can use this too.</p>
@@ -694,6 +697,9 @@ export function VocabularyPage({
             </button>
           </div>
           {!quizReady && <p id="vocab-quiz-hint" className="mt-2 text-sm">A quiz needs at least 4 saved words with a meaning.</p>}
+          <button type="button" onClick={() => setMode('stats')} className="choice-pill mt-2 w-full rounded-lg border-2 border-slate-900 py-3 text-base font-bold dark:border-slate-100">
+            Stats
+          </button>
           {!ready && <p className="mt-4 text-base">Loading...</p>}
           {ready && visible.length === 0 && !missing && rows.length === 0 && (
             <p className="mt-4 text-base">You have no saved words yet. Tick a key word in a lesson, or press Save word in the word popup.</p>
@@ -731,6 +737,20 @@ export function VocabularyPage({
                   void saveVocabularySpanish(term, spanish);
                 }}
               />
+            ))}
+          </ul>
+        </>
+      )}
+      {mode === 'stats' && (userId || fixture) && (
+        <>
+          <p className="mt-2 text-base">Correct and wrong answers from your vocabulary quiz. This is not a grade.</p>
+          {rows.length === 0 && <p className="mt-4 text-base">You have no saved words yet.</p>}
+          <ul className="mt-4 space-y-3">
+            {rows.map((row) => (
+              <li key={row.id || row.term} className="rounded-xl border border-slate-300 bg-white p-4 dark:border-slate-600 dark:bg-slate-800">
+                <p className="text-lg font-bold">{row.term}</p>
+                <p className="mt-1 text-base">{row.correctCount} correct, {row.wrongCount} wrong</p>
+              </li>
             ))}
           </ul>
         </>

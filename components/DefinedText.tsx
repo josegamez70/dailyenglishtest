@@ -2,7 +2,7 @@ import React, { useEffect, useLayoutEffect, useState, useSyncExternalStore } fro
 import { createPortal } from 'react-dom';
 import { isEnUsLang, narrationVoice, type ListedVoice } from '../dialogue';
 import { defineInContext } from '../contextDefine';
-import { meaningToSave, normalizeLookupWord, popupPosition, searchLookupTerm, type DictEntry } from '../dictionary';
+import { meaningToSave, popupPosition, savedLookupTerm, searchLookupTerm, spanishGloss, type DictEntry } from '../dictionary';
 import {
   getVocabLessonContext,
   requestVocabSignIn,
@@ -113,7 +113,7 @@ export function DictionaryPopup() {
   const [saving, setSaving] = useState(false);
   const lesson = useSyncExternalStore(subscribeVocabContext, getVocabLessonContext, getVocabLessonContext);
   const vocab = useSyncExternalStore(subscribeVocabulary, getVocabularyState, getVocabularyState);
-  const headword = entry?.word || normalizeLookupWord(open?.surface ?? '') || open?.surface || '';
+  const headword = savedLookupTerm(open?.surface ?? '', entry?.word || '');
   const saved = savedTermSet(vocab.rows).has(termKey(headword));
 
   useEffect(() => {
@@ -134,6 +134,10 @@ export function DictionaryPopup() {
         if (cancelled) return;
         setEntry(result);
         setStatus(result ? 'ready' : 'missing');
+        if (!result || result.spanish) return;
+        spanishGloss(open.surface).then((gloss) => {
+          if (!cancelled && gloss) setEntry({ ...result, spanish: gloss });
+        }).catch(() => undefined);
       })
       .catch(() => {
         if (!cancelled) setStatus('error');
@@ -208,7 +212,7 @@ export function DictionaryPopup() {
     >
       <div className="flex items-start gap-2">
         <div className="min-w-0 flex-1">
-          <p className="text-base font-bold break-words">{entry?.word ?? normalizeLookupWord(open.surface)}</p>
+          <p className="text-base font-bold break-words">{entry?.word ?? savedLookupTerm(open.surface)}</p>
           {status === 'ready' && entry?.note && (
             <p className="text-sm text-slate-600 dark:text-slate-300">{entry.note}</p>
           )}
