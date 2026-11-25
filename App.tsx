@@ -60,8 +60,7 @@ import { ACADEMY_INVITE_DISMISSED_KEY, ACADEMY_INVITE_KEY, inviteBannerText, nor
 import { AcademyPage } from './components/AcademyPage';
 import { JoinAcademyPage } from './components/JoinAcademyPage';
 import { parseSavedGrammarLesson, type GrammarLaunch } from './savedLessonMeta';
-import { listTestResults, saveLesson, saveTestResult, updateProfileSettings, type SavedLessonRow } from './studyStore';
-import { levelAccess, type LevelAccess } from './levelProgress';
+import { saveLesson, saveTestResult, updateProfileSettings, type SavedLessonRow } from './studyStore';
 import { markTaskDone, type TaskSlot } from './taskStore';
 import { sentenceWith, setVocabLessonContext, setVocabSignInHandler, matchedSavedTerms, savedMatchKeys, termKey } from './vocabulary';
 import { getVocabularyState, loadVocabulary, removeVocabularyWord, saveVocabularyWord, subscribeVocabulary } from './vocabularyStore';
@@ -187,33 +186,18 @@ const App: React.FC = () => {
   const [practiceType, setPracticeType] = useState<PracticeType>('reading');
   const [contentFormat, setContentFormat] = useState<ContentFormat>('text');
   const [dialogueTurns, setDialogueTurns] = useState<DialogueTurn[]>([]);
-  const [levels, setLevels] = useState<LevelAccess | null>(null);
   const [config, setConfig] = useState<ConfigOptions>({
     level: LEVELS[0].value,
     topic: TOPICS[0].value,
     wordCount: WORD_COUNTS[0].value,
     questionCount: QUESTION_COUNTS[0].value,
   });
-  useEffect(() => {
-    if (!account.signedIn) return undefined;
-    let ignore = false;
-    listTestResults().then((result) => {
-      if (!ignore) setLevels(levelAccess(account.defaultLevel, result.rows));
-    }).catch(() => undefined);
-    return () => { ignore = true; };
-  }, [account.signedIn, account.defaultLevel, account.userId]);
-  useEffect(() => {
-    if (!levels) return;
-    if (config.level === 'advanced' && !levels.c1) setConfig((current) => ({ ...current, level: 'beginner' }));
-    else if (config.level === 'intermediate' && !levels.b2) setConfig((current) => ({ ...current, level: 'beginner' }));
-  }, [levels, config.level]);
   const [story, setStory] = useState<string>('');
   const [vocabOpen, setVocabOpen] = useState(false);
   const [quiz, setQuiz] = useState<QuizQuestion[]>([]);
   const [vocabulary, setVocabulary] = useState<VocabularyItem[]>([]);
   const [storyTopic, setStoryTopic] = useState<{ label: string; surprise: boolean } | null>(null);
   const [userAnswers, setUserAnswers] = useState<string[]>([]);
-  const [quickNonce, setQuickNonce] = useState(0);
   const [finishing, setFinishing] = useState(false);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -1401,13 +1385,6 @@ const App: React.FC = () => {
         : 'bg-white text-slate-900 border-slate-500 hover:border-blue-700 dark:bg-slate-800 dark:text-slate-50 dark:border-slate-300'
     }`;
 
-  const startQuickReading = () => {
-    setPracticeType('reading');
-    setContentFormat('text');
-    setCustomTopicText('');
-    setConfig((current) => ({ ...current, level: 'beginner', topic: 'daily life', wordCount: 60, questionCount: 5 }));
-    setQuickNonce((current) => current + 1);
-  };
   const configScreen = (
     <div className="w-full max-w-2xl mx-auto">
       <div className="mb-4 text-center">
@@ -1468,13 +1445,6 @@ const App: React.FC = () => {
           </button>
         </div>
       </div>
-      <button
-        type="button"
-        onClick={startQuickReading}
-        className="mb-4 w-full rounded-lg bg-blue-700 py-3 text-lg font-bold text-white hover:bg-blue-800"
-      >
-        10 minutes of Reading B1
-      </button>
       {practiceType === 'listening' && (
         <button
           type="button"
@@ -1499,7 +1469,6 @@ const App: React.FC = () => {
         topicInputId={practiceType === 'listening' ? 'listening-topic' : 'reading-topic'}
         practiceType={practiceType}
         format={contentFormat}
-        levelAccess={levels}
       />
     </div>
   );
@@ -1992,13 +1961,6 @@ const App: React.FC = () => {
       </>
     );
   };
-
-  useEffect(() => {
-    if (quickNonce === 0) return;
-    if (practiceType !== 'reading' || contentFormat !== 'text' || config.level !== 'beginner' || config.wordCount !== 60 || config.questionCount !== 5 || config.topic !== 'daily life') return;
-    setQuickNonce(0);
-    void handleGenerate();
-  }, [quickNonce, practiceType, contentFormat, config.level, config.wordCount, config.questionCount, config.topic]);
 
   const welcomeOpen = account.signedIn && view === 'config' && account.lessonsUsed === 0 && !welcomeHidden && !welcomeSeen(account.userId);
 
@@ -2506,7 +2468,6 @@ const App: React.FC = () => {
         <GrammarPage
           fontClass={fontClass}
           initialLevel={cefr === 'B1' || cefr === 'B2' || cefr === 'C1' ? cefr : 'B1'}
-          levelOpen={levels}
           resetNonce={grammarResetNonce}
           onActiveChange={setGrammarActive}
           onLessonsChanged={() => { void account.refreshProfile(); }}

@@ -1,8 +1,6 @@
 import React from 'react';
 import type { ConfigOptions } from '../types';
 import { LEVELS, TOPICS, WILDCARD_TOPIC, WORD_COUNTS, QUESTION_COUNTS } from '../constants';
-import type { LevelAccess } from '../levelProgress';
-import { LevelRuleNote } from './LevelRuleNote';
 import { useRetroTheme } from '../retroTheme';
 
 interface ConfiguratorProps {
@@ -15,7 +13,6 @@ interface ConfiguratorProps {
   topicInputId?: string;
   practiceType?: 'reading' | 'listening';
   format?: 'text' | 'dialogue';
-  levelAccess?: LevelAccess | null;
 }
 
 const SelectInput: React.FC<{
@@ -38,7 +35,7 @@ const SelectInput: React.FC<{
   </div>
 );
 
-const Configurator: React.FC<ConfiguratorProps> = ({ config, setConfig, onGenerate, isLoading, customTopic, onCustomTopic, topicInputId = 'custom-topic', practiceType = 'reading', format = 'text', levelAccess: access = null }) => {
+const Configurator: React.FC<ConfiguratorProps> = ({ config, setConfig, onGenerate, isLoading, customTopic, onCustomTopic, topicInputId = 'custom-topic', practiceType = 'reading', format = 'text' }) => {
   const retro = useRetroTheme();
   const listening = practiceType === 'listening';
   const handleConfigChange = <K extends keyof ConfigOptions>(field: K, value: ConfigOptions[K]) => {
@@ -48,19 +45,12 @@ const Configurator: React.FC<ConfiguratorProps> = ({ config, setConfig, onGenera
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <SelectInput
-            label="Level"
-            value={config.level}
-            onChange={(e) => handleConfigChange('level', e.target.value)}
-            options={LEVELS.map((level) => ({
-              ...level,
-              disabled: (level.value === 'intermediate' && access ? !access.b2 : false)
-                || (level.value === 'advanced' && access ? !access.c1 : false),
-            }))}
-          />
-          <LevelRuleNote access={access} />
-        </div>
+        <SelectInput
+          label="Level"
+          value={config.level}
+          onChange={(e) => handleConfigChange('level', e.target.value)}
+          options={LEVELS}
+        />
         <SelectInput
           label={listening ? 'Listening topic' : 'Reading topic'}
           value={config.topic}
