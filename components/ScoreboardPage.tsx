@@ -230,7 +230,7 @@ export function ScoreboardPage({
             {board.top.map((row) => <Row key={`${row.alias}-top`} row={row} metric={metric} />)}
             {board.self && <Row key="self-outside" row={board.self} metric={metric} />}
             {metric === 'accuracy' && board.unqualified.map((row) => <Row key={`${row.alias}-out`} row={row} metric={metric} />)}
-            {board.top.length === 0 && board.unqualified.length === 0 && !board.self && (
+            {board.top.length === 0 && !board.self && (metric === 'volume' || board.unqualified.length === 0) && (
               <li className="arcade-hint">No finished exercises in this view.</li>
             )}
           </ol>
