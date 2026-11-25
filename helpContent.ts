@@ -366,7 +366,7 @@ const EN_FAQ: readonly HelpFaq[] = [
     blocks: [
       {
         type: 'p',
-        text: 'Billing is not active. Paid plans are not on sale yet. The Plans section is an example. Choosing a plan does not charge you, and the site does not ask for a card. No payment is taken until billing is turned on.',
+        text: 'Billing is not active. Paid plans are not on sale yet. Choosing a plan does not charge you, and the site does not ask for a card. No payment is taken until billing is turned on.',
       },
       {
         type: 'p',
@@ -374,7 +374,7 @@ const EN_FAQ: readonly HelpFaq[] = [
       },
       {
         type: 'p',
-        text: 'The same prices are written in the [[Terms of Use|/terms]]. The home page and Profile show them with an Example label while billing is off. Students on an academy are not charged.',
+        text: 'The same prices are written in the [[Terms of Use|/terms]]. The home page does not show a price list while the site is free for now. Students on an academy are not charged.',
       },
     ],
   },
@@ -566,7 +566,7 @@ const ES_FAQ: readonly HelpFaq[] = [
       },
       {
         type: 'p',
-        text: '«Task packs» muestra cada paquete. Abre un paquete para empezar sus ejercicios. Un paquete gasta una lección gratis. Premium y una academia activa no se cuentan, y las 12 lecciones gratis siguen igual en «Reading», «Listening» y «Grammar». Abrir un paquete no gasta otra lección. Solo se conservan 5 paquetes de tareas. Puede llegar un correo cuando hay un paquete nuevo. Ese correo tiene un enlace para apagar las tareas.',
+        text: '«Task packs» muestra cada paquete. Abre un paquete para empezar sus ejercicios. Un paquete no gasta una lección. Abrir un paquete no gasta otra. Solo se conservan 5 paquetes de tareas. Puede llegar un correo cuando hay un paquete nuevo. Ese correo tiene un enlace para apagar las tareas.',
       },
     ],
   },
@@ -594,7 +594,7 @@ const ES_FAQ: readonly HelpFaq[] = [
       },
       {
         type: 'p',
-        text: 'Cada cuenta puede crear 12 lecciones gratis. No caducan. No son una prueba gratuita y no hace falta tarjeta para conseguirlas. Una academia activa cubre las lecciones nuevas del responsable y de los alumnos que se han unido. Cuando termina un piloto, las lecciones nuevas se detienen y esas 12 lecciones gratis no vuelven a empezar.',
+        text: 'Daily English Test es gratis por ahora. No introduces una tarjeta. Un tema que escribes tú está limitado a 5 al día. Un tema de la lista, o «Any topic», sale del banco guardado y no entra en ese límite. Una academia activa cubre al responsable y a los alumnos que se han unido. Cuando termina un piloto, las lecciones nuevas se detienen.',
       },
     ],
   },
@@ -620,7 +620,7 @@ const ES_FAQ: readonly HelpFaq[] = [
       },
       {
         type: 'p',
-        text: `Cuando pasan los ${PILOT_DAYS} días, las lecciones nuevas se detienen para el responsable y para los alumnos. Las lecciones guardadas y el progreso siguen. Las 12 lecciones gratis no vuelven a empezar. No pueden unirse alumnos nuevos. El responsable puede escribir a [[${HELP_CONTACT}|mailto:${HELP_CONTACT}]] o consultar los planes de ejemplo.`,
+        text: `Cuando pasan los ${PILOT_DAYS} días, las lecciones nuevas se detienen para el responsable y para los alumnos. Las lecciones guardadas y el progreso siguen. Las lecciones nuevas siguen en pausa. No pueden unirse alumnos nuevos. El responsable puede escribir a [[${HELP_CONTACT}|mailto:${HELP_CONTACT}]] o consultar los planes de ejemplo.`,
       },
     ],
   },
@@ -630,7 +630,7 @@ const ES_FAQ: readonly HelpFaq[] = [
     blocks: [
       {
         type: 'p',
-        text: 'La facturación no está activa. Los planes de pago todavía no están a la venta. La sección «Plans» (Planes) es un ejemplo. Elegir un plan no cobra nada y la web no pide la tarjeta. No se realiza ningún cobro hasta que se active la facturación.',
+        text: 'La facturación no está activa. Los planes de pago todavía no están a la venta. Elegir un plan no cobra nada y la web no pide la tarjeta. No se realiza ningún cobro hasta que se active la facturación.',
       },
       {
         type: 'p',
@@ -638,7 +638,7 @@ const ES_FAQ: readonly HelpFaq[] = [
       },
       {
         type: 'p',
-        text: 'Los mismos precios están en las [[«Terms of Use»|/terms]] (condiciones de uso). La página de inicio y «Profile» los muestran con la etiqueta «Example» (Ejemplo) mientras la facturación está apagada. Los alumnos de una academia no pagan.',
+        text: 'Los mismos precios están en las [[«Terms of Use»|/terms]] (condiciones de uso). La página de inicio no muestra una lista de precios mientras la web es gratis por ahora. Los alumnos de una academia no pagan.',
       },
     ],
   },
