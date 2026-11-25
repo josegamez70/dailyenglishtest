@@ -708,3 +708,228 @@ html[data-theme="retro95"] button.vocab-more {
   font-size: 1.45rem;
   line-height: 1;
 }
+
+.arcade-board {
+  background: #12081c;
+  color: #d9fff6;
+  padding: 0.75rem 0.65rem 0.9rem;
+  border: 4px solid #2a1240;
+  box-shadow: 0 0 0 2px #ff2d95;
+  font-family: "VT323", ui-monospace, monospace;
+}
+.arcade-board p,
+.arcade-board span,
+.arcade-board h1,
+.arcade-board li,
+.arcade-board button {
+  font-family: "VT323", ui-monospace, monospace;
+}
+.arcade-kicker {
+  margin: 0;
+  text-align: center;
+  color: #ff4ad8;
+  letter-spacing: 0.18em;
+  font-size: 1.15rem;
+  text-transform: uppercase;
+}
+.arcade-title {
+  margin: 0;
+  text-align: center;
+  color: #fff4b0;
+  font-size: 2.6rem;
+  line-height: 0.95;
+  letter-spacing: 0.06em;
+  text-shadow: 0 0 10px #ff2d95;
+}
+.arcade-levels,
+.arcade-metrics,
+.arcade-tabs {
+  display: flex;
+  gap: 0.35rem;
+  margin-top: 0.55rem;
+}
+.arcade-levels button,
+.arcade-metrics button,
+.arcade-board .scoreboard-tabs button {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 2.6rem;
+  padding: 0.25rem 0.3rem;
+  border: 2px solid #19f0c6;
+  background: transparent;
+  color: #9dfff0;
+  font-size: 1.25rem;
+  line-height: 1;
+  box-shadow: none;
+}
+.arcade-board .scoreboard-tab-challenge {
+  width: 100%;
+  margin-top: 0.35rem;
+}
+.arcade-board .scoreboard-tabs button.is-selected,
+.arcade-board button[aria-pressed="true"] {
+  background: #19f0c6;
+  color: #04140f;
+  border-color: #19f0c6;
+}
+.arcade-board button:disabled {
+  opacity: 0.45;
+}
+.arcade-marquee {
+  margin: 0.55rem 0 0;
+  text-align: center;
+  color: #ffe14a;
+  font-size: 1.35rem;
+  line-height: 1.1;
+}
+.arcade-hint {
+  margin: 0.4rem 0 0;
+  color: #b7fff3;
+  font-family: Inter, sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.35;
+}
+.arcade-note {
+  margin: 0.45rem 0 0;
+  background: #fff3b0;
+  color: #1a1200;
+  border: 2px solid #1a1200;
+  padding: 0.4rem 0.5rem;
+  font-family: Inter, sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.35;
+}
+.arcade-screen {
+  position: relative;
+  margin-top: 0.55rem;
+  overflow: hidden;
+  background: radial-gradient(ellipse at center, #083028 0%, #020806 78%);
+  border: 3px solid #19f0c6;
+  box-shadow: inset 0 0 28px rgba(25, 240, 198, 0.28);
+  padding: 0.35rem 0.45rem 0.55rem;
+}
+.arcade-screen::before {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.16) 0,
+    rgba(0, 0, 0, 0.16) 1px,
+    transparent 2px,
+    transparent 4px
+  );
+}
+.arcade-list {
+  position: relative;
+  z-index: 1;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.arcade-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 3.1rem;
+  border-bottom: 1px solid rgba(25, 240, 198, 0.28);
+  color: #e8fff8;
+}
+.arcade-rank {
+  width: 3.1rem;
+  flex: 0 0 auto;
+  color: #d7fff4;
+  font-size: 1.55rem;
+  line-height: 1;
+}
+.arcade-rank.is-1 { color: #ffe14a; text-shadow: 0 0 8px #ffe14a; }
+.arcade-rank.is-2 { color: #f4f7ff; text-shadow: 0 0 8px #9ecbff; }
+.arcade-rank.is-3 { color: #ffb067; text-shadow: 0 0 8px #ffb067; }
+.arcade-who { flex: 1 1 auto; min-width: 0; }
+.arcade-name {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #f3fffb;
+  font-size: 1.45rem;
+  line-height: 1.05;
+}
+.arcade-meta {
+  display: block;
+  color: #9dffe8;
+  font-family: Inter, sans-serif;
+  font-size: 0.75rem;
+  line-height: 1.25;
+}
+.arcade-score {
+  flex: 0 0 auto;
+  text-align: right;
+}
+.arcade-score-main {
+  display: block;
+  color: #7dfff0;
+  font-size: 1.7rem;
+  line-height: 1;
+}
+.arcade-score-sub {
+  display: block;
+  color: #c8fff4;
+  font-family: Inter, sans-serif;
+  font-size: 0.72rem;
+}
+.arcade-row.is-you {
+  box-shadow: inset 4px 0 0 #ffe14a;
+}
+html[data-theme="retro95"] .arcade-board,
+html[data-theme="retro95"] .arcade-board p,
+html[data-theme="retro95"] .arcade-board li,
+html[data-theme="retro95"] .arcade-board h1,
+html.dark .arcade-board,
+html.dark .arcade-board p,
+html.dark .arcade-board li,
+html.dark .arcade-board h1 {
+  color: #d9fff6 !important;
+  background-color: transparent;
+}
+html[data-theme="retro95"] .arcade-board {
+  background: #12081c !important;
+}
+html[data-theme="retro95"] .arcade-board button,
+html.dark .arcade-board button {
+  background: transparent !important;
+  color: #9dfff0 !important;
+  border: 2px solid #19f0c6 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  font-family: "VT323", ui-monospace, monospace !important;
+}
+html[data-theme="retro95"] .arcade-board button[aria-selected="true"],
+html[data-theme="retro95"] .arcade-board button[aria-pressed="true"],
+html[data-theme="retro95"] .arcade-board button.is-selected,
+html.dark .arcade-board button[aria-selected="true"],
+html.dark .arcade-board button[aria-pressed="true"],
+html.dark .arcade-board button.is-selected {
+  background: #19f0c6 !important;
+  color: #04140f !important;
+  border-color: #19f0c6 !important;
+}
+html[data-theme="retro95"] .arcade-note,
+html.dark .arcade-note {
+  background: #fff3b0 !important;
+  color: #1a1200 !important;
+}
+html[data-theme="retro95"] .arcade-title {
+  color: #fff4b0 !important;
+}
+html[data-theme="retro95"] .arcade-name,
+html[data-theme="retro95"] .arcade-score-main,
+html[data-theme="retro95"] .arcade-rank {
+  color: #f3fffb !important;
+}
+html[data-theme="retro95"] .arcade-rank.is-1 { color: #ffe14a !important; }
+html[data-theme="retro95"] .arcade-score-main { color: #7dfff0 !important; }
+@media (prefers-reduced-motion: reduce) {
+  .arcade-screen::before { display: none; }
+}
