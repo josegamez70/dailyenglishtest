@@ -255,6 +255,8 @@ const App: React.FC = () => {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [showTranscript, setShowTranscript] = useState(false);
+  const [listenChallenge, setListenChallenge] = useState(false);
+  const [listenPass, setListenPass] = useState<1 | 2>(1);
   useEffect(() => {
     setVocabOpen(false);
   }, [story]);
@@ -528,6 +530,10 @@ const App: React.FC = () => {
       customTopic,
       playbackSpeed: speedRef.current,
     };
+    if (practiceType === 'listening' && listenChallenge) {
+      setListenPass(1);
+      setShowTranscript(false);
+    }
 
     if (!account.ready) return;
     if (!account.signedIn) {
@@ -1469,6 +1475,20 @@ const App: React.FC = () => {
       >
         10 minutes of Reading B1
       </button>
+      {practiceType === 'listening' && (
+        <button
+          type="button"
+          aria-pressed={listenChallenge}
+          onClick={() => {
+            setListenChallenge((current) => !current);
+            setListenPass(1);
+            setShowTranscript(false);
+          }}
+          className={`mb-3 w-full rounded-lg border-2 py-3 text-lg font-bold ${listenChallenge ? 'border-blue-800 bg-blue-700 text-white' : 'border-slate-900 bg-white text-slate-900 dark:border-slate-100 dark:bg-slate-800 dark:text-slate-50'}`}
+        >
+          Listening challenge
+        </button>
+      )}
       <Configurator
         config={config}
         setConfig={setConfig}
@@ -1532,8 +1552,13 @@ const App: React.FC = () => {
     playSpeak(1);
   };
 
-  const renderListeningControls = () => (
+  const renderListeningControls = () => {
+    const firstPass = listenChallenge && listenPass === 1;
+    return (
     <div className="mt-6">
+      {listenChallenge && (
+        <p className="mb-3 text-center text-base">{firstPass ? 'First listen. Audio only.' : 'Second listen. Transcript and speed are available. The score is the result.'}</p>
+      )}
       <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 justify-center">
         <button
           type="button"
@@ -1546,6 +1571,7 @@ const App: React.FC = () => {
         >
           Play
         </button>
+        {!firstPass && (
         <button
           type="button"
           onClick={() => { void playSlower(); }}
@@ -1555,6 +1581,7 @@ const App: React.FC = () => {
         >
           {slowPreparing ? 'Preparing...' : 'Slower'}
         </button>
+        )}
         {slowPreparing && (
           <p className="w-full text-center text-base font-semibold text-slate-900 dark:text-slate-50" role="status">
             Preparing slower audio...
@@ -1568,6 +1595,7 @@ const App: React.FC = () => {
         >
           Stop
         </button>
+        {!firstPass && (
         <button
           type="button"
           onClick={() => setShowTranscript(!showTranscript)}
@@ -1576,8 +1604,18 @@ const App: React.FC = () => {
         >
           {showTranscript ? 'Hide Transcript' : 'Show Transcript'}
         </button>
+        )}
+        {firstPass && (
+          <button
+            type="button"
+            onClick={() => setListenPass(2)}
+            className="bg-blue-700 py-3 px-6 text-lg font-bold text-white"
+          >
+            Second listen
+          </button>
+        )}
       </div>
-      {durationMs > 0 && (
+      {!firstPass && durationMs > 0 && (
         <div className="mt-4 max-w-lg mx-auto flex w-full flex-col gap-3 sm:flex-row sm:items-center">
           {(isSpeaking || isPaused) && (
             <button
@@ -1620,7 +1658,8 @@ const App: React.FC = () => {
         </div>
       )}
     </div>
-  );
+    );
+  };
 
   const renderDialogueLines = (highlight: boolean) => {
     const turns: DialogueTurn[] = parseDialogue(story);
@@ -1874,6 +1913,9 @@ const App: React.FC = () => {
             You scored {score} out of {quiz.length} ({percentage}%)
           </p>
           <p className="text-center text-lg font-semibold text-blue-800 dark:text-blue-200 mb-6">{feedback}</p>
+          {listenChallenge && practiceType === 'listening' && (
+            <p className="mb-6 text-center text-base">This score is the result. It is practice, not a prize or a certificate.</p>
+          )}
           <div className="space-y-4">
             {quiz.map((question, index) => {
               const userAnswer = userAnswers[index];
