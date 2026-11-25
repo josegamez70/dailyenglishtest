@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { accessToken } from '../auth';
 import { createAcademy, loadAcademyStudents, loadOwnedAcademy, regenerateInviteCode, removeStudent, type AcademyStudent, type OwnedAcademy } from '../academy';
 import { academyPillName, copyInviteText, countPhrase, countTestsThisWeek, studentRosterLabel } from '../academyStats';
 import { inviteShareText } from '../invitePreview';
@@ -72,6 +73,7 @@ export function AcademyPage({ ownerDisplayName = '', onBack }: { ownerDisplayNam
   const [note, setNote] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [studentId, setStudentId] = useState<string | null>(readStudentParam);
+  const [pilotOpen, setPilotOpen] = useState(false);
   const pushed = useRef(false);
 
   const load = async () => {
@@ -98,6 +100,15 @@ export function AcademyPage({ ownerDisplayName = '', onBack }: { ownerDisplayNam
     load().catch(() => {
       if (!ignore) setReady(true);
     });
+    const look = async () => {
+      const token = await accessToken();
+      if (!token) return;
+      const response = await fetch('/api/pilot-redeem', { headers: { Authorization: `Bearer ${token}` } });
+      if (!response.ok) return;
+      const body = await response.json() as { pilot?: { status?: string } };
+      if (!ignore) setPilotOpen(body.pilot?.status === 'active');
+    };
+    void look();
     return () => { ignore = true; };
   }, []);
 
@@ -265,7 +276,7 @@ export function AcademyPage({ ownerDisplayName = '', onBack }: { ownerDisplayNam
       </div>
       <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-3">
         {[
-          ['Students', `${students.length} of ${academy.maxStudents}`],
+          ['Students', pilotOpen ? String(students.length) : `${students.length} of ${academy.maxStudents}`],
           ['Tests this week', String(weekCount)],
           ['Academy average', `${averagePercent(allTests.map((item) => ({ score: item.score, total: item.total })))}%`],
         ].map(([label, value]) => (

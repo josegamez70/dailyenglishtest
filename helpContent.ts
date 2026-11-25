@@ -1,5 +1,4 @@
 import { formatEuro, PUBLIC_PLANS, VAT_PERCENT } from './billingPlans.ts';
-import { PILOT_DAYS, PILOT_SEATS } from './pilotAccess.ts';
 import { SAVED_LESSON_LIMIT } from './savedLessonMeta.ts';
 
 export const HELP_PATH = '/help';
@@ -111,7 +110,7 @@ const EN_STEPS: readonly HelpStep[] = [
   {
     id: 'progress',
     title: 'Open a student',
-    body: 'My academy lists each student, how many tests they have done, and their average score. Three cards show students used of your seat limit, tests this week, and the academy average. Press a name to open Student detail.',
+    body: 'My academy lists each student, how many tests they have done, and their average score. Three cards show how many students have joined, tests this week, and the academy average. A pilot academy does not show a student cap. Press a name to open Student detail.',
   },
   {
     id: 'pdf',
@@ -139,7 +138,7 @@ const ES_STEPS: readonly HelpStep[] = [
   {
     id: 'progress',
     title: 'Abre la ficha de un alumno',
-    body: '«My academy» lista a cada alumno, cuántos tests ha hecho y su nota media. Tres tarjetas muestran las plazas ocupadas de tu límite, los tests de esta semana y la media de la academia. Pulsa un nombre para abrir «Student detail» (Ficha del alumno).',
+    body: '«My academy» lista a cada alumno, cuántos tests ha hecho y su nota media. Tres tarjetas muestran cuántos alumnos se han unido, los tests de esta semana y la media de la academia. Una academia de piloto no muestra un tope de alumnos. Pulsa un nombre para abrir «Student detail» (Ficha del alumno).',
   },
   {
     id: 'pdf',
@@ -208,7 +207,7 @@ const EN_FAQ: readonly HelpFaq[] = [
     blocks: [
       {
         type: 'p',
-        text: `My academy shows a Students card with how many people have joined, of the seats for that academy. A pilot academy has ${PILOT_SEATS} seats. If the site owner set the academy up by hand, the same card shows that academy’s own limit.`,
+        text: 'My academy shows a Students card with how many people have joined. A pilot academy does not stop at a set number of students. If the site owner set the academy up by hand, the same card shows that academy’s own limit.',
       },
       {
         type: 'p',
@@ -216,7 +215,7 @@ const EN_FAQ: readonly HelpFaq[] = [
       },
       {
         type: 'p',
-        text: 'When every seat is taken, the next person sees “This academy is full.” When a pilot has ended, or the academy plan is off, they see “This academy is not accepting students right now.” Names and results that are already stored stay on the list.',
+        text: 'When every seat is taken on an academy that has a seat limit, the next person sees “This academy is full.” When the academy plan is off, they see “This academy is not accepting students right now.” Names and results that are already stored stay on the list. A pilot academy does not use that seat limit.',
       },
     ],
   },
@@ -330,7 +329,7 @@ const EN_FAQ: readonly HelpFaq[] = [
       },
       {
         type: 'p',
-        text: 'Daily English Test is free for now. You do not enter a card. A topic you type is limited to 5 a day. A topic from the list, or Any topic, comes from the saved bank and is not part of that limit. An active academy covers its owner and the students who have joined. When a pilot ends, new lessons stop.',
+        text: 'Daily English Test is free for now. You do not enter a card. A topic you type is limited to 5 a day. A topic from the list, or Any topic, comes from the saved bank and is not part of that limit. An active academy covers its owner and the students who have joined.',
       },
     ],
   },
@@ -344,19 +343,19 @@ const EN_FAQ: readonly HelpFaq[] = [
       },
       {
         type: 'p',
-        text: `One invitation starts one academy for up to ${PILOT_SEATS} students, for ${PILOT_DAYS} days from the moment the owner presses Activate. The ${PILOT_DAYS} days do not start when the invitation is written. No card is taken, and the page does not start a payment.`,
+        text: 'One invitation starts one academy from the moment the owner presses Activate. It does not end after a set number of days, and it does not stop at a set number of students. No card is taken, and the page does not start a payment.',
       },
       {
         type: 'p',
-        text: 'The owner opens the link, signs in with the usual email link, and presses Activate academy. The code stays on that device and in the sign-in link. They then open My academy, name it, and invite students the usual way. Students who join are covered until the same end time.',
+        text: 'The owner opens the link, signs in with the usual email link, and presses Activate academy. The code stays on that device and in the sign-in link. They then open My academy, name it, and invite students the usual way. Students who join are covered by the academy.',
       },
       {
         type: 'p',
-        text: 'Pressing Activate again with the same account does not add more days. A second account cannot use the same code. One account cannot take a second pilot.',
+        text: 'Pressing Activate again with the same account does not start a second academy. A second account cannot use the same code. One account cannot take a second pilot.',
       },
       {
         type: 'p',
-        text: `When the ${PILOT_DAYS} days end, new lessons stop for the owner and for the students. Saved lessons and progress stay. New lessons stay paused. New students cannot join. The owner can email [[${HELP_CONTACT}|mailto:${HELP_CONTACT}]] or look at the example plans.`,
+        text: `Saved lessons and progress stay. The owner can email [[${HELP_CONTACT}|mailto:${HELP_CONTACT}]] or look at the example plans.`,
       },
     ],
   },
@@ -472,7 +471,7 @@ const ES_FAQ: readonly HelpFaq[] = [
     blocks: [
       {
         type: 'p',
-        text: `«My academy» muestra una tarjeta «Students» (Alumnos) con cuántas personas se han unido, del número de plazas de esa academia. Una academia de piloto tiene ${PILOT_SEATS} plazas. Si el responsable de la web creó la academia a mano, la misma tarjeta muestra el límite de esa academia.`,
+        text: '«My academy» muestra una tarjeta «Students» (Alumnos) con cuántas personas se han unido. Una academia de piloto no se detiene en un número fijo de alumnos. Si el responsable de la web creó la academia a mano, la misma tarjeta muestra el límite de esa academia.',
       },
       {
         type: 'p',
@@ -480,7 +479,7 @@ const ES_FAQ: readonly HelpFaq[] = [
       },
       {
         type: 'p',
-        text: 'Cuando no quedan plazas, la siguiente persona ve «This academy is full.» (Esta academia está completa). Cuando el piloto ha terminado, o el plan de academia está apagado, ve «This academy is not accepting students right now.» (Esta academia no admite alumnos ahora). Los nombres y los resultados que ya están guardados siguen en la lista.',
+        text: 'Cuando no quedan plazas en una academia que tiene un límite, la siguiente persona ve «This academy is full.» (Esta academia está completa). Cuando el plan de academia está apagado, ve «This academy is not accepting students right now.» (Esta academia no admite alumnos ahora). Los nombres y los resultados que ya están guardados siguen en la lista. Una academia de piloto no usa ese límite de plazas.',
       },
     ],
   },
@@ -494,7 +493,7 @@ const ES_FAQ: readonly HelpFaq[] = [
       },
       {
         type: 'p',
-        text: 'Encima de la lista hay tres tarjetas. «Students» (Alumnos) indica cuántos se han unido respecto de tu límite de plazas. «Tests this week» (Tests de esta semana) cuenta los tests desde el lunes, en tu hora local, de toda la academia. «Academy average» (Media de la academia) es la nota media de todos los tests de la academia.',
+        text: 'Encima de la lista hay tres tarjetas. «Students» (Alumnos) indica cuántos se han unido. Una academia de piloto no muestra un tope de alumnos. «Tests this week» (Tests de esta semana) cuenta los tests desde el lunes, en tu hora local, de toda la academia. «Academy average» (Media de la academia) es la nota media de todos los tests de la academia.',
       },
       {
         type: 'p',
@@ -594,7 +593,7 @@ const ES_FAQ: readonly HelpFaq[] = [
       },
       {
         type: 'p',
-        text: 'Daily English Test es gratis por ahora. No introduces una tarjeta. Un tema que escribes tú está limitado a 5 al día. Un tema de la lista, o «Any topic», sale del banco guardado y no entra en ese límite. Una academia activa cubre al responsable y a los alumnos que se han unido. Cuando termina un piloto, las lecciones nuevas se detienen.',
+        text: 'Daily English Test es gratis por ahora. No introduces una tarjeta. Un tema que escribes tú está limitado a 5 al día. Un tema de la lista, o «Any topic», sale del banco guardado y no entra en ese límite. Una academia activa cubre al responsable y a los alumnos que se han unido.',
       },
     ],
   },
@@ -608,19 +607,19 @@ const ES_FAQ: readonly HelpFaq[] = [
       },
       {
         type: 'p',
-        text: `Una invitación pone en marcha una academia para un máximo de ${PILOT_SEATS} alumnos, durante ${PILOT_DAYS} días desde el momento en que el responsable pulsa «Activate» (Activar). Los ${PILOT_DAYS} días no empiezan cuando se crea la invitación. No se pide tarjeta y la página no inicia ningún pago.`,
+        text: 'Una invitación pone en marcha una academia desde el momento en que el responsable pulsa «Activate» (Activar). No termina tras un número fijo de días y no se detiene en un número fijo de alumnos. No se pide tarjeta y la página no inicia ningún pago.',
       },
       {
         type: 'p',
-        text: 'El responsable abre el enlace, entra con el enlace de correo de siempre y pulsa «Activate academy» (Activar academia). El código se queda en ese dispositivo y dentro del enlace de acceso. Después abre «My academy», le pone nombre e invita a los alumnos como siempre. Quienes se unen quedan cubiertos hasta la misma hora de fin.',
+        text: 'El responsable abre el enlace, entra con el enlace de correo de siempre y pulsa «Activate academy» (Activar academia). El código se queda en ese dispositivo y dentro del enlace de acceso. Después abre «My academy», le pone nombre e invita a los alumnos como siempre. Quienes se unen quedan cubiertos por la academia.',
       },
       {
         type: 'p',
-        text: 'Pulsar «Activate» otra vez con la misma cuenta no añade días. Otra cuenta no puede usar el mismo código. Una cuenta no puede aceptar un segundo piloto.',
+        text: 'Pulsar «Activate» otra vez con la misma cuenta no pone en marcha una segunda academia. Otra cuenta no puede usar el mismo código. Una cuenta no puede aceptar un segundo piloto.',
       },
       {
         type: 'p',
-        text: `Cuando pasan los ${PILOT_DAYS} días, las lecciones nuevas se detienen para el responsable y para los alumnos. Las lecciones guardadas y el progreso siguen. Las lecciones nuevas siguen en pausa. No pueden unirse alumnos nuevos. El responsable puede escribir a [[${HELP_CONTACT}|mailto:${HELP_CONTACT}]] o consultar los planes de ejemplo.`,
+        text: `Las lecciones guardadas y el progreso siguen. El responsable puede escribir a [[${HELP_CONTACT}|mailto:${HELP_CONTACT}]] o consultar los planes de ejemplo.`,
       },
     ],
   },

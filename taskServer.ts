@@ -3,6 +3,7 @@ import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import { resolveTopic } from './constants.ts';
 import { pickDialogueSpeakers } from './dialogue.ts';
 import { produceGrammar, producePractice, type LessonParams } from './api/generate.ts';
+import { pilotLessonsOpen } from './pilotGate.ts';
 import {
   exerciseBankId,
   grammarUsesBank,
@@ -91,7 +92,9 @@ function readAllowance(data: unknown): { allowed: boolean; reason: string } | nu
 async function blockReason(admin: SupabaseClient, userId: string): Promise<string | null> {
   const gate = await admin.rpc('lesson_block_reason', { uid: userId, free_limit: FREE_LESSON_LIMIT });
   if (gate.error) return null;
-  return typeof gate.data === 'string' ? gate.data : null;
+  const reason = typeof gate.data === 'string' ? gate.data : null;
+  if (reason === 'pilot_expired' && await pilotLessonsOpen(admin, userId)) return 'ok_unlimited';
+  return reason;
 }
 
 function asPiece(value: unknown): PracticePiece | null {

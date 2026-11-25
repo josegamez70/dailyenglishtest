@@ -1,7 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { formatEuro, PUBLIC_PLANS, VAT_PERCENT } from '../billingPlans.ts';
-import { PILOT_DAYS, PILOT_SEATS } from '../pilotAccess.ts';
 import {
   HELP_CONTACT,
   HELP_FAQ,
@@ -51,8 +50,8 @@ test('help text follows the live academy behaviour', () => {
   assert.match(text, /Put in order/);
   assert.match(text, /B1, B2, and C1/);
   assert.match(text, /Beginner, Intermediate, or Advanced/);
-  assert.match(text, new RegExp(`up to ${PILOT_SEATS} students`));
-  assert.match(text, new RegExp(`for ${PILOT_DAYS} days`));
+  assert.match(text, /does not end after a set number of days/);
+  assert.match(text, /does not stop at a set number of students/);
   assert.match(text, /\/pilot\?code=/);
   assert.match(text, /No card is taken/);
   assert.match(text, /does not start a payment/);
@@ -91,8 +90,8 @@ test('spanish help keeps the same outline and the English control names', () => 
   }
   assert.match(text, /\/join\?code=/);
   assert.match(text, /\/pilot\?code=/);
-  assert.match(text, new RegExp(`${PILOT_SEATS} alumnos`));
-  assert.match(text, new RegExp(`${PILOT_DAYS} días`));
+  assert.match(text, /No termina tras un número fijo de días/);
+  assert.match(text, /no se detiene en un número fijo de alumnos/);
   assert.match(text, /No se pide tarjeta/);
   assert.match(text, /no inicia ningún pago/);
   assert.match(text, /La facturación no está activa/);
