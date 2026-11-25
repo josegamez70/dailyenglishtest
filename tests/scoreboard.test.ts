@@ -181,8 +181,10 @@ test('the scoreboard page and the unapplied migration stay read-only', () => {
   assert.match(page, /rankLabel/);
   assert.match(page, /Most exercises/);
   assert.match(page, /Highest %/);
-  assert.match(page, /aria-label="Challenge level"/);
-  assert.equal(page.includes('aria-label="Level"'), false);
+  assert.match(page, /aria-label="Level"/);
+  assert.ok(page.indexOf('scoreboard-tab-challenge') < page.indexOf('aria-label="Level"'));
+  const arcadeCss = readFileSync(new URL('../phase2.css', import.meta.url), 'utf8');
+  assert.match(arcadeCss, /button\.scoreboard-tab-challenge[\s\S]*#ff2d95/);
   assert.match(page, /Not yet qualified/);
   assert.match(page, /SCOREBOARD_MIN/);
   assert.match(page, /Today in Spain/);
@@ -190,7 +192,7 @@ test('the scoreboard page and the unapplied migration stay read-only', () => {
   assert.equal(page.includes('account.email'), false);
   assert.match(page, /Your display name from Profile is shown/);
   assert.equal(page.includes('Only a chosen alias is shown'), false);
-  assert.equal(page.includes('scoreboard_board_level'), false);
+  assert.match(page, /scoreboard_board_level/);
   const names = readFileSync(new URL('../supabase/migrations/20261203_public_display_name.sql', import.meta.url), 'utf8');
   assert.match(names, /scoreboard_board\(p_period text/);
   assert.match(names, /daily_challenge_board\(p_level text\)/);
@@ -223,7 +225,7 @@ test('the scoreboard page and the unapplied migration stay read-only', () => {
   assert.equal(/update\s+public\.test_results/i.test(levelSql), false);
   assert.match(levelSql, /Europe\/Madrid/);
   const loader = readFileSync(new URL('../scoreboardLoad.ts', import.meta.url), 'utf8');
-  assert.equal(loader.includes('scoreboard_board_level'), false);
+  assert.match(loader, /scoreboard_board_level/);
   assert.match(loader, /scoreboard_board/);
   assert.match(sql, /Europe\/Madrid/);
   assert.match(sql, /security definer/);

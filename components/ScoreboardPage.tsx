@@ -20,7 +20,7 @@ import { loadChallengeBoard } from '../dailyChallengeClient';
 import { BackButton } from './BackButton';
 
 const ACCURACY_LINE = `Highest % uses correct answers divided by questions. A learner needs ${SCOREBOARD_MIN} exercises. A tie goes to whoever did more.`;
-const VOLUME_LINE = 'Most exercises counts finished Reading, Listening, and Grammar exercises. A tie goes to the higher percent. If that percent is also equal, the name decides.';
+const VOLUME_LINE = 'Most exercises counts finished Reading, Listening, and Grammar exercises. A tie goes to the higher percent.';
 
 function Row({ row, metric }: { row: PresentedRow; metric: ScoreMetric }) {
   const primary = metric === 'volume'
@@ -55,6 +55,7 @@ export type ScoreboardFixture = {
   challengeRows?: ChallengeEntry[];
   challengeMissing?: boolean;
   initialView?: ScorePeriod | 'challenge';
+  levelFilter?: ScoreboardLoad['levelFilter'];
 };
 
 export function ScoreboardPage({
@@ -84,7 +85,7 @@ export function ScoreboardPage({
     if (fixture) return undefined;
     let ignore = false;
     setReady(false);
-    loadScoreboard(displayName, period).then((next) => {
+    loadScoreboard(displayName, period, level).then((next) => {
       if (ignore) return;
       setLoad(next);
       setReady(true);
@@ -92,7 +93,7 @@ export function ScoreboardPage({
       if (!ignore) setReady(true);
     });
     return () => { ignore = true; };
-  }, [displayName, period, fixture]);
+  }, [displayName, period, level, fixture]);
 
   useEffect(() => {
     if (fixture || view !== 'challenge') return undefined;
@@ -116,6 +117,7 @@ export function ScoreboardPage({
   const board = presentBoard(rows, SCOREBOARD_MIN, metric);
   const challenge = presentChallenge(fixture ? (fixture.challengeRows ?? []) : challengeRows);
   const demo = fixture ? fixture.source !== 'live' : load?.source === 'demo';
+  const levelFilter = fixture?.levelFilter ?? load?.levelFilter ?? 'off';
   const periodLabel = view === 'daily' ? 'Today' : view === 'yesterday' ? 'Yesterday' : view === 'all' ? 'All time' : 'Daily challenge';
   const metricLabel = metric === 'volume' ? 'Most exercises' : 'Highest %';
 
@@ -125,6 +127,16 @@ export function ScoreboardPage({
       <div className="arcade-board">
       <p className="arcade-kicker">Recreativa</p>
       <h1 className="arcade-title">High scores</h1>
+      <div className="scoreboard-tabs" role="tablist" aria-label="Daily challenge">
+        <button type="button" role="tab" aria-selected={view === 'challenge'} onClick={() => setView('challenge')} className={view === 'challenge' ? 'scoreboard-tab-challenge is-selected' : 'scoreboard-tab-challenge'}>
+          Daily challenge
+        </button>
+      </div>
+      <div className="arcade-levels" role="group" aria-label="Level">
+        {(['B1', 'B2', 'C1'] as const).map((id) => (
+          <button key={id} type="button" aria-pressed={level === id} onClick={() => setLevel(id)}>{id}</button>
+        ))}
+      </div>
       <div className="scoreboard-tabs arcade-tabs" role="tablist" aria-label="Scoreboard period">
         <div className="scoreboard-tab-row">
           {([
@@ -137,20 +149,20 @@ export function ScoreboardPage({
             </button>
           ))}
         </div>
-        <button type="button" role="tab" aria-selected={view === 'challenge'} onClick={() => setView('challenge')} className={view === 'challenge' ? 'scoreboard-tab-challenge is-selected' : 'scoreboard-tab-challenge'}>
-          Daily challenge
-        </button>
       </div>
-      {view !== 'challenge' && (
-        <div className="arcade-metrics" role="group" aria-label="Ranking">
-          <button type="button" aria-pressed={metric === 'volume'} onClick={() => setMetric('volume')}>Most exercises</button>
-          <button type="button" aria-pressed={metric === 'accuracy'} onClick={() => setMetric('accuracy')}>Highest %</button>
-        </div>
-      )}
-      <p className="arcade-marquee">{view === 'challenge' ? `${periodLabel} · ${level}` : `${periodLabel} · ${metricLabel}`}</p>
+      <div className="arcade-metrics" role="group" aria-label="Ranking">
+        <button type="button" aria-pressed={metric === 'volume'} disabled={view === 'challenge'} onClick={() => setMetric('volume')}>Most exercises</button>
+        <button type="button" aria-pressed={metric === 'accuracy'} disabled={view === 'challenge'} onClick={() => setMetric('accuracy')}>Highest %</button>
+      </div>
+      <p className="arcade-marquee">{periodLabel} · {level}{view === 'challenge' ? '' : ` · ${metricLabel}`}</p>
       {demo && view !== 'challenge' && (
         <p className="arcade-note" role="note">
-          Fictitious demo. The names marked Fictitious are not students. Your row uses only your own saved results.
+          Fictitious demo. The names marked Fictitious are not students. Your row uses only your own saved results. These demo rows are not split by level.
+        </p>
+      )}
+      {levelFilter === 'pending' && view !== 'challenge' && (
+        <p className="arcade-note" role="note">
+          {level} is selected and stays selected on every tab. The shared board still includes every level until the database update for scoreboard_board_level is applied. Daily challenge already filters by level.
         </p>
       )}
       {load?.source === 'live' && load.inAcademy && (
@@ -160,7 +172,7 @@ export function ScoreboardPage({
         <p className="arcade-hint">Individual learners share one scoreboard. Your display name from Profile is shown (never your email).</p>
       )}
       {load?.source === 'owner' && (
-        <p className="arcade-hint">Your academy only, including the owner. A chosen public name is shown.</p>
+        <p className="arcade-hint">Your academy only, including the owner. A chosen public name is shown. This list uses each saved result’s level.</p>
       )}
       {load?.yesterdayPending && view === 'yesterday' && (
         <p className="arcade-note" role="note">
@@ -175,14 +187,7 @@ export function ScoreboardPage({
         </p>
       )}
       {view === 'challenge' && (
-        <>
-          <p className="arcade-hint">Today's daily challenge at {level}, in Spain time. Ranked by percent, then by a shorter time.</p>
-          <div className="arcade-levels" role="group" aria-label="Challenge level">
-            {(['B1', 'B2', 'C1'] as const).map((id) => (
-              <button key={id} type="button" aria-pressed={level === id} onClick={() => setLevel(id)}>{id}</button>
-            ))}
-          </div>
-        </>
+        <p className="arcade-hint">Today's daily challenge at {level}, in Spain time. Ranked by percent, then by a shorter time. Most exercises does not apply: each learner has one attempt.</p>
       )}
       <div className="arcade-screen">
         {view === 'challenge' && !challengeReady && <p className="arcade-hint">Loading...</p>}
@@ -230,7 +235,7 @@ export function ScoreboardPage({
             {board.top.map((row) => <Row key={`${row.alias}-top`} row={row} metric={metric} />)}
             {board.self && <Row key="self-outside" row={board.self} metric={metric} />}
             {metric === 'accuracy' && board.unqualified.map((row) => <Row key={`${row.alias}-out`} row={row} metric={metric} />)}
-            {board.top.length === 0 && !board.self && (metric === 'volume' || board.unqualified.length === 0) && (
+            {board.top.length === 0 && board.unqualified.length === 0 && !board.self && (
               <li className="arcade-hint">No finished exercises in this view.</li>
             )}
           </ol>
