@@ -255,8 +255,10 @@ html[data-theme="retro95"] .retro-window {
   .badge-grid { grid-template-columns: repeat(4, 1fr); }
 }
 
-.badge-card {
+.badge-card,
+button.badge-card {
   display: flex;
+  width: 100%;
   flex-direction: column;
   align-items: center;
   gap: 0.35rem;
@@ -266,6 +268,10 @@ html[data-theme="retro95"] .retro-window {
   padding: 0.5rem;
   text-align: center;
   color: #000;
+}
+button.badge-card {
+  cursor: pointer;
+  font: inherit;
 }
 
 .dark .badge-card { background: #c0c0c0; color: #000; }
@@ -285,7 +291,14 @@ html[data-theme="retro95"] .retro-window {
   line-height: 1.2;
   padding: 0.2rem 0.25rem;
 }
-.badge-rule { margin: 0; font-size: 0.75rem; }
+.badge-rule { margin: 0; font-size: 0.75rem; line-height: 1.2; color: #111; }
+html[data-theme="retro95"] button.badge-card,
+html.dark button.badge-card {
+  background: #c0c0c0 !important;
+  color: #000 !important;
+  border: 2px solid #000080 !important;
+  box-shadow: none !important;
+}
 .badge-popup,
 html.dark .phase2-dialog-card.badge-popup,
 html[data-theme="retro95"] .phase2-dialog-card.badge-popup {

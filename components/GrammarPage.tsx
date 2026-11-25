@@ -279,7 +279,7 @@ export function GrammarPage({
     if (taskRef.current) onTaskComplete?.();
     const score = nextGrades.filter((grade) => grade.correct).length;
     void loadBadgeStats().then((before) => {
-      publishBadgeProgress(before, addExercise(before, 'grammar'));
+      publishBadgeProgress(before, addExercise(before, 'grammar', new Date(), { score, total: nextGrades.length }));
     }).catch(() => undefined).finally(() => {
     void saveTestResult({
       level,

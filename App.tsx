@@ -667,7 +667,7 @@ const App: React.FC = () => {
     const session = taskSession;
     const finishedMode = session?.slot === 'listening' ? 'listening' : practiceType === 'listening' ? 'listening' : 'reading';
     void loadBadgeStats().then((before) => {
-      publishBadgeProgress(before, addExercise(before, finishedMode));
+      publishBadgeProgress(before, addExercise(before, finishedMode, new Date(), { score, total: quiz.length }));
     }).catch(() => undefined).finally(() => {
     void saveTestResult({
       level: session?.levelLabel || (LEVELS.find((level) => level.value === config.level)?.label ?? config.level),
