@@ -91,6 +91,7 @@ export function GrammarPage({
   onLessonsChanged,
   onLessonsUsed,
   freeBlocked = false,
+  levelOpen = null,
   onPlans,
   launch = null,
   onTaskComplete,
@@ -106,6 +107,7 @@ export function GrammarPage({
   onLessonsChanged: () => void;
   onLessonsUsed?: (used: number) => void;
   freeBlocked?: boolean;
+  levelOpen?: { b2: boolean; c1: boolean } | null;
   onPlans?: () => void;
   launch?: GrammarLaunch | null;
   /** Called when a task grammar set is finished, so the pack can be marked done. */
@@ -569,7 +571,7 @@ export function GrammarPage({
         <legend className="text-base font-semibold">Level</legend>
         <div className="mt-2 grid grid-cols-3 gap-2">
           {LEVELS.map((item) => (
-            <button key={item} type="button" aria-pressed={level === item} onClick={() => setLevel(item)} className={choiceClass(level === item)}>
+            <button key={item} type="button" aria-pressed={level === item} disabled={(item === 'B2' && levelOpen ? !levelOpen.b2 : false) || (item === 'C1' && levelOpen ? !levelOpen.c1 : false)} onClick={() => setLevel(item)} className={choiceClass(level === item)}>
               {item}
             </button>
           ))}

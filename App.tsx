@@ -60,7 +60,8 @@ import { ACADEMY_INVITE_DISMISSED_KEY, ACADEMY_INVITE_KEY, inviteBannerText, nor
 import { AcademyPage } from './components/AcademyPage';
 import { JoinAcademyPage } from './components/JoinAcademyPage';
 import { parseSavedGrammarLesson, type GrammarLaunch } from './savedLessonMeta';
-import { saveLesson, saveTestResult, updateProfileSettings, type SavedLessonRow } from './studyStore';
+import { listTestResults, saveLesson, saveTestResult, updateProfileSettings, type SavedLessonRow } from './studyStore';
+import { levelAccess, type LevelAccess } from './levelProgress';
 import { markTaskDone, type TaskSlot } from './taskStore';
 import { sentenceWith, setVocabLessonContext, setVocabSignInHandler, matchedSavedTerms, savedMatchKeys, termKey } from './vocabulary';
 import { getVocabularyState, loadVocabulary, removeVocabularyWord, saveVocabularyWord, subscribeVocabulary } from './vocabularyStore';
@@ -186,12 +187,26 @@ const App: React.FC = () => {
   const [practiceType, setPracticeType] = useState<PracticeType>('reading');
   const [contentFormat, setContentFormat] = useState<ContentFormat>('text');
   const [dialogueTurns, setDialogueTurns] = useState<DialogueTurn[]>([]);
+  const [levels, setLevels] = useState<LevelAccess | null>(null);
   const [config, setConfig] = useState<ConfigOptions>({
     level: LEVELS[0].value,
     topic: TOPICS[0].value,
     wordCount: WORD_COUNTS[0].value,
     questionCount: QUESTION_COUNTS[0].value,
   });
+  useEffect(() => {
+    if (!account.signedIn) return undefined;
+    let ignore = false;
+    listTestResults().then((result) => {
+      if (!ignore) setLevels(levelAccess(account.defaultLevel, result.rows));
+    }).catch(() => undefined);
+    return () => { ignore = true; };
+  }, [account.signedIn, account.defaultLevel, account.userId]);
+  useEffect(() => {
+    if (!levels) return;
+    if (config.level === 'advanced' && !levels.c1) setConfig((current) => ({ ...current, level: 'beginner' }));
+    else if (config.level === 'intermediate' && !levels.b2) setConfig((current) => ({ ...current, level: 'beginner' }));
+  }, [levels, config.level]);
   const [story, setStory] = useState<string>('');
   const [vocabOpen, setVocabOpen] = useState(false);
   const [quiz, setQuiz] = useState<QuizQuestion[]>([]);
@@ -1449,6 +1464,7 @@ const App: React.FC = () => {
         topicInputId={practiceType === 'listening' ? 'listening-topic' : 'reading-topic'}
         practiceType={practiceType}
         format={contentFormat}
+        levelAccess={levels}
       />
     </div>
   );
@@ -2424,6 +2440,7 @@ const App: React.FC = () => {
         <GrammarPage
           fontClass={fontClass}
           initialLevel={cefr === 'B1' || cefr === 'B2' || cefr === 'C1' ? cefr : 'B1'}
+          levelOpen={levels ? { b2: levels.b2, c1: levels.c1 } : null}
           resetNonce={grammarResetNonce}
           onActiveChange={setGrammarActive}
           onLessonsChanged={() => { void account.refreshProfile(); }}

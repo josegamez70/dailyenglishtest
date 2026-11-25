@@ -1,6 +1,7 @@
 import React from 'react';
 import type { ConfigOptions } from '../types';
 import { LEVELS, TOPICS, WILDCARD_TOPIC, WORD_COUNTS, QUESTION_COUNTS } from '../constants';
+import type { LevelAccess } from '../levelProgress';
 import { useRetroTheme } from '../retroTheme';
 
 interface ConfiguratorProps {
@@ -13,13 +14,14 @@ interface ConfiguratorProps {
   topicInputId?: string;
   practiceType?: 'reading' | 'listening';
   format?: 'text' | 'dialogue';
+  levelAccess?: LevelAccess | null;
 }
 
 const SelectInput: React.FC<{
   label: string;
   value: string | number;
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-  options: { value: string | number; label: string }[];
+  options: { value: string | number; label: string; disabled?: boolean }[];
 }> = ({ label, value, onChange, options }) => (
   <div>
     <label className="block text-base font-semibold text-slate-900 dark:text-slate-50 mb-1">{label}</label>
@@ -29,13 +31,13 @@ const SelectInput: React.FC<{
       className="w-full bg-white dark:bg-slate-800 border-2 border-slate-500 dark:border-slate-300 rounded-md py-2.5 px-3 text-base text-slate-900 dark:text-slate-50 focus:ring-2 focus:ring-blue-700 focus:outline-none"
     >
       {options.map(option => (
-        <option key={option.value} value={option.value}>{option.label}</option>
+        <option key={option.value} value={option.value} disabled={'disabled' in option && Boolean(option.disabled)}>{option.label}</option>
       ))}
     </select>
   </div>
 );
 
-const Configurator: React.FC<ConfiguratorProps> = ({ config, setConfig, onGenerate, isLoading, customTopic, onCustomTopic, topicInputId = 'custom-topic', practiceType = 'reading', format = 'text' }) => {
+const Configurator: React.FC<ConfiguratorProps> = ({ config, setConfig, onGenerate, isLoading, customTopic, onCustomTopic, topicInputId = 'custom-topic', practiceType = 'reading', format = 'text', levelAccess: access = null }) => {
   const retro = useRetroTheme();
   const listening = practiceType === 'listening';
   const handleConfigChange = <K extends keyof ConfigOptions>(field: K, value: ConfigOptions[K]) => {
@@ -49,7 +51,11 @@ const Configurator: React.FC<ConfiguratorProps> = ({ config, setConfig, onGenera
           label="Level"
           value={config.level}
           onChange={(e) => handleConfigChange('level', e.target.value)}
-          options={LEVELS}
+          options={LEVELS.map((level) => ({
+            ...level,
+            disabled: (level.value === 'intermediate' && access ? !access.b2 : false)
+              || (level.value === 'advanced' && access ? !access.c1 : false),
+          }))}
         />
         <SelectInput
           label={listening ? 'Listening topic' : 'Reading topic'}
@@ -70,6 +76,14 @@ const Configurator: React.FC<ConfiguratorProps> = ({ config, setConfig, onGenera
           options={QUESTION_COUNTS}
         />
       </div>
+      {access && !access.b2 && (
+        <p className="text-base text-slate-900 dark:text-slate-50">B2 opens after 5 B1 exercises at 80% or better. You have {access.b1Passes}.</p>
+      )}
+      {access && access.b2 && !access.c1 && (
+        <p className="text-base text-slate-900 dark:text-slate-50">C1 opens after 7 B2 exercises at 80% or better. You have {access.b2Passes}.</p>
+      )}
+      {access?.b2Kept && <p className="text-base text-slate-900 dark:text-slate-50">B2 stays open because this account already used it.</p>}
+      {access?.c1Kept && <p className="text-base text-slate-900 dark:text-slate-50">C1 stays open because this account already used it.</p>}
       {config.topic === WILDCARD_TOPIC && !customTopic?.trim() && (
         <p className="text-base text-slate-900 dark:text-slate-50">
           We will choose a topic for you at random.
