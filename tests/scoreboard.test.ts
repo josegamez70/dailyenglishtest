@@ -7,10 +7,12 @@ import {
   formatPercent,
   presentBoard,
   publicAlias,
-  withRemoteAlias,
+  rankLabel,
   rowFromAttempts,
   SCOREBOARD_MIN,
+  storedBoardLevel,
   weightedPercent,
+  withRemoteAlias,
   type ScoreAttempt,
   type ScoreRow,
 } from '../scoreboard.ts';
@@ -112,6 +114,38 @@ test('percent ranking needs the minimum, then keeps the top 10 and a later own r
   ], 3);
   assert.equal(percentOnly.top.map((item) => item.alias).includes('Short'), false);
   assert.equal(percentOnly.top[0].alias, 'Ready');
+  const byVolume = presentBoard([
+    { alias: 'Short', isSelf: false, demo: false, reading: { done: 1, correct: 5, answered: 5 }, listening: emptyMode(), grammar: emptyMode() },
+    { alias: 'Ready', isSelf: false, demo: false, reading: { done: 4, correct: 2, answered: 10 }, listening: emptyMode(), grammar: emptyMode() },
+  ], 3, 'volume');
+  assert.equal(byVolume.top[0].alias, 'Ready');
+  assert.equal(byVolume.top[1].alias, 'Short');
+  assert.equal(byVolume.unqualified.length, 0);
+  assert.equal(rankLabel(1), '1ST');
+  assert.equal(rankLabel(2), '2ND');
+  assert.equal(rankLabel(3), '3RD');
+  assert.equal(rankLabel(4), '4');
+});
+
+test('a level filter uses the saved lesson level and leaves a blank level out', () => {
+  assert.equal(storedBoardLevel('Beginner'), 'B1');
+  assert.equal(storedBoardLevel('intermediate'), 'B2');
+  assert.equal(storedBoardLevel('Advanced'), 'C1');
+  assert.equal(storedBoardLevel(''), null);
+  assert.equal(storedBoardLevel('mystery'), null);
+  const attempts = [
+    attempt('reading', 4, 5, '2026-06-01T10:00:00Z'),
+    { ...attempt('listening', 5, 5, '2026-06-01T11:00:00Z'), level: 'Advanced' },
+    { ...attempt('grammar', 1, 5, '2026-06-01T12:00:00Z'), level: '' },
+  ];
+  attempts[0].level = 'Beginner';
+  const b1 = rowFromAttempts('Ada', attempts, 'all', new Date('2026-06-02T12:00:00Z'), false, 'B1');
+  const c1 = rowFromAttempts('Ada', attempts, 'all', new Date('2026-06-02T12:00:00Z'), false, 'C1');
+  assert.equal(b1.reading.done, 1);
+  assert.equal(b1.listening.done, 0);
+  assert.equal(b1.grammar.done, 0);
+  assert.equal(c1.listening.done, 1);
+  assert.equal(c1.reading.done, 0);
 });
 
 function emptyMode() {
@@ -138,25 +172,24 @@ test('the scoreboard page and the unapplied migration stay read-only', () => {
   const app = readFileSync(new URL('../App.tsx', import.meta.url), 'utf8');
   assert.match(page, /Fictitious demo/);
   assert.match(page, /All time/);
-  assert.match(page, /aria-selected=\{view === id\}[\s\S]*border-2 border-slate-900/);
   assert.match(page, /Daily challenge/);
   assert.match(page, /scoreboard-tab-challenge/);
   assert.match(page, /scoreboard-tab-row/);
   assert.match(page, /\['daily', 'Today'\],\s*\['yesterday', 'Yesterday'\],\s*\['all', 'All time'\]/);
   assert.match(page, /scoreboard-tabs/);
-  assert.match(page, /daily_challenge\.png/);
+  assert.match(page, /arcade-board/);
+  assert.match(page, /rankLabel/);
+  assert.match(page, /Most exercises/);
+  assert.match(page, /Highest %/);
+  assert.match(page, /aria-label="Level"/);
+  assert.match(page, /Not yet qualified/);
+  assert.match(page, /SCOREBOARD_MIN/);
   assert.match(page, /Today in Spain/);
   assert.match(page, /Yesterday/);
-  assert.equal(page.includes('Most exercises'), false);
-  assert.equal(page.includes('Best %'), false);
-  assert.equal(page.includes('Minimum exercises'), false);
-  assert.match(page, /Ranked by % correct among learners with at least 3 exercises/);
-  assert.match(page, /Not yet qualified/);
-  assert.match(page, /Challenge/);
-  assert.equal(page.includes('scoreboard-sort'), false);
   assert.equal(page.includes('account.email'), false);
   assert.match(page, /Your display name from Profile is shown/);
   assert.equal(page.includes('Only a chosen alias is shown'), false);
+  assert.match(page, /scoreboard_board_level/);
   const names = readFileSync(new URL('../supabase/migrations/20261203_public_display_name.sql', import.meta.url), 'utf8');
   assert.match(names, /scoreboard_board\(p_period text/);
   assert.match(names, /daily_challenge_board\(p_level text\)/);
@@ -177,6 +210,20 @@ test('the scoreboard page and the unapplied migration stay read-only', () => {
   assert.match(nextSql, /security definer/);
   assert.match(nextSql, /individual/);
   assert.equal(/update\s+public\.test_results/i.test(nextSql), false);
+  const levelSql = readFileSync(new URL('../supabase/migrations/20261204_scoreboard_level.sql', import.meta.url), 'utf8');
+  assert.match(levelSql, /scoreboard_board_level\(p_period text, p_level text\)/);
+  assert.match(levelSql, /p_level not in \('B1', 'B2', 'C1'\)/);
+  assert.match(levelSql, /when 'BEGINNER' then 'B1'/);
+  assert.match(levelSql, /when 'ADVANCED' then 'C1'/);
+  assert.match(levelSql, /individual/);
+  assert.match(levelSql, /scoreboard_alias/);
+  assert.match(levelSql, /grant execute on function public\.scoreboard_board_level\(text, text\)/);
+  assert.equal(levelSql.includes('email'), false);
+  assert.equal(/update\s+public\.test_results/i.test(levelSql), false);
+  assert.match(levelSql, /Europe\/Madrid/);
+  const loader = readFileSync(new URL('../scoreboardLoad.ts', import.meta.url), 'utf8');
+  assert.match(loader, /scoreboard_board_level/);
+  assert.match(loader, /scoreboard_board/);
   assert.match(sql, /Europe\/Madrid/);
   assert.match(sql, /security definer/);
   assert.match(sql, /scoreboard_alias/);

@@ -5,6 +5,8 @@ export const SCOREBOARD_TOP = 10;
 
 export type ScoreMode = 'reading' | 'listening' | 'grammar';
 export type ScorePeriod = 'daily' | 'yesterday' | 'all';
+export type BoardLevel = 'B1' | 'B2' | 'C1';
+export type ScoreMetric = 'accuracy' | 'volume';
 
 export type ModeTotals = {
   done: number;
@@ -17,6 +19,8 @@ export type ScoreAttempt = {
   score: number;
   total: number;
   createdAt: string;
+  /** Saved lesson level. Blank when the result has none. */
+  level?: string;
 };
 
 export type ScoreRow = {
@@ -57,6 +61,23 @@ export function publicAlias(displayName: string, self = false): string {
   return self ? 'You' : 'Learner';
 }
 
+/** A saved lesson level the board can filter. Unknown or blank text stays out. */
+export function storedBoardLevel(level: string | null | undefined): BoardLevel | null {
+  const key = String(level ?? '').trim().toUpperCase();
+  if (key === 'C1' || key === 'C2' || key === 'ADVANCED') return 'C1';
+  if (key === 'B2' || key === 'INTERMEDIATE') return 'B2';
+  if (key === 'B1' || key === 'A1' || key === 'A2' || key === 'BEGINNER') return 'B1';
+  return null;
+}
+
+export function rankLabel(rank: number | null): string {
+  if (rank === 1) return '1ST';
+  if (rank === 2) return '2ND';
+  if (rank === 3) return '3RD';
+  if (rank == null) return '—';
+  return String(rank);
+}
+
 export function weightedPercent(correct: number, answered: number): number | null {
   if (answered <= 0) return null;
   return Math.round((correct / answered) * 100);
@@ -86,7 +107,14 @@ export function periodDay(period: ScorePeriod, now = new Date()): string | null 
   return null;
 }
 
-export function rowFromAttempts(alias: string, attempts: readonly ScoreAttempt[], period: ScorePeriod, now = new Date(), isSelf = false): ScoreRow {
+export function rowFromAttempts(
+  alias: string,
+  attempts: readonly ScoreAttempt[],
+  period: ScorePeriod,
+  now = new Date(),
+  isSelf = false,
+  boardLevel: BoardLevel | null = null,
+): ScoreRow {
   const day = periodDay(period, now);
   const row: ScoreRow = {
     alias,
@@ -99,6 +127,7 @@ export function rowFromAttempts(alias: string, attempts: readonly ScoreAttempt[]
   for (const attempt of attempts) {
     if (attempt.mode !== 'reading' && attempt.mode !== 'listening' && attempt.mode !== 'grammar') continue;
     if (attempt.total <= 0) continue;
+    if (boardLevel && storedBoardLevel(attempt.level) !== boardLevel) continue;
     if (day && madridDayKey(new Date(attempt.createdAt)) !== day) continue;
     const bucket = row[attempt.mode];
     bucket.done += 1;
@@ -112,8 +141,8 @@ function byAlias(left: ScoreRow, right: ScoreRow): number {
   return left.alias.localeCompare(right.alias) || Number(right.isSelf) - Number(left.isSelf);
 }
 
-/** Weighted percent among learners who reached the minimum. A tie goes to whoever did more exercises. */
-export function presentBoard(rows: readonly ScoreRow[], minimum = SCOREBOARD_MIN): {
+/** Accuracy ranks weighted percent among learners who reached the minimum. Volume ranks finished exercises, then percent. */
+export function presentBoard(rows: readonly ScoreRow[], minimum = SCOREBOARD_MIN, metric: ScoreMetric = 'accuracy'): {
   top: PresentedRow[];
   self: PresentedRow | null;
   unqualified: PresentedRow[];
@@ -121,10 +150,11 @@ export function presentBoard(rows: readonly ScoreRow[], minimum = SCOREBOARD_MIN
   const min = Math.max(1, Math.floor(minimum) || SCOREBOARD_MIN);
   const decorated = rows.map((row) => {
     const total = totalsOf(row, 'total');
+    const qualified = metric === 'volume' ? total.done >= 1 : total.done >= min;
     return {
       ...row,
       rank: null as number | null,
-      qualified: total.done >= min,
+      qualified,
       totalDone: total.done,
       totalCorrect: total.correct,
       totalAnswered: total.answered,
@@ -134,9 +164,9 @@ export function presentBoard(rows: readonly ScoreRow[], minimum = SCOREBOARD_MIN
   const sittingOut = decorated.filter((row) => !row.qualified);
   const ratio = (row: PresentedRow) => (row.totalAnswered > 0 ? row.totalCorrect / row.totalAnswered : -1);
   competing.sort((left, right) => {
-    const primary = ratio(right) - ratio(left);
+    const primary = metric === 'volume' ? right.totalDone - left.totalDone : ratio(right) - ratio(left);
     if (primary) return primary;
-    const secondary = right.totalDone - left.totalDone;
+    const secondary = metric === 'volume' ? ratio(right) - ratio(left) : right.totalDone - left.totalDone;
     if (secondary) return secondary;
     return byAlias(left, right);
   });

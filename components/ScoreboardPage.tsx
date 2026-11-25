@@ -3,53 +3,49 @@ import { boardRows, loadScoreboard, type ScoreboardLoad } from '../scoreboardLoa
 import {
   formatPercent,
   presentBoard,
+  rankLabel,
   SCOREBOARD_MIN,
   type PresentedRow,
+  type ScoreMetric,
   type ScorePeriod,
   type ScoreRow,
 } from '../scoreboard';
 import {
+  formatDuration,
+  presentChallenge,
   type ChallengeEntry,
   type ChallengeLevel,
 } from '../dailyChallenge';
 import { loadChallengeBoard } from '../dailyChallengeClient';
 import { BackButton } from './BackButton';
-import { ChallengeRankTable } from './ChallengeRankTable';
-import { PixelArt } from './PixelArt';
 
-const RANKING_LINE = 'Ranked by % correct among learners with at least 3 exercises; ties go to whoever did more.';
+const ACCURACY_LINE = `Highest % uses correct answers divided by questions. A learner needs ${SCOREBOARD_MIN} exercises. A tie goes to whoever did more.`;
+const VOLUME_LINE = 'Most exercises counts finished Reading, Listening, and Grammar exercises. A tie goes to the higher percent.';
 
-function medal(rank: number | null): string {
-  if (rank === 1) return 'scoreboard-gold';
-  if (rank === 2) return 'scoreboard-silver';
-  if (rank === 3) return 'scoreboard-bronze';
-  return '';
-}
-
-function Pair({ done, correct, answered }: { done: number; correct: number; answered: number }) {
+function Row({ row, metric }: { row: PresentedRow; metric: ScoreMetric }) {
+  const primary = metric === 'volume'
+    ? String(row.totalDone)
+    : formatPercent(row.totalCorrect, row.totalAnswered, row.qualified);
+  const secondary = metric === 'volume'
+    ? formatPercent(row.totalCorrect, row.totalAnswered, row.totalAnswered > 0)
+    : `${row.totalDone}`;
   return (
-    <>
-      <td className="px-2 py-2 text-right">{done}</td>
-      <td className="px-2 py-2 text-right">{formatPercent(correct, answered, answered > 0)}</td>
-    </>
-  );
-}
-
-function Row({ row }: { row: PresentedRow }) {
-  return (
-    <tr className={`${medal(row.rank)} ${row.isSelf ? 'scoreboard-you' : ''} ${row.demo ? 'scoreboard-demo' : ''}`}>
-      <td className="px-2 py-2 font-bold">{row.rank ?? '—'}</td>
-      <td className="px-2 py-2">
-        <span className="block font-semibold">{row.alias}</span>
-        {row.demo && <span className="block text-xs">Fictitious</span>}
-        {row.isSelf && <span className="block text-xs">Your row</span>}
-        {!row.qualified && <span className="block text-xs">Not yet qualified</span>}
-      </td>
-      <Pair done={row.reading.done} correct={row.reading.correct} answered={row.reading.answered} />
-      <Pair done={row.listening.done} correct={row.listening.correct} answered={row.listening.answered} />
-      <Pair done={row.grammar.done} correct={row.grammar.correct} answered={row.grammar.answered} />
-      <Pair done={row.totalDone} correct={row.totalCorrect} answered={row.totalAnswered} />
-    </tr>
+    <li className={`arcade-row ${row.isSelf ? 'is-you' : ''} ${row.demo ? 'is-demo' : ''}`}>
+      <span className={`arcade-rank${row.rank && row.rank <= 3 ? ` is-${row.rank}` : ''}`}>{rankLabel(row.rank)}</span>
+      <span className="arcade-who">
+        <span className="arcade-name">{row.alias}</span>
+        <span className="arcade-meta">
+          R {row.reading.done} · L {row.listening.done} · G {row.grammar.done}
+          {row.demo ? ' · Fictitious' : ''}
+          {row.isSelf ? ' · You' : ''}
+          {metric === 'accuracy' && !row.qualified ? ' · Not yet qualified' : ''}
+        </span>
+      </span>
+      <span className="arcade-score">
+        <span className="arcade-score-main">{primary}</span>
+        <span className="arcade-score-sub">{metric === 'volume' ? secondary : `${secondary} done`}</span>
+      </span>
+    </li>
   );
 }
 
@@ -59,6 +55,7 @@ export type ScoreboardFixture = {
   challengeRows?: ChallengeEntry[];
   challengeMissing?: boolean;
   initialView?: ScorePeriod | 'challenge';
+  levelFilter?: ScoreboardLoad['levelFilter'];
 };
 
 export function ScoreboardPage({
@@ -75,6 +72,7 @@ export function ScoreboardPage({
   const initialLevel: ChallengeLevel = profileLevel === 'B2' || profileLevel === 'C1' ? profileLevel : 'B1';
   const [view, setView] = useState<ScorePeriod | 'challenge'>(fixture?.initialView ?? 'challenge');
   const [level, setLevel] = useState<ChallengeLevel>(initialLevel);
+  const [metric, setMetric] = useState<ScoreMetric>('accuracy');
   const [load, setLoad] = useState<ScoreboardLoad | null>(null);
   const [ready, setReady] = useState(Boolean(fixture));
   const [challengeRows, setChallengeRows] = useState<ChallengeEntry[]>(fixture?.challengeRows ?? []);
@@ -87,7 +85,7 @@ export function ScoreboardPage({
     if (fixture) return undefined;
     let ignore = false;
     setReady(false);
-    loadScoreboard(displayName, period).then((next) => {
+    loadScoreboard(displayName, period, level).then((next) => {
       if (ignore) return;
       setLoad(next);
       setReady(true);
@@ -95,7 +93,7 @@ export function ScoreboardPage({
       if (!ignore) setReady(true);
     });
     return () => { ignore = true; };
-  }, [displayName, period, fixture]);
+  }, [displayName, period, level, fixture]);
 
   useEffect(() => {
     if (fixture || view !== 'challenge') return undefined;
@@ -116,38 +114,25 @@ export function ScoreboardPage({
   }, [fixture, view, level]);
 
   const rows = fixture ? fixture.rows : load ? boardRows(load, period) : [];
-  const board = presentBoard(rows, SCOREBOARD_MIN);
+  const board = presentBoard(rows, SCOREBOARD_MIN, metric);
+  const challenge = presentChallenge(fixture ? (fixture.challengeRows ?? []) : challengeRows);
   const demo = fixture ? fixture.source !== 'live' : load?.source === 'demo';
+  const levelFilter = fixture?.levelFilter ?? load?.levelFilter ?? 'off';
+  const periodLabel = view === 'daily' ? 'Today' : view === 'yesterday' ? 'Yesterday' : view === 'all' ? 'All time' : 'Daily challenge';
+  const metricLabel = metric === 'volume' ? 'Most exercises' : 'Highest %';
 
   return (
     <div className="mx-auto w-full max-w-5xl">
       {onBack && <BackButton onClick={onBack} />}
-      <h1 className="text-2xl font-bold">Scoreboard</h1>
-      <p className="mt-2 text-base">Correct answers divided by questions.</p>
-      {demo && view !== 'challenge' && (
-        <p className="mt-3 border-2 border-slate-900 bg-amber-100 px-3 py-2 text-base text-slate-900" role="note">
-          Fictitious demo. The names marked Fictitious are not students. Your row uses only your own saved results.
-        </p>
-      )}
-      {load?.source === 'live' && load.inAcademy && (
-        <p className="mt-3 text-base">Your academy only. A chosen public name is shown.</p>
-      )}
-      {load?.source === 'live' && !load.inAcademy && (
-        <p className="mt-3 text-base">Individual learners share one scoreboard. Your display name from Profile is shown (never your email).</p>
-      )}
-      {load?.source === 'owner' && (
-        <p className="mt-3 text-base">Your academy only. A chosen public name is shown.</p>
-      )}
-      {load?.yesterdayPending && view === 'yesterday' && (
-        <p className="mt-3 border-2 border-slate-900 bg-amber-100 px-3 py-2 text-base text-slate-900" role="note">
-          Yesterday for the whole board needs the database update. This tab shows only your own yesterday until then.
-        </p>
-      )}
-      <div className="scoreboard-tabs mt-4" role="tablist" aria-label="Scoreboard period">
-        <button type="button" role="tab" aria-selected={view === 'challenge'} onClick={() => setView('challenge')} className={view === 'challenge' ? 'scoreboard-tab-challenge is-selected' : 'scoreboard-tab-challenge'}>
-          <PixelArt src="/icons/daily_challenge.png" size={24} />
-          Daily challenge
-        </button>
+      <div className="arcade-board">
+      <p className="arcade-kicker">Recreativa</p>
+      <h1 className="arcade-title">High scores</h1>
+      <div className="arcade-levels" role="group" aria-label="Level">
+        {(['B1', 'B2', 'C1'] as const).map((id) => (
+          <button key={id} type="button" aria-pressed={level === id} onClick={() => setLevel(id)}>{id}</button>
+        ))}
+      </div>
+      <div className="scoreboard-tabs arcade-tabs" role="tablist" aria-label="Scoreboard period">
         <div className="scoreboard-tab-row">
           {([
             ['daily', 'Today'],
@@ -159,56 +144,102 @@ export function ScoreboardPage({
             </button>
           ))}
         </div>
+        <button type="button" role="tab" aria-selected={view === 'challenge'} onClick={() => setView('challenge')} className={view === 'challenge' ? 'scoreboard-tab-challenge is-selected' : 'scoreboard-tab-challenge'}>
+          Daily challenge
+        </button>
       </div>
+      <div className="arcade-metrics" role="group" aria-label="Ranking">
+        <button type="button" aria-pressed={metric === 'volume'} disabled={view === 'challenge'} onClick={() => setMetric('volume')}>Most exercises</button>
+        <button type="button" aria-pressed={metric === 'accuracy'} disabled={view === 'challenge'} onClick={() => setMetric('accuracy')}>Highest %</button>
+      </div>
+      <p className="arcade-marquee">{periodLabel} · {level}{view === 'challenge' ? '' : ` · ${metricLabel}`}</p>
+      {demo && view !== 'challenge' && (
+        <p className="arcade-note" role="note">
+          Fictitious demo. The names marked Fictitious are not students. Your row uses only your own saved results. These demo rows are not split by level.
+        </p>
+      )}
+      {levelFilter === 'pending' && view !== 'challenge' && (
+        <p className="arcade-note" role="note">
+          {level} is selected and stays selected on every tab. The shared board still includes every level until the database update for scoreboard_board_level is applied. Daily challenge already filters by level.
+        </p>
+      )}
+      {load?.source === 'live' && load.inAcademy && (
+        <p className="arcade-hint">Your academy only, including the owner. A chosen public name is shown.</p>
+      )}
+      {load?.source === 'live' && !load.inAcademy && (
+        <p className="arcade-hint">Individual learners share one scoreboard. Your display name from Profile is shown (never your email).</p>
+      )}
+      {load?.source === 'owner' && (
+        <p className="arcade-hint">Your academy only, including the owner. A chosen public name is shown. This list uses each saved result’s level.</p>
+      )}
+      {load?.yesterdayPending && view === 'yesterday' && (
+        <p className="arcade-note" role="note">
+          Yesterday for the whole board needs the database update. This tab shows only your own yesterday until then.
+        </p>
+      )}
       {view !== 'challenge' && (
-        <p className="mt-2 text-sm">
+        <p className="arcade-hint">
           {period === 'all' ? 'Every saved result.' : period === 'daily' ? 'Today in Spain.' : 'Yesterday in Spain.'}
           {' '}The date follows Europe/Madrid, including the clock change.
+          {' '}{metric === 'accuracy' ? ACCURACY_LINE : VOLUME_LINE}
         </p>
       )}
       {view === 'challenge' && (
-        <>
-          <p className="mt-2 text-sm">Today's daily challenge at this level, in Spain time. Ranked by percent, so an earlier attempt with a different number of questions still compares fairly. A shorter time breaks a tie.</p>
-          <div className="mt-3 flex flex-wrap gap-2" role="group" aria-label="Challenge level">
-            {(['B1', 'B2', 'C1'] as const).map((id) => (
-              <button key={id} type="button" aria-pressed={level === id} onClick={() => setLevel(id)} className={`choice-pill border-2 border-slate-900 px-4 py-2 text-base font-bold ${level === id ? 'bg-slate-900 text-white' : 'bg-white text-slate-900'}`}>
-                {id}
-              </button>
+        <p className="arcade-hint">Today's daily challenge at {level}, in Spain time. Ranked by percent, then by a shorter time. Most exercises does not apply: each learner has one attempt.</p>
+      )}
+      <div className="arcade-screen">
+        {view === 'challenge' && !challengeReady && <p className="arcade-hint">Loading...</p>}
+        {view === 'challenge' && challengeReady && challengeMissing && (
+          <p className="arcade-note" role="note">Today's challenge ranking will appear after the database update.</p>
+        )}
+        {view === 'challenge' && challengeReady && !challengeMissing && challenge.top.length === 0 && (
+          <p className="arcade-hint">No one has finished today's challenge at {level} yet.</p>
+        )}
+        {view === 'challenge' && challengeReady && !challengeMissing && challenge.top.length > 0 && (
+          <ol className="arcade-list">
+            {challenge.top.map((row) => (
+              <li key={`${row.alias}-challenge`} className={`arcade-row ${row.isSelf ? 'is-you' : ''} ${row.demo ? 'is-demo' : ''}`}>
+                <span className={`arcade-rank${row.rank <= 3 ? ` is-${row.rank}` : ''}`}>{rankLabel(row.rank)}</span>
+                <span className="arcade-who">
+                  <span className="arcade-name">{row.alias}</span>
+                  <span className="arcade-meta">
+                    {row.correct}/{row.total} · {formatDuration(row.seconds)}
+                    {row.demo ? ' · Fictitious' : ''}
+                    {row.isSelf ? ' · You' : ''}
+                  </span>
+                </span>
+                <span className="arcade-score">
+                  <span className="arcade-score-main">{formatPercent(row.correct, row.total, true)}</span>
+                </span>
+              </li>
             ))}
-          </div>
-          {challengeReady && <ChallengeRankTable rows={challengeRows} level={level} missing={challengeMissing} heading={false} />}
-        </>
-      )}
-      {view !== 'challenge' && !ready && <p className="mt-4 text-base">Loading...</p>}
-      {view !== 'challenge' && ready && (
-        <div className="scoreboard-scroll mt-4 overflow-x-auto">
-          <table className="w-full min-w-[52rem] border-collapse text-left text-base">
-            <caption className="sr-only">{RANKING_LINE}</caption>
-            <thead className="scoreboard-head">
-              <tr>
-                <th className="px-2 py-2" rowSpan={2}>#</th>
-                <th className="px-2 py-2" rowSpan={2}>Student</th>
-                <th className="px-2 py-2 text-center" colSpan={2}>Reading</th>
-                <th className="px-2 py-2 text-center" colSpan={2}>Listening</th>
-                <th className="px-2 py-2 text-center" colSpan={2}>Grammar</th>
-                <th className="px-2 py-2 text-center" colSpan={2}>Total</th>
-              </tr>
-              <tr>
-                {['Reading', 'Listening', 'Grammar', 'Total'].flatMap((group) => [
-                  <th key={`${group}-n`} className="px-2 py-1 text-right">#</th>,
-                  <th key={`${group}-p`} className="px-2 py-1 text-right">%</th>,
-                ])}
-              </tr>
-            </thead>
-            <tbody>
-              {board.top.map((row) => <Row key={`${row.alias}-top`} row={row} />)}
-              {board.self && <Row key="self-outside" row={board.self} />}
-              {board.unqualified.map((row) => <Row key={`${row.alias}-out`} row={row} />)}
-            </tbody>
-          </table>
-          <p className="mt-2 text-sm">{RANKING_LINE}</p>
-        </div>
-      )}
+            {challenge.self && (
+              <li className="arcade-row is-you">
+                <span className="arcade-rank">{rankLabel(challenge.self.rank)}</span>
+                <span className="arcade-who">
+                  <span className="arcade-name">{challenge.self.alias}</span>
+                  <span className="arcade-meta">{challenge.self.correct}/{challenge.self.total} · {formatDuration(challenge.self.seconds)} · You</span>
+                </span>
+                <span className="arcade-score">
+                  <span className="arcade-score-main">{formatPercent(challenge.self.correct, challenge.self.total, true)}</span>
+                </span>
+              </li>
+            )}
+          </ol>
+        )}
+        {view !== 'challenge' && !ready && <p className="arcade-hint">Loading...</p>}
+        {view !== 'challenge' && ready && (
+          <ol className="arcade-list">
+            {board.top.map((row) => <Row key={`${row.alias}-top`} row={row} metric={metric} />)}
+            {board.self && <Row key="self-outside" row={board.self} metric={metric} />}
+            {metric === 'accuracy' && board.unqualified.map((row) => <Row key={`${row.alias}-out`} row={row} metric={metric} />)}
+            {board.top.length === 0 && board.unqualified.length === 0 && !board.self && (
+              <li className="arcade-hint">No finished exercises in this view.</li>
+            )}
+          </ol>
+        )}
+      </div>
+      </div>
     </div>
   );
 }
