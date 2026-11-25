@@ -73,7 +73,7 @@ export function SavedLessonsPage({
     <div className="mx-auto w-full max-w-3xl">
       {onBack && <BackButton onClick={onBack} />}
       <h1 className="text-2xl font-bold">Saved lessons</h1>
-      <p className="mt-2 text-base">Your latest {SAVED_LESSON_LIMIT} reading and listening lessons, and your latest {SAVED_LESSON_LIMIT} grammar sets. Filter them below. A lesson from Tasks is marked Task. Opening one does not use a free lesson.</p>
+      <p className="mt-2 text-base">Your latest {SAVED_LESSON_LIMIT} reading and listening lessons, and your latest {SAVED_LESSON_LIMIT} grammar sets. Filter them below. A lesson from Tasks is marked Task. Opening one does not use a lesson.</p>
       {missing && <p className="mt-3 text-base">Saved lessons will appear after the database update.</p>}
       {grammarMissing && !missing && (
         <p className="mt-3 text-base">Grammar sets will appear here after the database update. Reading and listening lessons are unchanged.</p>

@@ -457,20 +457,20 @@ export function periodLabel(frequency: TaskFrequency, key: string): string {
 
 /**
  * A task pack is one learning session.
- * Unlimited plans (premium, tester, active academy, active pilot) are not counted.
- * A free account spends one of the 12 free lessons for the whole pack, not one per exercise.
- * The normal Reading, Listening, and Grammar buttons still spend one lesson each.
+ * A pilot that has ended still pauses new packs.
+ * The old 12-lesson count does not stop a pack.
  */
 export function taskGenerationDecision(block: string): {
   generate: boolean;
   consumeLessons: 0 | 1;
   reason: 'ok' | TaskBlockReason;
 } {
-  if (block === 'ok_unlimited') return { generate: true, consumeLessons: 0, reason: 'ok' };
-  if (block === 'ok_free') return { generate: true, consumeLessons: 1, reason: 'ok' };
+  if (block === 'ok_unlimited' || block === 'ok_free' || block === 'free_limit') {
+    return { generate: true, consumeLessons: 0, reason: 'ok' };
+  }
   if (block === 'pilot_expired') return { generate: false, consumeLessons: 0, reason: 'pilot_expired' };
   if (block === 'missing') return { generate: false, consumeLessons: 0, reason: 'missing' };
-  return { generate: false, consumeLessons: 0, reason: 'free_limit' };
+  return { generate: true, consumeLessons: 0, reason: 'ok' };
 }
 
 export function isPracticePiece(value: unknown): value is PracticePiece {

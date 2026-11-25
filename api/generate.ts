@@ -30,7 +30,7 @@ import {
   type SpeakerGender,
 } from '../dialogue';
 import { normalizeQuiz, type NormalizedQuizQuestion } from '../quizNormalize';
-import { FREE_LESSON_LIMIT, FREE_LIMIT_MESSAGE } from '../freeLessons';
+import { CUSTOM_TOPIC_DAILY_LIMIT, customTopicLimitMessage, FREE_LESSON_LIMIT, FREE_LIMIT_MESSAGE } from '../freeLessons';
 import {
   buildGrammarPrompt,
   buildGrammarTopUpPrompt,
@@ -872,19 +872,8 @@ async function freeLimitResponse(
   headers: Record<string, string>,
 ): Promise<HandlerResponse | null> {
   const gate = await admin.rpc('lesson_block_reason', { uid: userId, free_limit: FREE_LESSON_LIMIT });
-  const { data: profile } = await admin.from('profiles').select('plan, lessons_used').eq('id', userId).maybeSingle();
-  const used = Number(profile?.lessons_used ?? 0);
-  const plan = String(profile?.plan ?? 'free');
   if (!gate.error && gate.data === 'pilot_expired') {
     return { statusCode: 402, headers, body: pilotExpiredBody() };
-  }
-  if (!gate.error && gate.data === 'free_limit') {
-    return { statusCode: 402, headers, body: limitBody(used, plan) };
-  }
-  if (gate.error && plan === 'free' && used >= FREE_LESSON_LIMIT) {
-    const access = await admin.rpc('academy_lesson_access', { uid: userId });
-    const academySeat = !access.error && access.data === true;
-    if (!academySeat) return { statusCode: 402, headers, body: limitBody(used, plan) };
   }
   return null;
 }
@@ -902,19 +891,27 @@ function stampLessons(body: string, lessonsUsed: number | null): string {
   }
 }
 
-async function reserveLiveLesson(
+function customTopicDailyLimit(): number {
+  const raw = Number(readEnvValue(runtimeEnv(), 'CUSTOM_TOPIC_DAILY_LIMIT'));
+  if (!Number.isFinite(raw) || raw < 1) return CUSTOM_TOPIC_DAILY_LIMIT;
+  return Math.min(100, Math.floor(raw));
+}
+
+/** Counts a typed custom topic only. Bank lessons and an empty bank are not counted. */
+async function reserveCustomTopic(
   admin: SupabaseClient,
   userId: string,
   headers: Record<string, string>,
 ): Promise<HandlerResponse | null> {
-  const gate = await admin.rpc('take_live_lesson', { uid: userId, day_limit: 5 });
+  const limit = customTopicDailyLimit();
+  const gate = await admin.rpc('take_custom_topic', { uid: userId, day_limit: limit });
   if (gate.error) {
     const message = `${gate.error.code ?? ''} ${gate.error.message ?? ''}`.toLowerCase();
     if (message.includes('pgrst202') || message.includes('42883') || message.includes('does not exist') || message.includes('schema cache')) return null;
     return {
       statusCode: 502,
       headers,
-      body: JSON.stringify({ ok: false, message: 'The live lesson limit could not be checked. Try again.' }),
+      body: JSON.stringify({ ok: false, message: 'The custom topic limit could not be checked. Try again.' }),
     };
   }
   const row = (Array.isArray(gate.data) ? gate.data[0] : gate.data) as { allowed?: boolean } | null;
@@ -924,8 +921,8 @@ async function reserveLiveLesson(
       headers,
       body: JSON.stringify({
         ok: false,
-        code: 'live_limit',
-        message: 'Live lessons are limited to 5 a day. A lesson from the bank does not count.',
+        code: 'custom_topic_limit',
+        message: customTopicLimitMessage(limit),
       }),
     };
   }
@@ -939,6 +936,9 @@ async function consumeLessonResponse(
 ): Promise<ConsumeResult> {
   const consumed = await admin.rpc('consume_lesson', { uid: userId, free_limit: FREE_LESSON_LIMIT });
   const allowance = readAllowance(consumed.data);
+  if (allowance && !allowance.allowed && allowance.reason === 'free_limit') {
+    return { blocked: null, lessonsUsed: allowance.lessonsUsed };
+  }
   if (consumed.error || !allowance?.allowed) {
     return {
       blocked: {
@@ -1125,8 +1125,6 @@ async function createGrammarSet(
     console.log(JSON.stringify({ stage: 'grammar_live', level: request.level, exercise: request.exercise }));
   }
   if (!apiKey) return missingApiKey(headers);
-  const reserved = await reserveLiveLesson(admin, userId, headers);
-  if (reserved) return reserved;
   const produced = await produceGrammar(apiKey, request);
   if (!produced.ok) {
     return {
@@ -1240,8 +1238,10 @@ async function createListeningLesson(
   }
 
   if (!apiKey) return missingApiKey(headers);
-  const reserved = await reserveLiveLesson(admin, userId, headers);
-  if (reserved) return reserved;
+  if ((params.customTopic ?? '').trim()) {
+    const reserved = await reserveCustomTopic(admin, userId, headers);
+    if (reserved) return reserved;
+  }
   const produced = await producePractice(apiKey, params, Date.now() + 23000);
   if (!produced.ok) return practiceFailure(headers, 'story', produced.problems, produced.preview);
 
@@ -1562,8 +1562,8 @@ export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => 
     }
 
     const deadline = Date.now() + 23000;
-    if (params.stage === 'story') {
-      const reserved = await reserveLiveLesson(admin, userId, corsHeaders);
+    if (params.stage === 'story' && (params.customTopic ?? '').trim()) {
+      const reserved = await reserveCustomTopic(admin, userId, corsHeaders);
       if (reserved) return reserved;
     }
     const produced = await producePractice(apiKey, params, deadline);

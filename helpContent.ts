@@ -116,7 +116,7 @@ const EN_STEPS: readonly HelpStep[] = [
   {
     id: 'pdf',
     title: 'Download the PDF',
-    body: `On Student detail, press Download PDF. The student can press the same button on My progress. Saved lessons keeps that person’s latest ${SAVED_LESSON_LIMIT} reading and listening lessons and latest ${SAVED_LESSON_LIMIT} grammar sets. Opening one does not use a free lesson. The academy cannot see saved lessons.`,
+    body: `On Student detail, press Download PDF. The student can press the same button on My progress. Saved lessons keeps that person’s latest ${SAVED_LESSON_LIMIT} reading and listening lessons and latest ${SAVED_LESSON_LIMIT} grammar sets. Opening one does not use a lesson. The academy cannot see saved lessons.`,
   },
 ];
 
@@ -144,7 +144,7 @@ const ES_STEPS: readonly HelpStep[] = [
   {
     id: 'pdf',
     title: 'Descarga el PDF',
-    body: `En «Student detail», pulsa «Download PDF» (Descargar PDF). El alumno puede pulsar el mismo botón en «My progress» (Mi progreso). «Saved lessons» (Lecciones guardadas) conserva las ${SAVED_LESSON_LIMIT} últimas lecciones de lectura y audio y los ${SAVED_LESSON_LIMIT} últimos conjuntos de gramática de esa persona. Abrir una no gasta una lección gratis. La academia no puede ver las lecciones guardadas.`,
+    body: `En «Student detail», pulsa «Download PDF» (Descargar PDF). El alumno puede pulsar el mismo botón en «My progress» (Mi progreso). «Saved lessons» (Lecciones guardadas) conserva las ${SAVED_LESSON_LIMIT} últimas lecciones de lectura y audio y los ${SAVED_LESSON_LIMIT} últimos conjuntos de gramática de esa persona. Abrir una no gasta una lección. La academia no puede ver las lecciones guardadas.`,
   },
 ];
 
@@ -302,7 +302,7 @@ const EN_FAQ: readonly HelpFaq[] = [
       },
       {
         type: 'p',
-        text: 'Task packs lists each pack. Open a pack to start its exercises. One pack uses one free lesson. Premium and an active academy are not counted, and the 12 free lessons still work the same way on Reading, Listening, and Grammar. Opening a pack does not use another lesson. Only 5 task packs are kept. A reminder email can arrive when a pack is ready. That email has a link to turn tasks off.',
+        text: 'Task packs lists each pack. Open a pack to start its exercises. A pack does not use a lesson. Opening a pack does not use another one. Only 5 task packs are kept. A reminder email can arrive when a pack is ready. That email has a link to turn tasks off.',
       },
     ],
   },
@@ -330,7 +330,7 @@ const EN_FAQ: readonly HelpFaq[] = [
       },
       {
         type: 'p',
-        text: 'You do not enter a card. Live lessons are limited to 5 a day. A lesson already in the bank does not count. An active academy covers new lessons for the owner and for students who have joined. When a pilot ends, new lessons stop.',
+        text: 'Daily English Test is free for now. You do not enter a card. A topic you type is limited to 5 a day. A topic from the list, or Any topic, comes from the saved bank and is not part of that limit. An active academy covers its owner and the students who have joined. When a pilot ends, new lessons stop.',
       },
     ],
   },
@@ -356,7 +356,7 @@ const EN_FAQ: readonly HelpFaq[] = [
       },
       {
         type: 'p',
-        text: `When the ${PILOT_DAYS} days end, new lessons stop for the owner and for the students. Saved lessons and progress stay. The 12 free lessons do not start again. New students cannot join. The owner can email [[${HELP_CONTACT}|mailto:${HELP_CONTACT}]] or look at the example plans.`,
+        text: `When the ${PILOT_DAYS} days end, new lessons stop for the owner and for the students. Saved lessons and progress stay. New lessons stay paused. New students cannot join. The owner can email [[${HELP_CONTACT}|mailto:${HELP_CONTACT}]] or look at the example plans.`,
       },
     ],
   },
@@ -538,7 +538,7 @@ const ES_FAQ: readonly HelpFaq[] = [
     blocks: [
       {
         type: 'p',
-        text: `«Saved lessons» (Lecciones guardadas) está en el menú. Guarda las ${SAVED_LESSON_LIMIT} últimas lecciones de lectura y audio, y los ${SAVED_LESSON_LIMIT} últimos conjuntos de gramática, de quien ha entrado. Los filtros son «All», «Reading», «Listening» y «Grammar». Una lección de «Tasks» (Tareas) muestra la marca «Task». Pulsa «Open» (Abrir) para leer o escuchar una otra vez. Abrir una lección guardada no gasta una lección gratis.`,
+        text: `«Saved lessons» (Lecciones guardadas) está en el menú. Guarda las ${SAVED_LESSON_LIMIT} últimas lecciones de lectura y audio, y los ${SAVED_LESSON_LIMIT} últimos conjuntos de gramática, de quien ha entrado. Los filtros son «All», «Reading», «Listening» y «Grammar». Una lección de «Tasks» (Tareas) muestra la marca «Task». Pulsa «Open» (Abrir) para leer o escuchar una otra vez. Abrir una lección guardada no gasta una lección.`,
       },
       {
         type: 'p',
