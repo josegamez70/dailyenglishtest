@@ -13,6 +13,7 @@ export async function loadBadgeStats(): Promise<BadgeStats> {
     if (row.total <= 0) continue;
     if (row.mode !== 'reading' && row.mode !== 'listening' && row.mode !== 'grammar') continue;
     stats[row.mode] += 1;
+    if (row.score >= row.total) stats.perfect += 1;
     const day = madridDayKey(new Date(row.created_at));
     if (!stats.days.includes(day)) stats.days.push(day);
   }
