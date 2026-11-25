@@ -25,6 +25,8 @@ export interface ConfigOptions {
   customTopic?: string;
   /** Profile speed baked into Azure speech. */
   playbackSpeed?: number;
+  /** Formal practice. Not an exam. */
+  practice?: boolean;
 }
 
 export type PracticeType = 'reading' | 'listening';

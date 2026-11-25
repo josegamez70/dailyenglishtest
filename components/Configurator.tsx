@@ -1,6 +1,6 @@
 import React from 'react';
 import type { ConfigOptions } from '../types';
-import { LEVELS, TOPICS, WILDCARD_TOPIC, WORD_COUNTS, QUESTION_COUNTS } from '../constants';
+import { LEVELS, STUDY_TOPICS, TOPICS, WILDCARD_TOPIC, WORD_COUNTS, QUESTION_COUNTS } from '../constants';
 import { useRetroTheme } from '../retroTheme';
 
 interface ConfiguratorProps {
@@ -55,7 +55,7 @@ const Configurator: React.FC<ConfiguratorProps> = ({ config, setConfig, onGenera
           label={listening ? 'Listening topic' : 'Reading topic'}
           value={config.topic}
           onChange={(e) => handleConfigChange('topic', e.target.value)}
-          options={TOPICS}
+          options={[TOPICS[0], ...STUDY_TOPICS, ...TOPICS.slice(1)]}
         />
         <SelectInput
           label={listening ? (format === 'dialogue' ? 'Dialogue length' : 'Listening length') : 'Reading length'}

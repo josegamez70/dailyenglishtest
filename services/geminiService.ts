@@ -129,6 +129,7 @@ function lessonPayload(config: ConfigOptions, extra: Record<string, unknown>) {
       speakers: config.speakers ?? [],
       ...(config.customTopic ? { customTopic: config.customTopic } : {}),
       ...(typeof config.playbackSpeed === 'number' ? { speed: config.playbackSpeed } : {}),
+      ...(config.practice ? { practice: true } : {}),
       ...extra,
     }),
   };

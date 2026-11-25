@@ -184,6 +184,7 @@ const App: React.FC = () => {
   const [signInOpen, setSignInOpen] = useState(false);
   const [signInPrompt, setSignInPrompt] = useState(false);
   const [practiceType, setPracticeType] = useState<PracticeType>('reading');
+  const [practiceMode, setPracticeMode] = useState(false);
   const [contentFormat, setContentFormat] = useState<ContentFormat>('text');
   const [dialogueTurns, setDialogueTurns] = useState<DialogueTurn[]>([]);
   const [config, setConfig] = useState<ConfigOptions>({
@@ -511,6 +512,7 @@ const App: React.FC = () => {
       speakers,
       customTopic,
       playbackSpeed: speedRef.current,
+      practice: practiceMode,
     };
 
     if (!account.ready) return;
@@ -1439,6 +1441,15 @@ const App: React.FC = () => {
           </button>
         </div>
       </div>
+      <button
+        type="button"
+        aria-pressed={practiceMode}
+        onClick={() => setPracticeMode((current) => !current)}
+        className={`mb-3 w-full rounded-lg border-2 py-3 text-lg font-bold ${practiceMode ? 'border-blue-800 bg-blue-700 text-white' : 'border-slate-900 bg-white text-slate-900 dark:border-slate-100 dark:bg-slate-800 dark:text-slate-50'}`}
+      >
+        Practice
+      </button>
+      {practiceMode && <p className="mb-3 text-base">Practice. This is not an exam.</p>}
       <Configurator
         config={config}
         setConfig={setConfig}

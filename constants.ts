@@ -13,6 +13,13 @@ export function lessonBandName(level: string): 'Beginner' | 'Intermediate' | 'Ad
 
 export const WILDCARD_TOPIC = 'wildcard';
 
+/** Shown next to Daily Life. These are not in the exercise bank, so a choice is written live. */
+export const STUDY_TOPICS = [
+  { value: 'news', label: 'News' },
+  { value: 'formal_email', label: 'Formal emails' },
+  { value: 'administration', label: 'Administration' },
+];
+
 export const TOPICS = [
   { label: 'Daily Life', value: 'daily life' },
   { label: 'Any topic', value: WILDCARD_TOPIC },

@@ -101,6 +101,7 @@ export type LessonParams = {
   strict?: boolean;
   /** Profile playback speed. Live Azure speech bakes this into prosody. */
   playbackSpeed?: number;
+  practice?: boolean;
 };
 
 type VocabularyItem = { word: string; definition: string };
@@ -431,6 +432,7 @@ function buildStoryPrompt(params: LessonParams, corrective?: string): string {
 You write English learning materials. Use clear, natural English.
 Write one ${params.mode} ${params.format} on this topic only: ${topic}.
 Do not write about the words "wildcard" or "any topic".
+${params.practice ? 'This is practice, not an exam and not a certificate. Write a formal text. Questions should look like test questions and still have one clear answer.' : ''}
 
 ${storyLevelRules(params.level)}
 ${formatRules(params.format, params.speakers)}
@@ -452,6 +454,7 @@ function buildQuizPrompt(params: LessonParams, corrective?: string): string {
     : '';
   return `
 You write quiz questions about a story the student already has. Do not rewrite the story.
+${params.practice ? 'These are practice questions, not an exam and not a certificate. Keep one clear answer.' : ''}
 
 STORY:
 ${params.sourceStory}
@@ -838,6 +841,7 @@ function readParams(bodyText: string | null | undefined): LessonParams | null {
     customTopic,
     listTopic,
     playbackSpeed: listeningProfileSpeed(raw.speed),
+    practice: raw.practice === true,
   };
 }
 
