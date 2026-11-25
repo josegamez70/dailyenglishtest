@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { B2_EXERCISES, C1_EXERCISES, levelAccess } from '../levelProgress.ts';
 import { averagePercent, bestPercent, cefrToLessonLevel, chartX, chartY, dayStreak, formatResultDate, lessonModeLabel } from '../progressStats.ts';
 
 test('streak counts consecutive local days and stops after a gap', () => {
@@ -36,6 +37,27 @@ test('score summaries ignore empty tests', () => {
   assert.equal(cefrToLessonLevel('B1'), 'beginner');
   assert.equal(cefrToLessonLevel('A2'), 'beginner');
   assert.equal(cefrToLessonLevel('C2'), 'advanced');
+});
+
+test('B2 and C1 stay open for people who already use them', () => {
+  const fresh = levelAccess('B1', []);
+  assert.equal(fresh.b2, false);
+  assert.equal(fresh.c1, false);
+  const earned = levelAccess('B1', Array.from({ length: B2_EXERCISES }, () => ({ level: 'Beginner', score: 4, total: 5, mode: 'reading' })));
+  assert.equal(earned.b2, true);
+  assert.equal(earned.b2Kept, false);
+  assert.equal(earned.c1, false);
+  const kept = levelAccess('C1', [{ level: 'Beginner', score: 1, total: 5, mode: 'reading' }]);
+  assert.equal(kept.b2, true);
+  assert.equal(kept.c1, true);
+  assert.equal(kept.b2Kept, true);
+  assert.equal(kept.c1Kept, true);
+  const short = levelAccess('B1', [{ level: 'B2', score: 5, total: 5, mode: 'grammar' }]);
+  assert.equal(short.b2, true);
+  assert.equal(short.c1, false);
+  const almost = levelAccess('B1', Array.from({ length: C1_EXERCISES - 1 }, () => ({ level: 'Intermediate', score: 8, total: 10, mode: 'listening' })));
+  assert.equal(almost.c1, false);
+  assert.equal(almost.b2Passes, C1_EXERCISES - 1);
 });
 
 test('a single chart score has a point and higher scores sit higher', () => {
