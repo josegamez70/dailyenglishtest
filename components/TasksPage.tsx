@@ -578,7 +578,7 @@ export function TasksPage({
             </button>
           </div>
           <p className="mt-4 text-sm text-slate-700 dark:text-slate-200">
-            One pack uses one free lesson. Premium and an active academy are not counted. The 12 free lessons are unchanged for Reading, Listening, and Grammar. Opening a pack does not use another lesson.
+            A task pack does not use a lesson. Opening a pack does not use another one.
           </p>
           <button
             type="button"

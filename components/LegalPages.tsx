@@ -205,7 +205,7 @@ function TermsOfUse() {
       </Section>
       <Section heading="Free lessons">
         <p>
-          Each account can create 12 free lessons. These lessons do not expire. They are not a free trial, and you do not enter a card to get them. After 12 lessons, a free account cannot create more until a paid plan is active.
+          Daily English Test is free for now. You do not enter a card. It is not an official exam, and it does not guarantee a result. A topic you type yourself is limited to 5 a day. A topic from the list, or Any topic, is not.
         </p>
       </Section>
       <Section heading="Premium plan">

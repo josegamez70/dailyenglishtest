@@ -457,20 +457,20 @@ export function periodLabel(frequency: TaskFrequency, key: string): string {
 
 /**
  * A task pack is one learning session.
- * Unlimited plans (premium, tester, active academy, active pilot) are not counted.
- * A free account spends one of the 12 free lessons for the whole pack, not one per exercise.
- * The normal Reading, Listening, and Grammar buttons still spend one lesson each.
+ * A pilot academy does not pause new packs. A former student who has left can still be paused.
+ * The old 12-lesson count does not stop a pack.
  */
 export function taskGenerationDecision(block: string): {
   generate: boolean;
   consumeLessons: 0 | 1;
   reason: 'ok' | TaskBlockReason;
 } {
-  if (block === 'ok_unlimited') return { generate: true, consumeLessons: 0, reason: 'ok' };
-  if (block === 'ok_free') return { generate: true, consumeLessons: 1, reason: 'ok' };
+  if (block === 'ok_unlimited' || block === 'ok_free' || block === 'free_limit') {
+    return { generate: true, consumeLessons: 0, reason: 'ok' };
+  }
   if (block === 'pilot_expired') return { generate: false, consumeLessons: 0, reason: 'pilot_expired' };
   if (block === 'missing') return { generate: false, consumeLessons: 0, reason: 'missing' };
-  return { generate: false, consumeLessons: 0, reason: 'free_limit' };
+  return { generate: true, consumeLessons: 0, reason: 'ok' };
 }
 
 export function isPracticePiece(value: unknown): value is PracticePiece {
@@ -530,7 +530,7 @@ export function taskStepLabel(step: TaskStep): string {
 
 export function taskBlockMessage(reason: TaskBlockReason): string {
   if (reason === 'pilot_expired') {
-    return 'This academy pilot has ended. Saved lessons and progress are still available. New tasks are paused.';
+    return 'Saved lessons and progress are still available. New tasks stay paused. No payment was started.';
   }
   if (reason === 'missing') return 'Tasks are not available for this account yet.';
   return FREE_LIMIT_MESSAGE;

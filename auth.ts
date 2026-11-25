@@ -7,9 +7,10 @@ export { FREE_LESSON_LIMIT, FREE_LIMIT_MESSAGE };
 
 /** Free accounts show the remaining lessons. Other plans show a name only. */
 export function planStatusText(plan: string | null, lessonsLeft: number, academyStudent = false): string | null {
+  void lessonsLeft;
   if (academyStudent) return 'Academy student';
   if (!plan) return null;
-  if (plan === 'free') return `Free lessons left: ${lessonsLeft} of ${FREE_LESSON_LIMIT}`;
+  if (plan === 'free') return 'Free for now';
   if (plan === 'pro') return 'Premium';
   if (plan === 'tester') return 'Tester';
   if (plan === 'academy') return 'Academy';

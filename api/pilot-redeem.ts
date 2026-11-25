@@ -1,4 +1,5 @@
-import { isPilotCode, pilotDaysLeft, pilotIsActive } from '../pilotAccess.ts';
+import { isPilotCode } from '../pilotAccess.ts';
+import { ownerIsPilot } from '../pilotGate.ts';
 import {
   adminClient,
   bearerToken,
@@ -14,37 +15,22 @@ const SAFE = 'The invitation could not be used.';
 
 async function ownPilot(admin: NonNullable<ReturnType<typeof adminClient>>, userId: string) {
   const profile = await admin.from('profiles')
-    .select('pilot_expires_at, pilot_free_blocked')
+    .select('plan, billing_provider, pilot_expires_at, pilot_invitation_id')
     .eq('id', userId)
     .maybeSingle();
   if (profile.error || !profile.data) return { status: 'none' as const };
-  const row = profile.data as { pilot_expires_at?: string | null; pilot_free_blocked?: boolean };
-  let endsAt = row.pilot_expires_at ? Date.parse(row.pilot_expires_at) : null;
-  if (endsAt == null) {
-    const membership = await admin.from('academy_members').select('academy_id').eq('user_id', userId).maybeSingle();
-    const academyId = (membership.data as { academy_id?: string } | null)?.academy_id;
-    if (academyId) {
-      const academy = await admin.from('academies').select('owner_id').eq('id', academyId).maybeSingle();
-      const ownerId = (academy.data as { owner_id?: string } | null)?.owner_id;
-      if (ownerId) {
-        const owner = await admin.from('profiles').select('pilot_expires_at').eq('id', ownerId).maybeSingle();
-        const ownerEnd = (owner.data as { pilot_expires_at?: string | null } | null)?.pilot_expires_at;
-        endsAt = ownerEnd ? Date.parse(ownerEnd) : null;
-      }
-    }
-  }
-  if (endsAt == null) {
-    return row.pilot_free_blocked
-      ? { status: 'expired' as const, endsAt: null, daysLeft: 0, seats: 20 }
-      : { status: 'none' as const };
-  }
-  const now = Date.now();
-  return {
-    status: pilotIsActive(now, endsAt) ? 'active' as const : 'expired' as const,
-    endsAt: new Date(endsAt).toISOString(),
-    daysLeft: pilotDaysLeft(now, endsAt),
-    seats: 20,
-  };
+  if (ownerIsPilot(profile.data)) return { status: 'active' as const };
+  const membership = await admin.from('academy_members').select('academy_id').eq('user_id', userId).maybeSingle();
+  const academyId = (membership.data as { academy_id?: string } | null)?.academy_id;
+  if (!academyId) return { status: 'none' as const };
+  const academy = await admin.from('academies').select('owner_id').eq('id', academyId).maybeSingle();
+  const ownerId = (academy.data as { owner_id?: string } | null)?.owner_id;
+  if (!ownerId) return { status: 'none' as const };
+  const owner = await admin.from('profiles')
+    .select('plan, billing_provider, pilot_expires_at, pilot_invitation_id')
+    .eq('id', ownerId)
+    .maybeSingle();
+  return ownerIsPilot(owner.data) ? { status: 'active' as const } : { status: 'none' as const };
 }
 
 export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => {

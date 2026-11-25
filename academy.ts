@@ -1,4 +1,4 @@
-import { getSupabase } from './auth';
+import { accessToken, getSupabase } from './auth';
 import { isMissingColumn, isMissingTable, readLessonMode, type LessonMode, type WrongAnswer } from './studyStore';
 
 export type OwnedAcademy = {
@@ -56,8 +56,23 @@ export function createAcademy(name: string): Promise<string> {
   return callText('create_academy', { academy_name: name });
 }
 
-export function joinAcademy(code: string): Promise<string> {
-  return callText('join_academy', { code });
+export async function joinAcademy(code: string): Promise<string> {
+  const result = await callText('join_academy', { code });
+  if (result !== 'academy_full' && result !== 'academy_inactive') return result;
+  const token = await accessToken();
+  if (!token) return result;
+  try {
+    const response = await fetch('/api/pilot-join', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ code }),
+    });
+    const body = await response.json() as { ok?: boolean };
+    if (body.ok) return 'ok';
+  } catch {
+    /* The database result stays. Paid academies are not joined here. */
+  }
+  return result;
 }
 
 export function leaveAcademy(): Promise<string> {

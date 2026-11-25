@@ -38,7 +38,7 @@ export function SignInBox({
       onSubmit={submit}
       className="mx-auto mb-4 w-full max-w-xl scroll-mt-4 rounded-lg border border-slate-300 bg-white p-4 text-slate-900 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-50"
     >
-      {prompt && <p className="mb-2 text-base font-semibold">Sign in free to get 12 free lessons.</p>}
+      {prompt && <p className="mb-2 text-base font-semibold">Sign in. Daily English Test is free for now.</p>}
       <p className="text-base">We'll email you a sign-in link. No password needed.</p>
       <label className="mt-3 block text-sm font-semibold" htmlFor="sign-in-email">
         Email

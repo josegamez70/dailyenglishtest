@@ -43,7 +43,7 @@ function publicInvite(row: InviteRow, now: number) {
     }, now),
     createdAt: row.created_at,
     activatedAt: row.redeemed_at,
-    endsAt: row.expires_at,
+    endsAt: null,
     revokedAt: row.revoked_at,
   };
 }

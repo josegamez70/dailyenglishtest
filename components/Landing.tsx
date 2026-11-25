@@ -1,5 +1,4 @@
 import React from 'react';
-import { PricingPanel } from './PricingPanel';
 import { SignInBox } from './SignInBox';
 
 const points = [
@@ -168,12 +167,12 @@ export function Landing() {
           Daily English Test is for B1, B2, and C1 learners. Practise reading, listening, and grammar for exams at those levels. It is not an official exam board, and it does not guarantee a higher score.
         </p>
         <p className="mx-auto mt-3 max-w-lg text-center text-base leading-relaxed text-slate-500 dark:text-slate-300">
-          You get 12 free lessons. You do not enter a card. Task packs group a reading, a listening, and a grammar exercise. My progress can download a PDF of your results. Vocabulary keeps the words you save, as flashcards or a quiz.
+          Daily English Test is free for now. You do not enter a card. It is not an official exam, and it does not guarantee a result. Task packs group a reading, a listening, and a grammar exercise. My progress can download a PDF of your results. Vocabulary keeps the words you save, as flashcards or a quiz.
         </p>
       </section>
 
       <div className="mt-6 sm:mt-8">
-        <SignInBox submitLabel="Get 12 free lessons" />
+        <SignInBox submitLabel="Send link" />
       </div>
 
       <figure className="mt-2">
@@ -224,7 +223,6 @@ export function Landing() {
         ))}
       </ul>
 
-      <PricingPanel signedIn={false} plan={null} academyRole={null} variant="landing" onSignIn={focusSignIn} />
       <p className="mt-6 text-center text-sm text-slate-600 dark:text-slate-300">
         Questions about an academy? Contact us at <a className="underline" href="mailto:info@dailyenglishtest.es">info@dailyenglishtest.es</a>
       </p>

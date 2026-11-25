@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { accessToken, sendMagicLink } from '../auth';
 import { BackButton } from './BackButton';
-import { formatEuro, inclusiveVatBreakdown } from '../billingPlans';
-import { PILOT_COHORT_LIMIT, PILOT_DAYS, PILOT_SEATS, PILOT_STORAGE_KEY, isPilotCode, pilotAcademyHref, pilotActiveNotice, pilotDaysLeft } from '../pilotAccess';
+import { PILOT_COHORT_LIMIT, PILOT_STORAGE_KEY, isPilotCode, pilotAcademyHref, pilotActiveNotice } from '../pilotAccess';
 
 const EXAMPLE_CODE = 'EXAMPLE-NOT-A-REAL-INVITE';
 const CONTACT = 'info@dailyenglishtest.es';
-const price = inclusiveVatBreakdown(3000);
 
 function storeCode(code: string) {
   try { localStorage.setItem(PILOT_STORAGE_KEY, code); } catch { /* ignore */ }
@@ -14,8 +12,8 @@ function storeCode(code: string) {
 
 const PILOT_SITE = 'www.dailyenglishtest.es';
 
-function ActivePilotMessage({ daysLeft }: { daysLeft: number }) {
-  const notice = pilotActiveNotice(daysLeft);
+function ActivePilotMessage() {
+  const notice = pilotActiveNotice();
   const at = notice.indexOf(PILOT_SITE);
   const academyHref = pilotAcademyHref(window.location.origin);
   return (
@@ -55,11 +53,8 @@ function readStoredCode(): string {
 export function ExpiredPilotNotice() {
   return (
     <div className="mt-4 rounded-xl border border-teal-700/40 bg-white px-4 py-3 text-base dark:bg-[#22304a]" role="status">
-      <p className="font-bold">This academy pilot has ended.</p>
-      <p className="mt-2">Saved lessons and progress are still available. New lessons are paused. The 12 free lessons do not start again.</p>
-      <p className="mt-2">
-        Academy up to 20 students later: {formatEuro(price.totalCents)} per month, 21% VAT included ({formatEuro(price.baseCents)} + {formatEuro(price.vatCents)} VAT). No payment is started from this page.
-      </p>
+      <p className="font-bold">Saved lessons and progress are still available.</p>
+      <p className="mt-2">No payment is started from this page.</p>
       <p className="mt-2">
         <a className="underline" href={`mailto:${CONTACT}`}>Contact us</a>
         {' · '}
@@ -91,15 +86,8 @@ export function PilotRedeemPage({ signedIn }: { signedIn: boolean }) {
     return () => controller.abort();
   }, [signedIn, example]);
 
-  const shown = example === 'active'
-    ? { status: 'active', daysLeft: 12, endsAt: '2026-11-27T00:00:00.000Z' }
-    : example === 'expired'
-      ? { status: 'expired', daysLeft: 0, endsAt: '2026-11-01T00:00:00.000Z' }
-      : pilot;
+  const shown = example === 'active' ? { status: 'active' } : pilot;
   const pilotActive = shown?.status === 'active';
-  const daysLeft = shown
-    ? (shown.daysLeft ?? pilotDaysLeft(Date.now(), shown.endsAt ? Date.parse(shown.endsAt) : null))
-    : 0;
 
   return (
     <main className="mx-auto w-full max-w-xl px-4 py-8">
@@ -107,7 +95,7 @@ export function PilotRedeemPage({ signedIn }: { signedIn: boolean }) {
       <p className="text-sm font-bold uppercase tracking-wide text-teal-800 dark:text-teal-200">Private academy pilot</p>
       <h1 className="mt-2 text-3xl font-bold">Activate one academy</h1>
       <p className="mt-3 text-base">
-        One invitation starts one academy for up to {PILOT_SEATS} students, for {PILOT_DAYS} days from the moment it is activated. No card and no automatic charge.
+        One invitation starts one academy. It does not end after a set number of days, and it does not stop at a set number of students. No card and no automatic charge.
       </p>
       {example && (
         <p className="mt-3 rounded-xl border border-teal-700 px-3 py-2 text-sm font-semibold" role="status">
@@ -201,7 +189,7 @@ export function PilotRedeemPage({ signedIn }: { signedIn: boolean }) {
           {busy ? 'Checking…' : 'Activate academy'}
         </button>
       </form>
-      {pilotActive && <ActivePilotMessage daysLeft={daysLeft} />}
+      {pilotActive && <ActivePilotMessage />}
       {shown?.status === 'expired' && <ExpiredPilotNotice />}
       {note && <p className="mt-3 text-base font-semibold" role="status">{note}</p>}
     </main>
@@ -221,7 +209,7 @@ type AdminInvite = {
 
 const EXAMPLE_ROWS: AdminInvite[] = [
   { id: 'example-created', label: 'Example academy A', code: EXAMPLE_CODE, path: '/pilot', status: 'created', createdAt: '2026-11-07T12:00:00.000Z', activatedAt: null, endsAt: null },
-  { id: 'example-active', label: 'Example academy B', code: EXAMPLE_CODE, path: '/pilot', status: 'activated', createdAt: '2026-11-01T12:00:00.000Z', activatedAt: '2026-11-02T12:00:00.000Z', endsAt: '2026-11-22T12:00:00.000Z' },
+  { id: 'example-active', label: 'Example academy B', code: EXAMPLE_CODE, path: '/pilot', status: 'activated', createdAt: '2026-11-01T12:00:00.000Z', activatedAt: '2026-11-02T12:00:00.000Z', endsAt: null },
 ];
 
 export function PilotAdminPage({ signedIn }: { signedIn: boolean }) {
@@ -272,7 +260,7 @@ export function PilotAdminPage({ signedIn }: { signedIn: boolean }) {
       <BackButton onClick={() => { window.location.href = '/'; }} />
       <p className="text-sm font-bold uppercase tracking-wide text-teal-800 dark:text-teal-200">Private</p>
       <h1 className="mt-2 text-3xl font-bold">Academy pilot invitations</h1>
-      <p className="mt-2 text-base">Create a code and send it yourself. This page does not email anyone. Cohort limit: {limit}. Each code activates one academy, up to 20 students, for 20 days after redemption.</p>
+      <p className="mt-2 text-base">Create a code and send it yourself. This page does not email anyone. Cohort limit: {limit}. Each code activates one academy. It does not end after a set number of days, and it does not stop at a set number of students.</p>
       {example && <p className="mt-3 rounded-xl border border-teal-700 px-3 py-2 text-sm font-semibold">Example — not a real invitation.</p>}
       <form
         className="mt-4 flex flex-col gap-2 sm:flex-row"
@@ -311,7 +299,7 @@ export function PilotAdminPage({ signedIn }: { signedIn: boolean }) {
           <li key={row.id} className="rounded-2xl border border-teal-700/40 bg-white p-4 dark:bg-[#22304a]">
             <p className="text-lg font-bold">{row.label}</p>
             <p className="text-sm uppercase tracking-wide text-teal-800 dark:text-teal-200">{row.status}</p>
-            <p className="mt-1 text-sm">Created {row.createdAt.slice(0, 10)}{row.activatedAt ? ` · Activated ${row.activatedAt.slice(0, 10)}` : ''}{row.endsAt ? ` · Ends ${row.endsAt.slice(0, 10)}` : ''}</p>
+            <p className="mt-1 text-sm">Created {row.createdAt.slice(0, 10)}{row.activatedAt ? ` · Activated ${row.activatedAt.slice(0, 10)}` : ''}</p>
             <div className="mt-3 flex flex-col gap-2 sm:flex-row">
               <button type="button" className="rounded-lg border-2 border-slate-700 px-3 py-2 text-sm font-semibold dark:border-slate-200" onClick={() => { void copy(example ? EXAMPLE_CODE : row.code); }}>Copy code</button>
               <button type="button" className="rounded-lg border-2 border-slate-700 px-3 py-2 text-sm font-semibold dark:border-slate-200" onClick={() => { void copy(`${window.location.origin}${row.path}?code=${encodeURIComponent(example ? EXAMPLE_CODE : row.code)}`); }}>Copy link</button>
@@ -365,12 +353,10 @@ export function PilotStatusBanner() {
     void load();
   }, []);
   if (!pilot || pilot.status === 'none') return null;
-  if (pilot.status === 'expired') return <ExpiredPilotNotice />;
   if (pilot.status !== 'active') return null;
-  const end = pilot.endsAt ? new Date(pilot.endsAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
   return (
     <p className="mb-4 rounded-xl border border-teal-700/40 bg-white px-4 py-3 text-base dark:bg-[#22304a]" role="status">
-      Academy pilot: {pilot.daysLeft} days left{end ? `. Ends ${end}` : ''}. Up to 20 students.
+      Academy pilot is active. It does not end after a set number of days, and it does not stop at a set number of students.
     </p>
   );
 }

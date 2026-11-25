@@ -2,13 +2,12 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { randomBytes } from 'node:crypto';
 import { inclusiveVatBreakdown } from '../billingPlans.ts';
+import { ownerIsPilot } from '../pilotGate.ts';
 import { stripeMayWrite, type BillingProfile } from '../billingPolicy.ts';
 import {
   PILOT_ACADEMY_PATH,
   PILOT_ACADEMY_URL,
   pilotAcademyHref,
-  PILOT_DAYS,
-  PILOT_SEATS,
   canCreateInvitation,
   canRevoke,
   cleanPilotLabel,
@@ -21,7 +20,6 @@ import {
   pilotAdminIds,
   pilotActiveNotice,
   pilotDaysLeft,
-  pilotExpiry,
   pilotIsActive,
   redeemOutcome,
   type AccessProfile,
@@ -88,8 +86,6 @@ test('cohort defaults to fourteen and still accepts a configured limit', () => {
   assert.equal(canCreateInvitation(14), false);
   assert.equal(canCreateInvitation(3, 4), true);
   assert.equal(canCreateInvitation(4, 4), false);
-  assert.equal(PILOT_SEATS, 20);
-  assert.equal(PILOT_DAYS, 20);
 });
 
 test('a code is single-use, idempotent for the same owner, and rejects repeat trials', () => {
@@ -99,7 +95,7 @@ test('a code is single-use, idempotent for the same owner, and rejects repeat tr
   assert.equal(first.result.ok, true);
   if (!first.result.ok) return;
   assert.equal(first.result.idempotent, false);
-  assert.equal(first.result.expiresAt, pilotExpiry(NOW));
+  assert.equal(first.result.expiresAt, null);
   assert.equal(first.actor.billingProvider, 'pilot');
   assert.equal(first.actor.plan, 'academy');
 
@@ -129,8 +125,8 @@ test('manual, tester, and Stripe accounts are not converted into a pilot', () =>
   assert.equal(canRevoke(invite({ redeemedBy: OWNER })), false);
 });
 
-test('expiry blocks owner and student generation without touching paid academies or free quota', () => {
-  const end = pilotExpiry(NOW);
+test('a stored pilot date does not block the owner or a student', () => {
+  const end = Date.parse('2026-11-29T12:00:00.000Z');
   assert.equal(pilotIsActive(end - 1, end), true);
   assert.equal(pilotIsActive(end, end), false);
   assert.equal(pilotDaysLeft(end - 1, end) > 0, true);
@@ -147,12 +143,12 @@ test('expiry blocks owner and student generation without touching paid academies
     billingProvider: 'pilot',
     pilotExpiresAt: end,
     lessonsUsed: 0,
-  }), end, 3), 'pilot_expired');
+  }), end, 3), 'ok_unlimited');
   assert.equal(lessonBlockReason(access({
     plan: 'free',
     studentPilotExpiresAt: end,
     lessonsUsed: 0,
-  }), end, 3), 'pilot_expired');
+  }), end, 3), 'ok_unlimited');
   assert.equal(lessonBlockReason(access({
     plan: 'free',
     studentPilotExpiresAt: end,
@@ -169,6 +165,9 @@ test('expiry blocks owner and student generation without touching paid academies
   assert.equal(lessonBlockReason(access({ plan: 'academy', billingProvider: 'stripe' }), NOW, 3), 'ok_unlimited');
   assert.equal(lessonBlockReason(access({ plan: 'tester' }), NOW, 3), 'ok_unlimited');
   assert.equal(lessonBlockReason(access({ plan: 'free', nonPilotAcademyStudent: true }), NOW, 3), 'ok_unlimited');
+  assert.equal(ownerIsPilot({ plan: 'academy', billing_provider: 'pilot', pilot_expires_at: '2020-01-01T00:00:00.000Z' }), true);
+  assert.equal(ownerIsPilot({ plan: 'academy', billing_provider: 'stripe', pilot_expires_at: null, pilot_invitation_id: null }), false);
+  assert.equal(ownerIsPilot({ plan: 'free', billing_provider: 'pilot' }), false);
 
   const pilotProfile: BillingProfile = {
     plan: 'academy',
@@ -182,17 +181,16 @@ test('expiry blocks owner and student generation without touching paid academies
   };
   assert.equal(stripeMayWrite(pilotProfile), false);
   assert.equal(
-    pilotActiveNotice(20),
-    'Your academy pilot is active: 20 days left, up to 20 students. Go to www.dailyenglishtest.es and open My academy in the menu to name your academy and invite your students.',
+    pilotActiveNotice(),
+    'Your academy pilot is active. Go to www.dailyenglishtest.es and open My academy in the menu to name your academy and invite your students.',
   );
-  assert.match(pilotActiveNotice(12), /: 12 days left, up to 20 students\./);
   assert.equal(PILOT_ACADEMY_PATH, '/academy');
   assert.equal(PILOT_ACADEMY_URL, 'https://www.dailyenglishtest.es/academy');
   assert.equal(pilotAcademyHref('https://dailyenglishtest.es'), '/academy');
   assert.equal(pilotAcademyHref('https://www.dailyenglishtest.es/pilot?code=abc'), '/academy');
   assert.equal(pilotAcademyHref('https://deploy-preview-1--dailyenglishtest.netlify.app'), PILOT_ACADEMY_URL);
   assert.equal(pilotAcademyHref('not a url'), PILOT_ACADEMY_URL);
-  assert.equal(inviteStatus({ revoked: false, redeemedBy: OWNER, expiresAt: end }, end), 'ended');
+  assert.equal(inviteStatus({ revoked: false, redeemedBy: OWNER, expiresAt: end }, end), 'activated');
   assert.equal(inviteStatus({ revoked: false, redeemedBy: null, expiresAt: null }, NOW), 'created');
   assert.equal(cleanPilotLabel('  North academy  '), 'North academy');
   assert.equal(cleanPilotLabel(''), null);
