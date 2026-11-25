@@ -2113,7 +2113,7 @@ const App: React.FC = () => {
                   <p className="max-w-[12rem] truncate text-sm font-semibold text-slate-900 dark:text-slate-50">{account.email}</p>
                   {account.plan === 'free' && (
                     <p className="text-sm text-slate-800 dark:text-slate-100">
-                      Free lessons left: {account.lessonsLeft} of {FREE_LESSON_LIMIT}
+                      Live lessons: 5 a day
                     </p>
                   )}
                   <button
