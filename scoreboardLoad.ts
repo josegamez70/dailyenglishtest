@@ -1,6 +1,6 @@
 import { loadAcademyStudents, loadOwnedAcademy } from './academy.ts';
 import { getSupabase } from './auth.ts';
-import { demoRows, publicAlias, rowFromAttempts, withRemoteAlias, type BoardLevel, type ModeTotals, type ScoreAttempt, type ScorePeriod, type ScoreRow } from './scoreboard.ts';
+import { demoRows, publicAlias, rowFromAttempts, withRemoteAlias, type ModeTotals, type ScoreAttempt, type ScorePeriod, type ScoreRow } from './scoreboard.ts';
 import { listTestResults } from './studyStore.ts';
 
 export type ScoreboardSource = 'live' | 'owner' | 'demo' | 'self-only';
@@ -15,8 +15,6 @@ export type ScoreboardLoad = {
   liveRows: ScoreRow[] | null;
   /** The installed function still treats yesterday as all time. */
   yesterdayPending: boolean;
-  /** live: the level function filtered the board. pending: that function is not installed yet. off: demo rows are not split by level. */
-  levelFilter: 'live' | 'pending' | 'off';
 };
 
 function sameTotals(left: ModeTotals, right: ModeTotals): boolean {
@@ -77,7 +75,7 @@ function attemptFrom(row: { mode: ScoreAttempt['mode']; score: number; total: nu
   };
 }
 
-export async function loadScoreboard(displayName: string, period: ScorePeriod, level: BoardLevel): Promise<ScoreboardLoad> {
+export async function loadScoreboard(displayName: string, period: ScorePeriod): Promise<ScoreboardLoad> {
   const selfAlias = publicAlias(displayName, true);
   const saved = await listTestResults();
   const selfAttempts: ScoreAttempt[] = saved.rows.map((row) => attemptFrom({
@@ -90,25 +88,14 @@ export async function loadScoreboard(displayName: string, period: ScorePeriod, l
   const periodArg = period === 'daily' ? 'daily' : period;
   const supabase = getSupabase();
   if (supabase) {
-    const levelRpc = await supabase.rpc('scoreboard_board_level', { p_period: periodArg, p_level: level });
-    const rpc = !levelRpc.error && Array.isArray(levelRpc.data)
-      ? levelRpc
-      : await supabase.rpc('scoreboard_board', { p_period: periodArg });
-    const levelFilter = !levelRpc.error && Array.isArray(levelRpc.data) ? 'live' : 'pending';
+    const rpc = await supabase.rpc('scoreboard_board', { p_period: periodArg });
     if (!rpc.error && Array.isArray(rpc.data)) {
       const liveRows = (rpc.data as RpcRow[]).map(fromRpc);
       const owned = await loadOwnedAcademy();
       const membership = await supabase.from('academy_members').select('academy_id').limit(1);
       const inAcademy = Boolean(owned.academy) || (!membership.error && (membership.data?.length ?? 0) > 0);
       if (period === 'yesterday') {
-        const local = rowFromAttempts(
-          selfAlias,
-          selfAttempts,
-          'yesterday',
-          new Date(),
-          true,
-          levelFilter === 'live' ? level : null,
-        );
+        const local = rowFromAttempts(selfAlias, selfAttempts, 'yesterday', new Date(), true);
         const remote = liveRows.find((row) => row.isSelf);
         if (!remote || !sameScore(remote, local)) {
           return {
@@ -118,11 +105,10 @@ export async function loadScoreboard(displayName: string, period: ScorePeriod, l
             selfAttempts,
             liveRows: [withRemoteAlias(local, remote?.alias)],
             yesterdayPending: true,
-            levelFilter,
           };
         }
       }
-      return { source: 'live', inAcademy, selfAlias, selfAttempts, liveRows, yesterdayPending: false, levelFilter };
+      return { source: 'live', inAcademy, selfAlias, selfAttempts, liveRows, yesterdayPending: false };
     }
     const owned = await loadOwnedAcademy();
     if (owned.academy) {
@@ -141,12 +127,11 @@ export async function loadScoreboard(displayName: string, period: ScorePeriod, l
         period,
         new Date(),
         student.userId === selfId,
-        level,
       ));
       if (!liveRows.some((row) => row.isSelf)) {
-        liveRows.push(rowFromAttempts(selfAlias, selfAttempts, period, new Date(), true, level));
+        liveRows.push(rowFromAttempts(selfAlias, selfAttempts, period, new Date(), true));
       }
-      return { source: 'owner', inAcademy: true, selfAlias, selfAttempts, liveRows, yesterdayPending: false, levelFilter: 'live' };
+      return { source: 'owner', inAcademy: true, selfAlias, selfAttempts, liveRows, yesterdayPending: false };
     }
     const membership = await supabase.from('academy_members').select('academy_id').limit(1);
     return {
@@ -156,8 +141,7 @@ export async function loadScoreboard(displayName: string, period: ScorePeriod, l
       selfAttempts,
       liveRows: null,
       yesterdayPending: false,
-      levelFilter: 'off',
     };
   }
-  return { source: 'demo', inAcademy: false, selfAlias, selfAttempts, liveRows: null, yesterdayPending: false, levelFilter: 'off' };
+  return { source: 'demo', inAcademy: false, selfAlias, selfAttempts, liveRows: null, yesterdayPending: false };
 }
