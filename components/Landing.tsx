@@ -176,35 +176,26 @@ export function Landing() {
         <SignInBox submitLabel="Get 12 free lessons" />
       </div>
 
-      <ul className="mt-2 grid grid-cols-1 gap-4 md:grid-cols-2">
-        {points.map((point) => (
-          <li
-            key={point.title}
-            className="rounded-2xl border border-slate-300 bg-white p-6 text-left dark:border-slate-400/30 dark:bg-[#22304a] sm:p-7"
-          >
-            <div className="text-blue-700 dark:text-blue-300">{point.icon}</div>
-            <h2 className="mt-3 text-lg font-bold text-[#172033] dark:text-white">{point.title}</h2>
-            <p className="mt-1.5 text-base leading-relaxed text-slate-600 dark:text-slate-300">{point.text}</p>
-          </li>
-        ))}
-      </ul>
+      <figure className="mt-2">
+        <h2 className="text-xl font-bold text-[#172033] dark:text-white">A learner practising</h2>
+        <p className="mt-1 text-base text-slate-600 dark:text-slate-300">A private recording of someone using a lesson. This is not a promised result.</p>
+        <div className="relative mt-3 aspect-video w-full overflow-hidden rounded-xl bg-slate-900">
+          <iframe
+            className="absolute inset-0 h-full w-full"
+            src="https://www.youtube-nocookie.com/embed/_QfArUKqmfA"
+            title="A learner practising on Daily English Test"
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        </div>
+      </figure>
 
-      <section className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2" aria-label="Videos">
-        <figure>
-          <h2 className="text-xl font-bold text-[#172033] dark:text-white">A learner practising</h2>
-          <p className="mt-1 text-base text-slate-600 dark:text-slate-300">A private recording of someone using a lesson. This is not a promised result.</p>
-          <div className="relative mt-3 aspect-video w-full overflow-hidden rounded-xl bg-slate-900">
-            <iframe
-              className="absolute inset-0 h-full w-full"
-              src="https://www.youtube-nocookie.com/embed/_QfArUKqmfA"
-              title="A learner practising on Daily English Test"
-              loading="lazy"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          </div>
-        </figure>
-        <figure>
+      <section className="mt-8">
+        <p className="text-center text-sm text-slate-600 dark:text-slate-300">
+          <a className="font-semibold underline" href="/help">How academies work</a>
+        </p>
+        <figure className="mt-6">
           <h2 className="text-xl font-bold text-[#172033] dark:text-white">For academies</h2>
           <p className="mt-1 text-base text-slate-600 dark:text-slate-300">How an academy can use Daily English Test with its students. This video does not show a payment screen.</p>
           <div className="relative mt-3 aspect-video w-full overflow-hidden rounded-xl bg-slate-900">
@@ -220,11 +211,21 @@ export function Landing() {
         </figure>
       </section>
 
+      <ul className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2">
+        {points.map((point) => (
+          <li
+            key={point.title}
+            className="rounded-2xl border border-slate-300 bg-white p-6 text-left dark:border-slate-400/30 dark:bg-[#22304a] sm:p-7"
+          >
+            <div className="text-blue-700 dark:text-blue-300">{point.icon}</div>
+            <h2 className="mt-3 text-lg font-bold text-[#172033] dark:text-white">{point.title}</h2>
+            <p className="mt-1.5 text-base leading-relaxed text-slate-600 dark:text-slate-300">{point.text}</p>
+          </li>
+        ))}
+      </ul>
+
       <PricingPanel signedIn={false} plan={null} academyRole={null} variant="landing" onSignIn={focusSignIn} />
       <p className="mt-6 text-center text-sm text-slate-600 dark:text-slate-300">
-        <a className="font-semibold underline" href="/help">How academies work</a>
-      </p>
-      <p className="mt-2 text-center text-sm text-slate-600 dark:text-slate-300">
         Questions about an academy? Contact us at <a className="underline" href="mailto:info@dailyenglishtest.es">info@dailyenglishtest.es</a>
       </p>
     </main>
