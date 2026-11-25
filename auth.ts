@@ -9,7 +9,7 @@ export { FREE_LESSON_LIMIT, FREE_LIMIT_MESSAGE };
 export function planStatusText(plan: string | null, lessonsLeft: number, academyStudent = false): string | null {
   if (academyStudent) return 'Academy student';
   if (!plan) return null;
-  if (plan === 'free') return `Free lessons left: ${lessonsLeft} of ${FREE_LESSON_LIMIT}`;
+  if (plan === 'free') return 'Live lessons: 5 a day';
   if (plan === 'pro') return 'Premium';
   if (plan === 'tester') return 'Tester';
   if (plan === 'academy') return 'Academy';
