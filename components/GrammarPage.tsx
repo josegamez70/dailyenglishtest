@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { ExerciseComplete } from './ExerciseComplete';
 import { FreeLimitNotice } from './FreeLimitNotice';
 import { SpanishWhy } from './SpanishWhy';
+import { LevelRuleNote } from './LevelRuleNote';
+import type { LevelAccess } from '../levelProgress';
 import { playEffect, primeAudio } from '../effects';
 import { useRetroTheme } from '../retroTheme';
 import { addExercise } from '../badges';
@@ -107,7 +109,7 @@ export function GrammarPage({
   onLessonsChanged: () => void;
   onLessonsUsed?: (used: number) => void;
   freeBlocked?: boolean;
-  levelOpen?: { b2: boolean; c1: boolean } | null;
+  levelOpen?: LevelAccess | null;
   onPlans?: () => void;
   launch?: GrammarLaunch | null;
   /** Called when a task grammar set is finished, so the pack can be marked done. */
@@ -116,6 +118,10 @@ export function GrammarPage({
 }) {
   const retro = useRetroTheme();
   const [level, setLevel] = useState<GrammarLevel>(initialLevel);
+  useEffect(() => {
+    if (level === 'B2' && levelOpen && !levelOpen.b2) setLevel('B1');
+    if (level === 'C1' && levelOpen && !levelOpen.c1) setLevel('B1');
+  }, [level, levelOpen]);
   const [exercise, setExercise] = useState<GrammarExerciseType>('blanks');
   const [topic, setTopic] = useState('');
   const [phase, setPhase] = useState<'setup' | 'play' | 'results'>('setup');
@@ -576,6 +582,7 @@ export function GrammarPage({
             </button>
           ))}
         </div>
+        <LevelRuleNote access={levelOpen} />
       </fieldset>
       <fieldset className="mt-6">
         <legend className="text-base font-semibold">Exercise</legend>

@@ -2506,7 +2506,7 @@ const App: React.FC = () => {
         <GrammarPage
           fontClass={fontClass}
           initialLevel={cefr === 'B1' || cefr === 'B2' || cefr === 'C1' ? cefr : 'B1'}
-          levelOpen={levels ? { b2: levels.b2, c1: levels.c1 } : null}
+          levelOpen={levels}
           resetNonce={grammarResetNonce}
           onActiveChange={setGrammarActive}
           onLessonsChanged={() => { void account.refreshProfile(); }}

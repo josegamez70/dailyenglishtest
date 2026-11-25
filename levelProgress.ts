@@ -37,24 +37,25 @@ function passed(attempt: LevelAttempt, level: LevelBand): boolean {
 }
 
 /**
- * B1 is always open. B2 needs 5 B1 exercises at 80% or better. C1 needs 7 B2 exercises at 80% or better.
- * The same counts are reserved for the DET-25 level badges. A profile or a saved result at B2 or C1 keeps that level open.
+ * Everyone starts at B1. B2 opens only after 5 B1 exercises at 80% or more.
+ * C1 opens only after 7 B2 exercises at 80% or more.
+ * A profile level or an old result does not open a level by itself.
  */
-export function levelAccess(profileLevel: string | null | undefined, attempts: readonly LevelAttempt[]): LevelAccess {
-  const profile = storedLevel(profileLevel) ?? 'B1';
-  const used = new Set(attempts.map((attempt) => storedLevel(attempt.level)).filter((level): level is LevelBand => level != null));
+export function levelAccess(_profileLevel: string | null | undefined, attempts: readonly LevelAttempt[]): LevelAccess {
   const b1Passes = attempts.filter((attempt) => passed(attempt, 'B1')).length;
   const b2Passes = attempts.filter((attempt) => passed(attempt, 'B2')).length;
-  const b2Earned = b1Passes >= B2_EXERCISES;
-  const c1Earned = b2Passes >= C1_EXERCISES;
-  const b2Kept = !b2Earned && (profile === 'B2' || profile === 'C1' || used.has('B2') || used.has('C1'));
-  const c1Kept = !c1Earned && (profile === 'C1' || used.has('C1'));
   return {
-    b2: b2Earned || b2Kept,
-    c1: c1Earned || c1Kept,
+    b2: b1Passes >= B2_EXERCISES,
+    c1: b2Passes >= C1_EXERCISES,
     b1Passes,
     b2Passes,
-    b2Kept,
-    c1Kept,
+    b2Kept: false,
+    c1Kept: false,
   };
+}
+
+export function levelRuleText(access: Pick<LevelAccess, 'b1Passes' | 'b2Passes'> | null): string {
+  const b1 = access?.b1Passes ?? 0;
+  const b2 = access?.b2Passes ?? 0;
+  return `Everyone starts at B1. B2 opens after any 5 B1 exercises at 80% or more (${b1}/5). C1 opens after any 7 B2 exercises at 80% or more (${b2}/7). This is practice, not a certificate.`;
 }

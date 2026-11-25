@@ -31,6 +31,11 @@ export type ChallengePack = {
     report: ChallengeReportItem[] | null;
     answersStored: boolean;
   } | null;
+  choosing?: boolean;
+  b1Passes?: number;
+  b2Passes?: number;
+  b2Open?: boolean;
+  c1Open?: boolean;
   reading: { title: string; topic: string; story: string; quiz: ChallengeQuiz[] } | null;
   listening: { title: string; topic: string; audioUrl: string | null; quiz: ChallengeQuiz[] } | null;
   grammar: { title: string; exercise: string; items: GrammarItem[] } | null;
@@ -67,6 +72,16 @@ async function postChallenge(body: unknown): Promise<unknown> {
     body: JSON.stringify(body),
   });
   return response.json();
+}
+
+export async function startChallenge(level: ChallengeLevel): Promise<ChallengePack | { ok: false; message: string }> {
+  try {
+    const body = await postChallenge({ action: 'start', level }) as ChallengePack & { ok?: boolean; message?: string };
+    if (!body || body.ok !== true || body.choosing) return { ok: false, message: body?.message || 'The challenge could not be started.' };
+    return body;
+  } catch {
+    return { ok: false, message: 'The challenge could not be started.' };
+  }
 }
 
 export async function loadChallengePack(): Promise<ChallengePack | { ok: false; message: string }> {

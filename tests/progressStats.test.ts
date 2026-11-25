@@ -39,25 +39,25 @@ test('score summaries ignore empty tests', () => {
   assert.equal(cefrToLessonLevel('C2'), 'advanced');
 });
 
-test('B2 and C1 stay open for people who already use them', () => {
-  const fresh = levelAccess('B1', []);
+test('B2 and C1 open only from the exercise counts', () => {
+  const fresh = levelAccess('C1', []);
   assert.equal(fresh.b2, false);
   assert.equal(fresh.c1, false);
+  assert.equal(fresh.b2Kept, false);
   const earned = levelAccess('B1', Array.from({ length: B2_EXERCISES }, () => ({ level: 'Beginner', score: 4, total: 5, mode: 'reading' })));
   assert.equal(earned.b2, true);
-  assert.equal(earned.b2Kept, false);
   assert.equal(earned.c1, false);
-  const kept = levelAccess('C1', [{ level: 'Beginner', score: 1, total: 5, mode: 'reading' }]);
-  assert.equal(kept.b2, true);
-  assert.equal(kept.c1, true);
-  assert.equal(kept.b2Kept, true);
-  assert.equal(kept.c1Kept, true);
-  const short = levelAccess('B1', [{ level: 'B2', score: 5, total: 5, mode: 'grammar' }]);
-  assert.equal(short.b2, true);
-  assert.equal(short.c1, false);
+  const low = levelAccess('B1', Array.from({ length: B2_EXERCISES }, () => ({ level: 'B1', score: 3, total: 5, mode: 'listening' })));
+  assert.equal(low.b2, false);
+  assert.equal(low.b1Passes, 0);
+  const oldResult = levelAccess('C1', [{ level: 'B2', score: 5, total: 5, mode: 'grammar' }]);
+  assert.equal(oldResult.b2, false);
+  assert.equal(oldResult.c1, false);
   const almost = levelAccess('B1', Array.from({ length: C1_EXERCISES - 1 }, () => ({ level: 'Intermediate', score: 8, total: 10, mode: 'listening' })));
   assert.equal(almost.c1, false);
   assert.equal(almost.b2Passes, C1_EXERCISES - 1);
+  const opened = levelAccess(null, Array.from({ length: C1_EXERCISES }, () => ({ level: 'B2', score: 8, total: 10, mode: 'grammar' })));
+  assert.equal(opened.c1, true);
 });
 
 test('a single chart score has a point and higher scores sit higher', () => {

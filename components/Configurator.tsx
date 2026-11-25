@@ -2,6 +2,7 @@ import React from 'react';
 import type { ConfigOptions } from '../types';
 import { LEVELS, TOPICS, WILDCARD_TOPIC, WORD_COUNTS, QUESTION_COUNTS } from '../constants';
 import type { LevelAccess } from '../levelProgress';
+import { LevelRuleNote } from './LevelRuleNote';
 import { useRetroTheme } from '../retroTheme';
 
 interface ConfiguratorProps {
@@ -47,16 +48,19 @@ const Configurator: React.FC<ConfiguratorProps> = ({ config, setConfig, onGenera
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <SelectInput
-          label="Level"
-          value={config.level}
-          onChange={(e) => handleConfigChange('level', e.target.value)}
-          options={LEVELS.map((level) => ({
-            ...level,
-            disabled: (level.value === 'intermediate' && access ? !access.b2 : false)
-              || (level.value === 'advanced' && access ? !access.c1 : false),
-          }))}
-        />
+        <div>
+          <SelectInput
+            label="Level"
+            value={config.level}
+            onChange={(e) => handleConfigChange('level', e.target.value)}
+            options={LEVELS.map((level) => ({
+              ...level,
+              disabled: (level.value === 'intermediate' && access ? !access.b2 : false)
+                || (level.value === 'advanced' && access ? !access.c1 : false),
+            }))}
+          />
+          <LevelRuleNote access={access} />
+        </div>
         <SelectInput
           label={listening ? 'Listening topic' : 'Reading topic'}
           value={config.topic}
@@ -76,14 +80,6 @@ const Configurator: React.FC<ConfiguratorProps> = ({ config, setConfig, onGenera
           options={QUESTION_COUNTS}
         />
       </div>
-      {access && !access.b2 && (
-        <p className="text-base text-slate-900 dark:text-slate-50">B2 opens after 5 B1 exercises at 80% or better. You have {access.b1Passes}.</p>
-      )}
-      {access && access.b2 && !access.c1 && (
-        <p className="text-base text-slate-900 dark:text-slate-50">C1 opens after 7 B2 exercises at 80% or better. You have {access.b2Passes}.</p>
-      )}
-      {access?.b2Kept && <p className="text-base text-slate-900 dark:text-slate-50">B2 stays open because this account already used it.</p>}
-      {access?.c1Kept && <p className="text-base text-slate-900 dark:text-slate-50">C1 stays open because this account already used it.</p>}
       {config.topic === WILDCARD_TOPIC && !customTopic?.trim() && (
         <p className="text-base text-slate-900 dark:text-slate-50">
           We will choose a topic for you at random.
