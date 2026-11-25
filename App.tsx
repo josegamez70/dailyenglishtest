@@ -213,6 +213,7 @@ const App: React.FC = () => {
   const [vocabulary, setVocabulary] = useState<VocabularyItem[]>([]);
   const [storyTopic, setStoryTopic] = useState<{ label: string; surprise: boolean } | null>(null);
   const [userAnswers, setUserAnswers] = useState<string[]>([]);
+  const [quickNonce, setQuickNonce] = useState(0);
   const [finishing, setFinishing] = useState(false);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -1394,6 +1395,13 @@ const App: React.FC = () => {
         : 'bg-white text-slate-900 border-slate-500 hover:border-blue-700 dark:bg-slate-800 dark:text-slate-50 dark:border-slate-300'
     }`;
 
+  const startQuickReading = () => {
+    setPracticeType('reading');
+    setContentFormat('text');
+    setCustomTopicText('');
+    setConfig((current) => ({ ...current, level: 'beginner', topic: 'daily life', wordCount: 60, questionCount: 5 }));
+    setQuickNonce((current) => current + 1);
+  };
   const configScreen = (
     <div className="w-full max-w-2xl mx-auto">
       <div className="mb-4 text-center">
@@ -1454,6 +1462,13 @@ const App: React.FC = () => {
           </button>
         </div>
       </div>
+      <button
+        type="button"
+        onClick={startQuickReading}
+        className="mb-4 w-full rounded-lg bg-blue-700 py-3 text-lg font-bold text-white hover:bg-blue-800"
+      >
+        10 minutes of Reading B1
+      </button>
       <Configurator
         config={config}
         setConfig={setConfig}
@@ -1820,7 +1835,7 @@ const App: React.FC = () => {
           {userAnswers[currentQuestionIndex] && (
             <div className="mt-4 rounded-lg border-2 border-slate-400 bg-slate-50 p-4 text-base text-slate-900 dark:border-slate-500 dark:bg-slate-900 dark:text-slate-50" role="status">
               <p className="font-bold">
-                {userAnswers[currentQuestionIndex] === question.correctAnswer ? 'Right.' : `Not quite. The answer is ${question.correctAnswer}.`}
+                {userAnswers[currentQuestionIndex] === question.correctAnswer ? 'Bien.' : `Casi. La respuesta es ${question.correctAnswer}.`}
               </p>
               {question.explanation && <p className="mt-2"><span className="font-semibold">Why: </span>{question.explanation}</p>}
               {question.explanation && <SpanishWhy text={question.explanation} />}
@@ -1936,10 +1951,19 @@ const App: React.FC = () => {
     );
   };
 
+  useEffect(() => {
+    if (quickNonce === 0) return;
+    if (practiceType !== 'reading' || contentFormat !== 'text' || config.level !== 'beginner' || config.wordCount !== 60 || config.questionCount !== 5 || config.topic !== 'daily life') return;
+    setQuickNonce(0);
+    void handleGenerate();
+  }, [quickNonce, practiceType, contentFormat, config.level, config.wordCount, config.questionCount, config.topic]);
+
+  const welcomeOpen = account.signedIn && view === 'config' && account.lessonsUsed === 0 && !welcomeHidden && !welcomeSeen(account.userId);
+
   const renderContent = () => {
     switch (view) {
       case 'config':
-        return configScreen;
+        return welcomeOpen ? null : configScreen;
       case 'story':
         return renderStoryScreen();
       case 'quiz':

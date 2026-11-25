@@ -36,10 +36,10 @@ export function estimateGenerationSeconds(wordCount: number, questionCount: numb
 }
 
 export function scoreFeedback(percentage: number): string {
-  if (percentage >= 90) return 'Excellent! You understood this story very well.';
-  if (percentage >= 70) return 'Well done! You understood most of the story.';
-  if (percentage >= 40) return 'Good effort! You are getting there.';
-  return 'Keep practicing! Every story helps you improve.';
+  if (percentage >= 90) return 'Excelente. Has entendido muy bien este texto.';
+  if (percentage >= 70) return 'Bien hecho. Has entendido la mayor parte.';
+  if (percentage >= 40) return 'Buen intento. Vas por buen camino.';
+  return 'Sigue practicando. Cada texto ayuda.';
 }
 
 /** Whole seconds since a request started. Uses the clock, not a tick counter. */

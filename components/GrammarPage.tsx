@@ -545,14 +545,14 @@ export function GrammarPage({
           </button>
           {checked && current.kind === 'choice' && (
             <div className="mt-4 rounded-lg border-2 border-slate-400 p-4 text-base" role="status">
-              <p className="font-bold">{choices[index] === current.correctAnswer ? 'Right.' : `Not quite. The answer is ${current.correctAnswer}.`}</p>
+              <p className="font-bold">{choices[index] === current.correctAnswer ? 'Bien.' : `Casi. La respuesta es ${current.correctAnswer}.`}</p>
               <p className="mt-2"><span className="font-semibold">Why: </span>{current.explanation}</p>
               <SpanishWhy text={current.explanation} />
             </div>
           )}
           {checked && current.kind === 'order' && (
             <div className="mt-4 rounded-lg border-2 border-slate-400 p-4 text-base" role="status">
-              <p className="font-bold">{gradeOrder(current, chosen).correct ? 'Right.' : 'Not quite. Read the parts in the order below.'}</p>
+              <p className="font-bold">{gradeOrder(current, chosen).correct ? 'Bien.' : 'Casi. Lee las partes en el orden de abajo.'}</p>
               <p className="mt-2"><span className="font-semibold">Why: </span>{current.explanation}</p>
               <SpanishWhy text={current.explanation} />
             </div>
