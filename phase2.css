@@ -928,6 +928,21 @@ html.dark .arcade-board button.is-selected {
   color: #04140f !important;
   border-color: #19f0c6 !important;
 }
+html[data-theme="retro95"] .arcade-board button.scoreboard-tab-challenge,
+html.dark .arcade-board button.scoreboard-tab-challenge,
+.arcade-board button.scoreboard-tab-challenge {
+  background: #4a1238 !important;
+  color: #ffe6f7 !important;
+  border: 2px solid #ff4ad8 !important;
+  box-shadow: 0 0 10px #ff2d95 !important;
+}
+html[data-theme="retro95"] .arcade-board button.scoreboard-tab-challenge.is-selected,
+html.dark .arcade-board button.scoreboard-tab-challenge.is-selected,
+.arcade-board button.scoreboard-tab-challenge.is-selected {
+  background: #ff2d95 !important;
+  color: #1a0612 !important;
+  border-color: #ffe6f7 !important;
+}
 html[data-theme="retro95"] .arcade-note,
 html.dark .arcade-note {
   background: #fff3b0 !important;

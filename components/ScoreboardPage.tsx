@@ -127,6 +127,11 @@ export function ScoreboardPage({
       <div className="arcade-board">
       <p className="arcade-kicker">Recreativa</p>
       <h1 className="arcade-title">High scores</h1>
+      <div className="scoreboard-tabs" role="tablist" aria-label="Daily challenge">
+        <button type="button" role="tab" aria-selected={view === 'challenge'} onClick={() => setView('challenge')} className={view === 'challenge' ? 'scoreboard-tab-challenge is-selected' : 'scoreboard-tab-challenge'}>
+          Daily challenge
+        </button>
+      </div>
       <div className="arcade-levels" role="group" aria-label="Level">
         {(['B1', 'B2', 'C1'] as const).map((id) => (
           <button key={id} type="button" aria-pressed={level === id} onClick={() => setLevel(id)}>{id}</button>
@@ -144,9 +149,6 @@ export function ScoreboardPage({
             </button>
           ))}
         </div>
-        <button type="button" role="tab" aria-selected={view === 'challenge'} onClick={() => setView('challenge')} className={view === 'challenge' ? 'scoreboard-tab-challenge is-selected' : 'scoreboard-tab-challenge'}>
-          Daily challenge
-        </button>
       </div>
       <div className="arcade-metrics" role="group" aria-label="Ranking">
         <button type="button" aria-pressed={metric === 'volume'} disabled={view === 'challenge'} onClick={() => setMetric('volume')}>Most exercises</button>
