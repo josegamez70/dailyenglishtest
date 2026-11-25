@@ -3,6 +3,7 @@ import { TOPICS, WILDCARD_TOPIC } from './constants.ts';
 import {
   alignDialogueToCast,
   dialogueGreetingProblems,
+  dialogueSpeechNeedsRebuild,
   dialogueSpeakers,
   renderDialogue,
   speakerFromName,
@@ -455,9 +456,14 @@ export function listeningSpeechRevision(dimensions: unknown): number {
   return Number.isFinite(value) ? value : 0;
 }
 
-/** Stored conversation audio from before the label strip. Text lessons are left alone. */
-export function dialogueAudioNeedsRespeak(format: string, dimensions: unknown): boolean {
-  return format === 'dialogue' && listeningSpeechRevision(dimensions) < LISTENING_SPEECH_REVISION;
+/** A dialogue mp3 is rebuilt only when the new spoken text differs from the stored one. */
+export function dialogueAudioNeedsRespeak(
+  format: string,
+  dimensions: unknown,
+  turns?: { speaker: string; line: string }[],
+): boolean {
+  if (format !== 'dialogue' || listeningSpeechRevision(dimensions) >= LISTENING_SPEECH_REVISION) return false;
+  return dialogueSpeechNeedsRebuild(turns ?? []);
 }
 
 export function listeningDimensions(lesson: ListeningLesson, audioPath: string, audioSlowPath?: string) {

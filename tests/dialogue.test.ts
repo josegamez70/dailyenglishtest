@@ -3,7 +3,9 @@ import assert from 'node:assert/strict';
 import {
   alignDialogueToCast,
   contentWordCount,
+  audioSpokenLine,
   dialogueGreetingProblems,
+  dialogueSpeechNeedsRebuild,
   spokenTurnText,
   dialogueSpeakers,
   dialogueTurnPlan,
@@ -258,20 +260,36 @@ test('dialogue names rotate and long dialogues lose extra turns', () => {
   assert.equal(trimmed.length, 6);
 });
 
-test('spoken dialogue lines do not say either speaker name', () => {
+test('a greeting may say a name, and a later line may not', () => {
   const quiet = [
     { speaker: 'Julia', line: 'Have you got a minute?' },
     { speaker: 'Noah', line: 'Yes. The market closes in ten minutes.' },
   ];
   assert.deepEqual(dialogueGreetingProblems(quiet, 'Julia', 'Noah'), []);
+  const greeting = dialogueGreetingProblems([
+    { speaker: 'Julia', line: 'Noah, have you got a minute?' },
+    { speaker: 'Noah', line: 'Yes, Julia. The market closes soon.' },
+    { speaker: 'Julia', line: 'We should leave now.' },
+  ], 'Julia', 'Noah');
+  assert.deepEqual(greeting, []);
   const labelled = dialogueGreetingProblems([
     { speaker: 'Julia', line: 'Julia: Have you got a minute?' },
-    { speaker: 'Noah', line: 'Noah, the train is late.' },
+    { speaker: 'Noah', line: 'We should leave now.' },
+    { speaker: 'Julia', line: 'Wait there, Noah.' },
   ], 'Julia', 'Noah');
-  assert.equal(labelled.length, 3);
+  assert.equal(labelled.length, 2);
   assert.equal(spokenTurnText('Julia', 'Julia: The market closes soon.'), 'The market closes soon.');
   assert.equal(spokenTurnText('Noah', 'Noah. We should leave now.'), 'We should leave now.');
-  assert.equal(spokenTurnText('Julia', 'Have you got a minute?'), 'Have you got a minute?');
+  assert.equal(audioSpokenLine('Anna', 'They help us keep a balance, Luke.', 7), 'They help us keep a balance.');
+  assert.equal(audioSpokenLine('Lucy', 'Good morning James, how are you?', 0), 'Good morning James, how are you?');
+  assert.equal(dialogueSpeechNeedsRebuild([
+    { speaker: 'Lucy', line: 'Good morning James, how are you?' },
+  ]), false);
+  assert.equal(dialogueSpeechNeedsRebuild([
+    { speaker: 'Anna', line: 'They help us keep a balance, Luke.' },
+    { speaker: 'Anna', line: 'They help us keep a balance, Luke.' },
+    { speaker: 'Anna', line: 'They help us keep a balance, Luke.' },
+  ]), true);
 });
 
 test('extra large text size becomes the largest remaining size', () => {

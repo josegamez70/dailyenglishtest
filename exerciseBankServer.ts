@@ -373,8 +373,8 @@ function dialogueTurns(payload: unknown): DialogueTurn[] {
 }
 
 /**
- * Replace one stored conversation mp3 so it no longer speaks "Name:" at the start of a turn.
- * Text lessons and audio already marked with the current revision are left alone.
+ * Replace one stored conversation mp3 only when its spoken text still says a name it should not.
+ * A greeting in the first two lines is left as it is. Text lessons are left alone.
  * A missing Azure key skips the file. The lesson text is not sent to Gemini.
  */
 export async function respeakStaleDialogue(
@@ -382,7 +382,7 @@ export async function respeakStaleDialogue(
   row: { id: string; payload: unknown; dimensions: unknown },
 ): Promise<'current' | 'spoken' | 'skipped' | 'failed'> {
   const turns = dialogueTurns(row.payload);
-  if (!turns.length || !dialogueAudioNeedsRespeak('dialogue', row.dimensions)) return turns.length ? 'current' : 'skipped';
+  if (!turns.length || !dialogueAudioNeedsRespeak('dialogue', row.dimensions, turns)) return turns.length ? 'current' : 'skipped';
   const env = runtimeEnv();
   const key = readEnvValue(env, 'AZURE_SPEECH_KEY');
   const region = readEnvValue(env, 'AZURE_SPEECH_REGION');

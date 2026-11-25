@@ -1,4 +1,4 @@
-import { parseDialogue, spokenTurnText, speakerFromName, type DialogueTurn, type SpeakerGender } from './dialogue.ts';
+import { audioSpokenLine, parseDialogue, speakerFromName, type DialogueTurn, type SpeakerGender } from './dialogue.ts';
 
 /** Neural mp3 the bank stores and the player streams. */
 export const AZURE_TTS_OUTPUT_FORMAT = 'audio-24khz-48kbitrate-mono-mp3';
@@ -130,7 +130,7 @@ export function buildListeningSsml(
     const parts: string[] = [];
     turns.forEach((turn, index) => {
       const name = spokenLine(turn.speaker);
-      const said = spokenTurnText(name, turn.line);
+      const said = audioSpokenLine(name, turn.line, index);
       if (!said || !name) return;
       lines.push(said);
       const pause = index < turns.length - 1 ? '<break time="350ms"/>' : '';

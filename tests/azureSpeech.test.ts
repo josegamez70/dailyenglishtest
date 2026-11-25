@@ -92,12 +92,18 @@ test('a conversation does not speak a leading speaker label', () => {
     dialogue: [],
   });
   assert.equal(fromStory.lines.join(' | '), 'The market closes soon. | We should leave now.');
-  assert.equal(dialogueAudioNeedsRespeak('dialogue', {}), true);
-  assert.equal(dialogueAudioNeedsRespeak('dialogue', { speechRevision: LISTENING_SPEECH_REVISION }), false);
-  assert.equal(dialogueAudioNeedsRespeak('text', {}), false);
+  const lateName = [
+    { speaker: 'Julia', line: 'The market is busy.' },
+    { speaker: 'Noah', line: 'We can go now.' },
+    { speaker: 'Julia', line: 'Wait for me, Noah.' },
+  ];
+  assert.equal(dialogueAudioNeedsRespeak('dialogue', {}, lateName), true);
+  assert.equal(dialogueAudioNeedsRespeak('dialogue', {}, [{ speaker: 'Julia', line: 'Noah, the market is busy.' }]), false);
+  assert.equal(dialogueAudioNeedsRespeak('dialogue', { speechRevision: LISTENING_SPEECH_REVISION }, lateName), false);
+  assert.equal(dialogueAudioNeedsRespeak('text', {}, lateName), false);
   const prompt = readFileSync(new URL('../api/generate.ts', import.meta.url), 'utf8');
-  assert.match(prompt, /Do not say \$\{firstName\} or \$\{secondName\} inside any line/);
-  assert.equal(prompt.includes('addresses ${secondName} by name'), false);
+  assert.match(prompt, /may address the other person by name/);
+  assert.match(prompt, /Do not say \$\{firstName\} or \$\{secondName\} after the second line/);
 });
 
 test('slower Azure speech is a prosody rate, and the spoken text is unchanged', () => {

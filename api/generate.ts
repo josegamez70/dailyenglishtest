@@ -373,7 +373,7 @@ function formatRules(format: ContentFormat, speakers: { name: string; gender: Sp
       'Return a dialogue array. Each item has speaker, gender, and line.',
       `gender is "${firstGender}" when speaker is "${firstName}", and "${secondGender}" when speaker is "${secondName}".`,
       `The audio speaks only the line. The transcript shows the speaker name separately, so do not start a line with "${firstName}:" or "${secondName}:".`,
-      `Do not say ${firstName} or ${secondName} inside any line. The two voices show who is speaking.`,
+      `The first two lines may address the other person by name inside the sentence. Do not say ${firstName} or ${secondName} after the second line.`,
       `Also set story to the same dialogue, one turn per line, like "${firstName}: Have you got a minute?"`,
       'Count every word inside line. Do not count the speaker field or the names in the transcript.',
       'Do not write Character 1, Character 2, Person 1, Person 2, or any other name.',
