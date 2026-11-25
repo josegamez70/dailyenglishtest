@@ -178,12 +178,11 @@ test('shuffle picks a different reading topic, listening topic, and grammar exer
   assert.match(grammar, /Any topic \(optional\)/);
 });
 
-test('one task pack spends one free lesson and does not touch an unlimited plan', () => {
+test('a task pack is not stopped by the old lesson count', () => {
   assert.deepEqual(taskGenerationDecision('ok_unlimited'), { generate: true, consumeLessons: 0, reason: 'ok' });
-  assert.deepEqual(taskGenerationDecision('ok_free'), { generate: true, consumeLessons: 1, reason: 'ok' });
-  assert.deepEqual(taskGenerationDecision('free_limit'), { generate: false, consumeLessons: 0, reason: 'free_limit' });
+  assert.deepEqual(taskGenerationDecision('ok_free'), { generate: true, consumeLessons: 0, reason: 'ok' });
+  assert.deepEqual(taskGenerationDecision('free_limit'), { generate: true, consumeLessons: 0, reason: 'ok' });
   assert.deepEqual(taskGenerationDecision('pilot_expired'), { generate: false, consumeLessons: 0, reason: 'pilot_expired' });
-  assert.equal(taskGenerationDecision('ok_free').consumeLessons, 1);
 });
 
 test('a pack is ready only after reading, listening, and grammar exist', () => {

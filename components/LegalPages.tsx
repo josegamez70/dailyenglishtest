@@ -205,7 +205,7 @@ function TermsOfUse() {
       </Section>
       <Section heading="Free lessons">
         <p>
-          You do not enter a card to practise. Live lessons, the ones written when you ask, are limited to 5 a day. A lesson already saved in the bank does not count toward that day. This is not a paid plan.
+          Daily English Test is free for now. You do not enter a card. It is not an official exam, and it does not guarantee a result. A topic you type yourself is limited to 5 a day. A topic from the list, or Any topic, is not.
         </p>
       </Section>
       <Section heading="Premium plan">

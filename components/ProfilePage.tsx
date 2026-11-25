@@ -1,10 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { FREE_LESSON_LIMIT } from '../auth';
 import { updateProfileSettings } from '../studyStore';
 import type { CefrLevel } from '../progressStats';
 import { normalizeCefr } from '../progressStats';
 import { AcademyProfileSection } from './AcademyProfileSection';
-import { PricingPanel } from './PricingPanel';
 import { PilotStatusBanner } from './PilotPages';
 import { BackButton } from './BackButton';
 import { soundEffectsEnabled, writeSoundEffects } from '../effects';
@@ -119,6 +117,7 @@ export function ProfilePage({
     return () => window.clearTimeout(timer);
   }, [dirty, name, level, rate, theme]);
 
+  void lessonsLeft;
   const academyStudent = academyRole === 'student';
   return (
     <div className="mx-auto w-full max-w-xl">
@@ -131,7 +130,7 @@ export function ProfilePage({
       <p className="text-base">{email}</p>
       <p className="text-base font-semibold">
         {planLabel(plan, academyStudent)}
-        {!academyStudent && (plan ?? 'free') === 'free' ? ` · ${lessonsLeft} of ${FREE_LESSON_LIMIT} free lessons left` : ''}
+        {!academyStudent && (plan ?? 'free') === 'free' ? ' · Free for now' : ''}
       </p>
       <label className="block text-sm font-semibold" htmlFor="display-name">
         Display name (optional)
@@ -217,7 +216,6 @@ export function ProfilePage({
       <p className="text-base font-semibold" role="status">{busy || dirty ? 'Saving...' : 'Saved'}</p>
       {note && <p className="text-base">{note}</p>}
     </form>
-    <PricingPanel signedIn={Boolean(userId)} plan={plan} academyRole={academyRole} variant="profile" />
     <AcademyProfileSection plan={plan} academyRole={academyRole} academyName={academyName} onChanged={onAcademyChanged} />
     </div>
   );
