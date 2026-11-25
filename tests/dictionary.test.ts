@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { baseFormCandidates, collectSenses, inflectionPointer, lemmaCandidates, lookupCandidates, meaningToSave, mergeBaseEntry, normalizeLookupWord, parseDictionary, popupPosition, searchLookupTerm, type DictEntry } from '../dictionary.ts';
+import { baseFormCandidates, collectSenses, inflectionPointer, lemmaCandidates, lookupCandidates, meaningToSave, mergeBaseEntry, normalizeLookupWord, parseDictionary, popupPosition, savedLookupTerm, searchLookupTerm, spanishFromWikitext, type DictEntry } from '../dictionary.ts';
 
 test('word lookup tries a simple plural or verb ending when needed', () => {
   assert.equal(normalizeLookupWord("Sophie's"), 'sophie');
@@ -20,6 +20,11 @@ test('word lookup tries a simple plural or verb ending when needed', () => {
   assert.equal(searchLookupTerm('a'), null);
   assert.equal(searchLookupTerm('one two three four five'), null);
   assert.equal(searchLookupTerm('hello!'), null);
+  assert.equal(savedLookupTerm('ice cream', 'icecream'), 'ice cream');
+  assert.equal(savedLookupTerm('market,', 'market'), 'market');
+  const wiki = '* Spanish: {{tt+|es|hola}}, {{t+|es|holi}}\n';
+  assert.equal(spanishFromWikitext(`====Translations====\n{{trans-top|greeting}}\n${wiki}`), 'hola');
+  assert.equal(spanishFromWikitext('{{t+|es|holi}}'), null);
   assert.equal(lemmaCandidates('shower').includes('show'), false);
   assert.equal(baseFormCandidates('shower').includes('show'), false);
   assert.ok(lemmaCandidates('bigger').includes('big'));
