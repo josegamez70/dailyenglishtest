@@ -457,7 +457,7 @@ export function periodLabel(frequency: TaskFrequency, key: string): string {
 
 /**
  * A task pack is one learning session.
- * A pilot that has ended still pauses new packs.
+ * A pilot academy does not pause new packs. A former student who has left can still be paused.
  * The old 12-lesson count does not stop a pack.
  */
 export function taskGenerationDecision(block: string): {
@@ -530,7 +530,7 @@ export function taskStepLabel(step: TaskStep): string {
 
 export function taskBlockMessage(reason: TaskBlockReason): string {
   if (reason === 'pilot_expired') {
-    return 'This academy pilot has ended. Saved lessons and progress are still available. New tasks are paused.';
+    return 'Saved lessons and progress are still available. New tasks stay paused. No payment was started.';
   }
   if (reason === 'missing') return 'Tasks are not available for this account yet.';
   return FREE_LIMIT_MESSAGE;

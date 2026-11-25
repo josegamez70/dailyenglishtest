@@ -31,6 +31,7 @@ import {
 } from '../dialogue';
 import { normalizeQuiz, type NormalizedQuizQuestion } from '../quizNormalize';
 import { CUSTOM_TOPIC_DAILY_LIMIT, customTopicLimitMessage, FREE_LESSON_LIMIT, FREE_LIMIT_MESSAGE } from '../freeLessons';
+import { pilotLessonsOpen } from '../pilotGate';
 import {
   buildGrammarPrompt,
   buildGrammarTopUpPrompt,
@@ -311,7 +312,7 @@ function pilotExpiredBody() {
   return JSON.stringify({
     ok: false,
     error: 'pilot_expired',
-    message: 'This academy pilot has ended. Saved lessons and progress are still available. New lessons are paused. Academy up to 20 students is 30 € per month, 21% VAT included. No payment was started.',
+    message: 'Saved lessons and progress are still available. New lessons stay paused. No payment was started.',
   });
 }
 
@@ -873,6 +874,7 @@ async function freeLimitResponse(
 ): Promise<HandlerResponse | null> {
   const gate = await admin.rpc('lesson_block_reason', { uid: userId, free_limit: FREE_LESSON_LIMIT });
   if (!gate.error && gate.data === 'pilot_expired') {
+    if (await pilotLessonsOpen(admin, userId)) return null;
     return { statusCode: 402, headers, body: pilotExpiredBody() };
   }
   return null;
@@ -937,6 +939,9 @@ async function consumeLessonResponse(
   const consumed = await admin.rpc('consume_lesson', { uid: userId, free_limit: FREE_LESSON_LIMIT });
   const allowance = readAllowance(consumed.data);
   if (allowance && !allowance.allowed && allowance.reason === 'free_limit') {
+    return { blocked: null, lessonsUsed: allowance.lessonsUsed };
+  }
+  if (allowance && !allowance.allowed && allowance.reason === 'pilot_expired' && await pilotLessonsOpen(admin, userId)) {
     return { blocked: null, lessonsUsed: allowance.lessonsUsed };
   }
   if (consumed.error || !allowance?.allowed) {

@@ -81,7 +81,7 @@ async function fetchWithRetry(
             message = parsed.message || message;
             code = 'custom_topic_limit';
           } else if (parsed?.error === 'pilot_expired') {
-            message = parsed.message || 'This academy pilot has ended. Saved lessons are still available. New lessons are paused.';
+            message = parsed.message || 'Saved lessons and progress are still available. New lessons stay paused. No payment was started.';
             code = 'pilot_expired';
           } else if (parsed?.error === 'auth_required') message = 'Sign in. Daily English Test is free for now.';
           else if (parsed?.message) message = String(parsed.message);

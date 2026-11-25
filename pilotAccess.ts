@@ -1,7 +1,5 @@
 /** Private academy pilot rules. No admin ids, codes, or personal rows belong here. */
 
-export const PILOT_DAYS = 20;
-export const PILOT_SEATS = 20;
 export const PILOT_COHORT_LIMIT = 14;
 export const PILOT_DAY_MS = 24 * 60 * 60 * 1000;
 export const PILOT_CODE_PATTERN = /^[A-Za-z0-9_-]{43}$/;
@@ -81,10 +79,6 @@ export function isPilotCode(code: string): boolean {
   return PILOT_CODE_PATTERN.test(code);
 }
 
-export function pilotExpiry(activatedAt: number): number {
-  return activatedAt + PILOT_DAYS * PILOT_DAY_MS;
-}
-
 export function pilotIsActive(now: number, expiresAt: number | null): boolean {
   return expiresAt != null && now < expiresAt;
 }
@@ -109,9 +103,9 @@ export function pilotAcademyHref(origin: string): string {
   return PILOT_ACADEMY_URL;
 }
 
-/** Shown once this account’s academy pilot is active. The day count stays dynamic. */
-export function pilotActiveNotice(daysLeft: number, seats = PILOT_SEATS): string {
-  return `Your academy pilot is active: ${daysLeft} days left, up to ${seats} students. Go to www.dailyenglishtest.es and open My academy in the menu to name your academy and invite your students.`;
+/** Shown once this account’s academy pilot is active. */
+export function pilotActiveNotice(): string {
+  return 'Your academy pilot is active. Go to www.dailyenglishtest.es and open My academy in the menu to name your academy and invite your students.';
 }
 
 export function inviteStatus(invite: {
@@ -119,8 +113,9 @@ export function inviteStatus(invite: {
   redeemedBy: string | null;
   expiresAt: number | null;
 }, now: number): PilotInviteStatus {
+  void invite.expiresAt;
+  void now;
   if (invite.revoked) return 'revoked';
-  if (invite.redeemedBy && invite.expiresAt != null && now >= invite.expiresAt) return 'ended';
   if (invite.redeemedBy) return 'activated';
   return 'created';
 }
@@ -140,16 +135,16 @@ function paidUnlimited(profile: AccessProfile): boolean {
   return false;
 }
 
-/** Generation gate. An expired pilot does not fall through to the free quota. */
+/**
+ * Generation gate. A pilot academy does not expire and does not fall through to the free quota.
+ * A stored end date is ignored. Someone who has left a pilot still does not receive the free quota.
+ */
 export function lessonBlockReason(profile: AccessProfile, now: number, freeLimit: number): LessonReason {
+  void now;
   if (!profile.found) return 'missing';
   if (paidUnlimited(profile)) return 'ok_unlimited';
-  if (profile.pilotExpiresAt != null) {
-    return pilotIsActive(now, profile.pilotExpiresAt) ? 'ok_unlimited' : 'pilot_expired';
-  }
-  if (profile.studentPilotExpiresAt != null) {
-    return pilotIsActive(now, profile.studentPilotExpiresAt) ? 'ok_unlimited' : 'pilot_expired';
-  }
+  if (profile.billingProvider === 'pilot' || profile.pilotExpiresAt != null) return 'ok_unlimited';
+  if (profile.studentPilotExpiresAt != null) return 'ok_unlimited';
   if (profile.nonPilotAcademyStudent) return 'ok_unlimited';
   if (profile.pilotFreeBlocked) return 'pilot_expired';
   if (profile.plan !== 'free') return 'ok_unlimited';
@@ -165,10 +160,10 @@ export function redeemOutcome(
   invite: StoredInvite | null,
   actor: StoredActor,
   now: number,
-): { ok: true; idempotent: boolean; expiresAt: number } | { ok: false; reason: RedeemReason } {
+): { ok: true; idempotent: boolean; expiresAt: number | null } | { ok: false; reason: RedeemReason } {
   if (!invite || !isPilotCode(invite.code)) return { ok: false, reason: 'invalid' };
   if (invite.redeemedBy === actor.userId) {
-    return { ok: true, idempotent: true, expiresAt: invite.expiresAt ?? pilotExpiry(now) };
+    return { ok: true, idempotent: true, expiresAt: invite.expiresAt };
   }
   if (invite.revoked) return { ok: false, reason: 'revoked' };
   if (invite.redeemedBy) return { ok: false, reason: 'used' };
@@ -183,7 +178,7 @@ export function redeemOutcome(
   if (actor.pilotInvitationCode && actor.pilotInvitationCode !== invite.code) {
     return { ok: false, reason: 'already_piloted' };
   }
-  return { ok: true, idempotent: false, expiresAt: pilotExpiry(now) };
+  return { ok: true, idempotent: false, expiresAt: null };
 }
 
 /** One locked redemption. A racing caller must use the updated invite. */
