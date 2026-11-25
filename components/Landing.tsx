@@ -168,7 +168,7 @@ export function Landing() {
           Daily English Test is for B1, B2, and C1 learners. Practise reading, listening, and grammar for exams at those levels. It is not an official exam board, and it does not guarantee a higher score.
         </p>
         <p className="mx-auto mt-3 max-w-lg text-center text-base leading-relaxed text-slate-500 dark:text-slate-300">
-          You get 12 free lessons. You do not enter a card. Task packs group a reading, a listening, and a grammar exercise. My progress can download a PDF of your results. Vocabulary keeps the words you save, as flashcards or a quiz.
+          You do not enter a card. Live lessons are limited to 5 a day. A lesson already in the bank does not count. Task packs group a reading, a listening, and a grammar exercise. My progress can download a PDF of your results. Vocabulary keeps the words you save, as flashcards or a quiz.
         </p>
       </section>
 

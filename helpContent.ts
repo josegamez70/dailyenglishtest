@@ -330,7 +330,7 @@ const EN_FAQ: readonly HelpFaq[] = [
       },
       {
         type: 'p',
-        text: 'Each account can create 12 free lessons. They do not expire. They are not a free trial, and you do not enter a card to get them. An active academy covers new lessons for the owner and for students who have joined. When a pilot ends, new lessons stop, and those 12 free lessons do not start again.',
+        text: 'You do not enter a card. Live lessons are limited to 5 a day. A lesson already in the bank does not count. An active academy covers new lessons for the owner and for students who have joined. When a pilot ends, new lessons stop.',
       },
     ],
   },
