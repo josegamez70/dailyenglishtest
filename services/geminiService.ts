@@ -73,10 +73,13 @@ async function fetchWithRetry(
         let message = text || `HTTP ${res.status}`;
         let code: string | undefined;
         try {
-          const parsed = JSON.parse(text) as { message?: string; error?: string };
+          const parsed = JSON.parse(text) as { message?: string; error?: string; code?: string };
           if (parsed?.error === 'free_limit') {
             message = FREE_LIMIT_MESSAGE;
             code = 'free_limit';
+          } else if (parsed?.code === 'custom_topic_limit') {
+            message = parsed.message || message;
+            code = 'custom_topic_limit';
           } else if (parsed?.error === 'pilot_expired') {
             message = parsed.message || 'This academy pilot has ended. Saved lessons are still available. New lessons are paused.';
             code = 'pilot_expired';
@@ -95,7 +98,8 @@ async function fetchWithRetry(
       lastErr = error;
       if (external?.aborted || (error instanceof Error && error.name === 'AbortError')) throw error;
       const status = Number((error as { status?: number })?.status || 0);
-      const retryable = [429, 503, 504].includes(status);
+      const limitCode = (error as { code?: string }).code;
+      const retryable = (status === 429 && limitCode !== 'custom_topic_limit') || status === 503 || status === 504;
       if (!retryable || i === tries - 1) throw error;
       await new Promise((resolve) => setTimeout(resolve, 400));
     }
