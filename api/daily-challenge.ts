@@ -10,6 +10,7 @@ import {
   gradeGrammarItems,
   gradeQuestions,
   listeningLevelForChallenge,
+  challengeVocabulary,
   readingChallengeSlice,
   todayMadrid,
   type ChallengeLevel,
@@ -73,7 +74,13 @@ function readingOf(row: BankRow) {
   }));
   const slice = readingChallengeSlice(lesson.story, quiz);
   if (!slice) return null;
-  return { title: lesson.title, topic: lesson.topicLabel, story: slice.story, quiz: slice.quiz };
+  return {
+    title: lesson.title,
+    topic: lesson.topicLabel,
+    story: slice.story,
+    quiz: slice.quiz,
+    vocabulary: lesson.vocabulary,
+  };
 }
 
 function listeningParsed(row: BankRow) {
@@ -90,6 +97,9 @@ function listeningParsed(row: BankRow) {
   return {
     title: lesson.title,
     topic: lesson.topicLabel,
+    story: lesson.story,
+    dialogue: lesson.dialogue,
+    vocabulary: lesson.vocabulary,
     audioPath: String((row.dimensions as { audioPath?: unknown } | null)?.audioPath ?? ''),
     quiz: lesson.quiz.map((item) => ({
       question: item.question,
@@ -107,7 +117,8 @@ function listeningSlice(row: BankRow) {
   if (!full) return null;
   const quiz = firstChallengeItems(full.quiz);
   if (!quiz) return null;
-  return { ...full, quiz };
+  const text = [full.story, ...full.dialogue.map((turn) => turn.line)].join('\n');
+  return { ...full, quiz, text, vocabulary: full.vocabulary };
 }
 
 function grammarOf(row: BankRow) {
@@ -281,10 +292,17 @@ export default async (req: Request) => {
   }
   const audioUrl = built.listening.audioPath ? await signListeningAudio(admin, built.listening.audioPath) : null;
 
+  const words = challengeVocabulary({
+    readingStory: built.reading.story,
+    readingVocabulary: built.reading.vocabulary,
+    listeningText: built.listening.text,
+    listeningVocabulary: built.listening.vocabulary,
+  });
   const pack = {
     reading: { title: built.reading.title, topic: built.reading.topic, story: built.reading.story, quiz: built.reading.quiz },
     listening: { title: built.listening.title, topic: built.listening.topic, audioUrl, quiz: built.listening.quiz },
     grammar: built.grammar,
+    words,
   };
 
   if (body.action === 'submit') {

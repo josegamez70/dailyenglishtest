@@ -34,6 +34,7 @@ export type ChallengePack = {
   reading: { title: string; topic: string; story: string; quiz: ChallengeQuiz[] } | null;
   listening: { title: string; topic: string; audioUrl: string | null; quiz: ChallengeQuiz[] } | null;
   grammar: { title: string; exercise: string; items: GrammarItem[] } | null;
+  words?: { term: string; meaning: string; sourceType: 'reading' | 'listening'; example: string }[];
 };
 
 export type ChallengeSubmit = {

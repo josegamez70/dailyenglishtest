@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useSyncExternalStore } from 'react';
 import { loadChallengeBoard, loadChallengePack, submitChallenge, type ChallengePack, type ChallengeQuiz } from '../dailyChallengeClient';
 import { challengeRank, formatDuration, type ChallengeEntry, type ChallengeLevel, type ChallengeReportItem } from '../dailyChallenge';
 import { weightedPercent } from '../scoreboard';
@@ -6,6 +6,8 @@ import { recordScoredLesson } from '../legendsRecord';
 import type { GrammarItem } from '../grammarSet';
 import { BackButton } from './BackButton';
 import { ChallengeRankTable } from './ChallengeRankTable';
+import { termKey } from '../vocabulary';
+import { getVocabularyState, loadVocabulary, savedTermSet, saveVocabularyWord, subscribeVocabulary } from '../vocabularyStore';
 
 type PartId = 'reading' | 'listening' | 'grammar';
 
@@ -26,6 +28,67 @@ type PreviewPack = {
   };
   ranking?: ChallengeEntry[];
 };
+
+function ChallengeWords({
+  words,
+  saved,
+  level,
+  readingTitle,
+  listeningTitle,
+  readingTopic,
+  listeningTopic,
+}: {
+  words: { term: string; meaning: string; sourceType: 'reading' | 'listening'; example: string }[];
+  saved: Set<string>;
+  level: string;
+  readingTitle: string;
+  listeningTitle: string;
+  readingTopic: string;
+  listeningTopic: string;
+}) {
+  const [busy, setBusy] = useState<string | null>(null);
+  const save = async (list: typeof words) => {
+    setBusy('all');
+    for (const word of list) {
+      if (saved.has(termKey(word.term))) continue;
+      await saveVocabularyWord({
+        term: word.term,
+        meaning: word.meaning,
+        example: word.example,
+        sourceType: word.sourceType,
+        lessonTitle: word.sourceType === 'reading' ? readingTitle : listeningTitle,
+        topic: word.sourceType === 'reading' ? readingTopic : listeningTopic,
+        level,
+      });
+    }
+    setBusy(null);
+  };
+  return (
+    <section className="mt-3 border-2 border-slate-900 p-3" aria-label="Challenge vocabulary">
+      <p className="font-bold">Words from this challenge</p>
+      {words.length === 0 && <p className="mt-2">This challenge has no listed words in the text you read or heard.</p>}
+      {words.length > 0 && (
+        <button type="button" className="mt-2 min-h-11 border-2 border-slate-900 px-3 py-2 text-base font-bold" disabled={busy != null} onClick={() => { void save(words.filter((word) => !saved.has(termKey(word.term)))); }}>
+          {busy ? 'Saving...' : 'Save all'}
+        </button>
+      )}
+      <ul className="mt-3 flex list-none flex-col gap-3 p-0">
+        {words.map((word) => {
+          const already = saved.has(termKey(word.term));
+          return (
+            <li key={`${word.sourceType}-${word.term}`} className="border-2 border-slate-900 p-2">
+              <p className="font-bold">{word.term}</p>
+              <p className="mt-1">{word.meaning}</p>
+              <button type="button" className="mt-2 min-h-11 border-2 border-slate-900 px-3 py-2 text-base font-bold" disabled={already || busy != null} onClick={() => { void save([word]); }}>
+                {already ? 'Saved' : 'Save'}
+              </button>
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+  );
+}
 
 function placeLabel(position: number): string {
   if (position === 1) return '1st';
@@ -114,6 +177,8 @@ export function DailyChallengePage({
   const [now, setNow] = useState(() => Date.now());
   const [saving, setSaving] = useState(false);
   const [localResult, setLocalResult] = useState<PreviewPack['result'] | null>(preview?.result ?? null);
+  const [wordsOpen, setWordsOpen] = useState(false);
+  const vocabState = useSyncExternalStore(subscribeVocabulary, getVocabularyState, getVocabularyState);
   const [ranking, setRanking] = useState<ChallengeEntry[]>(preview?.ranking ?? []);
   const [rankingMissing, setRankingMissing] = useState(false);
 
@@ -141,6 +206,11 @@ export function DailyChallengePage({
       if (!ignore) setMessage('The challenge could not be loaded.');
     });
     return () => { ignore = true; };
+  }, [preview]);
+
+  useEffect(() => {
+    if (preview) return;
+    void loadVocabulary();
   }, [preview]);
 
   useEffect(() => {
@@ -288,6 +358,20 @@ export function DailyChallengePage({
         <p className="mt-2">{pack.level} · {pack.day}</p>
         <section className="mt-4 border-2 border-slate-900 bg-white p-4 text-slate-900" aria-label="Challenge result">
           <p className="text-3xl font-bold">You scored {result.correct} out of {result.total}{percent == null ? '' : ` (${percent}%)`}.</p>
+          <button type="button" className="mt-3 min-h-11 border-2 border-slate-900 bg-white px-3 py-2 text-base font-bold" onClick={() => setWordsOpen((open) => !open)}>
+            {wordsOpen ? 'Hide vocabulary' : 'View vocabulary'}
+          </button>
+          {wordsOpen && (
+            <ChallengeWords
+              words={pack.words ?? []}
+              saved={savedTermSet(vocabState.rows)}
+              level={pack.level}
+              readingTitle={pack.reading?.title ?? ''}
+              listeningTitle={pack.listening?.title ?? ''}
+              readingTopic={pack.reading?.topic ?? ''}
+              listeningTopic={pack.listening?.topic ?? ''}
+            />
+          )}
           <p className="mt-2">Time {formatDuration(result.seconds)}.</p>
           {result.position != null ? (
             <p className="mt-2">You are {placeLabel(result.position)} at {pack.level} today.</p>
