@@ -416,6 +416,7 @@ export function DailyChallengePage({
       <div className="challenge-flow">
         {onBack && <BackButton onClick={onBack} />}
         <h1>Daily challenge</h1>
+        {levelChoices}
         <p className="mt-2">{pack.level} · {pack.day}</p>
         <section className="mt-4 border-2 border-slate-900 bg-white p-4 text-slate-900" aria-label="Challenge result">
           <p className="text-3xl font-bold">You scored {result.correct} out of {result.total}{percent == null ? '' : ` (${percent}%)`}.</p>
