@@ -2100,6 +2100,41 @@ const App: React.FC = () => {
     return <TasksPreview scene={scene} />;
   }
   if (!account.ready) return <AuthLoading />;
+  if (path === '/academy-sign-in') {
+    if (!account.signedIn) {
+      return (
+        <div className="flex min-h-screen flex-col items-center bg-[#e7eef6] px-3 py-6 text-[#172033] dark:bg-[#172033] dark:text-slate-100">
+          <main className="w-full max-w-xl">
+            <h1 className="text-3xl font-bold">Academy owners</h1>
+            <p className="mt-3 text-base">Teachers and academy owners sign in here. This uses the same email link. Learners stay on their own account.</p>
+            <div className="mt-6">
+              <SignInBox submitLabel="Send academy link" formId="academy-sign-in" />
+            </div>
+            <p className="mt-4 text-center text-sm"><a className="underline" href="/">Learner sign-in</a></p>
+          </main>
+          <SiteFooter />
+        </div>
+      );
+    }
+    return (
+      <div className="flex min-h-screen flex-col items-center bg-[#e7eef6] px-3 py-6 text-[#172033] dark:bg-[#172033] dark:text-slate-100">
+        <main className="w-full max-w-xl">
+          <h1 className="text-3xl font-bold">Academy owners</h1>
+          {account.plan === 'academy' ? (
+            <p className="mt-3 text-base">Your academy account is signed in. The teacher panel, Tasks, and this academy’s scoreboard stay available.</p>
+          ) : (
+            <p className="mt-3 text-base">Your learner account stays individual. Progress, results, vocabulary, and badges stay on this account.</p>
+          )}
+          <p className="mt-4">
+            <a className="inline-flex min-h-11 items-center rounded-lg bg-blue-700 px-4 py-3 text-base font-bold text-white" href={account.plan === 'academy' ? '/academy' : '/'}>
+              {account.plan === 'academy' ? 'Open my academy' : 'Continue as a learner'}
+            </a>
+          </p>
+        </main>
+        <SiteFooter />
+      </div>
+    );
+  }
   if (path === '/pilot' || path === '/admin/pilots') {
     return (
       <div className="flex min-h-screen flex-col bg-[#e7eef6] text-[#172033] dark:bg-[#172033] dark:text-slate-100">
@@ -2605,7 +2640,7 @@ const App: React.FC = () => {
         <RetroWindow title="My academy" sober>
           <div>
             <BackButton onClick={() => go('/')} />
-            <p className="text-base">This page is for academy accounts.</p>
+            <p className="text-base">This entrance is for academy owners. Your learner account stays individual.</p>
           </div>
         </RetroWindow>
       )}

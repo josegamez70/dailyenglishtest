@@ -1,22 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { joinAcademy, lookupAcademyName } from '../academy';
-import { joinResultMessage } from '../academyStats';
+import { useEffect, useState } from 'react';
+import { lookupAcademyName } from '../academy';
 import { BackButton } from './BackButton';
 
 export function JoinAcademyPage({
   code,
-  onJoined,
   onNotNow,
 }: {
   code: string;
-  onJoined: () => void;
+  onJoined?: () => void;
   onNotNow: () => void;
 }) {
   const [name, setName] = useState<string | null>(null);
   const [missing, setMissing] = useState(false);
   const [ready, setReady] = useState(false);
-  const [note, setNote] = useState<string | null>(null);
-  const [busy, setBusy] = useState(false);
 
   useEffect(() => {
     let ignore = false;
@@ -31,18 +27,6 @@ export function JoinAcademyPage({
     return () => { ignore = true; };
   }, [code]);
 
-  const join = async () => {
-    setBusy(true);
-    setNote(null);
-    const result = await joinAcademy(code);
-    setBusy(false);
-    if (result === 'ok') {
-      onJoined();
-      return;
-    }
-    setNote(joinResultMessage(result));
-  };
-
   return (
     <div className="mx-auto w-full max-w-xl">
       <BackButton onClick={onNotNow} />
@@ -52,18 +36,16 @@ export function JoinAcademyPage({
       {ready && !missing && !name && <p className="mt-3 text-base">That code does not match an academy.</p>}
       {ready && name && (
         <>
-          <p className="mt-3 text-lg">Join {name}?</p>
+          <p className="mt-3 text-lg">Your account stays an individual learner. Progress, results, vocabulary, and badges stay on this account.</p>
+          <p className="mt-2 text-base">{name} keeps its teacher panel. Academy owners sign in from the academy entrance.</p>
           <div className="mt-4 flex flex-wrap gap-2">
-            <button type="button" disabled={busy} onClick={() => { void join(); }} className="rounded-lg bg-blue-700 px-4 py-3 text-base font-bold text-white hover:bg-blue-800 disabled:opacity-60">
-              {busy ? 'Joining...' : 'Join'}
-            </button>
-            <button type="button" onClick={onNotNow} className="rounded-lg border-2 border-slate-700 px-4 py-3 text-base font-semibold dark:border-slate-200">
-              Not now
+            <a href="/academy-sign-in" className="rounded-lg border-2 border-slate-900 px-4 py-3 text-base font-bold text-slate-900 dark:border-slate-100 dark:text-slate-50">Academy owners</a>
+            <button type="button" onClick={onNotNow} className="rounded-lg bg-blue-700 px-4 py-3 text-base font-bold text-white hover:bg-blue-800">
+              Continue as a learner
             </button>
           </div>
         </>
       )}
-      {note && <p className="mt-3 text-base">{note}</p>}
     </div>
   );
 }

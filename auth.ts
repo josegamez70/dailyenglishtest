@@ -86,9 +86,9 @@ export function useAccount() {
       return;
     }
     const record = row as Record<string, unknown>;
-    const role = record.role === 'owner' || record.role === 'student' ? record.role : null;
+    const role = record.role === 'owner' ? 'owner' : null;
     setAcademyRole(role);
-    setAcademyName(record.academy_name ? String(record.academy_name) : null);
+    setAcademyName(role === 'owner' && record.academy_name ? String(record.academy_name) : null);
   };
 
   const refreshProfile = useCallback(async (id?: string) => {
