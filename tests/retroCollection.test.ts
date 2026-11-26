@@ -22,19 +22,33 @@ test('retro legends use practice results, saved words, and older achievement row
   const accuracy = badges.find((badge) => badge.id === 'acc_80_5');
   const level = badges.find((badge) => badge.id === 'level_b2');
   const vocab = badges.find((badge) => badge.id === 'vocab_1');
+  assert.equal(level, undefined);
   assert.equal(exercises?.unlocked, true);
   assert.equal(exercises?.current, 4);
   assert.equal(exercises?.progress, '4/5');
   assert.equal(accuracy?.current, 3);
   assert.equal(accuracy?.progress, '3/5');
   assert.equal(accuracy?.unlocked, false);
-  assert.equal(level?.current, 3);
-  assert.equal(level?.progress, '3/5');
   assert.equal(vocab?.unlocked, true);
   assert.equal(vocab?.progress, '1/1');
   const groups = badges.map((badge) => badge.group);
   assert.ok(groups.indexOf('exercises') < groups.indexOf('accuracy'));
   assert.ok(groups.indexOf('accuracy') < groups.indexOf('streaks'));
-  assert.ok(groups.indexOf('streaks') < groups.indexOf('levels'));
-  assert.ok(groups.indexOf('levels') < groups.indexOf('vocabulary'));
+  assert.equal(groups.includes('levels'), false);
+  assert.ok(groups.indexOf('streaks') < groups.indexOf('vocabulary'));
+  const counted = presentRetroLegends({
+    results: [row('2026-01-01T10:00:00.000Z', 'B1', 4, 5)],
+    words: [],
+    unlocksEnabled: true,
+  });
+  const opened = counted.find((badge) => badge.id === 'level_b2');
+  assert.equal(opened?.current, 1);
+  assert.equal(opened?.progress, '1/5');
+  assert.equal(opened?.unlocked, false);
+  const kept = presentRetroLegends({
+    results: [],
+    words: [],
+    stored: [{ id: 'level_b2', unlockedAt: '2026-03-02T10:00:00.000Z' }],
+  });
+  assert.equal(kept.find((badge) => badge.id === 'level_b2')?.unlocked, true);
 });
