@@ -4,7 +4,7 @@
  */
 export function usernameToken(input: string): string {
   const raw = input.trim().replace(/^@+/, '');
-  if (!/^[\p{L}\p{N}_]{3,24}$/u.test(raw)) return '';
+  if (!/^[A-Za-z0-9_]{3,24}$/.test(raw)) return '';
   return raw;
 }
 
