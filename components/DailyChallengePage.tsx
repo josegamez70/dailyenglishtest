@@ -6,6 +6,7 @@ import { recordScoredLesson } from '../legendsRecord';
 import type { GrammarItem } from '../grammarSet';
 import { BackButton } from './BackButton';
 import { LevelRuleNote } from './LevelRuleNote';
+import { LEVEL_UNLOCKS_ENABLED } from '../levelUnlocks';
 import { ChallengeRankTable } from './ChallengeRankTable';
 import { termKey } from '../vocabulary';
 import { getVocabularyState, loadVocabulary, savedTermSet, saveVocabularyWord, subscribeVocabulary } from '../vocabularyStore';
@@ -284,7 +285,7 @@ export function DailyChallengePage({
       <legend className="text-base font-semibold">Level</legend>
       <div className="mt-2 grid grid-cols-3 gap-2" role="group" aria-label="Daily challenge level">
         {(['B1', 'B2', 'C1'] as const).map((id) => {
-          const locked = (id === 'B2' && pack.b2Open === false) || (id === 'C1' && pack.c1Open === false);
+          const locked = LEVEL_UNLOCKS_ENABLED && ((id === 'B2' && pack.b2Open === false) || (id === 'C1' && pack.c1Open === false));
           const selected = (pack.choosing ? picked : pack.level) === id;
           return (
             <button
@@ -300,12 +301,12 @@ export function DailyChallengePage({
           );
         })}
       </div>
-      <LevelRuleNote access={{ b1Passes: pack.b1Passes ?? 0, b2Passes: pack.b2Passes ?? 0 }} />
+      {LEVEL_UNLOCKS_ENABLED && <LevelRuleNote access={{ b1Passes: pack.b1Passes ?? 0, b2Passes: pack.b2Passes ?? 0 }} />}
     </fieldset>
   );
 
   if (pack.choosing) {
-    const pickedLocked = (picked === 'B2' && pack.b2Open === false) || (picked === 'C1' && pack.c1Open === false);
+    const pickedLocked = LEVEL_UNLOCKS_ENABLED && ((picked === 'B2' && pack.b2Open === false) || (picked === 'C1' && pack.c1Open === false));
     return (
       <div className="challenge-flow">
         {onBack && <BackButton onClick={onBack} />}

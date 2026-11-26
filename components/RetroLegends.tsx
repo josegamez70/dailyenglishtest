@@ -75,9 +75,11 @@ export function RetroLegendsPanel() {
       <div className="badge-window-body">
         <p className="text-base">One collection. A grey badge is still to earn. A lit badge is earned.</p>
         {!badges && <p className="mt-3 text-base">Loading...</p>}
-        {badges && RETRO_GROUPS.map((group) => (
-          <LegendRow key={group.id} label={group.label} badges={badges.filter((badge) => badge.group === group.id)} onOpen={setOpen} />
-        ))}
+        {badges && RETRO_GROUPS.map((group) => {
+          const row = badges.filter((badge) => badge.group === group.id);
+          if (row.length === 0) return null;
+          return <LegendRow key={group.id} label={group.label} badges={row} onOpen={setOpen} />;
+        })}
       </div>
       {open && <LegendCard badge={open} onClose={() => setOpen(null)} />}
     </section>

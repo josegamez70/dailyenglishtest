@@ -62,6 +62,7 @@ import { parseSavedGrammarLesson, type GrammarLaunch } from './savedLessonMeta';
 import { listTestResults, saveLesson, saveTestResult, updateProfileSettings, type SavedLessonRow } from './studyStore';
 import { levelsOpenedBy } from './levelProgress';
 import { publishLevelUnlocks } from './levelUnlock';
+import { LEVEL_UNLOCKS_ENABLED } from './levelUnlocks';
 import { markTaskDone, type TaskSlot } from './taskStore';
 import { sentenceWith, setVocabLessonContext, setVocabSignInHandler, matchedSavedTerms, savedMatchKeys, termKey } from './vocabulary';
 import { getVocabularyState, loadVocabulary, removeVocabularyWord, saveVocabularyWord, subscribeVocabulary } from './vocabularyStore';
@@ -683,7 +684,7 @@ const App: React.FC = () => {
     }).then((saved) => {
       if (!saved.ok) return;
       void priorResults.then((listed) => {
-        if (!listed) return;
+        if (!listed || !LEVEL_UNLOCKS_ENABLED) return;
         publishLevelUnlocks(levelsOpenedBy(listed.rows, { level: finishedLevel, score, total: quiz.length, mode: finishedMode }));
       });
       if (finishedMode !== 'reading' && finishedMode !== 'listening' && finishedMode !== 'grammar') return;

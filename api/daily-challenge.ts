@@ -19,6 +19,7 @@ import {
 import type { GrammarExerciseType, GrammarLevel } from '../grammarSet.ts';
 import { readEnvValue, runtimeEnv } from '../taskMail.ts';
 import { levelAccess } from '../levelProgress.ts';
+import { LEVEL_UNLOCKS_ENABLED } from '../levelUnlocks.ts';
 
 type BankRow = {
   id: string;
@@ -279,8 +280,8 @@ export default async (req: Request) => {
   const accessFields = {
     b1Passes: access.b1Passes,
     b2Passes: access.b2Passes,
-    b2Open: access.b2,
-    c1Open: access.c1,
+    b2Open: LEVEL_UNLOCKS_ENABLED ? access.b2 : true,
+    c1Open: LEVEL_UNLOCKS_ENABLED ? access.c1 : true,
   };
 
   const loaded = await readAttempt(admin, userId, day);
@@ -291,7 +292,7 @@ export default async (req: Request) => {
 
   if (!attempt && body.action === 'start') {
     const requested = challengeLevel(typeof body.level === 'string' ? body.level : 'B1');
-    if ((requested === 'B2' && !access.b2) || (requested === 'C1' && !access.c1)) {
+    if (LEVEL_UNLOCKS_ENABLED && ((requested === 'B2' && !access.b2) || (requested === 'C1' && !access.c1))) {
       return json(200, { ok: false, message: 'That level is not open yet.' });
     }
     level = requested;

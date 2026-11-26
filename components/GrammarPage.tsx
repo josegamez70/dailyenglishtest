@@ -33,6 +33,7 @@ import { generateGrammarSet } from '../services/geminiService';
 import { listTestResults, saveGrammarLesson, saveTestResult, updateSavedGrammar } from '../studyStore';
 import { levelsOpenedBy } from '../levelProgress';
 import { publishLevelUnlocks } from '../levelUnlock';
+import { LEVEL_UNLOCKS_ENABLED } from '../levelUnlocks';
 import { DefinedText, DictionaryPopup } from './DefinedText';
 import CheckCircleIcon from './icons/CheckCircleIcon';
 import Loader from './Loader';
@@ -297,7 +298,7 @@ export function GrammarPage({
     }).then((saved) => {
       if (!saved.ok) return;
       void priorResults.then((listed) => {
-        if (!listed) return;
+        if (!listed || !LEVEL_UNLOCKS_ENABLED) return;
         publishLevelUnlocks(levelsOpenedBy(listed.rows, { level, score, total: nextGrades.length, mode: 'grammar' }));
       });
       void recordScoredLesson(

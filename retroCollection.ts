@@ -1,4 +1,5 @@
 import { storedLevel } from './levelProgress.ts';
+import { LEVEL_UNLOCKS_ENABLED } from './levelUnlocks.ts';
 import { formatResultDate } from './progressStats.ts';
 import { madridDayKey, shiftMadridDay } from './tasks.ts';
 
@@ -163,6 +164,7 @@ export function presentRetroLegends(input: {
   results: readonly PracticeRow[];
   words: readonly SavedWordRow[];
   stored?: readonly StoredAchievement[];
+  unlocksEnabled?: boolean;
 }): RetroBadge[] {
   const stored = input.stored ?? [];
   const practice = input.results.filter(isPractice).sort(byTime);
@@ -271,5 +273,8 @@ export function presentRetroLegends(input: {
     legacyAt: legacyDate([`vocab_${need}`, ...(VOCAB_LEGACY[need] ?? [])], stored),
   }));
 
-  return [...exercises, ...accuracy, ...streaks, ...levels, ...vocabulary];
+  const unlocksEnabled = input.unlocksEnabled ?? LEVEL_UNLOCKS_ENABLED;
+  const storedIds = new Set(stored.map((row) => row.id));
+  const visibleLevels = unlocksEnabled ? levels : levels.filter((badge) => storedIds.has(badge.id));
+  return [...exercises, ...accuracy, ...streaks, ...visibleLevels, ...vocabulary];
 }
