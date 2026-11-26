@@ -12,7 +12,7 @@ import { listSavedLessons, type SavedLessonRow } from '../studyStore';
 import { getSupabase } from '../auth';
 import { BackButton } from './BackButton';
 import { ShareMenu } from './ShareMenu';
-import { buildShareLink, savedChallengePercent, type ShareMode } from '../shareChallenge';
+import { buildShareLink, savedChallengePercent, savedSenderResult, type ShareMode } from '../shareChallenge';
 
 function badgeClass(badge: SavedLessonBadge): string {
   if (badge.kind === 'task') return 'border-amber-600 text-amber-800 dark:border-amber-300 dark:text-amber-200';
@@ -210,13 +210,19 @@ function SavedShare({ row, handle, onHandle }: { row: SavedLessonRow; handle: st
       handle={handle}
       onHandle={onHandle}
       prepare={mode === 'listening' ? () => prepareSavedListening(row.id) : undefined}
-      linkFor={(next) => buildShareLink(window.location.origin, {
-        mode,
-        title: row.title,
-        handle: next,
-        percent: savedChallengePercent(row.lesson),
-        lesson: { ...row.lesson, savedLessonId: row.id },
-      })}
+      linkFor={(next) => {
+        const result = savedSenderResult(row.lesson);
+        return buildShareLink(window.location.origin, {
+          mode,
+          title: row.title,
+          handle: next,
+          percent: savedChallengePercent(row.lesson),
+          senderCorrect: result?.correct ?? null,
+          senderTotal: result?.total ?? null,
+          senderSeconds: null,
+          lesson: { ...row.lesson, savedLessonId: row.id },
+        });
+      }}
     />
   );
 }

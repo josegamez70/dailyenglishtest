@@ -363,6 +363,13 @@ export function GrammarPage({
         ? 'Back to Saved lessons'
         : 'Back';
 
+  const attemptStarted = useRef<number | null>(null);
+  const attemptSeconds = useRef<number | null>(null);
+  if (phase === 'play' && attemptStarted.current == null) attemptStarted.current = Date.now();
+  if (phase === 'results' && attemptStarted.current != null && attemptSeconds.current == null) {
+    attemptSeconds.current = Math.max(0, Math.round((Date.now() - attemptStarted.current) / 1000));
+  }
+
   if (phase === 'results') {
     const score = grades.filter((grade) => grade.correct).length;
     const percentage = grades.length ? Math.round((score / grades.length) * 100) : 0;
@@ -383,6 +390,9 @@ export function GrammarPage({
                 title,
                 handle: next,
                 percent: percentage,
+                senderCorrect: score,
+                senderTotal: grades.length,
+                senderSeconds: attemptSeconds.current,
                 lesson: {
                   mode: 'grammar',
                   title,

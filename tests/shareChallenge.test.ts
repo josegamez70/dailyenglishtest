@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { buildShareLink, decodeShare, savedChallengePercent, shareIdFromPath } from '../shareChallenge.ts';
+import { buildShareLink, decodeShare, formatShareTime, resultComparison, savedChallengePercent, senderResultLine, shareIdFromPath } from '../shareChallenge.ts';
 
 const lesson = {
   mode: 'reading',
@@ -83,6 +83,34 @@ test('a share link carries the exercise, the score, and the @, and nothing priva
   assert.match(menu, /publishShareLink/);
   assert.equal(shareIdFromPath('/s/11111111-1111-4111-8111-111111111111'), '11111111-1111-4111-8111-111111111111');
   assert.equal(shareIdFromPath('/share'), '');
+  assert.equal(senderResultLine({ handle: '@DetestShare', correct: 4, total: 5, seconds: 92 }), '@DetestShare got 4/5 in 1:32 — can you beat it?');
+  assert.equal(senderResultLine({ handle: '@DetestShare', correct: null, total: null, seconds: null }), 'Can you try this exercise? — @DetestShare');
+  assert.equal(formatShareTime(92), '1:32');
+  assert.equal(resultComparison({
+    handle: '@DetestShare',
+    yoursCorrect: 5,
+    yoursTotal: 5,
+    yoursSeconds: 130,
+    senderCorrect: 4,
+    senderTotal: 5,
+    senderSeconds: 92,
+  }), 'You got 5/5 in 2:10. @DetestShare got 4/5 in 1:32.');
+  const timed = buildShareLink('https://dailyenglishtest.es', {
+    mode: 'reading',
+    title: 'The corner shop',
+    handle: 'JmgamezBest',
+    percent: 80,
+    senderCorrect: 4,
+    senderTotal: 5,
+    senderSeconds: 92,
+    lesson,
+  });
+  assert.equal(timed?.line, '@JmgamezBest got 4/5 in 1:32 — can you beat it?');
+  const sqlSender = readFileSync(new URL('../supabase/migrations/20261210_shared_sender_result.sql', import.meta.url), 'utf8');
+  assert.match(sqlSender, /add column if not exists sender_correct integer/);
+  assert.match(sqlSender, /add column if not exists sender_total integer/);
+  assert.match(sqlSender, /add column if not exists sender_seconds integer/);
+  assert.equal(sqlSender.toLowerCase().includes('update public.shared_exercises set'), false);
   const recipient = readFileSync(new URL('../components/SharePage.tsx', import.meta.url), 'utf8');
   assert.match(recipient, /saveTestResult/);
   assert.match(recipient, /recordScoredLesson/);

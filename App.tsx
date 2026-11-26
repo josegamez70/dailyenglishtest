@@ -273,6 +273,8 @@ const App: React.FC = () => {
   const speedRef = useRef(1);
   const lessonAudioUrlRef = useRef<string | null>(null);
   const lessonBankIdRef = useRef<string | null>(null);
+  const quizStartedAtRef = useRef<number | null>(null);
+  const quizSecondsRef = useRef<number | null>(null);
   const lessonSavedIdRef = useRef<string | null>(null);
   const lessonTaskPackIdRef = useRef<string | null>(null);
   const lessonSlowUrlRef = useRef<string | null>(null);
@@ -662,6 +664,9 @@ const App: React.FC = () => {
     if (finishing) return;
     primeAudio();
     stopSpeaking();
+    quizSecondsRef.current = quizStartedAtRef.current == null
+      ? null
+      : Math.max(0, Math.round((Date.now() - quizStartedAtRef.current) / 1000));
     const score = quiz.reduce((acc, question, index) => acc + (question.correctAnswer === userAnswers[index] ? 1 : 0), 0);
     const wrongAnswers = quiz.flatMap((question, index) => {
       const userAnswer = userAnswers[index] || '';
@@ -794,6 +799,7 @@ const App: React.FC = () => {
     setStoryReviewOpen(false);
     setFinishing(false);
     setCurrentQuestionIndex(0);
+    quizStartedAtRef.current = Date.now();
     setView('quiz');
     stopSpeaking();
   };
@@ -2654,6 +2660,9 @@ const App: React.FC = () => {
               percent: quiz.length
                 ? Math.round((quiz.filter((question, index) => question.correctAnswer === userAnswers[index]).length / quiz.length) * 100)
                 : null,
+              senderCorrect: quiz.filter((question, index) => question.correctAnswer === userAnswers[index]).length,
+              senderTotal: quiz.length,
+              senderSeconds: quizSecondsRef.current,
               lesson: {
                 mode: practiceType,
                 title: storyTopic?.label || 'Exercise',
@@ -2662,6 +2671,7 @@ const App: React.FC = () => {
               story,
               dialogue: dialogueTurns,
               quiz,
+              ...(lessonSavedIdRef.current ? { savedLessonId: lessonSavedIdRef.current } : {}),
               ...(lessonBankIdRef.current ? { bankId: lessonBankIdRef.current } : {}),
               },
             }),
