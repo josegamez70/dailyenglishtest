@@ -1,5 +1,9 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { getSupabase } from '../auth';
+import { recordScoredLesson } from '../legendsRecord';
 import { decodeShare, type ShareCard } from '../shareChallenge';
+import { loadSharedExercise } from '../shareStore';
+import { saveLesson, saveTestResult } from '../studyStore';
 
 type Step = {
   prompt: string;
@@ -67,8 +71,13 @@ function passage(card: ShareCard): string {
   return String(lesson.story ?? '');
 }
 
-export function SharePage() {
-  const card = useMemo(() => decodeShare(window.location.hash.replace(/^#/, '')), []);
+export function SharePage({ id = '' }: { id?: string }) {
+  const [card, setCard] = useState<ShareCard | null>(() => (id ? null : decodeShare(window.location.hash.replace(/^#/, ''))));
+  const [loading, setLoading] = useState(Boolean(id));
+  const [signedIn, setSignedIn] = useState(false);
+  const [progressNote, setProgressNote] = useState<string | null>(null);
+  const [lessonNote, setLessonNote] = useState<string | null>(null);
+  const recorded = useRef(false);
   const steps = useMemo(() => (card ? stepsFrom(card) : []), [card]);
   const [index, setIndex] = useState(0);
   const [answers, setAnswers] = useState<string[]>([]);
@@ -77,6 +86,27 @@ export function SharePage() {
   const [finished, setFinished] = useState(false);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [audioNote, setAudioNote] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!id) return undefined;
+    let ignore = false;
+    void loadSharedExercise(id).then((next) => {
+      if (ignore) return;
+      setCard(next);
+      setLoading(false);
+    });
+    return () => { ignore = true; };
+  }, [id]);
+
+  useEffect(() => {
+    const supabase = getSupabase();
+    if (!supabase) return undefined;
+    let ignore = false;
+    void supabase.auth.getSession().then(({ data }) => {
+      if (!ignore) setSignedIn(Boolean(data.session?.user));
+    });
+    return () => { ignore = true; };
+  }, []);
 
   useEffect(() => {
     if (!card || card.mode !== 'listening') return undefined;
@@ -102,6 +132,43 @@ export function SharePage() {
     });
     return () => { ignore = true; };
   }, [card]);
+
+  useEffect(() => {
+    if (!finished || !card || !signedIn || recorded.current) return;
+    const scoredMode = card.mode === 'reading' || card.mode === 'listening' || card.mode === 'grammar' || card.mode === 'vocabulary'
+      ? card.mode
+      : null;
+    if (!scoredMode || steps.length === 0) return;
+    recorded.current = true;
+    const score = steps.filter((step, place) => answers[place] === step.answer).length;
+    const total = steps.length;
+    const wrongAnswers = steps.flatMap((step, place) => (
+      answers[place] === step.answer ? [] : [{ question: step.prompt, userAnswer: answers[place] || '', correctAnswer: step.answer }]
+    ));
+    const parts = steps.map((step) => `${step.prompt}\n${step.answer}`);
+    const level = String(card.lesson.level ?? '');
+    const topic = String(card.lesson.topic ?? card.title);
+    const stored = scoredMode === 'vocabulary'
+      ? Promise.resolve({ ok: true as const })
+      : saveTestResult({ level, topic, title: card.title, score, total, mode: scoredMode, wrongAnswers });
+    void stored.then((saved) => {
+      if (!saved.ok) {
+        recorded.current = false;
+        setProgressNote('Could not save this score.');
+        return;
+      }
+      void recordScoredLesson(scoredMode, parts, score, total);
+      setProgressNote('Saved to your progress.');
+    });
+  }, [finished, signedIn, card, steps, answers]);
+
+  if (loading) {
+    return (
+      <main className="mx-auto min-h-screen max-w-xl px-4 py-8">
+        <p className="text-base">Loading...</p>
+      </main>
+    );
+  }
 
   if (!card || steps.length === 0) {
     return (
@@ -206,7 +273,27 @@ export function SharePage() {
         <section className="mt-4">
           <h2 className="text-2xl font-bold">You scored {yours}%</h2>
           {card.percent != null && <p className="mt-2 text-lg">{card.handle || 'The sender'} scored {card.percent}%.</p>}
-          <p className="mt-2 text-base">This score is not saved, and it is not added to a scoreboard.</p>
+          {signedIn ? (
+            <>
+              <p className="mt-2 text-base">{progressNote ?? 'Saving your score...'}</p>
+              {card.mode !== 'vocabulary' && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    void saveLesson(card.lesson, card.title).then((saved) => {
+                      setLessonNote(saved.ok ? 'Saved to Saved lessons.' : 'Could not save this lesson.');
+                    });
+                  }}
+                  className="mt-3 w-full rounded-lg border-2 border-slate-900 py-3 text-lg font-bold"
+                >
+                  Save lesson
+                </button>
+              )}
+              {lessonNote && <p className="mt-2 text-base">{lessonNote}</p>}
+            </>
+          ) : (
+            <p className="mt-2 text-base">This score is not saved, and it is not added to a scoreboard.</p>
+          )}
         </section>
       )}
     </main>
