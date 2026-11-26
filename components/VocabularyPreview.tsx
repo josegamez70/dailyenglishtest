@@ -99,7 +99,7 @@ function LessonPreview() {
       <DictionaryPopup />
       <div className="rounded-xl bg-white p-6 shadow-lg dark:bg-slate-800">
         <h2 className="text-center text-2xl font-bold">Read the Story</h2>
-        <p className="mt-2 text-center text-base font-semibold">Topic: Daily Life · Level: Beginner · Format: Text</p>
+        <p className="grammar-meta">B1 · Topic: Daily Life · Text</p>
         <DefinedText text={story} className="mt-6 block text-lg leading-relaxed" />
         <div className="mt-6">
           <KeyVocabularyList

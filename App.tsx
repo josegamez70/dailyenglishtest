@@ -1670,8 +1670,8 @@ const App: React.FC = () => {
               ? 'Listen to the dialogue'
               : 'Listen to the text'}
         </h2>
-        <p className="mt-2 text-center text-sm sm:text-base font-semibold leading-snug text-slate-900 dark:text-slate-50">
-          Topic: {storyTopic?.label ?? TOPICS.find((topic) => topic.value === config.topic)?.label ?? config.topic} · Level: {LEVELS.find((level) => level.value === config.level)?.label ?? config.level} · Format: {contentFormat === 'dialogue' ? 'Dialogue' : 'Text'}
+        <p className="grammar-meta">
+          {LEVELS.find((level) => level.value === config.level)?.label ?? config.level} · Topic: {storyTopic?.label ?? TOPICS.find((topic) => topic.value === config.topic)?.label ?? config.topic} · {contentFormat === 'dialogue' ? 'Dialogue' : 'Text'}
         </p>
 
         {practiceType === 'listening' && renderListeningControls()}
