@@ -150,6 +150,31 @@ function bestStreak(days: readonly string[]): number {
   return best;
 }
 
+/** Slots on each wooden shelf under the earned row. Two shelves to start. */
+export const EARNED_SHELF_SLOTS = 4;
+export const EARNED_SHELF_MINIMUM = 2;
+
+/** Earned badges in the order they were earned, then shelves with empty slots.
+ *  A new shelf appears when the ones already shown are full, so the next badge has room.
+ */
+export function earnedShelfPlan(badges: readonly RetroBadge[]): {
+  earned: RetroBadge[];
+  shelves: (RetroBadge | null)[][];
+} {
+  const place = new Map(badges.map((badge, index) => [badge.id, index]));
+  const earned = badges.filter((badge) => badge.unlocked).sort((left, right) => {
+    const leftAt = left.earnedAt ?? '9999-99-99';
+    const rightAt = right.earnedAt ?? '9999-99-99';
+    if (leftAt !== rightAt) return leftAt < rightAt ? -1 : 1;
+    return (place.get(left.id) ?? 0) - (place.get(right.id) ?? 0);
+  });
+  const shelfCount = Math.max(EARNED_SHELF_MINIMUM, Math.ceil((earned.length + 1) / EARNED_SHELF_SLOTS));
+  const shelves = Array.from({ length: shelfCount }, (_, shelf) => (
+    Array.from({ length: EARNED_SHELF_SLOTS }, (__, slot) => earned[shelf * EARNED_SHELF_SLOTS + slot] ?? null)
+  ));
+  return { earned, shelves };
+}
+
 export function earnedDateLabel(value: string | null): string {
   if (!value) return 'Not earned yet';
   if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {

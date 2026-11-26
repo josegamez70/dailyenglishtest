@@ -5,6 +5,7 @@ import { listTestResults } from '../studyStore';
 import { getVocabularyState, loadVocabulary } from '../vocabularyStore';
 import {
   earnedDateLabel,
+  earnedShelfPlan,
   presentRetroLegends,
   RETRO_GROUPS,
   type RetroBadge,
@@ -75,6 +76,7 @@ export function RetroLegendsPanel() {
       <div className="badge-window-body">
         <p className="text-base">One collection. A grey badge is still to earn. A lit badge is earned.</p>
         {!badges && <p className="mt-3 text-base">Loading...</p>}
+        {badges && <EarnedShelves badges={badges} onOpen={setOpen} />}
         {badges && RETRO_GROUPS.map((group) => {
           const row = badges.filter((badge) => badge.group === group.id);
           if (row.length === 0) return null;
@@ -83,6 +85,73 @@ export function RetroLegendsPanel() {
       </div>
       {open && <LegendCard badge={open} onClose={() => setOpen(null)} />}
     </section>
+  );
+}
+
+const EMPTY_PLACEHOLDERS = 4;
+
+function EarnedShelves({ badges, onOpen }: { badges: RetroBadge[]; onOpen: (badge: RetroBadge) => void }) {
+  const plan = earnedShelfPlan(badges);
+  return (
+    <>
+      <div className={`legend-shelf legend-top-shelf${plan.earned.length === 0 ? ' is-empty' : ''}`}>
+        <h3 className="legend-shelf-label">Earned</h3>
+        <ul className="legend-shelf-row" aria-label="Earned badges">
+          {plan.earned.length === 0
+            ? Array.from({ length: EMPTY_PLACEHOLDERS }, (_, index) => (
+              <li key={`placeholder-${index}`}><EmptySlot large /></li>
+            ))
+            : plan.earned.map((badge) => (
+              <li key={badge.id}>
+                <LegendBadge badge={badge} onOpen={onOpen} />
+              </li>
+            ))}
+        </ul>
+        {plan.earned.length === 0 && <p className="legend-shelf-note">No badges yet.</p>}
+      </div>
+      {plan.shelves.map((slots, index) => (
+        <div className="legend-shelf legend-slot-shelf" key={index}>
+          <ul className="legend-shelf-row" aria-label={`Shelf ${index + 1}`}>
+            {slots.map((badge, slot) => (
+              <li key={badge?.id ?? `empty-${index}-${slot}`}>
+                {badge ? <LegendBadge badge={badge} onOpen={onOpen} compact /> : <EmptySlot />}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </>
+  );
+}
+
+function EmptySlot({ large = false }: { large?: boolean }) {
+  return (
+    <div className={`legend-empty-slot${large ? ' is-large' : ''}`}>
+      <span className="sr-only">Empty</span>
+      <span className="legend-silhouette" aria-hidden="true" />
+    </div>
+  );
+}
+
+function LegendBadge({ badge, onOpen, compact = false }: {
+  badge: RetroBadge;
+  onOpen: (badge: RetroBadge) => void;
+  compact?: boolean;
+}) {
+  return (
+    <button
+      type="button"
+      className={`badge-card ${compact ? 'legend-slot-card' : ''} badge-earned legend-lit`}
+      onClick={() => onOpen(badge)}
+      aria-haspopup="dialog"
+      aria-label={badge.label}
+    >
+      <div className="badge-art">
+        <img src={badge.icon} alt="" width={compact ? 52 : 96} height={compact ? 52 : 96} />
+      </div>
+      {!compact && <p className="badge-name">{badge.label}</p>}
+      {!compact && <p className="badge-rule">{badge.progress}</p>}
+    </button>
   );
 }
 
