@@ -166,9 +166,6 @@ export function Landing() {
         <p className="mx-auto mt-4 max-w-lg text-center text-base leading-relaxed text-slate-500 dark:text-slate-300 sm:text-lg">
           Daily English Test is for B1, B2, and C1 learners. Practise reading, listening, and grammar for exams at those levels. It is not an official exam board, and it does not guarantee a higher score.
         </p>
-        <p className="mx-auto mt-3 max-w-lg text-center text-base leading-relaxed text-slate-500 dark:text-slate-300">
-          Daily English Test is free for now. You do not enter a card. It is not an official exam, and it does not guarantee a result. Task packs group a reading, a listening, and a grammar exercise. My progress can download a PDF of your results. Vocabulary keeps the words you save, as flashcards or a quiz.
-        </p>
       </section>
 
       <div className="mt-6 sm:mt-8">
@@ -225,6 +222,9 @@ export function Landing() {
 
       <p className="mt-6 text-center text-sm text-slate-600 dark:text-slate-300">
         Questions about an academy? Contact us at <a className="underline" href="mailto:info@dailyenglishtest.es">info@dailyenglishtest.es</a>
+      </p>
+      <p className="mx-auto mt-3 max-w-lg text-center text-base leading-relaxed text-slate-500 dark:text-slate-300">
+        Daily English Test is free for now. You do not enter a card. It is not an official exam, and it does not guarantee a result. Task packs group a reading, a listening, and a grammar exercise. My progress can download a PDF of your results. Vocabulary keeps the words you save, as flashcards or a quiz.
       </p>
     </main>
   );
