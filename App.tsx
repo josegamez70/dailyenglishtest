@@ -45,6 +45,8 @@ import { loadBadgeStats } from './badgeStats';
 import { publishBadgeProgress } from './badgeToast';
 import { LevelUnlockDialog } from './components/LevelUnlockNotice';
 import { ExerciseComplete } from './components/ExerciseComplete';
+import { SharePage } from './components/SharePage';
+import { buildShareLink } from './shareChallenge';
 import { SpanishWhy, answerStatus } from './components/SpanishWhy';
 import { QuizErrorBoundary, QuizScreen } from './components/QuizErrorBoundary';
 import { WelcomeGuide } from './components/WelcomeGuide';
@@ -2035,6 +2037,7 @@ const App: React.FC = () => {
     const scene = path.endsWith('/saved') ? 'saved' : path.endsWith('/email') ? 'email' : path.endsWith('/complete') ? 'complete' : path.endsWith('/packs') ? 'packs' : 'tasks';
     return <TasksPreview scene={scene} />;
   }
+  if (path === '/share') return <SharePage />;
   if (!account.ready) return <AuthLoading />;
   if (path === '/academy-sign-in') {
     if (!account.signedIn) {
@@ -2475,6 +2478,8 @@ const App: React.FC = () => {
         <RetroWindow title="Grammar">
         <GrammarPage
           fontClass={fontClass}
+          handle={account.handle}
+          onHandle={account.setHandle}
           initialLevel={cefr === 'B1' || cefr === 'B2' || cefr === 'C1' ? cefr : 'B1'}
           resetNonce={grammarResetNonce}
           onActiveChange={setGrammarActive}
@@ -2541,7 +2546,7 @@ const App: React.FC = () => {
       )}
       {shellItem === 'saved' && (
         <RetroWindow title="Saved lessons">
-        <SavedLessonsPage onOpen={openSaved} onCreate={() => go('/')} onPracticeGrammar={() => go('/grammar')} onBack={() => go('/')} />
+        <SavedLessonsPage onOpen={openSaved} onCreate={() => go('/')} onPracticeGrammar={() => go('/grammar')} onBack={() => go('/')} handle={account.handle} onHandle={account.setHandle} />
         </RetroWindow>
       )}
       {shellItem === 'challenge' && (
@@ -2552,6 +2557,8 @@ const App: React.FC = () => {
       {shellItem === 'vocabulary' && (
         <RetroWindow title="Vocabulary builder">
         <VocabularyPage
+          handle={account.handle}
+          onHandle={account.setHandle}
           userId={account.userId}
           onSignIn={() => { setSignInOpen(true); setSignInPrompt(true); }}
           onBack={() => {
@@ -2636,6 +2643,28 @@ const App: React.FC = () => {
           score={quiz.reduce((acc, question, index) => acc + (question.correctAnswer === userAnswers[index] ? 1 : 0), 0)}
           total={quiz.length}
           marks={quiz.map((question, index) => question.correctAnswer === userAnswers[index])}
+          share={{
+            handle: account.handle,
+            onHandle: account.setHandle,
+            linkFor: (next) => buildShareLink(window.location.origin, {
+              mode: practiceType === 'listening' ? 'listening' : 'reading',
+              title: storyTopic?.label || 'Exercise',
+              handle: next,
+              percent: quiz.length
+                ? Math.round((quiz.filter((question, index) => question.correctAnswer === userAnswers[index]).length / quiz.length) * 100)
+                : null,
+              lesson: {
+                mode: practiceType,
+                title: storyTopic?.label || 'Exercise',
+                level: config.level,
+                format: contentFormat,
+              story,
+              dialogue: dialogueTurns,
+              quiz,
+              ...(lessonBankIdRef.current ? { bankId: lessonBankIdRef.current } : {}),
+              },
+            }),
+          }}
           onReview={() => setResultCelebrate(false)}
           onNew={resetApp}
         />

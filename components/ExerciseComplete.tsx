@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { playResultSounds, prefersReducedMotion } from '../effects';
 import { RetroWindow } from './RetroWindow';
+import { ShareMenu, type ShareLink } from './ShareMenu';
 
 function ScoreSegments({ score, total }: { score: number; total: number }) {
   const count = Math.max(0, total);
@@ -44,6 +45,7 @@ export function ExerciseComplete({
   marks = null,
   onReview,
   onNew,
+  share = null,
 }: {
   score: number;
   total: number;
@@ -51,6 +53,12 @@ export function ExerciseComplete({
   marks?: boolean[] | null;
   onReview: () => void;
   onNew: () => void;
+  /** When set, Share asks for a unique @ first, then offers the link. */
+  share?: {
+    handle: string;
+    onHandle: (handle: string) => void;
+    linkFor: (handle: string) => ShareLink | null;
+  } | null;
 }) {
   /* Light and dark use the same finish tone as Retro 95. */
   useEffect(() => playResultSounds(marks, true), []);
@@ -77,6 +85,7 @@ export function ExerciseComplete({
             <button type="button" onClick={onNew} className="rounded-lg border-2 border-slate-900 bg-white px-4 py-3 text-lg font-bold text-slate-900 hover:bg-slate-100 dark:border-slate-100 dark:bg-slate-900 dark:text-slate-50">
               New exercise
             </button>
+            {share && <ShareMenu handle={share.handle} onHandle={share.onHandle} linkFor={share.linkFor} />}
           </div>
         </RetroWindow>
       </div>
