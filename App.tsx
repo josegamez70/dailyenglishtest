@@ -276,6 +276,14 @@ const App: React.FC = () => {
   const quizStartedAtRef = useRef<number | null>(null);
   const quizSecondsRef = useRef<number | null>(null);
   const lessonSavedIdRef = useRef<string | null>(null);
+  const listeningSaveRef = useRef<Promise<string | null>>(Promise.resolve(null));
+  const rememberListeningSave = (pending: Promise<{ ok: boolean; id?: string }>) => {
+    const run = pending.then((saved) => (saved.ok && saved.id ? saved.id : null)).catch(() => null);
+    listeningSaveRef.current = run;
+    void run.then((id) => {
+      if (id && listeningSaveRef.current === run) lessonSavedIdRef.current = id;
+    });
+  };
   const lessonTaskPackIdRef = useRef<string | null>(null);
   const lessonSlowUrlRef = useRef<string | null>(null);
   const playModeRef = useRef<'normal' | 'slow'>('normal');
@@ -370,6 +378,7 @@ const App: React.FC = () => {
     });
     lessonBankIdRef.current = null;
     lessonSavedIdRef.current = null;
+    listeningSaveRef.current = Promise.resolve(null);
     lessonTaskPackIdRef.current = '11111111-1111-4111-8111-111111111111';
     lessonSlowUrlRef.current = null;
     playModeRef.current = 'normal';
@@ -550,6 +559,7 @@ const App: React.FC = () => {
     setLoadingEstimate(12);
     lessonBankIdRef.current = null;
     lessonSavedIdRef.current = null;
+    listeningSaveRef.current = Promise.resolve(null);
     lessonTaskPackIdRef.current = null;
     lessonSlowUrlRef.current = null;
     playModeRef.current = 'normal';
@@ -606,7 +616,7 @@ const App: React.FC = () => {
       setCurrentQuestionIndex(0);
       setQuizLoading(false);
       const title = result.resolvedTopic || customTopic || chosen.label;
-      void saveLesson({
+      const pendingSave = saveLesson({
         story: result.story,
         quiz: result.quiz,
         vocabulary: result.vocabulary,
@@ -619,7 +629,9 @@ const App: React.FC = () => {
         format: contentFormat,
         wordCount: config.wordCount,
         ...(result.bankId ? { bankId: result.bankId } : {}),
-      }, title).catch(() => undefined);
+      }, title);
+      if (practiceType === 'listening') rememberListeningSave(pendingSave);
+      else void pendingSave.catch(() => undefined);
     } catch (err) {
       setQuizLoading(false);
       if (controller.signal.aborted || (err instanceof Error && err.name === 'AbortError')) {
@@ -704,7 +716,7 @@ const App: React.FC = () => {
       );
     }).catch(() => undefined).finally(() => {
       if (session && (session.slot === 'reading' || session.slot === 'listening')) {
-        void saveLesson({
+        const pendingSave = saveLesson({
           story,
           quiz,
           vocabulary,
@@ -717,7 +729,9 @@ const App: React.FC = () => {
           format: session.format,
           task: true,
           ...(session.slot === 'listening' && lessonBankIdRef.current ? { bankId: lessonBankIdRef.current } : {}),
-        }, session.title).catch(() => undefined);
+        });
+        if (session.slot === 'listening') rememberListeningSave(pendingSave);
+        else void pendingSave.catch(() => undefined);
         void markTaskDone(session.packId, session.slot);
       }
       const next = withStoryReview(
@@ -824,6 +838,7 @@ const App: React.FC = () => {
     setCurrentWordIndex(null);
     lessonBankIdRef.current = null;
     lessonSavedIdRef.current = null;
+    listeningSaveRef.current = Promise.resolve(null);
     lessonTaskPackIdRef.current = null;
     lessonSlowUrlRef.current = null;
     playModeRef.current = 'normal';
@@ -2362,6 +2377,7 @@ const App: React.FC = () => {
     lessonSlowUrlRef.current = null;
     playModeRef.current = 'normal';
     lessonSavedIdRef.current = savedListening ? row.id : null;
+    listeningSaveRef.current = Promise.resolve(savedListening ? row.id : null);
     lessonAzureOnlyRef.current = savedListening;
     rememberAudio(null);
     if (savedListening) {
@@ -2395,6 +2411,7 @@ const App: React.FC = () => {
     setConfig((current) => ({ ...current, level: piece.level }));
     setStoryTopic({ label: piece.title, surprise: false });
     lessonSavedIdRef.current = null;
+    listeningSaveRef.current = Promise.resolve(null);
     lessonSlowUrlRef.current = null;
     playModeRef.current = 'normal';
     lessonBankIdRef.current = slot === 'listening' && piece.bankId ? piece.bankId : null;
@@ -2653,6 +2670,11 @@ const App: React.FC = () => {
           share={{
             handle: account.handle,
             onHandle: account.setHandle,
+            prepare: practiceType === 'listening' ? async () => {
+              const id = lessonSavedIdRef.current ?? await listeningSaveRef.current;
+              if (id) lessonSavedIdRef.current = id;
+              if (id) await savedListeningAudio(id, undefined, speedRef.current);
+            } : undefined,
             linkFor: (next) => buildShareLink(window.location.origin, {
               mode: practiceType === 'listening' ? 'listening' : 'reading',
               title: storyTopic?.label || 'Exercise',
