@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { B2_EXERCISES, C1_EXERCISES, levelAccess } from '../levelProgress.ts';
+import { B2_EXERCISES, C1_EXERCISES, levelAccess, levelRuleText, levelsOpenedBy } from '../levelProgress.ts';
 import { averagePercent, bestPercent, cefrToLessonLevel, chartX, chartY, dayStreak, formatResultDate, lessonModeLabel } from '../progressStats.ts';
 
 test('streak counts consecutive local days and stops after a gap', () => {
@@ -58,6 +58,21 @@ test('B2 and C1 open only from the exercise counts', () => {
   assert.equal(almost.b2Passes, C1_EXERCISES - 1);
   const opened = levelAccess(null, Array.from({ length: C1_EXERCISES }, () => ({ level: 'B2', score: 8, total: 10, mode: 'grammar' })));
   assert.equal(opened.c1, true);
+  const challenge = levelAccess(null, [
+    ...Array.from({ length: B2_EXERCISES }, () => ({ level: 'B1', score: 5, total: 5, mode: 'daily' })),
+    { level: 'B1', score: 5, total: 5, mode: null },
+  ]);
+  assert.equal(challenge.b1Passes, 1);
+  assert.equal(challenge.b2, false);
+  assert.match(levelRuleText({ b1Passes: 3, b2Passes: 1 }), /3\/5/);
+  assert.match(levelRuleText({ b1Passes: 3, b2Passes: 1 }), /practice exercises/);
+  const prior = Array.from({ length: B2_EXERCISES - 1 }, () => ({ level: 'B1', score: 4, total: 5, mode: 'reading' as const }));
+  assert.deepEqual(levelsOpenedBy(prior, { level: 'B1', score: 4, total: 5, mode: 'listening' }), ['B2']);
+  assert.deepEqual(levelsOpenedBy(prior, { level: 'B1', score: 3, total: 5, mode: 'reading' }), []);
+  assert.deepEqual(levelsOpenedBy(
+    Array.from({ length: C1_EXERCISES - 1 }, () => ({ level: 'B2', score: 8, total: 10, mode: 'grammar' })),
+    { level: 'B2', score: 8, total: 10, mode: 'grammar' },
+  ), ['C1']);
 });
 
 test('a single chart score has a point and higher scores sit higher', () => {

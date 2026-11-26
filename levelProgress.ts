@@ -31,14 +31,16 @@ export function storedLevel(level: string | null | undefined): LevelBand | null 
 
 function passed(attempt: LevelAttempt, level: LevelBand): boolean {
   if (attempt.total <= 0 || attempt.score < 0 || attempt.score > attempt.total) return false;
+  // A blank mode is an older practice result. Daily Challenge scores stay in daily_challenge_attempts.
   if (attempt.mode && attempt.mode !== 'reading' && attempt.mode !== 'listening' && attempt.mode !== 'grammar') return false;
   if (storedLevel(attempt.level) !== level) return false;
   return attempt.score / attempt.total >= 0.8;
 }
 
 /**
- * Everyone starts at B1. B2 opens only after 5 B1 exercises at 80% or more.
- * C1 opens only after 7 B2 exercises at 80% or more.
+ * Everyone starts at B1. B2 opens only after 5 B1 practice exercises at 80% or more.
+ * C1 opens only after 7 B2 practice exercises at 80% or more.
+ * Daily Challenge attempts are not included.
  * A profile level or an old result does not open a level by itself.
  */
 export function levelAccess(_profileLevel: string | null | undefined, attempts: readonly LevelAttempt[]): LevelAccess {
@@ -57,5 +59,15 @@ export function levelAccess(_profileLevel: string | null | undefined, attempts: 
 export function levelRuleText(access: Pick<LevelAccess, 'b1Passes' | 'b2Passes'> | null): string {
   const b1 = access?.b1Passes ?? 0;
   const b2 = access?.b2Passes ?? 0;
-  return `Everyone starts at B1. B2 opens after any 5 B1 exercises at 80% or more (${b1}/5). C1 opens after any 7 B2 exercises at 80% or more (${b2}/7). This is practice, not a certificate.`;
+  return `Everyone starts at B1. B2 opens after any 5 B1 practice exercises at 80% or more (${b1}/5). C1 opens after any 7 B2 practice exercises at 80% or more (${b2}/7). This is practice, not a certificate.`;
+}
+
+/** Levels whose practice count crosses the line when this result is added. */
+export function levelsOpenedBy(existing: readonly LevelAttempt[], next: LevelAttempt): Array<'B2' | 'C1'> {
+  const before = levelAccess(null, existing);
+  const after = levelAccess(null, [...existing, next]);
+  const opened: Array<'B2' | 'C1'> = [];
+  if (!before.b2 && after.b2) opened.push('B2');
+  if (!before.c1 && after.c1) opened.push('C1');
+  return opened;
 }
