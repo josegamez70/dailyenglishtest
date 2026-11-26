@@ -210,7 +210,7 @@ export function SharePage({ id = '' }: { id?: string }) {
       <p className="text-sm font-bold text-blue-800">Daily English Test</p>
       <h1 className="mt-2 text-2xl font-bold">{card.title}</h1>
       <p className="mt-3 text-lg font-semibold">{challenge}</p>
-      <p className="mt-2 text-base">You can do this exercise without an account. Your score stays on this device.</p>
+      {!signedIn && <p className="mt-2 text-base">You can do this exercise without an account. Your score stays on this device.</p>}
       {card.mode === 'listening' && audioUrl && (
         <audio className="mt-4 w-full" controls autoPlay src={audioUrl} />
       )}
