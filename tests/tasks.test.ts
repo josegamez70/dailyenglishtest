@@ -249,6 +249,11 @@ test('the reminder email links to the pack and to turn tasks off', () => {
     periodKey: '2026-11-11',
   });
   assert.match(mail.html, /href="https:\/\/dailyenglishtest\.es\/task-packs"/);
+  assert.match(mail.html, /href="https:\/\/dailyenglishtest\.es\/daily-challenge"/);
+  assert.match(mail.html, />Open Daily Challenge</);
+  assert.match(mail.html, /Today's Daily Challenge is also open\. Choose B1, B2, or C1\. It has one reading, one listening, and one grammar part\. You get one scored attempt\. It renews at midnight in Madrid\. The clock starts when you choose the level and does not reset if you refresh\. Your percent, and a shorter time when percents tie, go on the scoreboard\./);
+  assert.match(mail.text, /Today's Daily Challenge is also open\. Choose B1, B2, or C1\. It has one reading, one listening, and one grammar part\. You get one scored attempt\. It renews at midnight in Madrid\. The clock starts when you choose the level and does not reset if you refresh\. Your percent, and a shorter time when percents tie, go on the scoreboard\./);
+  assert.match(mail.text, /Open Daily Challenge: https:\/\/dailyenglishtest\.es\/daily-challenge/);
   assert.match(mail.html, />Open Task packs</);
   assert.equal(mail.html.includes('Open tasks'), false);
   assert.equal(mail.html.includes('https://dailyenglishtest.es/tasks'), false);

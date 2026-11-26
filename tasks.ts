@@ -546,10 +546,14 @@ export type TaskEmailInput = {
   vocabularyMode?: TaskVocabularyMode;
 };
 
-/** HTML and plain text for the pack reminder. The link turns tasks and reminders off. */
+/** Approved Daily Challenge line in the pack reminder. Keep this wording. */
+const DAILY_CHALLENGE_REMINDER = "Today's Daily Challenge is also open. Choose B1, B2, or C1. It has one reading, one listening, and one grammar part. You get one scored attempt. It renews at midnight in Madrid. The clock starts when you choose the level and does not reset if you refresh. Your percent, and a shorter time when percents tie, go on the scoreboard.";
+
+/** HTML and plain text for the pack reminder. The links open the packs, the Daily Challenge, and the way to turn reminders off. */
 export function taskReminderMessage(input: TaskEmailInput): { subject: string; html: string; text: string } {
   const base = input.baseUrl.replace(/\/+$/, '');
   const openUrl = `${base}/task-packs`;
+  const challengeUrl = `${base}/daily-challenge`;
   const offUrl = `${base}/api/tasks-unsubscribe?token=${encodeURIComponent(input.token)}`;
   const when = input.frequency === 'weekly' ? 'this week' : 'today';
   const count = input.packCount && input.packCount > 1 ? input.packCount : 1;
@@ -565,6 +569,8 @@ export function taskReminderMessage(input: TaskEmailInput): { subject: string; h
   const text = [
     `Your English tasks for ${when} are ready.`,
     summary,
+    DAILY_CHALLENGE_REMINDER,
+    `Open Daily Challenge: ${challengeUrl}`,
     `Open Task packs: ${openUrl}`,
     `Turn tasks off and stop these emails: ${offUrl}`,
   ].join('\n\n');
@@ -576,6 +582,8 @@ export function taskReminderMessage(input: TaskEmailInput): { subject: string; h
     <p style="margin:0;font-size:20px;font-weight:700;">Daily English Test</p>
     <h1 style="margin:16px 0 8px;font-size:24px;">Your tasks are ready</h1>
     <p style="margin:0 0 12px;font-size:16px;line-height:1.5;">${summary}</p>
+    <p style="margin:0 0 12px;font-size:16px;line-height:1.5;">${DAILY_CHALLENGE_REMINDER}</p>
+    <p style="margin:0 0 20px;"><a href="${challengeUrl}" style="font-weight:700;">Open Daily Challenge</a></p>
     <p style="margin:20px 0;"><a href="${openUrl}" style="display:inline-block;background:#1d4ed8;color:#ffffff;text-decoration:none;font-weight:700;padding:12px 18px;border-radius:8px;">Open Task packs</a></p>
     <p style="margin:0;font-size:14px;line-height:1.5;color:#334155;">If you do not want these emails, <a href="${offUrl}">turn tasks off</a>. You can turn them on again from the Tasks page after you sign in.</p>
   </div>
