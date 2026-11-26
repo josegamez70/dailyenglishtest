@@ -39,6 +39,7 @@ import CheckCircleIcon from './icons/CheckCircleIcon';
 import Loader from './Loader';
 import XCircleIcon from './icons/XCircleIcon';
 import { BackButton } from './BackButton';
+import { buildShareLink } from '../shareChallenge';
 
 type PlayOrder = GrammarOrder & { shuffled: GrammarChunk[] };
 type PlayItem = GrammarChoice | PlayOrder;
@@ -98,6 +99,8 @@ export function GrammarPage({
   launch = null,
   onTaskComplete,
   onBack,
+  handle = '',
+  onHandle = () => undefined,
 }: {
   fontStep?: number;
   fontClass: string;
@@ -114,6 +117,8 @@ export function GrammarPage({
   /** Called when a task grammar set is finished, so the pack can be marked done. */
   onTaskComplete?: () => void;
   onBack?: () => void;
+  handle?: string;
+  onHandle?: (handle: string) => void;
 }) {
   const retro = useRetroTheme();
   const [level, setLevel] = useState<GrammarLevel>(initialLevel);
@@ -370,6 +375,28 @@ export function GrammarPage({
             score={score}
             total={grades.length}
             marks={grades.map((grade) => grade.correct)}
+            share={{
+              handle,
+              onHandle,
+              linkFor: (next) => buildShareLink(window.location.origin, {
+                mode: 'grammar',
+                title,
+                handle: next,
+                percent: percentage,
+                lesson: {
+                  mode: 'grammar',
+                  title,
+                  level,
+                  exercise,
+                  topic: savedTopic,
+                  items: items.map((item) => (
+                    item.kind === 'choice'
+                      ? { kind: 'choice', prompt: item.prompt, options: item.options, correctAnswer: item.correctAnswer, explanation: item.explanation }
+                      : { kind: 'order', prompt: item.prompt, chunks: item.chunks.map((chunk) => chunk.text), explanation: item.explanation }
+                  )),
+                },
+              }),
+            }}
             onReview={() => setCelebrate(false)}
             onNew={() => {
               setCelebrate(false);

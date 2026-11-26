@@ -9,7 +9,10 @@ import {
   type SavedLessonFilter,
 } from '../savedLessonMeta';
 import { listSavedLessons, type SavedLessonRow } from '../studyStore';
+import { getSupabase } from '../auth';
 import { BackButton } from './BackButton';
+import { ShareMenu } from './ShareMenu';
+import { buildShareLink, savedChallengePercent, type ShareMode } from '../shareChallenge';
 
 function badgeClass(badge: SavedLessonBadge): string {
   if (badge.kind === 'task') return 'border-amber-600 text-amber-800 dark:border-amber-300 dark:text-amber-200';
@@ -34,6 +37,8 @@ export function SavedLessonsPage({
   onPracticeGrammar,
   onBack,
   initialRows,
+  handle = '',
+  onHandle = () => undefined,
 }: {
   onOpen: (row: SavedLessonRow) => void;
   onCreate: () => void;
@@ -41,6 +46,8 @@ export function SavedLessonsPage({
   onBack?: () => void;
   /** When set, show these rows and skip the database load. */
   initialRows?: SavedLessonRow[];
+  handle?: string;
+  onHandle?: (handle: string) => void;
 }) {
   const provided = initialRows != null;
   const [rows, setRows] = useState<SavedLessonRow[]>(initialRows ?? []);
@@ -155,20 +162,23 @@ export function SavedLessonsPage({
                   )}
                   <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">{new Date(row.created_at).toLocaleString()}</p>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (row.lesson.mode === 'grammar' && !parseSavedGrammarLesson(row.lesson)) {
-                      setOpenNote('This grammar set could not be opened.');
-                      return;
-                    }
-                    setOpenNote(null);
-                    onOpen(row);
-                  }}
-                  className="w-full rounded-lg bg-blue-700 px-4 py-2 text-base font-bold text-white hover:bg-blue-800 sm:w-auto"
-                >
-                  Open
-                </button>
+                <div className="flex w-full flex-col gap-2 sm:w-48">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (row.lesson.mode === 'grammar' && !parseSavedGrammarLesson(row.lesson)) {
+                        setOpenNote('This grammar set could not be opened.');
+                        return;
+                      }
+                      setOpenNote(null);
+                      onOpen(row);
+                    }}
+                    className="w-full rounded-lg bg-blue-700 px-4 py-2 text-base font-bold text-white hover:bg-blue-800"
+                  >
+                    Open
+                  </button>
+                  <SavedShare row={row} handle={handle} onHandle={onHandle} />
+                </div>
               </li>
             );
           })}
@@ -176,5 +186,37 @@ export function SavedLessonsPage({
         )}
       </div>
     </div>
+  );
+}
+
+async function prepareSavedListening(savedLessonId: string): Promise<void> {
+  const supabase = getSupabase();
+  const token = supabase ? (await supabase.auth.getSession()).data.session?.access_token : '';
+  if (!token) return;
+  await fetch('/api/listening-saved-audio', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ savedLessonId, speed: 1 }),
+  }).catch(() => undefined);
+}
+
+function SavedShare({ row, handle, onHandle }: { row: SavedLessonRow; handle: string; onHandle: (handle: string) => void }) {
+  const mode: ShareMode | null = row.lesson.mode === 'reading' || row.lesson.mode === 'listening' || row.lesson.mode === 'grammar'
+    ? row.lesson.mode
+    : null;
+  if (!mode) return null;
+  return (
+    <ShareMenu
+      handle={handle}
+      onHandle={onHandle}
+      prepare={mode === 'listening' ? () => prepareSavedListening(row.id) : undefined}
+      linkFor={(next) => buildShareLink(window.location.origin, {
+        mode,
+        title: row.title,
+        handle: next,
+        percent: savedChallengePercent(row.lesson),
+        lesson: { ...row.lesson, savedLessonId: row.id },
+      })}
+    />
   );
 }

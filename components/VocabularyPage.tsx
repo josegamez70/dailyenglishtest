@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { BackButton } from './BackButton';
+import { buildShareLink } from '../shareChallenge';
 import { ExerciseComplete } from './ExerciseComplete';
 import { SpanishWhy, answerStatus } from './SpanishWhy';
 import { playEffect, primeAudio } from '../effects';
@@ -238,12 +239,16 @@ function Quiz({
   exitLabel = 'Back to Vocabulary builder',
   persistGrades,
   onFinished,
+  handle,
+  onHandle,
 }: {
   rows: SavedWord[];
   onExit: () => void;
   exitLabel?: string;
   persistGrades: boolean;
   onFinished?: () => void;
+  handle: string;
+  onHandle: (handle: string) => void;
 }) {
   const [questions, setQuestions] = useState<VocabQuizQuestion[] | null>(() => buildVocabQuiz(rows));
   const [index, setIndex] = useState(0);
@@ -294,6 +299,27 @@ function Quiz({
             score={score}
             total={questions.length}
             marks={questions.map((question, item) => picks[item] === question.answer)}
+            share={{
+              handle,
+              onHandle,
+              linkFor: (next) => buildShareLink(window.location.origin, {
+                mode: 'vocabulary',
+                title: 'Vocabulary quiz',
+                handle: next,
+                percent: questions.length ? Math.round((score / questions.length) * 100) : null,
+                lesson: {
+                  mode: 'vocabulary',
+                  title: 'Vocabulary quiz',
+                  questions: questions.map((item) => ({
+                    term: item.term,
+                    prompt: item.prompt,
+                    choices: item.choices,
+                    answer: item.answer,
+                    explanation: item.explanation,
+                  })),
+                },
+              }),
+            }}
             onReview={() => setCelebrate(false)}
             onNew={restart}
           />
@@ -535,6 +561,8 @@ export function VocabularyPage({
   onGoLessons,
   voice = 'british',
   shot = null,
+  handle = '',
+  onHandle = () => undefined,
 }: {
   userId: string | null;
   /** Sample rows for a local preview. Skips the database. */
@@ -549,6 +577,8 @@ export function VocabularyPage({
   voice?: PronunciationAccent;
   /** Local screenshot: open the first card in English, Spanish, or with More expanded. */
   shot?: 'english' | 'spanish' | 'more' | null;
+  handle?: string;
+  onHandle?: (handle: string) => void;
 }) {
   useEffect(() => () => stopPronunciation(), []);
   const live = useSyncExternalStore(subscribeVocabulary, getVocabularyState, getVocabularyState);
@@ -773,7 +803,7 @@ export function VocabularyPage({
         <Flashcards rows={rows} onExit={practice ? (onBack ?? (() => setMode('list'))) : () => setMode('list')} exitLabel={practice ? 'Back to Task packs' : 'Back to Vocabulary builder'} persistGrades={!fixture && Boolean(userId)} onFinished={onFinished} accent={voice} />
       )}
       {mode === 'quiz' && !practiceBlocked && (
-        <Quiz rows={rows} onExit={practice ? (onBack ?? (() => setMode('list'))) : () => setMode('list')} exitLabel={practice ? 'Back to Task packs' : 'Back to Vocabulary builder'} persistGrades={!fixture && Boolean(userId)} onFinished={onFinished} />
+        <Quiz rows={rows} onExit={practice ? (onBack ?? (() => setMode('list'))) : () => setMode('list')} exitLabel={practice ? 'Back to Task packs' : 'Back to Vocabulary builder'} persistGrades={!fixture && Boolean(userId)} onFinished={onFinished} handle={handle} onHandle={onHandle} />
       )}
     </div>
   );
