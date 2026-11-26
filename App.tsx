@@ -44,7 +44,7 @@ import { loadBadgeStats } from './badgeStats';
 import { publishBadgeProgress } from './badgeToast';
 import { LevelUnlockDialog } from './components/LevelUnlockNotice';
 import { ExerciseComplete } from './components/ExerciseComplete';
-import { SpanishWhy } from './components/SpanishWhy';
+import { SpanishWhy, answerStatus } from './components/SpanishWhy';
 import { QuizErrorBoundary, QuizScreen } from './components/QuizErrorBoundary';
 import { WelcomeGuide } from './components/WelcomeGuide';
 import { isDarkTheme, isThemeChoice } from './themeChoice';
@@ -1815,10 +1815,13 @@ const App: React.FC = () => {
           {userAnswers[currentQuestionIndex] && (
             <div className="mt-4 rounded-lg border-2 border-slate-400 bg-slate-50 p-4 text-base text-slate-900 dark:border-slate-500 dark:bg-slate-900 dark:text-slate-50" role="status">
               <p className="font-bold">
-                {userAnswers[currentQuestionIndex] === question.correctAnswer ? 'Bien.' : `Casi. La respuesta es ${question.correctAnswer}.`}
+                {answerStatus(userAnswers[currentQuestionIndex] === question.correctAnswer, question.correctAnswer)}
               </p>
               {question.explanation && <p className="mt-2"><span className="font-semibold">Why: </span>{question.explanation}</p>}
-              {question.explanation && <SpanishWhy text={question.explanation} />}
+              <SpanishWhy text={[
+                answerStatus(userAnswers[currentQuestionIndex] === question.correctAnswer, question.correctAnswer),
+                question.explanation,
+              ].filter(Boolean).join(' ')} />
             </div>
           )}
           <button
@@ -1853,7 +1856,8 @@ const App: React.FC = () => {
           <p className="text-center text-xl text-slate-800 dark:text-slate-100 mb-2">
             You scored {score} out of {quiz.length} ({percentage}%)
           </p>
-          <p className="text-center text-lg font-semibold text-blue-800 dark:text-blue-200 mb-6">{feedback}</p>
+          <p className="text-center text-lg font-semibold text-blue-800 dark:text-blue-200">{feedback}</p>
+          <div className="mb-6 flex justify-center"><SpanishWhy text={feedback} /></div>
           <div className="space-y-4">
             {quiz.map((question, index) => {
               const userAnswer = userAnswers[index];

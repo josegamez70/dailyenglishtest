@@ -1,6 +1,12 @@
 import { useState } from 'react';
 import { translateToSpanish } from '../contextDefine';
 
+/** English line shown as soon as an answer is checked. */
+export function answerStatus(correct: boolean, answer?: string): string {
+  if (correct) return 'Correct.';
+  return answer ? `Incorrect. The answer is ${answer}.` : 'Incorrect.';
+}
+
 /** On-demand Spanish for one explanation. A successful line is cached. A failure can be tried again. */
 export function SpanishWhy({ text }: { text: string }) {
   const [open, setOpen] = useState(false);

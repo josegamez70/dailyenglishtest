@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ExerciseComplete } from './ExerciseComplete';
 import { FreeLimitNotice } from './FreeLimitNotice';
-import { SpanishWhy } from './SpanishWhy';
+import { SpanishWhy, answerStatus } from './SpanishWhy';
 import { playEffect, primeAudio } from '../effects';
 import { useRetroTheme } from '../retroTheme';
 import { addExercise } from '../badges';
@@ -551,16 +551,16 @@ export function GrammarPage({
           </button>
           {checked && current.kind === 'choice' && (
             <div className="mt-4 rounded-lg border-2 border-slate-400 p-4 text-base" role="status">
-              <p className="font-bold">{choices[index] === current.correctAnswer ? 'Bien.' : `Casi. La respuesta es ${current.correctAnswer}.`}</p>
+              <p className="font-bold">{answerStatus(choices[index] === current.correctAnswer, current.correctAnswer)}</p>
               <p className="mt-2"><span className="font-semibold">Why: </span>{current.explanation}</p>
-              <SpanishWhy text={current.explanation} />
+              <SpanishWhy text={`${answerStatus(choices[index] === current.correctAnswer, current.correctAnswer)} ${current.explanation}`} />
             </div>
           )}
           {checked && current.kind === 'order' && (
             <div className="mt-4 rounded-lg border-2 border-slate-400 p-4 text-base" role="status">
-              <p className="font-bold">{gradeOrder(current, chosen).correct ? 'Bien.' : 'Casi. Lee las partes en el orden de abajo.'}</p>
+              <p className="font-bold">{gradeOrder(current, chosen).correct ? 'Correct.' : 'Incorrect. Read the parts in the order below.'}</p>
               <p className="mt-2"><span className="font-semibold">Why: </span>{current.explanation}</p>
-              <SpanishWhy text={current.explanation} />
+              <SpanishWhy text={`${gradeOrder(current, chosen).correct ? 'Correct.' : 'Incorrect. Read the parts in the order below.'} ${current.explanation}`} />
             </div>
           )}
         </div>
