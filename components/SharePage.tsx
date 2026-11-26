@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { getSupabase } from '../auth';
 import { recordScoredLesson } from '../legendsRecord';
-import { decodeShare, type ShareCard } from '../shareChallenge';
+import { decodeShare, resultComparison, senderResultLine, type ShareCard } from '../shareChallenge';
 import { loadSharedExercise } from '../shareStore';
 import { saveLesson, saveTestResult } from '../studyStore';
 
@@ -84,6 +84,8 @@ export function SharePage({ id = '' }: { id?: string }) {
   const [draft, setDraft] = useState<string[]>([]);
   const [started, setStarted] = useState(false);
   const [finished, setFinished] = useState(false);
+  const [recipientSeconds, setRecipientSeconds] = useState(0);
+  const attemptStart = useRef<number | null>(null);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [audioNote, setAudioNote] = useState<string | null>(null);
 
@@ -182,14 +184,19 @@ export function SharePage({ id = '' }: { id?: string }) {
   const text = passage(card);
   const step = steps[index];
   const locked = answers.length === index + 1;
-  const challenge = card.percent == null
-    ? (card.handle ? `Can you try this exercise? — ${card.handle}` : 'Can you try this exercise?')
-    : (card.handle
-      ? `I scored ${card.percent}% — can you beat it? — ${card.handle}`
-      : `I scored ${card.percent}% — can you beat it?`);
+  const showPassage = card.mode === 'reading' || card.mode === 'listening';
+  const challenge = senderResultLine({
+    handle: card.handle,
+    correct: card.senderCorrect,
+    total: card.senderTotal,
+    seconds: card.senderSeconds,
+  });
+  const beginAttempt = () => {
+    if (attemptStart.current == null) attemptStart.current = Date.now();
+  };
+  if (!showPassage) beginAttempt();
   const score = steps.filter((item, place) => answers[place] === item.answer).length;
   const yours = steps.length ? Math.round((score / steps.length) * 100) : 0;
-  const showPassage = card.mode === 'reading' || card.mode === 'listening';
 
   const choose = (option: string) => {
     if (locked) return;
@@ -210,6 +217,9 @@ export function SharePage({ id = '' }: { id?: string }) {
       <p className="text-sm font-bold text-blue-800">Daily English Test</p>
       <h1 className="mt-2 text-2xl font-bold">{card.title}</h1>
       <p className="mt-3 text-lg font-semibold">{challenge}</p>
+      <a href="/" className="mt-3 block w-full rounded-lg bg-blue-700 px-4 py-3 text-center text-lg font-bold text-white">
+        {signedIn ? 'Practise more on Daily English Test' : 'Go to Daily English Test'}
+      </a>
       {!signedIn && <p className="mt-2 text-base">You can do this exercise without an account. Your score stays on this device.</p>}
       {card.mode === 'listening' && audioUrl && (
         <audio className="mt-4 w-full" controls autoPlay src={audioUrl} />
@@ -218,7 +228,7 @@ export function SharePage({ id = '' }: { id?: string }) {
       {showPassage && !started && (
         <>
           {text && <p className="mt-4 whitespace-pre-wrap text-lg leading-relaxed">{text}</p>}
-          <button type="button" onClick={() => setStarted(true)} className="mt-4 w-full rounded-lg bg-blue-700 py-3 text-lg font-bold text-white">
+          <button type="button" onClick={() => { beginAttempt(); setStarted(true); }} className="mt-4 w-full rounded-lg bg-blue-700 py-3 text-lg font-bold text-white">
             Start questions
           </button>
         </>
@@ -255,6 +265,8 @@ export function SharePage({ id = '' }: { id?: string }) {
                 type="button"
                 onClick={() => {
                   if (index + 1 >= steps.length) {
+                    const elapsed = attemptStart.current == null ? 0 : Math.max(0, Math.round((Date.now() - attemptStart.current) / 1000));
+                    setRecipientSeconds(elapsed);
                     setFinished(true);
                     return;
                   }
@@ -272,7 +284,18 @@ export function SharePage({ id = '' }: { id?: string }) {
       {finished && (
         <section className="mt-4">
           <h2 className="text-2xl font-bold">You scored {yours}%</h2>
-          {card.percent != null && <p className="mt-2 text-lg">{card.handle || 'The sender'} scored {card.percent}%.</p>}
+          <p className="mt-2 text-lg">{resultComparison({
+            handle: card.handle,
+            yoursCorrect: score,
+            yoursTotal: steps.length,
+            yoursSeconds: recipientSeconds,
+            senderCorrect: card.senderCorrect,
+            senderTotal: card.senderTotal,
+            senderSeconds: card.senderSeconds,
+          })}</p>
+          <a href="/" className="mt-3 block w-full rounded-lg bg-blue-700 px-4 py-3 text-center text-lg font-bold text-white">
+            {signedIn ? 'Practise more on Daily English Test' : 'Go to Daily English Test'}
+          </a>
           {signedIn ? (
             <>
               <p className="mt-2 text-base">{progressNote ?? 'Saving your score...'}</p>

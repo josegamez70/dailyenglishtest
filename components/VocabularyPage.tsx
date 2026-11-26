@@ -257,6 +257,7 @@ function Quiz({
   const [done, setDone] = useState(false);
   const [celebrate, setCelebrate] = useState(true);
   const told = useRef(false);
+  const attemptStarted = useRef(Date.now());
   const badgeStart = useRef<Awaited<ReturnType<typeof loadBadgeStats>> | null>(null);
   const retro = useRetroTheme();
   useEffect(() => {
@@ -307,6 +308,9 @@ function Quiz({
                 title: 'Vocabulary quiz',
                 handle: next,
                 percent: questions.length ? Math.round((score / questions.length) * 100) : null,
+                senderCorrect: score,
+                senderTotal: questions.length,
+                senderSeconds: Math.max(0, Math.round((Date.now() - attemptStarted.current) / 1000)),
                 lesson: {
                   mode: 'vocabulary',
                   title: 'Vocabulary quiz',

@@ -17,13 +17,26 @@ export default async (req: Request) => {
     body: JSON.stringify({ p_id: id }),
   });
   if (!response.ok) return;
-  const row = await response.json() as { handle?: string; score?: number | null; payload?: { title?: string } } | null;
+  const row = await response.json() as {
+    handle?: string;
+    score?: number | null;
+    sender_correct?: number | null;
+    sender_total?: number | null;
+    sender_seconds?: number | null;
+    payload?: { title?: string };
+  } | null;
   const title = String(row?.payload?.title ?? 'Daily English Test').slice(0, 80);
   const handle = String(row?.handle ?? '').replace(/^@/, '');
   const who = handle ? `@${handle}` : '';
-  const description = row?.score == null
-    ? (who ? `Can you try this exercise? — ${who}` : 'Can you try this exercise?')
-    : (who ? `I scored ${row.score}% — can you beat it? — ${who}` : `I scored ${row.score}% — can you beat it?`);
+  const hasCount = typeof row?.sender_correct === 'number' && typeof row?.sender_total === 'number' && row.sender_total > 0;
+  const clock = typeof row?.sender_seconds === 'number'
+    ? ` in ${Math.floor(row.sender_seconds / 60)}:${String(row.sender_seconds % 60).padStart(2, '0')}`
+    : '';
+  const description = hasCount
+    ? `${who || 'The sender'} got ${row?.sender_correct}/${row?.sender_total}${clock} — can you beat it?`
+    : row?.score == null
+      ? (who ? `Can you try this exercise? — ${who}` : 'Can you try this exercise?')
+      : (who ? `I scored ${row.score}% — can you beat it? — ${who}` : `I scored ${row.score}% — can you beat it?`);
   const safeTitle = escapeInviteHtml(title);
   const safeDescription = escapeInviteHtml(description);
   const safeUrl = escapeInviteHtml(url.href);

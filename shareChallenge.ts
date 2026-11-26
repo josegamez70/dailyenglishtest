@@ -8,6 +8,9 @@ export type ShareCard = {
   title: string;
   handle: string;
   percent: number | null;
+  senderCorrect: number | null;
+  senderTotal: number | null;
+  senderSeconds: number | null;
   lesson: Record<string, unknown>;
 };
 
@@ -150,6 +153,50 @@ export function challengeLine(percent: number | null, handle: string): string {
   return who ? `I scored ${percent}% — can you beat it? — ${who}` : `I scored ${percent}% — can you beat it?`;
 }
 
+function whole(value: unknown, max: number): number | null {
+  const number = typeof value === 'number' ? value : Number.NaN;
+  if (!Number.isInteger(number) || number < 0 || number > max) return null;
+  return number;
+}
+
+export function formatShareTime(seconds: number): string {
+  const safe = Math.max(0, Math.floor(seconds));
+  return `${Math.floor(safe / 60)}:${String(safe % 60).padStart(2, '0')}`;
+}
+
+/** The line shown before the recipient starts. Omits a result the sender does not have. */
+export function senderResultLine(input: {
+  handle: string;
+  correct: number | null;
+  total: number | null;
+  seconds: number | null;
+}): string {
+  const who = input.handle || '';
+  const known = input.correct != null && input.total != null && input.total > 0 && input.correct <= input.total;
+  if (!known) return who ? `Can you try this exercise? — ${who}` : 'Can you try this exercise?';
+  const time = input.seconds != null ? ` in ${formatShareTime(input.seconds)}` : '';
+  const actor = who || 'The sender';
+  return `${actor} got ${input.correct}/${input.total}${time} — can you beat it?`;
+}
+
+/** Correct answers and time, side by side, after the recipient finishes. */
+export function resultComparison(input: {
+  handle: string;
+  yoursCorrect: number;
+  yoursTotal: number;
+  yoursSeconds: number;
+  senderCorrect: number | null;
+  senderTotal: number | null;
+  senderSeconds: number | null;
+}): string {
+  const you = `You got ${input.yoursCorrect}/${input.yoursTotal} in ${formatShareTime(input.yoursSeconds)}.`;
+  const known = input.senderCorrect != null && input.senderTotal != null && input.senderTotal > 0;
+  if (!known) return you;
+  const who = input.handle || 'The sender';
+  const time = input.senderSeconds != null ? ` in ${formatShareTime(input.senderSeconds)}` : '';
+  return `${you} ${who} got ${input.senderCorrect}/${input.senderTotal}${time}.`;
+}
+
 export function encodeShare(card: ShareCard): string {
   const bytes = new TextEncoder().encode(JSON.stringify(card));
   let binary = '';
@@ -169,12 +216,17 @@ export function decodeShare(token: string): ShareCard | null {
     const lesson = parsed.lesson && typeof parsed.lesson === 'object' ? publicLesson(mode, parsed.lesson as Record<string, unknown>) : null;
     if (!lesson) return null;
     const handle = profileHandle(typeof parsed.handle === 'string' ? parsed.handle.replace(/^@/, '') : '');
+    const senderCorrect = whole(parsed.senderCorrect, 1000);
+    const senderTotal = whole(parsed.senderTotal, 1000);
     return {
       v: 1,
       mode,
       title: text(parsed.title, 80) || text(lesson.title, 80),
       handle,
       percent: percentOf(parsed.percent),
+      senderCorrect: senderCorrect != null && senderTotal != null && senderCorrect <= senderTotal ? senderCorrect : null,
+      senderTotal: senderCorrect != null && senderTotal != null && senderCorrect <= senderTotal ? senderTotal : null,
+      senderSeconds: whole(parsed.senderSeconds, 86400),
       lesson,
     };
   } catch {
@@ -195,24 +247,46 @@ export function buildShareLink(origin: string, input: {
   title: string;
   handle: string;
   percent: number | null;
+  senderCorrect?: number | null;
+  senderTotal?: number | null;
+  senderSeconds?: number | null;
   lesson: Record<string, unknown>;
 }): { line: string; url: string } | null {
   const lesson = publicLesson(input.mode, input.lesson);
   if (!lesson) return null;
   const handle = profileHandle(input.handle);
   const percent = percentOf(input.percent);
+  const senderCorrect = whole(input.senderCorrect, 1000);
+  const senderTotal = whole(input.senderTotal, 1000);
+  const known = senderCorrect != null && senderTotal != null && senderTotal > 0 && senderCorrect <= senderTotal;
   const card: ShareCard = {
     v: 1,
     mode: input.mode,
     title: text(input.title, 80) || text(lesson.title, 80),
     handle,
     percent,
+    senderCorrect: known ? senderCorrect : null,
+    senderTotal: known ? senderTotal : null,
+    senderSeconds: known ? whole(input.senderSeconds, 86400) : null,
     lesson,
   };
   const token = encodeShare(card);
   if (token.length > MAX_LINK) return null;
   const base = origin.replace(/\/+$/, '');
-  return { line: challengeLine(percent, handle), url: `${base}/share#${token}` };
+  const line = known
+    ? senderResultLine({ handle, correct: card.senderCorrect, total: card.senderTotal, seconds: card.senderSeconds })
+    : challengeLine(percent, handle);
+  return { line, url: `${base}/share#${token}` };
+}
+
+/** Correct answers already stored on a saved grammar set. Reading and listening rows usually have none. */
+export function savedSenderResult(lesson: Record<string, unknown>): { correct: number; total: number } | null {
+  if (!Array.isArray(lesson.grades) || lesson.grades.length === 0) return null;
+  let correct = 0;
+  for (const entry of lesson.grades) {
+    if (entry && typeof entry === 'object' && (entry as { correct?: unknown }).correct === true) correct += 1;
+  }
+  return { correct, total: lesson.grades.length };
 }
 
 /** Percent from a saved grammar set, when the learner already checked it. */
