@@ -8,7 +8,6 @@ import { BackButton } from './BackButton';
 import { soundEffectsEnabled, writeSoundEffects } from '../effects';
 
 import { type ThemeChoice } from '../themeChoice';
-import { profileHandle } from '../profileHandle';
 
 export type { ThemeChoice };
 /** Still stored on the profile. Playback ignores it and always uses American English. */
@@ -34,6 +33,7 @@ export function ProfilePage({
   defaultLevel,
   speed,
   displayName,
+  username = '',
   academyRole,
   academyName,
   onTheme,
@@ -49,6 +49,8 @@ export function ProfilePage({
   defaultLevel: CefrLevel;
   speed: number;
   displayName: string;
+  /** Saved unique @, including the @ sign. Blank until the learner chooses one. */
+  username?: string;
   academyRole: 'owner' | 'student' | null;
   academyName: string | null;
   onTheme: (theme: ThemeChoice) => void;
@@ -124,7 +126,7 @@ export function ProfilePage({
     <PilotStatusBanner />
     <form className="space-y-5" onSubmit={(event) => event.preventDefault()}>
       <h1 className="text-2xl font-bold">Profile</h1>
-      {profileHandle(name) && <p className="text-lg font-bold">{profileHandle(name)}</p>}
+      {username ? <p className="text-lg font-bold">{username}</p> : null}
       <p className="text-base">{email}</p>
       <p className="text-base font-semibold">
         {planLabel(plan, academyStudent)}

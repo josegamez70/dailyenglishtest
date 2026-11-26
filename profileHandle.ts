@@ -1,12 +1,20 @@
 /**
- * A public @ taken from the display name already stored on the profile.
- * There is no separate handle column, and this value is not unique.
- * An email, or a name with no letters or digits, does not become an @.
+ * A public @ the learner chose. It is not the display name.
+ * 3 to 24 letters, numbers, or underscores. An email never qualifies.
  */
-export function profileHandle(displayName: string): string {
-  const raw = displayName.trim().slice(0, 40);
-  if (!raw || raw.includes('@')) return '';
-  const token = raw.replace(/[^\p{L}\p{N}_]+/gu, '').slice(0, 24);
-  if (!token) return '';
-  return `@${token}`;
+export function usernameToken(input: string): string {
+  const raw = input.trim().replace(/^@+/, '');
+  if (!/^[\p{L}\p{N}_]{3,24}$/u.test(raw)) return '';
+  return raw;
+}
+
+export function profileHandle(value: string): string {
+  const token = usernameToken(value);
+  return token ? `@${token}` : '';
+}
+
+export function usernameFormatError(input: string): string | null {
+  if (!input.trim()) return 'Choose a username.';
+  if (!usernameToken(input)) return 'Use 3 to 24 letters, numbers, or underscores.';
+  return null;
 }

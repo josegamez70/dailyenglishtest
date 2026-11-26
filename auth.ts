@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import { FREE_LESSON_LIMIT, FREE_LIMIT_MESSAGE } from './freeLessons';
 import { normalizeCefr } from './progressStats';
+import { profileHandle } from './profileHandle';
 
 export { FREE_LESSON_LIMIT, FREE_LIMIT_MESSAGE };
 
@@ -62,6 +63,7 @@ export function useAccount() {
   const [voice, setVoice] = useState<'british' | 'american'>('british');
   const [speed, setSpeed] = useState(1);
   const [displayName, setDisplayName] = useState('');
+  const [handle, setHandle] = useState('');
   const [academyRole, setAcademyRole] = useState<'owner' | 'student' | null>(null);
   const [academyName, setAcademyName] = useState<string | null>(null);
   const [academyChecked, setAcademyChecked] = useState(false);
@@ -76,6 +78,7 @@ export function useAccount() {
     const nextSpeed = Number(data.speed);
     if (nextSpeed === 0.75 || nextSpeed === 1 || nextSpeed === 1.25) setSpeed(nextSpeed);
     if (data.display_name != null) setDisplayName(String(data.display_name).slice(0, 40));
+    if ('handle' in data) setHandle(profileHandle(String(data.handle ?? '')));
   };
 
   const applyMembership = (data: unknown) => {
@@ -98,12 +101,21 @@ export function useAccount() {
     const request = ++profileRequest.current;
     const full = await supabase
       .from('profiles')
-      .select('plan, lessons_used, theme, default_level, voice, speed, display_name')
+      .select('plan, lessons_used, theme, default_level, voice, speed, display_name, handle')
       .eq('id', profileId)
       .maybeSingle();
     if (request !== profileRequest.current) return;
+    const missingHandle = Boolean(full.error && `${full.error.code ?? ''} ${full.error.message ?? ''}`.toLowerCase().includes('handle'));
     if (!full.error && full.data) {
       applyProfile(full.data as Record<string, unknown>);
+    } else if (missingHandle) {
+      const named = await supabase
+        .from('profiles')
+        .select('plan, lessons_used, theme, default_level, voice, speed, display_name')
+        .eq('id', profileId)
+        .maybeSingle();
+      if (request !== profileRequest.current) return;
+      if (!named.error && named.data) applyProfile(named.data as Record<string, unknown>);
     } else {
       const basic = await supabase.from('profiles').select('plan, lessons_used').eq('id', profileId).maybeSingle();
       if (request !== profileRequest.current) return;
@@ -145,6 +157,7 @@ export function useAccount() {
         setAcademyRole(null);
         setAcademyName(null);
         setAcademyChecked(false);
+        setHandle('');
       }
     });
     return () => {
@@ -169,6 +182,8 @@ export function useAccount() {
     voice,
     speed,
     displayName,
+    handle,
+    setHandle,
     academyRole,
     academyName,
     academyChecked,

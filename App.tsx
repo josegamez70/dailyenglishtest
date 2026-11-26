@@ -2613,6 +2613,7 @@ const App: React.FC = () => {
           defaultLevel={cefr}
           speed={account.speed}
           displayName={account.displayName}
+          username={account.handle}
           academyRole={account.academyRole}
           academyName={account.academyName}
           onTheme={pickTheme}
