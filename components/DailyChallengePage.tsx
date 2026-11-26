@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useState, useSyncExternalStore } from 'react';
-import { loadChallengeBoard, loadChallengePack, submitChallenge, type ChallengePack, type ChallengeQuiz } from '../dailyChallengeClient';
+import { loadChallengeBoard, loadChallengePack, startChallenge, submitChallenge, type ChallengePack, type ChallengeQuiz } from '../dailyChallengeClient';
 import { challengeRank, formatDuration, type ChallengeEntry, type ChallengeLevel, type ChallengeReportItem } from '../dailyChallenge';
 import { weightedPercent } from '../scoreboard';
 import { recordScoredLesson } from '../legendsRecord';
 import type { GrammarItem } from '../grammarSet';
 import { BackButton } from './BackButton';
+import { LevelRuleNote } from './LevelRuleNote';
 import { ChallengeRankTable } from './ChallengeRankTable';
 import { termKey } from '../vocabulary';
 import { getVocabularyState, loadVocabulary, savedTermSet, saveVocabularyWord, subscribeVocabulary } from '../vocabularyStore';
@@ -245,7 +246,7 @@ export function DailyChallengePage({
 
   const startedAt = pack?.startedAt;
   useEffect(() => {
-    if (preview || !pack || pack.startedAt || !pack.day) return;
+    if (preview || !pack || pack.choosing || pack.startedAt || !pack.day) return;
     const key = `daily-challenge-start:${pack.day}`;
     if (!localStorage.getItem(key)) localStorage.setItem(key, new Date().toISOString());
   }, [pack, preview]);
@@ -254,12 +255,72 @@ export function DailyChallengePage({
   const liveSeconds = clockStart ? Math.max(0, Math.floor((now - Date.parse(clockStart)) / 1000)) : 0;
   const orderSeeds = useMemo(() => pack?.day ?? 'day', [pack?.day]);
 
+  const [picked, setPicked] = useState<ChallengeLevel>('B1');
+  const [starting, setStarting] = useState(false);
+  const begin = async (level: ChallengeLevel) => {
+    if (preview) return;
+    setStarting(true);
+    const next = await startChallenge(level);
+    setStarting(false);
+    if (!next.ok) {
+      setMessage(next.message ?? 'The challenge could not be started.');
+      return;
+    }
+    setPack(next);
+  };
+
   if (!pack) {
     return (
       <div className="challenge-flow">
         {onBack && <BackButton onClick={onBack} />}
         <h1>Daily challenge</h1>
         <p className="mt-3">{message ?? 'Loading today’s challenge...'}</p>
+      </div>
+    );
+  }
+
+  const levelChoices = (
+    <fieldset className="mt-4">
+      <legend className="text-base font-semibold">Level</legend>
+      <div className="mt-2 grid grid-cols-3 gap-2" role="group" aria-label="Daily challenge level">
+        {(['B1', 'B2', 'C1'] as const).map((id) => {
+          const locked = (id === 'B2' && pack.b2Open === false) || (id === 'C1' && pack.c1Open === false);
+          const selected = (pack.choosing ? picked : pack.level) === id;
+          return (
+            <button
+              key={id}
+              type="button"
+              aria-pressed={selected}
+              disabled={locked || !pack.choosing || starting}
+              onClick={() => setPicked(id)}
+              className={`min-h-11 rounded-lg border-2 py-3 text-lg font-bold ${selected ? 'border-blue-800 bg-blue-700 text-white' : 'border-slate-500 bg-white text-slate-900 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-300 dark:bg-slate-800 dark:text-slate-50'}`}
+            >
+              {id}
+            </button>
+          );
+        })}
+      </div>
+      <LevelRuleNote access={{ b1Passes: pack.b1Passes ?? 0, b2Passes: pack.b2Passes ?? 0 }} />
+    </fieldset>
+  );
+
+  if (pack.choosing) {
+    const pickedLocked = (picked === 'B2' && pack.b2Open === false) || (picked === 'C1' && pack.c1Open === false);
+    return (
+      <div className="challenge-flow">
+        {onBack && <BackButton onClick={onBack} />}
+        <h1 className="text-2xl font-bold">Daily challenge</h1>
+        {levelChoices}
+        <p className="mt-3 text-base">The clock starts when you choose today’s level.</p>
+        {message && <p className="mt-3 text-base text-red-800 dark:text-red-300" role="alert">{message}</p>}
+        <button
+          type="button"
+          disabled={starting || pickedLocked}
+          onClick={() => { void begin(picked); }}
+          className="mt-4 min-h-11 w-full rounded-lg bg-blue-700 py-3 text-lg font-bold text-white hover:bg-blue-800 disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          {starting ? 'Starting...' : 'Start today’s challenge'}
+        </button>
       </div>
     );
   }
@@ -355,6 +416,7 @@ export function DailyChallengePage({
       <div className="challenge-flow">
         {onBack && <BackButton onClick={onBack} />}
         <h1>Daily challenge</h1>
+        {levelChoices}
         <p className="mt-2">{pack.level} · {pack.day}</p>
         <section className="mt-4 border-2 border-slate-900 bg-white p-4 text-slate-900" aria-label="Challenge result">
           <p className="text-3xl font-bold">You scored {result.correct} out of {result.total}{percent == null ? '' : ` (${percent}%)`}.</p>
@@ -406,8 +468,9 @@ export function DailyChallengePage({
       {onBack && open == null && <BackButton onClick={onBack} />}
       {open != null && <BackButton onClick={() => setOpen(null)} />}
       <h1 className="text-2xl font-bold">Daily challenge</h1>
+      {levelChoices}
       <p className="mt-2 text-base">{pack.level} · {pack.day} · {formatDuration(liveSeconds)}</p>
-      <p className="mt-2 text-sm">One scored attempt today. The clock starts when you open the challenge and does not reset if you refresh.</p>
+      <p className="mt-2 text-sm">One scored attempt today. The clock starts when you choose the level and does not reset if you refresh.</p>
       {pack.missing && (
         <p className="mt-3 border-2 border-slate-900 bg-amber-100 px-3 py-2 text-base text-slate-900" role="note">
           The official attempt will be saved after the database update. You can still try today's three parts.

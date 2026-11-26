@@ -18,6 +18,7 @@ import {
 } from '../dailyChallenge.ts';
 import type { GrammarExerciseType, GrammarLevel } from '../grammarSet.ts';
 import { readEnvValue, runtimeEnv } from '../taskMail.ts';
+import { levelAccess } from '../levelProgress.ts';
 
 type BankRow = {
   id: string;
@@ -266,36 +267,65 @@ export default async (req: Request) => {
   const userId = userResult.data.user?.id;
   if (userResult.error || !userId) return json(401, { ok: false, message: 'Sign in to open the daily challenge.' });
 
-  let body: { action?: string; reading?: unknown; listening?: unknown; grammar?: unknown } = {};
+  let body: { action?: string; level?: unknown; reading?: unknown; listening?: unknown; grammar?: unknown } = {};
   try {
     body = await req.json() as typeof body;
   } catch {
     body = {};
   }
   const day = todayMadrid();
-  const profile = await admin.from('profiles').select('default_level').eq('id', userId).maybeSingle();
-  const profileLevel = challengeLevel(profile.data?.default_level == null ? 'B1' : String(profile.data.default_level));
+  const scored = await admin.from('test_results').select('level, score, total, mode').eq('user_id', userId);
+  const access = levelAccess(null, scored.error || !Array.isArray(scored.data) ? [] : scored.data);
+  const accessFields = {
+    b1Passes: access.b1Passes,
+    b2Passes: access.b2Passes,
+    b2Open: access.b2,
+    c1Open: access.c1,
+  };
 
   const loaded = await readAttempt(admin, userId, day);
   const tableMissing = loaded.tableMissing;
   let answersMissing = loaded.answersMissing;
   let attempt = loaded.attempt;
-  let level = attempt ? challengeLevel(attempt.level) : profileLevel;
+  let level: ChallengeLevel = attempt ? challengeLevel(attempt.level) : 'B1';
 
-  if (!tableMissing && !attempt && body.action !== 'submit') {
-    const inserted = await admin.from('daily_challenge_attempts').insert({
-      user_id: userId,
-      madrid_day: day,
-      level,
-    }).select(ATTEMPT_COLUMNS).maybeSingle();
-    if (inserted.error && !missingTable(inserted.error)) {
-      const again = await readAttempt(admin, userId, day);
-      attempt = again.attempt;
-      answersMissing = again.answersMissing;
-    } else {
-      attempt = (inserted.data ?? null) as AttemptRow | null;
+  if (!attempt && body.action === 'start') {
+    const requested = challengeLevel(typeof body.level === 'string' ? body.level : 'B1');
+    if ((requested === 'B2' && !access.b2) || (requested === 'C1' && !access.c1)) {
+      return json(200, { ok: false, message: 'That level is not open yet.' });
     }
-    if (attempt) level = challengeLevel(attempt.level);
+    level = requested;
+    if (!tableMissing) {
+      const inserted = await admin.from('daily_challenge_attempts').insert({
+        user_id: userId,
+        madrid_day: day,
+        level,
+      }).select(ATTEMPT_COLUMNS).maybeSingle();
+      if (inserted.error && !missingTable(inserted.error)) {
+        const again = await readAttempt(admin, userId, day);
+        attempt = again.attempt;
+        answersMissing = again.answersMissing;
+      } else {
+        attempt = (inserted.data ?? null) as AttemptRow | null;
+      }
+      if (attempt) level = challengeLevel(attempt.level);
+    }
+  }
+
+  if (!attempt && body.action !== 'start' && body.action !== 'submit') {
+    return json(200, {
+      ok: true,
+      choosing: true,
+      missing: tableMissing,
+      day,
+      level: 'B1',
+      startedAt: null,
+      submitted: null,
+      reading: null,
+      listening: null,
+      grammar: null,
+      ...accessFields,
+    });
   }
 
   const built = await piecesFor(admin, day, level);
@@ -444,6 +474,7 @@ export default async (req: Request) => {
       answersStored: storedReport(attempt.answers) != null,
     } : null,
     ...pack,
+    ...accessFields,
   });
 };
 
