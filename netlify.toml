@@ -112,6 +112,16 @@
   status = 200
 
 [[redirects]]
+  from = "/academy-sign-in"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/academy-sign-in/"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
   from = "/join"
   to = "/index.html"
   status = 200

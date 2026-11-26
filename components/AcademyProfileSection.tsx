@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import { joinAcademy, leaveAcademy } from '../academy';
-import { ACADEMY_INVITE_KEY, joinResultMessage, normalizeInviteCode } from '../academyStats';
+import { useState } from 'react';
+import { leaveAcademy } from '../academy';
 import { AcademyContact } from './JoinAcademyPage';
 
 export function AcademyProfileSection({
@@ -14,35 +13,9 @@ export function AcademyProfileSection({
   academyName: string | null;
   onChanged: () => void;
 }) {
-  const [code, setCode] = useState(() => {
-    try {
-      return normalizeInviteCode(localStorage.getItem(ACADEMY_INVITE_KEY) || '');
-    } catch {
-      return '';
-    }
-  });
   const [note, setNote] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [confirmLeave, setConfirmLeave] = useState(false);
-
-  const join = async (event: React.FormEvent) => {
-    event.preventDefault();
-    const next = normalizeInviteCode(code);
-    if (!next) {
-      setNote('Enter the 6 to 8 character code from your academy.');
-      return;
-    }
-    setBusy(true);
-    setNote(null);
-    const result = await joinAcademy(next);
-    setBusy(false);
-    if (result === 'ok') {
-      try { localStorage.removeItem(ACADEMY_INVITE_KEY); } catch { /* ignore */ }
-      onChanged();
-      return;
-    }
-    setNote(joinResultMessage(result));
-  };
 
   const leave = async () => {
     setBusy(true);
@@ -83,19 +56,7 @@ export function AcademyProfileSection({
         </>
       )}
       {plan !== 'academy' && academyRole !== 'student' && (
-        <form onSubmit={join} className="space-y-3">
-          <label className="block text-sm font-semibold" htmlFor="academy-code">Invite code</label>
-          <input
-            id="academy-code"
-            value={code}
-            maxLength={12}
-            onChange={(event) => setCode(event.target.value.toUpperCase())}
-            className="w-full rounded-lg border border-slate-400 bg-white px-3 py-2 text-base uppercase text-slate-900 dark:border-slate-500 dark:bg-slate-900 dark:text-slate-50"
-          />
-          <button type="submit" disabled={busy} className="rounded-lg bg-blue-700 px-4 py-3 text-base font-bold text-white hover:bg-blue-800 disabled:opacity-60">
-            {busy ? 'Joining...' : 'Join'}
-          </button>
-        </form>
+        <p className="text-base">Your account is an individual learner. Progress, results, vocabulary, and badges stay here. Academy owners use the academy entrance.</p>
       )}
       {note && <p className="text-base">{note}</p>}
       {plan !== 'academy' && <AcademyContact />}
