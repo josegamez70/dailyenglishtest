@@ -29,6 +29,7 @@ import { isAppReturnPath, isTaskPacksPath, returnPathAfterSignIn, taskPackIdFrom
 import { AppShell, type ShellItem } from './components/AppShell';
 import { BackButton } from './components/BackButton';
 import { ProfilePage, type ThemeChoice } from './components/ProfilePage';
+import { RetroLegendsPanel } from './components/RetroLegends';
 import { RetroWindow } from './components/RetroWindow';
 import { PixelArt } from './components/PixelArt';
 import { LegendsShot } from './components/LegendsShot';
@@ -44,7 +45,7 @@ import { loadBadgeStats } from './badgeStats';
 import { publishBadgeProgress } from './badgeToast';
 import { LevelUnlockDialog } from './components/LevelUnlockNotice';
 import { ExerciseComplete } from './components/ExerciseComplete';
-import { SpanishWhy } from './components/SpanishWhy';
+import { SpanishWhy, answerStatus } from './components/SpanishWhy';
 import { QuizErrorBoundary, QuizScreen } from './components/QuizErrorBoundary';
 import { WelcomeGuide } from './components/WelcomeGuide';
 import { isDarkTheme, isThemeChoice } from './themeChoice';
@@ -1670,8 +1671,8 @@ const App: React.FC = () => {
               ? 'Listen to the dialogue'
               : 'Listen to the text'}
         </h2>
-        <p className="mt-2 text-center text-sm sm:text-base font-semibold leading-snug text-slate-900 dark:text-slate-50">
-          Topic: {storyTopic?.label ?? TOPICS.find((topic) => topic.value === config.topic)?.label ?? config.topic} · Level: {LEVELS.find((level) => level.value === config.level)?.label ?? config.level} · Format: {contentFormat === 'dialogue' ? 'Dialogue' : 'Text'}
+        <p className="grammar-meta">
+          {LEVELS.find((level) => level.value === config.level)?.label ?? config.level} · Topic: {storyTopic?.label ?? TOPICS.find((topic) => topic.value === config.topic)?.label ?? config.topic} · {contentFormat === 'dialogue' ? 'Dialogue' : 'Text'}
         </p>
 
         {practiceType === 'listening' && renderListeningControls()}
@@ -1815,10 +1816,13 @@ const App: React.FC = () => {
           {userAnswers[currentQuestionIndex] && (
             <div className="mt-4 rounded-lg border-2 border-slate-400 bg-slate-50 p-4 text-base text-slate-900 dark:border-slate-500 dark:bg-slate-900 dark:text-slate-50" role="status">
               <p className="font-bold">
-                {userAnswers[currentQuestionIndex] === question.correctAnswer ? 'Bien.' : `Casi. La respuesta es ${question.correctAnswer}.`}
+                {answerStatus(userAnswers[currentQuestionIndex] === question.correctAnswer, question.correctAnswer)}
               </p>
               {question.explanation && <p className="mt-2"><span className="font-semibold">Why: </span>{question.explanation}</p>}
-              {question.explanation && <SpanishWhy text={question.explanation} />}
+              <SpanishWhy text={[
+                answerStatus(userAnswers[currentQuestionIndex] === question.correctAnswer, question.correctAnswer),
+                question.explanation,
+              ].filter(Boolean).join(' ')} />
             </div>
           )}
           <button
@@ -1853,7 +1857,8 @@ const App: React.FC = () => {
           <p className="text-center text-xl text-slate-800 dark:text-slate-100 mb-2">
             You scored {score} out of {quiz.length} ({percentage}%)
           </p>
-          <p className="text-center text-lg font-semibold text-blue-800 dark:text-blue-200 mb-6">{feedback}</p>
+          <p className="text-center text-lg font-semibold text-blue-800 dark:text-blue-200">{feedback}</p>
+          <div className="mb-6 flex justify-center"><SpanishWhy text={feedback} /></div>
           <div className="space-y-4">
             {quiz.map((question, index) => {
               const userAnswer = userAnswers[index];
@@ -2275,7 +2280,7 @@ const App: React.FC = () => {
     </div>
   );
 
-  const shellItem: ShellItem = path === '/progress' ? 'progress' : path === '/scoreboard' ? 'scoreboard' : path === '/saved' ? 'saved' : path === '/vocabulary' ? 'vocabulary' : path === '/daily-challenge' ? 'challenge' : path === '/tasks' ? 'tasks' : isTaskPacksPath(path) ? 'packs' : path === '/profile' ? 'profile' : path === '/academy' ? 'academy' : path === '/join' ? 'join' : path === '/grammar' ? 'grammar' : 'lesson';
+  const shellItem: ShellItem = path === '/progress' ? 'progress' : path === '/scoreboard' ? 'scoreboard' : path === '/saved' ? 'saved' : path === '/vocabulary' ? 'vocabulary' : path === '/daily-challenge' ? 'challenge' : path === '/tasks' ? 'tasks' : isTaskPacksPath(path) ? 'packs' : path === '/retro-legends' ? 'legends' : path === '/profile' ? 'profile' : path === '/academy' ? 'academy' : path === '/join' ? 'join' : path === '/grammar' ? 'grammar' : 'lesson';
   const openPack = (id: string) => {
     const next = `/task-packs/${id}`;
     window.history.pushState({ taskPack: id }, '', next);
@@ -2589,6 +2594,13 @@ const App: React.FC = () => {
             go('/');
           }}
         />
+      )}
+      {shellItem === 'legends' && (
+        <RetroWindow title="Retro Legends">
+          <div className="mx-auto w-full max-w-2xl">
+            <RetroLegendsPanel />
+          </div>
+        </RetroWindow>
       )}
       {shellItem === 'profile' && (
         <RetroWindow title="Profile">
