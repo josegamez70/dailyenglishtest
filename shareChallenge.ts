@@ -279,14 +279,23 @@ export function buildShareLink(origin: string, input: {
   return { line, url: `${base}/share#${token}` };
 }
 
-/** Correct answers already stored on a saved grammar set. Reading and listening rows usually have none. */
-export function savedSenderResult(lesson: Record<string, unknown>): { correct: number; total: number } | null {
+/** Correct answers already stored on a saved lesson. A finished listening stores shareResult, including the time. */
+export function savedSenderResult(lesson: Record<string, unknown>): { correct: number; total: number; seconds: number | null } | null {
+  const stored = lesson.shareResult;
+  if (stored && typeof stored === 'object') {
+    const record = stored as Record<string, unknown>;
+    const correct = whole(record.correct, 1000);
+    const total = whole(record.total, 1000);
+    if (correct != null && total != null && total > 0 && correct <= total) {
+      return { correct, total, seconds: whole(record.seconds, 86400) };
+    }
+  }
   if (!Array.isArray(lesson.grades) || lesson.grades.length === 0) return null;
   let correct = 0;
   for (const entry of lesson.grades) {
     if (entry && typeof entry === 'object' && (entry as { correct?: unknown }).correct === true) correct += 1;
   }
-  return { correct, total: lesson.grades.length };
+  return { correct, total: lesson.grades.length, seconds: null };
 }
 
 /** Percent from a saved grammar set, when the learner already checked it. */

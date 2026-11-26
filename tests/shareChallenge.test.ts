@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { buildShareLink, decodeShare, formatShareTime, resultComparison, savedChallengePercent, senderResultLine, shareIdFromPath } from '../shareChallenge.ts';
+import { buildShareLink, decodeShare, formatShareTime, resultComparison, savedChallengePercent, savedSenderResult, senderResultLine, shareIdFromPath } from '../shareChallenge.ts';
 
 const lesson = {
   mode: 'reading',
@@ -106,6 +106,22 @@ test('a share link carries the exercise, the score, and the @, and nothing priva
     lesson,
   });
   assert.equal(timed?.line, '@JmgamezBest got 4/5 in 1:32 — can you beat it?');
+  assert.deepEqual(savedSenderResult({ shareResult: { correct: 5, total: 5, seconds: 104 } }), { correct: 5, total: 5, seconds: 104 });
+  assert.equal(savedSenderResult({ quiz: [{ question: 'Q?' }] }), null);
+  const finished = buildShareLink('https://dailyenglishtest.es', {
+    mode: 'listening',
+    title: 'Property buying',
+    handle: 'jmgamezBest',
+    percent: 100,
+    senderCorrect: 5,
+    senderTotal: 5,
+    senderSeconds: 104,
+    lesson,
+  });
+  assert.equal(finished?.line, '@jmgamezBest got 5/5 in 1:44 — can you beat it?');
+  const appShare = readFileSync(new URL('../App.tsx', import.meta.url), 'utf8');
+  assert.match(appShare, /shareResultRef.current = finishedShare/);
+  assert.match(appShare, /senderSeconds: scored \? scored.seconds : quizSecondsRef.current/);
   const sqlSender = readFileSync(new URL('../supabase/migrations/20261210_shared_sender_result.sql', import.meta.url), 'utf8');
   assert.match(sqlSender, /add column if not exists sender_correct integer/);
   assert.match(sqlSender, /add column if not exists sender_total integer/);

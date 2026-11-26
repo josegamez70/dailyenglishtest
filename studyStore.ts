@@ -142,6 +142,24 @@ export async function saveLesson(lesson: Record<string, unknown>, title: string)
   return { ok: true, id };
 }
 
+/** Remember a finished attempt on that learner's saved lesson. Does not replace the audio path. */
+export async function rememberLessonResult(
+  id: string,
+  result: { correct: number; total: number; seconds: number | null },
+): Promise<void> {
+  const supabase = client();
+  if (!supabase) return;
+  const { data } = await supabase.auth.getUser();
+  const userId = data.user?.id;
+  if (!userId) return;
+  const row = await supabase.from('saved_lessons').select('lesson').eq('id', id).eq('user_id', userId).maybeSingle();
+  const lesson = row.data?.lesson;
+  if (row.error || !lesson || typeof lesson !== 'object') return;
+  await supabase.from('saved_lessons').update({
+    lesson: { ...lesson, shareResult: result },
+  }).eq('id', id).eq('user_id', userId);
+}
+
 function mapSavedRows(data: { id: unknown; created_at: unknown; title: unknown; lesson: unknown }[] | null): SavedLessonRow[] {
   return (data ?? []).map((row) => ({
     id: String(row.id),

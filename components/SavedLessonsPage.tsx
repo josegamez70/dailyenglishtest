@@ -216,10 +216,10 @@ function SavedShare({ row, handle, onHandle }: { row: SavedLessonRow; handle: st
           mode,
           title: row.title,
           handle: next,
-          percent: savedChallengePercent(row.lesson),
+          percent: result ? Math.round((result.correct / result.total) * 100) : savedChallengePercent(row.lesson),
           senderCorrect: result?.correct ?? null,
           senderTotal: result?.total ?? null,
-          senderSeconds: null,
+          senderSeconds: result?.seconds ?? null,
           lesson: { ...row.lesson, savedLessonId: row.id },
         });
       }}

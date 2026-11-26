@@ -62,7 +62,7 @@ import { ACADEMY_INVITE_DISMISSED_KEY, ACADEMY_INVITE_KEY, inviteBannerText, nor
 import { AcademyPage } from './components/AcademyPage';
 import { JoinAcademyPage } from './components/JoinAcademyPage';
 import { parseSavedGrammarLesson, type GrammarLaunch } from './savedLessonMeta';
-import { listTestResults, saveLesson, saveTestResult, updateProfileSettings, type SavedLessonRow } from './studyStore';
+import { listTestResults, rememberLessonResult, saveLesson, saveTestResult, updateProfileSettings, type SavedLessonRow } from './studyStore';
 import { levelsOpenedBy } from './levelProgress';
 import { publishLevelUnlocks } from './levelUnlock';
 import { LEVEL_UNLOCKS_ENABLED } from './levelUnlocks';
@@ -275,6 +275,7 @@ const App: React.FC = () => {
   const lessonBankIdRef = useRef<string | null>(null);
   const quizStartedAtRef = useRef<number | null>(null);
   const quizSecondsRef = useRef<number | null>(null);
+  const shareResultRef = useRef<{ correct: number; total: number; seconds: number | null } | null>(null);
   const lessonSavedIdRef = useRef<string | null>(null);
   const listeningSaveRef = useRef<Promise<string | null>>(Promise.resolve(null));
   const rememberListeningSave = (pending: Promise<{ ok: boolean; id?: string }>) => {
@@ -560,6 +561,7 @@ const App: React.FC = () => {
     lessonBankIdRef.current = null;
     lessonSavedIdRef.current = null;
     listeningSaveRef.current = Promise.resolve(null);
+    shareResultRef.current = null;
     lessonTaskPackIdRef.current = null;
     lessonSlowUrlRef.current = null;
     playModeRef.current = 'normal';
@@ -680,6 +682,11 @@ const App: React.FC = () => {
       ? null
       : Math.max(0, Math.round((Date.now() - quizStartedAtRef.current) / 1000));
     const score = quiz.reduce((acc, question, index) => acc + (question.correctAnswer === userAnswers[index] ? 1 : 0), 0);
+    const finishedShare = { correct: score, total: quiz.length, seconds: quizSecondsRef.current };
+    shareResultRef.current = finishedShare;
+    void (lessonSavedIdRef.current ? Promise.resolve(lessonSavedIdRef.current) : listeningSaveRef.current).then((id) => {
+      if (id && shareResultRef.current === finishedShare) void rememberLessonResult(id, finishedShare);
+    });
     const wrongAnswers = quiz.flatMap((question, index) => {
       const userAnswer = userAnswers[index] || '';
       if (userAnswer === question.correctAnswer) return [];
@@ -839,6 +846,7 @@ const App: React.FC = () => {
     lessonBankIdRef.current = null;
     lessonSavedIdRef.current = null;
     listeningSaveRef.current = Promise.resolve(null);
+    shareResultRef.current = null;
     lessonTaskPackIdRef.current = null;
     lessonSlowUrlRef.current = null;
     playModeRef.current = 'normal';
@@ -2674,17 +2682,20 @@ const App: React.FC = () => {
               const id = lessonSavedIdRef.current ?? await listeningSaveRef.current;
               if (id) lessonSavedIdRef.current = id;
               if (id) await savedListeningAudio(id, undefined, speedRef.current);
+              if (id && shareResultRef.current) await rememberLessonResult(id, shareResultRef.current);
             } : undefined,
-            linkFor: (next) => buildShareLink(window.location.origin, {
+            linkFor: (next) => {
+              const scored = shareResultRef.current;
+              const correct = scored?.correct ?? quiz.filter((question, index) => question.correctAnswer === userAnswers[index]).length;
+              const total = scored?.total ?? quiz.length;
+              return buildShareLink(window.location.origin, {
               mode: practiceType === 'listening' ? 'listening' : 'reading',
               title: storyTopic?.label || 'Exercise',
               handle: next,
-              percent: quiz.length
-                ? Math.round((quiz.filter((question, index) => question.correctAnswer === userAnswers[index]).length / quiz.length) * 100)
-                : null,
-              senderCorrect: quiz.filter((question, index) => question.correctAnswer === userAnswers[index]).length,
-              senderTotal: quiz.length,
-              senderSeconds: quizSecondsRef.current,
+              percent: total ? Math.round((correct / total) * 100) : null,
+              senderCorrect: correct,
+              senderTotal: total,
+              senderSeconds: scored ? scored.seconds : quizSecondsRef.current,
               lesson: {
                 mode: practiceType,
                 title: storyTopic?.label || 'Exercise',
@@ -2696,7 +2707,8 @@ const App: React.FC = () => {
               ...(lessonSavedIdRef.current ? { savedLessonId: lessonSavedIdRef.current } : {}),
               ...(lessonBankIdRef.current ? { bankId: lessonBankIdRef.current } : {}),
               },
-            }),
+            });
+            },
           }}
           onReview={() => setResultCelebrate(false)}
           onNew={resetApp}
