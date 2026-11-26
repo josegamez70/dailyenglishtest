@@ -117,18 +117,21 @@ export async function listTestResults(): Promise<{ rows: TestResultRow[]; missin
   return { rows, missing: false };
 }
 
-export async function saveLesson(lesson: Record<string, unknown>, title: string): Promise<{ ok: boolean; missing?: boolean }> {
+export async function saveLesson(lesson: Record<string, unknown>, title: string): Promise<{ ok: boolean; missing?: boolean; id?: string }> {
   const supabase = client();
   if (!supabase) return { ok: false };
   const { data } = await supabase.auth.getUser();
   const userId = data.user?.id;
   if (!userId) return { ok: false };
-  const { error } = await supabase.from('saved_lessons').insert({
+  const inserted = await supabase.from('saved_lessons').insert({
     user_id: userId,
     title,
     lesson,
-  });
-  if (error) return { ok: false, missing: isMissingTable(error) };
+  }).select('id').maybeSingle();
+  if (inserted.error || !inserted.data?.id) {
+    return { ok: false, missing: inserted.error ? isMissingTable(inserted.error) : false };
+  }
+  const id = String(inserted.data.id);
   const listed = await supabase
     .from('saved_lessons')
     .select('id')
@@ -136,7 +139,7 @@ export async function saveLesson(lesson: Record<string, unknown>, title: string)
     .order('created_at', { ascending: false });
   const extra = (listed.data ?? []).slice(SAVED_LESSON_LIMIT).map((row) => row.id);
   if (extra.length) await supabase.from('saved_lessons').delete().in('id', extra);
-  return { ok: true };
+  return { ok: true, id };
 }
 
 function mapSavedRows(data: { id: unknown; created_at: unknown; title: unknown; lesson: unknown }[] | null): SavedLessonRow[] {

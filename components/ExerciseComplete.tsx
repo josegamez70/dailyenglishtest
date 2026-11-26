@@ -58,6 +58,8 @@ export function ExerciseComplete({
     handle: string;
     onHandle: (handle: string) => void;
     linkFor: (handle: string) => ShareLink | null;
+    /** Stores listening audio before the link is offered. */
+    prepare?: () => Promise<void>;
   } | null;
 }) {
   /* Light and dark use the same finish tone as Retro 95. */
@@ -85,7 +87,7 @@ export function ExerciseComplete({
             <button type="button" onClick={onNew} className="rounded-lg border-2 border-slate-900 bg-white px-4 py-3 text-lg font-bold text-slate-900 hover:bg-slate-100 dark:border-slate-100 dark:bg-slate-900 dark:text-slate-50">
               New exercise
             </button>
-            {share && <ShareMenu handle={share.handle} onHandle={share.onHandle} linkFor={share.linkFor} />}
+            {share && <ShareMenu handle={share.handle} onHandle={share.onHandle} linkFor={share.linkFor} prepare={share.prepare} />}
           </div>
         </RetroWindow>
       </div>

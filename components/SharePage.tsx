@@ -214,7 +214,7 @@ export function SharePage({ id = '' }: { id?: string }) {
 
   return (
     <main className="mx-auto min-h-screen max-w-xl px-4 py-6">
-      <p className="text-sm font-bold text-blue-800">Daily English Test</p>
+      <p className="text-sm font-bold text-blue-800 dark:text-blue-200">Daily English Test</p>
       <h1 className="mt-2 text-2xl font-bold">{card.title}</h1>
       <p className="mt-3 text-lg font-semibold">{challenge}</p>
       <a href="/" className="mt-3 block w-full rounded-lg bg-blue-700 px-4 py-3 text-center text-lg font-bold text-white">
@@ -240,17 +240,31 @@ export function SharePage({ id = '' }: { id?: string }) {
           {step.order && <p className="mt-2 text-base">Tap the parts in the right order.</p>}
           {step.order && draft.length > 0 && <p className="mt-2 text-lg">{draft.join(' ')}</p>}
           <div className="mt-3 flex flex-col gap-2">
-            {step.options.map((option) => (
-              <button
-                key={option}
-                type="button"
-                disabled={locked || draft.includes(option)}
-                onClick={() => choose(option)}
-                className="rounded-lg border-2 border-slate-900 bg-white px-4 py-3 text-left text-lg font-semibold disabled:opacity-50"
-              >
-                {option}
-              </button>
-            ))}
+            {step.options.map((option) => {
+              const picked = draft.includes(option);
+              const revealed = locked && !step.order;
+              const chosen = answers[index] === option;
+              const tone = !revealed
+                ? picked
+                  ? 'border-blue-800 bg-blue-700 text-white'
+                  : 'border-slate-900 bg-white text-slate-900 dark:border-slate-300 dark:bg-slate-700 dark:text-slate-50'
+                : option === step.answer
+                  ? 'border-green-700 bg-green-100 text-slate-900'
+                  : chosen
+                    ? 'border-red-700 bg-red-100 text-slate-900'
+                    : 'border-slate-300 bg-white text-slate-800 dark:border-slate-500 dark:bg-slate-800 dark:text-slate-100';
+              return (
+                <button
+                  key={option}
+                  type="button"
+                  disabled={locked || picked}
+                  onClick={() => choose(option)}
+                  className={`rounded-lg border-2 px-4 py-3 text-left text-lg font-semibold ${tone}`}
+                >
+                  {option}
+                </button>
+              );
+            })}
           </div>
           {step.order && !locked && (
             <button type="button" onClick={commitOrder} disabled={draft.length !== step.options.length} className="mt-3 w-full rounded-lg bg-blue-700 py-3 text-lg font-bold text-white disabled:opacity-50">
@@ -307,7 +321,7 @@ export function SharePage({ id = '' }: { id?: string }) {
                       setLessonNote(saved.ok ? 'Saved to Saved lessons.' : 'Could not save this lesson.');
                     });
                   }}
-                  className="mt-3 w-full rounded-lg border-2 border-slate-900 py-3 text-lg font-bold"
+                  className="mt-3 w-full rounded-lg border-2 border-slate-900 bg-white py-3 text-lg font-bold text-slate-900 dark:border-slate-100 dark:bg-slate-800 dark:text-slate-50"
                 >
                   Save lesson
                 </button>

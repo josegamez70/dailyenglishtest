@@ -116,6 +116,15 @@ test('a share link carries the exercise, the score, and the @, and nothing priva
   assert.match(recipient, /recordScoredLesson/);
   assert.match(recipient, /Save lesson/);
   assert.match(recipient, /This score is not saved/);
+  assert.match(recipient, /dark:bg-slate-700 dark:text-slate-50/);
+  assert.match(recipient, /bg-green-100 text-slate-900/);
+  assert.match(recipient, /bg-red-100 text-slate-900/);
+  assert.doesNotMatch(recipient, /font-semibold disabled:opacity-50/);
+  const app = readFileSync(new URL('../App.tsx', import.meta.url), 'utf8');
+  assert.match(app, /savedListeningAudio\(id, undefined, speedRef.current\)/);
+  assert.match(app, /rememberListeningSave/);
+  const store = readFileSync(new URL('../studyStore.ts', import.meta.url), 'utf8');
+  assert.match(store, /\.select\('id'\)\.maybeSingle\(\)/);
   const sql = readFileSync(new URL('../supabase/migrations/20261209_shared_exercises.sql', import.meta.url), 'utf8');
   assert.match(sql, /create table if not exists public\.shared_exercises/);
   assert.match(sql, /sender_id uuid not null references auth\.users/);
