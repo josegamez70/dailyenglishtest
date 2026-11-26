@@ -92,9 +92,9 @@ function LegendRow({ label, badges, onOpen }: {
   onOpen: (badge: RetroBadge) => void;
 }) {
   return (
-    <div className="mt-4">
-      <h3 className="text-base font-bold">{label}</h3>
-      <ul className="badge-grid legends-grid" aria-label={label}>
+    <div className="legend-shelf">
+      <h3 className="legend-shelf-label">{label}</h3>
+      <ul className="legend-shelf-row" aria-label={label}>
         {badges.map((badge) => (
           <li key={badge.id}>
             <button type="button" className={`badge-card ${badge.unlocked ? 'badge-earned legend-lit' : 'badge-locked'}`} onClick={() => onOpen(badge)} aria-haspopup="dialog">

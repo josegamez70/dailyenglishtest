@@ -29,6 +29,7 @@ import { isAppReturnPath, isTaskPacksPath, returnPathAfterSignIn, taskPackIdFrom
 import { AppShell, type ShellItem } from './components/AppShell';
 import { BackButton } from './components/BackButton';
 import { ProfilePage, type ThemeChoice } from './components/ProfilePage';
+import { RetroLegendsPanel } from './components/RetroLegends';
 import { RetroWindow } from './components/RetroWindow';
 import { PixelArt } from './components/PixelArt';
 import { LegendsShot } from './components/LegendsShot';
@@ -2279,7 +2280,7 @@ const App: React.FC = () => {
     </div>
   );
 
-  const shellItem: ShellItem = path === '/progress' ? 'progress' : path === '/scoreboard' ? 'scoreboard' : path === '/saved' ? 'saved' : path === '/vocabulary' ? 'vocabulary' : path === '/daily-challenge' ? 'challenge' : path === '/tasks' ? 'tasks' : isTaskPacksPath(path) ? 'packs' : path === '/profile' ? 'profile' : path === '/academy' ? 'academy' : path === '/join' ? 'join' : path === '/grammar' ? 'grammar' : 'lesson';
+  const shellItem: ShellItem = path === '/progress' ? 'progress' : path === '/scoreboard' ? 'scoreboard' : path === '/saved' ? 'saved' : path === '/vocabulary' ? 'vocabulary' : path === '/daily-challenge' ? 'challenge' : path === '/tasks' ? 'tasks' : isTaskPacksPath(path) ? 'packs' : path === '/retro-legends' ? 'legends' : path === '/profile' ? 'profile' : path === '/academy' ? 'academy' : path === '/join' ? 'join' : path === '/grammar' ? 'grammar' : 'lesson';
   const openPack = (id: string) => {
     const next = `/task-packs/${id}`;
     window.history.pushState({ taskPack: id }, '', next);
@@ -2593,6 +2594,13 @@ const App: React.FC = () => {
             go('/');
           }}
         />
+      )}
+      {shellItem === 'legends' && (
+        <RetroWindow title="Retro Legends">
+          <div className="mx-auto w-full max-w-2xl">
+            <RetroLegendsPanel />
+          </div>
+        </RetroWindow>
       )}
       {shellItem === 'profile' && (
         <RetroWindow title="Profile">

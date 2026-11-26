@@ -453,6 +453,40 @@ html.dark .scoreboard-tabs button.is-selected {
 .challenge-rank th:nth-child(5),
 .challenge-rank td:nth-child(5) { width: 3.4rem; white-space: nowrap; text-align: right; }
 
+.legend-shelf {
+  margin-top: 1.15rem;
+  padding: 0.45rem 0.4rem 0;
+  border: 3px solid #3f2912;
+  background: #c4a574;
+  box-shadow: inset 0 0 0 2px #e7c48a, 0 6px 0 #3f2912;
+}
+.legend-shelf-label {
+  margin: 0 0.2rem 0.35rem;
+  color: #3f2912;
+  font-family: "VT323", ui-monospace, monospace;
+  font-size: 1.35rem;
+  line-height: 1;
+}
+.legend-shelf-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.45rem;
+  margin: 0;
+  padding: 0.35rem 0.25rem 0.55rem;
+  list-style: none;
+  background:
+    linear-gradient(#6b3e16, #6b3e16) bottom / 100% 12px no-repeat,
+    repeating-linear-gradient(90deg, #a56b34 0 10px, #8d5a2b 10px 12px);
+}
+.legend-shelf .badge-card {
+  width: 7.2rem;
+  margin-bottom: 0.15rem;
+}
+.legend-shelf .badge-locked {
+  filter: grayscale(1) brightness(0.45);
+}
+
 .grammar-meta {
   width: fit-content;
   max-width: 100%;
