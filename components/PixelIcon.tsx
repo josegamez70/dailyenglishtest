@@ -38,6 +38,7 @@ export function menuPixelIcon(id: string) {
   if (id === 'progress') return 'chart' as const;
   if (id === 'saved') return 'floppy' as const;
   if (id === 'academy') return 'house' as const;
+  if (id === 'legends') return 'shield' as const;
   if (id === 'profile') return 'person' as const;
   return 'help' as const;
 }

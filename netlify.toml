@@ -92,6 +92,16 @@
   status = 200
 
 [[redirects]]
+  from = "/retro-legends"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/retro-legends/"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
   from = "/profile"
   to = "/index.html"
   status = 200
