@@ -44,6 +44,7 @@ import { addExercise } from './badges';
 import { loadBadgeStats } from './badgeStats';
 import { publishBadgeProgress } from './badgeToast';
 import { BadgeUnlockDialog } from './components/Achievements';
+import { LevelUnlockDialog } from './components/LevelUnlockNotice';
 import { ExerciseComplete } from './components/ExerciseComplete';
 import { SpanishWhy } from './components/SpanishWhy';
 import { QuizErrorBoundary, QuizScreen } from './components/QuizErrorBoundary';
@@ -60,7 +61,9 @@ import { ACADEMY_INVITE_DISMISSED_KEY, ACADEMY_INVITE_KEY, inviteBannerText, nor
 import { AcademyPage } from './components/AcademyPage';
 import { JoinAcademyPage } from './components/JoinAcademyPage';
 import { parseSavedGrammarLesson, type GrammarLaunch } from './savedLessonMeta';
-import { saveLesson, saveTestResult, updateProfileSettings, type SavedLessonRow } from './studyStore';
+import { listTestResults, saveLesson, saveTestResult, updateProfileSettings, type SavedLessonRow } from './studyStore';
+import { levelsOpenedBy } from './levelProgress';
+import { publishLevelUnlocks } from './levelUnlock';
 import { markTaskDone, type TaskSlot } from './taskStore';
 import { sentenceWith, setVocabLessonContext, setVocabSignInHandler, matchedSavedTerms, savedMatchKeys, termKey } from './vocabulary';
 import { getVocabularyState, loadVocabulary, removeVocabularyWord, saveVocabularyWord, subscribeVocabulary } from './vocabularyStore';
@@ -672,19 +675,26 @@ const App: React.FC = () => {
     setFinishing(true);
     const session = taskSession;
     const finishedMode = session?.slot === 'listening' ? 'listening' : practiceType === 'listening' ? 'listening' : 'reading';
+    const finishedLevel = session?.levelLabel || (LEVELS.find((level) => level.value === config.level)?.label ?? config.level);
+    const priorResults = listTestResults().catch(() => null);
     void loadBadgeStats().then((before) => {
       publishBadgeProgress(before, addExercise(before, finishedMode, new Date(), { score, total: quiz.length }));
     }).catch(() => undefined).finally(() => {
     void saveTestResult({
-      level: session?.levelLabel || (LEVELS.find((level) => level.value === config.level)?.label ?? config.level),
+      level: finishedLevel,
       topic: session?.title || (storyTopic?.label ?? config.topic),
       title: session?.title || (storyTopic?.label ?? config.topic),
       score,
       total: quiz.length,
-      mode: session?.slot === 'listening' ? 'listening' : practiceType === 'listening' ? 'listening' : 'reading',
+      mode: finishedMode,
       wrongAnswers,
     }).then((saved) => {
-      if (!saved.ok || (finishedMode !== 'reading' && finishedMode !== 'listening' && finishedMode !== 'grammar')) return;
+      if (!saved.ok) return;
+      void priorResults.then((listed) => {
+        if (!listed) return;
+        publishLevelUnlocks(levelsOpenedBy(listed.rows, { level: finishedLevel, score, total: quiz.length, mode: finishedMode }));
+      });
+      if (finishedMode !== 'reading' && finishedMode !== 'listening' && finishedMode !== 'grammar') return;
       void recordScoredLesson(
         finishedMode,
         quiz.map((question) => `${question.question}\n${question.correctAnswer}`),
@@ -2292,6 +2302,7 @@ const App: React.FC = () => {
           />
         )}
         <BadgeUnlockDialog />
+        <LevelUnlockDialog />
         <LegendsUnlockDialog />
         {wordToast && (
           <p className="fixed bottom-4 left-1/2 z-[80] max-w-[90vw] -translate-x-1/2 rounded-lg bg-slate-900 px-4 py-3 text-center text-base font-semibold text-white" role="status">

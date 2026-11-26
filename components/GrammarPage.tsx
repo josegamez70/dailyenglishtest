@@ -30,7 +30,9 @@ import {
 } from '../grammarSet';
 import { grammarLessonRecord, type GrammarLaunch } from '../savedLessonMeta';
 import { generateGrammarSet } from '../services/geminiService';
-import { saveGrammarLesson, saveTestResult, updateSavedGrammar } from '../studyStore';
+import { listTestResults, saveGrammarLesson, saveTestResult, updateSavedGrammar } from '../studyStore';
+import { levelsOpenedBy } from '../levelProgress';
+import { publishLevelUnlocks } from '../levelUnlock';
 import { DefinedText, DictionaryPopup } from './DefinedText';
 import CheckCircleIcon from './icons/CheckCircleIcon';
 import Loader from './Loader';
@@ -278,6 +280,7 @@ export function GrammarPage({
     else pendingRecordRef.current = record;
     if (taskRef.current) onTaskComplete?.();
     const score = nextGrades.filter((grade) => grade.correct).length;
+    const priorResults = listTestResults().catch(() => null);
     void loadBadgeStats().then((before) => {
       publishBadgeProgress(before, addExercise(before, 'grammar', new Date(), { score, total: nextGrades.length }));
     }).catch(() => undefined).finally(() => {
@@ -293,6 +296,10 @@ export function GrammarPage({
       )),
     }).then((saved) => {
       if (!saved.ok) return;
+      void priorResults.then((listed) => {
+        if (!listed) return;
+        publishLevelUnlocks(levelsOpenedBy(listed.rows, { level, score, total: nextGrades.length, mode: 'grammar' }));
+      });
       void recordScoredLesson(
         'grammar',
         nextGrades.map((grade) => `${grade.prompt}\n${grade.correctAnswer}`),
