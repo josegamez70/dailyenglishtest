@@ -293,10 +293,39 @@ function knownPhrasal(bases: string[], rest: string): boolean {
   return bases.some((base) => PHRASAL_BY_VERB.get(base)?.has(rest));
 }
 
+const OBJECT_PRONOUNS = new Set(['me', 'you', 'him', 'her', 'it', 'us', 'them']);
+
+/** The object pronoun has to sit between the verb and the particle. "call back you" is not English. */
+const SEPARABLE_PHRASALS = new Set([
+  'call back', 'call off', 'call up', 'call in', 'call out',
+  'pick up', 'pick out',
+  'put on', 'put off', 'put away', 'put out', 'put back', 'put down',
+  'turn on', 'turn off', 'turn up', 'turn down', 'turn over',
+  'take off', 'take back', 'take out', 'take away', 'take down',
+  'give back', 'give away', 'give up', 'give out',
+  'bring back', 'bring up', 'bring in',
+  'hand in', 'hand out', 'hand back', 'hand over',
+  'fill in', 'fill out', 'write down', 'throw away', 'try on',
+  'work out', 'figure out', 'point out',
+  'make up', 'set up', 'drop off', 'let down',
+  'wake up', 'hang up', 'look up',
+]);
+
+function pronounAfterSeparable(item: GrammarChoice): string | null {
+  const next = gapWords(gapSides(item.prompt).after)[0] ?? '';
+  if (!OBJECT_PRONOUNS.has(next)) return null;
+  const phrase = canonicalPhrasal(item.correctAnswer);
+  if (!phrase || !SEPARABLE_PHRASALS.has(phrase)) return null;
+  const [verb, particle] = phrase.split(' ');
+  return `A separable phrasal verb cannot put its particle after a pronoun. "${verb} ${particle} ${next}" is ungrammatical. Use "${verb} ${next} ${particle}", or a noun object.`;
+}
+
 /** The correct option must fit the gap: tense, person, and the words already around it. */
 export function grammarChoiceGapProblem(item: GrammarChoice, exercise: GrammarExerciseType): string | null {
   const { before, after } = gapSides(item.prompt);
   const next = gapWords(after)[0] ?? '';
+  const pronoun = pronounAfterSeparable(item);
+  if (pronoun) return pronoun;
   const correctWords = normalizedOption(item.correctAnswer).split(' ').filter(Boolean);
   if (!correctWords.length) return null;
   const last = correctWords[correctWords.length - 1];
@@ -1447,9 +1476,9 @@ function taskGuide(exercise: GrammarExerciseType, level: GrammarLevel): string {
     return 'Each item is a different short paragraph of 4 to 6 sentences or clauses. Do not repeat the same scene, such as a morning routine, cooking, or the airport. Vary the connectors. Do not always use First, Then, After that, and Finally. Use because, once, when, after, before, meanwhile, as soon as, or later. Use "so" only for a result, not for a simple next step. Do not split one sentence into adverbials that could go in more than one place. The last part ends with . ! or ?';
   }
   if (exercise === 'phrasal') {
-    return 'Each prompt is one natural sentence with exactly one gap written as _____. Every option must be a real phrasal verb, inflected so it fits that gap. If the sentence is past, write "fell out", not "fall out". If the gap follows had, have, or has, write "fallen out". If the words after the gap already include a preposition, do not put another particle in the option. Bad: "They eventually _____ over a disagreement" with "fall out with". Good: options "fell in", "fell back", "fell over", and "fell out". Do not invent particles. Bad: "gloss up", "dream off". Good: "gloss over", "dream up". Use either at least three options with the same verb and different real particles, or two options with the same verb plus two other real phrasal verbs. Four real particles of the same verb is best, such as put off, put up, put out, and put on. Use each base verb in at most two items. Exactly one option may be the natural answer. Do not offer two particles that both fit, such as "call in" and "call up" for reservists, "gave up" and "gave in", or "make off with" and "make away with". Never use a single-word verb such as "shelve". Never use near-synonyms such as make out and catch on to, go over and iron out, or speak to and tell off.';
+    return 'Each prompt is one natural sentence with exactly one gap written as _____. Every option must be a real phrasal verb, inflected so it fits that gap. Never put a separable phrasal verb such as call back, put on, or turn off immediately before me, you, him, her, it, us, or them. "I will call back you" is wrong. Write "I will call you _____ " with the answer "back", or use a noun object such as "I will _____ the client". If the sentence is past, write "fell out", not "fall out". If the gap follows had, have, or has, write "fallen out". If the words after the gap already include a preposition, do not put another particle in the option. Bad: "They eventually _____ over a disagreement" with "fall out with". Good: options "fell in", "fell back", "fell over", and "fell out". Do not invent particles. Bad: "gloss up", "dream off". Good: "gloss over", "dream up". Use either at least three options with the same verb and different real particles, or two options with the same verb plus two other real phrasal verbs. Four real particles of the same verb is best, such as put off, put up, put out, and put on. Use each base verb in at most two items. Exactly one option may be the natural answer. Do not offer two particles that both fit, such as "call in" and "call up" for reservists, "gave up" and "gave in", or "make off with" and "make away with". Never use a single-word verb such as "shelve". Never use near-synonyms such as make out and catch on to, go over and iron out, or speak to and tell off.';
   }
-  return 'Each prompt is one natural sentence with exactly one gap written as _____. The 4 options are single words or short phrases. Wrong options must be clearly wrong in this sentence, in British and American English. Do not pair "will" with "is going to" or "are going to". Do not make an item from degree adverbs such as somewhat, slightly, rather, fairly, quite, pretty, or a bit. Do not pair "going to" with "will", or two tenses that both fit. Do not offer two phrasal verbs that both fit, such as gave up and gave in, or make off with and make away with. After suggest, recommend, or insist, do not offer both a gerund and a that-clause. Do not offer two modal perfects such as "might have" and "should have" unless the sentence forces one. A cleft starting "It was" or "It is" must not offer two of "that", "which", and "who".';
+  return 'Each prompt is one natural sentence with exactly one gap written as _____. Never put a separable phrasal verb such as call back or turn off immediately before me, you, him, her, it, us, or them. The 4 options are single words or short phrases. Wrong options must be clearly wrong in this sentence, in British and American English. Do not pair "will" with "is going to" or "are going to". Do not make an item from degree adverbs such as somewhat, slightly, rather, fairly, quite, pretty, or a bit. Do not pair "going to" with "will", or two tenses that both fit. Do not offer two phrasal verbs that both fit, such as gave up and gave in, or make off with and make away with. After suggest, recommend, or insist, do not offer both a gerund and a that-clause. Do not offer two modal perfects such as "might have" and "should have" unless the sentence forces one. A cleft starting "It was" or "It is" must not offer two of "that", "which", and "who".';
 }
 
 function shapeGuide(exercise: GrammarExerciseType): string {

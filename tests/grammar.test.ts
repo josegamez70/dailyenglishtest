@@ -1237,6 +1237,36 @@ test('a gap after had uses the participle, and a fitting sentence is kept', () =
   assert.equal(grammarChoiceGapProblem(about, 'phrasal'), null);
 });
 
+test('a separable phrasal cannot put its particle after a pronoun', () => {
+  const bad: GrammarChoice = {
+    kind: 'choice',
+    prompt: 'I am busy right now, but I will _____ you later this afternoon.',
+    options: ['call out', 'call in', 'call back', 'call off'],
+    correctAnswer: 'call back',
+    explanation: 'Phone them again later.',
+  };
+  assert.match(grammarChoiceGapProblem(bad, 'phrasal') ?? '', /pronoun/);
+  assert.match(grammarChoiceGapProblem(bad, 'blanks') ?? '', /pronoun/);
+  assert.equal(grammarChoiceGapProblem({
+    ...bad,
+    prompt: 'If you are busy, I can _____ later this afternoon.',
+  }, 'phrasal'), null);
+  assert.equal(grammarChoiceGapProblem({
+    ...bad,
+    prompt: 'I will _____ the client later this afternoon.',
+  }, 'phrasal'), null);
+  assert.equal(grammarChoiceGapProblem({
+    kind: 'choice',
+    prompt: 'Please _____ the children while their parents are out.',
+    options: ['look after', 'look for', 'look up', 'look into'],
+    correctAnswer: 'look after',
+    explanation: 'Take care of them.',
+  }, 'phrasal'), null);
+  const prompt = buildGrammarPrompt({ level: 'B1', exercise: 'phrasal', topic: '' });
+  assert.match(prompt, /call back you/);
+  assert.match(prompt, /call you/);
+});
+
 test('a grammar question is checked before it can move on, and names its topic', () => {
   assert.equal(grammarAdvanceLabel(false, false), 'Check');
   assert.equal(grammarAdvanceLabel(false, true), 'Check');
