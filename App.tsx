@@ -2671,6 +2671,7 @@ const App: React.FC = () => {
               story,
               dialogue: dialogueTurns,
               quiz,
+              ...(lessonSavedIdRef.current ? { savedLessonId: lessonSavedIdRef.current } : {}),
               ...(lessonBankIdRef.current ? { bankId: lessonBankIdRef.current } : {}),
               },
             }),
