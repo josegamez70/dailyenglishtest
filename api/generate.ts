@@ -374,11 +374,9 @@ function formatRules(format: ContentFormat, speakers: { name: string; gender: Sp
       'Return a dialogue array. Each item has speaker, gender, and line.',
       `gender is "${firstGender}" when speaker is "${firstName}", and "${secondGender}" when speaker is "${secondName}".`,
       `The audio speaks only the line. The transcript shows the speaker name separately, so do not start a line with "${firstName}:" or "${secondName}:".`,
-      `In the first line, ${firstName} addresses ${secondName} by name inside the sentence. Example: "Hi ${secondName}, have you got a minute?"`,
-      `In the second line, ${secondName} replies and uses ${firstName}'s name inside the sentence. Example: "Sure, ${firstName}, what's up?"`,
-      `After the second line, do not say ${firstName} or ${secondName} again. The two voices show who is speaking.`,
-      `Also set story to the same dialogue, one turn per line, like "${firstName}: Hi ${secondName}, have you got a minute?"`,
-      'Count every word inside line, including the names in the first two lines. Do not count the speaker field.',
+      `The first two lines may address the other person by name inside the sentence. Do not say ${firstName} or ${secondName} after the second line.`,
+      `Also set story to the same dialogue, one turn per line, like "${firstName}: Have you got a minute?"`,
+      'Count every word inside line. Do not count the speaker field or the names in the transcript.',
       'Do not write Character 1, Character 2, Person 1, Person 2, or any other name.',
     ].join(' ');
   }
@@ -437,7 +435,7 @@ ${storyLevelRules(params.level)}
 ${formatRules(params.format, params.speakers)}
 
 ${params.format === 'dialogue'
-    ? `LENGTH: write exactly ${dialogueTurnPlan(params.wordCount).turns} turns and then stop. Each spoken line is about ${dialogueTurnPlan(params.wordCount).wordsPerTurn} words, even at Advanced level. Spoken words must total about ${params.wordCount} (between ${min} and ${max}). Do not count the names. Do not add another turn.`
+    ? `LENGTH: write exactly ${dialogueTurnPlan(params.wordCount).turns} turns and then stop. Each spoken line is about ${dialogueTurnPlan(params.wordCount).wordsPerTurn} words, even at Advanced level. Spoken words must total about ${params.wordCount} (between ${min} and ${max}). Do not put either speaker's name in a line. Do not add another turn.`
     : `LENGTH: the text must be between ${min} and ${max} words (target ${params.wordCount}). A contraction such as "don't" is one word. Count the words in the text only.`}
 
 VOCABULARY: exactly ${params.vocabularyCount} useful words or short phrases that appear in the text. definition is one short explanation in simple English.
@@ -563,7 +561,7 @@ function prepareLesson(parsed: Record<string, unknown>, params: LessonParams): P
   if (!quizStage && !wordCountOk) {
     problems.push(
       params.format === 'dialogue'
-        ? `The spoken lines are ${wordCount} words. Rewrite them so they are between ${min} and ${max} words (target ${params.wordCount}). Count the names inside the first two lines. Do not count the speaker field.`
+        ? `The spoken lines are ${wordCount} words. Rewrite them so they are between ${min} and ${max} words (target ${params.wordCount}). Do not count the speaker field. Do not put either speaker's name in a line.`
         : `The story is ${wordCount} words. Rewrite it so it is between ${min} and ${max} words (target ${params.wordCount}).`
     );
   }
@@ -1296,6 +1294,7 @@ async function createListeningLesson(
       wordCountOk: produced.lesson.wordCountOk,
       format: params.format,
       dialogue: produced.lesson.dialogue,
+      ...(params.format === 'dialogue' ? { spokenLines: speech.lines } : {}),
       ...(audioBase64 ? { audioBase64 } : {}),
       ...(charged.lessonsUsed == null ? {} : { lessonsUsed: charged.lessonsUsed }),
     }),

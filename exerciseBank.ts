@@ -3,6 +3,7 @@ import { TOPICS, WILDCARD_TOPIC } from './constants.ts';
 import {
   alignDialogueToCast,
   dialogueGreetingProblems,
+  dialogueSpeechNeedsRebuild,
   dialogueSpeakers,
   renderDialogue,
   speakerFromName,
@@ -446,12 +447,32 @@ export function listeningBankPayload(lesson: ListeningLesson) {
   };
 }
 
+/** Dialogue mp3s at this revision do not speak "Name:" at the start of a turn. */
+export const LISTENING_SPEECH_REVISION = 2;
+
+export function listeningSpeechRevision(dimensions: unknown): number {
+  if (!dimensions || typeof dimensions !== 'object') return 0;
+  const value = Number((dimensions as { speechRevision?: unknown }).speechRevision);
+  return Number.isFinite(value) ? value : 0;
+}
+
+/** A dialogue mp3 is rebuilt only when the new spoken text differs from the stored one. */
+export function dialogueAudioNeedsRespeak(
+  format: string,
+  dimensions: unknown,
+  turns?: { speaker: string; line: string }[],
+): boolean {
+  if (format !== 'dialogue' || listeningSpeechRevision(dimensions) >= LISTENING_SPEECH_REVISION) return false;
+  return dialogueSpeechNeedsRebuild(turns ?? []);
+}
+
 export function listeningDimensions(lesson: ListeningLesson, audioPath: string, audioSlowPath?: string) {
   return {
     topic: lesson.topicValue,
     wordCount: lesson.wordCount,
     questionCount: lesson.questionCount,
     audioPath,
+    ...(lesson.format === 'dialogue' ? { speechRevision: LISTENING_SPEECH_REVISION } : {}),
     ...(audioSlowPath ? { audioSlowPath } : {}),
   };
 }

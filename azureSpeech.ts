@@ -1,4 +1,4 @@
-import { speakerFromName, type DialogueTurn, type SpeakerGender } from './dialogue.ts';
+import { audioSpokenLine, parseDialogue, speakerFromName, type DialogueTurn, type SpeakerGender } from './dialogue.ts';
 
 /** Neural mp3 the bank stores and the player streams. */
 export const AZURE_TTS_OUTPUT_FORMAT = 'audio-24khz-48kbitrate-mono-mp3';
@@ -122,16 +122,18 @@ export function buildListeningSsml(
 ): { ssml: string; spokenCharacters: number; lines: string[] } {
   const prosody = azureProsodyRate(azureProsodyPercent(pace?.profileSpeed ?? 1, pace?.slow === true));
   const voiced = (inner: string) => prosody ? `<prosody rate="${prosody}">${inner}</prosody>` : inner;
-  if (speech.format === 'dialogue' && speech.dialogue.length > 0) {
+  const turns = speech.format === 'dialogue'
+    ? (speech.dialogue.length > 0 ? speech.dialogue : parseDialogue(speech.story))
+    : [];
+  if (speech.format === 'dialogue' && turns.length > 0) {
     const lines: string[] = [];
     const parts: string[] = [];
-    speech.dialogue.forEach((turn, index) => {
-      const line = spokenLine(turn.line);
+    turns.forEach((turn, index) => {
       const name = spokenLine(turn.speaker);
-      if (!line || !name) return;
-      const said = line.replace(new RegExp(`^${name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*[:.]\\s*`, 'i'), '').trim() || line;
+      const said = audioSpokenLine(name, turn.line, index);
+      if (!said || !name) return;
       lines.push(said);
-      const pause = index < speech.dialogue.length - 1 ? '<break time="350ms"/>' : '';
+      const pause = index < turns.length - 1 ? '<break time="350ms"/>' : '';
       parts.push(`<voice name="${azureVoiceForTurn(turn)}">${voiced(`${escapeSsml(said)}${pause}`)}</voice>`);
     });
     return {

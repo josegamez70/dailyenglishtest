@@ -304,7 +304,7 @@ export function speechLines(turns: DialogueTurn[]): SpeechLine[] {
   return turns.map((turn, turnIndex) => ({
     speaker: turn.speaker,
     speakerIndex: Math.max(0, names.findIndex((name) => name.toLowerCase() === turn.speaker.toLowerCase())),
-    text: turn.line,
+    text: spokenTurnText(turn.speaker, turn.line),
     turnIndex,
   }));
 }
@@ -319,10 +319,26 @@ export function lineMentionsName(line: string, name: string): boolean {
   return namePattern(name).test(line);
 }
 
+/** Drop a leading "Julia:" or "Noah." so Azure does not read the speaker label. */
+export function spokenTurnText(speaker: string, line: string): string {
+  let text = line.replace(/\s+/g, ' ').trim();
+  if (!text) return '';
+  const names = new Set<string>();
+  const own = speaker.replace(/\s+/g, ' ').trim();
+  if (own) names.add(own);
+  for (const name of [...FEMALE_NAMES, ...MALE_NAMES]) names.add(name);
+  for (const name of names) {
+    const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const stripped = text.replace(new RegExp(`^${escaped}\\s*[:.\\-–—]\\s+`, 'i'), '').trim();
+    if (stripped && stripped !== text) return stripped;
+  }
+  return text;
+}
+
 /**
- * The first line addresses the other person by name. The reply uses the first
- * speaker's name. Later lines do not say either name. Labels such as "Sophie:"
- * belong in the transcript, not in the spoken line.
+ * A greeting in the first two lines may say the other person's name.
+ * A label such as "Julia:" does not belong in the spoken line.
+ * A name after the second line does not belong there either.
  */
 export function dialogueGreetingProblems(
   turns: { speaker: string; line: string }[],
@@ -330,17 +346,11 @@ export function dialogueGreetingProblems(
   secondName: string,
 ): string[] {
   const problems: string[] = [];
-  if (!firstName || !secondName || turns.length < 2) return problems;
-  if (!lineMentionsName(turns[0].line, secondName)) {
-    problems.push(`The first line must address ${secondName} by name inside the sentence. Example: "Hi ${secondName}, have you got a minute?"`);
-  }
-  if (!lineMentionsName(turns[1].line, firstName)) {
-    problems.push(`The second line must use ${firstName}'s name inside the sentence. Example: "Sure, ${firstName}, what's up?"`);
-  }
-  const label = new RegExp(`^\\s*(?:${firstName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}|${secondName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})\\s*:`, 'i');
+  if (!firstName || !secondName) return problems;
+  const label = new RegExp(`^\\s*(?:${escapeName(firstName)}|${escapeName(secondName)})\\s*:`, 'i');
   turns.forEach((turn, index) => {
     if (label.test(turn.line)) {
-      problems.push(`Line ${index + 1} must not start with a speaker label. Put the name only in the speaker field, except for the greetings in the first two lines.`);
+      problems.push(`Line ${index + 1} must not start with a speaker label. Put the name only in the speaker field. The audio must not say it.`);
     }
     if (index < 2) return;
     if (lineMentionsName(turn.line, firstName) || lineMentionsName(turn.line, secondName)) {
@@ -348,6 +358,41 @@ export function dialogueGreetingProblems(
     }
   });
   return problems;
+}
+
+function escapeName(name: string): string {
+  return name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+/** What the stored mp3 was built from: the line, minus a leading "Speaker:" or "Speaker." */
+export function legacySpokenLine(speaker: string, line: string): string {
+  const text = line.replace(/\s+/g, ' ').trim();
+  const name = speaker.replace(/\s+/g, ' ').trim();
+  if (!text) return '';
+  if (!name) return text;
+  const stripped = text.replace(new RegExp(`^${escapeName(name)}\\s*[:.]\\s*`, 'i'), '').trim();
+  return stripped || text;
+}
+
+/**
+ * Audio for one turn. A leading label is never spoken.
+ * The first two lines may keep a name. A later line does not.
+ */
+export function audioSpokenLine(speaker: string, line: string, turnIndex: number): string {
+  let text = spokenTurnText(speaker, line);
+  if (turnIndex < 2 || !text) return text;
+  const names = new Set<string>([...FEMALE_NAMES, ...MALE_NAMES]);
+  const own = speaker.replace(/\s+/g, ' ').trim();
+  if (own) names.add(own);
+  for (const name of names) {
+    text = text.replace(new RegExp(`,?\\s*\\b${escapeName(name)}\\b`, 'gi'), ' ');
+  }
+  return text.replace(/\s+([,.!?])/g, '$1').replace(/\s+/g, ' ').trim();
+}
+
+/** True when a new mp3 would differ from the audio already stored for these lines. */
+export function dialogueSpeechNeedsRebuild(turns: { speaker: string; line: string }[]): boolean {
+  return turns.some((turn, index) => audioSpokenLine(turn.speaker, turn.line, index) !== legacySpokenLine(turn.speaker, turn.line));
 }
 
 export function resumeTurnIndex(durations: number[], elapsedMs: number): number {

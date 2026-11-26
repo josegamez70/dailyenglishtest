@@ -1,5 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { dialogueAudioNeedsRespeak, LISTENING_SPEECH_REVISION } from '../exerciseBank.ts';
 import {
   AZURE_TTS_OUTPUT_FORMAT,
   AZURE_VOICE_FEMALE,
@@ -70,6 +72,38 @@ test('Azure voice follows gender, not who speaks first', () => {
   assert.equal(speech.ssml.indexOf(AZURE_VOICE_MALE) < speech.ssml.indexOf(AZURE_VOICE_FEMALE), true);
   assert.equal(AZURE_VOICE_FIRST, AZURE_VOICE_FEMALE);
   assert.equal(AZURE_VOICE_SECOND, AZURE_VOICE_MALE);
+});
+
+test('a conversation does not speak a leading speaker label', () => {
+  const speech = buildListeningSsml({
+    format: 'dialogue',
+    story: 'Julia: The market closes soon.\nNoah: We should leave now.',
+    dialogue: [
+      { speaker: 'Julia', line: 'Julia: The market closes soon.', gender: 'female' },
+      { speaker: 'Noah', line: 'Noah: We should leave now.', gender: 'male' },
+    ],
+  });
+  assert.equal(speech.lines.join(' | '), 'The market closes soon. | We should leave now.');
+  assert.equal(speech.ssml.includes('Julia:'), false);
+  assert.equal(speech.ssml.includes('Noah:'), false);
+  const fromStory = buildListeningSsml({
+    format: 'dialogue',
+    story: 'Julia: The market closes soon.\nNoah: We should leave now.',
+    dialogue: [],
+  });
+  assert.equal(fromStory.lines.join(' | '), 'The market closes soon. | We should leave now.');
+  const lateName = [
+    { speaker: 'Julia', line: 'The market is busy.' },
+    { speaker: 'Noah', line: 'We can go now.' },
+    { speaker: 'Julia', line: 'Wait for me, Noah.' },
+  ];
+  assert.equal(dialogueAudioNeedsRespeak('dialogue', {}, lateName), true);
+  assert.equal(dialogueAudioNeedsRespeak('dialogue', {}, [{ speaker: 'Julia', line: 'Noah, the market is busy.' }]), false);
+  assert.equal(dialogueAudioNeedsRespeak('dialogue', { speechRevision: LISTENING_SPEECH_REVISION }, lateName), false);
+  assert.equal(dialogueAudioNeedsRespeak('text', {}, lateName), false);
+  const prompt = readFileSync(new URL('../api/generate.ts', import.meta.url), 'utf8');
+  assert.match(prompt, /may address the other person by name/);
+  assert.match(prompt, /Do not say \$\{firstName\} or \$\{secondName\} after the second line/);
 });
 
 test('slower Azure speech is a prosody rate, and the spoken text is unchanged', () => {
