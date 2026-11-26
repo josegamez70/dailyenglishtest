@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { BackButton } from './BackButton';
 import { ExerciseComplete } from './ExerciseComplete';
-import { SpanishWhy } from './SpanishWhy';
+import { SpanishWhy, answerStatus } from './SpanishWhy';
 import { playEffect, primeAudio } from '../effects';
 import { addVocabAnswers } from '../badges';
 import { loadBadgeStats } from '../badgeStats';
@@ -387,7 +387,7 @@ function Quiz({
       </div>
       {locked && (
         <div className={`mt-4 rounded-lg border-2 p-4 ${correct ? 'border-green-700 bg-green-50 dark:border-green-600 dark:bg-green-950' : 'border-red-700 bg-red-50 dark:border-red-600 dark:bg-red-950'}`}>
-          <p className="text-lg font-bold text-slate-900 dark:text-slate-50">{correct ? 'Bien.' : 'Casi.'}</p>
+          <p className="text-lg font-bold text-slate-900 dark:text-slate-50">{answerStatus(correct)}</p>
           {!correct && (
             <p className="mt-1 text-base text-slate-900 dark:text-slate-50">Correct answer: {question.answer}</p>
           )}
@@ -397,7 +397,7 @@ function Quiz({
               {question.explanation}
             </p>
           )}
-          {question.explanation && <SpanishWhy text={question.explanation} />}
+          <SpanishWhy text={[answerStatus(correct), !correct ? `The answer is ${question.answer}.` : '', question.explanation].filter(Boolean).join(' ')} />
           <button
             type="button"
             onClick={() => {
