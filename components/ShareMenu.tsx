@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { claimUsername } from '../usernameClaim';
 import { profileHandle } from '../profileHandle';
+import { publishShareLink } from '../shareStore';
 
 export type ShareLink = { line: string; url: string };
 
@@ -42,7 +43,20 @@ export function ShareMenu({
     setPrepared(false);
     void run().finally(() => setPrepared(true));
   }, [open, saved]);
-  const ready = open && saved && prepared ? linkFor(saved) : null;
+  const local = open && saved && prepared ? linkFor(saved) : null;
+  const [ready, setReady] = useState<ShareLink | null>(null);
+  useEffect(() => {
+    if (!local) {
+      setReady(null);
+      return undefined;
+    }
+    let ignore = false;
+    setReady(null);
+    void publishShareLink(local).then((next) => {
+      if (!ignore) setReady(next);
+    });
+    return () => { ignore = true; };
+  }, [local?.url]);
   const whatsApp = ready ? `https://wa.me/?text=${encodeURIComponent(`${ready.line}\n${ready.url}`)}` : '';
   const email = ready ? `mailto:?subject=${encodeURIComponent('Can you beat my English score?')}&body=${encodeURIComponent(`${ready.line}\n\n${ready.url}`)}` : '';
   const native = typeof navigator !== 'undefined' && typeof navigator.share === 'function';
@@ -91,7 +105,8 @@ export function ShareMenu({
         </form>
       )}
       {open && saved && !prepared && <p className="mt-2 text-base">Preparing the audio...</p>}
-      {open && saved && prepared && !ready && <p className="mt-2 text-base">This exercise is too long to share as a link.</p>}
+      {open && saved && prepared && !local && <p className="mt-2 text-base">This exercise is too long to share as a link.</p>}
+      {open && saved && prepared && local && !ready && <p className="mt-2 text-base">Making the link...</p>}
       {open && ready && (
         <div className="mt-2 flex flex-col gap-2">
           <p className="text-base">{ready.line}</p>

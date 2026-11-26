@@ -102,6 +102,11 @@
   status = 200
 
 [[redirects]]
+  from = "/s/*"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
   from = "/share"
   to = "/index.html"
   status = 200

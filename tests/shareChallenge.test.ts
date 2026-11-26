@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { buildShareLink, decodeShare, savedChallengePercent } from '../shareChallenge.ts';
+import { buildShareLink, decodeShare, savedChallengePercent, shareIdFromPath } from '../shareChallenge.ts';
 
 const lesson = {
   mode: 'reading',
@@ -80,4 +80,20 @@ test('a share link carries the exercise, the score, and the @, and nothing priva
   assert.match(menu, /Choose a username/);
   assert.match(menu, /claimUsername/);
   assert.equal(menu.includes('sendSmtpMail'), false);
+  assert.match(menu, /publishShareLink/);
+  assert.equal(shareIdFromPath('/s/11111111-1111-4111-8111-111111111111'), '11111111-1111-4111-8111-111111111111');
+  assert.equal(shareIdFromPath('/share'), '');
+  const recipient = readFileSync(new URL('../components/SharePage.tsx', import.meta.url), 'utf8');
+  assert.match(recipient, /saveTestResult/);
+  assert.match(recipient, /recordScoredLesson/);
+  assert.match(recipient, /Save lesson/);
+  assert.match(recipient, /This score is not saved/);
+  const sql = readFileSync(new URL('../supabase/migrations/20261209_shared_exercises.sql', import.meta.url), 'utf8');
+  assert.match(sql, /create table if not exists public\.shared_exercises/);
+  assert.match(sql, /sender_id uuid not null references auth\.users/);
+  assert.match(sql, /create_shared_exercise/);
+  assert.match(sql, /read_shared_exercise/);
+  assert.equal(sql.includes('sender_id') && sql.includes("'sender_id'"), false);
+  assert.equal(sql.toLowerCase().includes('update public.profiles'), false);
+  assert.equal(sql.toLowerCase().includes('delete from'), false);
 });

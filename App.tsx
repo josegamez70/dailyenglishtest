@@ -46,7 +46,7 @@ import { publishBadgeProgress } from './badgeToast';
 import { LevelUnlockDialog } from './components/LevelUnlockNotice';
 import { ExerciseComplete } from './components/ExerciseComplete';
 import { SharePage } from './components/SharePage';
-import { buildShareLink } from './shareChallenge';
+import { buildShareLink, shareIdFromPath } from './shareChallenge';
 import { SpanishWhy, answerStatus } from './components/SpanishWhy';
 import { QuizErrorBoundary, QuizScreen } from './components/QuizErrorBoundary';
 import { WelcomeGuide } from './components/WelcomeGuide';
@@ -2037,7 +2037,8 @@ const App: React.FC = () => {
     const scene = path.endsWith('/saved') ? 'saved' : path.endsWith('/email') ? 'email' : path.endsWith('/complete') ? 'complete' : path.endsWith('/packs') ? 'packs' : 'tasks';
     return <TasksPreview scene={scene} />;
   }
-  if (path === '/share') return <SharePage />;
+  const sharedId = shareIdFromPath(path);
+  if (path === '/share' || sharedId) return <SharePage id={sharedId} />;
   if (!account.ready) return <AuthLoading />;
   if (path === '/academy-sign-in') {
     if (!account.signedIn) {

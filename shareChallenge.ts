@@ -182,6 +182,13 @@ export function decodeShare(token: string): ShareCard | null {
   }
 }
 
+const SHARE_ID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+export function shareIdFromPath(path: string): string {
+  const match = path.replace(/\/+$/, '').match(/^\/s\/([0-9a-f-]{36})$/i);
+  return match && SHARE_ID.test(match[1]) ? match[1] : '';
+}
+
 /** A link another person can open. Null when the exercise cannot fit in a link. */
 export function buildShareLink(origin: string, input: {
   mode: ShareMode;
