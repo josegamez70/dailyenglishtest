@@ -4,13 +4,6 @@ import { PixelArt } from './PixelArt';
 import { RetroLegendsPanel, LegendsUnlockDialog } from './RetroLegends';
 import { enqueueLegendUnlocks } from '../legendsToast';
 import { setRetroActive } from '../retroTheme';
-import type { LegendCounts } from '../legends';
-
-const FIXTURE: { counts: LegendCounts; unlocked: string[]; missing: boolean } = {
-  counts: { reading: 12, listening: 3, grammar: 55, vocabulary: 0 },
-  unlocked: ['rookie', 'first_steps', 'retro_player', 'arcade_starter', 'reading_10', 'grammar_10', 'grammar_50'],
-  missing: false,
-};
 
 /** Local screenshot page. Vite drops this route from the production build. */
 export function LegendsShot() {
@@ -63,7 +56,7 @@ export function LegendsShot() {
         </div>
       </div>
       <div id="shot-legends">
-        <RetroLegendsPanel fixture={FIXTURE} />
+        <RetroLegendsPanel />
       </div>
       <LegendsUnlockDialog />
     </AppShell>

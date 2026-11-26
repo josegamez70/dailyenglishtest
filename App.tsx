@@ -31,7 +31,6 @@ import { BackButton } from './components/BackButton';
 import { ProfilePage, type ThemeChoice } from './components/ProfilePage';
 import { RetroWindow } from './components/RetroWindow';
 import { PixelArt } from './components/PixelArt';
-import { LegendsUnlockDialog } from './components/RetroLegends';
 import { LegendsShot } from './components/LegendsShot';
 import { ChallengeShot } from './components/ChallengeShot';
 import { SelectorShot } from './components/SelectorShot';
@@ -43,7 +42,6 @@ import { playEffect, primeAudio } from './effects';
 import { addExercise } from './badges';
 import { loadBadgeStats } from './badgeStats';
 import { publishBadgeProgress } from './badgeToast';
-import { BadgeUnlockDialog } from './components/Achievements';
 import { LevelUnlockDialog } from './components/LevelUnlockNotice';
 import { ExerciseComplete } from './components/ExerciseComplete';
 import { SpanishWhy } from './components/SpanishWhy';
@@ -2261,9 +2259,7 @@ const App: React.FC = () => {
             }}
           />
         )}
-        <BadgeUnlockDialog />
         <LevelUnlockDialog />
-        <LegendsUnlockDialog />
         {wordToast && (
           <p className="fixed bottom-4 left-1/2 z-[80] max-w-[90vw] -translate-x-1/2 rounded-lg bg-slate-900 px-4 py-3 text-center text-base font-semibold text-white" role="status">
             {wordToast}
