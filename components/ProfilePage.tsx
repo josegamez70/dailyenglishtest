@@ -8,6 +8,7 @@ import { BackButton } from './BackButton';
 import { soundEffectsEnabled, writeSoundEffects } from '../effects';
 
 import { type ThemeChoice } from '../themeChoice';
+import { profileHandle } from '../profileHandle';
 
 export type { ThemeChoice };
 /** Still stored on the profile. Playback ignores it and always uses American English. */
@@ -123,6 +124,7 @@ export function ProfilePage({
     <PilotStatusBanner />
     <form className="space-y-5" onSubmit={(event) => event.preventDefault()}>
       <h1 className="text-2xl font-bold">Profile</h1>
+      {profileHandle(name) && <p className="text-lg font-bold">{profileHandle(name)}</p>}
       <p className="text-base">{email}</p>
       <p className="text-base font-semibold">
         {planLabel(plan, academyStudent)}
