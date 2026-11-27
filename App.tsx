@@ -50,7 +50,7 @@ import { buildShareLink, shareIdFromPath } from './shareChallenge';
 import { SpanishWhy, answerStatus } from './components/SpanishWhy';
 import { QuizErrorBoundary, QuizScreen } from './components/QuizErrorBoundary';
 import { WelcomeGuide } from './components/WelcomeGuide';
-import { isDarkTheme, isThemeChoice } from './themeChoice';
+import { isDarkTheme, isThemeChoice, markThemeEpoch, readThemeBoot, userNeedsRetroReset } from './themeChoice';
 import { ProgressPage } from './components/ProgressPage';
 import { ScoreboardPage } from './components/ScoreboardPage';
 import { SavedLessonsPage } from './components/SavedLessonsPage';
@@ -217,13 +217,7 @@ const App: React.FC = () => {
   const themeLock = useRef(false);
   const retro = useRetroTheme();
   const [resultCelebrate, setResultCelebrate] = useState(false);
-  const [themeChoice, setThemeChoice] = useState<ThemeChoice>(() => {
-    try {
-      const stored = localStorage.getItem('theme');
-      if (isThemeChoice(stored)) return stored;
-    } catch { /* ignore */ }
-    return 'dark';
-  });
+  const [themeChoice, setThemeChoice] = useState<ThemeChoice>(() => readThemeBoot());
   const [path, setPath] = useState(() => window.location.pathname.replace(/\/+$/, '') || '/');
   const [returnPlace, setReturnPlace] = useState<'home' | 'saved' | 'packs'>('home');
   const [grammarActive, setGrammarActive] = useState(false);
@@ -457,13 +451,30 @@ const App: React.FC = () => {
   const pickTheme = (next: ThemeChoice) => {
     themeLock.current = true;
     setThemeChoice(next);
-    if (account.userId) void updateProfileSettings(account.userId, { theme: next });
+    if (!account.userId) return;
+    markThemeEpoch(account.userId);
+    void updateProfileSettings(account.userId, { theme: next });
   };
 
   useEffect(() => {
-    if (themeLock.current || !isThemeChoice(account.theme)) return;
+    const userId = account.userId;
+    if (!userId || !userNeedsRetroReset(userId)) return undefined;
+    const choice = themeLock.current ? themeChoice : 'retro95';
+    if (!themeLock.current) {
+      themeLock.current = true;
+      setThemeChoice('retro95');
+    }
+    let ignore = false;
+    void updateProfileSettings(userId, { theme: choice }).then((saved) => {
+      if (!ignore && saved.ok) markThemeEpoch(userId);
+    });
+    return () => { ignore = true; };
+  }, [account.userId, themeChoice]);
+
+  useEffect(() => {
+    if (themeLock.current || !account.userId || userNeedsRetroReset(account.userId) || !isThemeChoice(account.theme)) return;
     setThemeChoice(account.theme);
-  }, [account.theme]);
+  }, [account.theme, account.userId]);
 
   useEffect(() => {
     if (!account.defaultLevel || levelAppliedRef.current) return;

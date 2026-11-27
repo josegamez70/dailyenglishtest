@@ -75,7 +75,7 @@ export function ScoreboardPage({
     fixture ? scoreboardPeriodChoice(fixture.initialView) : scoreboardViewFromBrowser()
   ));
   const [level, setLevel] = useState<ChallengeLevel>(initialLevel);
-  const [metric, setMetric] = useState<ScoreMetric>('accuracy');
+  const [metric, setMetric] = useState<ScoreMetric>('volume');
   const [load, setLoad] = useState<ScoreboardLoad | null>(null);
   const [ready, setReady] = useState(Boolean(fixture));
   const [challengeRows, setChallengeRows] = useState<ChallengeEntry[]>(fixture?.challengeRows ?? []);

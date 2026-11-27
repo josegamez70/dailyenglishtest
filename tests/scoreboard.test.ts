@@ -11,6 +11,7 @@ import {
   rowFromAttempts,
   SCOREBOARD_MIN,
   scoreboardPeriodChoice,
+  scoreboardViewFromBrowser,
   storedBoardLevel,
   weightedPercent,
   withRemoteAlias,
@@ -186,6 +187,7 @@ test('the scoreboard page and the unapplied migration stay read-only', () => {
   assert.match(page, /rankLabel/);
   assert.match(page, /Most exercises/);
   assert.match(page, /Highest %/);
+  assert.match(page, /useState<ScoreMetric>\('volume'\)/);
   assert.match(page, /aria-label="Level"/);
   assert.ok(page.indexOf('scoreboard-tab-challenge') < page.indexOf('aria-label="Level"'));
   const arcadeCss = readFileSync(new URL('../phase2.css', import.meta.url), 'utf8');
@@ -203,6 +205,7 @@ test('the scoreboard page and the unapplied migration stay read-only', () => {
   assert.equal(scoreboardPeriodChoice('all-time'), 'daily');
   assert.equal(scoreboardPeriodChoice('yesterday'), 'yesterday');
   assert.equal(scoreboardPeriodChoice('challenge'), 'challenge');
+  assert.equal(scoreboardViewFromBrowser(), 'daily');
   assert.equal(page.includes('account.email'), false);
   assert.match(page, /Your display name from Profile is shown/);
   assert.equal(page.includes('Only a chosen alias is shown'), false);
