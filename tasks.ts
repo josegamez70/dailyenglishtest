@@ -566,12 +566,13 @@ export function taskReminderMessage(input: TaskEmailInput): { subject: string; h
     ? `Your pack for ${when} is waiting. It has one reading exercise, one listening exercise, and one grammar exercise.`
     : `Your ${count} packs for ${when} are waiting. Each pack has one reading exercise, one listening exercise, and one grammar exercise.`) + vocabLine;
   const subject = 'Your English tasks are ready';
+  const button = 'display:inline-block;background:#1d4ed8;color:#ffffff;text-decoration:none;font-weight:700;padding:12px 18px;border-radius:8px;';
   const text = [
     `Your English tasks for ${when} are ready.`,
     summary,
+    `Open Task packs: ${openUrl}`,
     DAILY_CHALLENGE_REMINDER,
     `Open Daily Challenge: ${challengeUrl}`,
-    `Open Task packs: ${openUrl}`,
     `Turn tasks off and stop these emails: ${offUrl}`,
   ].join('\n\n');
   const html = `<!DOCTYPE html>
@@ -582,9 +583,9 @@ export function taskReminderMessage(input: TaskEmailInput): { subject: string; h
     <p style="margin:0;font-size:20px;font-weight:700;">Daily English Test</p>
     <h1 style="margin:16px 0 8px;font-size:24px;">Your tasks are ready</h1>
     <p style="margin:0 0 12px;font-size:16px;line-height:1.5;">${summary}</p>
+    <p style="margin:20px 0;"><a href="${openUrl}" style="${button}">Open Task packs</a></p>
     <p style="margin:0 0 12px;font-size:16px;line-height:1.5;">${DAILY_CHALLENGE_REMINDER}</p>
-    <p style="margin:0 0 20px;"><a href="${challengeUrl}" style="font-weight:700;">Open Daily Challenge</a></p>
-    <p style="margin:20px 0;"><a href="${openUrl}" style="display:inline-block;background:#1d4ed8;color:#ffffff;text-decoration:none;font-weight:700;padding:12px 18px;border-radius:8px;">Open Task packs</a></p>
+    <p style="margin:20px 0;"><a href="${challengeUrl}" style="${button}">Open Daily Challenge</a></p>
     <p style="margin:0;font-size:14px;line-height:1.5;color:#334155;">If you do not want these emails, <a href="${offUrl}">turn tasks off</a>. You can turn them on again from the Tasks page after you sign in.</p>
   </div>
 </body>
