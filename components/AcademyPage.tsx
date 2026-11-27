@@ -3,6 +3,7 @@ import { accessToken } from '../auth';
 import { createAcademy, loadAcademyStudents, loadOwnedAcademy, regenerateInviteCode, removeStudent, type AcademyStudent, type OwnedAcademy } from '../academy';
 import { academyPillName, copyInviteText, countPhrase, countTestsThisWeek, studentRosterLabel } from '../academyStats';
 import { inviteShareText } from '../invitePreview';
+import { displayNameError } from '../displayName';
 import { averagePercent, formatResultDate } from '../progressStats';
 import { scorePercent, studentIdFromSearch } from '../studentDetail';
 import { AcademyBadge } from './AcademyBadge';
@@ -142,6 +143,11 @@ export function AcademyPage({ ownerDisplayName = '', onBack }: { ownerDisplayNam
 
   const create = async (event: React.FormEvent) => {
     event.preventDefault();
+    const invalid = displayNameError(name, 60);
+    if (invalid) {
+      setNote(invalid);
+      return;
+    }
     setBusy(true);
     setNote(null);
     const result = await createAcademy(name.trim());
@@ -152,6 +158,7 @@ export function AcademyPage({ ownerDisplayName = '', onBack }: { ownerDisplayNam
       return;
     }
     if (result === 'name_required') setNote('Enter a name for your academy.');
+    else if (result === 'name_invalid') setNote("Use letters, numbers, spaces, and . _ - ' only.");
     else if (result === 'not_academy_plan') setNote('Only an academy account can create an academy.');
     else if (result === 'already_exists') setNote('You already have an academy.');
     else if (result === 'missing') setNote('This will work after the database update.');
