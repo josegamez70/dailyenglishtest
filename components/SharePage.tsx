@@ -84,6 +84,7 @@ export function SharePage({ id = '' }: { id?: string }) {
   const [draft, setDraft] = useState<string[]>([]);
   const [started, setStarted] = useState(false);
   const [finished, setFinished] = useState(false);
+  const [transcriptOpen, setTranscriptOpen] = useState(true);
   const [recipientSeconds, setRecipientSeconds] = useState(0);
   const attemptStart = useRef<number | null>(null);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
@@ -214,7 +215,7 @@ export function SharePage({ id = '' }: { id?: string }) {
 
   return (
     <main className="mx-auto min-h-screen max-w-xl px-4 py-6">
-      <p className="text-sm font-bold text-blue-800 dark:text-blue-200">Daily English Test</p>
+      <a href="https://dailyenglishtest.es" className="text-sm font-bold text-blue-800 underline dark:text-blue-200">Daily English Test</a>
       <h1 className="mt-2 text-2xl font-bold">{card.title}</h1>
       <p className="mt-3 text-lg font-semibold">{challenge}</p>
       {!signedIn && <p className="mt-2 text-base">You can do this exercise without an account. Your score stays on this device.</p>}
@@ -222,13 +223,23 @@ export function SharePage({ id = '' }: { id?: string }) {
         <audio className="mt-4 w-full" controls autoPlay src={audioUrl} />
       )}
       {!finished && card.mode === 'listening' && audioNote && <p className="mt-2 text-base">{audioNote}</p>}
-      {showPassage && !started && (
+      {!finished && text && (
         <>
-          {text && <p className="mt-4 whitespace-pre-wrap text-lg leading-relaxed">{text}</p>}
-          <button type="button" onClick={() => { beginAttempt(); setStarted(true); }} className="mt-4 w-full rounded-lg bg-blue-700 py-3 text-lg font-bold text-white">
-            Start questions
+          <button
+            type="button"
+            aria-expanded={transcriptOpen}
+            onClick={() => setTranscriptOpen((open) => !open)}
+            className="mt-3 w-full rounded-lg border-2 border-slate-900 bg-white py-3 text-lg font-bold text-slate-900 dark:border-slate-100 dark:bg-slate-800 dark:text-slate-50"
+          >
+            {transcriptOpen ? 'Hide transcript' : 'Show transcript'}
           </button>
+          {transcriptOpen && <p className="mt-3 whitespace-pre-wrap text-lg leading-relaxed">{text}</p>}
         </>
+      )}
+      {showPassage && !started && (
+        <button type="button" onClick={() => { beginAttempt(); setTranscriptOpen(false); setStarted(true); }} className="mt-4 w-full rounded-lg bg-blue-700 py-3 text-lg font-bold text-white">
+          Start questions
+        </button>
       )}
       {(started || !showPassage) && !finished && step && (
         <section className="mt-4">
@@ -356,7 +367,7 @@ export function SharePage({ id = '' }: { id?: string }) {
             <p className="mt-2 text-base">This score is not saved, and it is not added to a scoreboard.</p>
           )}
           <a href="/" className="mt-4 block w-full rounded-lg bg-blue-700 px-4 py-3 text-center text-lg font-bold text-white">
-            {signedIn ? 'Practise more on Daily English Test' : 'Go to Daily English Test'}
+            For more practice, go to DET.es
           </a>
         </section>
       )}
