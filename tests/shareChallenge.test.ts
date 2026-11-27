@@ -132,9 +132,12 @@ test('a share link carries the exercise, the score, and the @, and nothing priva
   assert.match(recipient, /recordScoredLesson/);
   assert.match(recipient, /Save lesson/);
   assert.match(recipient, /This score is not saved/);
-  assert.equal(recipient.match(/For more practice, go to DET.es/g)?.length, 1);
-  assert.ok(recipient.indexOf('You scored') < recipient.indexOf('For more practice, go to DET.es'));
-  assert.ok(recipient.indexOf('Your answer') < recipient.indexOf('For more practice, go to DET.es'));
+  assert.equal(recipient.match(/For more practice, go to dailyenglishtest\.es/g)?.length, 1);
+  assert.equal(recipient.includes('DET.es'), false);
+  assert.ok(recipient.indexOf('You scored') < recipient.indexOf('For more practice, go to dailyenglishtest.es'));
+  assert.ok(recipient.indexOf('Your answer') < recipient.indexOf('For more practice, go to dailyenglishtest.es'));
+  assert.match(recipient, /share-option/);
+  assert.match(recipient, /aria-pressed=\{picked \|\| chosen\}/);
   assert.match(recipient, /https:\/\/dailyenglishtest\.es/);
   assert.match(recipient, /Show transcript/);
   assert.match(recipient, /Listen again/);

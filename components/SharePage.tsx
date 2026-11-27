@@ -252,22 +252,22 @@ export function SharePage({ id = '' }: { id?: string }) {
               const picked = draft.includes(option);
               const revealed = locked && !step.order;
               const chosen = answers[index] === option;
-              const tone = !revealed
-                ? picked
-                  ? 'border-blue-800 bg-blue-700 text-white'
-                  : 'border-slate-900 bg-white text-slate-900 dark:border-slate-300 dark:bg-slate-700 dark:text-slate-50'
+              const state = !revealed
+                ? (picked || chosen ? 'selected' : 'idle')
                 : option === step.answer
-                  ? 'border-green-700 bg-green-100 text-slate-900'
+                  ? 'correct'
                   : chosen
-                    ? 'border-red-700 bg-red-100 text-slate-900'
-                    : 'border-slate-300 bg-white text-slate-800 dark:border-slate-500 dark:bg-slate-800 dark:text-slate-100';
+                    ? 'wrong'
+                    : 'idle';
               return (
                 <button
                   key={option}
                   type="button"
+                  aria-pressed={picked || chosen}
+                  data-share-choice={state}
                   disabled={locked || picked}
                   onClick={() => choose(option)}
-                  className={`rounded-lg border-2 px-4 py-3 text-left text-lg font-semibold ${tone}`}
+                  className="share-option rounded-lg border-2 border-slate-900 bg-white px-4 py-3 text-left text-lg font-semibold text-slate-900 dark:border-slate-300 dark:bg-slate-700 dark:text-slate-50"
                 >
                   {option}
                 </button>
@@ -366,8 +366,8 @@ export function SharePage({ id = '' }: { id?: string }) {
           ) : (
             <p className="mt-2 text-base">This score is not saved, and it is not added to a scoreboard.</p>
           )}
-          <a href="/" className="mt-4 block w-full rounded-lg bg-blue-700 px-4 py-3 text-center text-lg font-bold text-white">
-            For more practice, go to DET.es
+          <a href="/" className="mt-4 block w-full whitespace-normal break-words rounded-lg bg-blue-700 px-4 py-3 text-center text-lg font-bold leading-snug text-white">
+            For more practice, go to dailyenglishtest.es
           </a>
         </section>
       )}

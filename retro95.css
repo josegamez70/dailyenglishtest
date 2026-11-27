@@ -88,6 +88,34 @@ html[data-theme="retro95"] button[data-audio="transcript"] {
   color: #000 !important;
 }
 
+html[data-theme="retro95"] button.share-option {
+  -webkit-tap-highlight-color: rgba(0, 0, 128, 0.45);
+}
+html[data-theme="retro95"] button.share-option:active,
+html[data-theme="retro95"] button.share-option[aria-pressed="true"],
+html[data-theme="retro95"] button.share-option[data-share-choice="selected"] {
+  background: #000080 !important;
+  color: #fff !important;
+  border-color: #404040 #fff #fff #404040 !important;
+  box-shadow: inset 2px 2px 0 #000 !important;
+}
+html[data-theme="retro95"] button.share-option[data-share-choice="correct"] {
+  background: #008000 !important;
+  color: #fff !important;
+  border-color: #404040 #fff #fff #404040 !important;
+  box-shadow: inset 2px 2px 0 #004000 !important;
+}
+html[data-theme="retro95"] button.share-option[data-share-choice="wrong"] {
+  background: #c00000 !important;
+  color: #fff !important;
+  border-color: #404040 #fff #fff #404040 !important;
+  box-shadow: inset 2px 2px 0 #600 !important;
+}
+html[data-theme="retro95"] button.share-option:focus-visible {
+  outline: 3px solid #ffff00 !important;
+  outline-offset: 2px;
+}
+
 html[data-theme="retro95"] button.quiz-option {
   font-size: 1.25rem !important;
   line-height: 1.3;
