@@ -9,6 +9,7 @@ import {
   type HelpBlock,
   type HelpLang,
 } from '../helpContent';
+import { learnerHelpCopy } from '../learnerHelp';
 import { SiteFooter } from './LegalPages';
 import { BackButton } from './BackButton';
 
@@ -46,6 +47,100 @@ function Blocks({ blocks }: { blocks: readonly HelpBlock[] }) {
 
 function StepIcon({ id }: { id: string }) {
   const common = { viewBox: '0 0 24 24', className: 'h-7 w-7', fill: 'none', stroke: 'currentColor', strokeWidth: 1.75, 'aria-hidden': true } as const;
+  if (id === 'signin') {
+    return (
+      <svg {...common}>
+        <rect x="4" y="6" width="16" height="12" rx="1.5" />
+        <path strokeLinecap="round" d="m5 7 7 5 7-5" />
+      </svg>
+    );
+  }
+  if (id === 'profile') {
+    return (
+      <svg {...common}>
+        <circle cx="12" cy="8" r="3" />
+        <path strokeLinecap="round" d="M5.5 19.5v-.4c0-2.6 2.6-4.4 6.5-4.4s6.5 1.8 6.5 4.4v.4" />
+      </svg>
+    );
+  }
+  if (id === 'level') {
+    return (
+      <svg {...common}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M5 17h14M7 17V11M12 17V7M17 17v-4" />
+      </svg>
+    );
+  }
+  if (id === 'practice') {
+    return (
+      <svg {...common}>
+        <path strokeLinecap="round" d="M5 6h10M5 10h14M5 14h8" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="m16 15 3 2.2V13L16 15Z" />
+      </svg>
+    );
+  }
+  if (id === 'grammar') {
+    return (
+      <svg {...common}>
+        <path strokeLinecap="round" d="M6 18 10 6l4 12M7.4 14h5.2" />
+      </svg>
+    );
+  }
+  if (id === 'vocab') {
+    return (
+      <svg {...common}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M6 5.5h8.5A3.5 3.5 0 0 1 18 9v9.5H9.5A3.5 3.5 0 0 0 6 15.5Z" />
+        <path strokeLinecap="round" d="M6 5.5v10" />
+      </svg>
+    );
+  }
+  if (id === 'saved') {
+    return (
+      <svg {...common}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M7 4.5h10v15l-5-3-5 3Z" />
+      </svg>
+    );
+  }
+  if (id === 'tasks') {
+    return (
+      <svg {...common}>
+        <path strokeLinecap="round" d="M8 7h9M8 12h9M8 17h6" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="m5 7 .8.8L7.5 6M5 12l.8.8 1.7-1.8" />
+      </svg>
+    );
+  }
+  if (id === 'challenge') {
+    return (
+      <svg {...common}>
+        <circle cx="12" cy="12" r="7" />
+        <path strokeLinecap="round" d="M12 8.5V12l2.5 1.5" />
+      </svg>
+    );
+  }
+  if (id === 'scoreboard') {
+    return (
+      <svg {...common}>
+        <path strokeLinecap="round" d="M5 19V9M10 19V5M15 19v-6M20 19V8" />
+      </svg>
+    );
+  }
+  if (id === 'legends') {
+    return (
+      <svg {...common}>
+        <circle cx="12" cy="9" r="3" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="m8.5 12.5-1.5 7 5-2.5 5 2.5-1.5-7" />
+      </svg>
+    );
+  }
+  if (id === 'share') {
+    return (
+      <svg {...common}>
+        <circle cx="7" cy="12" r="2" />
+        <circle cx="16" cy="7" r="2" />
+        <circle cx="16" cy="17" r="2" />
+        <path strokeLinecap="round" d="m8.8 11 5.4-3M8.8 13l5.4 3" />
+      </svg>
+    );
+  }
   if (id === 'create') {
     return (
       <svg {...common}>
@@ -115,9 +210,12 @@ function rememberLang(lang: HelpLang) {
   }
 }
 
-export function HelpPage() {
+export function HelpPage({ audience = 'academy' }: { audience?: 'academy' | 'learner' }) {
   const [lang, setLang] = useState<HelpLang>(initialLang);
-  const copy = helpCopy(lang);
+  const copy = audience === 'learner' ? learnerHelpCopy(lang) : helpCopy(lang);
+  const other = audience === 'learner'
+    ? { href: '/help', label: lang === 'es' ? 'Cómo funcionan las academias' : 'How academies work' }
+    : { href: '/learn', label: lang === 'es' ? 'Para alumnos' : 'For learners' };
 
   useEffect(() => {
     const fromUrl = helpLangFromSearch(window.location.search);
@@ -191,6 +289,12 @@ export function HelpPage() {
         <p className="mt-3 text-base leading-relaxed text-slate-700 dark:text-slate-200">
           {copy.intro}
         </p>
+        <p className="mt-2 text-base leading-relaxed text-slate-700 dark:text-slate-200">
+          {audience === 'learner'
+            ? (lang === 'es' ? '¿Llevas una academia? ' : 'Run an academy? ')
+            : (lang === 'es' ? '¿Practicas por tu cuenta? ' : 'Practising on your own? ')}
+          <a className="font-semibold underline" href={other.href}>{other.label}</a>.
+        </p>
 
         <ol className="mt-6 space-y-4" aria-label={copy.stepsLabel}>
           {copy.steps.map((step, index) => (
@@ -213,7 +317,7 @@ export function HelpPage() {
           ))}
         </ol>
 
-        <h2 id="questions" className="mt-10 text-2xl font-bold">{copy.questions}</h2>
+        {copy.faq.length > 0 && <h2 id="questions" className="mt-10 text-2xl font-bold">{copy.questions}</h2>}
         <div className="mt-4 space-y-3">
           {copy.faq.map((item) => (
             <details
