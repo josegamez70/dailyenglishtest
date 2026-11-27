@@ -5,6 +5,44 @@ export const SCOREBOARD_TOP = 10;
 
 export type ScoreMode = 'reading' | 'listening' | 'grammar';
 export type ScorePeriod = 'daily' | 'yesterday' | 'all';
+export type ScoreboardView = 'daily' | 'yesterday' | 'challenge';
+
+/** Today, Yesterday, or the daily challenge. An old all-time choice opens Today. */
+export function scoreboardPeriodChoice(value: string | null | undefined): ScoreboardView {
+  const token = String(value ?? '').trim().toLowerCase();
+  if (token === 'yesterday') return 'yesterday';
+  if (token === 'daily' || token === 'today' || token === 'all' || token === 'all-time' || token === 'alltime') return 'daily';
+  return 'challenge';
+}
+
+const STORED_PERIOD_KEYS = ['scoreboard-period', 'scoreboardPeriod', 'scoreboard-view'];
+
+/** Opens Today when a saved setting or the address still says all-time. */
+export function scoreboardViewFromBrowser(): ScoreboardView {
+  if (typeof window === 'undefined') return 'challenge';
+  const params = new URLSearchParams(window.location.search);
+  const candidates = [params.get('period'), params.get('view'), window.location.hash.replace(/^#/, '')];
+  for (const key of STORED_PERIOD_KEYS) {
+    try { candidates.push(localStorage.getItem(key)); } catch { /* storage can be blocked */ }
+  }
+  const pointedAtAll = candidates.some((item) => {
+    const token = String(item ?? '').trim().toLowerCase();
+    return token === 'all' || token === 'all-time' || token === 'alltime';
+  });
+  if (!pointedAtAll) return 'challenge';
+  params.delete('period');
+  params.delete('view');
+  const hash = /all/i.test(window.location.hash) ? '' : window.location.hash;
+  const query = params.toString();
+  window.history.replaceState(null, '', `${window.location.pathname}${query ? `?${query}` : ''}${hash}`);
+  for (const key of STORED_PERIOD_KEYS) {
+    try {
+      const saved = String(localStorage.getItem(key) ?? '').trim().toLowerCase();
+      if (saved === 'all' || saved === 'all-time' || saved === 'alltime') localStorage.setItem(key, 'daily');
+    } catch { /* storage can be blocked */ }
+  }
+  return 'daily';
+}
 export type BoardLevel = 'B1' | 'B2' | 'C1';
 export type ScoreMetric = 'accuracy' | 'volume';
 

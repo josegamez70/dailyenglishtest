@@ -9,6 +9,8 @@ import {
   type ScoreMetric,
   type ScorePeriod,
   type ScoreRow,
+  scoreboardPeriodChoice,
+  scoreboardViewFromBrowser,
 } from '../scoreboard';
 import {
   formatDuration,
@@ -70,7 +72,9 @@ export function ScoreboardPage({
   fixture?: ScoreboardFixture;
 }) {
   const initialLevel: ChallengeLevel = profileLevel === 'B2' || profileLevel === 'C1' ? profileLevel : 'B1';
-  const [view, setView] = useState<ScorePeriod | 'challenge'>(fixture?.initialView ?? 'challenge');
+  const [view, setView] = useState<'daily' | 'yesterday' | 'challenge'>(() => (
+    fixture ? scoreboardPeriodChoice(fixture.initialView) : scoreboardViewFromBrowser()
+  ));
   const [level, setLevel] = useState<ChallengeLevel>(initialLevel);
   const [metric, setMetric] = useState<ScoreMetric>('accuracy');
   const [load, setLoad] = useState<ScoreboardLoad | null>(null);
@@ -79,10 +83,10 @@ export function ScoreboardPage({
   const [challengeMissing, setChallengeMissing] = useState(fixture?.challengeMissing ?? false);
   const [challengeReady, setChallengeReady] = useState(Boolean(fixture));
 
-  const period: ScorePeriod = view === 'challenge' ? 'all' : view;
+  const period: ScorePeriod = view === 'yesterday' ? 'yesterday' : 'daily';
 
   useEffect(() => {
-    if (fixture) return undefined;
+    if (fixture || view === 'challenge') return undefined;
     let ignore = false;
     setReady(false);
     loadScoreboard(displayName, period, level).then((next) => {
@@ -93,7 +97,7 @@ export function ScoreboardPage({
       if (!ignore) setReady(true);
     });
     return () => { ignore = true; };
-  }, [displayName, period, level, fixture]);
+  }, [displayName, period, level, fixture, view]);
 
   useEffect(() => {
     if (fixture || view !== 'challenge') return undefined;
@@ -118,7 +122,7 @@ export function ScoreboardPage({
   const challenge = presentChallenge(fixture ? (fixture.challengeRows ?? []) : challengeRows);
   const demo = fixture ? fixture.source !== 'live' : load?.source === 'demo';
   const levelFilter = fixture?.levelFilter ?? load?.levelFilter ?? 'off';
-  const periodLabel = view === 'daily' ? 'Today' : view === 'yesterday' ? 'Yesterday' : view === 'all' ? 'All time' : 'Daily challenge';
+  const periodLabel = view === 'daily' ? 'Today' : view === 'yesterday' ? 'Yesterday' : 'Daily challenge';
   const metricLabel = metric === 'volume' ? 'Most exercises' : 'Highest %';
 
   return (
@@ -142,7 +146,6 @@ export function ScoreboardPage({
           {([
             ['daily', 'Today'],
             ['yesterday', 'Yesterday'],
-            ['all', 'All time'],
           ] as const).map(([id, label]) => (
             <button key={id} type="button" role="tab" aria-selected={view === id} onClick={() => setView(id)} className={view === id ? 'is-selected' : undefined}>
               {label}
@@ -155,40 +158,6 @@ export function ScoreboardPage({
         <button type="button" aria-pressed={metric === 'accuracy'} disabled={view === 'challenge'} onClick={() => setMetric('accuracy')}>Highest %</button>
       </div>
       <p className="arcade-marquee">{periodLabel} · {level}{view === 'challenge' ? '' : ` · ${metricLabel}`}</p>
-      {demo && view !== 'challenge' && (
-        <p className="arcade-note" role="note">
-          Fictitious demo. The names marked Fictitious are not students. Your row uses only your own saved results. These demo rows are not split by level.
-        </p>
-      )}
-      {levelFilter === 'pending' && view !== 'challenge' && (
-        <p className="arcade-note" role="note">
-          {level} is selected and stays selected on every tab. The shared board still includes every level until the database update for scoreboard_board_level is applied. Daily challenge already filters by level.
-        </p>
-      )}
-      {load?.source === 'live' && load.inAcademy && (
-        <p className="arcade-hint">Your academy only, including the owner. A chosen public name is shown.</p>
-      )}
-      {load?.source === 'live' && !load.inAcademy && (
-        <p className="arcade-hint">Individual learners share one scoreboard. Your display name from Profile is shown (never your email).</p>
-      )}
-      {load?.source === 'owner' && (
-        <p className="arcade-hint">Your academy only, including the owner. A chosen public name is shown. This list uses each saved result’s level.</p>
-      )}
-      {load?.yesterdayPending && view === 'yesterday' && (
-        <p className="arcade-note" role="note">
-          Yesterday for the whole board needs the database update. This tab shows only your own yesterday until then.
-        </p>
-      )}
-      {view !== 'challenge' && (
-        <p className="arcade-hint">
-          {period === 'all' ? 'Every saved result.' : period === 'daily' ? 'Today in Spain.' : 'Yesterday in Spain.'}
-          {' '}The date follows Europe/Madrid, including the clock change.
-          {' '}{metric === 'accuracy' ? ACCURACY_LINE : VOLUME_LINE}
-        </p>
-      )}
-      {view === 'challenge' && (
-        <p className="arcade-hint">Today's daily challenge at {level}, in Spain time. Ranked by percent, then by a shorter time. Most exercises does not apply: each learner has one attempt.</p>
-      )}
       <div className="arcade-screen">
         {view === 'challenge' && !challengeReady && <p className="arcade-hint">Loading...</p>}
         {view === 'challenge' && challengeReady && challengeMissing && (
@@ -241,6 +210,40 @@ export function ScoreboardPage({
           </ol>
         )}
       </div>
+      {demo && view !== 'challenge' && (
+        <p className="arcade-note" role="note">
+          Fictitious demo. The names marked Fictitious are not students. Your row uses only your own saved results. These demo rows are not split by level.
+        </p>
+      )}
+      {levelFilter === 'pending' && view !== 'challenge' && (
+        <p className="arcade-note" role="note">
+          {level} is selected and stays selected on every tab. The shared board still includes every level until the database update for scoreboard_board_level is applied. Daily challenge already filters by level.
+        </p>
+      )}
+      {load?.source === 'live' && load.inAcademy && (
+        <p className="arcade-hint">Your academy only, including the owner. A chosen public name is shown.</p>
+      )}
+      {load?.source === 'live' && !load.inAcademy && (
+        <p className="arcade-hint">Individual learners share one scoreboard. Your display name from Profile is shown (never your email).</p>
+      )}
+      {load?.source === 'owner' && (
+        <p className="arcade-hint">Your academy only, including the owner. A chosen public name is shown. This list uses each saved result’s level.</p>
+      )}
+      {load?.yesterdayPending && view === 'yesterday' && (
+        <p className="arcade-note" role="note">
+          Yesterday for the whole board needs the database update. This tab shows only your own yesterday until then.
+        </p>
+      )}
+      {view !== 'challenge' && (
+        <p className="arcade-hint">
+          {period === 'daily' ? 'Today in Spain.' : 'Yesterday in Spain.'}
+          {' '}The date follows Europe/Madrid, including the clock change.
+          {' '}{metric === 'accuracy' ? ACCURACY_LINE : VOLUME_LINE}
+        </p>
+      )}
+      {view === 'challenge' && (
+        <p className="arcade-hint">Today's daily challenge at {level}, in Spain time. Ranked by percent, then by a shorter time. Most exercises does not apply: each learner has one attempt.</p>
+      )}
       </div>
     </div>
   );

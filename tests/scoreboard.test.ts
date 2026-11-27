@@ -10,6 +10,7 @@ import {
   rankLabel,
   rowFromAttempts,
   SCOREBOARD_MIN,
+  scoreboardPeriodChoice,
   storedBoardLevel,
   weightedPercent,
   withRemoteAlias,
@@ -171,11 +172,15 @@ test('the scoreboard page and the unapplied migration stay read-only', () => {
   const sql = readFileSync(new URL('../supabase/migrations/20261124_scoreboard.sql', import.meta.url), 'utf8');
   const app = readFileSync(new URL('../App.tsx', import.meta.url), 'utf8');
   assert.match(page, /Fictitious demo/);
-  assert.match(page, /All time/);
+  assert.equal(page.includes('All time'), false);
   assert.match(page, /Daily challenge/);
   assert.match(page, /scoreboard-tab-challenge/);
   assert.match(page, /scoreboard-tab-row/);
-  assert.match(page, /\['daily', 'Today'\],\s*\['yesterday', 'Yesterday'\],\s*\['all', 'All time'\]/);
+  assert.match(page, /\['daily', 'Today'\],\s*\['yesterday', 'Yesterday'\]/);
+  assert.match(page, /scoreboardPeriodChoice/);
+  assert.match(page, /scoreboardViewFromBrowser/);
+  const rules = readFileSync(new URL('../scoreboard.ts', import.meta.url), 'utf8');
+  assert.match(rules, /all-time/);
   assert.match(page, /scoreboard-tabs/);
   assert.match(page, /arcade-board/);
   assert.match(page, /rankLabel/);
@@ -189,6 +194,12 @@ test('the scoreboard page and the unapplied migration stay read-only', () => {
   assert.match(page, /SCOREBOARD_MIN/);
   assert.match(page, /Today in Spain/);
   assert.match(page, /Yesterday/);
+  assert.ok(page.indexOf('arcade-marquee') < page.indexOf('arcade-screen'));
+  assert.ok(page.indexOf('arcade-screen') < page.indexOf('Individual learners share one scoreboard'));
+  assert.equal(scoreboardPeriodChoice('all'), 'daily');
+  assert.equal(scoreboardPeriodChoice('all-time'), 'daily');
+  assert.equal(scoreboardPeriodChoice('yesterday'), 'yesterday');
+  assert.equal(scoreboardPeriodChoice('challenge'), 'challenge');
   assert.equal(page.includes('account.email'), false);
   assert.match(page, /Your display name from Profile is shown/);
   assert.equal(page.includes('Only a chosen alias is shown'), false);

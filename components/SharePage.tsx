@@ -84,6 +84,7 @@ export function SharePage({ id = '' }: { id?: string }) {
   const [draft, setDraft] = useState<string[]>([]);
   const [started, setStarted] = useState(false);
   const [finished, setFinished] = useState(false);
+  const [transcriptOpen, setTranscriptOpen] = useState(true);
   const [recipientSeconds, setRecipientSeconds] = useState(0);
   const attemptStart = useRef<number | null>(null);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
@@ -214,24 +215,31 @@ export function SharePage({ id = '' }: { id?: string }) {
 
   return (
     <main className="mx-auto min-h-screen max-w-xl px-4 py-6">
-      <p className="text-sm font-bold text-blue-800 dark:text-blue-200">Daily English Test</p>
+      <a href="https://dailyenglishtest.es" className="text-sm font-bold text-blue-800 underline dark:text-blue-200">Daily English Test</a>
       <h1 className="mt-2 text-2xl font-bold">{card.title}</h1>
       <p className="mt-3 text-lg font-semibold">{challenge}</p>
-      <a href="/" className="mt-3 block w-full rounded-lg bg-blue-700 px-4 py-3 text-center text-lg font-bold text-white">
-        {signedIn ? 'Practise more on Daily English Test' : 'Go to Daily English Test'}
-      </a>
       {!signedIn && <p className="mt-2 text-base">You can do this exercise without an account. Your score stays on this device.</p>}
-      {card.mode === 'listening' && audioUrl && (
+      {!finished && card.mode === 'listening' && audioUrl && (
         <audio className="mt-4 w-full" controls autoPlay src={audioUrl} />
       )}
-      {card.mode === 'listening' && audioNote && <p className="mt-2 text-base">{audioNote}</p>}
-      {showPassage && !started && (
+      {!finished && card.mode === 'listening' && audioNote && <p className="mt-2 text-base">{audioNote}</p>}
+      {!finished && text && (
         <>
-          {text && <p className="mt-4 whitespace-pre-wrap text-lg leading-relaxed">{text}</p>}
-          <button type="button" onClick={() => { beginAttempt(); setStarted(true); }} className="mt-4 w-full rounded-lg bg-blue-700 py-3 text-lg font-bold text-white">
-            Start questions
+          <button
+            type="button"
+            aria-expanded={transcriptOpen}
+            onClick={() => setTranscriptOpen((open) => !open)}
+            className="mt-3 w-full rounded-lg border-2 border-slate-900 bg-white py-3 text-lg font-bold text-slate-900 dark:border-slate-100 dark:bg-slate-800 dark:text-slate-50"
+          >
+            {transcriptOpen ? 'Hide transcript' : 'Show transcript'}
           </button>
+          {transcriptOpen && <p className="mt-3 whitespace-pre-wrap text-lg leading-relaxed">{text}</p>}
         </>
+      )}
+      {showPassage && !started && (
+        <button type="button" onClick={() => { beginAttempt(); setTranscriptOpen(false); setStarted(true); }} className="mt-4 w-full rounded-lg bg-blue-700 py-3 text-lg font-bold text-white">
+          Start questions
+        </button>
       )}
       {(started || !showPassage) && !finished && step && (
         <section className="mt-4">
@@ -307,9 +315,36 @@ export function SharePage({ id = '' }: { id?: string }) {
             senderTotal: card.senderTotal,
             senderSeconds: card.senderSeconds,
           })}</p>
-          <a href="/" className="mt-3 block w-full rounded-lg bg-blue-700 px-4 py-3 text-center text-lg font-bold text-white">
-            {signedIn ? 'Practise more on Daily English Test' : 'Go to Daily English Test'}
-          </a>
+          {(card.mode === 'listening' || card.mode === 'reading') && (
+            <div className="mt-4">
+              <h3 className="text-lg font-bold">{card.mode === 'listening' ? 'Listen again' : 'Read again'}</h3>
+              {card.mode === 'listening' && audioUrl && (
+                <audio className="mt-2 w-full" controls src={audioUrl} />
+              )}
+              {card.mode === 'listening' && audioNote && <p className="mt-2 text-base">{audioNote}</p>}
+              {text && (
+                <>
+                  <h3 className="mt-4 text-lg font-bold">{card.mode === 'listening' ? 'Transcript' : 'Text'}</h3>
+                  <p className="mt-2 whitespace-pre-wrap text-lg leading-relaxed">{text}</p>
+                </>
+              )}
+            </div>
+          )}
+          <h3 className="mt-4 text-lg font-bold">Answers</h3>
+          <ol className="mt-2 flex flex-col gap-3">
+            {steps.map((item, place) => {
+              const chosen = answers[place] || '';
+              const right = chosen === item.answer;
+              return (
+                <li key={`${item.prompt}-${place}`} className={`rounded-lg border-2 p-3 ${right ? 'border-green-700 bg-green-100 text-slate-900' : 'border-red-700 bg-red-100 text-slate-900'}`}>
+                  <p className="font-semibold">{place + 1}. {item.prompt}</p>
+                  <p className="mt-1">Your answer: {chosen || '—'}</p>
+                  {!right && <p className="mt-1">Correct answer: {item.answer}</p>}
+                  {item.explanation && <p className="mt-1">{item.explanation}</p>}
+                </li>
+              );
+            })}
+          </ol>
           {signedIn ? (
             <>
               <p className="mt-2 text-base">{progressNote ?? 'Saving your score...'}</p>
@@ -331,6 +366,9 @@ export function SharePage({ id = '' }: { id?: string }) {
           ) : (
             <p className="mt-2 text-base">This score is not saved, and it is not added to a scoreboard.</p>
           )}
+          <a href="/" className="mt-4 block w-full rounded-lg bg-blue-700 px-4 py-3 text-center text-lg font-bold text-white">
+            For more practice, go to DET.es
+          </a>
         </section>
       )}
     </main>
