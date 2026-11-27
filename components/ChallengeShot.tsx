@@ -97,7 +97,7 @@ export function ChallengeShot() {
               rows: [selfScore, ...demoRows('all')],
               source: 'live',
               challengeRows: CHALLENGE_ROWS,
-              initialView: view === 'challenge' ? 'challenge' : 'all',
+              initialView: view === 'challenge' ? 'challenge' : 'daily',
             }}
           />
         </div>

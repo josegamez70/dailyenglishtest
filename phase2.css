@@ -404,6 +404,7 @@ html[data-theme="retro95"] .badge-popup button {
   display: flex;
   flex-wrap: nowrap;
   gap: 6px;
+  width: 100%;
 }
 .scoreboard-tab-row > button {
   flex: 1 1 0;
