@@ -73,6 +73,7 @@ import type { GrammarPiece, PracticePiece } from './tasks';
 import { SignInBox } from './components/SignInBox';
 import { HelpPage } from './components/HelpPage';
 import { helpPageFromPath } from './helpContent';
+import { learnerHelpPageFromPath } from './learnerHelp';
 import { LegalDocument, SiteFooter, legalPageFromPath } from './components/LegalPages';
 import { AuthLoading, Landing, focusSignIn } from './components/Landing';
 import { ExpiredPilotNotice, PilotAdminPage, PilotRedeemPage } from './components/PilotPages';
@@ -2057,6 +2058,7 @@ const App: React.FC = () => {
 
   const legalPage = legalPageFromPath(window.location.pathname);
   if (legalPage) return <LegalDocument page={legalPage} />;
+  if (learnerHelpPageFromPath(window.location.pathname)) return <HelpPage audience="learner" />;
   if (helpPageFromPath(window.location.pathname)) return <HelpPage />;
   if (import.meta.env.DEV && path.startsWith('/vocabulary-preview')) {
     return <VocabularyPreview scene={path.endsWith('/lesson') ? 'lesson' : 'list'} />;

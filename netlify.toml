@@ -157,6 +157,16 @@
   status = 200
 
 [[redirects]]
+  from = "/learn"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/learn/"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
   from = "/help"
   to = "/index.html"
   status = 200

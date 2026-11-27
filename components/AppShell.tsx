@@ -151,7 +151,7 @@ function NavLinks({
       <div className={drawer ? 'menu-foot mt-auto border-t border-slate-300 dark:border-slate-600' : 'mt-auto border-t border-slate-300 px-4 py-4 dark:border-slate-600'}>
         <p className={drawer ? 'menu-foot-title' : 'text-sm font-semibold text-slate-700 dark:text-slate-200'}>Help / Legal</p>
         <div className={drawer ? 'flex flex-col' : 'mt-2 flex flex-col gap-1 text-sm'}>
-          <a href="/help" className={drawer ? 'menu-link' : 'inline-flex min-h-11 items-center gap-2 underline'}><PixelArt src="/icons/how_it_works.png" size={icon} />How it works</a>
+          <a href={showAcademy ? '/help' : '/learn'} className={drawer ? 'menu-link' : 'inline-flex min-h-11 items-center gap-2 underline'}><PixelArt src="/icons/how_it_works.png" size={icon} />How it works</a>
           <a href="/legal" className={drawer ? 'menu-link' : 'inline-flex min-h-11 items-center gap-2 underline'}><PixelArt src="/icons/legal.png" size={icon} />Legal Notice</a>
           <a href="/privacy" className={drawer ? 'menu-link' : 'inline-flex min-h-11 items-center gap-2 underline'}><PixelArt src="/icons/privacy.png" size={icon} />Privacy</a>
           <a href="/terms" className={drawer ? 'menu-link' : 'inline-flex min-h-11 items-center gap-2 underline'}><PixelArt src="/icons/terms.png" size={icon} />Terms</a>

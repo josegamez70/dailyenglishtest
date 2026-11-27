@@ -193,6 +193,8 @@ export function Landing() {
 
       <section className="mt-8">
         <p className="text-center text-sm text-slate-600 dark:text-slate-300">
+          <a className="font-semibold underline" href="/learn">For learners</a>
+          <span aria-hidden="true"> · </span>
           <a className="font-semibold underline" href="/help">How academies work</a>
         </p>
         <figure className="mt-6">
