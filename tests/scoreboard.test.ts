@@ -190,7 +190,10 @@ test('the scoreboard page and the unapplied migration stay read-only', () => {
   assert.ok(page.indexOf('scoreboard-tab-challenge') < page.indexOf('aria-label="Level"'));
   const arcadeCss = readFileSync(new URL('../phase2.css', import.meta.url), 'utf8');
   assert.match(arcadeCss, /button\.scoreboard-tab-challenge[\s\S]*#ff2d95/);
-  assert.match(page, /Not yet qualified/);
+  assert.equal(page.includes('Not yet qualified'), false);
+  assert.equal(page.includes('board.unqualified.map'), false);
+  assert.match(page, /No scores yet — be the first!/);
+  assert.match(page, /more \{exercisesLeft === 1 \? 'exercise' : 'exercises'\} to appear/);
   assert.match(page, /SCOREBOARD_MIN/);
   assert.match(page, /Today in Spain/);
   assert.match(page, /Yesterday/);
