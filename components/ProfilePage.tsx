@@ -223,7 +223,7 @@ export function ProfilePage({
         </label>
         <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">This choice stays on this device.</p>
       </fieldset>
-      <p className="text-base font-semibold" role="status">{busy || dirty ? 'Saving...' : 'Saved'}</p>
+      <p className="text-base font-semibold" role="status">{nameError ? 'Not saved' : busy || dirty ? 'Saving...' : 'Saved'}</p>
       {note && <p className="text-base">{note}</p>}
     </form>
     <AcademyProfileSection plan={plan} academyRole={academyRole} academyName={academyName} onChanged={onAcademyChanged} />
