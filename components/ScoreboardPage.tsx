@@ -21,7 +21,7 @@ import {
 import { loadChallengeBoard } from '../dailyChallengeClient';
 import { BackButton } from './BackButton';
 
-const ACCURACY_LINE = `Highest % uses correct answers divided by questions. A learner needs ${SCOREBOARD_MIN} exercises. A tie goes to whoever did more.`;
+const ACCURACY_LINE = `Highest % uses correct answers divided by questions. Only learners with ${SCOREBOARD_MIN} exercises appear. A tie goes to whoever did more.`;
 const VOLUME_LINE = 'Most exercises counts finished Reading, Listening, and Grammar exercises. A tie goes to the higher percent.';
 
 function Row({ row, metric }: { row: PresentedRow; metric: ScoreMetric }) {
@@ -40,7 +40,6 @@ function Row({ row, metric }: { row: PresentedRow; metric: ScoreMetric }) {
           R {row.reading.done} · L {row.listening.done} · G {row.grammar.done}
           {row.demo ? ' · Fictitious' : ''}
           {row.isSelf ? ' · You' : ''}
-          {metric === 'accuracy' && !row.qualified ? ' · Not yet qualified' : ''}
         </span>
       </span>
       <span className="arcade-score">
@@ -124,6 +123,10 @@ export function ScoreboardPage({
   const levelFilter = fixture?.levelFilter ?? load?.levelFilter ?? 'off';
   const periodLabel = view === 'daily' ? 'Today' : view === 'yesterday' ? 'Yesterday' : 'Daily challenge';
   const metricLabel = metric === 'volume' ? 'Most exercises' : 'Highest %';
+  const ownGap = board.unqualified.find((row) => row.isSelf);
+  const exercisesLeft = ownGap
+    ? Math.max(1, (metric === 'volume' ? 1 : SCOREBOARD_MIN) - ownGap.totalDone)
+    : 0;
 
   return (
     <div className="mx-auto w-full max-w-5xl">
@@ -164,7 +167,7 @@ export function ScoreboardPage({
           <p className="arcade-note" role="note">Today's challenge ranking will appear after the database update.</p>
         )}
         {view === 'challenge' && challengeReady && !challengeMissing && challenge.top.length === 0 && (
-          <p className="arcade-hint">No one has finished today's challenge at {level} yet.</p>
+          <p className="arcade-hint">No scores yet — be the first!</p>
         )}
         {view === 'challenge' && challengeReady && !challengeMissing && challenge.top.length > 0 && (
           <ol className="arcade-list">
@@ -203,9 +206,8 @@ export function ScoreboardPage({
           <ol className="arcade-list">
             {board.top.map((row) => <Row key={`${row.alias}-top`} row={row} metric={metric} />)}
             {board.self && <Row key="self-outside" row={board.self} metric={metric} />}
-            {metric === 'accuracy' && board.unqualified.map((row) => <Row key={`${row.alias}-out`} row={row} metric={metric} />)}
-            {board.top.length === 0 && board.unqualified.length === 0 && !board.self && (
-              <li className="arcade-hint">No finished exercises in this view.</li>
+            {board.top.length === 0 && !board.self && (
+              <li className="arcade-hint">No scores yet — be the first!</li>
             )}
           </ol>
         )}
@@ -233,6 +235,9 @@ export function ScoreboardPage({
         <p className="arcade-note" role="note">
           Yesterday for the whole board needs the database update. This tab shows only your own yesterday until then.
         </p>
+      )}
+      {view !== 'challenge' && exercisesLeft > 0 && (
+        <p className="arcade-hint">Finish {exercisesLeft} more {exercisesLeft === 1 ? 'exercise' : 'exercises'} to appear.</p>
       )}
       {view !== 'challenge' && (
         <p className="arcade-hint">
