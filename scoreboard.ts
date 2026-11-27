@@ -19,7 +19,7 @@ const STORED_PERIOD_KEYS = ['scoreboard-period', 'scoreboardPeriod', 'scoreboard
 
 /** Opens Today when a saved setting or the address still says all-time. */
 export function scoreboardViewFromBrowser(): ScoreboardView {
-  if (typeof window === 'undefined') return 'challenge';
+  if (typeof window === 'undefined') return 'daily';
   const params = new URLSearchParams(window.location.search);
   const candidates = [params.get('period'), params.get('view'), window.location.hash.replace(/^#/, '')];
   for (const key of STORED_PERIOD_KEYS) {
@@ -29,7 +29,7 @@ export function scoreboardViewFromBrowser(): ScoreboardView {
     const token = String(item ?? '').trim().toLowerCase();
     return token === 'all' || token === 'all-time' || token === 'alltime';
   });
-  if (!pointedAtAll) return 'challenge';
+  if (!pointedAtAll) return 'daily';
   params.delete('period');
   params.delete('view');
   const hash = /all/i.test(window.location.hash) ? '' : window.location.hash;

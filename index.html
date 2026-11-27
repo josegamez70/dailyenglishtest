@@ -73,7 +73,8 @@
     </style>
     <script>
       try {
-        var theme = localStorage.getItem('theme') || 'dark';
+        var version = Number(localStorage.getItem('theme-pref-version') || '0');
+        var theme = version < 2 ? 'retro95' : (localStorage.getItem('theme') || 'retro95');
         var systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         var dark = theme === 'dark' || (theme === 'system' && systemDark);
         document.documentElement.classList.toggle('dark', dark);
@@ -117,9 +118,10 @@
     <script>
     (function () {
       try {
-        var theme = localStorage.getItem('theme');
+        var version = Number(localStorage.getItem('theme-pref-version') || '0');
+        var theme = version < 2 ? 'retro95' : (localStorage.getItem('theme') || 'retro95');
         var systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        var dark = theme === 'dark' || theme == null || (theme === 'system' && systemDark);
+        var dark = theme === 'dark' || (theme === 'system' && systemDark);
         document.documentElement.classList.toggle('dark', dark);
         if (theme === 'retro95') document.documentElement.setAttribute('data-theme', 'retro95');
       } catch (e) { /* storage can be blocked */ }

@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { isDarkTheme, isThemeChoice } from '../themeChoice.ts';
+import { isDarkTheme, isThemeChoice, resolveThemeBoot } from '../themeChoice.ts';
 
 test('retro 95 is optional and does not turn on dark mode', () => {
   assert.equal(isThemeChoice('retro95'), true);
@@ -11,6 +11,11 @@ test('retro 95 is optional and does not turn on dark mode', () => {
   assert.equal(isDarkTheme('system', true), true);
   assert.equal(isDarkTheme('system', false), false);
   assert.equal(isDarkTheme('retro95', true), false);
+  assert.equal(resolveThemeBoot({ version: 0, stored: 'dark' }), 'retro95');
+  assert.equal(resolveThemeBoot({ version: 1, stored: 'light' }), 'retro95');
+  assert.equal(resolveThemeBoot({ version: 2, stored: 'light' }), 'light');
+  assert.equal(resolveThemeBoot({ version: 2, stored: 'system' }), 'system');
+  assert.equal(resolveThemeBoot({ version: 2, stored: null }), 'retro95');
   const css = readFileSync(new URL('../retro95.css', import.meta.url), 'utf8');
   assert.match(css, /html\[data-theme="retro95"\]/);
   assert.match(css, /prefers-reduced-motion/);
@@ -21,6 +26,9 @@ test('retro 95 is optional and does not turn on dark mode', () => {
   assert.match(css, /button\[aria-pressed="true"\]/);
   const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
   assert.match(html, /localStorage\.getItem\('theme'\)/);
+  assert.match(html, /theme-pref-version/);
+  assert.match(html, /version < 2 \? 'retro95'/);
+  assert.equal(html.includes('theme == null'), false);
   assert.match(html, /data-theme', 'retro95'/);
   assert.match(readFileSync(new URL('../components/PixelIcon.tsx', import.meta.url), 'utf8'), /headphones/);
   assert.equal(css.includes('html:not([data-theme'), false);
